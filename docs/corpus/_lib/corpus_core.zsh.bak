@@ -1,0 +1,148 @@
+#!/opt/homebrew/bin/zsh
+# Version: 0.1.0a
+# File name: corpus_core.zsh
+# Git status: U
+# Last modified: 2025-11-05 01:15:55
+# ---
+# Corpus core library
+
+corpus_init() {
+  # Environment validation
+  if [[ -z "$CORPUS_DIR" ]]; then
+    echo "Error: CORPUS_DIR environment variable not set" >&2
+    exit 1
+  fi
+  if [[ ! -d "$CORPUS_DIR" ]]; then
+    echo "Error: Corpus directory does not exist: $CORPUS_DIR" >&2
+    exit 1
+  fi
+
+  # Load configuration defaults
+  corpus_load_config
+
+  # Resolve library directory
+  local lib_dir
+  if [[ -n "${ZSH_VERSION:-}" ]]; then
+    # Use eval to avoid non-zsh shells parsing the zsh-specific ${(%):-%x} expansion.
+    eval 'lib_dir="$(dirname "${(%):-%x}")"'
+  elif [[ -n "${BASH_SOURCE[0]:-}" ]]; then
+    lib_dir="$(dirname "${BASH_SOURCE[0]}")"
+  else
+    lib_dir="$CORPUS_DIR/_lib"
+  fi
+
+  # Load libraries
+  source "$lib_dir/corpus_ui.zsh" || {
+    echo "Error: Cannot load $lib_dir/corpus_ui.zsh" >&2
+    exit 1
+  }
+  source "$lib_dir/corpus_layers.zsh" || {
+    echo "Error: Cannot load $lib_dir/corpus_layers.zsh" >&2
+    exit 1
+  }
+  source "$lib_dir/corpus_utils.zsh" || {
+    echo "Error: Cannot load $lib_dir/corpus_utils.zsh" >&2
+    exit 1
+  }
+
+  # Load commands
+  if [[ -f "$CORPUS_DIR/_commands/create.zsh" ]]; then
+    source "$CORPUS_DIR/_commands/create.zsh" || {
+      echo "Error: Cannot load create command" >&2
+      exit 1
+    }
+  fi
+}
+
+# -----------------------
+# Configuration Management
+# -----------------------
+corpus_load_config() {
+  CORPUS_CONFIG_FILE="$CORPUS_DIR/_config/corpus.conf"
+
+  # Defaults (do not override if already set)
+  : ${CORPUS_DEFAULT_STATUS:="probe"}
+  : ${CORPUS_AUTO_TIMESTAMP:="true"}
+  : ${CORPUS_DEFAULT_EDITOR:="nvim"}
+  export CORPUS_DEFAULT_STATUS CORPUS_AUTO_TIMESTAMP CORPUS_DEFAULT_EDITOR
+
+  # Ensure config file exists (no parsing for now)
+  if [[ ! -f "$CORPUS_CONFIG_FILE" ]]; then
+    mkdir -p "$(dirname "$CORPUS_CONFIG_FILE")"
+    cat > "$CORPUS_CONFIG_FILE" << 'EOF'
+# Corpus Configuration File
+
+# Default Values
+defaults:
+  editor: nvim
+  status: probe
+  auto_timestamp: true
+
+# Layer Configuration (see _lib/corpus_layers.sh for definitions)
+layers:
+  enabled: all           # all | custom list
+EOF
+  fi
+}
+
+corpus_create_default_config() {
+  local config_dir="$CORPUS_DIR/_config"
+  mkdir -p "$config_dir"
+
+  cat > "$CORPUS_CONFIG_FILE" << 'EOF'
+# Corpus Configuration File
+defaults:
+    editor: nvim
+  status: probe
+  auto_timestamp: true
+
+layers:
+  enabled: all
+EOF
+}
+
+# -----------------------
+# Core Commands
+# -----------------------
+corpus_version() {
+  echo "Corpus Knowledge Management System"
+  echo "Version: 2.1.0 (Production)"
+  echo "Path: $CORPUS_DIR"
+
+  local checks=""
+  [[ -d "$CORPUS_DIR/_template" ]] && checks+="Template:✓ " || checks+="Template:✗ "
+  [[ -d "$CORPUS_DIR/_scripts" ]] && checks+="Scripts:✓ " || checks+="Scripts:✗ "
+  [[ -f "$ZOTERO_BIB_FILE" ]] && checks+="Zotero:✓" || checks+="Zotero:✗"
+
+  echo "Status: $checks"
+}
+
+corpus_help() {
+  cat << 'EOF'
+Corpus - Pathological Knowledge Management System
+
+USAGE:
+    corpus <command> [arguments] [options]
+
+COMMANDS:
+    create <layer> [content]    Create a new entry in the specified layer
+    nav, cd                     Navigate to Corpus directory
+    layers, list                List all available layers
+    help [command]              Show help information
+    version                     Show version and system status
+
+OPTIONS:
+    --status=<status>           Set entry status (draft, probe, form, canon, void)
+    --no-edit                   Don't open editor after creation
+    --type=paper               Use paper template (for reliquia layer)
+    -f, --force                Overwrite if target file already exists
+
+EXAMPLES:
+    corpus create frag "new idea about consciousness"
+    corpus create rel @pi2022 --type=paper
+    corpus create inc --status=draft --no-edit
+    corpus nav
+
+For layer details: corpus layers
+EOF
+}

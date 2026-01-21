@@ -1,0 +1,37 @@
+[
+  {
+    "title": "Mastodon",
+    "iconUno": "i-ph-mastodon-logo-duotone",
+    "links": [
+      { "link": "https://fairy.id/@froq", "text": "@froq@fairy.id" },
+      { "link": "https://moresci.sale/@_froQ_", "text": "@_froQ_@moresci.sale" },
+      { "link": "https://m.otter.homes/@froQ", "text": "@froQ@m.otter.homes" }
+    ],
+    "colorUno": "purple"
+  },
+  {
+    "title": "GitHub",
+    "iconUno": "i-ph-github-logo-duotone",
+    "links": [{
+      "link": "https://github.com/Fro-Q",
+      "text": "@Fro-Q"
+    }],
+    "colorUno": "zinc"
+  },
+  {
+    "title": "Email",
+    "iconUno": "i-ph-at-duotone",
+    "links": [
+      { "link": "mailto:froqqq@outlook.com", "text": "@outlook" }
+    ],
+    "colorUno": "cyan"
+  },
+  {
+    "title": "WeChat",
+    "iconUno": "i-ph-wechat-logo-duotone",
+    "links": [
+      { "link": "", "text": "@_froq_" }
+    ],
+    "colorUno": "green"
+  }
+]

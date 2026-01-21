@@ -1,0 +1,138 @@
+#!/opt/homebrew/bin/zsh
+# Version: 0.1.0a
+# File name: corpus_layers.zsh
+# Git status: U
+# Last modified: 2025-11-05 01:22:08
+# ---
+# Corpus layer management library
+
+# Format: category|full_name|alias|path|description|requires_arg|include_date
+typeset -g -r CORPUS_LAYERS_DATA='
+autopsia|incisio|inc|000_autopsia/010_incisio|Observational cuts and incisions|false|true
+autopsia|pathologia|pat|000_autopsia/020_pathologia|Diagnostic analysis of problems|false|true
+autopsia|satura|sat|000_autopsia/030_satura|Corrective suturing and healing|false|true
+ingesta|fragmenta|frag|100_ingesta/110_fragmenta|Thought fragments and ideas|true|true
+ingesta|reliquia|rel|100_ingesta/120_reliquia|Academic references and remnants|true|true
+ingesta|impressio|imp|100_ingesta/130_impressio|Sensory impressions and experiences|true|true
+ingesta|organon|org|100_ingesta/140_organon|Tools and methodologies|true|true
+ingesta|toxicon|tox|100_ingesta/150_toxicon|Toxic or problematic thoughts|true|true
+neoplasma|cor|cor|200_neoplasma/210_cor|Core ontological structures|true|true
+neoplasma|vascula|vas|200_neoplasma/220_vascula|Connections and networks|true|false
+neoplasma|abyssus|aby|200_neoplasma/230_oblivium/231_abyssus|Abyssal depths and unknowns|true|true
+neoplasma|nodus|nod|200_neoplasma/230_oblivium/232_nodus|Complex knots and tangles|true|true
+neoplasma|hallucina|hal|200_neoplasma/230_oblivium/233_hallucina|Projections and illusions|true|true
+neoplasma|fluxus|flu|200_neoplasma/230_oblivium/234_fluxus|Emotional currents and flows|true|true
+neoplasma|fractura|fra|200_neoplasma/230_oblivium/235_fractura|Breaks and measurements|true|true
+neoplasma|chimera|chi|200_neoplasma/230_oblivium/236_chimera|Hybrid models and constructs|true|true
+neoplasma|eruptio|eru|200_neoplasma/240_eruptio|Sudden emergences and insights|true|true
+putredo|miasma|mia|300_putredo/310_miasma|Daily toxins and pollutants|false|true
+putredo|ulcus|ulc|300_putredo/320_ulcus|Project ulcerations and problems|true|false
+putredo|exhumatio|exh|300_putredo/330_exhumatio|Archaeological excavations|false|true
+special|delirium|del|400_delirium|Extraordinary and wondrous|false|true
+special|vigil|vig|500_vigil|Night watches and endurance|false|true
+'
+
+# -----------------------
+# Layer System Functions
+# -----------------------
+corpus_find_layer() {
+    local search_layer="$1"
+    local field="${2:-all}"
+    
+    while IFS='|' read -r category full_name alias path description requires_arg include_date; do
+        [[ -z "$category" ]] && continue
+        
+        if [[ "$full_name" == "$search_layer" || "$alias" == "$search_layer" ]]; then
+            case "$field" in
+                "path") echo "$path" ;;
+                "description") echo "$description" ;;
+                "requires_arg") echo "$requires_arg" ;;
+                "include_date") echo "$include_date" ;;
+                "alias") echo "$alias" ;;
+                "full_name") echo "$full_name" ;;
+                "category") echo "$category" ;;
+                "all") echo "$category|$full_name|$alias|$path|$description|$requires_arg|$include_date" ;;
+            esac
+            return 0
+        fi
+    done <<< "$CORPUS_LAYERS_DATA"
+    
+    return 1
+}
+
+corpus_layer_exists() {
+    corpus_find_layer "$1" "alias" >/dev/null 2>&1
+}
+
+corpus_get_layer_path() {
+    corpus_find_layer "$1" "path"
+}
+
+corpus_layer_requires_arg() {
+    local requires_arg="$(corpus_find_layer "$1" "requires_arg")"
+    [[ "$requires_arg" == "true" ]]
+}
+
+corpus_layer_include_date() {
+    local include_date="$(corpus_find_layer "$1" "include_date")"
+    [[ "$include_date" == "true" ]]
+}
+
+corpus_normalize_layer() {
+    corpus_find_layer "$1" "alias"
+}
+
+corpus_get_layer_suggestions() {
+    local partial="$1"
+    
+    while IFS='|' read -r category full_name alias path description requires_arg include_date; do
+        [[ -z "$category" ]] && continue
+        
+        if [[ "$full_name" == "$partial"* || "$alias" == "$partial"* ]]; then
+            echo "$alias"
+        fi
+    done <<< "$CORPUS_LAYERS_DATA"
+}
+
+corpus_list_layers() {
+    echo "Available Layers:"
+    echo
+    
+    local category_titles=(
+        "autopsia|Autopsia (Self-Analysis):"
+        "ingesta|Ingesta (Knowledge Intake):"
+        "neoplasma|Neoplasma (Growth & Proliferation):"
+        "putredo|Putredo (Decay & Maintenance):"
+        "special|Special:"
+    )
+    
+    for category_line in "${category_titles[@]}"; do
+        local cat_key="${category_line%%|*}"
+        local cat_title="${category_line#*|}"
+        
+        echo "$cat_title"
+        
+        while IFS='|' read -r category full_name alias path description requires_arg include_date; do
+            [[ -z "$category" || "$category" != "$cat_key" ]] && continue
+            
+            local display_name
+            if [[ "$full_name" == "$alias" ]]; then
+                display_name="$alias"
+            else
+                display_name="$full_name, $alias"
+            fi
+            
+            local content_req=""
+            [[ "$requires_arg" == "true" ]] && content_req=" [requires content]"
+            
+            local date_info=""
+            [[ "$include_date" == "false" ]] && date_info=" [no date]"
+            
+            printf "  %-20s - %s%s%s\n" "$display_name" "$description" "$content_req" "$date_info"
+            
+        done <<< "$CORPUS_LAYERS_DATA"
+        
+        echo
+    done
+}
+

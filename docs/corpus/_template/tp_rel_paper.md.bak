@@ -1,0 +1,32 @@
+---
+created: {{date}}
+layer: ingesta/reliquia
+status: probe
+last_modified: {{date}}
+type: paper
+citation_key: {{citation_key}}
+title: {{title}}
+author: {{author}}
+journal: {{journal}}
+year: {{year}}
+doi: {{doi}}
+---
+
+<!--
+*這篇論文主張發現或揭示了什麼知識？*  
+*它試圖復興哪些被遺忘或埋藏的觀點？*  
+-->
+
+---
+
+<!--
+*論文使用了什麼基本假設或方法？*  
+*這些假設或方法可能如何影響或扭曲其結論？*  
+-->
+
+---
+
+<!--
+*論文如何挑戰或強化既有的思考框架？*  
+*其論證中隱藏著什麼未被言明的偏見或裂隙？*  
+-->
