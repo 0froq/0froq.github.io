@@ -1,0 +1,11 @@
+node_modules/
+docs/.vitepress/cache/
+docs/.vitepress/dist/
+docs/posts/.obsidian/
+docs/posts/_template/*
+docs/posts/_config/*
+.DS_Store
+docs/.DS_Store
+docs/posts/_template/blog_temp.md
+docs/posts/_template/blog_temp.md
+Session.vim
