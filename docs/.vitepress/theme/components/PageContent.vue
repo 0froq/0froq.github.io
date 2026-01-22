@@ -21,9 +21,6 @@ const route = useRoute()
   <HomeCorpusLayer
     v-else-if="route.path.match(/^\/corpus\/[0-5]00_[a-z]+\/$/)"
   />
-  <!-- <HomeCorpus -->
-  <!--   v-else-if="frontmatter.corpus" -->
-  <!-- /> -->
   <HomePosts
     v-else-if="['/posts/', '/posts/en/'].includes(route.path)"
   />

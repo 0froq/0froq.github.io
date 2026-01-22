@@ -108,7 +108,7 @@ const route = useRoute()
         un-text="neutral-500 hover:neutral-700 dark:hover:neutral-300"
         un-transition-colors
         un-duration-200
-        href="https://github.com/"
+        href="https://github.com/0froq"
       >
         <un-i-ph-github-logo-duotone />
       </a>

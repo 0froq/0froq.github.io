@@ -75,6 +75,7 @@ useI18n({
 
 const appWithTitle = [
   'Zen',
+  'Vivaldi',
   'Code',
   'Ghostty',
 ]

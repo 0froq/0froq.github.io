@@ -44,6 +44,7 @@ const iconMap: Record<string, string> = {
   // "i-simple-svelte",
   // "i-simple-vuedotjs",
   // "i-simple-vite",
+  Vivaldi: 'i-simple-vivaldi',
   // "i-simple-wechat",
   // "i-simple-x",
   // "i-simple-youtube"
