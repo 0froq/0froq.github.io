@@ -1,0 +1,54 @@
+theme: Protect Q2
+
+quadrants:
+  q1:
+    - id: W05-01
+      title: Fix a real fire (deadline / breakage)
+      dod: Tests pass; release note; no regression
+      links:
+        - label: issue
+          url: https://github.com/...
+  q2:
+    - id: W05-02
+      title: headup.nvim – MVP feature cut
+      dod: Merged PR; docs updated
+      links:
+        - label: repo
+          url: https://github.com/Fro-Q/headup.nvim
+        - label: repo
+          url: https://github.com/Fro-Q/headup.nvim
+    - id: W05-03
+      title: 'Write: [Dashboard]{.text-amber-500} design notes → posts'
+      dod: A publishable draft exists
+      status: in-progress
+    - id: W05-03
+      title: 'Write: [Dashboard]{.text-amber-500} design notes → posts'
+      dod: A publishable draft exists
+      status: done
+    - id: W05-03
+      title: 'Write: [Dashboard]{.text-amber-500} design notes → posts'
+      dod: A publishable draft exists
+      status: not-started
+    - id: W05-03
+      title: 'Write: [Dashboard]{.text-amber-500} design notes → posts'
+      dod: A publishable draft exists
+      status: deferred
+    - id: W05-03
+      title: 'Write: [Dashboard]{.text-amber-500} design notes → posts'
+      dod: A publishable draft exists
+      status: cancelled
+    - id: W05-03
+      title: 'Write: [Dashboard]{.text-amber-500} design notes → posts'
+      dod: A publishable draft exists
+      status: blocked
+    - id: W05-03
+      title: 'Write: [Dashboard]{.text-amber-500} design notes → posts'
+      dod: A publishable draft exists
+  q3:
+    - id: W05-05
+      title: Doomscroll (optional)
+      dod: Don’t start
+  q4:
+    - id: W05-04
+      title: Reply / triage (fast, not deep)
+      dod: Inbox cleared to zero guilt
