@@ -13,12 +13,21 @@ if &shortmess =~ 'A'
 else
   set shortmess=aoO
 endif
-badd +105 docs/.vitepress/theme/components/DashboardView.vue
+badd +129 docs/.vitepress/theme/components/DashboardView.vue
 badd +10 docs/dashboard/weeks/2026-01-26.yml
-badd +14 docs/.vitepress/theme/src/dashboard.data.ts
+badd +13 docs/.vitepress/theme/src/dashboard.data.ts
 argglobal
 %argdel
 edit docs/.vitepress/theme/components/DashboardView.vue
+let s:save_splitbelow = &splitbelow
+let s:save_splitright = &splitright
+set splitbelow splitright
+wincmd _ | wincmd |
+vsplit
+1wincmd h
+wincmd w
+let &splitbelow = s:save_splitbelow
+let &splitright = s:save_splitright
 wincmd t
 let s:save_winminheight = &winminheight
 let s:save_winminwidth = &winminwidth
@@ -26,6 +35,7 @@ set winminheight=0
 set winheight=1
 set winminwidth=0
 set winwidth=1
+wincmd =
 argglobal
 balt docs/.vitepress/theme/src/dashboard.data.ts
 setlocal foldmethod=expr
@@ -62,18 +72,41 @@ sil! normal! zo
 sil! normal! zo
 139
 sil! normal! zo
-224
+158
 sil! normal! zo
-228
+162
 sil! normal! zo
-229
+163
 sil! normal! zo
-let s:l = 105 - ((12 * winheight(0) + 12) / 25)
+let s:l = 129 - ((0 * winheight(0) + 16) / 32)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 105
+keepjumps 129
 normal! 09|
+wincmd w
+argglobal
+if bufexists(fnamemodify("docs/.vitepress/theme/src/dashboard.data.ts", ":p")) | buffer docs/.vitepress/theme/src/dashboard.data.ts | else | edit docs/.vitepress/theme/src/dashboard.data.ts | endif
+if &buftype ==# 'terminal'
+  silent file docs/.vitepress/theme/src/dashboard.data.ts
+endif
+balt docs/.vitepress/theme/components/DashboardView.vue
+setlocal foldmethod=expr
+setlocal foldexpr=v:lua.vim.treesitter.foldexpr()
+setlocal foldmarker={{{,}}}
+setlocal foldignore=#
+setlocal foldlevel=99
+setlocal foldminlines=1
+setlocal foldnestmax=20
+setlocal foldenable
+let s:l = 12 - ((11 * winheight(0) + 16) / 32)
+if s:l < 1 | let s:l = 1 | endif
+keepjumps exe s:l
+normal! zt
+keepjumps 12
+normal! 014|
+wincmd w
+wincmd =
 tabnext 1
 if exists('s:wipebuf') && len(win_findbuf(s:wipebuf)) == 0 && getbufvar(s:wipebuf, '&buftype') isnot# 'terminal'
   silent exe 'bwipe ' . s:wipebuf
