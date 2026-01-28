@@ -13,8 +13,8 @@ if &shortmess =~ 'A'
 else
   set shortmess=aoO
 endif
-badd +248 docs/.vitepress/theme/components/DashboardView.vue
-badd +43 docs/dashboard/weeks/2026-01-26.yml
+badd +105 docs/.vitepress/theme/components/DashboardView.vue
+badd +10 docs/dashboard/weeks/2026-01-26.yml
 badd +14 docs/.vitepress/theme/src/dashboard.data.ts
 argglobal
 %argdel
@@ -36,66 +36,44 @@ setlocal foldlevel=99
 setlocal foldminlines=1
 setlocal foldnestmax=20
 setlocal foldenable
-1
+29
 sil! normal! zo
-20
+30
 sil! normal! zo
-21
-sil! normal! zo
-22
-sil! normal! zo
-46
+31
 sil! normal! zo
 55
 sil! normal! zo
 64
 sil! normal! zo
-89
+73
 sil! normal! zo
-97
+98
 sil! normal! zo
-101
+106
 sil! normal! zo
-145
+117
 sil! normal! zo
-208
+122
 sil! normal! zo
-213
+126
 sil! normal! zo
-235
+134
 sil! normal! zo
-236
+139
 sil! normal! zo
-239
+224
 sil! normal! zo
-239
+228
 sil! normal! zo
-240
+229
 sil! normal! zo
-316
-sil! normal! zo
-316
-sil! normal! zo
-325
-sil! normal! zo
-368
-sil! normal! zo
-368
-sil! normal! zo
-368
-sil! normal! zo
-368
-sil! normal! zo
-368
-sil! normal! zo
-368
-sil! normal! zo
-let s:l = 249 - ((31 * winheight(0) + 21) / 42)
+let s:l = 105 - ((12 * winheight(0) + 12) / 25)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 249
-normal! 032|
+keepjumps 105
+normal! 09|
 tabnext 1
 if exists('s:wipebuf') && len(win_findbuf(s:wipebuf)) == 0 && getbufvar(s:wipebuf, '&buftype') isnot# 'terminal'
   silent exe 'bwipe ' . s:wipebuf
@@ -111,7 +89,6 @@ if filereadable(s:sx)
 endif
 let &g:so = s:so_save | let &g:siso = s:siso_save
 set hlsearch
-nohlsearch
 doautoall SessionLoadPost
 unlet SessionLoad
 " vim: set ft=vim :

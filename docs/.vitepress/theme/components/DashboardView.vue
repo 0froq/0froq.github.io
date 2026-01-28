@@ -15,6 +15,15 @@ const quadrantTitles = {
   q3: 'ui',
   q4: 'Ui',
 }
+
+const statusLabels = {
+  'done': '完毕',
+  'in-progress': '途中',
+  'deferred': '延期',
+  'cancelled': '取消',
+  'not-started': '未始',
+  'blocked': '阻塞',
+}
 </script>
 
 <template>
@@ -95,76 +104,119 @@ const quadrantTitles = {
           style="flex: 1 1 auto; min-height: 0;"
         >
           <li
-            v-for="t in tasks"
-            :key="t.id"
+            v-for="status in new Set(tasks.map(t => t.status))"
+            :key="status"
+            un-mb-2
           >
             <div
-              un-flex="~ row"
-              un-items-start
+              un-font-semibold
+              un-mb-1
             >
-              <un-i-solar-check-read-line-duotone
-                v-if="t.status === 'done'"
-                class="status_icon"
-                un-text-green-500
-              />
-              <un-i-solar-clock-line-duotone
-                v-else-if="t.status === 'in-progress'"
-                class="status_icon"
-                un-text-yellow-500
-              />
-              <un-i-solar-blocked-line-duotone
-                v-else-if="t.status === 'deferred'"
-                class="status_icon"
-                un-text-gray-500
-              />
-              <un-i-solar-close-circle-line-duotone
-                v-else-if="t.status === 'cancelled'"
-                class="status_icon"
-                un-text-red-500
-              />
-              <un-i-solar-stopwatch-line-duotone
-                v-else-if="t.status === 'not-started'"
-                class="status_icon"
-                un-text-red-500
-              />
-              <un-i-solar-warning-circle-line-duotone
-                v-else-if="t.status === 'blocked'"
-                class="status_icon"
-                un-text-red-500
-              />
-              <un-i-solar-question-circle-line-duotone
-                v-else
-                class="status_icon"
-                un-text-gray-500
-                un-mr-1
-              />
-              <div
-                v-html="md.render(t.title)"
-              />
+              {{ statusLabels[status] || status }}
             </div>
             <ul
-              v-if="t.links?.length"
               un-ml-4
-              un-text="neutral-500"
+              un-list-disc
+              un-space-y-1
             >
               <li
-                v-for="link in t.links"
-                :key="link.url"
-                un-inline
+                v-for="t in tasks.filter(t => t.status === status)"
+                :key="t.title"
               >
-                <LinkUnderline
-                  :href="link.url"
-                  :text="link.label"
-                  :vanilla="true"
-                />
-                <!-- <a -->
-                <!--   :href="link.url" -->
-                <!--   target="_blank" -->
-                <!--   rel="noreferrer" -->
-                <!-- >{{ link.label }}</a> -->
+                <div
+                  un-flex="~ row"
+                  un-items-start
+                >
+                  <div
+                    v-html="md.render(t.title)"
+                  />
+                </div>
+                <ul
+                  v-if="t.links?.length"
+                  un-ml-9
+                  un-text="neutral-500"
+                >
+                  <li
+                    v-for="link in t.links"
+                    :key="link.url"
+                    un-inline
+                  >
+                    <LinkUnderline
+                      :href="link.url"
+                      :text="link.label"
+                      :vanilla="true"
+                    />
+                  </li>
+                </ul>
               </li>
             </ul>
           </li>
+          <!-- <li -->
+          <!--   v-for="t in tasks" -->
+          <!--   :key="t.title" -->
+          <!-- > -->
+          <!--   <div -->
+          <!--     un-flex="~ row" -->
+          <!--     un-items-start -->
+          <!--   > -->
+          <!--     <un-i-solar-check-read-line-duotone -->
+          <!--       v-if="t.status === 'done'" -->
+          <!--       class="status_icon" -->
+          <!--       un-text-emerald-500 -->
+          <!--     /> -->
+          <!--     <un-i-solar-menu-dots-line-duotone -->
+          <!--       v-else-if="t.status === 'in-progress'" -->
+          <!--       class="status_icon" -->
+          <!--       un-text-sky-500 -->
+          <!--     /> -->
+          <!--     <un-i-solar-alarm-turn-off-bold-duotone -->
+          <!--       v-else-if="t.status === 'deferred'" -->
+          <!--       class="status_icon" -->
+          <!--       un-text-stone-500 -->
+          <!--     /> -->
+          <!--     <un-i-solar-forbidden-circle-bold-duotone -->
+          <!--       v-else-if="t.status === 'cancelled'" -->
+          <!--       class="status_icon" -->
+          <!--       un-text-red-500 -->
+          <!--     /> -->
+          <!--     <un-i-solar-stopwatch-line-duotone -->
+          <!--       v-else-if="t.status === 'not-started'" -->
+          <!--       class="status_icon" -->
+          <!--       un-text-red-500 -->
+          <!--     /> -->
+          <!--     <un-i-solar-warning-circle-line-duotone -->
+          <!--       v-else-if="t.status === 'blocked'" -->
+          <!--       class="status_icon" -->
+          <!--       un-text-red-500 -->
+          <!--     /> -->
+          <!--     <un-i-solar-question-circle-line-duotone -->
+          <!--       v-else -->
+          <!--       class="status_icon" -->
+          <!--       un-text-gray-500 -->
+          <!--       un-mr-1 -->
+          <!--     /> -->
+          <!--     <div -->
+          <!--       v-html="md.render(t.title)" -->
+          <!--     /> -->
+          <!--   </div> -->
+          <!--   <ul -->
+          <!--     v-if="t.links?.length" -->
+          <!--     un-ml-9 -->
+          <!--     un-text="neutral-500" -->
+          <!--   > -->
+          <!--     <li -->
+          <!--       v-for="link in t.links" -->
+          <!--       :key="link.url" -->
+          <!--       un-inline -->
+          <!--     > -->
+          <!--       <LinkUnderline -->
+          <!--         :href="link.url" -->
+          <!--         :text="link.label" -->
+          <!--         :vanilla="true" -->
+          <!--       /> -->
+          <!--     </li> -->
+          <!--   </ul> -->
+          <!-- </li> -->
         </ul>
       </div>
     </section>
@@ -194,10 +246,10 @@ const quadrantTitles = {
 
 <style scoped>
 [data-quadrant='q1'] {
-  --uno: 'bg-rose-100 dark:bg-rose-900/10';
+  --uno: 'bg-rose-100/30 dark:bg-rose-900/30';
 
   & .quad_title {
-    --uno: 'bg-rose-100 dark:bg-rose-900/50';
+    --uno: 'bg-rose-100/50 dark:bg-rose-900/50';
     --uno: 'border-rose-300 dark:border-rose-700';
   }
 }
@@ -219,28 +271,28 @@ const quadrantTitles = {
 /* } */
 
 [data-quadrant='q2'] {
-  --uno: 'bg-emerald-100 dark:bg-emerald-900/10';
+  --uno: 'bg-emerald-100/30 dark:bg-emerald-900/30';
 
   & .quad_title {
-    --uno: 'bg-emerald-100 dark:bg-emerald-900/50';
+    --uno: 'bg-emerald-100/50 dark:bg-emerald-900/50';
     --uno: 'border-emerald-300 dark:border-emerald-700';
   }
 }
 
 [data-quadrant='q3'] {
-  --uno: 'bg-stone-100 dark:bg-stone-900/10';
+  --uno: 'bg-stone-100/30 dark:bg-stone-900/30';
 
   & .quad_title {
-    --uno: 'bg-stone-100 dark:bg-stone-900/50';
+    --uno: 'bg-stone-100/50 dark:bg-stone-900/50';
     --uno: 'border-stone-300 dark:border-stone-700';
   }
 }
 
 [data-quadrant='q4'] {
-  --uno: 'bg-sky-100 dark:bg-sky-900/10';
+  --uno: 'bg-sky-100/30 dark:bg-sky-900/30';
 
   & .quad_title {
-    --uno: 'bg-sky-100 dark:bg-sky-900/50';
+    --uno: 'bg-sky-100/50 dark:bg-sky-900/50';
     --uno: 'border-sky-300 dark:border-sky-700';
   }
 }
