@@ -77,7 +77,7 @@ const excerptVisible = ref(false)
       v-if="props.title"
       :id="props.title"
       :title="props.title"
-      :intro="props.showIntro ? props.intro : ''"
+      :intro="props.intro ?? ''"
     >
       <template #default>
         <div

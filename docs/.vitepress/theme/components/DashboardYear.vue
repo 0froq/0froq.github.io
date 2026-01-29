@@ -8,10 +8,6 @@ const years = yearData
 
 <template>
   <section class="section-card">
-    <ProgressBarHeader
-      id="yearly-goals-header"
-      title="年们"
-    />
     <div
       v-for="record in years"
       :key="record.year"
@@ -54,6 +50,3 @@ const years = yearData
     </div>
   </section>
 </template>
-
-<style scoped>
-</style>

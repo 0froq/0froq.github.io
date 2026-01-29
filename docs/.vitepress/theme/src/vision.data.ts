@@ -25,7 +25,8 @@ export default defineLoader({
 
   load(watchedFiles): VisionItem[] {
     const file = watchedFiles[0]
-    if (!fs.existsSync(file)) return []
+    if (!fs.existsSync(file))
+      return []
     return readYaml<VisionItem[]>(file) ?? []
   },
 })

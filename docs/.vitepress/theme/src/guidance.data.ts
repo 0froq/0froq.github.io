@@ -2,45 +2,49 @@ import fs from 'node:fs'
 import { defineLoader } from 'vitepress'
 import YAML from 'yaml'
 
-export interface HintItem {
+export interface GuidanceItem {
   title: string
   description?: string
   category: string
+  links?: {
+    label: string
+    url: string
+  }[]
 }
 
-export interface HintCategory {
+export interface GuidanceCategory {
   category: string
-  items: HintItem[]
+  items: GuidanceItem[]
 }
 
-export interface HintData {
-  items: HintItem[]
-  categories: HintCategory[]
+export interface GuidanceData {
+  items: GuidanceItem[]
+  categories: GuidanceCategory[]
 }
 
 function readYaml<T>(file: string): T {
   return YAML.parse(fs.readFileSync(file, 'utf-8')) as T
 }
 
-declare const data: HintData
+declare const data: GuidanceData
 export { data }
 
 export default defineLoader({
-  watch: ['docs/dashboard/hint.yml'],
+  watch: ['docs/dashboard/guidance.yml'],
 
-  load(watchedFiles): HintData {
+  load(watchedFiles): GuidanceData {
     const file = watchedFiles[0]
     if (!fs.existsSync(file))
       return { items: [], categories: [] }
 
-    const items = readYaml<HintItem[]>(file) ?? []
+    const items = readYaml<GuidanceItem[]>(file) ?? []
 
-    const categories: HintCategory[] = []
-    const seen = new Map<string, HintItem[]>()
+    const categories: GuidanceCategory[] = []
+    const seen = new Map<string, GuidanceItem[]>()
 
     for (const item of items) {
       if (!seen.has(item.category)) {
-        const bucket: HintItem[] = []
+        const bucket: GuidanceItem[] = []
         seen.set(item.category, bucket)
         categories.push({ category: item.category, items: bucket })
       }

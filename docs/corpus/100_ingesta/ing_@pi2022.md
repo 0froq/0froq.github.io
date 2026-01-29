@@ -3,7 +3,6 @@ title: Mapping Global Lake Dynamics Reveals the Emerging Roles of Small Lakes
 created: 2025-10-29
 status: probe
 last_modified: 2025-12-15 19:06:04
-
 ---
 
 ---

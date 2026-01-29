@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useRoute } from 'vitepress'
-import DashboardHint from './DashboardHint.vue'
+import DashboardBacklog from './DashboardBacklog.vue'
 import DashboardVision from './DashboardVision.vue'
 import DashboardWeekQuadrant from './DashboardWeekQuadrant.vue'
 import DashboardYear from './DashboardYear.vue'
@@ -11,11 +11,7 @@ const route = useRoute()
 </script>
 
 <template>
-  <un-page-content
-    v-if="['/dashboard/', '/dashboard/en/'].includes(route.path)"
-    un-max-w-5xl
-    un-mx-auto
-  >
+  <un-page-content>
     <LinkUnderline
       href="/"
       text="> cd ../"
@@ -46,6 +42,7 @@ const route = useRoute()
       />
     </div>
     <DashboardWeekQuadrant />
+    <DashboardBacklog />
 
     <div
       un-flex="~ row"
@@ -69,37 +66,16 @@ const route = useRoute()
         un-text="neutral-600 dark:neutral-400"
         un-before="h-px bg-teal-400 dark:bg-teal-600"
       />
-    </div>
-
-    <!-- <section> -->
-    <!--   <ProgressBarHeader -->
-    <!--     id="yearly-and-vision-header" -->
-    <!--     title="欲" -->
-    <!--     un-mt-8 -->
-    <!--   /> -->
-    <!--   <DashboardYear /> -->
-    <!--   <DashboardVision /> -->
-    <!-- </section> -->
-    <!-- <section> -->
-    <!--   <ProgressBarHeader -->
-    <!--     id="dashboard-hint-section-header" -->
-    <!--     title="示" -->
-    <!--     un-mt-8 -->
-    <!--   /> -->
-    <!--   <DashboardHint /> -->
-    <!-- </section> -->
-  </un-page-content>
-  <un-page-content
-    v-else-if="['/dashboard/intents/', '/dashboard/intents/en/'].includes(route.path)"
-  >
-    <section>
-      <ProgressBarHeader
-        id="yearly-and-vision-header"
-        title="我想……"
+      <LinkUnderline
+        href="guidance/"
+        text="需要遵守……"
+        un-block
+        un-mt-4
+        un-text-sm
+        un-text="neutral-600 dark:neutral-400"
+        un-before="h-px bg-teal-400 dark:bg-teal-600"
       />
-      <DashboardYear />
-      <DashboardVision />
-    </section>
+    </div>
   </un-page-content>
 </template>
 

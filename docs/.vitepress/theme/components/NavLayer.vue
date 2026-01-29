@@ -108,14 +108,14 @@ const hoveringLayer = ref<string | null>(null)
   }
 }
 [data-layer='posts'] {
-  --uno: 'text-amber-600 dark:text-amber-400';
+  --uno: 'text-emerald-600 dark:text-emerald-400';
   & > .icon {
     --uno: 'i-solar-chat-line-bold-duotone';
   }
   &.label {
     --uno: 'font-script';
-    --uno: 'bg-amber-600/10 dark:bg-amber-400/10';
-    /* --uno: 'border border-amber-600/20 dark:border-amber-400/20'; */
+    --uno: 'bg-emerald-600/10 dark:bg-emerald-400/10';
+    /* --uno: 'border border-emerald-600/20 dark:border-emerald-400/20'; */
   }
 }
 [data-layer='dashboard'] {

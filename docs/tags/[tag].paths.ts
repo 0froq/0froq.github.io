@@ -23,6 +23,8 @@ export default {
 
       'cioran',
       'camus',
+
+      'scope/corpus',
     ]
 
     let paths: Set<string> = new Set()

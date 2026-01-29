@@ -1,19 +1,16 @@
 <script setup lang="ts">
 import { data as visionData } from '../src/vision.data'
 import LinkUnderline from './LinkUnderline.vue'
+import ProgressBarHeader from './ProgressBarHeader.vue'
 
 const visions = visionData
 </script>
 
 <template>
   <section class="section-card">
-    <h2 class="section-heading">
-      愿景
-    </h2>
     <ul
-      un-list-disc
+      un-pt-4
       un-ml-4
-      un-space-y-1
     >
       <li
         v-for="vision in visions"
@@ -24,7 +21,6 @@ const visions = visionData
         </div>
         <ul
           v-if="vision.links?.length"
-          un-list-disc
           un-ml-5
           un-text-sm
           un-text-neutral-500
@@ -44,24 +40,3 @@ const visions = visionData
     </ul>
   </section>
 </template>
-
-<style scoped>
-.section-card {
-  --uno: 'p-4 rounded-md border border-[var(--vp-c-divider)] bg-[var(--vp-c-bg-soft)] shadow-sm';
-  backdrop-filter: blur(6px);
-}
-
-.section-heading {
-  --uno: 'text-lg font-semibold tracking-wide mb-3 flex items-center gap-2';
-  position: relative;
-}
-
-.section-heading::after {
-  content: '';
-  display: inline-block;
-  width: 42px;
-  height: 3px;
-  border-radius: 999px;
-  background: linear-gradient(90deg, #a1c4fd, #c2e9fb);
-}
-</style>

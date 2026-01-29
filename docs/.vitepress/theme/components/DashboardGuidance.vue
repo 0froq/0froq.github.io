@@ -1,14 +1,11 @@
 <script setup lang="ts">
-import { data as hintData } from '../src/hint.data'
-
-const hints = hintData
+import { data as hints } from '../src/guidance.data'
+import LinkUnderline from './LinkUnderline.vue'
+import ProgressBarHeader from './ProgressBarHeader.vue'
 </script>
 
 <template>
   <section class="section-card">
-    <h2 class="section-heading">
-      Hint
-    </h2>
     <div
       v-for="block in hints.categories"
       :key="block.category"
@@ -22,9 +19,7 @@ const hints = hintData
         {{ block.category }}
       </h3>
       <ul
-        un-list-disc
         un-ml-4
-        un-space-y-1
       >
         <li
           v-for="item in block.items"
@@ -40,29 +35,24 @@ const hints = hintData
           >
             {{ item.description }}
           </div>
+          <ul
+            un-ml-5
+            un-text-sm
+            un-text-neutral-500
+          >
+            <li
+              v-for="link in item.links"
+              :key="link.url"
+            >
+              <LinkUnderline
+                :href="link.url"
+                :text="link.label"
+                :vanilla="true"
+              />
+            </li>
+          </ul>
         </li>
       </ul>
     </div>
   </section>
 </template>
-
-<style scoped>
-.section-card {
-  --uno: 'p-4 rounded-md border border-[var(--vp-c-divider)] bg-[var(--vp-c-bg-soft)] shadow-sm';
-  backdrop-filter: blur(6px);
-}
-
-.section-heading {
-  --uno: 'text-lg font-semibold tracking-wide mb-3 flex items-center gap-2';
-  position: relative;
-}
-
-.section-heading::after {
-  content: '';
-  display: inline-block;
-  width: 42px;
-  height: 3px;
-  border-radius: 999px;
-  background: linear-gradient(90deg, #84fab0, #8fd3f4);
-}
-</style>

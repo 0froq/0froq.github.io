@@ -1,0 +1,13 @@
+items:
+  - title: 一个月后复查：全球数据与实测对比结论
+    dod: 在 due 当周完成一次复查并记录：结论是否变化、原因假设、下一步决定
+    status: todo
+    due: 2026-02-28
+    links:
+      - label: 对比结果草稿
+        url: 'https://example.com/...'
+
+  - title: 把 stl 分析脚本整理成可复用工具包
+    dod: 发布 v0.1.0（可安装、示例完整、README 清晰）
+    status: todo
+    due: 2026-03-31

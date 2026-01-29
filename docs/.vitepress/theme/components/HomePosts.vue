@@ -129,7 +129,6 @@ const categories: string[] = ['log', 'roadmap', 'collection']
       :title="t(`categories.${category}`)"
       :group-by-year="true"
       :year-formatter="$i18n.locale === 'zh' ? toChineseNumber : (year: string) => year"
-      :show-intro="true"
       :intro="t(`intros.${category}`)"
       :date-formatter="(date: Date) => {
         return new Date(date).toLocaleDateString($i18n.locale === 'zh' ? 'zh-CN' : 'en-US', {
