@@ -66,10 +66,11 @@ html {
 
   /* header */
   & :is(h1, h2, h3, h4, h5, h6) {
-    --uno: 'my-10 px-4 w-fit relative block font-normal';
+    --uno: 'my-10 w-fit relative block font-normal';
     /* different color for light and dark mode */
     --uno: 'text-neutral-800 dark:text-neutral-200';
-    --uno: 'before:(absolute -translate-x-[150%] text-[0.8em] opacity-40)';
+    --uno: 'before:(opacity-0 absolute -translate-x-[150%] text-[0.8em] transiton-opacity duration-200)';
+    --uno: 'hover:(before:opacity-40)';
   }
 
   /* different font size and before content for different header level */
