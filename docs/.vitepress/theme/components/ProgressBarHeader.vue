@@ -88,9 +88,8 @@ watchEffect(() => {
       un-text="neutral-600 dark:neutral-400"
       un-mb-4
       un-pl-8
-    >
-      {{ intro }}
-    </div>
+      v-html="intro"
+    />
     <slot />
   </div>
 </template>
