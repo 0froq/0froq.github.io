@@ -95,7 +95,6 @@ const prevPost = computed(() => {
       v-if="post?.frontmatter.title"
       :id="post?.frontmatter.title"
       :title="post?.frontmatter.title || ''"
-      :intro="post?.frontmatter.intro || ''"
     />
     <!-- <div -->
     <!--   un-text="5xl/relaxed" -->
@@ -105,7 +104,21 @@ const prevPost = computed(() => {
     <!--   v-html="post?.frontmatter.title ? renderMdInline(post.frontmatter.title) : ''" -->
     <!-- /> -->
     <!-- Display post meta information (e.g., date, reading time) -->
-    <PostMetaInfo :meta-strings="metaStrings" />
+    <!-- <PostMetaInfo :meta-strings="metaStrings" /> -->
+    <div
+      un-flex="~ row"
+      un-justify-end
+      un-mt-4
+      un-gap-4
+      un-text-neutral-500
+    >
+      <div
+        v-for="string, i in metaStrings"
+        :key="i"
+      >
+        {{ string }}
+      </div>
+    </div>
     <!-- Main content slot for the post -->
 
     <Content
