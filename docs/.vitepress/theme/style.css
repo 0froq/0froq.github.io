@@ -59,6 +59,12 @@ html {
 
 #content:not(.unstyled),
 .markdown-rendered {
+  & hr {
+    --uno: 'border-neutral-500';
+    --uno: 'border-dashed';
+    --uno: 'w-80% mx-auto';
+  }
+
   & p {
     /* vertical margin for paragraphs */
     --uno: 'my-8';
