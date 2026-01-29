@@ -21,10 +21,11 @@ Corpus 不是中性的「知识库」。
 
 ## 六个切片
 
-- [<rb>Autopsia</rb><rt>dissection</rt>](000_autopsia/)：自我反思与内省
-- [<rb>Ingesta</rb><rt>intake</rt>](100_ingesta/)：摄入，未经评判的原始信息
-- [<rb>Neo</rb><rt>new</rt><rb>plasma</rb><rt>growth</rt>](200_neoplasma/)：内化后的思考碎片
-- [<rb>Putredo</rb><rt>decay</rt>](300_putredo/)：实践与试验的记录
+- [<ruby><rb>Autopsia</rb><rt>dissection</rt></ruby>](000_autopsia/)：自我反思与内省
+- [<ruby><rb>Ingesta</rb><rt>intake</rt></ruby>](100_ingesta/)：摄入，未经评判的原始信息
+- [<ruby><rb>Neo</rb><rt>new</rt></ruby><ruby><rb>plasma</rb><rt>growth</rt></ruby>](200_neoplasma/)：内化后的思考碎片
+- [<ruby><rb>Putredo</rb><rt>decay</rt></ruby>](300_putredo/)：实践与试验的记录
 - [Delirium](400_delirium/)：审美与非理性
 - [Vigil](500_vigil/)：存在的证明
+
 进去看看。
