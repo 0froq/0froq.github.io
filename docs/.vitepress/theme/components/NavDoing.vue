@@ -91,12 +91,14 @@ const appWithTitle = [
     un-gap-2
     un-relative
     un-z-1
+    un-overflow-x-hidden
   >
     <span
       un-w-2
       un-h-2
       un-rounded-full
-      un-bg="teal-400 dark:teal-600"
+      un-shrink-0
+      un-bg="emerald-400 dark:emerald-600"
     />
     <span
       un-flex="~ row"
@@ -104,7 +106,7 @@ const appWithTitle = [
       un-gap-1
       un-px-2
       un-py-0
-      un-text="teal-600 dark:teal-400"
+      un-text="emerald-600 dark:emerald-400"
     >
       {{ activity.process?.name }}
       <IconApp
@@ -119,6 +121,9 @@ const appWithTitle = [
       un-flex="~ row"
       un-items-center
       un-gap-1
+      un-min-w-0
+      un-text-nowrap
+      un-text-ellipsis
       un-text="neutral-500 dark:neutral-500"
     >
       - {{ activity.process?.windowTitle }}
@@ -151,7 +156,6 @@ const appWithTitle = [
       un-gap-1
       un-px-2
       un-py-0
-      un-before="content-empty bg-emerald-400/50 dark:bg-emerald-600/50 w-full h-1 absolute bottom-2 left-0 z-0"
     >
       <i18n-t
         keypath="sleeping"

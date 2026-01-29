@@ -64,9 +64,12 @@ const route = useRoute()
       un-items-center
       un-gap-2
       un-text-xl
+      un-overflow-x-hidden
     >
       <NavLogo />
-      <NavDoing />
+      <NavDoing
+        un-text-ellipsis
+      />
     </div>
     <div
       un-flex="~ row"
@@ -99,10 +102,11 @@ const route = useRoute()
       <!--   </span> -->
       <!-- </div> -->
       <a
+        un-hidden
+        un-md="flex"
         un-m-1
         un-h-6
         un-w-6
-        un-flex
         un-items-center
         un-justify-center
         un-text="neutral-500 hover:neutral-700 dark:hover:neutral-300"
