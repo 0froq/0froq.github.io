@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import { data as yearData } from '../src/year.data'
 import LinkUnderline from './LinkUnderline.vue'
-import ProgressbarHeader from './ProgressbarHeader.vue'
+import ProgressBarHeader from './ProgressBarHeader.vue'
 
 const years = yearData
 </script>
 
 <template>
   <section class="section-card">
-    <ProgressbarHeader
+    <ProgressBarHeader
       id="yearly-goals-header"
       title="年们"
     />

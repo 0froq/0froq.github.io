@@ -2,7 +2,7 @@
 import MarkdownIt from 'markdown-it'
 import MarkdownItMdc from 'markdown-it-mdc'
 import LinkUnderline from '../components/LinkUnderline.vue'
-import ProgressbarHeader from '../components/ProgressbarHeader.vue'
+import ProgressBarHeader from '../components/ProgressBarHeader.vue'
 import { data } from '../src/dashboard.data'
 
 const md = new MarkdownIt().use(MarkdownItMdc)
@@ -21,7 +21,7 @@ const quadrantTitles = {
 
 <template>
   <section class="dash">
-    <ProgressbarHeader
+    <ProgressBarHeader
       v-if="d.currentWeek"
       id="dashboard-header"
       title="Dashboard"
