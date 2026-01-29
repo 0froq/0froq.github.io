@@ -32,42 +32,34 @@ const layerMap: Record<string, {
 }
 
 const hoveringLayer = ref<string | null>(null)
-
-const currentLayer = computed(() => route.path.split('/')[1])
-
-const layerIndicator = computed(() => {
-  if (hoveringLayer.value) {
-    return hoveringLayer.value
-  }
-  return currentLayer.value
-})
 </script>
 
 <template>
   <div
     un-m-1
     un-h-6
-    un-flex="~ row"
+    un-hidden
+    un-sm="flex"
     un-items-start
     un-justify-start
     un-transition-colors
     un-duration-200
   >
-    <div
-      :data-hovering="hoveringLayer ? 'true' : ''"
-      :data-layer="layerIndicator"
-      :data-current="hoveringLayer === currentLayer ? 'true' : ''"
-      class="label"
-      un-rounded-md
-      un-text-neutral-500
-      un-transition-colors
-      un-duration-200
-      un-hover:transition-colors
-      un-mr-2
-      un-px-2
-    >
-      {{ layerMap[layerIndicator]?.name || '' }}
-    </div>
+    <!-- <div -->
+    <!--   :data-hovering="hoveringLayer ? 'true' : ''" -->
+    <!--   :data-layer="layerIndicator" -->
+    <!--   :data-current="hoveringLayer === currentLayer ? 'true' : ''" -->
+    <!--   class="label" -->
+    <!--   un-rounded-md -->
+    <!--   un-text-neutral-500 -->
+    <!--   un-transition-colors -->
+    <!--   un-duration-200 -->
+    <!--   un-hover:transition-colors -->
+    <!--   un-mr-2 -->
+    <!--   un-px-2 -->
+    <!-- > -->
+    <!--   {{ layerMap[layerIndicator]?.name || '' }} -->
+    <!-- </div> -->
     <div
       un-flex="~ row"
     >
