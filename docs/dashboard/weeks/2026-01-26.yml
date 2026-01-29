@@ -1,24 +1,81 @@
-theme: Protect Q2
+theme: 验证全球数据可靠性与 STL 分析打底
 
 quadrants:
   q1:
-    - title: 个人网站 Dashboard Design
+    - title: 个人网站 dashboard design
       dod: 用上
+      status: 途中
       links:
         - label: Check it here
           url: froq.me/dashboard/
-      status: in-progress
-  q2:
-    - title: headup.nvim – MVP feature cut
-      dod: Merged PR; docs updated
+    - title: 科研：实测数据分析
+      dod: 出图
+      status: 未始
+    - title: 实测数据与全球数据的首轮对比结果整理
+      dod: >
+        选定至少 1–2 个关键指标（如相关系数、偏差统计），
+        生成 2–3 张对比图，并写出一段不少于 200 字的初步结论说明。
+      status: 未始
       links:
-        - label: repo
-          url: https://github.com/Fro-Q/headup.nvim
-        - label: repo
-          url: https://github.com/Fro-Q/headup.nvim
-  q3:
-    - title: Doomscroll (optional)
-      dod: Don’t start
+        - label: 实测数据仓库
+          url: 'https://example.com/local-observation-dataset'
+        - label: 全球数据源说明
+          url: 'https://example.com/global-dataset-docs'
+
+    - title: 本周组会/导师汇报材料准备
+      dod: >
+        完成 1 页以内的汇报提纲（含问题背景、数据来源、初步结论），
+        至少 1 张关键结果图表，并在汇报前一天自检一次。
+      status: 未始
+      links:
+        - label: 汇报模版
+          url: 'https://example.com/presentation-template'
+
+  q2:
+    - title: STL 分析流程在示例站点上跑通
+      dod: >
+        选择一个代表性站点或湖泊，完成 STL 分解代码编写与运行；
+        输出趋势、季节项与残差三类结果，并截图或导出图像保存。
+      status: 未始
+      links:
+        - label: STL 方法参考
+          url: 'https://example.com/stl-method-reference'
+        - label: 分析脚本仓库
+          url: 'https://example.com/repo-stl-analysis'
+
+    - title: 将常用脚本整理为开源仓库雏形
+      dod: >
+        选定一个当前科研中已在使用的脚本，补充 README（含使用示例）、
+        基本安装说明与最小化示例数据，完成首次公开提交（commit + push）。
+      status: 未始
+      links:
+        - label: GitHub 仓库
+          url: 'https://github.com/username/project-seed'
+
+    - title: 编写 STL 分解结果在论文中的使用说明
+      dod: >
+        整理成一份 500 字左右的技术笔记，说明 STL 相比经典分解的优势
+        （如处理非固定季节性、异常值鲁棒性等），为后续论文方法论服务。
+      status: 未始
+      links:
+        - label: 论文方法论草稿
+          url: 'https://example.com/paper-method-draft'
+
+  q3: []
+
   q4:
-    - title: Reply / triage (fast, not deep)
-      dod: Inbox cleared to zero guilt
+    - title: 临时协助请求的回应与记录
+      dod: >
+        本周出现的临时"帮忙看一下"类请求，统一记录下来，
+        按优先级排序，在规定时间块内集中处理并回复。
+      status: 未始
+
+hints:
+  - 每天预留 1 个 30 分钟的时间块集中处理邮件和行政事项，不要零散响应
+  - 对无关今年目标的临时请求，可以设定统一的回复时间而不是立即响应
+  - 睡前 1 小时避免学术/开源相关的未完成事项检视，改为低强度活动（散步、轻阅读等）
+  - 每天非工作用途的信息流浏览控制在 20–30 分钟以内
+  - 避免深夜接触高刺激内容（争论、重度信息、情绪性内容），优先保护睡眠质量
+  - '固定本周睡眠窗口：00:30 前睡，08:00 左右起（允许 ±30 分钟波动）'
+  - 每天深度工作安排不超过 2 个时间块（各 1.5–2 小时），优先分配给 Q1 和 Q2
+  - 当天精力不足或状态低落时，允许降低 Q1/Q2 任务粒度，但严格限制 Q3/Q4 暴露

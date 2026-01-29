@@ -3,7 +3,7 @@ home: true
 locale: zh
 ---
 
-我是 :rb[froQ] :rt[青蛙（可能]。
+我是 <ruby> :rb[froQ] :rt[青蛙（可能]</ruby>。
 
 我在读研究生，但这不重要。
 真正在做的事是写代码——Web 开发（Vue、Nuxt、TypeScript），
@@ -13,12 +13,14 @@ locale: zh
 我维护着 [个人博客](https://froq.me)
 和 [ToQ 播客](https://www.xiaoyuzhoufm.com/podcast/68fb1be73ffa38fac58d6bf2)。
 
-我读荒诞主义（ :rb[加缪] :rt[Albert Camus]、 :rb[萨特] :rt[Jean-Paul Sartre] )，
-读虚无主义（ :rb[齐奥朗] :rt[Emil Cioran] ），
-读精神分析学（ :rb[弗洛伊德] :rt[Sigmund Freud]、 :rb[拉康] :rt[Jacques Lacan] ）。
+我读荒诞主义（<ruby> :rb[加缪] :rt[Albert Camus]</ruby>、
+<ruby> :rb[萨特] :rt[Jean-Paul Sartre]</ruby>)，
+读虚无主义（<ruby> :rb[齐奥朗] :rt[Emil Cioran]</ruby>），
+读精神分析学（<ruby> :rb[弗洛伊德] :rt[Sigmund Freud]</ruby>、
+<ruby> :rb[拉康] :rt[Jacques Lacan]</ruby>）。
 我试图在理性与感性之间保持观察的距离。
 
-我是 :rb[双相障碍] :rt[bipolar disorder] 者（Ⅰ 型）。
+我是<ruby> :rb[双相障碍] :rt[bipolar disorder]</ruby>者（Ⅰ 型）。
 思维在秩序与混沌之间徘徊，
 这种张力是我创造力的来源。
 

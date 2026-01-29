@@ -10,7 +10,7 @@ export interface WeekLink {
 
 export interface WeekTask {
   title: string
-  status: 'done' | 'in-progress' | 'not-started' | 'deferred' | 'cancelled' | 'blocked'
+  status: '完毕' | '途中' | '未始' | '延期' | '取消' | '阻塞'
   dod?: string
   links?: WeekLink[]
 }
