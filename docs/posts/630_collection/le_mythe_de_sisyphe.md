@@ -1,15 +1,7 @@
 ---
 title: "*Le mythe de Sisyphe*"
-category: 前脩
-head:
-  - - meta
-    - name: description
-      content: 摘抄——*Le mythe de Sisyphe* · A. Camus《西西弗神话》
-  - - meta
-    - name: keywords
-      content: 摘抄 excerpt 西西弗神话 le_mythe_de_sisyphe 加缪 a.camus
 created: 2024-03-08 04:39
-last_modified: 2024-04-24 03:55
+last_modified: 2026-01-30 11:55:24
 ---
 
 摘抄——_Le mythe de Sisyphe_ · A. Camus《西西弗神话》

@@ -1,15 +1,7 @@
 ---
 title: 并未真正回归
-category: 代序
-head:
-  - - meta
-    - name: description
-      content: 如题。
-  - - meta
-    - name: keywords
-      content: 个人 闲聊
 created: 2025-11-30 10:20:00
-last_modified: 2025-12-01 20:43:18
+last_modified: 2026-01-30 11:52:33
 ---
 
 如题。

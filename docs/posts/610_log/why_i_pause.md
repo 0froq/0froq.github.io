@@ -1,15 +1,7 @@
 ---
 title: '关于我为什么一直没更新'
-category: 代序
-head:
-  - - meta
-    - name: description
-      content: 关于题目。
-  - - meta
-    - name: keywords
-      content: 个人 闲聊
 created: 2022-05-03 05:00
-last_modified: 2025-12-02 18:49:02
+last_modified: 2026-01-30 11:52:47
 ---
 
 关于题目。

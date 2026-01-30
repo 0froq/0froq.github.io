@@ -1,15 +1,7 @@
 ---
 title: "*The Moon and Sixpence*"
-category: 前脩
-head:
-  - - meta
-    - name: description
-      content: 摘抄——*The Moon and Sixpence* · W.S. Maugham《月亮与六便士》
-  - - meta
-    - name: keywords
-      content: 摘抄 excerpt 月亮与六便士 the_moon_and_sixpence 毛姆 w.s.maugham
 created: 2022-03-23 22:43
-last_modified: 2025-12-02 13:14:51
+last_modified: 2026-01-30 11:55:32
 ---
 
 摘抄——_The Moon and Sixpence_ · W.S. Maugham《月亮与六便士》

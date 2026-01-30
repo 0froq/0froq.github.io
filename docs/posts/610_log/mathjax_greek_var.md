@@ -1,16 +1,8 @@
 ---
 title: 'MathJax 中希腊字母的 `\var-` 变体'
-category: 共讀
 series: mathjax_symbol
-head:
-  - - meta
-    - name: description
-      content: 关于 MathJax 中希腊字母的 `\var-` 变体。
-  - - meta
-    - name: keywords
-      content: mathjax latex epsilon varepsilon theta vartheta rho varrho phi varphi latex_symbol latex符号
 created: 2024-09-25 14:33
-last_modified: 2025-01-01 21:47
+last_modified: 2026-01-30 11:52:10
 ---
 
 关于 MathJax 中希腊字母的 `\var-` 变体。

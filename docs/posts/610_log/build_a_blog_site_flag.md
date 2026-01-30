@@ -1,15 +1,7 @@
 ---
 title: '博客网站搭建'
-category: 成言
-head:
-  - - meta
-    - name: description
-      content: 不是第一个坑但第一个记一下。
-  - - meta
-    - name: keywords
-      content: vitepress blog personal_website vue tutorial 博客 个人网站 教程
 created: 2024-09-18 15:26
-last_modified: 2025-01-08 07:47
+last_modified: 2026-01-30 11:52:13
 ---
 
 不是第一个坑但第一个记一下。

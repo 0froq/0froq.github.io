@@ -1,16 +1,8 @@
 ---
 title: '从零开始搭建博客网站（六）'
-category: 共讀
 series: blog_site
-head:
-  - - meta
-    - name: description
-      content: 从零开始搭建博客网站（六）：文章 Markdown 样式。
-  - - meta
-    - name: keywords
-      content: 博客网站 个人网站 博客 vitepress vue vite unocss github_pages typescript
 created: 2025-02-17 18:24
-last_modified: 2025-04-22 01:05
+last_modified: 2026-01-30 11:53:55
 ---
 
 从零开始搭建博客网站（六）：文章 Markdown 样式。

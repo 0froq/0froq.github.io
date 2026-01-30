@@ -30,7 +30,7 @@ declare const data: Data[]
 export { data }
 
 export default createContentLoader([
-  'corpus/**/!(index).md',
+  'corpus/!(_template)/!(index).md',
 ], {
   includeSrc: true,
   excerpt: true,

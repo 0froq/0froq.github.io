@@ -1,16 +1,8 @@
 ---
 title: "从零开始搭建博客网站（八）"
-category: 共讀
 series: blog_site
-head:
-  - - meta
-    - name: description
-      content: 从零开始搭建博客网站（八）：文章大纲与代码块一大坨配置。
-  - - meta
-    - name: keywords
-      content: 博客网站 个人网站 博客 vitepress vue vite unocss github_pages typescript
 created: 2025-04-24 21:32
-last_modified: 2025-05-09 04:30
+last_modified: 2026-01-30 11:54:15
 ---
 
 从零开始搭建博客网站（八）：文章大纲与代码块一大坨配置。

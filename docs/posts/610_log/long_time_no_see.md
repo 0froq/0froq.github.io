@@ -1,15 +1,7 @@
 ---
 title: '好久不见:P'
-category: 代序
-head:
-  - - meta
-    - name: description
-      content: 好几十天没有写东西，一部分原因是忙得没时间写，一部分原因是忙得没时间想。
-  - - meta
-    - name: keywords
-      content: 闲聊 个人
 created: 2023-06-15 05:00
-last_modified: 2025-01-08 07:49
+last_modified: 2026-01-30 11:52:13
 ---
 
 好几十天没有写东西，一部分原因是忙得没时间写，一部分原因是忙得没时间想。

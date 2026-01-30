@@ -1,16 +1,8 @@
 ---
 title: "从零开始搭建博客网站（一）"
-category: 共讀
 series: blog_site
-head:
-  - - meta
-    - name: description
-      content: 从零开始搭建博客网站（一）：预备知识与安装
-  - - meta
-    - name: keywords
-      content: 博客网站 个人网站 博客 vitepress vue vite unocss github_pages typescript
 created: 2025-01-09 10:34
-last_modified: 2026-01-15 15:17:59
+last_modified: 2026-01-30 11:57:17
 ---
 
 从零开始搭建博客网站（一）：预备知识与安装
@@ -81,8 +73,6 @@ WordPress 几乎是全球最流行的 CMS，有着丰富的插件和主题，
 [JavaScript](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript)
 等技术有一定的了解。
 
-你也会在这个过程中学到关于它们的更多知识。
-
 ## 安装和初始化
 
 ### 安装 Node.js
@@ -124,7 +114,7 @@ git clone https://github.com/Fro-Q/typescript_example_site.git
 ```
 
 不知道有没有必要提醒一下，
-请注意不要复制上面的命令，那是我的仓库 :sweat_smile: 。
+请注意不要复制上面的命令，那是我的仓库 😅 。
 
 ### 安装 VitePress 与初始化
 
@@ -172,11 +162,11 @@ setup 时还需要设置一些基本信息：
 虽然可以在后续进行修改，
 但还是建议在 setup 阶段填写正确的信息以省去不必要的麻烦。
 （除了 Initail directory、 Site title 和 Site description
-因为这仨真的很好改 :innocent: ）
+因为这仨真的很好改 😇 ）
 
 以上操作将会生成这样的文件树：
 
-```tree
+```
 .
 ├── docs
 │   ├── .vitepress

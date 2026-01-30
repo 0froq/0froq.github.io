@@ -1,15 +1,7 @@
 ---
 title: '我在干何'
-category: 代序
-head:
-  - - meta
-    - name: description
-      content: 我 xxx 又回来啦！
-  - - meta
-    - name: keywords
-      content: CSS Obsidian 主题 博客 个人网站
 created: 2024-01-28 05:00
-last_modified: 2024-09-09 21:00
+last_modified: 2026-01-30 11:52:42
 ---
 
 我 xxx 又回来啦！

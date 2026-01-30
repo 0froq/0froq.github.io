@@ -1,15 +1,7 @@
 ---
 title: "*Syllogismes de l'amertume*"
-category: 前脩
-head:
-  - - meta
-    - name: description
-      content: "摘抄——*Syllogismes de l'amertume* · E.M. Cioran《苦论》"
-  - - meta
-    - name: keywords
-      content: "摘抄 excerpt 苦论 syllogismes_de_l'amertume 齐奥朗 萧沆 e.m.cioran"
 created: 2024-10-23 14:36
-last_modified: 2024-10-23 14:36
+last_modified: 2026-01-30 11:55:29
 ---
 
 摘抄——_Syllogismes de l'amertume_ · E.M. Cioran《苦论》

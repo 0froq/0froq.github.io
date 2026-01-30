@@ -1,16 +1,8 @@
 ---
 title: '从零开始搭建博客网站（三）'
-category: 共讀
 series: blog_site
-head:
-  - - meta
-    - name: description
-      content: 从零开始搭建博客网站（三）：像样的页面与文件结构优化。
-  - - meta
-    - name: keywords
-      content: 博客网站 个人网站 博客 vitepress vue vite unocss github_pages typescript
 created: 2025-01-20 01:03
-last_modified: 2025-01-22 05:22
+last_modified: 2026-01-30 11:53:32
 ---
 
 从零开始搭建博客网站（三）：像样的页面与文件结构优化。
@@ -399,7 +391,7 @@ This is definitely the home page.
 ## 文件结构优化
 
 我们当然可以在 `Layout.vue` 中实现所有的页面设计，
-但是我们当然不可以在 `Layout.vue` 中实现所有的页面设计（ :sweat_drops: ）。
+但是我们当然不可以在 `Layout.vue` 中实现所有的页面设计（ 💦 ）。
 现在，
 让我们将 `Layout.vue` 中的内容拆分开来。
 这里我的拆分思路是：

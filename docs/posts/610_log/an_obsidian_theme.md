@@ -1,15 +1,7 @@
 ---
 title: '正在做一个 Obsidian 主题'
-category: 代序
-head:
-  - - meta
-    - name: description
-      content: 虽然在我认识的人里面用 Obsidian 的寥寥无几，但是还是想记录一下最近在干的事情。
-  - - meta
-    - name: keywords
-      content: Obsidian 主题 CSS
 created: 2023-07-08 23:00
-last_modified: 2024-09-09 21:35
+last_modified: 2026-01-30 11:52:13
 ---
 
 虽然在我认识的人里面用 Obsidian 的寥寥无几，但是还是想记录一下最近在干的事情。

@@ -1,15 +1,7 @@
 ---
 title: "*L'Étranger*"
-category: 前脩
-head:
-  - - meta
-    - name: description
-      content: "摘抄——*L'Étranger* · A. Camus《局外人》"
-  - - meta
-    - name: keywords
-      content: "摘抄 excerpt 局外人 l'étranger 加缪 a.camus"
 created: 2022-04-06 23:43
-last_modified: 2025-12-02 13:33:50
+last_modified: 2026-01-30 11:55:16
 ---
 
 摘抄——_L'Étranger_ · A. Camus《局外人》

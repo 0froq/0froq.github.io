@@ -1,15 +1,7 @@
 ---
 title: '关于此站'
-category: 代序
-head:
-  - - meta
-    - name: description
-      content: 基本无事。
-  - - meta
-    - name: keywords
-      content: 闲聊 个人 个人网站
 created: 2024-09-14 08:32
-last_modified: 2026-01-15 15:37:05
+last_modified: 2026-01-30 11:52:13
 ---
 
 基本无事。

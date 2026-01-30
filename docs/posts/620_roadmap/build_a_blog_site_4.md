@@ -1,16 +1,8 @@
 ---
 title: '从零开始搭建博客网站（四）'
-category: 共讀
 series: blog_site
-head:
-  - - meta
-    - name: description
-      content: 从零开始搭建博客网站（四）：更好的黑暗模式。
-  - - meta
-    - name: keywords
-      content: 博客网站 个人网站 博客 vitepress vue vite unocss github_pages typescript
 created: 2025-01-31 05:33
-last_modified: 2025-02-06 19:29
+last_modified: 2026-01-30 11:53:42
 ---
 
 从零开始搭建博客网站（四）：更好的黑暗模式。
@@ -159,7 +151,7 @@ const htmlEl = document.querySelector('html') as HTMLElement
 需要注意的是，
 类型断言并不会改变 `htmlEl` 实际的类型，
 它只是告诉 TypeScript 我们确定 `htmlEl` 一定是 `HTMLElement`，
-但我们的确定不一定是对的 :sweat_smile: ，
+但我们的确定不一定是对的 😅，
 所以使用类型断言时要谨慎。
 
 #### 非空断言｜Non-null Assertion

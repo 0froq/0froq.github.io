@@ -1,16 +1,8 @@
 ---
 title: 优化一个博客网站（二）
-category: 共讀
 series: blog_site
-head:
-  - - meta
-    - name: description
-      content: 优化一个博客网站（二）：文章页面的其他玩意。
-  - - meta
-    - name: keywords
-      content: blog personal_website vue tutorial 博客 个人网站 教程
 created: 2025-09-03 15:28
-last_modified: 2025-09-03 15:28
+last_modified: 2026-01-30 11:54:32
 ---
 
 优化一个博客网站（二）：文章页面的其他玩意。

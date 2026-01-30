@@ -59,7 +59,6 @@ const postPool = computed(() => {
   if (post.value.frontmatter.series) {
     filteredPosts = filteredPosts.filter(p => p.frontmatter.series === post.value!.frontmatter.series)
   }
-  console.warn('Post Pool:', filteredPosts)
   return filteredPosts
 })
 
@@ -73,7 +72,6 @@ const nextPost = computed(() => {
   const currentIndex = postPool.value.findIndex(p => p.url === post.value!.url)
   if (currentIndex === -1)
     return null
-  console.warn('next index', currentIndex, 'next', postPool.value[currentIndex + 1])
   return postPool.value[currentIndex + 1] ?? null
   // return getNextPost(post.value, postPool.value)
 })
@@ -88,7 +86,6 @@ const prevPost = computed(() => {
   const currentIndex = postPool.value.findIndex(p => p.url === post.value!.url)
   if (currentIndex === -1)
     return null
-  console.warn('prev index', currentIndex, 'prev', postPool.value[currentIndex - 1])
   return currentIndex > 0 ? postPool.value[currentIndex - 1] : null
   // return getPrevPost(post.value, postPool.value)
 })

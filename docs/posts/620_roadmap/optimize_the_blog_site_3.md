@@ -1,16 +1,8 @@
 ---
 title: 优化一个博客网站（三）
-category: 共讀
 series: blog_site
-head:
-  - - meta
-    - name: description
-      content: 优化一个博客网站（三）：按标签分类。
-  - - meta
-    - name: keywords
-      content: blog personal_website vue tutorial 博客 个人网站 教程
 created: 2025-09-05 08:58
-last_modified: 2025-09-05 08:58
+last_modified: 2026-01-30 11:54:37
 ---
 
 优化一个博客网站（三）：按标签分类。

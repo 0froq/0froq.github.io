@@ -1,15 +1,7 @@
 ---
 title: '需要时间'
-category: 代序
-head:
-  - - meta
-    - name: description
-      content: 试考完了，时间快来了。
-  - - meta
-    - name: keywords
-      content: 闲聊 个人
 created: 2023-06-21 16:00
-last_modified: 2025-01-08 07:51
+last_modified: 2026-01-30 11:52:28
 ---
 
 试考完了，时间快来了。

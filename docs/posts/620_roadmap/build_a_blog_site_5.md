@@ -1,16 +1,8 @@
 ---
 title: "从零开始搭建博客网站（五）"
-category: 共讀
 series: blog_site
-head:
-  - - meta
-    - name: description
-      content: 从零开始搭建博客网站（五）：文章列表。
-  - - meta
-    - name: keywords
-      content: 博客网站 个人网站 博客 vitepress vue vite unocss github_pages typescript
 created: 2025-02-06 22:18
-last_modified: 2025-02-07 02:04
+last_modified: 2026-01-30 11:53:47
 ---
 
 从零开始搭建博客网站（五）：文章列表。

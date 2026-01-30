@@ -1,16 +1,8 @@
 ---
 title: "从零开始搭建博客网站（二）"
-category: 共讀
 series: blog_site
-head:
-  - - meta
-    - name: description
-      content: 从零开始搭建博客网站（二）：开发环境、`.gitignore` 与黑暗模式。
-  - - meta
-    - name: keywords
-      content: 博客网站 个人网站 博客 vitepress vue vite unocss github_pages typescript
 created: 2025-01-14 20:21
-last_modified: 2025-01-20 04:12
+last_modified: 2026-01-30 11:53:27
 ---
 
 从零开始搭建博客网站（二）：开发环境、`.gitignore` 与黑暗模式。
@@ -54,7 +46,7 @@ last_modified: 2025-01-20 04:12
 注意，
 如果您的系统或浏览器处于黑暗模式，
 下面这张图可能会亮瞎您的眼睛。
-（虽然这个提醒可能有点晚了，ごめん :face_holding_back_tears: ）
+（虽然这个提醒可能有点晚了，ごめん 🥺 ）
 
 ![开发环境中的博客首页](build_a_blog_site_2_assets/ATTCH_20250116013803976.png)
 
@@ -88,7 +80,7 @@ docs/.vitepress/cache/
 在 [文档](https://vitepress.dev/reference/site-config#appearance)
 中我们可以看到 VitePress 支持黑暗模式。
 可以通过更改设备的用户偏好模式（A.K.A. 深色模式、夜间模式、睡觉模式 etc.）来查看效果。
-但是你会发现没有效果 :smile: ，
+但是你会发现没有效果 😄，
 因为我们使用的是自定义主题，
 并没有针对黑暗模式设计样式。
 
@@ -160,7 +152,7 @@ const { site, frontmatter } = useData()
 #### 其中一种实现方式
 
 在 `Layout.vue` 中添加一个「按钮」
-（任意位置都可以，反正以后要改 :joy: ），
+（任意位置都可以，反正以后要改 😄 ），
 并监听 `click` 事件，
 切换 `<html>` 元素的 `dark` 类名：
 
