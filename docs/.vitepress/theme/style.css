@@ -111,14 +111,20 @@ html {
   }
 
   & a:not([href^='#'], [href^='../../tags/']) {
-    --uno: 'relative inline-block text-nowrap';
+    --uno: 'relative inline text-nowrap';
     --uno: 'text-neutral-900 dark:text-neutral-100';
-    /* underline implemented by ::before */
-    --uno: 'before:(content-[""] absolute bottom-0.5em w-full h-px bg-neutral-500)';
-    --uno: 'before:(transition duration-200) after:(transition duration-200)';
+    --uno: 'border-b border-dashed border-neutral-500';
+    --uno: 'hover:(border-neutral-800 dark:border-neutral-200 border-solid)';
+    --uno: 'transition duration-200';
+
     /* link icon */
-    --uno: 'after:(content-[""] i-ph-link-simple-horizontal-duotone inline-block align-middle ml-1 text-sky-400 dark:text-sky-600)';
-    --uno: 'hover:(before:(bg-sky-400 dark:bg-sky-600))';
+    /* --uno: 'after:(content-[""] i-ph-link-simple-horizontal-duotone inline-block ml-1 text-sky-400 dark:text-sky-600)'; */
+    /* --uno: 'hover:(before:(bg-sky-400 dark:bg-sky-600))'; */
+
+    &:not([target='_blank']) {
+      --uno: 'after:(content-[""] i-solar-document-bold-duotone inline-block ml-1 align-sub text-emerald-400 dark:text-emerald-600)';
+      --uno: 'hover:(before:(bg-emerald-400 dark:bg-emerald-600))';
+    }
   }
 
   /* underline */
@@ -132,10 +138,11 @@ html {
   /* inline code */
   & :not(pre) > code,
   & > code {
-    --uno: 'px-1';
+    --uno: 'font-mono';
+    --uno: 'px-1 py-0.5';
     --uno: 'bg-teal-200/20 dark:bg-teal-800/20';
     --uno: 'text-teal-600 dark:text-teal-400';
-    --uno: 'text-0.8em';
+    --uno: 'text-0.9em';
     --uno: 'rounded-sm';
   }
 
@@ -164,6 +171,7 @@ html {
 
       /* code wrapper */
       & code {
+        --uno: 'font-mono';
         --uno: 'px-8 block min-w-full w-fit';
 
         /* highlight color for each span */
@@ -354,9 +362,12 @@ html {
     --uno: 'before:opacity-50';
 
     /* container colors */
-    &.note,
-    &.info,
     &.details {
+      --uno: 'my-4 px-0';
+    }
+
+    &.note,
+    &.info {
       --uno: 'bg-neutral-100/80 dark:bg-neutral-900/80';
       --uno: 'border-(~ neutral-500/50)';
 
@@ -396,7 +407,7 @@ html {
     & .custom-block-title,
     & summary {
       --uno: 'my-8';
-      --uno: 'text-2xl';
+      --uno: 'text-lg';
       --uno: 'text-neutral-800 dark:text-neutral-200';
     }
 
@@ -408,10 +419,6 @@ html {
 
     &.info {
       --uno: 'before:layer-components:(i-ph-info-duotone)';
-    }
-
-    &.details {
-      --uno: 'before:layer-components:(i-ph-article-duotone)';
     }
 
     &.warning {
@@ -427,7 +434,7 @@ html {
     }
 
     &.caution {
-      --uno: 'before:layer-compoents:(i-ph-siren-duotone)';
+      --uno: 'before:layer-components:(i-ph-siren-duotone)';
     }
 
     &.danger {
@@ -504,10 +511,13 @@ html {
   & a .tag {
     --uno: 'relative';
     --uno: 'px-1';
-    --uno: 'after:(content-empty bg-neutral-200 dark:bg-neutral-800 w-full h-2px absolute bottom-0 left-0 z-0)';
-    --uno: 'before:(content-empty bg-sky-400 dark:bg-sky-600 w-0 h-2px absolute bottom-0 left-0 z-1 transition-width)';
+    /* --uno: 'after:(content-empty bg-neutral-200 dark:bg-neutral-800 w-full h-2px absolute bottom-0 left-0 z-0)'; */
+    /* --uno: 'before:(content-empty bg-sky-400 dark:bg-sky-600 w-0 h-2px absolute bottom-0 left-0 z-1 transition-width)'; */
     --uno: 'hover:(before:w-full)';
     --uno: 'z-0';
+    --uno: 'underline-(~ px neutral-500)';
+    --uno: 'transition duration-200';
+    --uno: 'hover:underline-neutral-800 dark:hover:underline-neutral-200';
   }
 
   /* img */

@@ -6,74 +6,39 @@ import DashboardWeekQuadrant from './DashboardWeekQuadrant.vue'
 import DashboardYear from './DashboardYear.vue'
 import LinkUnderline from './LinkUnderline.vue'
 import ProgressBarHeader from './ProgressBarHeader.vue'
-
-const route = useRoute()
 </script>
 
 <template>
   <un-page-content>
-    <LinkUnderline
-      href="/"
-      text="> cd ../"
-      un-inline-block
-      un-text-sm
-      un-font-mono
-      un-text="neutral-600 dark:neutral-400"
-      un-before="h-px bg-neutral-950 dark:bg-neutral-50"
-    />
+    <DashboardWeekQuadrant />
+    <DashboardBacklog />
+
     <div
       un-flex="~ row wrap"
       un-gap-2
     >
       <LinkUnderline
-        v-for="({ label, url }) in [
-          { label: 'Corpus', url: 'corpus/' },
-          { label: 'Posts', url: 'posts/' },
-          { label: 'Dashboard', url: 'dashboard/' },
+        v-for="link in [
+          {
+            label: '看看往期',
+            url: 'https://github.com/0froq/0froq.github.io/tree/main/docs/dashboard/weeks',
+          },
+          {
+            label: '我想……',
+            url: 'intents/',
+          },
+          {
+            label: '需要遵守……',
+            url: 'guidance/',
+          },
         ]"
-        :key="url"
-        :href="`/${url}`"
-        :text="label"
+        :key="link.url"
+        :href="link.url"
+        :text="link.label"
         un-inline-block
         un-text-sm
         un-text="neutral-600 dark:neutral-400"
         un-before="h-px bg-neutral-950 dark:bg-neutral-50"
-        :data-current="route.path.endsWith(url) ? 'true' : ''"
-      />
-    </div>
-    <DashboardWeekQuadrant />
-    <DashboardBacklog />
-
-    <div
-      un-flex="~ row"
-      un-gap-4
-    >
-      <LinkUnderline
-        href="https://github.com/0froq/0froq.github.io/tree/main/docs/dashboard/weeks"
-        text="探索往期"
-        un-block
-        un-mt-4
-        un-text-sm
-        un-text="neutral-600 dark:neutral-400"
-        un-before="h-px bg-teal-400 dark:bg-teal-600"
-      />
-      <LinkUnderline
-        href="intents/"
-        text="我想……"
-        un-block
-        un-mt-4
-        un-text-sm
-        un-text="neutral-600 dark:neutral-400"
-        un-before="h-px bg-teal-400 dark:bg-teal-600"
-      />
-      <LinkUnderline
-        href="guidance/"
-        text="需要遵守……"
-        un-block
-        un-mt-4
-        un-text-sm
-        un-text="neutral-600 dark:neutral-400"
-        un-before="h-px bg-teal-400 dark:bg-teal-600"
       />
     </div>
   </un-page-content>

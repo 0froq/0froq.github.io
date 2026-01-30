@@ -3,7 +3,7 @@ corpus: true
 locale: zh
 ---
 
-Corpus{.font-stylish} 是什么？
+::: details Corpus{.font-stylish} 是什么？
 
 [一个观察知识如何生长、腐烂、重组的地方]{.text-rose-600.dark:text-rose-400.underline}。
 
@@ -17,15 +17,17 @@ Corpus 不是中性的「知识库」。
 真正出现在 [posts](/posts/){.font-script} 里的，只是这些培养皿里偶尔长出的、
 勉强可供展览的一小部分。
 
+:::
+
 ---
 
 ## 六个切片
 
-- [<ruby><rb>Autopsia</rb><rt>dissection</rt></ruby>](000_autopsia/)：自我反思与内省
-- [<ruby><rb>Ingesta</rb><rt>intake</rt></ruby>](100_ingesta/)：摄入，未经评判的原始信息
-- [<ruby><rb>Neo</rb><rt>new</rt></ruby><ruby><rb>plasma</rb><rt>growth</rt></ruby>](200_neoplasma/)：内化后的思考碎片
-- [<ruby><rb>Putredo</rb><rt>decay</rt></ruby>](300_putredo/)：实践与试验的记录
-- [Delirium](400_delirium/)：审美与非理性
-- [Vigil](500_vigil/)：存在的证明
+- <ruby><rb>Autopsia</rb><rt>dissection</rt></ruby>：自我反思与内省
+- <ruby><rb>Ingesta</rb><rt>intake</rt></ruby>：摄入，未经评判的原始信息
+- <ruby><rb>Neoplasma</rb><rt>new growth</rt></ruby>：内化后的思考碎片
+- <ruby><rb>Putredo</rb><rt>decay</rt></ruby>：实践与试验的记录
+- Delirium：审美与非理性
+- Vigil：存在的证明
 
 进去看看。

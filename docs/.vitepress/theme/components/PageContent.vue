@@ -5,6 +5,7 @@ import HomeCorpusLayer from './HomeCorpusLayer.vue'
 import HomeDashboard from './HomeDashboard.vue'
 import HomeGlobal from './HomeGlobal.vue'
 import HomePosts from './HomePosts.vue'
+import PageContentNav from './PageContentNav.vue'
 import PageContentNotFound from './PageContentNotFound.vue'
 import PageContentPost from './PageContentPost.vue'
 import PageContentTag from './PageContentTag.vue'
@@ -16,6 +17,9 @@ const route = useRoute()
 </script>
 
 <template>
+  <un-page-content>
+    <PageContentNav />
+  </un-page-content>
   <HomeGlobal v-if="['/', '/en/'].includes(route.path)" />
   <HomeCorpus
     v-else-if="['/corpus/', '/corpus/en/'].includes(route.path)"

@@ -110,7 +110,7 @@ const hoveringLayer = ref<string | null>(null)
 [data-layer='posts'] {
   --uno: 'text-emerald-600 dark:text-emerald-400';
   & > .icon {
-    --uno: 'i-solar-chat-line-bold-duotone';
+    --uno: 'i-solar-documents-bold-duotone';
   }
   &.label {
     --uno: 'font-script';

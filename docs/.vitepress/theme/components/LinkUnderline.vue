@@ -112,16 +112,16 @@ onMounted(() => {
   </div>
   <div
     v-else
-    un-after="content-empty bg-neutral-400 dark:bg-neutral-600 w-full h-1px absolute bottom-0 left-0 z-0"
+    un-after="content-empty bg-neutral-400 dark:bg-neutral-600 w-full h-1px absolute bottom-0.5 left-0 z-0"
     un-inline-block
     un-duration-400
     un-relative
     un-min-w-0
-    un-px-2
+    un-mx-1
     un-before-w-0
-    un-before-h-3px
+    un-before-h-2px
     un-before-left-0
-    un-before-bottom-0
+    un-before-bottom="0.5"
     un-before-z-1
     un-before-rounded-none
     un-before-absolute
