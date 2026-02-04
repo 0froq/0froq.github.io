@@ -3,6 +3,10 @@ corpus: true
 locale: zh
 ---
 
+进去看看。
+
+---
+
 ::: details Corpus{.font-stylish} 是什么？
 
 [一个观察知识如何生长、腐烂、重组的地方]{.text-rose-600.dark:text-rose-400.underline}。
@@ -17,10 +21,6 @@ Corpus 不是中性的「知识库」。
 真正出现在 [posts](/posts/){.font-script} 里的，只是这些培养皿里偶尔长出的、
 勉强可供展览的一小部分。
 
-:::
-
----
-
 ## 六个切片
 
 - <ruby><rb>Autopsia</rb><rt>dissection</rt></ruby>：自我反思与内省
@@ -30,4 +30,5 @@ Corpus 不是中性的「知识库」。
 - Delirium：审美与非理性
 - Vigil：存在的证明
 
-进去看看。
+:::
+

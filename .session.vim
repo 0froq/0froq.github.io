@@ -13,7 +13,7 @@ if &shortmess =~ 'A'
 else
   set shortmess=aoO
 endif
-badd +41 docs/dashboard/weeks/2026-01-26.yml
+badd +63 docs/dashboard/weeks/2026-01-26.yml
 badd +11 docs/.vitepress/theme/src/dashboard.data.ts
 badd +23 docs/.vitepress/theme/components/DashboardWeekQuadrant.vue
 badd +19 docs/.vitepress/theme/components/DashboardYear.vue
@@ -23,21 +23,27 @@ badd +12 docs/.vitepress/theme/src/hint.data.ts
 badd +24 docs/dashboard/hint.yml
 badd +3 docs/dashboard/intents/index.md
 badd +3 docs/dashboard/index.md
-badd +28 docs/.vitepress/theme/components/PageContent.vue
+badd +22 docs/.vitepress/theme/components/PageContent.vue
 badd +46 docs/.vitepress/theme/components/HomeCorpusLayer.vue
-badd +18 docs/corpus/index.md
+badd +10 docs/corpus/index.md
 badd +94 docs/.vitepress/theme/components/NavDoing.vue
 badd +107 docs/.vitepress/theme/components/PageHeader.vue
 badd +79 docs/.vitepress/theme/style.css
-badd +17 docs/.vitepress/theme/components/HomeCorpus.vue
+badd +44 docs/.vitepress/theme/components/HomeCorpus.vue
 badd +174 docs/.vitepress/theme/components/PageContentTag.vue
 badd +36 docs/.vitepress/theme/components/PostListSection.vue
 badd +132 docs/.vitepress/theme/components/HomePosts.vue
 badd +15 docs/tags/\[tag].paths.ts
-badd +77 docs/.vitepress/theme/components/HomeDashboard.vue
+badd +78 docs/.vitepress/theme/components/HomeDashboard.vue
+badd +2 docs/corpus/400_delirium/del_20251015.md
+badd +101 docs/.vitepress/theme/components/PageContentPost.vue
+badd +14 docs/dashboard/backlog/2026-02.yml
+badd +12 docs/.vitepress/theme/src/backlog.data.ts
+badd +18 docs/.vitepress/theme/components/DashboardBacklog.vue
+badd +9 .snippets/yaml.json
 argglobal
 %argdel
-edit docs/.vitepress/theme/components/HomeDashboard.vue
+edit docs/dashboard/backlog/2026-02.yml
 let s:save_splitbelow = &splitbelow
 let s:save_splitright = &splitright
 set splitbelow splitright
@@ -56,6 +62,7 @@ set winminwidth=0
 set winwidth=1
 wincmd =
 argglobal
+balt .snippets/yaml.json
 setlocal foldmethod=expr
 setlocal foldexpr=v:lua.vim.treesitter.foldexpr()
 setlocal foldmarker={{{,}}}
@@ -64,22 +71,19 @@ setlocal foldlevel=99
 setlocal foldminlines=1
 setlocal foldnestmax=20
 setlocal foldenable
-13
-sil! normal! zo
-14
-sil! normal! zo
-let s:l = 77 - ((21 * winheight(0) + 16) / 32)
+let s:l = 14 - ((12 * winheight(0) + 9) / 19)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 77
-normal! 08|
+keepjumps 14
+normal! 02|
 wincmd w
 argglobal
 if bufexists(fnamemodify("docs/.vitepress/theme/components/PageContent.vue", ":p")) | buffer docs/.vitepress/theme/components/PageContent.vue | else | edit docs/.vitepress/theme/components/PageContent.vue | endif
 if &buftype ==# 'terminal'
   silent file docs/.vitepress/theme/components/PageContent.vue
 endif
+balt docs/.vitepress/theme/components/HomeDashboard.vue
 setlocal foldmethod=expr
 setlocal foldexpr=v:lua.vim.treesitter.foldexpr()
 setlocal foldmarker={{{,}}}
@@ -88,15 +92,13 @@ setlocal foldlevel=99
 setlocal foldminlines=1
 setlocal foldnestmax=20
 setlocal foldenable
-1
+19
 sil! normal! zo
-18
-sil! normal! zo
-let s:l = 22 - ((21 * winheight(0) + 16) / 32)
+let s:l = 21 - ((8 * winheight(0) + 9) / 19)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 22
+keepjumps 21
 normal! 04|
 wincmd w
 wincmd =

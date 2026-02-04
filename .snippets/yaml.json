@@ -1,0 +1,14 @@
+{
+  "backlog": {
+    "prefix": "..backlog",
+    "body": [
+      "- title: ${1:Title}",
+      "  dod: ${2:Def of Done}",
+      "  status: ${3|not-planed,arranging,deffered|}",
+      "  due: ${4:Due}",
+      "  links: ${5:Links}",
+      "    - label: ${6:Label}",
+      "      url: ${7:URL}"
+    ]
+  }
+}
