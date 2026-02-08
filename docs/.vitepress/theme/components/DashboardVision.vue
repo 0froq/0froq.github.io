@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { data as visionData } from '../src/vision.data'
 import LinkUnderline from './LinkUnderline.vue'
-import ProgressBarHeader from './ProgressBarHeader.vue'
 
 const visions = visionData
 </script>

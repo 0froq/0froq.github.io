@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { data as yearData } from '../src/year.data'
 import LinkUnderline from './LinkUnderline.vue'
-import ProgressBarHeader from './ProgressBarHeader.vue'
 
 const years = yearData
 </script>

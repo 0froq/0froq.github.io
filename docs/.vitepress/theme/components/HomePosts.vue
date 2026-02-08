@@ -48,36 +48,7 @@ const categories: string[] = ['log', 'roadmap', 'collection']
 </script>
 
 <template>
-  <un-page-content>
-    <!-- <LinkUnderline -->
-    <!--   href="/" -->
-    <!--   text="> cd ../" -->
-    <!--   un-inline-block -->
-    <!--   un-text-sm -->
-    <!--   un-font-mono -->
-    <!--   un-text="neutral-600 dark:neutral-400" -->
-    <!--   un-before="h-px bg-neutral-950 dark:bg-neutral-50" -->
-    <!-- /> -->
-    <!-- <div -->
-    <!--   un-flex="~ row wrap" -->
-    <!--   un-gap-2 -->
-    <!-- > -->
-    <!--   <LinkUnderline -->
-    <!--     v-for="({ label, url }) in [ -->
-    <!--       { label: 'Corpus', url: 'corpus/' }, -->
-    <!--       { label: 'Posts', url: 'posts/' }, -->
-    <!--       { label: 'Dashboard', url: 'dashboard/' }, -->
-    <!--     ]" -->
-    <!--     :key="url" -->
-    <!--     :href="`/${url}`" -->
-    <!--     :text="label" -->
-    <!--     un-inline-block -->
-    <!--     un-text-sm -->
-    <!--     un-text="neutral-600 dark:neutral-400" -->
-    <!--     un-before="h-px bg-neutral-950 dark:bg-neutral-50" -->
-    <!--     :data-current="route.path.endsWith(url) ? 'true' : ''" -->
-    <!--   /> -->
-    <!-- </div> -->
+  <div>
     <ProgressBarHeader
       :title="t('posts')"
       un-mb-8
@@ -88,18 +59,9 @@ const categories: string[] = ['log', 'roadmap', 'collection']
       un-text="base/10"
       class="markdown-rendered"
     />
-  </un-page-content>
-  <un-page-content
-    :key="$i18n.locale"
-  >
-    <!-- <ProgressBarHeader -->
-    <!--   :id="t('toc')" -->
-    <!--   :key="$i18n.locale" -->
-    <!--   :title="t('toc')" -->
-    <!-- /> -->
     <div
       v-for="category in categories"
-      :key="category"
+      :key="`${category}-${$i18n.locale}`"
       un-even="pl-10"
       un-my-10
       un-mx-20
@@ -116,33 +78,29 @@ const categories: string[] = ['log', 'roadmap', 'collection']
         :tooltip-text="t(`intros.${category}`) || ''"
       />
     </div>
-  </un-page-content>
+  </div>
 
   <ClientOnly>
-    <PostListSection
+    <div
       v-for="category in categories"
       :key="category"
-      :show-excerpt-toggle="true"
-      :posts="posts.filter(post => {
-        return post.url.split('/').slice(0, -1).join('/').endsWith(`${category}`)
-      })"
-      :title="t(`categories.${category}`)"
-      :group-by-year="true"
-      :year-formatter="$i18n.locale === 'zh' ? toChineseNumber : (year: string) => year"
-      :intro="t(`intros.${category}`)"
-      :date-formatter="(date: Date) => {
-        return new Date(date).toLocaleDateString($i18n.locale === 'zh' ? 'zh-CN' : 'en-US', {
-          month: 'long',
-          day: 'numeric',
-        })
-      }"
-    />
+    >
+      <PostListSection
+        :show-excerpt-toggle="true"
+        :posts="posts.filter(post => {
+          return post.url.split('/').slice(0, -1).join('/').endsWith(`${category}`)
+        })"
+        :title="t(`categories.${category}`)"
+        :group-by-year="true"
+        :year-formatter="$i18n.locale === 'zh' ? toChineseNumber : (year: string) => year"
+        :intro="t(`intros.${category}`)"
+        :date-formatter="(date: Date) => {
+          return new Date(date).toLocaleDateString($i18n.locale === 'zh' ? 'zh-CN' : 'en-US', {
+            month: 'long',
+            day: 'numeric',
+          })
+        }"
+      />
+    </div>
   </ClientOnly>
 </template>
-
-<style scoped>
-[data-current='true'] {
-  --uno: 'text-neutral-950 dark:text-neutral-50 font-semibold';
-  --uno: 'before:(w-full bg-neutral-950 dark:bg-neutral-50)';
-}
-</style>

@@ -1,0 +1,206 @@
+[
+  {
+    "name": "absurdism",
+    "fullPath": "absurdism",
+    "children": []
+  },
+  {
+    "name": "camus",
+    "fullPath": "camus",
+    "children": []
+  },
+  {
+    "name": "cioran",
+    "fullPath": "cioran",
+    "children": []
+  },
+  {
+    "name": "consciousness",
+    "fullPath": "consciousness",
+    "children": []
+  },
+  {
+    "name": "diary",
+    "fullPath": "diary",
+    "children": []
+  },
+  {
+    "name": "explore",
+    "fullPath": "explore",
+    "children": [
+      {
+        "name": "mathjax",
+        "fullPath": "explore/mathjax",
+        "children": []
+      }
+    ]
+  },
+  {
+    "name": "feminism",
+    "fullPath": "feminism",
+    "children": []
+  },
+  {
+    "name": "language",
+    "fullPath": "language",
+    "children": [
+      {
+        "name": "mathjax",
+        "fullPath": "language/mathjax",
+        "children": []
+      }
+    ]
+  },
+  {
+    "name": "log",
+    "fullPath": "log",
+    "children": [
+      {
+        "name": "dev",
+        "fullPath": "log/dev",
+        "children": []
+      },
+      {
+        "name": "life",
+        "fullPath": "log/life",
+        "children": []
+      }
+    ]
+  },
+  {
+    "name": "meta",
+    "fullPath": "meta",
+    "children": []
+  },
+  {
+    "name": "modernism",
+    "fullPath": "modernism",
+    "children": []
+  },
+  {
+    "name": "psychoanalysis",
+    "fullPath": "psychoanalysis",
+    "children": []
+  },
+  {
+    "name": "quotation",
+    "fullPath": "quotation",
+    "children": [
+      {
+        "name": "novel",
+        "fullPath": "quotation/novel",
+        "children": []
+      },
+      {
+        "name": "prose",
+        "fullPath": "quotation/prose",
+        "children": []
+      },
+      {
+        "name": "theory",
+        "fullPath": "quotation/theory",
+        "children": []
+      }
+    ]
+  },
+  {
+    "name": "roadmap",
+    "fullPath": "roadmap",
+    "children": [
+      {
+        "name": "blog_site",
+        "fullPath": "roadmap/blog_site",
+        "children": []
+      }
+    ]
+  },
+  {
+    "name": "scope",
+    "fullPath": "scope",
+    "children": [
+      {
+        "name": "corpus",
+        "fullPath": "scope/corpus",
+        "children": []
+      },
+      {
+        "name": "development",
+        "fullPath": "scope/development",
+        "children": []
+      },
+      {
+        "name": "nvim",
+        "fullPath": "scope/nvim",
+        "children": []
+      },
+      {
+        "name": "personal",
+        "fullPath": "scope/personal",
+        "children": []
+      },
+      {
+        "name": "research",
+        "fullPath": "scope/research",
+        "children": []
+      },
+      {
+        "name": "workflow",
+        "fullPath": "scope/workflow",
+        "children": []
+      }
+    ]
+  },
+  {
+    "name": "source",
+    "fullPath": "source",
+    "children": [
+      {
+        "name": "blog",
+        "fullPath": "source/blog",
+        "children": []
+      },
+      {
+        "name": "paper",
+        "fullPath": "source/paper",
+        "children": []
+      }
+    ]
+  },
+  {
+    "name": "symbol",
+    "fullPath": "symbol",
+    "children": [
+      {
+        "name": "greek",
+        "fullPath": "symbol/greek",
+        "children": []
+      }
+    ]
+  },
+  {
+    "name": "type",
+    "fullPath": "type",
+    "children": [
+      {
+        "name": "log",
+        "fullPath": "type/log",
+        "children": []
+      },
+      {
+        "name": "observation",
+        "fullPath": "type/observation",
+        "children": []
+      },
+      {
+        "name": "practical",
+        "fullPath": "type/practical",
+        "children": []
+      },
+      {
+        "name": "reflection",
+        "fullPath": "type/reflection",
+        "children": []
+      }
+    ]
+  }
+]

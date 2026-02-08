@@ -80,9 +80,8 @@ watchEffect(() => {
     <h2
       un-my-4
       un-text-4xl
-    >
-      {{ title !== '-' ? title : '' }}
-    </h2>
+      v-html="title !== '-' ? title : ''"
+    />
     <div
       v-if="intro"
       un-text="neutral-600 dark:neutral-400"

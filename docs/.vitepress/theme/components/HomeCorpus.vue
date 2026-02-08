@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import { useRoute } from 'vitepress'
 import LinkUnderline from './LinkUnderline.vue'
 
 const layers = [
@@ -37,30 +36,28 @@ const layers = [
 </script>
 
 <template>
-  <un-page-content>
-    <div
-      un-flex="~ row wrap"
-      un-gap-2
-      un-my-4
-    >
-      <LinkUnderline
-        v-for="layer in layers"
-        :key="layer.url"
-        :href="`/corpus/${layer.url}`"
-        :text="layer.label"
-        :tooltip="true"
-        :tooltip-text="layer.tooltip"
-        un-inline-block
-        un-text-sm
-        un-text="neutral-600 dark:neutral-400"
-        un-before="h-px bg-neutral-950 dark:bg-neutral-50"
-      />
-    </div>
-    <Content
-      class="markdown-rendered"
-      un-text="base/10"
+  <div
+    un-flex="~ row wrap"
+    un-gap-2
+    un-my-4
+  >
+    <LinkUnderline
+      v-for="layer in layers"
+      :key="layer.url"
+      :href="`/corpus/${layer.url}`"
+      :text="layer.label"
+      :tooltip="true"
+      :tooltip-text="layer.tooltip"
+      un-inline-block
+      un-text-sm
+      un-text="neutral-600 dark:neutral-400"
+      un-before="h-px bg-neutral-950 dark:bg-neutral-50"
     />
-  </un-page-content>
+  </div>
+  <Content
+    class="markdown-rendered"
+    un-text="base/10"
+  />
 </template>
 
 <style scoped>

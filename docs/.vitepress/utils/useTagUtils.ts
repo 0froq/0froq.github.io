@@ -1,6 +1,9 @@
 import { useData } from 'vitepress'
 import { computed } from 'vue'
+import { data as corpus } from '../theme/src/corpus.data'
 import { data as posts } from '../theme/src/posts.data'
+
+const articles = [...corpus, ...posts]
 
 /**
  * Provides utility functions and computed properties for tag-related logic.
@@ -26,7 +29,7 @@ export function useTagUtils() {
    * Computes all unique extended tags from all posts, sorted alphabetically.
    */
   const allUniqueExtendedTags = computed(() => {
-    return [...new Set(posts.map(post => post.tagsExtended).flat())].sort()
+    return [...new Set(articles.map(post => post.tagsExtended).flat())].sort()
   })
 
   /**

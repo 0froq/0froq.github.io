@@ -1,0 +1,102 @@
+<script setup lang="ts">
+import { useData } from 'vitepress'
+import { computed, ref } from 'vue'
+import { data as corpus } from '../src/corpus.data'
+import { data as posts } from '../src/posts.data'
+import LinkUnderline from './LinkUnderline.vue'
+import ProgressBarHeader from './ProgressBarHeader.vue'
+import TagDisplay from './TagDisplay.vue'
+import TooltipPostInfo from './TooltipPostInfo.vue'
+
+const { params } = useData()
+
+// Combine corpus and posts data
+// Add a 'source' field to distinguish between corpus and posts
+const articles = [
+  ...corpus.map(item => ({ ...item, source: 'corpus' })),
+  ...posts.map(item => ({ ...item, source: 'posts' })),
+]
+
+const postsInCurrentTag = computed(() => {
+  return articles.filter(post =>
+    post.tags.includes(params.value?.tag),
+  )
+})
+
+const postsInExtendedTags = computed(() => {
+  return articles.filter(post =>
+    post.tagsExtended?.some(tag => tag === params.value?.tag && !post.tags.includes(params.value?.tag)),
+  )
+})
+</script>
+
+<template>
+  <TagDisplay />
+  <div
+    v-for="_posts in [
+      {
+        label: '在此',
+        desc: `包含标签 <span un-text-neutral-500>${params?.tag}</span> 的文章`,
+        posts: postsInCurrentTag,
+      },
+      {
+        label: '更深处',
+        desc: `<span un-text-neutral-500>${params?.tag}</span> 更下级标签的文章`,
+        posts: postsInExtendedTags,
+      },
+    ]"
+    :key="_posts.label"
+    un-mt-8
+  >
+    <ProgressBarHeader
+      :title="_posts.label"
+      :intro="_posts.desc"
+      un-mb-8
+    />
+    <div
+      v-for="post in _posts.posts"
+      :key="post.url"
+      un-gap-2
+      un-flex="~ row"
+      un-items-baseline
+      un-text-ellipsis
+    >
+      <span
+        v-if="post.source === 'corpus'"
+        un-text="rose-600 dark:rose-400"
+        un-font-mono
+        un-px-1
+      >C
+      </span>
+      <span
+        v-else
+        un-text="emerald-600 dark:emerald-400"
+        un-font-mono
+        un-px-1
+      >P
+      </span>
+      <LinkUnderline
+        :vanilla="true"
+        :href="post.url"
+        :text="post.title"
+        :tooltip="true"
+        :tooltip-text="post.frontmatter.title"
+        un-min-w-0
+      >
+        <template #tooltipAddons>
+          <TooltipPostInfo :post="post" />
+        </template>
+      </LinkUnderline>
+      <div
+        un-text="neutral-500 dark:neutral-400 xs"
+        un-whitespace-nowrap
+      >
+        {{ new Date(post.created).toLocaleDateString('zh-CN', {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric',
+        }) }}
+      </div>
+    </div>
+  </div>
+</template>

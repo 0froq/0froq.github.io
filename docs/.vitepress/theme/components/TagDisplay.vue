@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { onClickOutside } from '@vueuse/core'
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import { useTagUtils } from '../../utils/useTagUtils'
 import LinkUnderline from './LinkUnderline.vue'
 
@@ -12,6 +12,8 @@ const extendedTagsRef = ref<HTMLElement | null>(null)
 onClickOutside(extendedTagsRef as any, () => {
   showExtendedTags.value = false
 })
+
+console.warn(currentTagHierarchy.value, extendedTagsForCurrentTag.value)
 </script>
 
 <template>

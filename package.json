@@ -2,9 +2,9 @@
   "type": "module",
   "packageManager": "pnpm@10.28.2",
   "scripts": {
-    "docs:dev": "vitepress dev docs",
-    "docs:build": "vitepress build docs",
-    "docs:preview": "vitepress preview docs"
+    "docs:dev": "node scripts/generate-tags.mjs && vitepress dev docs",
+    "docs:build": "node scripts/generate-tags.mjs && vitepress build docs",
+    "docs:preview": "node scripts/generate-tags.mjs && vitepress preview docs"
   },
   "dependencies": {
     "@intlify/unplugin-vue-i18n": "catalog:vitepress",

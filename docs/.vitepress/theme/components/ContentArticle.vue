@@ -4,7 +4,6 @@ import { computed } from 'vue'
 import { renderMdInline } from '../../utils/renderMdInline'
 import { data as corpus } from '../src/corpus.data'
 import { data as posts } from '../src/posts.data'
-import PostMetaInfo from './PostMetaInfo.vue'
 import PostNavigation from './PostNavigation.vue'
 import ProgressBarHeader from './ProgressBarHeader.vue'
 
@@ -92,47 +91,36 @@ const prevPost = computed(() => {
 </script>
 
 <template>
-  <un-page-content>
-    <ProgressBarHeader
-      v-if="post?.frontmatter.title"
-      :id="post?.frontmatter.title"
-      :title="post?.frontmatter.title || ''"
-    />
-    <!-- <div -->
-    <!--   un-text="5xl/relaxed" -->
-    <!--   un-max-w-full -->
-    <!--   un-my-10 -->
-    <!--   class="markdown-rendered text-2xl" -->
-    <!--   v-html="post?.frontmatter.title ? renderMdInline(post.frontmatter.title) : ''" -->
-    <!-- /> -->
-    <!-- Display post meta information (e.g., date, reading time) -->
-    <!-- <PostMetaInfo :meta-strings="metaStrings" /> -->
+  <ProgressBarHeader
+    v-if="post?.frontmatter.title"
+    :id="post?.frontmatter.title"
+    :title="renderMdInline(post?.frontmatter.title) || ''"
+  />
+  <div
+    un-flex="~ row"
+    un-justify-end
+    un-mt-4
+    un-gap-4
+    un-text-neutral-500
+  >
     <div
-      un-flex="~ row"
-      un-justify-end
-      un-mt-4
-      un-gap-4
-      un-text-neutral-500
+      v-for="string, i in metaStrings"
+      :key="i"
     >
-      <div
-        v-for="string, i in metaStrings"
-        :key="i"
-      >
-        {{ string }}
-      </div>
+      {{ string }}
     </div>
-    <!-- Main content slot for the post -->
+  </div>
+  <!-- Main content slot for the post -->
 
-    <Content
-      id="content"
-      data-allow-mismatch
-      :class="frontmatter.unstyled ? 'unstyled' : ''"
-    />
+  <Content
+    id="content"
+    data-allow-mismatch
+    :class="frontmatter.unstyled ? 'unstyled' : ''"
+  />
 
-    <!-- Post navigation links (previous and next post) -->
-    <PostNavigation
-      :prev-post="prevPost || null"
-      :next-post="nextPost || null"
-    />
-  </un-page-content>
+  <!-- Post navigation links (previous and next post) -->
+  <PostNavigation
+    :prev-post="prevPost || null"
+    :next-post="nextPost || null"
+  />
 </template>

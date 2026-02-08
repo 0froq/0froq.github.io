@@ -5,6 +5,10 @@ import ProgressBarHeader from './ProgressBarHeader.vue'
 </script>
 
 <template>
+  <ProgressBarHeader
+    id="guidance-header"
+    title="需要遵守……"
+  />
   <section class="section-card">
     <div
       v-for="block in hints.categories"
