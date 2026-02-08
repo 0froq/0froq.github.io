@@ -41,9 +41,11 @@ badd +14 docs/dashboard/backlog/2026-02.yml
 badd +12 docs/.vitepress/theme/src/backlog.data.ts
 badd +18 docs/.vitepress/theme/components/DashboardBacklog.vue
 badd +9 .snippets/yaml.json
+badd +11 .gitignore
+badd +0 .ignore
 argglobal
 %argdel
-edit docs/dashboard/backlog/2026-02.yml
+edit .ignore
 let s:save_splitbelow = &splitbelow
 let s:save_splitright = &splitright
 set splitbelow splitright
@@ -62,7 +64,7 @@ set winminwidth=0
 set winwidth=1
 wincmd =
 argglobal
-balt .snippets/yaml.json
+balt .gitignore
 setlocal foldmethod=expr
 setlocal foldexpr=v:lua.vim.treesitter.foldexpr()
 setlocal foldmarker={{{,}}}
@@ -71,12 +73,12 @@ setlocal foldlevel=99
 setlocal foldminlines=1
 setlocal foldnestmax=20
 setlocal foldenable
-let s:l = 14 - ((12 * winheight(0) + 9) / 19)
+let s:l = 1 - ((0 * winheight(0) + 14) / 28)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 14
-normal! 02|
+keepjumps 1
+normal! 0
 wincmd w
 argglobal
 if bufexists(fnamemodify("docs/.vitepress/theme/components/PageContent.vue", ":p")) | buffer docs/.vitepress/theme/components/PageContent.vue | else | edit docs/.vitepress/theme/components/PageContent.vue | endif
@@ -94,7 +96,7 @@ setlocal foldnestmax=20
 setlocal foldenable
 19
 sil! normal! zo
-let s:l = 21 - ((8 * winheight(0) + 9) / 19)
+let s:l = 21 - ((12 * winheight(0) + 14) / 28)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
