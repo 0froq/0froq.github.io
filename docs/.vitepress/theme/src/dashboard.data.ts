@@ -18,12 +18,11 @@ export interface WeekTask {
 export interface WeekData {
   start: string // YYYY-MM-DD (also the filename)
   end: string // computed: start + 6 days
-  theme?: string
   quadrants: {
     q1: WeekTask[]
     q2: WeekTask[]
-    q3: WeekTask[]
     q4: WeekTask[]
+    q3: WeekTask[]
   }
 }
 
@@ -34,7 +33,6 @@ export interface DashboardData {
   weeks: Array<{
     start: string
     end: string
-    theme?: string
     file: string
   }>
 }
@@ -78,10 +76,9 @@ function safeWeekData(input: Partial<WeekData> & { start?: string }, startFromFi
   return {
     start,
     end,
-    theme: input.theme,
     quadrants: {
-      q2: input.quadrants?.q2 ?? [],
       q1: input.quadrants?.q1 ?? [],
+      q2: input.quadrants?.q2 ?? [],
       q3: input.quadrants?.q3 ?? [],
       q4: input.quadrants?.q4 ?? [],
     },
@@ -114,7 +111,6 @@ export default defineLoader({
         return {
           start: w.start,
           end: w.end,
-          theme: w.theme,
           file: `./weeks/${path.basename(abs)}`,
         }
       })

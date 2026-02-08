@@ -13,39 +13,10 @@ if &shortmess =~ 'A'
 else
   set shortmess=aoO
 endif
-badd +63 docs/dashboard/weeks/2026-01-26.yml
-badd +11 docs/.vitepress/theme/src/dashboard.data.ts
-badd +23 docs/.vitepress/theme/components/DashboardWeekQuadrant.vue
-badd +19 docs/.vitepress/theme/components/DashboardYear.vue
-badd +19 docs/.vitepress/theme/components/DashboardVision.vue
-badd +2 docs/.vitepress/theme/components/DashboardHint.vue
-badd +12 docs/.vitepress/theme/src/hint.data.ts
-badd +24 docs/dashboard/hint.yml
-badd +3 docs/dashboard/intents/index.md
-badd +3 docs/dashboard/index.md
-badd +22 docs/.vitepress/theme/components/PageContent.vue
-badd +46 docs/.vitepress/theme/components/HomeCorpusLayer.vue
-badd +10 docs/corpus/index.md
-badd +94 docs/.vitepress/theme/components/NavDoing.vue
-badd +107 docs/.vitepress/theme/components/PageHeader.vue
-badd +79 docs/.vitepress/theme/style.css
-badd +44 docs/.vitepress/theme/components/HomeCorpus.vue
-badd +174 docs/.vitepress/theme/components/PageContentTag.vue
-badd +36 docs/.vitepress/theme/components/PostListSection.vue
-badd +132 docs/.vitepress/theme/components/HomePosts.vue
-badd +15 docs/tags/\[tag].paths.ts
-badd +78 docs/.vitepress/theme/components/HomeDashboard.vue
-badd +2 docs/corpus/400_delirium/del_20251015.md
-badd +101 docs/.vitepress/theme/components/PageContentPost.vue
-badd +14 docs/dashboard/backlog/2026-02.yml
-badd +12 docs/.vitepress/theme/src/backlog.data.ts
-badd +18 docs/.vitepress/theme/components/DashboardBacklog.vue
-badd +9 .snippets/yaml.json
-badd +11 .gitignore
-badd +1 .ignore
+badd +146 docs/.vitepress/theme/components/DashboardWeekQuadrant.vue
 argglobal
 %argdel
-edit .ignore
+edit docs/.vitepress/theme/components/DashboardWeekQuadrant.vue
 let s:save_splitbelow = &splitbelow
 let s:save_splitright = &splitright
 set splitbelow splitright
@@ -64,7 +35,6 @@ set winminwidth=0
 set winwidth=1
 wincmd =
 argglobal
-balt .gitignore
 setlocal foldmethod=expr
 setlocal foldexpr=v:lua.vim.treesitter.foldexpr()
 setlocal foldmarker={{{,}}}
@@ -73,19 +43,60 @@ setlocal foldlevel=99
 setlocal foldminlines=1
 setlocal foldnestmax=20
 setlocal foldenable
-let s:l = 2 - ((1 * winheight(0) + 14) / 28)
+1
+sil! normal! zo
+22
+sil! normal! zo
+35
+sil! normal! zo
+36
+sil! normal! zo
+42
+sil! normal! zo
+51
+sil! normal! zo
+62
+sil! normal! zo
+79
+sil! normal! zo
+80
+sil! normal! zo
+85
+sil! normal! zo
+93
+sil! normal! zo
+98
+sil! normal! zo
+104
+sil! normal! zo
+106
+sil! normal! zo
+114
+sil! normal! zo
+119
+sil! normal! zo
+104
+sil! normal! zo
+107
+sil! normal! zo
+112
+sil! normal! zo
+120
+sil! normal! zo
+125
+sil! normal! zo
+let s:l = 146 - ((13 * winheight(0) + 14) / 28)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 2
-normal! 011|
+keepjumps 146
+normal! 0
 wincmd w
 argglobal
-if bufexists(fnamemodify("docs/.vitepress/theme/components/PageContent.vue", ":p")) | buffer docs/.vitepress/theme/components/PageContent.vue | else | edit docs/.vitepress/theme/components/PageContent.vue | endif
+if bufexists(fnamemodify("docs/.vitepress/theme/components/DashboardWeekQuadrant.vue", ":p")) | buffer docs/.vitepress/theme/components/DashboardWeekQuadrant.vue | else | edit docs/.vitepress/theme/components/DashboardWeekQuadrant.vue | endif
 if &buftype ==# 'terminal'
-  silent file docs/.vitepress/theme/components/PageContent.vue
+  silent file docs/.vitepress/theme/components/DashboardWeekQuadrant.vue
 endif
-balt docs/.vitepress/theme/components/HomeDashboard.vue
 setlocal foldmethod=expr
 setlocal foldexpr=v:lua.vim.treesitter.foldexpr()
 setlocal foldmarker={{{,}}}
@@ -94,14 +105,54 @@ setlocal foldlevel=99
 setlocal foldminlines=1
 setlocal foldnestmax=20
 setlocal foldenable
-19
+1
 sil! normal! zo
-let s:l = 21 - ((12 * winheight(0) + 14) / 28)
+22
+sil! normal! zo
+35
+sil! normal! zo
+36
+sil! normal! zo
+42
+sil! normal! zo
+51
+sil! normal! zo
+62
+sil! normal! zo
+79
+sil! normal! zo
+80
+sil! normal! zo
+85
+sil! normal! zo
+93
+sil! normal! zo
+98
+sil! normal! zo
+104
+sil! normal! zo
+106
+sil! normal! zo
+114
+sil! normal! zo
+119
+sil! normal! zo
+104
+sil! normal! zo
+107
+sil! normal! zo
+112
+sil! normal! zo
+120
+sil! normal! zo
+125
+sil! normal! zo
+let s:l = 146 - ((13 * winheight(0) + 14) / 28)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 21
-normal! 04|
+keepjumps 146
+normal! 0
 wincmd w
 wincmd =
 tabnext 1
