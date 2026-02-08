@@ -42,7 +42,7 @@ badd +12 docs/.vitepress/theme/src/backlog.data.ts
 badd +18 docs/.vitepress/theme/components/DashboardBacklog.vue
 badd +9 .snippets/yaml.json
 badd +11 .gitignore
-badd +0 .ignore
+badd +1 .ignore
 argglobal
 %argdel
 edit .ignore
@@ -73,12 +73,12 @@ setlocal foldlevel=99
 setlocal foldminlines=1
 setlocal foldnestmax=20
 setlocal foldenable
-let s:l = 1 - ((0 * winheight(0) + 14) / 28)
+let s:l = 2 - ((1 * winheight(0) + 14) / 28)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 1
-normal! 0
+keepjumps 2
+normal! 011|
 wincmd w
 argglobal
 if bufexists(fnamemodify("docs/.vitepress/theme/components/PageContent.vue", ":p")) | buffer docs/.vitepress/theme/components/PageContent.vue | else | edit docs/.vitepress/theme/components/PageContent.vue | endif
