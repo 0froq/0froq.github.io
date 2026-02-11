@@ -4,11 +4,12 @@ import LinkUnderline from './LinkUnderline.vue'
 
 const route = useRoute()
 
-const links = ['/', '/en/', '/corpus/', '/posts/', '/dashboard/'].includes(route.path)
+const links = ['/', '/en/', '/corpus/', '/posts/', '/dashboard/', '/tags/'].includes(route.path)
   ? [
       { label: 'Corpus', url: '/corpus/' },
       { label: 'Posts', url: '/posts/' },
       { label: 'Dashboard', url: '/dashboard/' },
+      { label: 'Tags', url: '/tags/' },
     ]
   : route.path.startsWith('/corpus/')
     ? [
@@ -31,7 +32,9 @@ const homeLink = ['/', '/en/'].includes(route.path)
           ? { label: 'cd ..', url: '/posts/' }
           : route.path.startsWith('/dashboard/')
             ? { label: 'cd ..', url: '/dashboard/' }
-            : null
+            : route.path.startsWith('/tags/')
+              ? { label: 'cd ..', url: '/tags/' }
+              : null
 </script>
 
 <template>

@@ -11,6 +11,7 @@ const layers = [
   'corpus',
   'posts',
   'dashboard',
+  'tags',
 ]
 
 const layerMap: Record<string, {
@@ -29,6 +30,10 @@ const layerMap: Record<string, {
     name: 'Dashboard',
     baseUrl: '/dashboard/',
   },
+  tags: {
+    name: 'Tags',
+    baseUrl: '/tags/',
+  },
 }
 
 const hoveringLayer = ref<string | null>(null)
@@ -45,21 +50,6 @@ const hoveringLayer = ref<string | null>(null)
     un-transition-colors
     un-duration-200
   >
-    <!-- <div -->
-    <!--   :data-hovering="hoveringLayer ? 'true' : ''" -->
-    <!--   :data-layer="layerIndicator" -->
-    <!--   :data-current="hoveringLayer === currentLayer ? 'true' : ''" -->
-    <!--   class="label" -->
-    <!--   un-rounded-md -->
-    <!--   un-text-neutral-500 -->
-    <!--   un-transition-colors -->
-    <!--   un-duration-200 -->
-    <!--   un-hover:transition-colors -->
-    <!--   un-mr-2 -->
-    <!--   un-px-2 -->
-    <!-- > -->
-    <!--   {{ layerMap[layerIndicator]?.name || '' }} -->
-    <!-- </div> -->
     <div
       un-flex="~ row"
     >
@@ -127,6 +117,18 @@ const hoveringLayer = ref<string | null>(null)
     --uno: 'font-mono';
     --uno: 'bg-purple-600/10 dark:bg-purple-400/10';
     /* --uno: 'border border-purple-600/20 dark:border-purple-400/20'; */
+  }
+}
+
+[data-layer='tags'] {
+  --uno: 'text-sky-600 dark:text-sky-400';
+  & > .icon {
+    --uno: 'i-solar-hashtag-chat-bold-duotone';
+  }
+  &.label {
+    --uno: 'font-mono';
+    --uno: 'bg-sky-600/10 dark:bg-sky-400/10';
+    /* --uno: 'border border-sky-600/20 dark:border-sky-400/20'; */
   }
 }
 

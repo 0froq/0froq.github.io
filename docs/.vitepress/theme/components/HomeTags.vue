@@ -47,8 +47,12 @@ const tagTree = computed<TagNode[]>(() => {
 <template>
   <ProgressBarHeader
     title="Tags"
-    intro="所有文章的标签索引（层级展开）。"
+    intro=""
     un-mb-8
+  />
+  <Content
+    class="markdown-rendered"
+    un-text="base/10"
   />
   <div
     v-if="tagTree.length"
@@ -63,7 +67,7 @@ const tagTree = computed<TagNode[]>(() => {
         v-for="node in tagTree"
         :key="node.fullPath"
         :node="node"
-        :default-open="true"
+        :default-open="false"
       />
     </ul>
   </div>
@@ -73,8 +77,4 @@ const tagTree = computed<TagNode[]>(() => {
   >
     没有可用的标签。
   </div>
-  <Content
-    class="markdown-rendered"
-    un-text="base/10"
-  />
 </template>

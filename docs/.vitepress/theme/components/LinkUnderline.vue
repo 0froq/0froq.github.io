@@ -79,6 +79,7 @@ onMounted(() => {
       un-overflow-hidden
       :href="href"
       class="markdown-rendered"
+      v-bind="$attrs"
       v-html="renderMdInline(text)"
     />
     <div

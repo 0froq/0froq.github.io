@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import { useRoute } from 'vitepress'
 import { useI18n } from 'vue-i18n'
-import PageContentNav from './ContentNav.vue'
-import LinkUnderline from './LinkUnderline.vue'
 import ProgressBarHeader from './ProgressBarHeader.vue'
 
 const route = useRoute()

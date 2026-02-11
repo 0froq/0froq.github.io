@@ -43,7 +43,7 @@ const homePaths = [
       v-else-if="['/dashboard/guidance/', '/dashboard/guidance/en/'].includes(route.path)"
     />
     <ContentTags
-      v-else-if="frontmatter.tag"
+      v-else-if="route.path.startsWith('/tags/')"
     />
     <ContentArticle
       v-else-if="!page.isNotFound"

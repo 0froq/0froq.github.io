@@ -63,11 +63,10 @@ function toggle() {
       un-flex="~ row"
       un-items-center
       un-gap-1
-      un-text-lg
     >
       <span
         v-if="props.depth > 0"
-        un-text="neutral-500"
+        un-text="sm neutral-500"
       >
         ../
       </span>
@@ -75,30 +74,30 @@ function toggle() {
         :href="`/tags/${props.node.fullPath}`"
         :text="node.name"
         :vanilla="true"
-        un-text="neutral-600 dark:neutral-400"
-        un-underline="~ px neutral-400 dark:neutral-600 hover:sky-400 hover:dark:sky-600"
+        :tooltip="true"
+        :tooltip-text="`${props.node.fullPath}`"
+        un-text="sm neutral-500"
+        un-before="h-px bg-neutral-950 dark:bg-neutral-50"
+        un-underline="red-500"
       />
-      <template
-
+      <button
         v-if="hasChildren"
+        type="button"
+        un-inline-flex
+        un-items-center
+        un-justify-center
+        un-h-5
+        un-text="sm neutral-500"
+        un-border="none"
+        un-bg="transparent"
+        un-hover="text-neutral-800 dark:text-neutral-200"
+        un-transition
+        :aria-expanded="isOpen"
+        :aria-label="isOpen ? '折叠子标签' : '展开子标签'"
+        @click="toggle"
       >
-        <span
-          un-text="neutral-500"
-        >
-          /
-        </span>
-        <span
-          v-if="hasChildren"
-          un-text="neutral-500 hover:neutral-950 dark:hover:neutral-50"
-          un-cursor-pointer
-          un-transition
-          :aria-expanded="isOpen"
-          :aria-label="isOpen ? '折叠子标签' : '展开子标签'"
-          @click="toggle"
-        >
-          <span>..</span>
-        </span>
-      </template>
+        <span>/..</span>
+      </button>
     </div>
     <Transition
       name="tag-collapse"

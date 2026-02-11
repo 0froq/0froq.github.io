@@ -70,7 +70,7 @@ console.warn(currentTagHierarchy.value, extendedTagsForCurrentTag.value)
         un-text="neutral-500 hover:neutral-950 dark:hover:neutral-50"
         @click="showExtendedTags = !showExtendedTags"
       >
-        ...
+        ..
       </span>
       <div
         v-if="showExtendedTags"
