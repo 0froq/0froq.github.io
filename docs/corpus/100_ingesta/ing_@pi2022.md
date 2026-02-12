@@ -2,14 +2,14 @@
 title: Mapping Global Lake Dynamics Reveals the Emerging Roles of Small Lakes
 created: 2025-10-29
 status: probe
-last_modified: 2025-12-15 19:06:04
+last_modified: 2026-02-12 21:23:58
 ---
 
 ---
 
 [[toc]]
 
-#source/paper
+#paperNote
 
 - citation_key: pi2022
 - title: Mapping Global Lake Dynamics Reveals the Emerging Roles of Small Lakes

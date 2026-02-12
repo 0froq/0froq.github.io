@@ -13,40 +13,18 @@ if &shortmess =~ 'A'
 else
   set shortmess=aoO
 endif
-badd +72 docs/.vitepress/theme/components/HomeTags.vue
-badd +12 docs/.vitepress/theme/components/TagTreeNode.vue
-badd +30 docs/.vitepress/theme/components/TagDisplay.vue
-badd +2 docs/.vitepress/generated/tags.json
-badd +8 docs/tags/index.md
-badd +6 docs/index.md
-badd +13 docs/corpus/500_vigil/vig_211009.md
-badd +13 docs/corpus/500_vigil/vig_220513.md
-badd +13 docs/corpus/500_vigil/vig_220606.md
-badd +15 docs/corpus/500_vigil/vig_241023.md
-badd +13 docs/corpus/500_vigil/vig_220622.md
-badd +13 docs/corpus/500_vigil/vig_220713.md
-badd +13 docs/corpus/500_vigil/vig_220719.md
-badd +13 docs/corpus/500_vigil/vig_220729.md
-badd +13 docs/corpus/500_vigil/vig_220809.md
-badd +13 docs/corpus/500_vigil/vig_220813.md
-badd +13 docs/corpus/500_vigil/vig_220817.md
-badd +13 docs/corpus/500_vigil/vig_220828.md
-badd +13 docs/corpus/500_vigil/vig_240328.md
-badd +13 docs/corpus/500_vigil/vig_240426.md
-badd +13 docs/corpus/500_vigil/vig_241018.md
-badd +14 docs/corpus/500_vigil/vig_20251105.md
-badd +14 docs/corpus/500_vigil/vig_20251013.md
-badd +14 docs/corpus/500_vigil/vig_20251011.md
-badd +13 docs/posts/610_log/about_the_site.md
-badd +128 docs/posts/610_log/an_obsidian_theme.md
-badd +20 docs/posts/610_log/build_a_blog_site_flag.md
-badd +36 docs/posts/610_log/long_time_no_see.md
-badd +14 docs/posts/610_log/mathjax_greek_var.md
-badd +13 docs/posts/610_log/mathjax_sup_sub_position.md
-badd +35 docs/posts/610_log/nagging.md
+badd +2 docs/corpus/100_ingesta/ing_l\'etranger.md
+badd +17 docs/corpus/200_neoplasma/neo_l\'etranger_202602121432.md
+badd +2 docs/corpus/100_ingesta/ing_le_mythe_de_sisyphe.md
+badd +91 docs/.vitepress/theme/components/ContentArticle.vue
+badd +17 docs/corpus/100_ingesta/ing_hove.md
+badd +12 docs/corpus/100_ingesta/ing_@pi2022.md
+badd +12 docs/corpus/100_ingesta/ing_@yang2025.md
+badd +17 docs/corpus/100_ingesta/ing_a_room_of_one\'s_own.md
+badd +22 docs/corpus/100_ingesta/ing_bkxisvbi.md
 argglobal
 %argdel
-edit docs/posts/610_log/nagging.md
+edit docs/corpus/100_ingesta/ing_bkxisvbi.md
 wincmd t
 let s:save_winminheight = &winminheight
 let s:save_winminwidth = &winminwidth
@@ -55,7 +33,7 @@ set winheight=1
 set winminwidth=0
 set winwidth=1
 argglobal
-balt docs/posts/610_log/mathjax_sup_sub_position.md
+balt docs/corpus/100_ingesta/ing_a_room_of_one\'s_own.md
 setlocal foldmethod=expr
 setlocal foldexpr=v:lua.vim.treesitter.foldexpr()
 setlocal foldmarker={{{,}}}
@@ -64,12 +42,14 @@ setlocal foldlevel=99
 setlocal foldminlines=1
 setlocal foldnestmax=20
 setlocal foldenable
-let s:l = 35 - ((16 * winheight(0) + 16) / 33)
+15
+sil! normal! zo
+let s:l = 22 - ((21 * winheight(0) + 16) / 33)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 35
-normal! 09|
+keepjumps 22
+normal! 080|
 tabnext 1
 if exists('s:wipebuf') && len(win_findbuf(s:wipebuf)) == 0 && getbufvar(s:wipebuf, '&buftype') isnot# 'terminal'
   silent exe 'bwipe ' . s:wipebuf

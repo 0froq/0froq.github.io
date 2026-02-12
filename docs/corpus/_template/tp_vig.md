@@ -1,8 +1,8 @@
 ---
+title: {{title}}
 created: {{date}}
-layer: vigil
-tags:
-  - 
 status: probe
-last_modified: {{datetime}}
+last_modified: {{date}}
+---
+
 ---

@@ -236,8 +236,8 @@ corpus_create_paper_entry() {
   corpus_success "Created paper entry: $filename"
 
   # Open in editor unless disabled
-  if [[ "${ARG_no_edit:-}" != "true" ]]; then
-    corpus_open_editor "$file_path" "${ARG_editor:-}"
+  if [[ -n "${ARG_editor:-}" ]]; then
+    corpus_open_editor "$file_path" "${ARG_editor}"
   fi
 
   return 0
@@ -288,8 +288,8 @@ corpus_create_standard_entry() {
   corpus_success "Created $layer entry: $filename"
 
   # Open in editor unless disabled
-  if [[ "${ARG_no_edit:-}" != "true" ]]; then
-    corpus_open_editor "$file_path" "${ARG_editor:-}"
+  if [[ -n "${ARG_editor:-}" ]]; then
+    corpus_open_editor "$file_path" "${ARG_editor}"
   fi
 
   return 0
@@ -365,8 +365,8 @@ corpus_create_paper_fallback() {
 
   corpus_success "Created paper note entry: $filename"
 
-  if [[ "${ARG_no_edit:-}" != "true" ]]; then
-    corpus_open_editor "$file_path" "${ARG_editor:-}"
+  if [[ -n "${ARG_editor:-}" ]]; then
+    corpus_open_editor "$file_path" "${ARG_editor}"
   fi
 
   return 0
@@ -419,8 +419,8 @@ corpus_create_paper_with_metadata() {
   corpus_success "Created paper note with metadata: $filename"
   corpus_info "Paper: $title ($year)"
 
-  if [[ "${ARG_no_edit:-}" != "true" ]]; then
-    corpus_open_editor "$file_path" "${ARG_editor:-}"
+  if [[ -n "${ARG_editor:-}" ]]; then
+    corpus_open_editor "$file_path" "${ARG_editor}"
   fi
 
   return 0

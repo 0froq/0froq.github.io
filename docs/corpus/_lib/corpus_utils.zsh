@@ -69,13 +69,13 @@ corpus_parse_options() {
 # Safe File Operations
 # -----------------------
 
-corpus_datestamp() {
+corpus_timestamp() {
   if [[ -x "/bin/date" ]]; then
-    /bin/date +%Y%m%d
+    /bin/date +%Y%m%d%H%M
   elif [[ -x "/usr/bin/date" ]]; then
-    /usr/bin/date +%Y%m%d
+    /usr/bin/date +%Y%m%d%H%M
   else
-    printf '%(%Y%m%d)T' -1
+    printf '%(%Y%m%d%H%M)T' -1
   fi
 }
 
@@ -102,12 +102,16 @@ corpus_datetime() {
 corpus_safe_filename() {
   local input="$1"
 
-  # Replace basic set: spaces and hyphens -> underscore
+  # Replace spaces with underscores first
   local safe="${input// /_}"
-  safe="${safe//-/_}"
 
-  # Replace all non-allowed chars with underscore (allow: ASCII letters/digits, CJK, underscore)
-  safe="${safe//[^a-zA-Z0-9\u4e00-\u9fff_]/_}"
+  # Attempt transliteration to ASCII (handles accented letters). Falls back to original if iconv unavailable.
+  if command -v iconv >/dev/null 2>&1; then
+    safe="$(printf '%s' "$safe" | iconv -f UTF-8 -t ASCII//TRANSLIT 2>/dev/null || printf '%s' "$safe")"
+  fi
+
+  # Remove any non-ASCII characters (drops CJK and symbols) and filesystem-unsafe characters
+  safe="${safe//[^A-Za-z0-9_\-]/_}"
 
   # Collapse multiple underscores to a single underscore
   while [[ "$safe" == *"__"* ]]; do
@@ -126,7 +130,7 @@ corpus_generate_filename() {
   local layer="$1"
   local content="${2:-}"
   local template_type="${3:-}"
-  local datestamp="$(corpus_datestamp)"
+  local timestamp="$(corpus_timestamp)"
 
   # Determine if this layer includes date in filename
   local include_date="true" # default for backward compatibility
@@ -143,13 +147,13 @@ corpus_generate_filename() {
   if [[ -n "$content" ]]; then
     local safe_content="$(corpus_safe_filename "$content")"
     if [[ "$include_date" == "true" ]]; then
-      echo "${layer}_${safe_content}_${datestamp}.md"
+      echo "${layer}_${safe_content}_${timestamp}.md"
     else
       echo "${layer}_${safe_content}.md"
     fi
   else
     if [[ "$include_date" == "true" ]]; then
-      echo "${layer}_${datestamp}.md"
+      echo "${layer}_${timestamp}.md"
     else
       echo "${layer}.md"
     fi
@@ -208,7 +212,8 @@ corpus_expand_template() {
   # Set built-in template variables
   content="${content//\{\{date\}\}/$(corpus_date)}"
   content="${content//\{\{datetime\}\}/$(corpus_datetime)}"
-  content="${content//\{\{datestamp\}\}/$(corupus_datestamp)}"
+  content="${content//\{\{datestamp\}\}/$(corpus_timestamp)}"
+  content="${content//\{\{timestamp\}\}/$(corpus_timestamp)}"
   content="${content//\{\{corpus_dir\}\}/${CORPUS_DIR}}"
 
   # Write output with error checking

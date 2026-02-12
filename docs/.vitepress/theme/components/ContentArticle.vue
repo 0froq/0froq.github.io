@@ -88,6 +88,8 @@ const prevPost = computed(() => {
   return currentIndex > 0 ? postPool.value[currentIndex - 1] : null
   // return getPrevPost(post.value, postPool.value)
 })
+
+console.warn(post.value)
 </script>
 
 <template>

@@ -2,14 +2,14 @@
 title: 基于BP神经网络与遥感反演的太湖热浪规律研究
 created: 2025-10-29
 status: probe
-last_modified: 2025-11-06 02:38:15
+last_modified: 2026-02-12 21:24:04
 ---
 
 ---
 
 [[toc]]
 
-#source/paper
+#paperNote
 
 - citation_key: yang2025
 - title: 基于BP神经网络与遥感反演的太湖热浪规律研究

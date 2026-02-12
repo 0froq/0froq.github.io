@@ -170,7 +170,7 @@ SPECIAL COMMANDS:
 
 OPTIONS:
   --status=[status]         Set entry status (draft, probe, form, canon, void)
-  --no-edit                Don't open editor after creation
+  --editor=[editor]         Open with specified editor (code|nvim); skipped if absent
   --type=paper             Use paper template (for ingesta layer)
   --insta, -i              Instant note-taking mode
   -f, --force              Overwrite if target file already exists
@@ -183,7 +183,8 @@ INSTANT NOTE EXAMPLES:
 REGULAR EXAMPLES:
   corpus create ing "new research topic"
   corpus ing paper @smith2023
-  corpus aut --status=draft --no-edit
+  corpus aut --status=draft --editor=nvim
+  corpus ing "quick note" --editor=code
   corpus neo "consciousness and AI"
 
 For detailed layer descriptions: corpus layers
