@@ -1,7 +1,8 @@
 ---
 title: "《我的遥远的清平湾》"
 created: 2021-11-21 02:10
-last_modified: 2026-02-12 10:51:11
+status: probe
+last_modified: 2026-02-13 15:29:40
 ---
 
 摘抄——《我的遥远的清平湾》史铁生
@@ -10,7 +11,7 @@ last_modified: 2026-02-12 10:51:11
 
 [[toc]]
 
-#quotation
+#source/book #shitiesheng
 
 ## 2021 / 11 / 21
 

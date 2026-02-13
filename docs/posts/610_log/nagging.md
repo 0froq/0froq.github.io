@@ -1,7 +1,8 @@
 ---
 title: '碎碎念'
 created: 2023-08-08 09:00
-last_modified: 2026-02-12 10:37:36
+status: canon
+last_modified: 2026-02-13 17:18:43
 ---
 
 睡不着，忽地想起来好久没动笔了。

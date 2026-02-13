@@ -1,7 +1,8 @@
 ---
 title: '*Vorlesungen zur Einführung in die Psychoanalyse*'
 created: 2022-02-04 00:59
-last_modified: 2026-02-12 10:50:40
+status: probe
+last_modified: 2026-02-13 15:29:21
 ---
 
 摘抄——_Vorlesungen zur Einführung in die Psychoanalyse_ · S. Freud《精神分析引论》
@@ -10,7 +11,8 @@ last_modified: 2026-02-12 10:50:40
 
 [[toc]]
 
-#quotation/theory #psychoanalysis
+<!-- #quotation/theory #psychoanalysis -->
+#source/book #freud
 
 ## 2022 / 02 / 04
 

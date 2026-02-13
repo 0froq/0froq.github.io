@@ -2,7 +2,8 @@
 title: "从零开始搭建博客网站（一）"
 series: blog_site
 created: 2025-01-09 10:34
-last_modified: 2026-01-30 11:57:17
+status: void
+last_modified: 2026-02-13 17:19:54
 ---
 
 从零开始搭建博客网站（一）：预备知识与安装

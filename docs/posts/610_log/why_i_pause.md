@@ -1,7 +1,8 @@
 ---
 title: '关于我为什么一直没更新'
 created: 2022-05-03 05:00
-last_modified: 2026-01-30 11:52:47
+status: canon
+last_modified: 2026-02-13 17:19:26
 ---
 
 关于题目。

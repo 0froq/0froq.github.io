@@ -1,7 +1,8 @@
 ---
 title: '正在做一个 Obsidian 主题'
 created: 2023-07-08 23:00
-last_modified: 2026-02-11 18:20:54
+status: canon
+last_modified: 2026-02-13 17:16:49
 ---
 
 虽然在我认识的人里面用 Obsidian 的寥寥无几，但是还是想记录一下最近在干的事情。

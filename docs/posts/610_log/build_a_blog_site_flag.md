@@ -1,7 +1,8 @@
 ---
 title: '博客网站搭建'
 created: 2024-09-18 15:26
-last_modified: 2026-02-11 18:15:03
+status: canon
+last_modified: 2026-02-13 17:17:11
 ---
 
 不是第一个坑但第一个记一下。

@@ -1,7 +1,8 @@
 ---
 title: "《人生答案之书》"
 created: 2022-03-22 00:25
-last_modified: 2026-02-12 10:50:46
+status: probe
+last_modified: 2026-02-13 15:25:21
 ---
 
 摘抄——《人生答案之书》周国平
@@ -10,7 +11,7 @@ last_modified: 2026-02-12 10:50:46
 
 [[toc]]
 
-#quotation
+#source/book #zhouguoping
 
 ## 2022 / 03 / 22
 

@@ -76,7 +76,7 @@ function toggle() {
         :text="node.name"
         :vanilla="true"
         un-text="neutral-600 dark:neutral-400"
-        un-underline="~ px neutral-400 dark:neutral-600 hover:sky-400 hover:dark:sky-600"
+        un-underline="~ px neutral-400 dark:neutral-600 hover:sky-500"
       />
       <template
 

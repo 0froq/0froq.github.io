@@ -1,18 +1,18 @@
 ---
 title: "*L'Étranger* · 该吃饭了"
-created: 2026-02-12
+created: 2022-04-06
 status: probe
-last_modified: 2026-02-12 15:04:32
+last_modified: 2026-02-13 15:56:21
 ---
 
-「*……我们的午饭吃得太早了，
-不过，这也很自然，肚子饿的时候，也就是该吃饭的时候。*」
-
-[source](../100_ingesta/ing_l'étranger.md#quote)
+> ……我们的午饭吃得太早了，
+> 不过，这也很自然，肚子饿的时候，也就是该吃饭的时候。
 
 ---
 
-#insight/quotation #absurdism #camus
+#insight #source/book #camus
+
+[source](../100_ingesta/ing_l'étranger.md)
 
 为什么白天要叫白天，晚上要叫晚上？
 

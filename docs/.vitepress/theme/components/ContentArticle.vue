@@ -88,15 +88,13 @@ const prevPost = computed(() => {
   return currentIndex > 0 ? postPool.value[currentIndex - 1] : null
   // return getPrevPost(post.value, postPool.value)
 })
-
-console.warn(post.value)
 </script>
 
 <template>
   <ProgressBarHeader
     v-if="post?.frontmatter.title"
     :id="post?.frontmatter.title"
-    :title="renderMdInline(post?.frontmatter.title) || ''"
+    :title="renderMdInline(frontmatter.title) || ''"
   />
   <div
     un-flex="~ row"

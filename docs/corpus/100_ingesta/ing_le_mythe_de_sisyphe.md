@@ -1,7 +1,8 @@
 ---
 title: "*Le mythe de Sisyphe*"
 created: 2024-03-08 04:39
-last_modified: 2026-02-12 10:49:12
+status: probe
+last_modified: 2026-02-13 15:28:08
 ---
 
 摘抄——_Le mythe de Sisyphe_ · A. Camus《西西弗神话》
@@ -10,7 +11,7 @@ last_modified: 2026-02-12 10:49:12
 
 [[toc]]
 
-#quotation/prose #absurdism #camus
+#source/book #camus
 
 ## 2024 / 03 / 08
 

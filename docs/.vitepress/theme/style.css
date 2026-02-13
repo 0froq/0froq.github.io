@@ -54,12 +54,13 @@ html {
 #content:not(.unstyled) {
   /* font size and line height */
   --uno: 'text-base/10';
-  --uno: 'py-10';
+  --uno: 'pb-10';
 }
 
 #content:not(.unstyled),
 .markdown-rendered {
   & hr {
+    --uno: 'my-8';
     --uno: 'border-neutral-500';
     --uno: 'border-dashed';
     --uno: 'w-80% mx-auto';
@@ -342,14 +343,15 @@ html {
 
   /* blockquote */
   & blockquote {
-    --uno: 'my-8 relative px-8 py-2';
+    --uno: 'my-4 relative px-4';
     --uno: 'bg-neutral-950/5 dark:bg-neutral-50/5';
     --uno: 'border-(l-4 neutral-500)';
     --uno: 'hover:(border-neutral-700 dark:border-neutral-300)';
     --uno: 'transition duration-200';
-    --uno: 'rounded';
+    --uno: 'rounded-sm';
     /* blockquote icon */
-    --uno: 'before:(content-[""] i-ph-quotes-duotone block w-8 h-8 absolute right-4 top-4 text-neutral-500)';
+    --uno: 'z-0';
+    --uno: 'before:(content-[""] i-ph-quotes-duotone block w-4 h-4 absolute right-4 top-4 text-neutral-500 z--1 opacity-50)';
   }
 
   /* custom block (aka callout, alert)*/
@@ -511,13 +513,12 @@ html {
   & a .tag {
     --uno: 'relative';
     --uno: 'px-1';
-    /* --uno: 'after:(content-empty bg-neutral-200 dark:bg-neutral-800 w-full h-2px absolute bottom-0 left-0 z-0)'; */
-    /* --uno: 'before:(content-empty bg-sky-400 dark:bg-sky-600 w-0 h-2px absolute bottom-0 left-0 z-1 transition-width)'; */
-    --uno: 'hover:(before:w-full)';
+    /* un-text="neutral-600 dark:neutral-400" */
+    /* un-underline="~ px neutral-400 dark:neutral-600 hover:sky-500" */
     --uno: 'z-0';
-    --uno: 'underline-(~ px neutral-500)';
+    --uno: 'text-neutral-600 dark:text-neutral-400';
+    --uno: 'underline underline-px underline-neutral-400 dark:underline-neutral-600 hover:underline-sky-500';
     --uno: 'transition duration-200';
-    --uno: 'hover:underline-neutral-800 dark:hover:underline-neutral-200';
   }
 
   /* img */
