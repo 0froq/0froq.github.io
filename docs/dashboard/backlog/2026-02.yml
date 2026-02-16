@@ -4,3 +4,10 @@ items:
     status: not-planed
     due: 2026-02-25
     links:
+  - title: 抖音看完
+    dod: 字面意思
+    status: arranging
+    due: 2026-02-24
+    links:
+      - label: 抖音
+        url: 'https://www.douyin.com/'

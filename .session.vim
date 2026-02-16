@@ -13,8 +13,10 @@ if &shortmess =~ 'A'
 else
   set shortmess=aoO
 endif
+badd +13 docs/dashboard/backlog/2026-02.yml
 argglobal
 %argdel
+edit docs/dashboard/backlog/2026-02.yml
 wincmd t
 let s:save_winminheight = &winminheight
 let s:save_winminwidth = &winminwidth
@@ -22,6 +24,23 @@ set winminheight=0
 set winheight=1
 set winminwidth=0
 set winwidth=1
+argglobal
+setlocal foldmethod=expr
+setlocal foldexpr=v:lua.vim.treesitter.foldexpr()
+setlocal foldmarker={{{,}}}
+setlocal foldignore=#
+setlocal foldlevel=99
+setlocal foldminlines=1
+setlocal foldnestmax=20
+setlocal foldenable
+1
+sil! normal! zo
+let s:l = 13 - ((12 * winheight(0) + 12) / 25)
+if s:l < 1 | let s:l = 1 | endif
+keepjumps exe s:l
+normal! zt
+keepjumps 13
+normal! 0
 tabnext 1
 if exists('s:wipebuf') && len(win_findbuf(s:wipebuf)) == 0 && getbufvar(s:wipebuf, '&buftype') isnot# 'terminal'
   silent exe 'bwipe ' . s:wipebuf

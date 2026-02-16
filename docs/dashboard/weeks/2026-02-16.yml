@@ -1,11 +1,13 @@
+theme: 放假
+
 quadrants:
   q1:
-    - title: 个人网站 dashboard design
-      dod: 用上
+    - title: 个人网站最后重构
+      dod: 不再动
       status: 途中
       links:
         - label: Check it here
-          url: froq.me/dashboard/
+          url: froq.me
 
   q2:
 
