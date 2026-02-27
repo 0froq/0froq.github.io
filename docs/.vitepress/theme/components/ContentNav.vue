@@ -24,17 +24,20 @@ const links = ['/', '/en/', '/corpus/', '/posts/', '/dashboard/', '/tags/'].incl
 
 const homeLink = ['/', '/en/'].includes(route.path)
   ? { label: 'cd', url: '/' }
-  : ['/corpus/', '/posts/', '/dashboard/'].includes(route.path)
+  : ['/corpus/', '/posts/', '/dashboard/', '/tags/'].includes(route.path)
       ? { label: 'cd ..', url: '/' }
-      : route.path.startsWith('/corpus/')
+      // : route.path.startsWith('/corpus/')
+      : route.path.match(/^\/corpus\/[0-5]00_[a-z]+\/$/)
         ? { label: 'cd ..', url: '/corpus/' }
-        : route.path.startsWith('/posts/')
-          ? { label: 'cd ..', url: '/posts/' }
-          : route.path.startsWith('/dashboard/')
-            ? { label: 'cd ..', url: '/dashboard/' }
-            : route.path.startsWith('/tags/')
-              ? { label: 'cd ..', url: '/tags/' }
-              : null
+        : route.path.startsWith('/corpus/')
+          ? { label: 'cd ..', url: `${route.path.split('/').slice(0, -1).join('/')}/` }
+          : route.path.startsWith('/posts/')
+            ? { label: 'cd ..', url: '/posts/' }
+            : route.path.startsWith('/dashboard/')
+              ? { label: 'cd ..', url: '/dashboard/' }
+              : route.path.startsWith('/tags/')
+                ? { label: 'cd ..', url: '/tags/' }
+                : null
 </script>
 
 <template>

@@ -6,9 +6,33 @@
       "  dod: ${2:Def of Done}",
       "  status: ${3|not-planed,arranging,deffered|}",
       "  due: ${4:Due}",
-      "  links: ${5:Links}",
-      "    - label: ${6:Label}",
-      "      url: ${7:URL}"
+      "  links:",
+      "    - label: ${5:Label}",
+      "      url: ${6:URL}"
+    ]
+  },
+  "week": {
+    "prefix": "..week",
+    "body": [
+      "theme: ${1:Theme}",
+      "quadrants:",
+      "  q1:\n",
+      "  q2:\n",
+      "  q3:\n",
+      "  q4:"
+    ]
+  },
+  "task": {
+    "prefix": "..task",
+    "body": [
+      "- title: ${1:Title}",
+      "  dod: ${2:Def of Done}",
+      "  status: ${3|完毕,途中,未始,延期,取消,阻塞|}",
+      "  links:",
+      "    - label: ${5:Label}",
+      "      url: ${6:URL}",
+      "  tags:",
+      "    - ${7:Tag}"
     ]
   }
 }

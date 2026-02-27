@@ -12,8 +12,16 @@ const years = yearData
       :key="record.year"
       un-pt-4
       un-mb-4
+      un-relative
     >
-      <h3 class="section-subheading">
+      <h3
+        un-text-5xl
+        un-font-medium
+        un-mb-2
+        un-absolute
+        un-opacity-10
+        un-right-0
+      >
         {{ record.year }}
       </h3>
       <ul

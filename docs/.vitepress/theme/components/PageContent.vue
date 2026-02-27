@@ -3,7 +3,7 @@ import { useData, useRoute } from 'vitepress'
 import ContentArticle from './ContentArticle.vue'
 import ContentContact from './ContentContact.vue'
 import ContentCorpusLayer from './ContentCorpusLayer.vue'
-import ContentDashboardGuidance from './ContentDashboardGuidance.vue'
+import ContentDashboardHints from './ContentDashboardHints.vue'
 import ContentDashboardIntents from './ContentDashboardIntents.vue'
 import ContentHome from './ContentHome.vue'
 import ContentNav from './ContentNav.vue'
@@ -39,8 +39,8 @@ const homePaths = [
     <ContentDashboardIntents
       v-else-if="['/dashboard/intents/', '/dashboard/intents/en/'].includes(route.path)"
     />
-    <ContentDashboardGuidance
-      v-else-if="['/dashboard/guidance/', '/dashboard/guidance/en/'].includes(route.path)"
+    <ContentDashboardHints
+      v-else-if="['/dashboard/hints/', '/dashboard/hints/en/'].includes(route.path)"
     />
     <ContentTags
       v-else-if="route.path.startsWith('/tags/')"

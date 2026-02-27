@@ -41,6 +41,18 @@ html {
   /* smooth */
   --uno: 'antialiased';
 
+  &::-webkit-scrollbar {
+    --uno: 'w-1px';
+  }
+
+  /* &::-webkit-scrollbar-track { */
+  /*   --uno: 'bg-neutral-500'; */
+  /* } */
+  /**/
+  /* &::-webkit-scrollbar-thumb { */
+  /*   --uno: 'bg-neutral-950 dark:bg-neutral-50'; */
+  /* } */
+
   /* background color for medium-zoom */
   --image-mask-bg: #fafafa;
   --uno: 'bg-neutral-50';
@@ -408,7 +420,7 @@ html {
     /* title */
     & .custom-block-title,
     & summary {
-      --uno: 'my-8';
+      --uno: 'my-4';
       --uno: 'text-lg';
       --uno: 'text-neutral-800 dark:text-neutral-200';
     }
@@ -501,7 +513,7 @@ html {
     --uno: 'font-black';
     --uno: 'before:content-[""]';
     --uno: 'before:(inline-block h-0.25em w-full absolute bottom-0)';
-    --uno: 'before:(bg-emerald-500/80)';
+    --uno: 'before:(bg-rose-500/80)';
   }
 
   /* hashtag */

@@ -13,6 +13,7 @@ export interface WeekTask {
   status: '完毕' | '途中' | '未始' | '延期' | '取消' | '阻塞'
   dod?: string
   links?: WeekLink[]
+  tags?: string[]
 }
 
 export interface WeekData {

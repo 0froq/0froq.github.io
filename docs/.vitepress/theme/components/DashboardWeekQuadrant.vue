@@ -116,14 +116,18 @@ const isOpen = (quadrant: string) => openQuadrants.value.has(quadrant)
                       un-font-bold
                       v-html="renderMdInline(t.title)"
                     />
+                    <un-i-openmj-drooling-face
+                      v-if="t.tags?.includes('for-idiot')"
+                      un-text-xl
+                    />
                   </div>
                   <div
                     v-if="t.dod"
                     class="dod-text"
                     un-ml-4
-                  >
-                    {{ t.dod }}
-                  </div>
+                    un-text="neutral-600 dark:neutral-400"
+                    v-html="renderMdInline(t.dod)"
+                  />
                   <ul
                     v-if="t.links?.length"
                     un-ml-8
@@ -161,16 +165,6 @@ const isOpen = (quadrant: string) => openQuadrants.value.has(quadrant)
               />
             </div>
           </ul>
-          <!-- <div -->
-          <!--   v-else -->
-          <!--   un-p-2 -->
-          <!--   un-text-sm -->
-          <!--   un-text-center -->
-          <!--   un-italic -->
-          <!--   un-text="neutral-500" -->
-          <!-- > -->
-          <!--   空的 -->
-          <!-- </div> -->
         </div>
       </Transition>
     </div>

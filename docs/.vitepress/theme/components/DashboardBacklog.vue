@@ -42,7 +42,6 @@ function tillDueMapping(days: number): string {
             un-items-center
             un-gap-x-2
           >
-            <!-- <span un-font-bold>{{ item.title }}</span> -->
             <span
               un-font-bold
               v-html="renderMdInline(item.title)"
@@ -77,9 +76,9 @@ function tillDueMapping(days: number): string {
             v-if="item.dod"
             class="dod-text"
             un-ml-4
-          >
-            {{ item.dod }}
-          </div>
+            un-text="neutral-600 dark:neutral-400"
+            v-html="renderMdInline(item.dod)"
+          />
           <ul
             v-if="item.links?.length"
             un-ml-8

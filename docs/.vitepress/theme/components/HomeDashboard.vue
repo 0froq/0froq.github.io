@@ -24,7 +24,7 @@ import LinkUnderline from './LinkUnderline.vue'
         },
         {
           label: '需要遵守……',
-          url: 'guidance/',
+          url: 'hints/',
         },
       ]"
       :key="link.url"

@@ -6,7 +6,20 @@ const visions = visionData
 </script>
 
 <template>
-  <section class="section-card">
+  <section
+    class="section-card"
+    un-relative
+  >
+    <h3
+      un-text-5xl
+      un-font-medium
+      un-mb-2
+      un-absolute
+      un-opacity-10
+      un-right-0
+    >
+      愿景
+    </h3>
     <ul
       un-pt-4
       un-ml-4

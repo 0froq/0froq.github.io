@@ -25,6 +25,7 @@
     "@babel/eslint-parser": "catalog:lint",
     "@iconify-json/carbon": "catalog:icons",
     "@iconify-json/duo-icons": "catalog:icons",
+    "@iconify-json/openmoji": "^1.2.22",
     "@iconify-json/ph": "catalog:icons",
     "@iconify-json/simple-icons": "catalog:icons",
     "@iconify-json/skill-icons": "catalog:icons",
