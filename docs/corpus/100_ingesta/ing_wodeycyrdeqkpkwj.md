@@ -2,7 +2,11 @@
 title: "《我的遥远的清平湾》"
 created: 2021-11-21 02:10
 status: probe
+<<<<<<< HEAD
 last_modified: 2026-03-03 16:19:08
+=======
+last_modified: 2026-02-18 13:12:22
+>>>>>>> a9dd95e (docs: retag corpus entries and clean collections)
 ---
 
 摘抄——《我的遥远的清平湾》史铁生
@@ -11,7 +15,11 @@ last_modified: 2026-03-03 16:19:08
 
 [[toc]]
 
+<<<<<<< HEAD
 #scope/life/read #source/book #author/shitiesheng
+=======
+#source/book #author/shitiesheng
+>>>>>>> a9dd95e (docs: retag corpus entries and clean collections)
 
 ## 2021 / 11 / 21
 

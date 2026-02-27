@@ -2,7 +2,11 @@
 title: 湖泊表层温度研究 · 工作日志
 created: 2025-09-29
 status: form
+<<<<<<< HEAD
 last_modified: 2026-03-03 14:23:15
+=======
+last_modified: 2026-02-18 13:17:36
+>>>>>>> a9dd95e (docs: retag corpus entries and clean collections)
 ---
 
 如题。
@@ -11,7 +15,11 @@ last_modified: 2026-03-03 14:23:15
 
 [[toc]]
 
+<<<<<<< HEAD
 #scope/work/research #log/project
+=======
+#log/research
+>>>>>>> a9dd95e (docs: retag corpus entries and clean collections)
 
 - GEE 获取 MODIS LST 逐日数据，下载
 - 机器学习部分用 Python 或 **Julia** 实现

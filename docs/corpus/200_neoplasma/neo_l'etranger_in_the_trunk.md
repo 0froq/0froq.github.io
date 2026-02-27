@@ -2,7 +2,11 @@
 title: "*L'Étranger* · 树干里的我"
 created: 2022-04-13
 status: probe
+<<<<<<< HEAD
 last_modified: 2026-03-03 16:19:55
+=======
+last_modified: 2026-02-18 13:13:17
+>>>>>>> a9dd95e (docs: retag corpus entries and clean collections)
 ---
 
 > 我常想，如果要我住在一颗枯树的树干里，
@@ -14,7 +18,11 @@ last_modified: 2026-03-03 16:19:55
 
 ---
 
+<<<<<<< HEAD
 #scope/life/read #thought #source/book #author/camus
+=======
+#insight #source/book #author/camus
+>>>>>>> a9dd95e (docs: retag corpus entries and clean collections)
 
 [source](../100_ingesta/ing_l'étranger.md)
 

@@ -2,7 +2,11 @@
 title: "《礼拜日》· 做梦"
 created: 2022-03-12
 status: probe
+<<<<<<< HEAD
 last_modified: 2026-03-03 16:20:27
+=======
+last_modified: 2026-02-18 13:13:31
+>>>>>>> a9dd95e (docs: retag corpus entries and clean collections)
 ---
 
 > “我要么整宿整宿失眠，要么睡着了就整宿整宿做梦。”
@@ -11,7 +15,11 @@ last_modified: 2026-03-03 16:20:27
 
 [source](../100_ingesta/ing_libdri.md)
 
+<<<<<<< HEAD
 #scope/life/read #thought #source/book #author/shitiesheng
+=======
+#insight #source/book #author/shitiesheng
+>>>>>>> a9dd95e (docs: retag corpus entries and clean collections)
 
 有懂的吗？
 

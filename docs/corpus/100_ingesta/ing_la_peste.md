@@ -2,7 +2,11 @@
 title: '*La Peste*'
 created: 2022-03-29 23:56
 status: probe
+<<<<<<< HEAD
 last_modified: 2026-03-03 16:19:08
+=======
+last_modified: 2026-02-18 13:10:27
+>>>>>>> a9dd95e (docs: retag corpus entries and clean collections)
 ---
 
 摘抄——_La Peste_ · A. Camus《鼠疫》
@@ -11,7 +15,11 @@ last_modified: 2026-03-03 16:19:08
 
 [[toc]]
 
+<<<<<<< HEAD
 #scope/life/read #source/book #author/camus
+=======
+#source/book #author/camus
+>>>>>>> a9dd95e (docs: retag corpus entries and clean collections)
 
 ## 2022 / 03 / 29
 

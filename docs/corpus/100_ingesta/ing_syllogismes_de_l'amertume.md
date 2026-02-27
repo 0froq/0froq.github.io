@@ -2,7 +2,11 @@
 title: "*Syllogismes de l'amertume*"
 created: 2024-10-23 14:36
 status: probe
+<<<<<<< HEAD
 last_modified: 2026-03-03 16:19:08
+=======
+last_modified: 2026-02-18 13:11:42
+>>>>>>> a9dd95e (docs: retag corpus entries and clean collections)
 ---
 
 摘抄——_Syllogismes de l'amertume_ · E.M. Cioran《苦论》
@@ -11,7 +15,11 @@ last_modified: 2026-03-03 16:19:08
 
 [[toc]]
 
+<<<<<<< HEAD
 #scope/life/read #source/book #author/cioran
+=======
+#source/book #author/cioran
+>>>>>>> a9dd95e (docs: retag corpus entries and clean collections)
 
 ## 2024 / 10 / 06
 

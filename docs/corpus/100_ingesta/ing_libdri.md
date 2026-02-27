@@ -2,7 +2,11 @@
 title: "《礼拜日》"
 created: 2022-03-12 00:00
 status: probe
+<<<<<<< HEAD
 last_modified: 2026-03-03 16:19:08
+=======
+last_modified: 2026-02-18 13:11:21
+>>>>>>> a9dd95e (docs: retag corpus entries and clean collections)
 ---
 
 摘抄——《礼拜日》史铁生
@@ -11,7 +15,11 @@ last_modified: 2026-03-03 16:19:08
 
 [[toc]]
 
+<<<<<<< HEAD
 #scope/life/read #source/book #author/shitiesheng
+=======
+#source/book #author/shitiesheng
+>>>>>>> a9dd95e (docs: retag corpus entries and clean collections)
 
 ## 2022 / 03 / 12
 

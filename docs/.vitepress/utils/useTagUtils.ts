@@ -1,4 +1,4 @@
-import { useData } from 'vitepress'
+import { useData, useRoute } from 'vitepress'
 import { computed } from 'vue'
 import { data as corpus } from '../theme/src/corpus.data'
 import { data as posts } from '../theme/src/posts.data'

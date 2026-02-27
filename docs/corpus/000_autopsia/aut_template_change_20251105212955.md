@@ -2,7 +2,11 @@
 title: 模板更改
 created: 2025-11-05
 status: void
+<<<<<<< HEAD
 last_modified: 2026-03-03 14:14:41
+=======
+last_modified: 2026-02-18 13:08:24
+>>>>>>> a9dd95e (docs: retag corpus entries and clean collections)
 ---
 
 改改模板。
@@ -11,7 +15,11 @@ last_modified: 2026-03-03 14:14:41
 
 [[toc]]
 
+<<<<<<< HEAD
 #scope/work/corpus #practice/refactor
+=======
+#meta/corpus #practice
+>>>>>>> a9dd95e (docs: retag corpus entries and clean collections)
 
 ## 背景
 

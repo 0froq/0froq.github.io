@@ -1,4 +1,8 @@
 [
+<<<<<<< HEAD
+=======
+  "absurdity",
+>>>>>>> a9dd95e (docs: retag corpus entries and clean collections)
   "anyway",
   "anyway/music",
   "author",
@@ -11,15 +15,30 @@
   "author/woolf",
   "author/yuhua",
   "author/zhouguoping",
+<<<<<<< HEAD
   "knowledge",
   "knowledge/symbol",
   "knowledge/symbol/greek",
   "log",
   "log/daily",
   "log/project",
+=======
+  "collection",
+  "collection/lyrics",
+  "insight",
+  "log",
+  "log/dev",
+  "log/diary",
+  "log/life",
+  "log/research",
+  "meta",
+  "meta/corpus",
+  "observation",
+>>>>>>> a9dd95e (docs: retag corpus entries and clean collections)
   "practice",
   "practice/refactor",
   "psychoanalysis",
+<<<<<<< HEAD
   "roadmap",
   "roadmap/blog_site",
   "scope",
@@ -36,6 +55,13 @@
   "scope/work/research",
   "scope/work/site",
   "scope/work/theme",
+=======
+  "quotation",
+  "quotation/theory",
+  "reflection",
+  "roadmap",
+  "roadmap/blog_site",
+>>>>>>> a9dd95e (docs: retag corpus entries and clean collections)
   "source",
   "source/blog",
   "source/book",
@@ -44,5 +70,14 @@
   "source/paper",
   "thought",
   "thought/consciousness",
+<<<<<<< HEAD
   "thought/issue"
+=======
+  "thought/reflection",
+  "thought/symbol",
+  "thought/symbol/greek",
+  "thought/workflow",
+  "vig",
+  "vig/mental"
+>>>>>>> a9dd95e (docs: retag corpus entries and clean collections)
 ]

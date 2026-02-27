@@ -32,16 +32,15 @@ const postsInExtendedTags = computed(() => {
 
 <template>
   <TagDisplay />
+  <Content />
   <div
     v-for="_posts in [
       {
         label: '在此',
-        desc: `包含标签 <span un-text-neutral-500>${params?.tag}</span> 的文章`,
         posts: postsInCurrentTag,
       },
       {
-        label: '更深处',
-        desc: `<span un-text-neutral-500>${params?.tag}</span> 更下级标签的文章`,
+        label: '在更深处',
         posts: postsInExtendedTags,
       },
     ]"
@@ -50,7 +49,6 @@ const postsInExtendedTags = computed(() => {
   >
     <ProgressBarHeader
       :title="_posts.label"
-      :intro="_posts.desc"
       un-mb-8
     />
     <div

@@ -2,7 +2,11 @@
 title: "_L'Étranger_"
 created: 2022-04-06 23:43
 status: probe
+<<<<<<< HEAD
 last_modified: 2026-03-03 16:19:08
+=======
+last_modified: 2026-02-18 17:32:21
+>>>>>>> a9dd95e (docs: retag corpus entries and clean collections)
 ---
 
 摘抄——_L'Étranger_ · A. Camus《局外人》
@@ -11,7 +15,11 @@ last_modified: 2026-03-03 16:19:08
 
 [[toc]]
 
+<<<<<<< HEAD
 #scope/life/read #source/book #author/camus
+=======
+#source/book #author/camus
+>>>>>>> a9dd95e (docs: retag corpus entries and clean collections)
 
 ## 2022 / 04 / 06
 
@@ -27,7 +35,9 @@ last_modified: 2026-03-03 16:19:08
 
 > ……我们的午饭吃得太早了，
 > 不过，这也很自然，肚子饿的时候，也就是该吃饭的时候。
-> [...](../200_neoplasma/neo_l'etranger_time_to_eat.md)
+> #absurdity /
+> [...](/corpus/200_neoplasma/neo_l'etranger_time_to_eat.md) /
+> ==收录于 [如此荒诞](/posts/630_collection/absurdity.md)==
 
 ## 2022 / 04 / 13
 
@@ -37,7 +47,7 @@ last_modified: 2026-03-03 16:19:08
 > 我会等待鸟儿阵阵飞起，云彩聚散飘忽，
 > 就像我在牢房里等着我的律师戴着奇特的领带出现，
 > 或者就像我在自由的日子里耐心地等到星期六而去拥抱玛丽的肉体。
-> [...](../200_neoplasma/neo_l'etranger_in_the_trunk.md)
+> [...](/corpus/200_neoplasma/neo_l'etranger_in_the_trunk.md)
 
 > 于是我悟出了，
 > 一个人即使只生活过一天，

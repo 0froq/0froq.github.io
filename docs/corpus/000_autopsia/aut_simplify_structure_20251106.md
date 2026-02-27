@@ -2,7 +2,11 @@
 title: Corpus 结构简化
 created: 2025-11-06
 status: form
+<<<<<<< HEAD
 last_modified: 2026-03-03 14:06:10
+=======
+last_modified: 2026-02-18 13:08:08
+>>>>>>> a9dd95e (docs: retag corpus entries and clean collections)
 ---
 
 Corpus 结构进行了简化。
@@ -11,7 +15,11 @@ Corpus 结构进行了简化。
 
 [[toc]]
 
+<<<<<<< HEAD
 #scope/work/corpus #practice/refactor
+=======
+#meta/corpus #practice
+>>>>>>> a9dd95e (docs: retag corpus entries and clean collections)
 
 ## 大修
 
