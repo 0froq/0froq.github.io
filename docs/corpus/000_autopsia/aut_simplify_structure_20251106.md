@@ -2,7 +2,7 @@
 title: Corpus 结构简化
 created: 2025-11-06
 status: form
-last_modified: 2025-12-15 18:52:06
+last_modified: 2026-03-02 16:15:57
 ---
 
 Corpus 结构进行了简化。
@@ -11,7 +11,7 @@ Corpus 结构进行了简化。
 
 [[toc]]
 
-#scope/corpus #type/practical
+#scope/work #practice/refactor
 
 ## 大修
 

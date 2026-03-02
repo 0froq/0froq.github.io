@@ -61,7 +61,7 @@ badd +13 docs/corpus/200_neoplasma/neo_l\'etranger_time_to_eat.md
 badd +17 docs/corpus/200_neoplasma/neo_la_peste_disaster.md
 badd +14 docs/corpus/200_neoplasma/neo_libdri_dream.md
 badd +14 docs/corpus/200_neoplasma/neo_libdri_their_own_way.md
-badd +30 docs/corpus/200_neoplasma/neo_gryuvjmuuidebcgcwfxt_intents.md
+badd +27 docs/corpus/200_neoplasma/neo_gryuvjmuuidebcgcwfxt_intents.md
 badd +31 docs/posts/610_log/about_the_site.md
 badd +14 docs/posts/610_log/an_obsidian_theme.md
 badd +5 docs/posts/610_log/build_a_blog_site_flag.md
@@ -74,10 +74,14 @@ badd +4 docs/posts/610_log/not_really_back.md
 badd +1 docs/posts/610_log/stage.md
 badd +4 docs/posts/610_log/what_am_i_up_to.md
 badd +4 docs/posts/610_log/why_i_pause.md
-badd +24 docs/posts/620_roadmap/build_a_blog_site_1.md
+badd +60 docs/posts/620_roadmap/build_a_blog_site_1.md
+badd +13 docs/posts/630_collection/l\'étranger.md
+badd +14 docs/corpus/000_autopsia/aut_20251105.md
+badd +14 docs/corpus/000_autopsia/aut_milestone_v001_20251011.md
+badd +13 docs/corpus/000_autopsia/aut_simplify_structure_20251106.md
 argglobal
 %argdel
-edit docs/posts/620_roadmap/build_a_blog_site_1.md
+edit docs/corpus/000_autopsia/aut_simplify_structure_20251106.md
 wincmd t
 let s:save_winminheight = &winminheight
 let s:save_winminwidth = &winminwidth
@@ -86,7 +90,7 @@ set winheight=1
 set winminwidth=0
 set winwidth=1
 argglobal
-balt docs/posts/610_log/why_i_pause.md
+balt docs/corpus/000_autopsia/aut_20251105.md
 setlocal foldmethod=expr
 setlocal foldexpr=v:lua.vim.treesitter.foldexpr()
 setlocal foldmarker={{{,}}}
@@ -95,11 +99,11 @@ setlocal foldlevel=99
 setlocal foldminlines=1
 setlocal foldnestmax=20
 setlocal foldenable
-let s:l = 24 - ((19 * winheight(0) + 16) / 33)
+let s:l = 13 - ((12 * winheight(0) + 16) / 32)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 24
+keepjumps 13
 normal! 0
 tabnext 1
 if exists('s:wipebuf') && len(win_findbuf(s:wipebuf)) == 0 && getbufvar(s:wipebuf, '&buftype') isnot# 'terminal'
