@@ -73,6 +73,7 @@ function getCountColor(count: number, max = 50): string {
 const countColor = computed(() => getCountColor(displayCount.value))
 
 const animatedCountText = ref(formattedCount.value)
+const committedCountText = ref(formattedCount.value)
 let countAnimRafId: number | null = null
 
 function padCount(value: number): string {
@@ -81,9 +82,23 @@ function padCount(value: number): string {
 
 function animateCount(to: number) {
   const targetText = padCount(to)
+  const fromText = committedCountText.value
+
+  const changedIndices = targetText
+    .split('')
+    .map((char, index) => (char !== fromText[index] ? index : -1))
+    .filter(index => index >= 0)
+
+  if (changedIndices.length === 0) {
+    animatedCountText.value = targetText
+    committedCountText.value = targetText
+    return
+  }
+
   const win = defaultWindow
   if (!win) {
     animatedCountText.value = targetText
+    committedCountText.value = targetText
     return
   }
 
@@ -103,11 +118,12 @@ function animateCount(to: number) {
   const tick = (now: number) => {
     const progress = Math.min(1, (now - start) / duration)
     const eased = easeInOutCubic(progress)
-    const lockCount = Math.floor(eased * targetText.length)
+    const lockCount = Math.floor(eased * changedIndices.length)
+    const lockedChangedIndices = new Set(changedIndices.slice(0, lockCount))
 
     let next = ''
     for (let i = 0; i < targetText.length; i++) {
-      if (progress >= 1 || i < lockCount) {
+      if (!changedIndices.includes(i) || progress >= 1 || lockedChangedIndices.has(i)) {
         next += targetText[i]
       }
       else {
@@ -123,6 +139,7 @@ function animateCount(to: number) {
     else {
       countAnimRafId = null
       animatedCountText.value = targetText
+      committedCountText.value = targetText
     }
   }
 
@@ -131,7 +148,12 @@ function animateCount(to: number) {
 
 watch(displayCount, (next) => {
   if (!hasChildren.value) {
+    if (countAnimRafId != null && defaultWindow) {
+      defaultWindow.cancelAnimationFrame(countAnimRafId)
+      countAnimRafId = null
+    }
     animatedCountText.value = padCount(next)
+    committedCountText.value = padCount(next)
     return
   }
   animateCount(next)
