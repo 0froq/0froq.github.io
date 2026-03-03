@@ -14,6 +14,7 @@ const props = defineProps<{
     v-if="props.title"
     un-flex="~ row items-center"
     un-w-full
+    v-bind="$attrs"
     aria-hidden
   >
     <div
@@ -43,6 +44,7 @@ const props = defineProps<{
     un-shrink-1
     un-h-px
     un-text="neutral-400 dark:neutral-600"
+    v-bind="$attrs"
     aria-hidden
   />
 </template>
