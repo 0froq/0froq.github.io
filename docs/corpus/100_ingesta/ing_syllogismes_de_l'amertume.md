@@ -2,7 +2,7 @@
 title: "*Syllogismes de l'amertume*"
 created: 2024-10-23 14:36
 status: probe
-last_modified: 2026-02-13 15:27:59
+last_modified: 2026-03-03 16:19:08
 ---
 
 摘抄——_Syllogismes de l'amertume_ · E.M. Cioran《苦论》
@@ -11,7 +11,7 @@ last_modified: 2026-02-13 15:27:59
 
 [[toc]]
 
-#source/book #cioran
+#scope/life/read #source/book #author/cioran
 
 ## 2024 / 10 / 06
 

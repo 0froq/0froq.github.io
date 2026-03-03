@@ -1,7 +1,7 @@
 ---
 title: "*The Moon and Sixpence* · 艺术家"
 created: 2023-10-30
-last_modified: 2026-02-13 15:57:59
+last_modified: 2026-03-03 16:20:44
 ---
 
 > 艺术家哪怕有上千个缺点，但只要有着特立独行的个性，那就是可取的。
@@ -10,7 +10,7 @@ last_modified: 2026-02-13 15:57:59
 
 [source](../100_ingesta/ing_the_moon_and_sixpence.md)
 
-#insight #source/book #maugham
+#scope/life/read #thought #source/book #author/maugham
 
 想起弗洛伊德在 _《精神分析引论》_ 里面说的，
 「**一切艺术都是神经官能症**」。

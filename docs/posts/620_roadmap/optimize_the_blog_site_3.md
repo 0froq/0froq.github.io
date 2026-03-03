@@ -2,7 +2,7 @@
 title: 优化一个博客网站（三）
 series: blog_site
 created: 2025-09-05 08:58
-last_modified: 2026-01-30 11:54:37
+last_modified: 2026-03-03 16:14:07
 ---
 
 优化一个博客网站（三）：按标签分类。
@@ -11,7 +11,7 @@ last_modified: 2026-01-30 11:54:37
 
 [[toc]]
 
-#log/dev #roadmap/blog_site
+#scope/work/site #roadmap/blog_site
 
 ## 按标签分类
 

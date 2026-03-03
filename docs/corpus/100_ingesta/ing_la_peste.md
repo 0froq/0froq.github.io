@@ -2,7 +2,7 @@
 title: '*La Peste*'
 created: 2022-03-29 23:56
 status: probe
-last_modified: 2026-02-13 15:28:15
+last_modified: 2026-03-03 16:19:08
 ---
 
 摘抄——_La Peste_ · A. Camus《鼠疫》
@@ -11,7 +11,7 @@ last_modified: 2026-02-13 15:28:15
 
 [[toc]]
 
-#source/book #camus
+#scope/life/read #source/book #author/camus
 
 ## 2022 / 03 / 29
 

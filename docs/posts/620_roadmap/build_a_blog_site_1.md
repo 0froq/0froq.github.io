@@ -3,7 +3,7 @@ title: "从零开始搭建博客网站（一）"
 series: blog_site
 created: 2025-01-09 10:34
 status: void
-last_modified: 2026-02-13 17:19:54
+last_modified: 2026-03-03 16:12:43
 ---
 
 从零开始搭建博客网站（一）：预备知识与安装
@@ -12,7 +12,7 @@ last_modified: 2026-02-13 17:19:54
 
 [[toc]]
 
-#log/dev #roadmap/blog_site
+#scope/work/site #roadmap/blog_site
 
 ## 引
 

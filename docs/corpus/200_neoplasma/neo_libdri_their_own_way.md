@@ -2,7 +2,7 @@
 title: "《礼拜日》· 各人的方式"
 created: 2022-03-12
 status: probe
-last_modified: 2026-02-13 15:57:17
+last_modified: 2026-03-03 16:20:39
 ---
 
 > “不过是各人有各人的方式，可能有的人更习惯一个人听听音乐，喝喝酒。”
@@ -11,7 +11,7 @@ last_modified: 2026-02-13 15:57:17
 
 [source](../100_ingesta/ing_libdri.md)
 
-#insight #source/book #shitiesheng
+#scope/life/read #thought #source/book #author/shitiesheng
 
 但是说到底，人还是期望**自己更合群**，或者换言之，
 期望**群更合自己**。

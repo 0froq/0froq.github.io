@@ -1,7 +1,7 @@
 ---
 title: '阶段'
 created: 2024-07-27 12:00
-last_modified: 2026-02-12 10:40:09
+last_modified: 2026-03-03 16:10:54
 ---
 
 Forget-me-not.
@@ -10,7 +10,7 @@ Forget-me-not.
 
 [[toc]]
 
-#log/life
+#scope/life #scope/work/course
 
 太久没动笔（手），有点不知道该怎么写些内容出来。
 

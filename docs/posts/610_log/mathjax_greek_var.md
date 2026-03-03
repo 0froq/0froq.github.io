@@ -3,7 +3,7 @@ title: 'MathJax 中希腊字母的 `\var-` 变体'
 series: mathjax_symbol
 created: 2024-09-25 14:33
 status: canon
-last_modified: 2026-03-02 13:42:06
+last_modified: 2026-03-03 16:06:35
 ---
 
 关于 MathJax 中希腊字母的 `\var-` 变体。
@@ -12,7 +12,7 @@ last_modified: 2026-03-02 13:42:06
 
 [[toc]]
 
-#practice/mathjax #knowledge/symbol/greek
+#scope/work/mathjax #knowledge/symbol/greek
 
 ## 小写希腊字母的 `\var-` 变体
 

@@ -2,7 +2,7 @@
 title: "《关于詹牧师的报告文学》"
 created: 2022-03-27 23:00
 status: probe
-last_modified: 2026-02-13 16:02:40
+last_modified: 2026-03-03 16:17:34
 ---
 
 摘抄——《关于詹牧师的报告文学》史铁生
@@ -11,7 +11,7 @@ last_modified: 2026-02-13 16:02:40
 
 [[toc]]
 
-#source/book #shitiesheng
+#scope/life/read #source/book #author/shitiesheng
 
 ## 2022 / 03 / 27
 

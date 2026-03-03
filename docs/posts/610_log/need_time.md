@@ -2,7 +2,7 @@
 title: '需要时间'
 created: 2023-06-21 16:00
 status: canon
-last_modified: 2026-02-13 17:19:06
+last_modified: 2026-03-03 16:07:58
 ---
 
 试考完了，时间快来了。
@@ -11,7 +11,7 @@ last_modified: 2026-02-13 17:19:06
 
 [[toc]]
 
-#log/life
+#scope/work/course
 
 ## 考试
 

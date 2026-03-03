@@ -2,7 +2,7 @@
 title: '从零开始搭建博客网站（六）'
 series: blog_site
 created: 2025-02-17 18:24
-last_modified: 2026-01-30 11:53:55
+last_modified: 2026-03-03 16:13:28
 ---
 
 从零开始搭建博客网站（六）：文章 Markdown 样式。
@@ -11,7 +11,7 @@ last_modified: 2026-01-30 11:53:55
 
 [[toc]]
 
-#log/dev #roadmap/blog_site
+#scope/work/site #roadmap/blog_site
 
 ## 文章 Markdown 样式
 

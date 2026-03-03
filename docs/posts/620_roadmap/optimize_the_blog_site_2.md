@@ -2,7 +2,7 @@
 title: 优化一个博客网站（二）
 series: blog_site
 created: 2025-09-03 15:28
-last_modified: 2026-01-30 11:54:32
+last_modified: 2026-03-03 16:13:59
 ---
 
 优化一个博客网站（二）：文章页面的其他玩意。
@@ -11,7 +11,7 @@ last_modified: 2026-01-30 11:54:32
 
 [[toc]]
 
-#log/dev #roadmap/blog_site
+#scope/work/site #roadmap/blog_site
 
 ## 统一口径
 

@@ -2,7 +2,7 @@
 title: 并未真正回归
 created: 2025-11-30 10:20:00
 status: canon
-last_modified: 2026-02-13 17:19:12
+last_modified: 2026-03-03 16:10:35
 ---
 
 如题。
@@ -11,7 +11,7 @@ last_modified: 2026-02-13 17:19:12
 
 [[toc]]
 
-#log/life
+#scope/life #scope/work/theme #scope/work/nvim #scope/work/nvim #thought
 
 ## ！
 

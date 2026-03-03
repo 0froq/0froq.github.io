@@ -2,7 +2,7 @@
 title: "从零开始搭建博客网站（十）"
 series: blog_site
 created: 2025-08-22 09:41
-last_modified: 2026-01-30 11:53:18
+last_modified: 2026-03-03 16:12:51
 ---
 
 从零开始搭建博客网站（十）：404 找不见和 Contact。
@@ -11,7 +11,7 @@ last_modified: 2026-01-30 11:53:18
 
 [[toc]]
 
-#log/dev #roadmap/blog_site
+#scope/work/site #roadmap/blog_site
 
 ## 404 找不见
 

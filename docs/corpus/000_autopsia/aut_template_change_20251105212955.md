@@ -2,7 +2,7 @@
 title: 模板更改
 created: 2025-11-05
 status: void
-last_modified: 2025-11-06 02:35:00
+last_modified: 2026-03-03 14:14:41
 ---
 
 改改模板。
@@ -11,7 +11,7 @@ last_modified: 2025-11-06 02:35:00
 
 [[toc]]
 
-#scope/corpus #type/practical
+#scope/work/corpus #practice/refactor
 
 ## 背景
 

@@ -2,7 +2,7 @@
 title: 优化一个博客网站（一）
 series: blog_site
 created: 2025-08-26 09:37
-last_modified: 2026-01-30 11:54:26
+last_modified: 2026-03-03 16:13:53
 ---
 
 优化一个博客网站（一）：好看点。
@@ -11,7 +11,7 @@ last_modified: 2026-01-30 11:54:26
 
 [[toc]]
 
-#log/dev #roadmap/blog_site
+#scope/work/site #roadmap/blog_site
 
 <script setup lang="ts">
 import SvgFroqLogo from '@theme/components/SvgFroqLogo.vue'

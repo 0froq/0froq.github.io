@@ -1,7 +1,7 @@
 ---
 title: "*The Moon and Sixpence* · 懒得"
 created: 2022-03-23
-last_modified: 2026-02-13 15:58:21
+last_modified: 2026-03-03 16:20:48
 ---
 
 > 我忘记是谁曾经说过，
@@ -15,7 +15,7 @@ last_modified: 2026-02-13 15:58:21
 
 [source](../100_ingesta/ing_the_moon_and_sixpence.md)
 
-#insight #source/book #maugham
+#scope/life/read #thought #source/book #author/maugham
 
 看到这个的时候实属笑了，有点玄学。
 就像小时候，洗澡之前不想洗，

@@ -3,7 +3,7 @@ title: 'MathJax 中的上下标位置'
 series: mathjax_symbol
 created: 2025-01-01 21:42
 status: canon
-last_modified: 2026-03-02 13:41:49
+last_modified: 2026-03-03 16:07:01
 ---
 
 关于 MathJax 中的上下标位置。
@@ -12,7 +12,7 @@ last_modified: 2026-03-02 13:41:49
 
 [[toc]]
 
-#practice/mathjax #knowledge/symbol/greek
+#scope/work/mathjax #knowledge/symbol/greek
 
 ## style 影响 MathJax 中的上下标
 

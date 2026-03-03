@@ -2,7 +2,7 @@
 title: "《礼拜日》· 做梦"
 created: 2022-03-12
 status: probe
-last_modified: 2026-02-13 15:56:56
+last_modified: 2026-03-03 16:20:27
 ---
 
 > “我要么整宿整宿失眠，要么睡着了就整宿整宿做梦。”
@@ -11,7 +11,7 @@ last_modified: 2026-02-13 15:56:56
 
 [source](../100_ingesta/ing_libdri.md)
 
-#insight #source/book #shitiesheng
+#scope/life/read #thought #source/book #author/shitiesheng
 
 有懂的吗？
 

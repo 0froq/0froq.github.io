@@ -2,14 +2,14 @@
 title: "《插队的故事》· 没办法的事"
 created: 2022-03-25
 status: probe
-last_modified: 2026-02-13 15:32:48
+last_modified: 2026-03-03 16:19:49
 ---
 
 > “没办法。没办法的事太多。”
 
 ---
 
-#insight #source/book #shitiesheng
+#scope/life/read #thought #source/book #author/shitiesheng
 
 [source](../100_ingesta/ing_iadvdeguui.md)
 

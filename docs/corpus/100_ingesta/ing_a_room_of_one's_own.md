@@ -2,7 +2,7 @@
 title: "*A Room of One's Own*"
 created: 2022-02-01 18:08
 status: probe
-last_modified: 2026-02-13 15:28:34
+last_modified: 2026-03-03 16:17:13
 ---
 
 摘抄——_A Room of One's Own_ · V. Woolf《自己的房间》
@@ -11,7 +11,7 @@ last_modified: 2026-02-13 15:28:34
 
 [[toc]]
 
-#source/book #woolf
+#scope/life/read #source/book #author/woolf
 
 ## 2022 / 02 / 01
 

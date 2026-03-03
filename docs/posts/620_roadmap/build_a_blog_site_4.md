@@ -2,7 +2,7 @@
 title: '从零开始搭建博客网站（四）'
 series: blog_site
 created: 2025-01-31 05:33
-last_modified: 2026-01-30 11:53:42
+last_modified: 2026-03-03 16:13:16
 ---
 
 从零开始搭建博客网站（四）：更好的黑暗模式。
@@ -11,7 +11,7 @@ last_modified: 2026-01-30 11:53:42
 
 [[toc]]
 
-#log/dev #roadmap/blog_site
+#scope/work/site #roadmap/blog_site
 
 ## 更好的黑暗模式
 

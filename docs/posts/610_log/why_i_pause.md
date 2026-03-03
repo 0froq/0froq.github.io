@@ -2,7 +2,7 @@
 title: '关于我为什么一直没更新'
 created: 2022-05-03 05:00
 status: canon
-last_modified: 2026-02-13 17:19:26
+last_modified: 2026-03-03 16:12:04
 ---
 
 关于题目。
@@ -11,7 +11,7 @@ last_modified: 2026-02-13 17:19:26
 
 [[toc]]
 
-#log/life
+#scope/life #scope/mental
 
 这几天 ipad 在酥肉那儿，
 所以我得在 Windows 上找 Markdown 编辑器来写文，

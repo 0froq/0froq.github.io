@@ -2,7 +2,7 @@
 title: "《礼拜日》"
 created: 2022-03-12 00:00
 status: probe
-last_modified: 2026-02-13 16:04:39
+last_modified: 2026-03-03 16:19:08
 ---
 
 摘抄——《礼拜日》史铁生
@@ -11,7 +11,7 @@ last_modified: 2026-02-13 16:04:39
 
 [[toc]]
 
-#source/book #shitiesheng
+#scope/life/read #source/book #author/shitiesheng
 
 ## 2022 / 03 / 12
 

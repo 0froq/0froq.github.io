@@ -2,7 +2,7 @@
 title: '好久不见:P'
 created: 2023-06-15 05:00
 status: canon
-last_modified: 2026-02-13 17:17:31
+last_modified: 2026-03-03 16:06:19
 ---
 
 好几十天没有写东西，一部分原因是忙得没时间写，一部分原因是忙得没时间想。
@@ -11,7 +11,7 @@ last_modified: 2026-02-13 17:17:31
 
 [[toc]]
 
-#practice/dev
+#scope/work/site
 
 ## 最近
 

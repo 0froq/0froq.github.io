@@ -2,7 +2,7 @@
 title: "从零开始搭建博客网站（十一）"
 series: blog_site
 created: 2025-08-25 14:37
-last_modified: 2026-01-30 11:53:23
+last_modified: 2026-03-03 16:12:57
 ---
 
 从零开始搭建博客网站（十一）：部署！
@@ -11,7 +11,7 @@ last_modified: 2026-01-30 11:53:23
 
 [[toc]]
 
-#log/dev #roadmap/blog_site
+#scope/work/site #roadmap/blog_site
 
 ## 部署
 

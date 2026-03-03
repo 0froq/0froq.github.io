@@ -2,7 +2,7 @@
 title: '碎碎念'
 created: 2023-08-08 09:00
 status: canon
-last_modified: 2026-02-13 17:18:43
+last_modified: 2026-03-03 16:07:17
 ---
 
 睡不着，忽地想起来好久没动笔了。
@@ -11,7 +11,7 @@ last_modified: 2026-02-13 17:18:43
 
 [[toc]]
 
-#practice/dev #log/life
+#scope/work
 
 上一次写了点东西是在 7 月 8 日。那一篇没发公众号，因为懒得折腾。
 从开始学前端之后，我对文章排版样式要求逐渐变高了，

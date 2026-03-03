@@ -2,7 +2,7 @@
 title: '博客网站搭建'
 created: 2024-09-18 15:26
 status: canon
-last_modified: 2026-02-13 17:17:11
+last_modified: 2026-03-03 16:05:48
 ---
 
 不是第一个坑但第一个记一下。
@@ -11,7 +11,7 @@ last_modified: 2026-02-13 17:17:11
 
 [[toc]]
 
-#practice/dev
+#scope/work/site
 
 ## 新坑
 
