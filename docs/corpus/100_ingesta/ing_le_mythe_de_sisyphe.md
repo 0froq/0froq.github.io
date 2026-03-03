@@ -2,11 +2,7 @@
 title: "*Le mythe de Sisyphe*"
 created: 2024-03-08 04:39
 status: probe
-<<<<<<< HEAD
-last_modified: 2026-03-03 16:19:08
-=======
-last_modified: 2026-02-18 13:11:14
->>>>>>> a9dd95e (docs: retag corpus entries and clean collections)
+last_modified: 2026-03-03 18:48:59
 ---
 
 摘抄——_Le mythe de Sisyphe_ · A. Camus《西西弗神话》
@@ -15,11 +11,7 @@ last_modified: 2026-02-18 13:11:14
 
 [[toc]]
 
-<<<<<<< HEAD
 #scope/life/read #source/book #author/camus
-=======
-#source/book #author/camus
->>>>>>> a9dd95e (docs: retag corpus entries and clean collections)
 
 ## 2024 / 03 / 08
 

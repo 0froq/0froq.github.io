@@ -2,11 +2,7 @@
 title: "*L'Étranger* · 该吃饭了"
 created: 2022-04-06
 status: probe
-<<<<<<< HEAD
 last_modified: 2026-03-03 16:20:03
-=======
-last_modified: 2026-02-18 13:13:22
->>>>>>> a9dd95e (docs: retag corpus entries and clean collections)
 ---
 
 > ……我们的午饭吃得太早了，
@@ -14,11 +10,7 @@ last_modified: 2026-02-18 13:13:22
 
 ---
 
-<<<<<<< HEAD
 #scope/life/read #thought #source/book #author/camus
-=======
-#insight #source/book #author/camus
->>>>>>> a9dd95e (docs: retag corpus entries and clean collections)
 
 [source](../100_ingesta/ing_l'étranger.md)
 

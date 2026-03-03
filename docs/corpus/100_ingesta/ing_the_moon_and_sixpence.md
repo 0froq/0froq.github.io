@@ -2,11 +2,7 @@
 title: "*The Moon and Sixpence*"
 created: 2022-03-23 22:43
 status: probe
-<<<<<<< HEAD
-last_modified: 2026-03-03 16:19:08
-=======
-last_modified: 2026-02-18 13:11:49
->>>>>>> a9dd95e (docs: retag corpus entries and clean collections)
+last_modified: 2026-03-03 18:49:29
 ---
 
 摘抄——_The Moon and Sixpence_ · W.S. Maugham《月亮与六便士》
@@ -15,11 +11,7 @@ last_modified: 2026-02-18 13:11:49
 
 [[toc]]
 
-<<<<<<< HEAD
 #scope/life/read #source/book #author/maugham
-=======
-#source/book #author/maugham
->>>>>>> a9dd95e (docs: retag corpus entries and clean collections)
 
 ## 2022 / 03 / 23
 

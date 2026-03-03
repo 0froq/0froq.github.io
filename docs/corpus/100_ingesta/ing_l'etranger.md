@@ -2,11 +2,7 @@
 title: "_L'Étranger_"
 created: 2022-04-06 23:43
 status: probe
-<<<<<<< HEAD
-last_modified: 2026-03-03 16:19:08
-=======
-last_modified: 2026-02-18 17:32:21
->>>>>>> a9dd95e (docs: retag corpus entries and clean collections)
+last_modified: 2026-03-03 18:48:36
 ---
 
 摘抄——_L'Étranger_ · A. Camus《局外人》
@@ -15,11 +11,7 @@ last_modified: 2026-02-18 17:32:21
 
 [[toc]]
 
-<<<<<<< HEAD
 #scope/life/read #source/book #author/camus
-=======
-#source/book #author/camus
->>>>>>> a9dd95e (docs: retag corpus entries and clean collections)
 
 ## 2022 / 04 / 06
 

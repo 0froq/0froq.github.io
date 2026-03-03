@@ -2,11 +2,7 @@
 title: "*La Peste* · 天灾人祸"
 created: 2022-03-29
 status: probe
-<<<<<<< HEAD
 last_modified: 2026-03-03 16:20:06
-=======
-last_modified: 2026-02-18 13:13:27
->>>>>>> a9dd95e (docs: retag corpus entries and clean collections)
 ---
 
 > 的确，天灾人祸是常见之事，
@@ -18,11 +14,7 @@ last_modified: 2026-02-18 13:13:27
 
 [source](../100_ingesta/ing_la_peste.md)
 
-<<<<<<< HEAD
 #scope/life/read #thought #source/book #author/camus
-=======
-#insight #source/book #author/camus
->>>>>>> a9dd95e (docs: retag corpus entries and clean collections)
 
 在发现第一只黑天鹅之前，人们认为所有的天鹅都是白色的。
 

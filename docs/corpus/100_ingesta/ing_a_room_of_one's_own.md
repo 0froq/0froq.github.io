@@ -2,11 +2,7 @@
 title: "*A Room of One's Own*"
 created: 2022-02-01 18:08
 status: probe
-<<<<<<< HEAD
-last_modified: 2026-03-03 16:17:13
-=======
-last_modified: 2026-02-18 13:09:20
->>>>>>> a9dd95e (docs: retag corpus entries and clean collections)
+last_modified: 2026-03-03 18:47:58
 ---
 
 摘抄——_A Room of One's Own_ · V. Woolf《自己的房间》
@@ -15,11 +11,7 @@ last_modified: 2026-02-18 13:09:20
 
 [[toc]]
 
-<<<<<<< HEAD
 #scope/life/read #source/book #author/woolf
-=======
-#source/book #author/woolf
->>>>>>> a9dd95e (docs: retag corpus entries and clean collections)
 
 ## 2022 / 02 / 01
 

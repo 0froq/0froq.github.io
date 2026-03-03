@@ -2,11 +2,7 @@
 title: "《病隙随笔》"
 created: 2022-03-25 00:00
 status: probe
-<<<<<<< HEAD
-last_modified: 2026-03-03 16:17:27
-=======
-last_modified: 2026-02-18 13:09:44
->>>>>>> a9dd95e (docs: retag corpus entries and clean collections)
+last_modified: 2026-03-03 18:48:11
 ---
 
 摘抄——《病隙随笔》史铁生
@@ -15,11 +11,7 @@ last_modified: 2026-02-18 13:09:44
 
 [[toc]]
 
-<<<<<<< HEAD
 #scope/life/read #source/book #author/shitiesheng
-=======
-#source/book #author/shitiesheng
->>>>>>> a9dd95e (docs: retag corpus entries and clean collections)
 
 ## 2022 / 03 / 25
 

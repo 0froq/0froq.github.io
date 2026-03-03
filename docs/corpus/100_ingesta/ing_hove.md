@@ -2,11 +2,7 @@
 title: "《活着》"
 created: 2022-03-05 09:50
 status: probe
-<<<<<<< HEAD
-last_modified: 2026-03-03 16:17:38
-=======
-last_modified: 2026-02-18 13:10:00
->>>>>>> a9dd95e (docs: retag corpus entries and clean collections)
+last_modified: 2026-03-03 18:48:28
 ---
 
 摘抄——《活着》余华
@@ -15,11 +11,7 @@ last_modified: 2026-02-18 13:10:00
 
 [[toc]]
 
-<<<<<<< HEAD
 #scope/life/read #source/book #author/yuhua
-=======
-#source/book #author/yuhua
->>>>>>> a9dd95e (docs: retag corpus entries and clean collections)
 
 ## 2024 / 03 / 05
 

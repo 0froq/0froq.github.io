@@ -2,11 +2,7 @@
 title: '《关于詹牧师的报告文学》· 目的'
 created: 2022-03-27
 status: probe
-<<<<<<< HEAD
-last_modified: 2026-03-03 16:19:18
-=======
-last_modified: 2026-02-18 13:13:03
->>>>>>> a9dd95e (docs: retag corpus entries and clean collections)
+last_modified: 2026-03-03 18:50:15
 ---
 
 > 有目的的功利主义总比莫名其妙的扯皮主义要好。
@@ -17,11 +13,7 @@ last_modified: 2026-02-18 13:13:03
 
 ---
 
-<<<<<<< HEAD
 #scope/life/read #thought #source/book #author/shitiesheng
-=======
-#insight #source/book #author/shitiesheng
->>>>>>> a9dd95e (docs: retag corpus entries and clean collections)
 
 [source](../100_ingesta/ing_gryuvjmuuidebcgcwfxt.md)
 

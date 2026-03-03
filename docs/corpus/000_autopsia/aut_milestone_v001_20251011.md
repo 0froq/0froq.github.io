@@ -2,11 +2,7 @@
 title: Milestone of Corpus
 created: 2025-10-11
 status: void
-<<<<<<< HEAD
-last_modified: 2026-03-03 16:15:43
-=======
-last_modified: 2026-02-18 13:07:11
->>>>>>> a9dd95e (docs: retag corpus entries and clean collections)
+last_modified: 2026-03-03 18:47:13
 ---
 
 A milestone of Corpus.
@@ -15,11 +11,7 @@ A milestone of Corpus.
 
 [[toc]]
 
-<<<<<<< HEAD
 #scope/work/corpus #source/meta/corpus
-=======
-#meta/corpus #observation
->>>>>>> a9dd95e (docs: retag corpus entries and clean collections)
 
 ## a Milestone
 
