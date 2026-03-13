@@ -7,6 +7,7 @@ import {
   presetMini,
   presetTagify,
   presetTypography,
+  presetWind4,
   transformerDirectives,
   transformerVariantGroup,
 } from 'unocss'
@@ -49,7 +50,8 @@ export default defineConfig({
     'page-content': 'mx-auto max-w-[800px] block px-10 min-w-0',
   },
   presets: [
-    presetMini(),
+    // presetMini(),
+    presetWind4(),
     presetIcons({
       collections: {
         carbon: () => import('@iconify-json/carbon/icons.json', { with: { type: 'json' } }).then(i => i.default as any),
