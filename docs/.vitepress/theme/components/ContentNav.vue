@@ -4,7 +4,18 @@ import LinkUnderline from './LinkUnderline.vue'
 
 const route = useRoute()
 
-const links = ['/', '/en/', '/corpus/', '/posts/', '/dashboard/', '/tags/'].includes(route.path)
+const links = [
+  '/',
+  '/en/',
+  '/corpus/',
+  '/corpus/en/',
+  '/posts/',
+  '/posts/en/',
+  '/dashboard/',
+  '/dashboard/en/',
+  '/tags/',
+  '/tags/en/',
+].includes(route.path)
   ? [
       { label: 'Corpus', url: '/corpus/' },
       { label: 'Posts', url: '/posts/' },
@@ -59,7 +70,7 @@ const homeLink = ['/', '/en/'].includes(route.path)
     <LinkUnderline
       v-for="({ label, url }) in links"
       :key="url"
-      :href="`${url}`"
+      :href="`${url}${route.path.endsWith('/en') ? '' : 'en/'}`"
       :text="label"
       un-inline-block
       un-text-sm
