@@ -10,45 +10,45 @@ import NavLogo from './NavLogo.vue'
 
 const isDark = useDark()
 const toggleDark = useToggle(isDark)
-// const router = useRouter()
-// const { frontmatter } = useData()
-// const { locale } = useI18n({
-//   useScope: 'global',
-//   messages: {
-//     en: {
-//
-//     },
-//     zh: {},
-//   },
-// })
+const router = useRouter()
+const { frontmatter } = useData()
+const { locale } = useI18n({
+  useScope: 'global',
+  messages: {
+    en: {
+
+    },
+    zh: {},
+  },
+})
 const route = useRoute()
 
-// const localeMap: Record<string, string> = {
-//   en: 'English',
-//   zh: '中文',
-// }
-//
-// function handleChangeLocale(newVal: string) {
-//   if (newVal === locale.value) {
-//     return
-//   }
-//   // Only change route if page.frontmatter.locale is defined
-//   if (frontmatter.value.locale) {
-//     if (newVal === 'zh' && locale.value !== 'zh') {
-//       const newPath = `${route.path.replace(`/${locale.value}/`, '/')}`
-//       router.go(newPath, {
-//         initialLoad: true,
-//       })
-//     }
-//     else {
-//       const newPath = `${route.path}${newVal}/`
-//       router.go(newPath, {
-//         initialLoad: true,
-//       })
-//     }
-//   }
-//   locale.value = newVal as any
-// }
+const localeMap: Record<string, string> = {
+  en: 'English',
+  zh: '中文',
+}
+
+function handleChangeLocale(newVal: string) {
+  if (newVal === locale.value) {
+    return
+  }
+  // Only change route if page.frontmatter.locale is defined
+  if (frontmatter.value.locale) {
+    if (newVal === 'zh' && locale.value !== 'zh') {
+      const newPath = `${route.path.replace(`/${locale.value}/`, '/')}`
+      router.go(newPath, {
+        initialLoad: true,
+      })
+    }
+    else {
+      const newPath = `${route.path}${newVal}/`
+      router.go(newPath, {
+        initialLoad: true,
+      })
+    }
+  }
+  locale.value = newVal as any
+}
 </script>
 
 <template>
@@ -81,26 +81,26 @@ const route = useRoute()
         :key="`${route.path}-${$i18n.locale}`"
         :path-suffix="$i18n.locale === 'zh' ? '' : `${$i18n.locale}/`"
       />
-      <!-- <div -->
-      <!--   un-flex="~ col" -->
-      <!-- > -->
-      <!--   <span -->
-      <!--     v-for="_locale in $i18n.availableLocales" -->
-      <!--     :key="_locale" -->
-      <!--     un-text-sm -->
-      <!--   > -->
-      <!--     <button -->
-      <!--       :disabled="_locale === $i18n.locale || !frontmatter.locale" -->
-      <!--       un-transition-colors -->
-      <!--       un-duration-200 -->
-      <!--       :class="_locale === $i18n.locale -->
-      <!--         ? 'text-neutral-950 dark:text-neutral-50' -->
-      <!--         : 'text-neutral-500 hover:text-neutral-600 dark:hover:text-neutral-400 disabled:hover:text-neutral-500'" -->
-      <!--       un-disabled="cursor-not-allowed" -->
-      <!--       @click="handleChangeLocale(_locale)" -->
-      <!--     >{{ localeMap[_locale] }}</button> -->
-      <!--   </span> -->
-      <!-- </div> -->
+      <div
+        un-flex="~ col"
+      >
+        <span
+          v-for="_locale in $i18n.availableLocales"
+          :key="_locale"
+          un-text-sm
+        >
+          <button
+            :disabled="_locale === $i18n.locale || !frontmatter.locale"
+            un-transition-colors
+            un-duration-200
+            :class="_locale === $i18n.locale
+              ? 'text-neutral-950 dark:text-neutral-50'
+              : 'text-neutral-500 hover:text-neutral-600 dark:hover:text-neutral-400 disabled:hover:text-neutral-500'"
+            un-disabled="cursor-not-allowed"
+            @click="handleChangeLocale(_locale)"
+          >{{ localeMap[_locale] }}</button>
+        </span>
+      </div>
       <a
         un-hidden
         un-md="flex"
