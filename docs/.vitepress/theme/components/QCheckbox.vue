@@ -36,7 +36,7 @@ const isChecked = computed({
       un-h-4
       un-rounded-sm
       un-border="px neutral-600"
-      un-before="transition content-empty bg-neutral-800 dark:bg-neutral-200 w-2 h-2 scale-0 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-none"
+      un-before="transition duration-200 content-empty bg-neutral-800 dark:bg-neutral-200 w-2 h-2 scale-0 absolute top-50% left-50% translate--50% rounded-none"
       un-checked="border-neutral-600 dark:border-neutral-400 before:scale-100"
       un-hover="border-neutral-800 dark:border-neutral-200 before:scale-20 checked:before:scale-100"
     >
@@ -44,10 +44,10 @@ const isChecked = computed({
       :for="id"
       un-text="neutral-600 dark:neutral-400 base"
       un-flex="~ row"
+      un-w-fit
       un-gap-1
       un-items-center
       un-ml-2
-      un-block
     >
       {{ props.labelPrefix }}
       <span>
@@ -56,9 +56,8 @@ const isChecked = computed({
           un-transition-all
           un-duration-400
           un-text="rose-600 dark:rose-400"
-          :un-translate-y="isChecked ? '100%' : '0'"
-          :un-opacity="isChecked ? '0' : '100'"
           un-absolute
+          :class="isChecked ? 'translate-[0,100%] opacity-0' : 'translate-[0,0] opacity-100'"
         >
           {{ props.labelText?.unchecked }}
         </span>
@@ -66,9 +65,9 @@ const isChecked = computed({
           un-inline-block
           un-transition-all
           un-duration-400
+          un-relative
           un-text="emerald-600 dark:emerald-400"
-          :un-translate-y="isChecked ? '0' : '-100%'"
-          :un-opacity="isChecked ? '100' : '0'"
+          :class="isChecked ? 'translate-[0,0] opacity-100' : 'translate-[0,-100%] opacity-0'"
         >
           {{ props.labelText?.checked }}
         </span>
