@@ -36,7 +36,6 @@ const years = yearData
           </div>
           <ul
             v-if="goal.links?.length"
-            un-list-disc
             un-ml-5
             un-text-sm
             un-text-neutral-500
