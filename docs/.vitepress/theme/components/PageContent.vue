@@ -10,7 +10,7 @@ import ContentNav from './ContentNav.vue'
 import ContentNotFound from './ContentNotFound.vue'
 import ContentTags from './ContentTags.vue'
 
-const { page, frontmatter } = useData()
+const { page } = useData()
 const route = useRoute()
 
 const homePaths = [
