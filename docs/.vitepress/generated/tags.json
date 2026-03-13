@@ -34,6 +34,7 @@
   "scope/work",
   "scope/work/corpus",
   "scope/work/course",
+  "scope/work/keyboard",
   "scope/work/mathjax",
   "scope/work/nvim",
   "scope/work/research",
@@ -47,6 +48,5 @@
   "source/paper",
   "thought",
   "thought/consciousness",
-  "thought/issue",
-  "vig"
+  "thought/issue"
 ]
