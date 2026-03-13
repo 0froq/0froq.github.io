@@ -1,0 +1,15 @@
+quadrants:
+  q1:
+    - title: 规划本周任务
+      dod: 把本周要做的事情都写在这里
+      status: 途中
+      links:
+        - label: Check it here
+          url: https://froq.me
+      tags:
+
+  q2:
+
+  q3:
+
+  q4:
