@@ -4,19 +4,23 @@
     "body": [
       "- title: ${1:Title}",
       "  dod: ${2:Def of Done}",
-      "  status: ${3|not-planed,arranging,deffered|}",
+      "  status: ${3|notPlanned,arranging,deffered|}",
       "  due: ${4:Due}",
-      "  links:",
-      "    - label: ${5:Label}",
-      "      url: ${6:URL}"
+      "  links:"
     ]
   },
   "week": {
     "prefix": "..week",
     "body": [
-      "theme: ${1:Theme}",
+      "theme: ${1:Theme}\n",
       "quadrants:",
-      "  q1:\n",
+      "  q1:",
+      "    - title: 安排本周的任务",
+      "      dod: 搞完了？我看未必……",
+      "      status: notStarted",
+      "      links:\n",
+      "      tags:",
+      "        - forIdiot\n",
       "  q2:\n",
       "  q3:\n",
       "  q4:"
@@ -27,12 +31,9 @@
     "body": [
       "- title: ${1:Title}",
       "  dod: ${2:Def of Done}",
-      "  status: ${3|完毕,途中,未始,延期,取消,阻塞|}",
-      "  links:",
-      "    - label: ${5:Label}",
-      "      url: ${6:URL}",
-      "  tags:",
-      "    - ${7:Tag}"
+      "  status: ${3|done,inProgress,notStarted,deffered,cancelled,blocked|}",
+      "  links:\n",
+      "  tags:"
     ]
   }
 }
