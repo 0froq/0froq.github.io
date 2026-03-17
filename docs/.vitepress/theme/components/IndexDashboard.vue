@@ -1,7 +1,29 @@
 <script setup lang="ts">
+import { useData, useRoute } from 'vitepress'
+import { useI18n } from 'vue-i18n'
+import { useRouteI18n } from '../../utils/useRouteI18n.ts'
 import DashboardBacklog from './DashboardBacklog.vue'
 import DashboardWeekQuadrant from './DashboardWeekQuadrant.vue'
 import LinkUnderline from './LinkUnderline.vue'
+
+const { path } = useRoute()
+const { t, locale } = useI18n({
+  useScope: 'global',
+  messages: {
+    en: {
+      exploreHistory: 'Explore the history',
+      intents: 'I want to……',
+      guidelines: 'Need to follow……',
+    },
+    zh: {
+      exploreHistory: '看看往期',
+      intents: '我想……',
+      guidelines: '需要遵守……',
+    },
+  },
+})
+
+const { currentBasePath } = useRouteI18n(path, locale.value)
 </script>
 
 <template>
@@ -15,16 +37,16 @@ import LinkUnderline from './LinkUnderline.vue'
     <LinkUnderline
       v-for="link in [
         {
-          label: '看看往期',
+          label: t('exploreHistory'),
           url: 'https://github.com/0froq/0froq.github.io/tree/main/docs/dashboard/weeks',
         },
         {
-          label: '我想……',
-          url: 'intents/',
+          label: t('intents'),
+          url: `${currentBasePath}intents/${locale === 'zh' ? '' : `${locale}/`}`,
         },
         {
-          label: '需要遵守……',
-          url: 'hints/',
+          label: t('guidelines'),
+          url: `${currentBasePath}hints/${locale === 'zh' ? '' : `${locale}/`}`,
         },
       ]"
       :key="link.url"

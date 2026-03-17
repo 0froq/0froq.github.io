@@ -50,8 +50,9 @@ const categories: string[] = ['log', 'roadmap', 'collection']
 <template>
   <div>
     <ProgressBarHeader
-      :title="t('posts')"
+      title="Posts"
       un-mb-8
+      un-font="script"
     />
     <!-- <hr> -->
     <Content
@@ -73,8 +74,7 @@ const categories: string[] = ['log', 'roadmap', 'collection']
         :text="t(`categories.${category}`)"
         un-text="neutral-700 dark:neutral-300 hover:neutral-950 dark:hover:neutral-50 2xl"
         un-before="bg-rose-600 dark:bg-rose-400"
-        un-italic
-        :tooltip="t(`intros.${category}`) ? true : false"
+        un-font-italic
         :tooltip-text="t(`intros.${category}`) || ''"
       />
     </div>
@@ -94,12 +94,6 @@ const categories: string[] = ['log', 'roadmap', 'collection']
         :group-by-year="true"
         :year-formatter="$i18n.locale === 'zh' ? toChineseNumber : (year: string) => year"
         :intro="t(`intros.${category}`)"
-        :date-formatter="(date: Date) => {
-          return new Date(date).toLocaleDateString($i18n.locale === 'zh' ? 'zh-CN' : 'en-US', {
-            month: 'long',
-            day: 'numeric',
-          })
-        }"
       />
     </div>
   </ClientOnly>
