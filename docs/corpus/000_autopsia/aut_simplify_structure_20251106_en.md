@@ -2,7 +2,9 @@
 title: Corpus 结构简化
 created: 2025-11-06
 status: form
-last_modified: 2026-03-17 16:33:59
+last_modified: 2026-03-17 16:45:28
+lang: en
+translated: true
 ---
 
 Corpus 结构进行了简化。

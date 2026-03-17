@@ -11,7 +11,7 @@ locale: zh
 造轮子（[headup.nvim](https://github.com/Fro-Q/headup.nvim)、
 [VSCode theme LiG](https://github.com/Fro-Q/vscode-theme-LiG)），
 工作流设计（macOS + sketchybar + yabai + Hammerspoon + ……）。
-我维护着 [个人博客](https://froq.me)
+我维护着 [我的个人博客](https://froq.me)
 和 [ToQ 播客](https://www.xiaoyuzhoufm.com/podcast/68fb1be73ffa38fac58d6bf2)。
 
 我读荒诞主义（<ruby> :rb[加缪] :rt[Albert Camus]</ruby>、
@@ -21,7 +21,7 @@ locale: zh
 <ruby> :rb[拉康] :rt[Jacques Lacan]</ruby>）。
 我试图在理性与感性之间保持观察的距离。
 
-我是<ruby> :rb[双相障碍] :rt[bipolar disorder]</ruby>者（Ⅰ 型）。
+我是 ==<ruby> :rb[双相障碍] :rt[bipolar disorder]</ruby>者（Ⅰ 型）==。
 思维在秩序与混沌之间徘徊，
 这种张力是我创造力的来源。
 
