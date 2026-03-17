@@ -98,7 +98,7 @@ const appWithTitle = [
       un-h-2
       un-rounded-full
       un-shrink-0
-      un-bg="emerald-400 dark:emerald-600"
+      un-bg="emerald-600 dark:emerald-400"
     />
     <span
       un-flex="~ row"

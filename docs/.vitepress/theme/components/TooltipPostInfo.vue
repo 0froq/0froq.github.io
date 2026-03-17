@@ -22,7 +22,6 @@ const { t } = useI18n({
   <div
     un-py-2
     un-flex="~ col"
-    un-text="sm neutral-600 dark:neutral-400"
     un-gap-2
     un-max-w-300px
   >
@@ -31,18 +30,20 @@ const { t } = useI18n({
       un-items-center
       un-gap-2
     >
-      <un-i-ph-clock-duotone
+      <un-i-solar-clock-circle-bold-duotone
         un-w-4
         un-h-4
         un-inline-block
         un-align-middle
         :class="post.readingTime < 5
-          ? `text-green-700 dark:text-green-300`
+          ? `text-green-600 dark:text-green-400`
           : post.readingTime < 10
-            ? `text-yellow-700 dark:text-yellow-300`
-            : `text-red-700 dark:text-red-300`"
+            ? `text-yellow-600 dark:text-yellow-400`
+            : `text-red-600 dark:text-red-400`"
       />
-      <div>
+      <div
+        un-text="neutral-700 dark:neutral-300"
+      >
         {{ t('readingTime', { count: post.readingTime }) }}
       </div>
     </div>
@@ -52,19 +53,19 @@ const { t } = useI18n({
       un-items-start
       un-gap-2
     >
-      <un-i-ph-tag-duotone
+      <un-i-solar-tag-horizontal-bold-duotone
         un-w-4
         un-h-4
         un-shrink-0
         un-inline-block
-        un-text="sky-400 dark:sky-600"
+        un-text="sky-600 dark:sky-400"
       />
       <div>
         <div
           v-for="tag in post.tags"
           :key="tag"
           un-text="neutral-700 dark:neutral-300"
-          un-underline="~ px sky-500"
+          un-underline="~ px sky-600 dark:sky-400"
         >
           #{{ tag }}
         </div>
@@ -76,16 +77,16 @@ const { t } = useI18n({
       un-items-start
       un-gap-2
     >
-      <un-i-ph-file-text-duotone
+      <un-i-solar-document-text-bold-duotone
         un-w-4
         un-h-4
         un-shrink-0
         un-inline-block
         un-align-middle
-        un-text="emerald-400 dark:emerald-600"
+        un-text="emerald-600 dark:emerald-400"
       />
       <div
-        un-text="neutral-800 dark:neutral-200"
+        un-text="neutral-700 dark:neutral-300"
         un-whitespace-normal
         v-html="post.excerpt"
       />

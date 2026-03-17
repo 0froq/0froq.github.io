@@ -28,7 +28,7 @@ onClickOutside(extendedTagsRef as any, () => {
       un-mr-2
       un-inline-block
       un-align-middle
-      un-text="sky-400 dark:sky-600"
+      un-text="sky-600 dark:sky-400"
     />
     <template
       v-for="(tag, index) in currentTagHierarchy"
@@ -40,7 +40,7 @@ onClickOutside(extendedTagsRef as any, () => {
         :un-text="index === currentTagHierarchy.length - 1
           ? `neutral-700 dark:neutral-300 hover:neutral-950 dark:hover:neutral-50`
           : `neutral-500 hover:neutral-950 dark:hover:neutral-50`"
-        un-before="bg-sky-400 dark:bg-sky-600"
+        un-before="bg-sky-600 dark:bg-sky-400"
       />
       <span
         v-if="index < currentTagHierarchy.length - 1"
