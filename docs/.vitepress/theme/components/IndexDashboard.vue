@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import { useData, useRoute } from 'vitepress'
+import { useRoute } from 'vitepress'
 import { useI18n } from 'vue-i18n'
 import { useRouteI18n } from '../../utils/useRouteI18n.ts'
 import DashboardBacklog from './DashboardBacklog.vue'
 import DashboardWeekQuadrant from './DashboardWeekQuadrant.vue'
 import LinkUnderline from './LinkUnderline.vue'
+import ProgressBarHeader from './ProgressBarHeader.vue'
 
 const { path } = useRoute()
 const { t, locale } = useI18n({
@@ -27,6 +28,11 @@ const { currentBasePath } = useRouteI18n(path, locale.value)
 </script>
 
 <template>
+  <ProgressBarHeader
+    un-font="mono"
+    title="Dashboard"
+    description="A place to track my weekly progress and plan for the next week."
+  />
   <DashboardWeekQuadrant />
   <DashboardBacklog />
 
