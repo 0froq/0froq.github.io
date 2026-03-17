@@ -4,7 +4,7 @@ quadrants:
   q1:
     - title: 个人网站最后重构
       dod: 不再动
-      status: 途中
+      status: done
       links:
         - label: Check it here
           url: https://froq.me

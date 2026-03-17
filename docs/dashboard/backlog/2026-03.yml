@@ -1,11 +1,11 @@
 items:
   - title: 湖泊水温可用数据
     dod: 找到可用数据并下载
-    status: not-planed
-    due: 2026-03-25
+    status: notPlanned
+    due: 2026/03/25
     links:
   - title: 抖音看完
     dod: 字面意思
     status: arranging
-    due: 2026-03-24
+    due: 2026/03/24
     links:
