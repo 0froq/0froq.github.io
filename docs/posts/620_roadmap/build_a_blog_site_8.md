@@ -2,7 +2,8 @@
 title: "从零开始搭建博客网站（八）"
 series: blog_site
 created: 2025-04-24 21:32
-last_modified: 2026-03-03 16:13:39
+status: form
+last_modified: 2026-03-15 14:48:11
 ---
 
 从零开始搭建博客网站（八）：文章大纲与代码块一大坨配置。

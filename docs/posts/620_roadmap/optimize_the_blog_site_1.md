@@ -2,7 +2,8 @@
 title: 优化一个博客网站（一）
 series: blog_site
 created: 2025-08-26 09:37
-last_modified: 2026-03-03 16:13:53
+status: form
+last_modified: 2026-03-15 14:48:16
 ---
 
 优化一个博客网站（一）：好看点。

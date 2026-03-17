@@ -2,7 +2,8 @@
 title: '从零开始搭建博客网站（六）'
 series: blog_site
 created: 2025-02-17 18:24
-last_modified: 2026-03-03 16:13:28
+status: form
+last_modified: 2026-03-15 14:48:05
 ---
 
 从零开始搭建博客网站（六）：文章 Markdown 样式。

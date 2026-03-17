@@ -2,7 +2,8 @@
 title: "从零开始搭建博客网站（五）"
 series: blog_site
 created: 2025-02-06 22:18
-last_modified: 2026-03-03 16:13:21
+status: form
+last_modified: 2026-03-15 14:48:03
 ---
 
 从零开始搭建博客网站（五）：文章列表。

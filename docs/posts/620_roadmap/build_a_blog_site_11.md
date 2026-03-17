@@ -2,7 +2,8 @@
 title: "从零开始搭建博客网站（十一）"
 series: blog_site
 created: 2025-08-25 14:37
-last_modified: 2026-03-03 16:12:57
+status: form
+last_modified: 2026-03-15 14:47:44
 ---
 
 从零开始搭建博客网站（十一）：部署！

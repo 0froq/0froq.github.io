@@ -2,7 +2,8 @@
 title: '从零开始搭建博客网站（三）'
 series: blog_site
 created: 2025-01-20 01:03
-last_modified: 2026-03-03 16:13:11
+status: form
+last_modified: 2026-03-15 14:47:57
 ---
 
 从零开始搭建博客网站（三）：像样的页面与文件结构优化。

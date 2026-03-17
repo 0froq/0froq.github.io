@@ -2,7 +2,8 @@
 title: "从零开始搭建博客网站（二）"
 series: blog_site
 created: 2025-01-14 20:21
-last_modified: 2026-03-03 16:13:05
+status: form
+last_modified: 2026-03-15 14:47:54
 ---
 
 从零开始搭建博客网站（二）：开发环境、`.gitignore` 与黑暗模式。

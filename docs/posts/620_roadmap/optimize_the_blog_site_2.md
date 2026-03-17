@@ -2,7 +2,8 @@
 title: 优化一个博客网站（二）
 series: blog_site
 created: 2025-09-03 15:28
-last_modified: 2026-03-03 16:13:59
+status: form
+last_modified: 2026-03-15 14:48:20
 ---
 
 优化一个博客网站（二）：文章页面的其他玩意。

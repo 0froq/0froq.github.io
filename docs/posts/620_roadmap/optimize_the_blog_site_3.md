@@ -2,7 +2,8 @@
 title: 优化一个博客网站（三）
 series: blog_site
 created: 2025-09-05 08:58
-last_modified: 2026-03-03 16:14:07
+status: form
+last_modified: 2026-03-15 14:48:23
 ---
 
 优化一个博客网站（三）：按标签分类。
