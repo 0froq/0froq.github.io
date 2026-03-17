@@ -77,11 +77,19 @@ watchEffect(() => {
         un-bottom-0
       />
     </div>
-    <h2
-      un-my-4
-      un-text-4xl
-      v-html="title !== '-' ? title : ''"
-    />
+    <div
+      un-flex="~ row"
+      un-items-center
+      un-gap-4
+    >
+      <h2
+        un-my-4
+        un-text-3xl
+        un-w-fit
+        v-html="title !== '-' ? title : ''"
+      />
+      <slot name="titleAddon" />
+    </div>
     <div
       v-if="intro"
       un-text="neutral-600 dark:neutral-400"

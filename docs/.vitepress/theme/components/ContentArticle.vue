@@ -5,17 +5,22 @@ import { useI18n } from 'vue-i18n'
 import { renderMdInline } from '../../utils/renderMdInline'
 import { data as corpus } from '../src/corpus.data'
 import { data as posts } from '../src/posts.data'
+import LinkUnderline from './LinkUnderline.vue'
 import PostNavigation from './PostNavigation.vue'
 import ProgressBarHeader from './ProgressBarHeader.vue'
 
-const { t, d } = useI18n({
+const { t, d, locale } = useI18n({
   useScope: 'global',
   messages: {
     en: {
       readingTime: '{count} min | {count} mins',
+      original: 'Original: ',
+      otherLangs: 'In Other Languages:',
     },
     zh: {
       readingTime: '约 {count} 分钟',
+      original: '原文：',
+      otherLangs: '其他语言：',
     },
   },
 })
@@ -50,7 +55,6 @@ const metaStrings = computed(() => {
   }
   const strings = [
     d(new Date(post.value.created), 'long'),
-    // `约${post.value.readingTime}分钟`,
     t('readingTime', { count: Math.ceil(post.value.readingTime) }),
   ]
   return strings
@@ -82,7 +86,6 @@ const nextPost = computed(() => {
   if (currentIndex === -1)
     return null
   return postPool.value[currentIndex + 1] ?? null
-  // return getNextPost(post.value, postPool.value)
 })
 
 /**
@@ -96,7 +99,30 @@ const prevPost = computed(() => {
   if (currentIndex === -1)
     return null
   return currentIndex > 0 ? postPool.value[currentIndex - 1] : null
-  // return getPrevPost(post.value, postPool.value)
+})
+
+const translatedPosts = computed(() => {
+  if (!post.value)
+    return []
+  const translated = articles.filter((p) => {
+    return (p.frontmatter.lang || 'zh') !== post.value?.frontmatter.lang && p.frontmatter.translated === true
+      && p.url.includes(post.value!.url.replace(/\/?$/, ''))
+  })
+
+  return translated || []
+})
+
+const originalPost = computed(() => {
+  if (!post.value)
+    return null
+  if (!post.value.frontmatter.translated)
+    return null
+  const original = articles.find((p) => {
+    return !p.frontmatter.translated
+      && post.value!.url.includes(p.url.replace(/\/?$/, ''))
+  })
+
+  return original || null
 })
 </script>
 
@@ -105,7 +131,26 @@ const prevPost = computed(() => {
     v-if="post?.frontmatter.title"
     :id="post?.frontmatter.title"
     :title="renderMdInline(frontmatter.title) || ''"
-  />
+  >
+    <template #titleAddon>
+      <div
+        v-if="['void', 'draft'].includes(post.frontmatter.status)"
+        un-underline="~ px neutral-600 dark:neutral-400"
+        un-text="neutral-600 dark:neutral-400 xl"
+        un-font="mono italic"
+      >
+        {{ post.frontmatter.status }}
+      </div>
+      <div
+        v-if="locale !== (post.frontmatter.lang || 'zh') && (post.frontmatter.lang || 'zh')"
+        un-underline="~ px amber-600 dark:amber-400"
+        un-text="amber-600 dark:amber-400 xl"
+        un-font="mono italic"
+      >
+        {{ post.frontmatter.lang || 'zh' }}
+      </div>
+    </template>
+  </ProgressBarHeader>
   <div
     un-flex="~ row"
     un-justify-end
@@ -120,7 +165,50 @@ const prevPost = computed(() => {
       {{ string }}
     </div>
   </div>
-  <!-- Main content slot for the post -->
+
+  <div
+    un-mt-6
+    un-border-l="~ 2px amber-600 dark:amber-400"
+    un-px-4
+  >
+    <div
+      v-if="translatedPosts && translatedPosts.length > 0"
+      un-flex="~ col"
+    >
+      <div>
+        {{ t('otherLangs') }}
+      </div>
+      <div
+        v-for="translated in translatedPosts"
+        :key="translated.url"
+        un-ml-4
+        un-flex="~ row"
+        un-gap-2
+      >
+        {{ translated.frontmatter.lang || 'zh' }}
+        <LinkUnderline
+          :href="translated.url"
+          :text="(translated.frontmatter.title || translated.url)"
+          un-text="neutral-500 hover:neutral-950 dark:hover:neutral-50"
+          un-before="bg-emerald-600 dark:bg-emerald-400"
+        />
+      </div>
+    </div>
+    <div
+      v-if="originalPost"
+      un-flex="~ row"
+    >
+      <div>
+        {{ t('original') }}
+      </div>
+      <LinkUnderline
+        :href="originalPost.url"
+        :text="originalPost.frontmatter.title || originalPost.url"
+        un-text="neutral-500 hover:neutral-950 dark:hover:neutral-50"
+        un-before="bg-rose-600 dark:bg-rose-400"
+      />
+    </div>
+  </div>
 
   <Content
     id="content"

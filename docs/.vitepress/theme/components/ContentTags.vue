@@ -9,7 +9,7 @@ import ProgressBarHeader from './ProgressBarHeader.vue'
 import TagDisplay from './TagDisplay.vue'
 import TooltipPostInfo from './TooltipPostInfo.vue'
 
-const { t, d } = useI18n({
+const { t, d, locale } = useI18n({
   useScope: 'global',
   messages: {
     en: {
@@ -29,7 +29,7 @@ const { params } = useData()
 const articles = [
   ...corpus.map(item => ({ ...item, source: 'corpus' })),
   ...posts.map(item => ({ ...item, source: 'posts' })),
-]
+].sort((a, b) => new Date(b.created).getTime() - new Date(a.created).getTime())
 
 const postsInCurrentTag = computed(() => {
   return articles.filter(post =>
@@ -87,17 +87,41 @@ const postsInExtendedTags = computed(() => {
         un-px-1
       >P
       </span>
-      <LinkUnderline
-        :vanilla="true"
-        :href="post.url"
-        :text="post.title"
-        :tooltip-text="post.frontmatter.title"
-        un-min-w-0
+      <div
+        v-if="['void', 'draft'].includes(post.frontmatter.status)"
+        un-underline="~ px neutral-600 dark:neutral-400"
+        un-text="neutral-600 dark:neutral-400 xs"
+        un-font="mono italic"
       >
-        <template #tooltipAddons>
-          <TooltipPostInfo :post="post" />
-        </template>
-      </LinkUnderline>
+        {{ post.frontmatter.status }}
+      </div>
+      <div
+        v-if="locale !== (post.frontmatter.lang || 'zh') && (post.frontmatter.lang || 'zh')"
+        un-underline="~ px amber-600 dark:amber-400"
+        un-text="amber-600 dark:amber-400 xs"
+        un-font="mono italic"
+      >
+        {{ post.frontmatter.lang || 'zh' }}
+      </div>
+      <div
+        :style="post.frontmatter.status === 'void' ? {
+          textDecorationLine: 'line-through',
+          textDecorationThickness: '1px',
+        } : ''"
+      >
+        <LinkUnderline
+          :vanilla="true"
+          :href="post.url"
+          :text="post.title"
+          :tooltip-text="post.frontmatter.title"
+          un-min-w-0
+          :un-text="post.frontmatter.status === 'void' ? 'neutral-600 dark:neutral-400' : ''"
+        >
+          <template #tooltipAddons>
+            <TooltipPostInfo :post="post" />
+          </template>
+        </LinkUnderline>
+      </div>
       <div
         un-text="neutral-500 dark:neutral-400 xs"
         un-whitespace-nowrap
