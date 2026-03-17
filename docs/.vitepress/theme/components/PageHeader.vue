@@ -15,9 +15,7 @@ const { frontmatter } = useData()
 const { locale } = useI18n({
   useScope: 'global',
   messages: {
-    en: {
-
-    },
+    en: {},
     zh: {},
   },
 })
@@ -48,6 +46,7 @@ function handleChangeLocale(newVal: string) {
     }
   }
   locale.value = newVal as any
+  localStorage.setItem('locale', newVal)
 }
 </script>
 
@@ -90,7 +89,6 @@ function handleChangeLocale(newVal: string) {
           un-text-sm
         >
           <button
-            :disabled="_locale === $i18n.locale || !frontmatter.locale"
             un-transition-colors
             un-duration-200
             :class="_locale === $i18n.locale

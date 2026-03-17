@@ -1,11 +1,24 @@
 <script setup lang="ts">
 import { useData, useRoute } from 'vitepress'
 import { computed } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { renderMdInline } from '../../utils/renderMdInline'
 import { data as corpus } from '../src/corpus.data'
 import { data as posts } from '../src/posts.data'
 import PostNavigation from './PostNavigation.vue'
 import ProgressBarHeader from './ProgressBarHeader.vue'
+
+const { t, d } = useI18n({
+  useScope: 'global',
+  messages: {
+    en: {
+      readingTime: '{count} min | {count} mins',
+    },
+    zh: {
+      readingTime: '约 {count} 分钟',
+    },
+  },
+})
 
 const articles = [
   ...corpus,
@@ -36,12 +49,9 @@ const metaStrings = computed(() => {
     return []
   }
   const strings = [
-    new Date(post.value.created).toLocaleDateString('zh-CN', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-    }),
-    `约${post.value.readingTime}分钟`,
+    d(new Date(post.value.created), 'long'),
+    // `约${post.value.readingTime}分钟`,
+    t('readingTime', { count: Math.ceil(post.value.readingTime) }),
   ]
   return strings
 })

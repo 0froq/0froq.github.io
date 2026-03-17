@@ -1,18 +1,30 @@
 <script setup lang="ts">
-import { data as posts } from '../src/posts.data.ts'
+import { useI18n } from 'vue-i18n'
 import LinkUnderline from './LinkUnderline.vue'
-import PostListSection from './PostListSection.vue'
 
-const randomPosts = posts
-  .sort(() => 0.5 - Math.random())
-  .slice(0, 5)
+const { t } = useI18n({
+  useScope: 'global',
+  messages: {
+    en: {
+      hereText: 'here',
+      contactMeText: 'contact me',
+      notSupposedToBeHere: 'You are not supposed to be {here}',
+      ifYouReachHere: 'If you reached here through any internal link, please {contactMe}',
+    },
+    zh: {
+      hereText: '这里',
+      contactMeText: '联系我',
+      notSupposedToBeHere: '您其实不应该出现在{here}',
+      ifYouReachHere: '如果您通过任何内部链接到达这里,请{contactMe}',
+    },
+  },
+})
 </script>
 
 <template>
   <h1
     un-text="align-right 400px rose-500/10"
     un-font="900"
-
     un-absolute
     un-bottom-0
     un-select-none
@@ -24,51 +36,38 @@ const randomPosts = posts
   <un-page-content
     un-relative
     un-z-1
+    un-text="2xl neutral-800 dark:neutral-200"
+    un-flex="~ col"
+    un-gap-6
   >
-    <div
-      un-text="2xl neutral-800 dark:neutral-200"
-      un-my-10
-      un-flex="~ row"
-    >
-      您其实不应该出现在 <span
-        un-text-rose-500
-      >这里</span> /
+    <div>
+      <i18n-t
+        keypath="notSupposedToBeHere"
+      >
+        <template #here>
+          <span
+            un-text-rose-500
+          >
+            {{ t('hereText') }}
+          </span>
+        </template>
+      </i18n-t> /
     </div>
-    <div
-      un-text="2xl neutral-700 dark:neutral-300"
-      un-my-10
-      un-flex="~ row"
-    >
-      如果您通过任何内部链接到达这里,请
-      <LinkUnderline
-        un-align-base
-        href="/posts/get_along/"
-        text="联系我"
-        un-text="emerald-500"
-        un-before="bg-emerald-600 dark:bg-emerald-400"
-      /> /
+    <div>
+      <i18n-t
+        keypath="ifYouReachHere"
+      >
+        <template #contactMe>
+          <LinkUnderline
+            un-align-base
+            href="mailto:sayhola@froq.me"
+            :text="t('contactMeText')"
+            un-text="emerald-500"
+            un-before="bg-emerald-600 dark:bg-emerald-400"
+            un-vertical="bottom"
+          />
+        </template>
+      </i18n-t> /
     </div>
-    <div
-      un-text="2xl neutral-600 dark:neutral-400"
-      un-my-10
-      un-flex="~ row"
-    >
-      或者这里有一些
-      <LinkUnderline
-        un-align-base
-        href="/#%E5%85%A8"
-        text="文章"
-        un-text="cyan-500"
-        un-before="bg-cyan-600 dark:bg-cyan-600/80"
-      />
-      您可能会感兴趣:
-    </div>
-
-    <PostListSection
-      title=""
-      :posts="randomPosts"
-      :excerpt-visible="false"
-      :show-excerpt-toggle="false"
-    />
   </un-page-content>
 </template>

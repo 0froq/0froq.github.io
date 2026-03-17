@@ -6,7 +6,6 @@ import { renderMdInline } from '../../utils/renderMdInline'
 const props = defineProps<{
   href: string
   text: string
-  tooltip?: boolean
   tooltipAddons?: string[]
   tooltipText?: string
   vanilla?: boolean
@@ -22,7 +21,7 @@ const tooltipStyle = reactive({
 })
 
 async function updateTooltipPosition(e: MouseEvent) {
-  if (!props.tooltip) {
+  if (!props.tooltipText) {
     return
   }
 
@@ -83,7 +82,7 @@ onMounted(() => {
       v-html="renderMdInline(text)"
     />
     <div
-      v-if="showTooltip && tooltip"
+      v-if="showTooltip && tooltipText"
       ref="tooltipRef"
       class="tooltip"
       :style="tooltipStyle"
@@ -100,9 +99,12 @@ onMounted(() => {
     >
       <div
         un-flex="~ col"
+        un-max-w="300px"
       >
         <div
           class="markdown-rendered"
+          un-break-words
+          un-whitespace-normal
           v-html="renderMdInline(tooltipText)"
         />
         <slot
@@ -144,7 +146,7 @@ onMounted(() => {
       v-html="renderMdInline(text)"
     />
     <div
-      v-if="showTooltip && tooltip"
+      v-if="showTooltip && tooltipText"
       ref="tooltipRef"
       class="tooltip"
       :style="tooltipStyle"
@@ -162,9 +164,12 @@ onMounted(() => {
     >
       <div
         un-flex="~ col"
+        un-max-w="300px"
       >
         <div
           class="markdown-rendered"
+          un-break-words
+          un-whitespace-normal
           v-html="renderMdInline(tooltipText)"
         />
         <slot

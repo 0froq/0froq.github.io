@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useData } from 'vitepress'
-import { computed, ref } from 'vue'
+import { computed } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { data as corpus } from '../src/corpus.data'
 import { data as posts } from '../src/posts.data'
 import LinkUnderline from './LinkUnderline.vue'
@@ -8,6 +9,19 @@ import ProgressBarHeader from './ProgressBarHeader.vue'
 import TagDisplay from './TagDisplay.vue'
 import TooltipPostInfo from './TooltipPostInfo.vue'
 
+const { t, d } = useI18n({
+  useScope: 'global',
+  messages: {
+    en: {
+      inThis: 'In This',
+      inExtended: 'In Extended',
+    },
+    zh: {
+      inThis: '在此',
+      inExtended: '在更深处',
+    },
+  },
+})
 const { params } = useData()
 
 // Combine corpus and posts data
@@ -36,11 +50,11 @@ const postsInExtendedTags = computed(() => {
   <div
     v-for="_posts in [
       {
-        label: '在此',
+        label: t('inThis'),
         posts: postsInCurrentTag,
       },
       {
-        label: '在更深处',
+        label: t('inExtended'),
         posts: postsInExtendedTags,
       },
     ]"
@@ -77,7 +91,6 @@ const postsInExtendedTags = computed(() => {
         :vanilla="true"
         :href="post.url"
         :text="post.title"
-        :tooltip="true"
         :tooltip-text="post.frontmatter.title"
         un-min-w-0
       >
@@ -89,11 +102,7 @@ const postsInExtendedTags = computed(() => {
         un-text="neutral-500 dark:neutral-400 xs"
         un-whitespace-nowrap
       >
-        {{ new Date(post.created).toLocaleDateString('zh-CN', {
-          year: 'numeric',
-          month: 'long',
-          day: 'numeric',
-        }) }}
+        {{ d(new Date(post.created), 'short') }}
       </div>
     </div>
   </div>

@@ -1,14 +1,27 @@
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n'
 import { renderMdInline } from '../../utils/renderMdInline'
 import { data as hints } from '../src/guidance.data'
 import LinkUnderline from './LinkUnderline.vue'
 import ProgressBarHeader from './ProgressBarHeader.vue'
+
+const { t, locale } = useI18n({
+  useScope: 'global',
+  messages: {
+    en: {
+      headerText: 'Need to follow……',
+    },
+    zh: {
+      headerText: '需要遵守……',
+    },
+  },
+})
 </script>
 
 <template>
   <ProgressBarHeader
     id="guidance-header"
-    title="需要遵守……"
+    :title="t('headerText')"
   />
   <section
     class="section-card"
@@ -33,10 +46,10 @@ import ProgressBarHeader from './ProgressBarHeader.vue'
         un-ml-4
       >
         <li
-          v-for="item in block.items"
+          v-for="item in block.items.filter(i => i.locale === locale || !i.locale)"
           :key="item.title"
         >
-          <div un-font-semibold>
+          <div>
             {{ item.title }}
           </div>
           <div
