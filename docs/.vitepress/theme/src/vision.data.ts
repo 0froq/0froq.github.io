@@ -1,5 +1,4 @@
 import fs from 'node:fs'
-import path from 'node:path'
 import { defineLoader } from 'vitepress'
 import YAML from 'yaml'
 
@@ -11,6 +10,7 @@ export interface VisionLink {
 export interface VisionItem {
   title: string
   links?: VisionLink[]
+  locale?: string
 }
 
 function readYaml<T>(file: string): T {

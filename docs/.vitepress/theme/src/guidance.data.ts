@@ -10,6 +10,7 @@ export interface GuidanceItem {
     label: string
     url: string
   }[]
+  locale?: string
 }
 
 export interface GuidanceCategory {

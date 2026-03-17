@@ -11,6 +11,7 @@ export interface YearLink {
 export interface YearGoal {
   title: string
   links?: YearLink[]
+  locale?: string
 }
 
 export interface YearRecord {
