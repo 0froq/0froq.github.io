@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { renderMdInline } from '../../utils/renderMdInline'
 import LinkUnderline from './LinkUnderline.vue'
 import ProgressBarHeader from './ProgressBarHeader.vue'
 import QCheckbox from './QCheckbox.vue'
@@ -38,13 +37,9 @@ const props = defineProps<{
    * Introduction.
    */
   intro?: string
-  /**
-   * Function to format the date.
-   */
-  dateFormatter?: (date: Date) => string
 }>()
 
-const { t, locale } = useI18n({
+const { t, d, locale } = useI18n({
   messages: {
     en: {
       excerptToggle: {
@@ -147,23 +142,33 @@ const excerptVisible = ref(false)
           un-flex="~ row"
           un-items-center
           un-max-w-full
+          un-gap-2
         >
           <div
+            v-if="['void', 'draft'].includes(post.frontmatter.status)"
+            un-underline="~ px neutral-600 dark:neutral-400"
+            un-text="neutral-600 dark:neutral-400"
+            un-font="mono italic"
+          >
+            {{ post.frontmatter.status }}
+          </div>
+          <div
+            v-if="locale !== (post.frontmatter.lang || 'zh') && (post.frontmatter.lang || 'zh')"
+            un-underline="~ px amber-600 dark:amber-400"
+            un-text="amber-600 dark:amber-400"
+            un-font="mono italic"
+          >
+            {{ post.frontmatter.lang || 'zh' }}
+          </div>
+          <div
             un-text="neutral-500 dark:neutral-400 base"
-            un-mr-2
             un-whitespace-nowrap
           >
-            {{ dateFormatter
-              ? dateFormatter(post.created) : new Date(post.created).toLocaleDateString(locale, {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric',
-              }) }}
+            {{ d(new Date(post.created), 'withoutYear') }}
           </div>
           <LinkUnderline
             :href="post.url"
             :text="post.title"
-            :tooltip="true"
             :tooltip-text="post.title"
             un-text="neutral-700 dark:neutral-300 hover:neutral-950 dark:hover:neutral-50 2xl"
             un-before="bg-emerald-600 dark:bg-emerald-600/80"

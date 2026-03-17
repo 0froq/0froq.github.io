@@ -1,9 +1,38 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { renderMdInline } from '../../utils/renderMdInline'
-import { data as d } from '../src/dashboard.data'
+import { data as d } from '../src/week.data'
 import LinkUnderline from './LinkUnderline.vue'
 import QSeperator from './QSeperator.vue'
+
+const { t } = useI18n({
+  useScope: 'global',
+  messages: {
+    en: {
+      status: {
+        done: 'Done',
+        inProgress: 'In Progress',
+        notStarted: 'Not Started',
+        deffered: 'Deffered',
+        cancelled: 'Cancelled',
+        blocked: 'Blocked',
+      },
+      empty: 'Empty',
+    },
+    zh: {
+      status: {
+        done: '完毕',
+        inProgress: '途中',
+        notStarted: '未始',
+        deffered: '延期',
+        cancelled: '取消',
+        blocked: '阻塞',
+      },
+      empty: '空的',
+    },
+  },
+})
 
 const quadrantTitles = {
   q1: 'UI',
@@ -65,9 +94,9 @@ const isOpen = (quadrant: string) => openQuadrants.value.has(quadrant)
           style="font-variant-numeric: diagonal-fractions;"
         >
           {{
-            tasks.filter(t => t.status === "完毕").length
+            tasks.filter(t => t.status === "done").length
           }}/{{
-            tasks.filter(t => !['延期', '取消'].includes(t.status ?? '')).length
+            tasks.filter(t => !['deffered', 'cancelled'].includes(t.status ?? '')).length
           }}
         </span>
       </div>
@@ -98,13 +127,13 @@ const isOpen = (quadrant: string) => openQuadrants.value.has(quadrant)
                   v-if="status"
                   un-text="neutral-300 dark:neutral-100"
                   un-my-2
-                  :title="status"
+                  :title="t(`status.${status}`) || status"
                 />
               </div>
               <ul>
                 <li
-                  v-for="t in tasks.filter(t => t.status === status)"
-                  :key="t.title"
+                  v-for="task in tasks.filter(t => t.status === status)"
+                  :key="task.title"
                   un-my-2
                 >
                   <div
@@ -113,29 +142,28 @@ const isOpen = (quadrant: string) => openQuadrants.value.has(quadrant)
                     un-gap-x-2
                   >
                     <div
-                      un-font-bold
-                      v-html="renderMdInline(t.title)"
+                      v-html="renderMdInline(task.title)"
                     />
                     <un-i-openmj-drooling-face
-                      v-if="t.tags?.includes('for-idiot')"
+                      v-if="task.tags?.includes('forIdiot')"
                       un-text-xl
                     />
                   </div>
                   <div
-                    v-if="t.dod"
+                    v-if="task.dod"
                     class="dod-text"
                     un-ml-4
                     un-text="neutral-600 dark:neutral-400"
-                    v-html="renderMdInline(t.dod)"
+                    v-html="renderMdInline(task.dod)"
                   />
                   <ul
-                    v-if="t.links?.length"
+                    v-if="task.links?.length"
                     un-ml-8
                     un-text-sm
                     un-text="neutral-500"
                   >
                     <li
-                      v-for="link in t.links"
+                      v-for="link in task.links"
                       :key="link.url"
                     >
                       <LinkUnderline
@@ -160,7 +188,7 @@ const isOpen = (quadrant: string) => openQuadrants.value.has(quadrant)
                 un-my-2
                 un-text="neutral-400 dark:neutral-600"
                 un-italic
-                title="空的"
+                :title="t('empty')"
                 type="dashed"
               />
             </div>

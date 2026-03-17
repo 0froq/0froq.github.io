@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { onClickOutside } from '@vueuse/core'
-import { onMounted, ref } from 'vue'
+import { ref } from 'vue'
 import { useTagUtils } from '../../utils/useTagUtils'
 import LinkUnderline from './LinkUnderline.vue'
 
@@ -12,8 +12,6 @@ const extendedTagsRef = ref<HTMLElement | null>(null)
 onClickOutside(extendedTagsRef as any, () => {
   showExtendedTags.value = false
 })
-
-console.warn(currentTagHierarchy.value, extendedTagsForCurrentTag.value)
 </script>
 
 <template>
@@ -38,7 +36,7 @@ console.warn(currentTagHierarchy.value, extendedTagsForCurrentTag.value)
     >
       <LinkUnderline
         :href="`/tags/${tag}`"
-        :text="tag.split('/').pop()"
+        :text="tag.split('/').pop() || ''"
         :un-text="index === currentTagHierarchy.length - 1
           ? `neutral-700 dark:neutral-300 hover:neutral-950 dark:hover:neutral-50`
           : `neutral-500 hover:neutral-950 dark:hover:neutral-50`"
@@ -89,12 +87,6 @@ console.warn(currentTagHierarchy.value, extendedTagsForCurrentTag.value)
           :key="tag"
           un-py-1
         >
-          <!-- <LinkUnderline
-            :href="`/tags/${tag}`"
-            :text="`.../${tag.replace(`${currentTagHierarchy.map(tag => tag.split('/').pop()).join('/')}/`, '')}`"
-            un-text="neutral-700 dark:neutral-300 hover:neutral-950 dark:hover:neutral-50"
-            un-before="bg-emerald-600 dark:bg-emerald-600/80"
-          /> -->
           ./<a
             :href="`/tags/${tag}`"
             un-transition

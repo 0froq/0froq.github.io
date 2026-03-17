@@ -1,8 +1,20 @@
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n'
 import { data as visionData } from '../src/vision.data'
 import LinkUnderline from './LinkUnderline.vue'
 
 const visions = visionData
+const { locale, t } = useI18n({
+  useScope: 'global',
+  messages: {
+    en: {
+      vision: 'Visions',
+    },
+    zh: {
+      vision: '愿景',
+    },
+  },
+})
 </script>
 
 <template>
@@ -18,14 +30,14 @@ const visions = visionData
       un-opacity-10
       un-right-0
     >
-      愿景
+      {{ t('vision') }}
     </h3>
     <ul
       un-pt-4
       un-ml-4
     >
       <li
-        v-for="vision in visions"
+        v-for="vision in visions.filter(v => v.locale === locale || !v.locale)"
         :key="vision.title"
       >
         <div>

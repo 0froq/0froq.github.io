@@ -1,7 +1,21 @@
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n'
+
 defineProps<{
   post: any
 }>()
+
+const { t } = useI18n({
+  useScope: 'global',
+  messages: {
+    en: {
+      readingTime: '{count} min | {count} mins',
+    },
+    zh: {
+      readingTime: '约 {count} 分钟',
+    },
+  },
+})
 </script>
 
 <template>
@@ -10,7 +24,7 @@ defineProps<{
     un-flex="~ col"
     un-text="sm neutral-600 dark:neutral-400"
     un-gap-2
-    un-max-w-600px
+    un-max-w-300px
   >
     <div
       un-flex="~ row"
@@ -29,7 +43,7 @@ defineProps<{
             : `text-red-700 dark:text-red-300`"
       />
       <div>
-        {{ `约${post.readingTime.toString()}分钟` }}
+        {{ t('readingTime', { count: post.readingTime }) }}
       </div>
     </div>
     <div

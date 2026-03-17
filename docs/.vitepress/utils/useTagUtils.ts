@@ -1,3 +1,4 @@
+import type { Ref } from 'vue'
 import { useData, useRoute } from 'vitepress'
 import { computed } from 'vue'
 import { data as corpus } from '../theme/src/corpus.data'
@@ -15,7 +16,7 @@ export function useTagUtils() {
    * Computes the hierarchical path of the current tag.
    * E.g., for "tech/frontend/vue", it returns ["tech", "tech/frontend", "tech/frontend/vue"].
    */
-  const currentTagHierarchy = computed(() => {
+  const currentTagHierarchy: Ref<string[]> = computed(() => {
     if (!params.value?.tag)
       return []
     return params.value.tag

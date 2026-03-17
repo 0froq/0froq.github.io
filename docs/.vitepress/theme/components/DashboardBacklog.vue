@@ -1,7 +1,22 @@
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n'
 import { renderMdInline } from '../../utils/renderMdInline'
 import { data as backlog } from '../src/backlog.data'
 import LinkUnderline from './LinkUnderline.vue'
+
+const { t } = useI18n({
+  useScope: 'global',
+  messages: {
+    en: {
+      due: 'due on {date}',
+      BacklogEmpty: 'No backlog this month',
+    },
+    zh: {
+      due: '在 {date} 到期',
+      backlogEmpty: '本月没有 backlog',
+    },
+  },
+})
 
 // Calculate days until due
 function calculateDaysUntilDue(dueDate: string): number {
@@ -43,34 +58,39 @@ function tillDueMapping(days: number): string {
             un-gap-x-2
           >
             <span
-              un-font-bold
               v-html="renderMdInline(item.title)"
             />
             <span
               v-if="item.status"
-              un-font-mono
+              un-font="mono italic"
               un-text-sm
-              un-text="neutral-500"
-              un-bg="neutral-200 dark:neutral-800"
-              un-px-2
-              un-rounded-full
+              :un-text="{
+                arranging: 'emerald-400 dark:emerald-600',
+                deffered: 'amber-400 dark:amber-600',
+                notPlanned: 'neutral-400 night:neutral-600',
+              }[item.status]"
+              :un-underline="{
+                arranging: '~ px emerald-400 dark:emerald-600',
+                deffered: '~ px amber-400 dark:amber-600',
+                notPlanned: '~ px neutral-400 night:neutral-600',
+              }[item.status]"
             >
               {{ item.status }}
             </span>
-            <span
-              v-if="item.due"
-              un-text-sm
-              un-text="neutral-500"
+            <i18n-t
+              keypath="due"
             >
-              due on
-              <span
-                :data-till-due="tillDueMapping(calculateDaysUntilDue(item.due))"
-                un-font-mono
-                un-underline="~ wavy px"
-              >
-                {{ item.due }}
-              </span>
-            </span>
+              <template #date>
+                <span
+                  v-if="item.due"
+                  :data-till-due="tillDueMapping(calculateDaysUntilDue(item.due))"
+                  un-font-mono
+                  un-underline="~ wavy px"
+                >
+                  {{ item.due }}
+                </span>
+              </template>
+            </i18n-t>
           </div>
           <div
             v-if="item.dod"
@@ -105,7 +125,7 @@ function tillDueMapping(days: number): string {
       un-text-sm
       un-text="neutral-500"
     >
-      本月暂无 backlog
+      {{ t('backlogEmpty') }}
     </div>
   </section>
 </template>

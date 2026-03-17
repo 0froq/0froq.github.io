@@ -28,7 +28,7 @@ const years = yearData
         un-ml-4
       >
         <li
-          v-for="goal in record.goals"
+          v-for="goal in record.goals.filter(g => g.locale === $i18n.locale || !g.locale)"
           :key="goal.title"
         >
           <div>

@@ -363,7 +363,6 @@ function toggle() {
         un-flex-grow
         :style="{ opacity: separatorOpacity, transition: 'opacity 140ms cubic-bezier(0.22, 1, 0.36, 1)' }"
       />
-
       <span
         un-font-mono
         un-shrink-0
