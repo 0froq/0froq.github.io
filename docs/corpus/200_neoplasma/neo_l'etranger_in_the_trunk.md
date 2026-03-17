@@ -1,8 +1,8 @@
 ---
 title: "*L'Étranger* · 树干里的我"
 created: 2022-04-13
-status: probe
-last_modified: 2026-03-03 16:19:55
+status: form
+last_modified: 2026-03-15 14:36:30
 ---
 
 > 我常想，如果要我住在一颗枯树的树干里，

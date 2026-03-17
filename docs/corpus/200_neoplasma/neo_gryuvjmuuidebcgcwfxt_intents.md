@@ -1,8 +1,8 @@
 ---
 title: '《关于詹牧师的报告文学》· 目的'
 created: 2022-03-27
-status: probe
-last_modified: 2026-03-03 18:50:15
+status: form
+last_modified: 2026-03-15 14:36:19
 ---
 
 > 有目的的功利主义总比莫名其妙的扯皮主义要好。
