@@ -9,3 +9,4 @@ docs/.DS_Store
 docs/posts/_template/blog_temp.md
 docs/posts/_template/blog_temp.md
 .session.vim
+.sisyphus/
