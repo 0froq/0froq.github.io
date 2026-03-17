@@ -1,9 +1,10 @@
 ---
 home: true
+index: true
 locale: en
 ---
 
-I am :rb[froQ] :rt[frog (probably].
+I am <ruby> :rb[froQ] :rt[frog (probably] </ruby>.
 
 I'm doing a graduate degree, which is not the point.
 What matters is the code—building for the web (Vue, Nuxt, TypeScript),
@@ -12,22 +13,24 @@ crafting tools ([headup.nvim](https://github.com/Fro-Q/headup.nvim),
 obsessing over workflows (macOS + sketchybar + yabai + Hammerspoon + and shit).
 I run a [blog](https://froq.me) and a [podcast](https://www.xiaoyuzhoufm.com/podcast/68fb1be73ffa38fac58d6bf2) called ToQ.
 
-I read :rb[Camus] :rt[Albert Camus] and :rb[Sartre] :rt[Jean-Paul Sartre] on
-absurdism, :rb[Cioran] :rt[Emil Cioran] on
-nihilism, :rb[Freud] :rt[Sigmund Freud] and :rb[Lacan] :rt[Jacques Lacan] on
+I read <ruby> :rb[Camus] :rt[Albert Camus] </ruby>
+and <ruby> :rb[Sartre] :rt[Jean-Paul Sartre] </ruby> on
+absurdism, <ruby> :rb[Cioran] :rt[Emil Cioran] </ruby> on
+nihilism, <ruby> :rb[Freud] :rt[Sigmund Freud] </ruby>
+and <ruby> :rb[Lacan] :rt[Jacques Lacan] </ruby> on
 the unconscious.
 I try to observe from the space between reason and feeling.
 
-I have bipolar Ⅱ  disorder.
+I have bipolar type I disorder.
 My thoughts swing between order and chaos.
 That tension fuels whatever creativity I have.
 
 ---
 
-Observer / Builder / Thinker
+[Observer / Builder / Thinker]{.flex.flex-col.items-center.italic}
 
 The goal: :u[become a full-time open source developer]{.text-amber-500}.
-Right now, I'm still balancing on the wire.
+Seeing this sentence simply means I'm still on the road.
 
 ---
 
@@ -35,6 +38,6 @@ This isn't just a blog.
 
 [Post](/posts/en/)
 is some writing I want you to read,
-[Corpus](http://localhost:5173/corpus) tracks how knowledge grows and decays,
-[Dashboard](http://localhost:5173/dashboard) is what I look at all day
+[Corpus](/corpus/en) tracks how knowledge grows and decays,
+[Dashboard](/dashboard/en/) is what I look at all day
 (feel free to peek).

@@ -1,5 +1,6 @@
 ---
 home: true
+index: true
 locale: zh
 ---
 
@@ -26,7 +27,7 @@ locale: zh
 
 ---
 
-观察者 / 构建者 / 思考者
+[观察者 / 构建者 / 思考者]{.flex.flex-col.items-center.italic}
 
 我最大的人生目标之一是 :u[做全职开源]{.text-amber-500}。
 如果你看到这段话，说明我还在路上。
