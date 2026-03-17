@@ -65,14 +65,14 @@ function tillDueMapping(days: number): string {
               un-font="mono italic"
               un-text-sm
               :un-text="{
-                arranging: 'emerald-400 dark:emerald-600',
-                deffered: 'amber-400 dark:amber-600',
-                notPlanned: 'neutral-400 night:neutral-600',
+                arranging: 'emerald-600 dark:emerald-400',
+                deffered: 'amber-600 dark:amber-400',
+                notPlanned: 'neutral-600 dark:neutral-400',
               }[item.status]"
               :un-underline="{
-                arranging: '~ px emerald-400 dark:emerald-600',
-                deffered: '~ px amber-400 dark:amber-600',
-                notPlanned: '~ px neutral-400 night:neutral-600',
+                arranging: '~ px emerald-600 dark:emerald-400',
+                deffered: '~ px amber-600 dark:amber-400',
+                notPlanned: '~ px neutral-600 dark:neutral-400',
               }[item.status]"
             >
               {{ item.status }}
