@@ -13,9 +13,14 @@ import 'vitepress/dist/client/theme-default/styles/vars.css'
 
 const __VUE_PROD_DEVTOOLS__ = false
 
+const savedLocale = typeof localStorage !== 'undefined'
+  ? localStorage.getItem('locale') ?? 'zh'
+  : 'zh' // SSR 环境中 localStorage 不存在，必须提供 fallback
+
 const i18n = createI18n({
   legacy: false,
-  locale: 'zh',
+  // locale: 'zh',
+  locale: savedLocale,
   fallbackLocale: 'en',
   globalInjection: true,
   messages: {
@@ -26,6 +31,40 @@ const i18n = createI18n({
       localeName: '中文',
     },
   },
+  datetimeFormats: {
+    'en': {
+      short: {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric',
+      },
+      long: {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+      },
+      withoutYear: {
+        month: 'short',
+        day: 'numeric',
+      },
+    },
+    'zh': {
+      short: {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric',
+      },
+      long: {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+      },
+      withoutYear: {
+        month: 'short',
+        day: 'numeric',
+      },
+    },
+  }
 })
 
 export default {

@@ -15,16 +15,16 @@ const { locale } = useI18n({
   useScope: 'global',
 })
 
-watchEffect(() => {
-  if (frontmatter.value.locale) {
-    defaultDocument!.documentElement.lang = frontmatter.value.locale as string
-    locale.value = frontmatter.value.locale as string
-  }
-  else {
-    defaultDocument!.documentElement.lang = 'zh'
-    locale.value = 'zh'
-  }
-})
+// watchEffect(() => {
+//   if (frontmatter.value.locale) {
+//     defaultDocument!.documentElement.lang = frontmatter.value.locale as string
+//     locale.value = frontmatter.value.locale as string
+//   }
+//   else {
+//     defaultDocument!.documentElement.lang = 'zh'
+//     locale.value = 'zh'
+//   }
+// })
 
 function initZoom() {
   mediumZoom('#content figure img', {
