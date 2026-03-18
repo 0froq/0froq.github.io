@@ -1,13 +1,13 @@
 ---
-title: Corpus 结构简化
+title: Simplify Corpus Structure
 created: 2025-11-06
 status: form
-last_modified: 2026-03-17 16:45:28
+last_modified: 2026-03-17 18:34:19
 lang: en
 translated: true
 ---
 
-Corpus 结构进行了简化。
+I simplified the structure of Corpus.
 
 ---
 
@@ -15,26 +15,34 @@ Corpus 结构进行了简化。
 
 #scope/work/corpus #practice/refactor
 
-## 大修
+## Overhaul
 
-### 结构
+### Structure
 
-所以，根据 [这里](aut_20251105.md) 的讨论，Corpus 存在过度分化的问题。
-这里采用了其中提出的方案，仅保留顶层分类，即六大层级，
-子分类通过标签实现。
+So, according to the discussion [here](aut_20251105.md),
+Corpus has an issue of over-differentiation.
+The solution proposed there is adopted here, which is
+to only keep the top-level categories, i.e., the six layers,
+and implement sub-categories through tags.
 
-`corpus.zsh` 等脚本完全重写，删除了所有子分类的处理逻辑。
+`corpus.zsh` and other scripts are completely rewritten,
+removing all the logic for handling sub-categories.
 
-新增 `--insta` flag，用于快速创建并打开 headless nvim 实例进行编辑。
+A new `--insta` flag is added for quickly creating and
+opening a headless nvim instance for editing.
 
-### 模板
+### Template
 
-模板系统在 [这里](aut_template_change_20251105212955.md) 已经进行修改，
-把英文和拉丁文的引导改为繁体中文以增强（对于我的）可读性（惭愧）。
-但是在层级合并后，一套模板必然不适用于一个层级下的所有条目，
-所以干脆取消了模板中的引导内容，
-仅保留 YAML 头部，所有内容均由用户自行编辑。
+Template system has been modified
+[here](aut_template_change_20251105212955.md),
+changing the English and Latin prompts to Traditional Chinese
+to enhance (for my) readability (embarrassed).
+However, after the hierarchy merge, a single template is inevitably
+not suitable for all entries under a hierarchy,
+so the prompt content in the template is simply removed,
+leaving only the YAML header, and all content is edited by users themselves.
 
 ---
 
-会更合理吗？Let's see.
+Let's see how it works in practice.
+
