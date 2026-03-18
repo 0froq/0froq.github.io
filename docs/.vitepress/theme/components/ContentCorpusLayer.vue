@@ -13,7 +13,7 @@ import TooltipPostInfo from './TooltipPostInfo.vue'
 const { path } = useRoute()
 const { locale } = useI18n()
 
-const layer = path.split('/')[2].split('_')[1]
+const layer = path.split('/')[2].split('_')[1].slice(0, 1).toUpperCase() + path.split('/')[2].split('_')[1].slice(1)
 
 // Extend Data type to include createdComponent
 interface PostWithCreatedComponent extends Data {
@@ -164,9 +164,17 @@ onBeforeUnmount(() => {
       class="article-row"
     >
       <div
-        v-if="['void', 'draft'].includes(post.frontmatter.status)"
-        un-underline="~ px neutral-600 dark:neutral-400"
-        un-text="neutral-600 dark:neutral-400 xs"
+        v-if="post.frontmatter.status === 'void'"
+        un-underline="~ px rose-600 dark:rose-400"
+        un-text="rose-600 dark:rose-400 xs"
+        un-font="mono italic"
+      >
+        {{ post.frontmatter.status }}
+      </div>
+      <div
+        v-if="post.frontmatter.status === 'draft'"
+        un-underline="~ px sky-600 dark:sky-400"
+        un-text="sky-600 dark:sky-400 xs"
         un-font="mono italic"
       >
         {{ post.frontmatter.status }}

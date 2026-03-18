@@ -145,9 +145,17 @@ const excerptVisible = ref(false)
           un-gap-2
         >
           <div
-            v-if="['void', 'draft'].includes(post.frontmatter.status)"
-            un-underline="~ px neutral-600 dark:neutral-400"
-            un-text="neutral-600 dark:neutral-400"
+            v-if="post.frontmatter.status === 'void'"
+            un-underline="~ px rose-600 dark:rose-400"
+            un-text="rose-600 dark:rose-400 xs"
+            un-font="mono italic"
+          >
+            {{ post.frontmatter.status }}
+          </div>
+          <div
+            v-if="post.frontmatter.status === 'draft'"
+            un-underline="~ px sky-600 dark:sky-400"
+            un-text="sky-600 dark:sky-400 xs"
             un-font="mono italic"
           >
             {{ post.frontmatter.status }}
@@ -171,7 +179,7 @@ const excerptVisible = ref(false)
             :text="post.title"
             :tooltip-text="post.title"
             un-text="neutral-700 dark:neutral-300 hover:neutral-950 dark:hover:neutral-50 2xl"
-            un-before="bg-emerald-600 dark:bg-emerald-600/80"
+            un-before="bg-emerald-600 dark:bg-emerald-400"
             un-text-align="right"
           >
             <template #tooltipAddons>
