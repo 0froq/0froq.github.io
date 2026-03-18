@@ -45,6 +45,15 @@ const postsInExtendedTags = computed(() => {
 </script>
 
 <template>
+  <LinkUnderline
+    href="/tags/"
+    text="Tags"
+    un-inline-block
+    un-text-sm
+    un-w-fit
+    un-text="neutral-600 dark:neutral-400"
+    un-before="h-px bg-neutral-950 dark:bg-neutral-50"
+  />
   <TagDisplay />
   <Content />
   <div
