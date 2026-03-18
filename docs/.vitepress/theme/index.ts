@@ -15,19 +15,22 @@ const __VUE_PROD_DEVTOOLS__ = false
 
 const savedLocale = typeof localStorage !== 'undefined'
   ? localStorage.getItem('locale') ?? 'zh'
-  : 'zh' // SSR 环境中 localStorage 不存在，必须提供 fallback
+  : 'zh'
 
 const i18n = createI18n({
   legacy: false,
-  // locale: 'zh',
   locale: savedLocale,
   fallbackLocale: 'en',
   globalInjection: true,
   messages: {
     en: {
+      localeUrlSuffix: 'en/',
+      localeUrl: '{url}@:localeUrlSuffix',
       localeName: 'English',
     },
     zh: {
+      localeUrlSuffix: '',
+      localeUrl: '{url}@:localeUrlSuffix',
       localeName: '中文',
     },
   },
