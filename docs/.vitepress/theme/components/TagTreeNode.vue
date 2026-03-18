@@ -334,9 +334,8 @@ function toggle() {
         <LinkUnderline
           :href="`/tags/${props.node.fullPath}`"
           :text="props.node.name"
-          :vanilla="true"
-          un-underline="~ px neutral-400 dark:neutral-600 hover:sky-500"
           un-text="neutral-600 dark:neutral-400"
+          un-before="h-px bg-neutral-950 dark:bg-neutral-50"
         />
         <template v-if="hasChildren">
           <span

@@ -22,7 +22,7 @@ onClickOutside(extendedTagsRef as any, () => {
     un-flex="~ row"
     un-items-center
   >
-    <un-i-ph-tag-duotone
+    <un-i-solar-tag-horizontal-bold-duotone
       un-w-6
       un-h-6
       un-mr-2
@@ -86,16 +86,32 @@ onClickOutside(extendedTagsRef as any, () => {
           v-for="tag in extendedTagsForCurrentTag"
           :key="tag"
           un-py-1
+          un-flex="~ row"
+          un-items-center
         >
-          ./<a
-            :href="`/tags/${tag}`"
-            un-transition
-            un-duration-200
-            un-text="neutral-500 hover:neutral-950 dark:hover:neutral-50"
-            un-underline="~ px neutral-500 hover:neutral-950 dark:hover:neutral-50"
+          <div
+            un-text="neutral-500"
           >
-            {{ `${tag.replace(`${currentTagHierarchy.map(_tag => _tag.split('/').pop()).join('/')}/`, '')}` }}
-          </a>
+            ../
+          </div>
+          <LinkUnderline
+            :href="`/tags/${tag}`"
+            :text="`${tag.replace(`${currentTagHierarchy.map(_tag => _tag.split('/').pop()).join('/')}/`, '')}`"
+            un-inline-block
+            un-text-sm
+            un-w-fit
+            un-text="neutral-600 dark:neutral-400"
+            un-before="h-px bg-neutral-950 dark:bg-neutral-50"
+          />
+          <!-- ./<a -->
+          <!--   :href="`/tags/${tag}`" -->
+          <!--   un-transition -->
+          <!--   un-duration-200 -->
+          <!--   un-text="neutral-500 hover:neutral-950 dark:hover:neutral-50" -->
+          <!--   un-underline="~ px neutral-500 hover:neutral-950 dark:hover:neutral-50" -->
+          <!-- > -->
+          <!--   {{ `${tag.replace(`${currentTagHierarchy.map(_tag => _tag.split('/').pop()).join('/')}/`, '')}` }} -->
+          <!-- </a> -->
         </div>
       </div>
     </div>
