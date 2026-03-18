@@ -84,19 +84,19 @@ function handleChangeLocale(newVal: string) {
         un-flex="~ col"
       >
         <span
-          v-for="_locale in $i18n.availableLocales"
-          :key="_locale"
+          v-for="l in $i18n.availableLocales"
+          :key="l"
           un-text-sm
         >
           <button
             un-transition-colors
             un-duration-200
-            :class="_locale === $i18n.locale
+            :class="l === $i18n.locale
               ? 'text-neutral-950 dark:text-neutral-50'
               : 'text-neutral-500 hover:text-neutral-600 dark:hover:text-neutral-400 disabled:hover:text-neutral-500'"
             un-disabled="cursor-not-allowed"
-            @click="handleChangeLocale(_locale)"
-          >{{ localeMap[_locale] }}</button>
+            @click="handleChangeLocale(l)"
+          >{{ localeMap[l] }}</button>
         </span>
       </div>
       <a
