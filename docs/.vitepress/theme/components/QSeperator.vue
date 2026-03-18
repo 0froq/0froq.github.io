@@ -33,7 +33,7 @@ const props = defineProps<{
       :class="`${props.type || 'solid'}-separator right-separator`"
       un-flex-grow
       un-h-px
-      un-text="neutral-400 dark:neutral-600"
+      un-text="neutral-400 dark:neutral-700"
     />
   </div>
 

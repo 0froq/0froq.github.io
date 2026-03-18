@@ -130,11 +130,12 @@ html {
   & :not(pre) > code,
   & > code {
     --uno: 'font-mono';
-    --uno: 'px-1 py-0.5';
-    --uno: 'bg-teal-200/20 dark:bg-teal-800/20';
-    --uno: 'text-teal-600 dark:text-teal-400';
+    --uno: 'px-1 py-0';
+    --uno: 'bg-neutral-200/50 dark:bg-neutral-800/50';
+    --uno: 'border border-dashed border-neutral-300 dark:border-neutral-600';
+    --uno: 'text-neutral-600 dark:text-neutral-400';
     --uno: 'text-0.9em';
-    --uno: 'rounded-sm';
+    --uno: 'rounded-0.5';
   }
 
   /* strikethrough */
@@ -496,7 +497,7 @@ html {
 
   /* hashtag */
   & a[href^='../../tags/']:not([id^='fnref'], .header-anchor) {
-    --uno: 'before:(content-empty i-ph-tag-duotone text-sky-600 dark:text-sky-400 w-4 h-4 relative inline-block align-middle)';
+    --uno: 'before:(content-empty i-solar-tag-horizontal-bold-duotone text-sky-600 dark:text-sky-400 w-4 h-4 relative inline-block align-middle)';
     --uno: 'z-1';
   }
 
@@ -507,7 +508,8 @@ html {
     /* un-underline="~ px neutral-600 dark:neutral-400 hover:sky-500" */
     --uno: 'z-0';
     --uno: 'text-neutral-600 dark:text-neutral-400';
-    --uno: 'underline underline-px underline-neutral-600 dark:underline-neutral-400 hover:underline-sky-500';
+    --uno: 'border-b border-dashed border-neutral-500';
+    --uno: 'hover:(border-neutral-800 dark:border-neutral-200 border-solid)';
     --uno: 'transition duration-200';
   }
 
@@ -531,7 +533,7 @@ html {
   & nav.table-of-contents {
     --uno: 'rounded-r-md';
     --uno: 'pr-5';
-    --uno: 'fixed top-100px left-0 z-10';
+    --uno: 'fixed top-200px left-0 z-10';
     --uno: 'max-h-320px min-w-200px max-w-400px';
     --uno: 'overflow-auto';
     --uno: 'text-sm';

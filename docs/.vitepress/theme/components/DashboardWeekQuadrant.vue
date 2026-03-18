@@ -66,7 +66,7 @@ const isOpen = (quadrant: string) => openQuadrants.value.has(quadrant)
     <div
       v-for="(tasks, quadrant) in d.currentWeek.quadrants"
       :key="quadrant"
-      un-rounded-sm
+      un-rounded="0.5"
       :data-quadrant="quadrant"
       un-flex="~ col"
       un-overflow-hidden
