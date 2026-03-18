@@ -7,12 +7,12 @@ locale: en
 
 ## Six Slices
 
-- <ruby><rb>[Autopsia]{.font-stylish}</rb><rt>dissection</rt></ruby>: Self-reflection and introspection
-- <ruby><rb>[Ingesta]{.font-stylish}</rb><rt>intake</rt></ruby>: Intake, raw information without judgment
-- <ruby><rb>[Neoplasma]{.font-stylish}</rb><rt>new growth</rt></ruby>: Internalized thought fragments
-- <ruby><rb>[Putredo]{.font-stylish}</rb><rt>decay</rt></ruby>: Records of practice and experimentation
-- [Delirium]{.font-stylish}: Aesthetics and the irrational
-- [Vigil]{.font-stylish}: Proof of existence
+- <ruby><rb>[Autopsia](/corpus/000_autopsia/en/){.font-stylish}</rb><rt>dissection</rt></ruby>: Self-reflection and introspection
+- <ruby><rb>[Ingesta](/corpus/100_ingesta/en/){.font-stylish}</rb><rt>intake</rt></ruby>: Intake, raw information without judgment
+- <ruby><rb>[Neoplasma](/corpus/200_neoplasma/en/){.font-stylish}</rb><rt>new growth</rt></ruby>: Internalized thought fragments
+- <ruby><rb>[Putredo](/corpus/300_putredo/en/){.font-stylish}</rb><rt>decay</rt></ruby>: Records of practice and experimentation
+- [Delirium](/corpus/400_delirium/en/){.font-stylish}: Aesthetics and the irrational
+- [Vigil](/corpus/500_vigil/en/){.font-stylish}: Proof of existence
 
 Go look.
 
