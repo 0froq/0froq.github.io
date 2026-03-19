@@ -28,20 +28,20 @@ html {
   }
 
   /* &::-webkit-scrollbar-track { */
-  /*   --uno: 'bg-neutral-500'; */
+  /*   --uno: 'bg-stone-500'; */
   /* } */
   /**/
   /* &::-webkit-scrollbar-thumb { */
-  /*   --uno: 'bg-neutral-950 dark:bg-neutral-50'; */
+  /*   --uno: 'bg-stone-950 dark:bg-stone-50'; */
   /* } */
 
   /* background color for medium-zoom */
   --image-mask-bg: #fafafa;
-  --uno: 'bg-neutral-50';
+  --uno: 'bg-stone-50';
 
   &.dark {
     --image-mask-bg: #0a0a0a;
-    --uno: 'bg-neutral-950';
+    --uno: 'bg-stone-950';
   }
 }
 
@@ -53,11 +53,11 @@ html {
 
 #content:not(.unstyled),
 .markdown-rendered {
-  --uno: 'prose dark:prose-invert';
+  /* --uno: 'prose prose-stone dark:prose-invert'; */
 
   & hr {
     --uno: 'my-8';
-    --uno: 'border-neutral-500';
+    --uno: 'border-stone-500';
     --uno: 'border-dashed';
     --uno: 'w-80% mx-auto';
   }
@@ -71,7 +71,7 @@ html {
   & :is(h1, h2, h3, h4, h5, h6) {
     --uno: 'my-10 w-fit relative block font-normal';
     /* different color for light and dark mode */
-    --uno: 'text-neutral-800 dark:text-neutral-200';
+    --uno: 'text-stone-800 dark:text-stone-200';
     --uno: 'before:(opacity-0 absolute translate-[-150%,0] text-[0.8em] transiton-opacity duration-200)';
     --uno: 'hover:(before:opacity-40)';
   }
@@ -104,14 +104,14 @@ html {
   /* strong */
   & strong {
     --uno: 'font-black';
-    --uno: 'text-neutral-950 dark:text-neutral-50';
+    --uno: 'text-stone-950 dark:text-stone-50';
   }
 
   & a:not([href^='#'], [href^='../../tags/']) {
     --uno: 'relative inline text-nowrap';
-    --uno: 'text-neutral-900 dark:text-neutral-100';
-    --uno: 'border-b border-dashed border-neutral-500';
-    --uno: 'hover:(border-neutral-800 dark:border-neutral-200 border-solid)';
+    --uno: 'text-stone-900 dark:text-stone-100';
+    --uno: 'border-b border-dashed border-stone-500';
+    --uno: 'hover:(border-stone-800 dark:border-stone-200 border-solid)';
     --uno: 'transition duration-200';
 
     &:not([target='_blank']) {
@@ -133,16 +133,16 @@ html {
   & > code {
     --uno: 'font-mono';
     --uno: 'px-1 py-0';
-    --uno: 'bg-neutral-200/50 dark:bg-neutral-800/50';
-    --uno: 'border border-dashed border-neutral-300 dark:border-neutral-600';
-    --uno: 'text-neutral-600 dark:text-neutral-400';
+    --uno: 'bg-stone-200/50 dark:bg-stone-800/50';
+    --uno: 'border border-dashed border-stone-300 dark:border-stone-600';
+    --uno: 'text-stone-600 dark:text-stone-400';
     --uno: 'text-0.9em';
     --uno: 'rounded-0.5';
   }
 
   /* strikethrough */
   & s {
-    --uno: 'text-neutral-500';
+    --uno: 'text-stone-500';
   }
 
   /* code block */
@@ -150,8 +150,8 @@ html {
   & [class^='language-'] {
     --uno: 'relative my-8 w-full';
     --uno: 'text-sm';
-    --uno: 'bg-neutral-100 dark:bg-neutral-900';
-    --uno: 'border border-neutral-300 dark:border-neutral-700';
+    --uno: 'bg-stone-100 dark:bg-stone-900';
+    --uno: 'border border-stone-300 dark:border-stone-700';
     --uno: 'rounded-md';
 
     /* pre wrapper */
@@ -183,7 +183,7 @@ html {
 
       /* highlighted line */
       &.highlighted {
-        --uno: 'bg-neutral-200 dark:bg-neutral-800';
+        --uno: 'bg-stone-200 dark:bg-stone-800';
         --uno: 'h-max';
 
         --uno: 'before:(absolute -translate-x-[5,0])';
@@ -243,8 +243,8 @@ html {
     & button.copy {
       --uno: 'absolute top-2 right-2';
       --uno: 'px-2 py-1';
-      --uno: 'text-(xs neutral-500)';
-      --uno: 'hover:(text-neutral-950 dark:text-neutral-50)';
+      --uno: 'text-(xs stone-500)';
+      --uno: 'hover:(text-stone-950 dark:text-stone-50)';
       --uno: 'transition duration-200';
       /* copy icon */
       --uno: 'before:(content-[""] i-ph-copy-light block w-6 h-6)';
@@ -275,9 +275,9 @@ html {
 
       & .line-numbers-wrapper {
         --uno: 'absolute bottom-0 left-0 top-0 w-10';
-        --uno: 'border-r border-neutral-300 dark:border-neutral-700';
+        --uno: 'border-r border-stone-300 dark:border-stone-700';
         --uno: 'pt-6';
-        --uno: 'text-(center neutral-500)';
+        --uno: 'text-(center stone-500)';
         --uno: 'font-mono';
 
         & .line-number {
@@ -292,11 +292,11 @@ html {
   & .vp-code-group {
     --uno: 'relative my-8 w-full';
     --uno: 'text-sm';
-    --uno: 'bg-neutral-100 dark:bg-neutral-900';
+    --uno: 'bg-stone-100 dark:bg-stone-900';
     --uno: 'rounded-md';
 
     & .tabs {
-      --uno: 'border border-neutral-300 dark:border-neutral-700';
+      --uno: 'border border-stone-300 dark:border-stone-700';
       --uno: 'rounded-t-md';
       --uno: 'flex';
       --uno: 'overflow-x-auto';
@@ -305,7 +305,7 @@ html {
         --uno: 'inline-block cursor-pointer';
         --uno: 'border-(t-2 transparent)';
         --uno: 'p-(x-4 y-2)';
-        --uno: 'font-mono text-neutral-600 dark:text-neutral-400';
+        --uno: 'font-mono text-stone-600 dark:text-stone-400';
         --uno: 'transition-colors duration-200';
       }
 
@@ -314,9 +314,9 @@ html {
         --uno: 'opacity-0';
 
         &:checked + label {
-          --uno: 'text-neutral-900';
-          --uno: 'border-neutral-700';
-          --uno: 'dark:(text-neutral-100 border-neutral-300)';
+          --uno: 'text-stone-900';
+          --uno: 'border-stone-700';
+          --uno: 'dark:(text-stone-100 border-stone-300)';
         }
       }
     }
@@ -337,14 +337,14 @@ html {
   /* blockquote */
   & blockquote {
     --uno: 'my-4 relative px-4';
-    --uno: 'bg-neutral-950/5 dark:bg-neutral-50/5';
-    --uno: 'border-(l-4 neutral-500)';
-    --uno: 'hover:(border-neutral-700 dark:border-neutral-300)';
+    --uno: 'bg-stone-950/5 dark:bg-stone-50/5';
+    --uno: 'border-(l-4 stone-500)';
+    --uno: 'hover:(border-stone-700 dark:border-stone-300)';
     --uno: 'transition duration-200';
     --uno: 'rounded-sm';
     /* blockquote icon */
     --uno: 'z-0';
-    --uno: 'before:(content-[""] i-ph-quotes-duotone block w-4 h-4 absolute right-4 top-4 text-neutral-500 z--1 opacity-50)';
+    --uno: 'before:(content-[""] i-ph-quotes-duotone block w-4 h-4 absolute right-4 top-4 text-stone-500 z--1 opacity-50)';
   }
 
   /* custom block (aka callout, alert)*/
@@ -363,10 +363,10 @@ html {
 
     &.note,
     &.info {
-      --uno: 'bg-neutral-100/80 dark:bg-neutral-900/80';
-      --uno: 'border-(~ neutral-500/50)';
+      --uno: 'bg-stone-100/80 dark:bg-stone-900/80';
+      --uno: 'border-(~ stone-500/50)';
 
-      --uno: 'before:(text-neutral-500)';
+      --uno: 'before:(text-stone-500)';
     }
 
     &.warning {
@@ -403,7 +403,7 @@ html {
     & summary {
       --uno: 'my-4';
       --uno: 'text-lg';
-      --uno: 'text-neutral-800 dark:text-neutral-200';
+      --uno: 'text-stone-800 dark:text-stone-200';
     }
 
     /* icons */
@@ -456,7 +456,7 @@ html {
     --uno: 'pl-8';
 
     & li {
-      --uno: 'marker:(text-neutral-500)';
+      --uno: 'marker:(text-stone-500)';
     }
   }
 
@@ -464,7 +464,7 @@ html {
   & table {
     --uno: 'my-8 w-full';
     --uno: 'border-(collapse b-2 t-2)';
-    --uno: 'border-neutral-800 dark:border-neutral-200';
+    --uno: 'border-stone-800 dark:border-stone-200';
 
     & thead {
       --uno: 'border-b';
@@ -477,7 +477,7 @@ html {
 
     & tbody tr {
       --uno: 'border-b';
-      --uno: 'border-neutral-300 dark:border-neutral-700';
+      --uno: 'border-stone-300 dark:border-stone-700';
     }
 
     & th,
@@ -490,7 +490,7 @@ html {
   & mark {
     --uno: 'relative';
     --uno: 'bg-transparent';
-    --uno: 'text-neutral-900 dark:text-neutral-100';
+    --uno: 'text-stone-900 dark:text-stone-100';
     --uno: 'font-black';
     --uno: 'before:content-[""]';
     --uno: 'before:(inline-block h-0.25em w-full absolute bottom-0)';
@@ -506,12 +506,12 @@ html {
   & a .tag {
     --uno: 'relative';
     --uno: 'px-1';
-    /* un-text="neutral-600 dark:neutral-400" */
-    /* un-underline="~ px neutral-600 dark:neutral-400 hover:sky-500" */
+    /* un-text="stone-600 dark:stone-400" */
+    /* un-underline="~ px stone-600 dark:stone-400 hover:sky-500" */
     --uno: 'z-0';
-    --uno: 'text-neutral-600 dark:text-neutral-400';
-    --uno: 'border-b border-dashed border-neutral-500';
-    --uno: 'hover:(border-neutral-800 dark:border-neutral-200 border-solid)';
+    --uno: 'text-stone-600 dark:text-stone-400';
+    --uno: 'border-b border-dashed border-stone-500';
+    --uno: 'hover:(border-stone-800 dark:border-stone-200 border-solid)';
     --uno: 'transition duration-200';
   }
 
@@ -520,13 +520,13 @@ html {
     --uno: 'my-8';
 
     & img {
-      --uno: 'border border-neutral-300 dark:border-neutral-700';
+      --uno: 'border border-stone-300 dark:border-stone-700';
       --uno: 'mx-auto';
     }
 
     & figcaption {
       --uno: 'pt-4';
-      --uno: 'text-neutral-600 dark:text-neutral-400';
+      --uno: 'text-stone-600 dark:text-stone-400';
       --uno: 'text-sm/9 text-center';
     }
   }
@@ -540,8 +540,8 @@ html {
     --uno: 'overflow-auto';
     --uno: 'text-sm';
 
-    --uno: 'bg-neutral-100/60 dark:bg-neutral-900/60';
-    --uno: 'border border-neutral-300 dark:border-neutral-700 border-l-none';
+    --uno: 'bg-stone-100/60 dark:bg-stone-900/60';
+    --uno: 'border border-stone-300 dark:border-stone-700 border-l-none';
     --uno: 'opacity-10 hover:opacity-100';
     --uno: 'transition duration-200';
 
@@ -561,7 +561,7 @@ html {
 
   & sup.footnote-ref {
     --uno: 'transition duration-200';
-    --uno: 'text-neutral-600 dark:text-neutral-400';
+    --uno: 'text-stone-600 dark:text-stone-400';
     --uno: 'hover:(text-sky-600 dark:text-sky-400)';
   }
 
@@ -587,7 +587,7 @@ html {
             --uno: 'i-ph-arrow-bend-right-up-duotone';
 
             --uno: 'transition';
-            --uno: 'text-neutral-600 dark:text-neutral-400';
+            --uno: 'text-stone-600 dark:text-stone-400';
             --uno: 'hover:(text-sky-600 dark:text-sky-400)';
           }
         }
@@ -623,16 +623,16 @@ mjx-container.MathJax svg {
   }
 
   & a {
-    --uno: 'decoration-(underline neutral-500)';
+    --uno: 'decoration-(underline stone-500)';
     --uno: 'transition duration-200';
-    --uno: 'hover:(decoration-neutral-800 dark:decoration-neutral-200)';
+    --uno: 'hover:(decoration-stone-800 dark:decoration-stone-200)';
   }
 
   & p code {
     --uno: 'px-1';
-    --uno: 'bg-neutral-200/50 dark:bg-neutral-800/50';
-    --uno: 'text-neutral-500';
-    --uno: 'border border-neutral-300 dark:border-neutral-700';
+    --uno: 'bg-stone-200/50 dark:bg-stone-800/50';
+    --uno: 'text-stone-500';
+    --uno: 'border border-stone-300 dark:border-stone-700';
     --uno: 'rounded-sm';
   }
 }
