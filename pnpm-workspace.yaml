@@ -3,9 +3,12 @@ packages:
 
 catalogs:
   # Iconify 图标集合
+  dev:
+    semver: ^7.7.2
   icons:
     '@iconify-json/carbon': ^1.2.18
     '@iconify-json/duo-icons': ^1.2.2
+    '@iconify-json/openmoji': ^1.2.24
     '@iconify-json/ph': ^1.2.2
     '@iconify-json/simple-icons': ^1.2.68
     '@iconify-json/skill-icons': ^1.2.3
@@ -59,11 +62,11 @@ catalogs:
 
   # UnoCSS 原子化样式
   unocss:
-    '@unocss/eslint-plugin': 66.1.0-beta.11
-    '@unocss/extractor-mdc': ^66.6.0
-
-    '@unocss/reset': 66.1.0-beta.3
-    unocss: 66.1.0-beta.3
+    '@unocss/eslint-plugin': ^66.6.7
+    '@unocss/extractor-mdc': ^66.6.7
+    '@unocss/nuxt': ^66.6.7
+    '@unocss/reset': ^66.6.7
+    unocss: ^66.6.7
   # VitePress 构建系统
   vitepress:
     '@intlify/unplugin-vue-i18n': ^11.0.3
@@ -77,4 +80,8 @@ catalogs:
 
 ignoredBuiltDependencies:
   - '@parcel/watcher'
+  - {}
+  - .
+onlyBuiltDependencies:
+  - esbuild
   - vue-demi

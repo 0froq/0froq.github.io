@@ -4,7 +4,6 @@ import {
   defineConfig,
   presetAttributify,
   presetIcons,
-  presetMini,
   presetTagify,
   presetTypography,
   presetWind4,
@@ -72,7 +71,11 @@ export default defineConfig({
     presetTagify({
       prefix: 'un-',
     }),
-    presetTypography(),
+    presetTypography({
+      colorScheme: {
+
+      }
+    }),
   ],
   transformers: [
     transformerDirectives(),
