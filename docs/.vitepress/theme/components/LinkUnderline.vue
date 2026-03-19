@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { computed, onMounted, ref, useAttrs } from 'vue'
+import { onClickOutside } from '@vueuse/core'
+import { computed, ref, useSlots } from 'vue'
 import { renderMdInline } from '../../utils/renderMdInline'
 import FloatWindow from './FloatWindow.vue'
 
@@ -10,15 +11,12 @@ defineOptions({
 const props = withDefaults(defineProps<Props>(), {
   followMouse: true,
   placement: 'bottom',
-  offset: 8,
+  offset: 0,
 })
-
-const attrs = useAttrs()
 
 interface Props {
   href: string
   text: string
-  tooltipText?: string
   vanilla?: boolean
   followMouse?: boolean
   placement?: 'bottom' | 'top' | 'left' | 'right'
@@ -28,22 +26,37 @@ interface Props {
 const showTooltip = ref(false)
 const triggerRef = ref<HTMLElement | null>(null)
 const floatWindowRef = ref<InstanceType<typeof FloatWindow> | null>(null)
-
 const linkContent = computed(() => renderMdInline(props.text))
-const tooltipContent = computed(() =>
-  props.tooltipText ? renderMdInline(props.tooltipText) : '',
-)
+const hasTooltipSlot = computed(() => !!useSlots().tooltip)
+
+onClickOutside(triggerRef, () => {
+  if (!showTooltip.value)
+    return
+  if (showTooltip.value) {
+    showTooltip.value = false
+  }
+})
+
+function toggleTooltip() {
+  if (!props.followMouse && hasTooltipSlot.value) {
+    showTooltip.value = !showTooltip.value
+  }
+}
 
 function handleMouseEnter() {
-  showTooltip.value = true
+  if (props.followMouse && hasTooltipSlot.value) {
+    showTooltip.value = true
+  }
 }
 
 function handleMouseLeave() {
-  showTooltip.value = false
+  if (props.followMouse && hasTooltipSlot.value) {
+    showTooltip.value = false
+  }
 }
 
 function handleMouseMove(e: MouseEvent) {
-  if (props.followMouse) {
+  if (props.followMouse && hasTooltipSlot.value) {
     floatWindowRef.value?.updateMousePosition(e)
   }
 }
@@ -51,68 +64,89 @@ function handleMouseMove(e: MouseEvent) {
 
 <template>
   <div
-    v-if="vanilla"
-    ref="triggerRef"
-    class="link-underline-wrapper"
-    @mouseenter="handleMouseEnter"
-    @mouseleave="handleMouseLeave"
-    @mousemove="handleMouseMove"
+    un-flex="~ row"
+    un-max-w-full
+    un-overflow-hidden
+    un-items-center
   >
-    <a
-      un-transition-colors
-      un-duration-200
-      un-underline="~ px neutral-400 dark:neutral-600"
-      un-hover-underline="[--decoration-color]"
-      un-block
+    <div
+      v-if="vanilla"
+      ref="triggerRef"
+      class="link-underline-wrapper"
+      un-items-center
       un-max-w-full
-      un-whitespace-nowrap
-      un-text-ellipsis
-      un-overflow-hidden
-      :href
-      class="markdown-rendered"
-      v-bind="$attrs"
-      v-html="linkContent"
+      un-gap-1
+      @mouseenter="handleMouseEnter"
+      @mouseleave="handleMouseLeave"
+      @mousemove="handleMouseMove"
+    >
+      <a
+        un-transition-colors
+        un-duration-200
+        un-underline="~ px stone-400 dark:stone-600"
+        un-block
+        un-text="stone-600 dark:stone-400 hover:stone-800 dark:hover:stone-200"
+        un-max-w-full
+        un-whitespace-nowrap
+        un-text-ellipsis
+        un-overflow-hidden
+        :href
+        class="markdown-rendered"
+        v-bind="$attrs['un-before'] ? { 'un-before': $attrs['un-before'] } : {}"
+        v-html="linkContent"
+      />
+    </div>
+
+    <span
+      v-else
+      ref="triggerRef"
+      un-after="content-empty bg-stone-400 dark:bg-stone-600 w-full h-1px absolute bottom-0.5 left-0 z-0"
+      un-duration-400
+      un-text="stone-600 dark:stone-400 hover:stone-800 dark:hover:stone-200"
+      un-relative
+      un-min-w-0
+      un-mx-1
+      un-before-w-0
+      un-before-h-2px
+      un-before-left-0
+      un-before-bottom="0.5"
+      un-before-z-1
+      un-before-rounded-none
+      un-before-absolute
+      un-hover-before-w-full
+      un-before-transition-width
+      un-before-content-empty
+      v-bind="$attrs['un-before'] ? { 'un-before': $attrs['un-before'] } : {}"
+      @mouseenter="handleMouseEnter"
+      @mouseleave="handleMouseLeave"
+      @mousemove="handleMouseMove"
+    >
+      <a
+        un-block
+        un-max-w-full
+        un-whitespace-nowrap
+        un-text-ellipsis
+        un-overflow-hidden
+        :href="href"
+        class="markdown-rendered"
+        v-html="linkContent"
+      />
+    </span>
+
+    <un-i-solar-arrow-right-down-line-duotone
+      v-if="!followMouse && hasTooltipSlot"
+      un-cursor-pointer
+      un-text="stone-500 hover:stone-700 dark:hover:stone-300"
+      un-transition
+      un-duration-200
+      un-z-2
+      un-block
+      @click.stop="toggleTooltip"
     />
   </div>
 
-  <span
-    v-else
-    ref="triggerRef"
-    un-after="content-empty bg-neutral-400 dark:bg-neutral-600 w-full h-1px absolute bottom-0.5 left-0 z-0"
-    un-inline-block
-    un-duration-400
-    un-relative
-    un-min-w-0
-    un-mx-1
-    un-before-w-0
-    un-before-h-2px
-    un-before-left-0
-    un-before-bottom="0.5"
-    un-before-z-1
-    un-before-rounded-none
-    un-before-absolute
-    un-hover-before-w-full
-    un-before-transition-width
-    un-before-content-empty
-    un-before-bg="[--decoration-color]"
-    @mouseenter="handleMouseEnter"
-    @mouseleave="handleMouseLeave"
-    @mousemove="handleMouseMove"
-  >
-    <a
-      un-block
-      un-max-w-full
-      un-whitespace-nowrap
-      un-text-ellipsis
-      un-overflow-hidden
-      :href="href"
-      class="markdown-rendered"
-      v-html="linkContent"
-    />
-  </span>
-
   <FloatWindow
-    v-if="tooltipText || $slots.tooltip"
+    v-if="hasTooltipSlot"
     ref="floatWindowRef"
     v-model:visible="showTooltip"
     :trigger-ref="triggerRef"
@@ -121,42 +155,16 @@ function handleMouseMove(e: MouseEvent) {
     :offset="offset"
   >
     <div
-      v-if="tooltipText"
-      un-bg="neutral-200 dark:neutral-800"
-      un-text="neutral-800 dark:neutral-200"
+      un-bg="stone-200 dark:stone-800"
+      un-text="stone-800 dark:stone-200"
       un-rounded-sm
       un-text-align-start
       un-py-2
       un-px-4
       un-shadow-lg
+      un-max-w-fit
     >
-      <div
-        un-flex="~ col"
-        un-max-w="300px"
-      >
-        <div
-          class="markdown-rendered"
-          un-break-words
-          un-whitespace-normal
-          v-html="tooltipContent"
-        />
-        <slot name="tooltipAddons" />
-      </div>
-    </div>
-
-    <div
-      v-else
-      un-bg="neutral-200 dark:neutral-800"
-      un-text="neutral-800 dark:neutral-200"
-      un-rounded-sm
-      un-text-align-start
-      un-py-2
-      un-px-4
-      un-shadow-lg
-    >
-      <slot
-        name="tooltip"
-      />
+      <slot name="tooltip" />
     </div>
   </FloatWindow>
 </template>
