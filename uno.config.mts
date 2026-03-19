@@ -52,6 +52,7 @@ export default defineConfig({
     // presetMini(),
     presetWind4(),
     presetIcons({
+      scale: 1.2,
       collections: {
         carbon: () => import('@iconify-json/carbon/icons.json', { with: { type: 'json' } }).then(i => i.default as any),
         ph: () => import('@iconify-json/ph/icons.json', { with: { type: 'json' } }).then(i => i.default as any),
@@ -71,11 +72,7 @@ export default defineConfig({
     presetTagify({
       prefix: 'un-',
     }),
-    presetTypography({
-      colorScheme: {
-
-      }
-    }),
+    presetTypography(),
   ],
   transformers: [
     transformerDirectives(),
