@@ -53,6 +53,8 @@ html {
 
 #content:not(.unstyled),
 .markdown-rendered {
+  --uno: 'prose dark:prose-invert';
+
   & hr {
     --uno: 'my-8';
     --uno: 'border-neutral-500';

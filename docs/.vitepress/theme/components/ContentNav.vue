@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import DropdownMenu from './DropdownMenu.vue'
 import LinkUnderline from './LinkUnderline.vue'
 
 export interface NavItem {
@@ -27,50 +26,58 @@ defineProps<Props>()
       :key="rowIndex"
       un-flex="~ row wrap"
       un-gap-2
-      style="--decoration-color: var(--colors-rose-50)"
     >
       <template
         v-for="item in row"
         :key="item.url"
       >
-        <LinkUnderline
-          v-if="item.children && item.children.length > 0"
-          :href="item.url"
-          :text="item.label"
-          :data-current="item.current"
+        <div
+          style="--decoration-color: var(--colors-rose-500)"
         >
-          <template #tooltip>
-            <div
-              v-if="item.tooltip"
-              un-break-words
-              un-whitespace-normal
+          <LinkUnderline
+            :href="item.url"
+            :text="item.label"
+            :follow-mouse="!item.children"
+            :vanilla="true"
+            :data-current="item.current"
+          >
+            <template
+              v-if="item.tooltip || item.children"
+              #tooltip
             >
-              {{ item.tooltip }}
-            </div>
-            <div
-              v-for="child in item.children"
-              :key="child.url"
-            >
-              <LinkUnderline
-                :href="child.url"
-                :text="child.label"
-                :data-current="child.current"
-                un-before="h-px bg-neutral-950 dark:bg-neutral-50"
-              />
-            </div>
-          </template>
-        </LinkUnderline>
-        <!-- Simple item without children -->
-        <LinkUnderline
-          v-else
-          :href="item.url"
-          :text="item.label"
-          :tooltip-text="item.tooltip || ''"
-          un-inline-block
-          un-text-sm
-          un-text="neutral-600 dark:neutral-400"
-          :data-current="item.current"
-        />
+              <div
+                un-break-words
+                un-whitespace-normal
+              >
+                {{ item.tooltip }}
+              </div>
+              <div
+                v-for="child in item.children"
+                :key="child.url"
+              >
+                <LinkUnderline
+                  :href="child.url"
+                  :text="child.label"
+                  :data-current="child.current"
+                  un-before="h-px bg-neutral-950 dark:bg-neutral-50"
+                />
+              </div>
+            </template>
+          </LinkUnderline>
+        </div>
+        <!-- <div -->
+        <!--   v-else -->
+        <!-- > -->
+        <!--   <LinkUnderline -->
+        <!--     :href="item.url" -->
+        <!--     :text="item.label" -->
+        <!--     :tooltip-text="item.tooltip || ''" -->
+        <!--     un-inline-block -->
+        <!--     un-text-sm -->
+        <!--     un-text="neutral-600 dark:neutral-400" -->
+        <!--     :data-current="item.current" -->
+        <!--   /> -->
+        <!-- </div> -->
       </template>
     </div>
   </div>

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useAttrs, computed, onMounted, ref } from 'vue'
+import { computed, onMounted, ref, useAttrs } from 'vue'
 import { renderMdInline } from '../../utils/renderMdInline'
 import FloatWindow from './FloatWindow.vue'
 
@@ -7,13 +7,13 @@ defineOptions({
   inheritAttrs: false,
 })
 
-const attrs = useAttrs()
-
 const props = withDefaults(defineProps<Props>(), {
   followMouse: true,
   placement: 'bottom',
   offset: 8,
 })
+
+const attrs = useAttrs()
 
 interface Props {
   href: string
@@ -47,8 +47,6 @@ function handleMouseMove(e: MouseEvent) {
     floatWindowRef.value?.updateMousePosition(e)
   }
 }
-
-console.warn(attrs['un-text'])
 </script>
 
 <template>
@@ -63,13 +61,14 @@ console.warn(attrs['un-text'])
     <a
       un-transition-colors
       un-duration-200
-      un-underline="~ px neutral-400 dark:neutral-600 hover:neutral-700 dark:hover:neutral-300"
+      un-underline="~ px neutral-400 dark:neutral-600"
+      un-hover-underline="[--decoration-color]"
       un-block
       un-max-w-full
       un-whitespace-nowrap
       un-text-ellipsis
       un-overflow-hidden
-      :href="href"
+      :href
       class="markdown-rendered"
       v-bind="$attrs"
       v-html="linkContent"

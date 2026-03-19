@@ -47,7 +47,6 @@ watch(
 <template>
   <div
     un-min-h-100vh
-    un-text="neutral-700 dark:neutral-300"
     un-bg="neutral-50 dark:neutral-950"
     un-relative
     un-font-serif
