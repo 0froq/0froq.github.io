@@ -20,13 +20,17 @@ useI18n({
 const navItems = [
   [{ label: 'Home', url: '/', current: true }],
   [
-    { label: 'Corpus', url: '/corpus/' },
-    { label: 'Posts', url: '/posts/' },
-    { label: 'Dashboard', url: '/dashboard/', tooltip: 'Description' },
-    { label: 'Tags', url: '/tags/', tooltip: 'Description', children: [
-      { label: 'Sub 1', url: '/cat/1' },
-      { label: 'Sub 2', url: '/cat/2', current: true },
+    { label: 'Corpus', url: '/corpus/', children: [
+      { label: 'Autopsia', url: '/corpus/000_autopsia/' },
+      { label: 'Ingesta', url: '/corpus/100_ingesta/' },
+      { label: 'Neoplasma', url: '/corpus/200_neoplasma/' },
+      { label: 'Putredo', url: '/corpus/300_putredo/' },
+      { label: 'Delirium', url: '/corpus/400_delirium/' },
+      { label: 'Vigil', url: '/corpus/500_vigil/' },
     ] },
+    { label: 'Posts', url: '/posts/' },
+    { label: 'Dashboard', url: '/dashboard/' },
+    { label: 'Tags', url: '/tags/' },
   ],
 ]
 </script>

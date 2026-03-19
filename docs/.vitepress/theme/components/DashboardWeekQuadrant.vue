@@ -126,7 +126,7 @@ const isOpen = (quadrant: string) => openQuadrants.value.has(quadrant)
               >
                 <QSeperator
                   v-if="status"
-                  un-text="neutral-900 dark:neutral-100"
+                  un-text="stone-900 dark:stone-100"
                   un-my-2
                   :title="t(`status.${status}`) || status"
                 />
@@ -154,14 +154,14 @@ const isOpen = (quadrant: string) => openQuadrants.value.has(quadrant)
                     v-if="task.dod"
                     class="dod-text"
                     un-ml-4
-                    un-text="neutral-700 dark:neutral-300"
+                    un-text="stone-700 dark:stone-300"
                     v-html="renderMdInline(task.dod)"
                   />
                   <ul
                     v-if="task.links?.length"
                     un-ml-8
                     un-text-sm
-                    un-text="neutral-500"
+                    un-text="stone-500"
                   >
                     <li
                       v-for="link in task.links"
@@ -187,7 +187,7 @@ const isOpen = (quadrant: string) => openQuadrants.value.has(quadrant)
             >
               <QSeperator
                 un-my-2
-                un-text="neutral-400 dark:neutral-600"
+                un-text="stone-400 dark:stone-600"
                 un-italic
                 :title="t('empty')"
                 type="dashed"

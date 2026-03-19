@@ -47,7 +47,7 @@ import contacts from '../src/contacts.json' with { type: 'json' }
           </a>
           <span
             v-if="link !== contact.links[contact.links.length - 1]"
-            un-text="neutral-500"
+            un-text="stone-500"
             un-mx-1
           >//
           </span>

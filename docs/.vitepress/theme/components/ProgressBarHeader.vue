@@ -54,13 +54,13 @@ watchEffect(() => {
     un-top-0
     un-py-5
     un-z-10
-    un-bg="neutral-50 dark:neutral-950"
+    un-bg="stone-50 dark:stone-950"
     class="title-wrapper"
   >
     <div class="progress-bar">
       <div
         class="progress-bar-inner"
-        un-bg="neutral-600 dark:neutral-400"
+        un-bg="stone-600 dark:stone-400"
         :style="{ width: 'var(--progress-bar-width, 0)' }"
         un-h-2px
         un-absolute
@@ -69,7 +69,7 @@ watchEffect(() => {
       />
       <div
         class="progress-bar-bg"
-        un-bg="neutral-200 dark:neutral-800"
+        un-bg="stone-200 dark:stone-800"
         un-w-full
         un-h-2px
         un-absolute
@@ -79,11 +79,11 @@ watchEffect(() => {
     </div>
     <div
       un-flex="~ row"
-      un-items-center
+      un-items-end
       un-gap-4
     >
       <h2
-        un-my-4
+        un-mt-4
         un-text-3xl
         un-w-fit
         v-html="title !== '-' ? title : ''"
@@ -92,7 +92,7 @@ watchEffect(() => {
     </div>
     <div
       v-if="intro"
-      un-text="neutral-600 dark:neutral-400"
+      un-text="stone-600 dark:stone-400"
       un-mb-4
       un-pl-8
       v-html="intro"

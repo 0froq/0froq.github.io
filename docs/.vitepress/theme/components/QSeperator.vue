@@ -21,10 +21,10 @@ const props = defineProps<{
       :class="`${props.type || 'solid'}-separator left-separator`"
       un-flex-grow
       un-h-px
-      un-text="neutral-400 dark:neutral-600"
+      un-text="stone-400 dark:stone-600"
     />
     <span
-      un-text="neutral-700 dark:neutral-300"
+      un-text="stone-700 dark:stone-300"
       v-bind="$attrs"
       class="separator-title"
       un-px-2
@@ -33,7 +33,7 @@ const props = defineProps<{
       :class="`${props.type || 'solid'}-separator right-separator`"
       un-flex-grow
       un-h-px
-      un-text="neutral-400 dark:neutral-700"
+      un-text="stone-400 dark:stone-700"
     />
   </div>
 
@@ -43,7 +43,7 @@ const props = defineProps<{
     un-w-full
     un-shrink-1
     un-h-px
-    un-text="neutral-400 dark:neutral-600"
+    un-text="stone-400 dark:stone-600"
     v-bind="$attrs"
     aria-hidden
   />

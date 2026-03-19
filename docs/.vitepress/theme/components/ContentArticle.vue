@@ -7,6 +7,7 @@ import { data as corpus } from '../src/corpus.data'
 import { data as posts } from '../src/posts.data'
 import LinkUnderline from './LinkUnderline.vue'
 import PostNavigation from './PostNavigation.vue'
+import ContentNav from './ContentNav.vue'
 import ProgressBarHeader from './ProgressBarHeader.vue'
 
 const { t, d, locale } = useI18n({
@@ -134,16 +135,21 @@ const originalPost = computed(() => {
   >
     <template #titleAddon>
       <div
-        v-if="['void', 'draft'].includes(post.frontmatter.status)"
-        un-underline="~ px neutral-600 dark:neutral-400"
-        un-text="neutral-600 dark:neutral-400 xl"
+        v-if="post.frontmatter.status === 'void'"
+        un-text="rose-600 dark:rose-400 xl"
+        un-font="mono italic"
+      >
+        {{ post.frontmatter.status }}
+      </div>
+      <div
+        v-if="post.frontmatter.status === 'draft'"
+        un-text="sky-600 dark:sky-400 xl"
         un-font="mono italic"
       >
         {{ post.frontmatter.status }}
       </div>
       <div
         v-if="locale !== (post.frontmatter.lang || 'zh') && (post.frontmatter.lang || 'zh')"
-        un-underline="~ px amber-600 dark:amber-400"
         un-text="amber-600 dark:amber-400 xl"
         un-font="mono italic"
       >
@@ -156,7 +162,7 @@ const originalPost = computed(() => {
     un-justify-end
     un-mt-4
     un-gap-4
-    un-text-neutral-500
+    un-text-stone-500
   >
     <div
       v-for="string, i in metaStrings"
@@ -189,7 +195,7 @@ const originalPost = computed(() => {
         <LinkUnderline
           :href="translated.url"
           :text="(translated.frontmatter.title || translated.url)"
-          un-text="neutral-500 hover:neutral-950 dark:hover:neutral-50"
+          un-text="stone-500 hover:stone-950 dark:hover:stone-50"
           un-before="bg-emerald-600 dark:bg-emerald-400"
         />
       </div>
@@ -204,7 +210,7 @@ const originalPost = computed(() => {
       <LinkUnderline
         :href="originalPost.url"
         :text="originalPost.frontmatter.title || originalPost.url"
-        un-text="neutral-500 hover:neutral-950 dark:hover:neutral-50"
+        un-text="stone-500 hover:stone-950 dark:hover:stone-50"
         un-before="bg-rose-600 dark:bg-rose-400"
       />
     </div>

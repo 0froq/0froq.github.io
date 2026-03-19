@@ -32,14 +32,14 @@ defineProps<Props>()
         :key="item.url"
       >
         <div
-          style="--decoration-color: var(--colors-rose-500)"
+          :data-current="item.current"
+          :un-font="item.current ? 'bold' : 'medium'"
         >
           <LinkUnderline
             :href="item.url"
             :text="item.label"
             :follow-mouse="!item.children"
-            :vanilla="true"
-            :data-current="item.current"
+            :un-before="`h-px bg-stone-700 dark:bg-stone-300${item.current ? ' w-full text-stone-950 dark:text-stone-50' : ''}`"
           >
             <template
               v-if="item.tooltip || item.children"
@@ -58,34 +58,13 @@ defineProps<Props>()
                 <LinkUnderline
                   :href="child.url"
                   :text="child.label"
-                  :data-current="child.current"
-                  un-before="h-px bg-neutral-950 dark:bg-neutral-50"
+                  un-before="h-px bg-stone-950 dark:bg-stone-50"
                 />
               </div>
             </template>
           </LinkUnderline>
         </div>
-        <!-- <div -->
-        <!--   v-else -->
-        <!-- > -->
-        <!--   <LinkUnderline -->
-        <!--     :href="item.url" -->
-        <!--     :text="item.label" -->
-        <!--     :tooltip-text="item.tooltip || ''" -->
-        <!--     un-inline-block -->
-        <!--     un-text-sm -->
-        <!--     un-text="neutral-600 dark:neutral-400" -->
-        <!--     :data-current="item.current" -->
-        <!--   /> -->
-        <!-- </div> -->
       </template>
     </div>
   </div>
 </template>
-
-<style scoped>
-[data-current='true'] {
-  --uno: 'text-neutral-950 dark:text-neutral-50';
-  --uno: 'before:(w-full bg-neutral-950 dark:bg-neutral-50)';
-}
-</style>

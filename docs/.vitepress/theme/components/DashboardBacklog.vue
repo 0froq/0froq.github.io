@@ -67,12 +67,12 @@ function tillDueMapping(days: number): string {
               :un-text="{
                 arranging: 'emerald-600 dark:emerald-400',
                 deffered: 'amber-600 dark:amber-400',
-                notPlanned: 'neutral-600 dark:neutral-400',
+                notPlanned: 'stone-600 dark:stone-400',
               }[item.status]"
               :un-underline="{
                 arranging: '~ px emerald-600 dark:emerald-400',
                 deffered: '~ px amber-600 dark:amber-400',
-                notPlanned: '~ px neutral-600 dark:neutral-400',
+                notPlanned: '~ px stone-600 dark:stone-400',
               }[item.status]"
             >
               {{ item.status }}
@@ -96,14 +96,14 @@ function tillDueMapping(days: number): string {
             v-if="item.dod"
             class="dod-text"
             un-ml-4
-            un-text="neutral-600 dark:neutral-400"
+            un-text="stone-600 dark:stone-400"
             v-html="renderMdInline(item.dod)"
           />
           <ul
             v-if="item.links?.length"
             un-ml-8
             un-text-sm
-            un-text="neutral-500"
+            un-text="stone-500"
           >
             <li
               v-for="link in item.links"
@@ -123,7 +123,7 @@ function tillDueMapping(days: number): string {
       v-else
       un-pt-4
       un-text-sm
-      un-text="neutral-500"
+      un-text="stone-500"
     >
       {{ t('backlogEmpty') }}
     </div>
@@ -148,6 +148,6 @@ function tillDueMapping(days: number): string {
 }
 
 [data-till-due='future'] {
-  --uno: 'text-neutral-500';
+  --uno: 'text-stone-500';
 }
 </style>

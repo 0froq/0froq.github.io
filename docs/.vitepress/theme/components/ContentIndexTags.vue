@@ -3,6 +3,7 @@ import { computed } from 'vue'
 import tags from '../../generated/tags.json'
 import { data as corpus } from '../src/corpus.data'
 import { data as posts } from '../src/posts.data'
+import ContentNav from './ContentNav.vue'
 import ProgressBarHeader from './ProgressBarHeader.vue'
 import TagTreeNode from './TagTreeNode.vue'
 
@@ -76,9 +77,29 @@ const tagTree = computed<TagNode[]>(() => {
 
   return applyTotalCount(toArray(root))
 })
+
+const navItems = [
+  [{ label: 'Home', url: '/' }],
+  [
+    { label: 'Corpus', url: '/corpus/', children: [
+      { label: 'Autopsia', url: '/corpus/000_autopsia/' },
+      { label: 'Ingesta', url: '/corpus/100_ingesta/' },
+      { label: 'Neoplasma', url: '/corpus/200_neoplasma/' },
+      { label: 'Putredo', url: '/corpus/300_putredo/' },
+      { label: 'Delirium', url: '/corpus/400_delirium/' },
+      { label: 'Vigil', url: '/corpus/500_vigil/' },
+    ] },
+    { label: 'Posts', url: '/posts/' },
+    { label: 'Dashboard', url: '/dashboard/' },
+    { label: 'Tags', url: '/tags/', current: true },
+  ],
+]
 </script>
 
 <template>
+  <ContentNav
+    :items="navItems"
+  />
   <ProgressBarHeader
     title="Tags"
     intro=""
@@ -107,7 +128,7 @@ const tagTree = computed<TagNode[]>(() => {
   </div>
   <div
     v-else
-    un-text="neutral-500"
+    un-text="stone-500"
   >
     没有可用的标签。
   </div>

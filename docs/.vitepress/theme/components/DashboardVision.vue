@@ -47,7 +47,7 @@ const { locale, t } = useI18n({
           v-if="vision.links?.length"
           un-ml-5
           un-text-sm
-          un-text-neutral-500
+          un-text-stone-500
         >
           <li
             v-for="link in vision.links"

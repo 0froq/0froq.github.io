@@ -25,8 +25,8 @@ const { t, locale } = useI18n({
     un-inline-block
     un-text-sm
     un-w-fit
-    un-text="neutral-600 dark:neutral-400"
-    un-before="h-px bg-neutral-950 dark:bg-neutral-50"
+    un-text="stone-600 dark:stone-400"
+    un-before="h-px bg-stone-950 dark:bg-stone-50"
   />
   <ProgressBarHeader
     id="yearly-and-vision-header"

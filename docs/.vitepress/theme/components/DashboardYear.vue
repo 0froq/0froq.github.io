@@ -38,7 +38,7 @@ const years = yearData
             v-if="goal.links?.length"
             un-ml-5
             un-text-sm
-            un-text-neutral-500
+            un-text-stone-500
           >
             <li
               v-for="link in goal.links"

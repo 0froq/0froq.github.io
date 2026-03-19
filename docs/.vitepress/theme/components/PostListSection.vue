@@ -111,7 +111,7 @@ const excerptVisible = ref(false)
       un-w-full
     >
       <div
-        un-text="neutral-600 dark:neutral-400 2xl"
+        un-text="stone-600 dark:stone-400 2xl"
         :style="locale === 'zh' ? { writingMode: 'vertical-lr' } : {}"
         un-px-4
         un-text-3xl
@@ -146,30 +146,27 @@ const excerptVisible = ref(false)
         >
           <div
             v-if="post.frontmatter.status === 'void'"
-            un-underline="~ px rose-600 dark:rose-400"
-            un-text="rose-600 dark:rose-400 xs"
+            un-text="rose-600 dark:rose-400"
             un-font="mono italic"
           >
             {{ post.frontmatter.status }}
           </div>
           <div
             v-if="post.frontmatter.status === 'draft'"
-            un-underline="~ px sky-600 dark:sky-400"
-            un-text="sky-600 dark:sky-400 xs"
+            un-text="sky-600 dark:sky-400"
             un-font="mono italic"
           >
             {{ post.frontmatter.status }}
           </div>
           <div
             v-if="locale !== (post.frontmatter.lang || 'zh') && (post.frontmatter.lang || 'zh')"
-            un-underline="~ px amber-600 dark:amber-400"
             un-text="amber-600 dark:amber-400"
             un-font="mono italic"
           >
             {{ post.frontmatter.lang || 'zh' }}
           </div>
           <div
-            un-text="neutral-500 dark:neutral-400 base"
+            un-text="stone-500 dark:stone-400 base"
             un-whitespace-nowrap
           >
             {{ d(new Date(post.created), 'withoutYear') }}
@@ -177,12 +174,11 @@ const excerptVisible = ref(false)
           <LinkUnderline
             :href="post.url"
             :text="post.title"
-            :tooltip-text="post.title"
-            un-text="neutral-700 dark:neutral-300 hover:neutral-950 dark:hover:neutral-50 2xl"
+            un-text="stone-700 dark:stone-300 hover:stone-950 dark:hover:stone-50 2xl"
             un-before="bg-emerald-600 dark:bg-emerald-400"
             un-text-align="right"
           >
-            <template #tooltipAddons>
+            <template #tooltip>
               <TooltipPostInfo :post="post" />
             </template>
           </LinkUnderline>
@@ -190,7 +186,7 @@ const excerptVisible = ref(false)
         <!-- Post excerpt -->
         <div
           v-show="excerptVisible && post.excerpt"
-          un-text-neutral-500
+          un-text-stone-500
           class="markdown-rendered"
           v-html="post.excerpt?.replace(/<p>|<\/p>/g, '')"
         />

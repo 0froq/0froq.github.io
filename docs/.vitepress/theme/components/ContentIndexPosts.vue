@@ -3,6 +3,7 @@ import { useRoute } from 'vitepress'
 import { useI18n } from 'vue-i18n'
 import { toChineseNumber } from '../../utils/toChineseNumber'
 import { data as posts } from '../src/posts.data'
+import ContentNav from './ContentNav.vue'
 import LinkUnderline from './LinkUnderline.vue'
 import PostListSection from './PostListSection.vue'
 import ProgressBarHeader from './ProgressBarHeader.vue'
@@ -45,9 +46,29 @@ const { t } = useI18n({
 })
 
 const categories: string[] = ['log', 'roadmap', 'collection']
+
+const navItems = [
+  [{ label: 'Home', url: '/' }],
+  [
+    { label: 'Corpus', url: '/corpus/', children: [
+      { label: 'Autopsia', url: '/corpus/000_autopsia/' },
+      { label: 'Ingesta', url: '/corpus/100_ingesta/' },
+      { label: 'Neoplasma', url: '/corpus/200_neoplasma/' },
+      { label: 'Putredo', url: '/corpus/300_putredo/' },
+      { label: 'Delirium', url: '/corpus/400_delirium/' },
+      { label: 'Vigil', url: '/corpus/500_vigil/' },
+    ] },
+    { label: 'Posts', url: '/posts/', current: true },
+    { label: 'Dashboard', url: '/dashboard/' },
+    { label: 'Tags', url: '/tags/' },
+  ],
+]
 </script>
 
 <template>
+  <ContentNav
+    :items="navItems"
+  />
   <div>
     <ProgressBarHeader
       title="Posts"
@@ -72,11 +93,18 @@ const categories: string[] = ['log', 'roadmap', 'collection']
       <LinkUnderline
         :href="`#${t(`categories.${category}`)}`"
         :text="t(`categories.${category}`)"
-        un-text="neutral-700 dark:neutral-300 hover:neutral-950 dark:hover:neutral-50 2xl"
+        un-text="stone-700 dark:stone-300 hover:stone-950 dark:hover:stone-50 2xl"
         un-before="bg-rose-600 dark:bg-rose-400"
         un-font-italic
-        :tooltip-text="t(`intros.${category}`) || ''"
-      />
+      >
+        <template #tooltip>
+          <div
+            un-max-w-300px
+          >
+            {{ t(`intros.${category}`) || '' }}
+          </div>
+        </template>
+      </LinkUnderline>
     </div>
   </div>
 

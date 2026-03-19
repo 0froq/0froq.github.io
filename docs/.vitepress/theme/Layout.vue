@@ -47,12 +47,15 @@ watch(
 <template>
   <div
     un-min-h-100vh
-    un-bg="neutral-50 dark:neutral-950"
+    un-bg="stone-50 dark:stone-950"
+    un-text="stone-700 dark:stone-300"
     un-relative
     un-font-serif
   >
     <PageHeader />
-    <PageContent :key="route.path" />
+    <PageContent
+      :key="route.path"
+    />
     <ButtonVerticalNavigation
       un-hidden
       un-md:flex

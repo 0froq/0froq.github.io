@@ -1,10 +1,13 @@
 <script setup lang="ts">
 import type { Data } from '../src/corpus.data.ts'
+import type { NavItem } from './ContentNav.vue'
 import { useEventListener, useMouse } from '@vueuse/core'
 import { useRoute } from 'vitepress'
 import { onBeforeUnmount, onMounted, onUpdated, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { useRouteI18n } from '../../utils/useRouteI18n.ts'
 import { data as posts } from '../src/corpus.data.ts'
+import ContentNav from './ContentNav.vue'
 import LinkUnderline from './LinkUnderline.vue'
 import ProgressBarHeader from './ProgressBarHeader.vue'
 import QSeperator from './QSeperator.vue'
@@ -143,9 +146,47 @@ onBeforeUnmount(() => {
     refreshRafId = null
   }
 })
+
+const navItems: NavItem[][] = [
+  [{ label: 'Home', url: '/' }],
+  [
+    { label: 'Corpus', url: '/corpus/', current: true },
+    { label: 'Posts', url: '/posts/' },
+    { label: 'Dashboard', url: '/dashboard/' },
+    { label: 'Tags', url: '/tags/' },
+  ],
+  [
+    { label: 'Autopsia', url: '/corpus/000_autopsia/' },
+    { label: 'Ingesta', url: '/corpus/100_ingesta/' },
+    { label: 'Neoplasma', url: '/corpus/200_neoplasma/' },
+    { label: 'Putredo', url: '/corpus/300_putredo/' },
+    { label: 'Delirium', url: '/corpus/400_delirium/' },
+    { label: 'Vigil', url: '/corpus/500_vigil/' },
+  ],
+]
+
+const { currentBasePath } = useRouteI18n(path, locale.value)
+
+navItems.forEach((group) => {
+  group.forEach((item) => {
+    if (item.url === currentBasePath.value) {
+      item.current = true
+    }
+    if (item.children) {
+      item.children.forEach((child) => {
+        if (child.url === currentBasePath.value) {
+          child.current = true
+        }
+      })
+    }
+  })
+})
 </script>
 
 <template>
+  <ContentNav
+    :items="navItems"
+  />
   <div>
     <ProgressBarHeader
       :key="layer"
@@ -165,7 +206,6 @@ onBeforeUnmount(() => {
     >
       <div
         v-if="post.frontmatter.status === 'void'"
-        un-underline="~ px rose-600 dark:rose-400"
         un-text="rose-600 dark:rose-400 xs"
         un-font="mono italic"
       >
@@ -173,7 +213,6 @@ onBeforeUnmount(() => {
       </div>
       <div
         v-if="post.frontmatter.status === 'draft'"
-        un-underline="~ px sky-600 dark:sky-400"
         un-text="sky-600 dark:sky-400 xs"
         un-font="mono italic"
       >
@@ -181,7 +220,6 @@ onBeforeUnmount(() => {
       </div>
       <div
         v-if="locale !== (post.frontmatter.lang || 'zh') && (post.frontmatter.lang || 'zh')"
-        un-underline="~ px amber-600 dark:amber-400"
         un-text="amber-600 dark:amber-400 xs"
         un-font="mono italic"
       >
@@ -200,10 +238,9 @@ onBeforeUnmount(() => {
           :vanilla="true"
           :href="post.url"
           :text="post.title"
-          :tooltip-text="post.frontmatter.title"
-          :un-text="post.frontmatter.status === 'void' ? 'neutral-600 dark:neutral-400' : ''"
+          :un-text="post.frontmatter.status === 'void' ? 'stone-600 dark:stone-400' : ''"
         >
-          <template #tooltipAddons>
+          <template #tooltip>
             <TooltipPostInfo :post="post" />
           </template>
         </LinkUnderline>
@@ -219,7 +256,7 @@ onBeforeUnmount(() => {
         un-font="mono"
         un-whitespace-nowrap
         un-transition="colors duration-200"
-        un-text="neutral-600 dark:neutral-400"
+        un-text="stone-600 dark:stone-400"
       >
         <span
           v-if="post.createdComponent.year"
@@ -229,7 +266,7 @@ onBeforeUnmount(() => {
         </span>
         <span
           v-else
-          un-text="neutral-300 dark:neutral-700 sm"
+          un-text="stone-300 dark:stone-700 sm"
         >…………</span>/<span
           v-if="post.createdComponent.month"
           un-text="sm"
@@ -237,7 +274,7 @@ onBeforeUnmount(() => {
           {{ post.createdComponent.month }}
         </span><span
           v-else
-          un-text="neutral-300 dark:neutral-700 sm"
+          un-text="stone-300 dark:stone-700 sm"
         >……</span>/<span
           v-if="post.createdComponent.day"
           un-text="sm"
@@ -245,7 +282,7 @@ onBeforeUnmount(() => {
           {{ post.createdComponent.day }}
         </span><span
           v-else
-          un-text="neutral-300 dark:neutral-700 sm"
+          un-text="stone-300 dark:stone-700 sm"
         >……</span>
       </div>
     </div>
@@ -254,13 +291,13 @@ onBeforeUnmount(() => {
 
 <style scoped>
 [data-current='true'] {
-  --uno: 'text-neutral-950 dark:text-neutral-50 font-semibold';
-  --uno: 'before:(w-full bg-neutral-950 dark:bg-neutral-50)';
+  --uno: 'text-stone-950 dark:text-stone-50 font-semibold';
+  --uno: 'before:(w-full bg-stone-950 dark:bg-stone-50)';
 }
 
 .article-row:hover .date {
-  --uno: 'text-neutral-950 dark:text-neutral-50';
+  --uno: 'text-stone-950 dark:text-stone-50';
   --uno: 'animate-pulse';
-  --uno: 'underline-(~ px dashed neutral-950 dark:neutral-50)';
+  --uno: 'underline-(~ px dashed stone-950 dark:stone-50)';
 }
 </style>

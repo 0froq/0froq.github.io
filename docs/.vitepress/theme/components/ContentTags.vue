@@ -51,8 +51,8 @@ const postsInExtendedTags = computed(() => {
     un-inline-block
     un-text-sm
     un-w-fit
-    un-text="neutral-600 dark:neutral-400"
-    un-before="h-px bg-neutral-950 dark:bg-neutral-50"
+    un-text="stone-600 dark:stone-400"
+    un-before="h-px bg-stone-950 dark:bg-stone-50"
   />
   <TagDisplay />
   <Content />
@@ -98,8 +98,8 @@ const postsInExtendedTags = computed(() => {
       </span>
       <div
         v-if="['void', 'draft'].includes(post.frontmatter.status)"
-        un-underline="~ px neutral-600 dark:neutral-400"
-        un-text="neutral-600 dark:neutral-400 xs"
+        un-underline="~ px stone-600 dark:stone-400"
+        un-text="stone-600 dark:stone-400 xs"
         un-font="mono italic"
       >
         {{ post.frontmatter.status }}
@@ -124,7 +124,7 @@ const postsInExtendedTags = computed(() => {
           :text="post.title"
           :tooltip-text="post.frontmatter.title"
           un-min-w-0
-          :un-text="post.frontmatter.status === 'void' ? 'neutral-600 dark:neutral-400' : ''"
+          :un-text="post.frontmatter.status === 'void' ? 'stone-600 dark:stone-400' : ''"
         >
           <template #tooltipAddons>
             <TooltipPostInfo :post="post" />
@@ -132,7 +132,7 @@ const postsInExtendedTags = computed(() => {
         </LinkUnderline>
       </div>
       <div
-        un-text="neutral-500 dark:neutral-400 xs"
+        un-text="stone-500 dark:stone-400 xs"
         un-whitespace-nowrap
       >
         {{ d(new Date(post.created), 'short') }}

@@ -327,25 +327,25 @@ function toggle() {
       >
         <span
           v-if="props.depth > 0"
-          un-text="neutral-500"
+          un-text="stone-500"
         >
           ../
         </span>
         <LinkUnderline
           :href="`/tags/${props.node.fullPath}`"
           :text="props.node.name"
-          un-text="neutral-600 dark:neutral-400"
-          un-before="h-px bg-neutral-950 dark:bg-neutral-50"
+          un-text="stone-600 dark:stone-400"
+          un-before="h-px bg-stone-950 dark:bg-stone-50"
         />
         <template v-if="hasChildren">
           <span
-            un-text="neutral-500"
+            un-text="stone-500"
           >
             /
           </span>
           <span
             v-if="hasChildren"
-            un-text="neutral-500 hover:neutral-950 dark:hover:neutral-50"
+            un-text="stone-500 hover:stone-950 dark:hover:stone-50"
             un-cursor-pointer
             un-transition
             :aria-expanded="isOpen"

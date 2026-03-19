@@ -92,8 +92,8 @@ function handleChangeLocale(newVal: string) {
             un-transition-colors
             un-duration-200
             :class="l === $i18n.locale
-              ? 'text-neutral-950 dark:text-neutral-50'
-              : 'text-neutral-500 hover:text-neutral-600 dark:hover:text-neutral-400 disabled:hover:text-neutral-500'"
+              ? 'text-stone-950 dark:text-stone-50'
+              : 'text-stone-500 hover:text-stone-600 dark:hover:text-stone-400 disabled:hover:text-stone-500'"
             un-disabled="cursor-not-allowed"
             @click="handleChangeLocale(l)"
           >{{ localeMap[l] }}</button>
@@ -107,7 +107,7 @@ function handleChangeLocale(newVal: string) {
         un-w-6
         un-items-center
         un-justify-center
-        un-text="neutral-500 hover:neutral-700 dark:hover:neutral-300"
+        un-text="stone-500 hover:stone-700 dark:hover:stone-300"
         un-transition-colors
         un-duration-200
         href="https://github.com/0froq"
@@ -121,7 +121,7 @@ function handleChangeLocale(newVal: string) {
         un-cursor-pointer
         un-items-center
         un-justify-center
-        un-text="neutral-500 hover:neutral-700 dark:hover:neutral-300"
+        un-text="stone-500 hover:stone-700 dark:hover:stone-300"
         un-transition-colors
         un-duration-200
         @click="toggleDark()"

@@ -156,8 +156,8 @@ function handleDropdownLeave() {
         ref="dropdownRef"
         class="dropdown-menu"
         :style="dropdownStyle"
-        un-bg="neutral-200 dark:neutral-800"
-        un-text="neutral-800 dark:neutral-200"
+        un-bg="stone-200 dark:stone-800"
+        un-text="stone-800 dark:stone-200"
         un-fixed
         un-rounded-sm
         un-whitespace-nowrap

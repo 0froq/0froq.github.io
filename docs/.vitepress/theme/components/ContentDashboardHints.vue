@@ -25,8 +25,8 @@ const { t, locale } = useI18n({
     un-inline-block
     un-text-sm
     un-w-fit
-    un-text="neutral-600 dark:neutral-400"
-    un-before="h-px bg-neutral-950 dark:bg-neutral-50"
+    un-text="stone-600 dark:stone-400"
+    un-before="h-px bg-stone-950 dark:bg-stone-50"
   />
   <ProgressBarHeader
     id="guidance-header"
@@ -61,12 +61,12 @@ const { t, locale } = useI18n({
         <div
           v-if="item.description"
           un-ml-4
-          un-text="neutral-600 dark:neutral-400"
+          un-text="stone-600 dark:stone-400"
           v-html="renderMdInline(item.description)"
         />
         <ul
           un-ml-8
-          un-text-neutral-500
+          un-text-stone-500
         >
           <li
             v-for="link in item.links"

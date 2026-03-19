@@ -34,7 +34,7 @@ const { t } = useI18n({
       un-flex="~ row"
     >
       <div
-        un-text="neutral-500 dark:neutral-400 base"
+        un-text="stone-500 dark:stone-400 base"
         un-mr-2
         un-whitespace-nowrap
       >
@@ -45,7 +45,7 @@ const { t } = useI18n({
         :href="post.url"
         :text="post.frontmatter.title"
         :tooltip-text="post.frontmatter.title"
-        un-text="neutral-700 dark:neutral-300 hover:neutral-950 dark:hover:neutral-50"
+        un-text="stone-700 dark:stone-300 hover:stone-950 dark:hover:stone-50"
         un-before="bg-emerald-600 dark:bg-emerald-400"
       >
         <template #tooltipAddons>
@@ -54,7 +54,7 @@ const { t } = useI18n({
       </LinkUnderline>
       <div
         v-else
-        un-text-neutral-500
+        un-text-stone-500
       >
         {{ t('noPost') }}
       </div>
