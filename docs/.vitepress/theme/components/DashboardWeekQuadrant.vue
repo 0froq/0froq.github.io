@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { renderMdInline } from '../../utils/renderMdInline'
 import { data as d } from '../src/week.data'
 import LinkUnderline from './LinkUnderline.vue'
 import QSeperator from './QSeperator.vue'
+import type { TaskPriority } from '../src/week.data'
 
 const { t } = useI18n({
   useScope: 'global',
@@ -18,6 +19,12 @@ const { t } = useI18n({
         cancelled: 'Cancelled',
         blocked: 'Blocked',
       },
+      priority: {
+        high: 'High',
+        medium: 'Medium',
+        low: 'Low',
+        none: 'Unprioritized',
+      },
       empty: 'Empty',
     },
     zh: {
@@ -29,31 +36,52 @@ const { t } = useI18n({
         cancelled: '取消',
         blocked: '阻塞',
       },
+      priority: {
+        high: '高',
+        medium: '中',
+        low: '低',
+        none: '无优先级',
+      },
       empty: '空的',
     },
   },
 })
 
-const quadrantTitles = {
-  q1: 'UI',
-  q2: 'uI',
-  q3: 'Ui',
-  q4: 'ui',
+const priorityOrder: (TaskPriority | 'none')[] = ['high', 'medium', 'low', 'none']
+
+const isOpen = ref(true)
+
+function toggle() {
+  isOpen.value = !isOpen.value
 }
 
-const openQuadrants = ref<Set<string>>(new Set())
-
-function toggleQuadrant(quadrant: string) {
-  const next = new Set(openQuadrants.value)
-  if (next.has(quadrant))
-    next.delete(quadrant)
-  else
-    next.add(quadrant)
-
-  openQuadrants.value = next
+function getPriorityKey(priority: TaskPriority | undefined): TaskPriority | 'none' {
+  return priority ?? 'none'
 }
 
-const isOpen = (quadrant: string) => openQuadrants.value.has(quadrant)
+const tasksByPriority = computed(() => {
+  if (!d.currentWeek?.tasks)
+    return new Map()
+
+  const grouped = new Map<TaskPriority | 'none', typeof d.currentWeek.tasks>()
+
+  for (const task of d.currentWeek.tasks) {
+    const key = getPriorityKey(task.priority)
+    if (!grouped.has(key))
+      grouped.set(key, [])
+    grouped.get(key)!.push(task)
+  }
+
+  return grouped
+})
+
+const totalActive = computed(() =>
+  d.currentWeek?.tasks.filter(t => !['deffered', 'cancelled'].includes(t.status ?? '')).length ?? 0,
+)
+
+const totalDone = computed(() =>
+  d.currentWeek?.tasks.filter(t => t.status === 'done').length ?? 0,
+)
 </script>
 
 <template>
@@ -64,16 +92,14 @@ const isOpen = (quadrant: string) => openQuadrants.value.has(quadrant)
     un-pt-4
   >
     <div
-      v-for="(tasks, quadrant) in d.currentWeek.quadrants"
-      :key="quadrant"
       un-rounded="0.5"
-      :data-quadrant="quadrant"
       un-flex="~ col"
       un-overflow-hidden
       un-relative
+      un-bg="stone-100/30 dark:stone-900/30"
     >
       <div
-        class="quad-title"
+        class="task-title"
         un-cursor-pointer
         un-p-2
         un-text-base
@@ -81,119 +107,118 @@ const isOpen = (quadrant: string) => openQuadrants.value.has(quadrant)
         un-flex
         un-justify-between
         un-font-mono
-        @click="toggleQuadrant(quadrant)"
+        un-bg="stone-100/50 dark:stone-900/50"
+        un-border="stone-300 dark:stone-700"
+        @click="toggle"
       >
         <span
           un-font-medium
           un-tracking-wide
         >
-          {{ quadrant.toLocaleUpperCase() }} - {{ quadrantTitles[quadrant] }}
-
+          {{ d.currentWeek.theme || 'Weekly Tasks' }}
         </span>
         <span
           style="font-variant-numeric: diagonal-fractions;"
         >
-          {{
-            tasks.filter(t => t.status === "done").length
-          }}/{{
-            tasks.filter(t => !['deffered', 'cancelled'].includes(t.status ?? '')).length
-          }}
+          {{ totalDone }}/{{ totalActive }}
         </span>
       </div>
       <Transition name="expand">
         <div
-          v-show="isOpen(quadrant)"
-          class="quad-content"
+          v-show="isOpen"
+          class="task-content"
           un-p-2
           un-text-sm
           un-overflow-hidden
         >
-          <ul
-            v-if="tasks.length"
-            un-list-none
-            un-overflow-auto
-            un-grow-1
-            un-shrink-1
-          >
-            <li
-              v-for="status in new Set(tasks.map(t => t.status))"
-              :key="status"
-              un-mb-2
+          <template v-if="d.currentWeek.tasks.length">
+            <div
+              v-for="priority in priorityOrder"
+              :key="priority"
             >
               <div
-                un-w="50%"
-                un-mx-auto
+                v-if="tasksByPriority.get(priority)?.length"
+                un-mb-2
               >
-                <QSeperator
-                  v-if="status"
-                  un-text="stone-900 dark:stone-100"
-                  un-my-2
-                  :title="t(`status.${status}`) || status"
-                />
-              </div>
-              <ul>
-                <li
-                  v-for="task in tasks.filter(t => t.status === status)"
-                  :key="task.title"
-                  un-my-2
+                <div
+                  un-w="50%"
+                  un-mx-auto
                 >
-                  <div
-                    un-flex="~ row wrap"
-                    un-items-center
-                    un-gap-x-2
+                  <QSeperator
+                    un-text="stone-900 dark:stone-100"
+                    un-my-2
+                    :title="t(`priority.${priority}`)"
+                  />
+                </div>
+                <ul un-list-none>
+                  <li
+                    v-for="task in tasksByPriority.get(priority)"
+                    :key="task.title"
+                    un-mb-4
                   >
                     <div
-                      v-html="renderMdInline(task.title)"
-                    />
-                    <un-i-openmj-drooling-face
-                      v-if="task.tags?.includes('forIdiot')"
-                      un-text-xl
-                    />
-                  </div>
-                  <div
-                    v-if="task.dod"
-                    class="dod-text"
-                    un-ml-4
-                    un-text="stone-700 dark:stone-300"
-                    v-html="renderMdInline(task.dod)"
-                  />
-                  <ul
-                    v-if="task.links?.length"
-                    un-ml-8
-                    un-text-sm
-                    un-text="stone-500"
-                  >
-                    <li
-                      v-for="link in task.links"
-                      :key="link.url"
+                      un-flex="~ row wrap"
+                      un-items-center
+                      un-gap-x-2
                     >
-                      <LinkUnderline
-                        :href="link.url"
-                        :text="link.label"
-                        :vanilla="true"
+                      <div
+                        :class="[
+                          'status-badge',
+                          task.status === 'done' && 'status-done',
+                          task.status === 'inProgress' && 'status-inprogress',
+                          task.status === 'blocked' && 'status-blocked',
+                          task.status === 'cancelled' && 'status-cancelled',
+                          task.status === 'deffered' && 'status-deffered',
+                        ]"
                       />
-                    </li>
-                  </ul>
-                </li>
-              </ul>
-            </li>
-          </ul>
-          <ul
-            v-else
-          >
-            <div
-              un-w="50%"
-              un-mx-auto
-            >
-              <QSeperator
-                un-my-2
-                un-text="stone-400 dark:stone-600"
-                un-italic
-                :title="t('empty')"
-                type="dashed"
-              />
+                      <div v-html="renderMdInline(task.title)" />
+                      <un-i-openmj-drooling-face
+                        v-if="task.tags?.includes('forIdiot')"
+                        un-text-xl
+                      />
+                    </div>
+                    <div
+                      v-if="task.dod"
+                      class="dod-text"
+                      un-ml-6
+                      un-text="stone-700 dark:stone-300"
+                      v-html="renderMdInline(task.dod)"
+                    />
+                    <ul
+                      v-if="task.links?.length"
+                      un-ml-10
+                      un-text-sm
+                      un-text="stone-500"
+                    >
+                      <li
+                        v-for="link in task.links"
+                        :key="link.url"
+                      >
+                        <LinkUnderline
+                          :href="link.url"
+                          :text="link.label"
+                          :vanilla="true"
+                        />
+                      </li>
+                    </ul>
+                  </li>
+                </ul>
+              </div>
             </div>
-          </ul>
+          </template>
+          <div
+            v-else
+            un-w="50%"
+            un-mx-auto
+          >
+            <QSeperator
+              un-my-2
+              un-text="stone-400 dark:stone-600"
+              un-italic
+              :title="t('empty')"
+              type="dashed"
+            />
+          </div>
         </div>
       </Transition>
     </div>
@@ -201,44 +226,29 @@ const isOpen = (quadrant: string) => openQuadrants.value.has(quadrant)
 </template>
 
 <style scoped>
-[data-quadrant='q1'] {
-  --uno: 'bg-rose-100/30 dark:bg-rose-900/30';
-
-  & .quad-title {
-    --uno: 'bg-rose-100/50 dark:bg-rose-900/50';
-    --uno: 'border-rose-300 dark:border-rose-700';
-  }
+.status-badge {
+  --uno: 'w-2 h-2 rounded-full flex-shrink-0';
+  --uno: 'bg-stone-400 dark:bg-stone-600';
 }
 
-[data-quadrant='q2'] {
-  --uno: 'bg-emerald-100/30 dark:bg-emerald-900/30';
-
-  & .quad-title {
-    --uno: 'bg-emerald-100/50 dark:bg-emerald-900/50';
-    --uno: 'border-emerald-300 dark:border-emerald-700';
-  }
+.status-done {
+  --uno: 'bg-emerald-500 dark:bg-emerald-400';
 }
 
-[data-quadrant='q3'] {
-  --uno: 'bg-sky-100/30 dark:bg-sky-900/30';
-
-  & .quad-title {
-    --uno: 'bg-sky-100/50 dark:bg-sky-900/50';
-    --uno: 'border-sky-300 dark:border-sky-700';
-  }
+.status-inprogress {
+  --uno: 'bg-amber-500 dark:bg-amber-400';
 }
 
-[data-quadrant='q4'] {
-  --uno: 'bg-stone-100/30 dark:bg-stone-900/30';
-
-  & .quad-title {
-    --uno: 'bg-stone-100/50 dark:bg-stone-900/50';
-    --uno: 'border-stone-300 dark:border-stone-700';
-  }
+.status-blocked {
+  --uno: 'bg-rose-500 dark:bg-rose-400';
 }
 
-.status-icon {
-  --uno: 'mr-1 flex-shrink-0 h-5';
+.status-cancelled {
+  --uno: 'bg-stone-500 dark:bg-stone-400';
+}
+
+.status-deffered {
+  --uno: 'bg-purple-500 dark:bg-purple-400';
 }
 
 .expand-enter-active,

@@ -1,12 +1,5 @@
-quadrants:
-  q1:
-    - title: 找一个邮件客户端
-      dod: 多端同步、标签管理
-      status: cancelled
-      links:
-
-  q2:
-
-  q3:
-
-  q4:
+tasks:
+  - title: 找一个邮件客户端
+    priority: low
+    dod: 多端同步、标签管理
+    status: cancelled

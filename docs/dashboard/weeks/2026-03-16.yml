@@ -1,17 +1,9 @@
 theme: Read papers and write codes
 
-quadrants:
-  q1:
-    - title: 安排本周的任务
-      dod: 搞完了？我看未必……
-      status: notStarted
-      links:
-
-      tags:
-        - forIdiot
-
-  q2:
-
-  q3:
-
-  q4:
+tasks:
+  - title: 安排本周的任务
+    priority: high
+    dod: 搞完了？我看未必……
+    status: notStarted
+    tags:
+      - forIdiot

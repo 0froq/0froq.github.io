@@ -8,9 +8,12 @@ export interface WeekLink {
   url: string
 }
 
+export type TaskPriority = 'high' | 'medium' | 'low'
+
 export interface WeekTask {
   title: string
   status: 'done' | 'inProgress' | 'notStarted' | 'deferred' | 'cancelled' | 'blocked'
+  priority?: TaskPriority
   dod?: string
   links?: WeekLink[]
   tags?: string[]
@@ -19,12 +22,7 @@ export interface WeekTask {
 export interface WeekData {
   start: string // YYYY-MM-DD (also the filename)
   end: string // computed: start + 6 days
-  quadrants: {
-    q1: WeekTask[]
-    q2: WeekTask[]
-    q4: WeekTask[]
-    q3: WeekTask[]
-  }
+  tasks: WeekTask[]
 }
 
 export interface DashboardData {
@@ -74,15 +72,22 @@ function safeWeekData(input: Partial<WeekData> & { start?: string }, startFromFi
   const startDate = new Date(`${start}T00:00:00`)
   const end = toISODate(addDays(startDate, 6))
 
+  // Migrate from old quadrants format if present
+  if ('quadrants' in input && input.quadrants) {
+    const oldQuadrants = input.quadrants as Record<string, WeekTask[]>
+    const allTasks: WeekTask[] = [
+      ...(oldQuadrants.q1 ?? []),
+      ...(oldQuadrants.q2 ?? []),
+      ...(oldQuadrants.q3 ?? []),
+      ...(oldQuadrants.q4 ?? []),
+    ]
+    return { start, end, tasks: allTasks }
+  }
+
   return {
     start,
     end,
-    quadrants: {
-      q1: input.quadrants?.q1 ?? [],
-      q2: input.quadrants?.q2 ?? [],
-      q3: input.quadrants?.q3 ?? [],
-      q4: input.quadrants?.q4 ?? [],
-    },
+    tasks: input.tasks ?? [],
   }
 }
 
