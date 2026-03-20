@@ -5,9 +5,9 @@ import { useI18n } from 'vue-i18n'
 import { renderMdInline } from '../../utils/renderMdInline'
 import { data as corpus } from '../src/corpus.data'
 import { data as posts } from '../src/posts.data'
+import ContentNav from './ContentNav.vue'
 import LinkUnderline from './LinkUnderline.vue'
 import PostNavigation from './PostNavigation.vue'
-import ContentNav from './ContentNav.vue'
 import ProgressBarHeader from './ProgressBarHeader.vue'
 
 const { t, d, locale } = useI18n({
@@ -17,11 +17,13 @@ const { t, d, locale } = useI18n({
       readingTime: '{count} min | {count} mins',
       original: 'Original: ',
       otherLangs: 'In Other Languages:',
+      noTranslation: 'No translations available.',
     },
     zh: {
       readingTime: '约 {count} 分钟',
       original: '原文：',
       otherLangs: '其他语言：',
+      noTranslation: '暂无翻译。',
     },
   },
 })
@@ -177,6 +179,13 @@ const originalPost = computed(() => {
     un-border-l="~ 2px amber-600 dark:amber-400"
     un-px-4
   >
+    <div
+      v-if="post?.frontmatter.lang || 'zh' !== locale"
+    >
+      <div>
+        {{ t('noTranslation') }}
+      </div>
+    </div>
     <div
       v-if="translatedPosts && translatedPosts.length > 0"
       un-flex="~ col"
