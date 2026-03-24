@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import type { ComputedRef } from 'vue'
+import type { NavItem } from './ContentNav.vue'
 import { useData, useRoute } from 'vitepress'
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
@@ -17,13 +19,13 @@ const { t, d, locale } = useI18n({
       readingTime: '{count} min | {count} mins',
       original: 'Original: ',
       otherLangs: 'In Other Languages:',
-      noTranslation: 'No translations available.',
+      noTranslation: 'No translation available.',
     },
     zh: {
       readingTime: '约 {count} 分钟',
       original: '原文：',
       otherLangs: '其他语言：',
-      noTranslation: '暂无翻译。',
+      noTranslation: '暂无翻译稿。',
     },
   },
 })
@@ -127,9 +129,34 @@ const originalPost = computed(() => {
 
   return original || null
 })
+
+const navItems: ComputedRef<NavItem[][]> = computed(() => {
+  let outUrl
+  let outLabel
+  if (!post.value)
+    return [[]]
+  if (/corpus/.test(post.value.url)) {
+    outUrl = `${post.value.url.split('/').slice(0, -1).join('/')}/`
+    outLabel = post.value.url.split('/').slice(-2, -1)[0]
+  }
+  else if (/posts/.test(post.value.url)) {
+    outUrl = '/posts/'
+    outLabel = 'Posts'
+  }
+
+  return [[
+    {
+      label: outLabel || 'Home',
+      url: outUrl || '/',
+    },
+  ]]
+})
 </script>
 
 <template>
+  <ContentNav
+    :items="navItems"
+  />
   <ProgressBarHeader
     v-if="post?.frontmatter.title"
     :id="post?.frontmatter.title"
@@ -180,13 +207,6 @@ const originalPost = computed(() => {
     un-px-4
   >
     <div
-      v-if="post?.frontmatter.lang || 'zh' !== locale"
-    >
-      <div>
-        {{ t('noTranslation') }}
-      </div>
-    </div>
-    <div
       v-if="translatedPosts && translatedPosts.length > 0"
       un-flex="~ col"
     >
@@ -207,6 +227,14 @@ const originalPost = computed(() => {
           un-text="stone-500 hover:stone-950 dark:hover:stone-50"
           un-before="bg-emerald-600 dark:bg-emerald-400"
         />
+      </div>
+    </div>
+    <div
+      v-else
+      un-text-stone-500
+    >
+      <div>
+        {{ t('noTranslation') }}
       </div>
     </div>
     <div
