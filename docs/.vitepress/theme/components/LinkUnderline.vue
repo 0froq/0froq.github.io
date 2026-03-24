@@ -155,14 +155,15 @@ function handleMouseMove(e: MouseEvent) {
     :offset="offset"
   >
     <div
-      un-bg="stone-200 dark:stone-800"
-      un-text="stone-800 dark:stone-200"
-      un-rounded-sm
+      un-bg="stone-100 dark:stone-900"
+      un-text="stone-700 dark:stone-300"
+      un-rounded="~ sm"
+      un-border="~ px stone-300 dark:stone-700"
       un-text-align-start
       un-py-2
       un-px-4
-      un-shadow-lg
       un-max-w-fit
+      un-text-base
     >
       <slot name="tooltip" />
     </div>

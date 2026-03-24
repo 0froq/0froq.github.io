@@ -39,7 +39,7 @@ defineProps<Props>()
             :href="item.url"
             :text="item.label"
             :follow-mouse="!item.children"
-            :un-before="`h-px bg-stone-700 dark:bg-stone-300${item.current ? ' w-full text-stone-950 dark:text-stone-50' : ''}`"
+            :un-before="`h-px bg-stone-300 dark:bg-stone-700${item.current ? ' w-full text-stone-950 dark:text-stone-50' : ''}`"
           >
             <template
               v-if="item.tooltip || item.children"
@@ -58,7 +58,7 @@ defineProps<Props>()
                 <LinkUnderline
                   :href="child.url"
                   :text="child.label"
-                  un-before="h-px bg-stone-950 dark:bg-stone-50"
+                  un-before="h-px bg-stone-700 dark:bg-stone-300"
                 />
               </div>
             </template>
