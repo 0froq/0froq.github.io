@@ -1,0 +1,15 @@
+theme: Execution only
+
+tasks:
+  - title: 对齐 week / day 数据结构
+    priority: high
+    status: done
+    dod: status 与 priority 字段一致，组件可复用渲染逻辑
+
+  - title: 检查 VitePress loader 触发更新
+    priority: low
+    status: done
+
+  - title: 处理阻塞项：组件入口定位
+    status: blocked
+    dod: 明确插入点在 ContentIndexDashboard.vue

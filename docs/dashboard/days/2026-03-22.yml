@@ -1,0 +1,14 @@
+theme: Prep day
+
+tasks:
+  - title: 盘点现有 dashboard 组件树
+    priority: medium
+    status: done
+
+  - title: 新增 day 数据目录
+    priority: high
+    status: done
+
+  - title: 记录待办约束
+    status: cancelled
+    dod: 旧的四象限拆分方式不再继续
