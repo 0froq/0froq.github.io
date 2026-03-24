@@ -4,7 +4,8 @@ import { useI18n } from 'vue-i18n'
 import { useRouteI18n } from '../../utils/useRouteI18n.ts'
 import ContentNav from './ContentNav.vue'
 import DashboardBacklog from './DashboardBacklog.vue'
-import DashboardWeekQuadrant from './DashboardWeekQuadrant.vue'
+import DashboardDayTodo from './DashboardDayTodo.vue'
+import DashboardWeek from './DashboardWeek.vue'
 import LinkUnderline from './LinkUnderline.vue'
 import ProgressBarHeader from './ProgressBarHeader.vue'
 
@@ -54,10 +55,12 @@ const navItems = [
     title="Dashboard"
     description="A place to track my weekly progress and plan for the next week."
   />
-  <DashboardWeekQuadrant />
+  <DashboardDayTodo />
+  <DashboardWeek />
   <DashboardBacklog />
 
   <div
+    un-my-4
     un-flex="~ row wrap"
     un-gap-2
   >

@@ -11,7 +11,7 @@ export interface BacklogLink {
 
 export interface BacklogItem {
   title: string
-  status?: 'notPlanned' | 'arranging' | 'deffered'
+  status?: 'notPlanned' | 'arranging' | 'deferred' | 'deffered'
   due?: string
   dod?: string
   links?: BacklogLink[]
