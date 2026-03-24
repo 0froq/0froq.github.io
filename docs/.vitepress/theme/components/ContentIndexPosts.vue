@@ -89,13 +89,12 @@ const navItems = [
       un-mx-20
       un-flex
       un-gap-4
+      un-text="stone-700 dark:stone-300 hover:stone-950 dark:hover:stone-50 xl"
     >
       <LinkUnderline
         :href="`#${t(`categories.${category}`)}`"
         :text="t(`categories.${category}`)"
-        un-text="stone-700 dark:stone-300 hover:stone-950 dark:hover:stone-50 2xl"
         un-before="bg-rose-600 dark:bg-rose-400"
-        un-font-italic
       >
         <template #tooltip>
           <div

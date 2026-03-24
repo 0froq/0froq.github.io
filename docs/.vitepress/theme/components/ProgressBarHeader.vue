@@ -78,8 +78,8 @@ watchEffect(() => {
       />
     </div>
     <div
-      un-flex="~ row"
-      un-items-end
+      un-flex="~ col"
+      un-items-start
       un-gap-4
     >
       <h2
@@ -88,7 +88,15 @@ watchEffect(() => {
         un-w-fit
         v-html="title !== '-' ? title : ''"
       />
-      <slot name="titleAddon" />
+      <div
+        un-place-self-end
+        un-flex="~ row"
+        un-gap-4
+      >
+        <slot
+          name="titleAddon"
+        />
+      </div>
     </div>
     <div
       v-if="intro"

@@ -171,17 +171,21 @@ const excerptVisible = ref(false)
           >
             {{ d(new Date(post.created), 'withoutYear') }}
           </div>
-          <LinkUnderline
-            :href="post.url"
-            :text="post.title"
-            un-text="stone-700 dark:stone-300 hover:stone-950 dark:hover:stone-50 2xl"
-            un-before="bg-emerald-600 dark:bg-emerald-400"
+          <div
+            un-text="stone-700 dark:stone-300 hover:stone-950 dark:hover:stone-50 xl"
             un-text-align="right"
+            un-overflow-hidden
           >
-            <template #tooltip>
-              <TooltipPostInfo :post="post" />
-            </template>
-          </LinkUnderline>
+            <LinkUnderline
+              :href="post.url"
+              :text="post.title"
+              un-before="bg-emerald-600 dark:bg-emerald-400"
+            >
+              <template #tooltip>
+                <TooltipPostInfo :post="post" />
+              </template>
+            </LinkUnderline>
+          </div>
         </div>
         <!-- Post excerpt -->
         <div

@@ -34,9 +34,8 @@ const isChecked = computed({
       un-appearance-none
       un-w-4
       un-h-4
-      un-rounded-sm
       un-border="px stone-600"
-      un-before="transition duration-200 content-empty bg-stone-800 dark:bg-stone-200 w-2 h-2 scale-0 absolute top-50% left-50% translate--50% rounded-none"
+      un-before="transition duration-200 content-empty bg-stone-800 dark:bg-stone-200 w-2 h-2 scale-0 absolute top-50% left-50% translate--50%"
       un-checked="border-stone-600 dark:border-stone-400 before:scale-100"
       un-hover="border-stone-800 dark:border-stone-200 before:scale-20 checked:before:scale-100"
     >
