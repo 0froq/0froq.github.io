@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import type { TaskPriority } from '../src/week.data'
+import { computed, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { renderMdInline } from '../../utils/renderMdInline'
 import { data as d } from '../src/week.data'
 import LinkUnderline from './LinkUnderline.vue'
 import QSeperator from './QSeperator.vue'
-import type { TaskPriority } from '../src/week.data'
 
 const { t } = useI18n({
   useScope: 'global',
@@ -15,15 +15,10 @@ const { t } = useI18n({
         done: 'Done',
         inProgress: 'In Progress',
         notStarted: 'Not Started',
+        deferred: 'Deferred',
         deffered: 'Deffered',
         cancelled: 'Cancelled',
         blocked: 'Blocked',
-      },
-      priority: {
-        high: 'High',
-        medium: 'Medium',
-        low: 'Low',
-        none: 'Unprioritized',
       },
       empty: 'Empty',
     },
@@ -32,22 +27,17 @@ const { t } = useI18n({
         done: '完毕',
         inProgress: '途中',
         notStarted: '未始',
+        deferred: '延期',
         deffered: '延期',
         cancelled: '取消',
         blocked: '阻塞',
-      },
-      priority: {
-        high: '高',
-        medium: '中',
-        low: '低',
-        none: '无优先级',
       },
       empty: '空的',
     },
   },
 })
 
-const priorityOrder: (TaskPriority | 'none')[] = ['high', 'medium', 'low', 'none']
+const statusOrder = ['inProgress', 'notStarted', 'blocked', 'done', 'deferred', 'deffered', 'cancelled'] as const
 
 const isOpen = ref(true)
 
@@ -55,18 +45,24 @@ function toggle() {
   isOpen.value = !isOpen.value
 }
 
-function getPriorityKey(priority: TaskPriority | undefined): TaskPriority | 'none' {
-  return priority ?? 'none'
+function priorityLevel(priority: TaskPriority | undefined): number {
+  if (priority === 'high')
+    return 3
+  if (priority === 'medium')
+    return 2
+  if (priority === 'low')
+    return 1
+  return 0
 }
 
-const tasksByPriority = computed(() => {
+const tasksByStatus = computed(() => {
   if (!d.currentWeek?.tasks)
     return new Map()
 
-  const grouped = new Map<TaskPriority | 'none', typeof d.currentWeek.tasks>()
+  const grouped = new Map<string, typeof d.currentWeek.tasks>()
 
   for (const task of d.currentWeek.tasks) {
-    const key = getPriorityKey(task.priority)
+    const key = task.status
     if (!grouped.has(key))
       grouped.set(key, [])
     grouped.get(key)!.push(task)
@@ -76,7 +72,7 @@ const tasksByPriority = computed(() => {
 })
 
 const totalActive = computed(() =>
-  d.currentWeek?.tasks.filter(t => !['deffered', 'cancelled'].includes(t.status ?? '')).length ?? 0,
+  d.currentWeek?.tasks.filter(t => !['deferred', 'deffered', 'cancelled'].includes(t.status ?? '')).length ?? 0,
 )
 
 const totalDone = computed(() =>
@@ -115,7 +111,16 @@ const totalDone = computed(() =>
           un-font-medium
           un-tracking-wide
         >
-          {{ d.currentWeek.theme || 'Weekly Tasks' }}
+          {{ d.currentWeek.start }} - {{ d.currentWeek.end }}
+          <span v-if="d.currentWeek.theme"> -
+            <span
+              un-text="stoene-950 dark:stone-50"
+              un-underline="~ px"
+              un-font="bold"
+            >
+              {{ d.currentWeek.theme }}
+            </span>
+          </span>
         </span>
         <span
           style="font-variant-numeric: diagonal-fractions;"
@@ -133,11 +138,11 @@ const totalDone = computed(() =>
         >
           <template v-if="d.currentWeek.tasks.length">
             <div
-              v-for="priority in priorityOrder"
-              :key="priority"
+              v-for="status in statusOrder"
+              :key="status"
             >
               <div
-                v-if="tasksByPriority.get(priority)?.length"
+                v-if="tasksByStatus.get(status)?.length"
                 un-mb-2
               >
                 <div
@@ -147,12 +152,12 @@ const totalDone = computed(() =>
                   <QSeperator
                     un-text="stone-900 dark:stone-100"
                     un-my-2
-                    :title="t(`priority.${priority}`)"
+                    :title="t(`status.${status}`)"
                   />
                 </div>
                 <ul un-list-none>
                   <li
-                    v-for="task in tasksByPriority.get(priority)"
+                    v-for="task in tasksByStatus.get(status)"
                     :key="task.title"
                     un-mb-4
                   >
@@ -162,15 +167,23 @@ const totalDone = computed(() =>
                       un-gap-x-2
                     >
                       <div
+                        class="status-badge"
                         :class="[
-                          'status-badge',
                           task.status === 'done' && 'status-done',
                           task.status === 'inProgress' && 'status-inprogress',
                           task.status === 'blocked' && 'status-blocked',
                           task.status === 'cancelled' && 'status-cancelled',
-                          task.status === 'deffered' && 'status-deffered',
+                          (task.status === 'deferred' || task.status === 'deffered') && 'status-deferred',
                         ]"
                       />
+                      <span
+                        v-if="priorityLevel(task.priority)"
+                        un-font-mono
+                        un-text="amber-600 dark:amber-400"
+                        un-text-xs
+                      >
+                        {{ '🔥'.repeat(priorityLevel(task.priority)) }}
+                      </span>
                       <div v-html="renderMdInline(task.title)" />
                       <un-i-openmj-drooling-face
                         v-if="task.tags?.includes('forIdiot')"
@@ -228,27 +241,27 @@ const totalDone = computed(() =>
 <style scoped>
 .status-badge {
   --uno: 'w-2 h-2 rounded-full flex-shrink-0';
-  --uno: 'bg-stone-400 dark:bg-stone-600';
+  --uno: 'bg-stone-600 dark:bg-stone-400';
 }
 
 .status-done {
-  --uno: 'bg-emerald-500 dark:bg-emerald-400';
+  --uno: 'bg-emerald-600 dark:bg-emerald-400';
 }
 
 .status-inprogress {
-  --uno: 'bg-amber-500 dark:bg-amber-400';
+  --uno: 'bg-sky-600 dark:bg-sky-400';
 }
 
 .status-blocked {
-  --uno: 'bg-rose-500 dark:bg-rose-400';
+  --uno: 'bg-rose-600 dark:bg-rose-400';
 }
 
 .status-cancelled {
-  --uno: 'bg-stone-500 dark:bg-stone-400';
+  --uno: 'bg-stone-600 dark:bg-stone-400';
 }
 
-.status-deffered {
-  --uno: 'bg-purple-500 dark:bg-purple-400';
+.status-deferred {
+  --uno: 'bg-amber-600 dark:bg-amber-400';
 }
 
 .expand-enter-active,
