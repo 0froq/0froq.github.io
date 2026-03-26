@@ -2,7 +2,7 @@
 title: Identifying the Early 2000s Hiatus Associated with Internal Climate Variability
 created: 2026-03-20
 status: probe
-last_modified: 2026-03-20 13:31:11
+last_modified: 2026-03-26 09:39:28
 lang: en
 ---
 
@@ -10,7 +10,7 @@ lang: en
 
 [[toc]]
 
-#source/paper
+#scope/work/research #source/paper
 
 - citation_key: @dai2018
 - title: Identifying the Early 2000s Hiatus Associated with Internal Climate Variability
@@ -45,6 +45,6 @@ lang: en
 > probably due to rapid warming in the Arctic region.
 > [@cohen2014](./ing_@cohen2014.md)
 
-![](https://cdn.ncbi.nlm.nih.gov/pmc/blobs/bf72/6134109/8993fa5ae9a8/41598_2018_31862_Fig1_HTML.jpg)
+![dai2018f1](./dai2018/dai2018f1.png)
 
 

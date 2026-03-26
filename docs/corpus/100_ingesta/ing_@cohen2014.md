@@ -2,7 +2,7 @@
 title: Recent Arctic Amplification and Extreme Mid-Latitude Weather
 created: 2026-03-20
 status: probe
-last_modified: 2026-03-20 13:22:03
+last_modified: 2026-03-26 09:39:38
 lang: en
 ---
 
@@ -10,7 +10,7 @@ lang: en
 
 [[toc]]
 
-#source/paper
+#scope/work/research #source/paper
 
 - citation_key: @cohen2014
 - title: Recent Arctic Amplification and Extreme Mid-Latitude Weather
