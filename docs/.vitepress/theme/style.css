@@ -342,7 +342,7 @@ html {
     --uno: 'border-(l-4 stone-500)';
     --uno: 'hover:(border-stone-700 dark:border-stone-300)';
     --uno: 'transition duration-200';
-    --uno: 'rounded-sm';
+    /* --uno: 'rounded-sm'; */
     /* blockquote icon */
     --uno: 'z-0';
     --uno: 'before:(content-[""] i-ph-quotes-duotone block w-4 h-4 absolute right-4 top-4 text-stone-500 z--1 opacity-50)';

@@ -80,7 +80,7 @@ watchEffect(() => {
     <div
       un-flex="~ col"
       un-items-start
-      un-gap-4
+      un-gap-2
     >
       <h2
         un-mt-4
