@@ -107,11 +107,11 @@ const prevPost = computed(() => {
 })
 
 const translatedPosts = computed(() => {
-  if (!post.value)
+  if (!post.value || post.value.frontmatter.translated)
     return []
   const translated = articles.filter((p) => {
-    return (p.frontmatter.lang || 'zh') !== post.value?.frontmatter.lang && p.frontmatter.translated === true
-      && p.url.includes(post.value!.url.replace(/\/?$/, ''))
+    return (p.frontmatter.lang || 'zh') !== (post.value?.frontmatter.lang || 'zh') && p.frontmatter.translated === true
+      && p.url.includes(post.value!.url)
   })
 
   return translated || []
@@ -124,10 +124,30 @@ const originalPost = computed(() => {
     return null
   const original = articles.find((p) => {
     return !p.frontmatter.translated
-      && post.value!.url.includes(p.url.replace(/\/?$/, ''))
+      && post.value!.url.includes(p.url)
   })
 
   return original || null
+})
+
+const otherLangPosts = computed(() => {
+  if (!post.value)
+    return []
+  // If this is original, then all the translations are other language.
+  if (!post.value.frontmatter.translated)
+    return translatedPosts.value
+  // If not, then original is one,
+  // original's translations except this is others.
+  const translatedOfOriginal = articles
+    .filter((p) => {
+      return (p.frontmatter.lang || 'zh') !== (originalPost.value!.frontmatter.lang || 'zh')
+        && p.frontmatter.translated === true
+        && p.url.includes(originalPost.value!.url)
+    })
+  return [
+    originalPost.value,
+    ...translatedOfOriginal,
+  ]
 })
 
 const navItems: ComputedRef<NavItem[][]> = computed(() => {
@@ -135,11 +155,11 @@ const navItems: ComputedRef<NavItem[][]> = computed(() => {
   let outLabel
   if (!post.value)
     return [[]]
-  if (/corpus/.test(post.value.url)) {
+  if (post.value.url.includes('corpus')) {
     outUrl = `${post.value.url.split('/').slice(0, -1).join('/')}/`
     outLabel = post.value.url.split('/').slice(-2, -1)[0]
   }
-  else if (/posts/.test(post.value.url)) {
+  else if (post.value.url.includes('posts')) {
     outUrl = '/posts/'
     outLabel = 'Posts'
   }
@@ -207,7 +227,11 @@ const navItems: ComputedRef<NavItem[][]> = computed(() => {
     un-px-4
   >
     <div
-      v-if="translatedPosts && translatedPosts.length > 0"
+      v-if="!post"
+    />
+    <!-- If has translated, this is original, show all translated -->
+    <div
+      v-else-if="translatedPosts && translatedPosts.length > 0"
       un-flex="~ col"
     >
       <div>
@@ -229,16 +253,18 @@ const navItems: ComputedRef<NavItem[][]> = computed(() => {
         />
       </div>
     </div>
+    <!-- If no translated and this is original -->
     <div
-      v-else
+      v-else-if="!post.frontmatter.translated"
       un-text-stone-500
     >
       <div>
         {{ t('noTranslation') }}
       </div>
     </div>
+    <!-- If this is translated, show original -->
     <div
-      v-if="originalPost"
+      v-else-if="originalPost"
       un-flex="~ row"
     >
       <div>
