@@ -2,7 +2,7 @@
 title: LSWT 增温停滞（hiatus）探索
 created: 2026-03-26
 status: probe
-last_modified: 2026-03-27 02:39:19
+last_modified: 2026-03-27 11:40:40
 ---
 
 About the exploration of LSWT hiatus.
@@ -16,8 +16,10 @@ About the exploration of LSWT hiatus.
 ## 10/22/25
 
 - 重构：
-  - 在这个项目中，重点不在于水体边界的精确提取，而在于如何高效地在大范围内提取湖泊的表层温度。
-  - 湖泊可以被视为均一的水体单元，因此不需要确保所有的水体像元都被提取出来，而是要确保提取的像元确实属于水体。
+  - 在这个项目中，重点不在于水体边界的精确提取，
+    而在于如何高效地在大范围内提取湖泊的表层温度。
+  - 湖泊可以被视为均一的水体单元，因此不需要确保所有的水体像元都被提取出来，
+    而是要确保提取的像元确实属于水体。
 
 ## 11/04/25
 
@@ -102,13 +104,13 @@ ERA5-Land 的 Lake mix-layer temperature 直接作为湖泊表层温度。
 
 ## 03/26/26
 
-并不是没干事，而是没有形成一个清晰的研究问题和结果框架。
+没有形成一个清晰的研究问题和结果框架。
 
 之前在初步数据探索阶段，使用了 STL 分解和以 4 年为窗口的分段斜率分析，
 发现 2016–2020 年全球平均 LSWT 的线性趋势接近 0 甚至略负
 （即疑似 platform / hiatus）。
 
-### 核心认知更新
+### 认知更新
 
 #### 增温停滞的时间尺度
 
@@ -162,60 +164,30 @@ ERA5-Land 的 Lake mix-layer temperature 直接作为湖泊表层温度。
 暖、浅、蒸发强湖：升温被加速蒸发部分抵消，LSWT 上升速率往往低于 SAT。
 
 GLAST 结论（[@tong2023](../100_ingesta/ing_@tong2023.md)）：
-全球 92245 个湖泊（1981–2020）整体升温速率慢于大气，核心机制是蒸发反馈（负反馈）
+全球 92245 个湖泊（1981–2020）整体升温速率慢于大气，
+核心机制是蒸发反馈（负反馈）
 
-蒸发反馈是否在 post-hiatus 段发生变化（大气加速 → 蒸发更强 → 湖泊的加速幅度是否被部分抵消？），是当前尚未被研究的机制问题。
+蒸发反馈是否在 post-hiatus 段发生变化？
+（大气加速 -> 蒸发更强 -> 湖泊的加速幅度是否被部分抵消？）
 
-关键文献：
+### 核心的问题
 
-Tong et al. 2023 (GLAST): https://zenodo.org/record/8322038
+<u un-font-bold>全球湖泊表层水温（LSWT）在 2012/2013 年全球气温 hiatus 结束后，
+是否进入了增温速率的再加速阶段（post-hiatus acceleration）？</u>
 
-Woolway et al. 2017 (Amplified response): https://pmc.ncbi.nlm.nih.gov/articles/PMC5482815/
+- post-hiatus 段（2013–2024）的全球平均 LSWT 趋势斜率，
+  是否显著大于 hiatus 段（1998–2012）？
+  是否显著大于 pre-hiatus 段（1980s–1997）？
+- 这种加速（如存在）是否具有空间分异：
+  哪些纬度带/湖泊类型的加速最强？
+- 2013/14 年北太平洋 SST 的 regime shift
+  是否在 LSWT 的遥相关格局上留下可识别信号？
+- 蒸发反馈在 pre-hiatus / hiatus / post-hiatus 三段中是否有系统性变化？
+  湖气响应的差异性是否在 post-hiatus 段发生变化？
 
-Jane et al. 2023 (Controls of lake thermal response): https://pmc.ncbi.nlm.nih.gov/articles/PMC10579293/
+### Be Careful With ……
 
-核心研究问题
-主问题：
-
-全球湖泊表层水温（LSWT）在 2012/2013 年全球气温 hiatus 结束后，是否进入了增温速率的再加速阶段（post-hiatus acceleration）？
-
-子问题：
-
-post-hiatus 段（2013–2024）的全球平均 LSWT 趋势斜率，是否显著大于 hiatus 段（1998–2012）？
-
-这种加速（如存在）是否具有空间分异：哪些纬度带/湖泊类型的加速最强？
-
-2013/14 年北太平洋 SST 的 regime shift 是否在 LSWT 的遥相关格局上留下可识别信号？
-
-蒸发反馈在 pre-hiatus / hiatus / post-hiatus 三段中是否有系统性变化？
-
-研究价值判断
-值得做的理由：
-
-文献空白：现有"全球湖泊对 hiatus 的响应"研究（Winslow 2018）止于 2012，post-hiatus 段全球分段比较目前尚无完整发表
-
-数据已就绪：ESA CCI LSWT 覆盖 1995–2023，GLAST 覆盖 1981–2020，ERA5-lake 可延伸至 2024；数据不是瓶颈
-
-大气端先行：气温的 post-hiatus 加速已被多篇论文系统证明，湖泊端的对应研究尚欠缺，形成了明显的空白
-
-机制可延展：统计发现之后，可连接到 PDO/IPO 遥相关、冰覆盖损失、蒸发反馈等机制，不缺延伸空间
-
-需要保持谨慎的地方：
-
-2016–2020 的"平台"目前只在 ERA5 的短窗（4–5 年）里出现，尚未在卫星 LSWT 和长窗分析中验证
-
-ERA5 湖泊模型参数化与真实湖泊存在偏差，需要交叉验证
-
-post-hiatus 段目前只有约 10–12 年，时间序列仍相对短，统计功效有限
-
-下一步行动（按优先级）
-优先级	行动	对应任务
-P0	全局平均 LSWT 多窗口滑动趋势图	Task 2
-P0	三段分段回归 + Chow test	Task 3
-P1	逐湖 Δβ 全球空间分布图	Task 4
-P1	获取 ESA CCI 数据，对 ERA5 结果做交叉验证	Task 1
-P2	湖泊聚类（地理 + 热力属性）	Task 5
-P3	与 PDO/IPO 指数时间序列做对比分析	后续
-P3	
-
-
+- 2016–2020 的「平台」目前只在 ERA5 和 yang 的短窗（4–5 年）里出现，
+  尚未在卫星 LSWT 等其他产品和长窗分析中验证
+- ERA5 湖泊模型参数化与真实湖泊存在偏差，需要交叉验证（可能用 ESA CCI）
+- post-hiatus 段目前只有约 10–12 年，时间序列仍相对短，统计功效有限
