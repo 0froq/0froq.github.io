@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { data as yearData } from '../src/year.data'
+import { data as yearData } from '~/src/year.data'
 import LinkUnderline from './LinkUnderline.vue'
 
 const years = yearData

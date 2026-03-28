@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Data } from '../src/posts.data'
+import type { Data } from '~/src/posts.data'
 import { useI18n } from 'vue-i18n'
 import LinkUnderline from './LinkUnderline.vue'
 import TooltipPostInfo from './TooltipPostInfo.vue'

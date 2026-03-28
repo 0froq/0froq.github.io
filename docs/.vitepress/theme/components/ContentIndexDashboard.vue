@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useRoute } from 'vitepress'
 import { useI18n } from 'vue-i18n'
-import { useRouteI18n } from '../../utils/useRouteI18n.ts'
+import { useRouteI18n } from '~/utils/useRouteI18n'
 import ContentNav from './ContentNav.vue'
 import DashboardBacklog from './DashboardBacklog.vue'
 import DashboardDayTodo from './DashboardDayTodo.vue'

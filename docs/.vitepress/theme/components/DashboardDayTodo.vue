@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import type { DayTaskPriority } from '../src/day.data'
+import type { DayTaskPriority } from '~/src/day.data'
 import { computed, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { renderMdInline } from '../../utils/renderMdInline'
-import { data as dayData } from '../src/day.data'
+import { data as dayData } from '~/src/day.data'
+import { renderMdInline } from '~/utils/renderMdInline'
 import LinkUnderline from './LinkUnderline.vue'
 import QSeperator from './QSeperator.vue'
 

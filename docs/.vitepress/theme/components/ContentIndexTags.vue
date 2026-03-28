@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { computed } from 'vue'
+import { data as corpus } from '~/src/corpus.data'
+import { data as posts } from '~/src/posts.data'
 import tags from '../../generated/tags.json'
-import { data as corpus } from '../src/corpus.data'
-import { data as posts } from '../src/posts.data'
 import ContentNav from './ContentNav.vue'
 import ProgressBarHeader from './ProgressBarHeader.vue'
 import TagTreeNode from './TagTreeNode.vue'

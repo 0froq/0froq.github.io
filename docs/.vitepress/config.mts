@@ -1,3 +1,5 @@
+/// <reference path="./markdown-it-shims.d.ts" />
+
 import VueI18nPlugin from '@intlify/unplugin-vue-i18n/vite'
 import { transformerColorizedBrackets } from '@shikijs/colorized-brackets'
 import { transformerMetaWordHighlight, transformerNotationWordHighlight } from '@shikijs/transformers'
@@ -30,6 +32,12 @@ export default defineConfig({
     ],
     define: {
       __VUE_PROD_HYDRATION_MISMATCH_DETAILS__: 'true',
+    },
+    resolve: {
+      alias: {
+        '~/': '/.vitepress/theme/',
+        '@/': '/.vitepress/theme/components/',
+      },
     },
   },
   vue: {

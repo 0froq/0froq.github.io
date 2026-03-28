@@ -2,8 +2,8 @@
 import { useI18n } from 'vue-i18n'
 import DashboardVision from './DashboardVision.vue'
 import DashboardYear from './DashboardYear.vue'
-import ProgressBarHeader from './ProgressBarHeader.vue'
 import LinkUnderline from './LinkUnderline.vue'
+import ProgressBarHeader from './ProgressBarHeader.vue'
 
 const { t, locale } = useI18n({
   useScope: 'global',

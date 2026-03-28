@@ -1,0 +1,10 @@
+theme: 放假
+
+tasks:
+  - title: 个人网站最后重构
+    priority: high
+    dod: 不再动
+    status: done
+    links:
+      - label: Check it here
+        url: https://froq.me

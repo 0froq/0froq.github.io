@@ -1,0 +1,5 @@
+tasks:
+  - title: 找一个邮件客户端
+    priority: low
+    dod: 多端同步、标签管理
+    status: cancelled

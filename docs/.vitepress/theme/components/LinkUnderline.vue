@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onClickOutside } from '@vueuse/core'
 import { computed, ref, useSlots } from 'vue'
-import { renderMdInline } from '../../utils/renderMdInline'
+import { renderMdInline } from '~/utils/renderMdInline'
 import FloatWindow from './FloatWindow.vue'
 
 defineOptions({

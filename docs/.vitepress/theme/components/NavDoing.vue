@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Activity } from '../../activity.d.ts'
+import type { Activity } from 'activity.d.ts'
 import { onMounted, onUnmounted, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import IconApp from './IconApp.vue'

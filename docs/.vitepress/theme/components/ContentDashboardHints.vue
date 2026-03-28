@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n'
-import { renderMdInline } from '../../utils/renderMdInline'
-import { data as hints } from '../src/guidance.data'
+import { data as hints } from '~/src/guidance.data'
+import { renderMdInline } from '~/utils/renderMdInline'
 import LinkUnderline from './LinkUnderline.vue'
 import ProgressBarHeader from './ProgressBarHeader.vue'
 

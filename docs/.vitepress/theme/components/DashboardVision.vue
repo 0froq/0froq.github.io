@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n'
-import { data as visionData } from '../src/vision.data'
+import { data as visionData } from '~/src/vision.data'
 import LinkUnderline from './LinkUnderline.vue'
 
 const visions = visionData

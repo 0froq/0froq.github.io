@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onClickOutside } from '@vueuse/core'
 import { ref } from 'vue'
-import { useTagUtils } from '../../utils/useTagUtils'
+import { useTagUtils } from '~/utils/useTagUtils'
 import LinkUnderline from './LinkUnderline.vue'
 
 const { currentTagHierarchy, extendedTagsForCurrentTag } = useTagUtils()

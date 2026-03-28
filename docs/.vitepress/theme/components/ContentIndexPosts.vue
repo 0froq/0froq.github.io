@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { useRoute } from 'vitepress'
 import { useI18n } from 'vue-i18n'
-import { toChineseNumber } from '../../utils/toChineseNumber'
-import { data as posts } from '../src/posts.data'
+import { data as posts } from '~/src/posts.data'
+import { toChineseNumber } from '~/utils/toChineseNumber'
 import ContentNav from './ContentNav.vue'
 import LinkUnderline from './LinkUnderline.vue'
 import PostListSection from './PostListSection.vue'

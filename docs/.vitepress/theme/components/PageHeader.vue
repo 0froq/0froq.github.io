@@ -1,8 +1,6 @@
 <script setup lang="ts">
-import type { Activity } from '../../activity.d.ts'
-import { useDark, useIntervalFn, useToggle } from '@vueuse/core'
+import { useDark, useToggle } from '@vueuse/core'
 import { useData, useRoute, useRouter } from 'vitepress'
-import { onMounted, onUnmounted, ref, watch, watchEffect } from 'vue'
 import { useI18n } from 'vue-i18n'
 import NavDoing from './NavDoing.vue'
 import NavLayer from './NavLayer.vue'

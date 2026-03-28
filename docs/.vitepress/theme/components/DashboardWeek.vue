@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import type { TaskPriority } from '../src/week.data'
+import type { TaskPriority } from '~/src/week.data'
 import { computed, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { renderMdInline } from '../../utils/renderMdInline'
-import { data as d } from '../src/week.data'
+import { data as d } from '~/src/week.data'
+import { renderMdInline } from '~/utils/renderMdInline'
 import LinkUnderline from './LinkUnderline.vue'
 import QSeperator from './QSeperator.vue'
 

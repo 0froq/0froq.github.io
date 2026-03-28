@@ -1,10 +1,10 @@
 import { createContentLoader } from 'vitepress'
-import { toChineseNumber } from '../../utils/toChineseNumber'
+import { toChineseNumber } from '../utils/toChineseNumber'
 import {
   calculateReadingTime,
   getTags,
   normalizeCategory,
-} from '../../utils/usePostUtils'
+} from '../utils/usePostUtils'
 
 export interface Data {
   url: string
