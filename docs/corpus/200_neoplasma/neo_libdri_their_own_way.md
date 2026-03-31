@@ -2,12 +2,14 @@
 title: "《礼拜日》· 各人的方式"
 created: 2022-03-12
 status: form
-last_modified: 2026-03-15 14:37:17
+last_modified: 2026-03-31 20:20:18
 ---
 
 > “不过是各人有各人的方式，可能有的人更习惯一个人听听音乐，喝喝酒。”
 
 ---
+
+[[toc]]
 
 [source](../100_ingesta/ing_libdri.md)
 

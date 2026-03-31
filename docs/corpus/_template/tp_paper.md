@@ -1,15 +1,15 @@
 ---
-title: {{title}}
+title: '@{{citation_key}}: {{title}}'
 created: {{date}}
-status: probe
-last_modified: {{date}}
+status: draft
+last_modified: 2026-03-31 20:16:11
 ---
 
 ---
 
 [[toc]]
 
-#source/paper
+#scope/work/research #source/paper
 
 - citation_key: {{citation_key}}
 - title: {{title}}

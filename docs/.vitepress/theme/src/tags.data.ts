@@ -1,3 +1,4 @@
+import type { TagsData } from '../types'
 import fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -18,5 +19,5 @@ function readTags(): string[] {
   }
 }
 
-export const data: string[] = readTags()
+export const data: TagsData = readTags()
 export default data

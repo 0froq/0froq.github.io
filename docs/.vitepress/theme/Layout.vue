@@ -1,30 +1,14 @@
 <script setup lang="ts">
 import { defaultDocument } from '@vueuse/core'
 import mediumZoom from 'medium-zoom'
-import { useData, useRoute } from 'vitepress'
-import { nextTick, onMounted, watch, watchEffect } from 'vue'
-import { useI18n } from 'vue-i18n'
-import ButtonVerticalNavigation from './components/ButtonVerticalNavigation.vue'
+import {  useRoute } from 'vitepress'
+import { nextTick, onMounted, watch } from 'vue'
 import PageContent from './components/PageContent.vue'
 import PageFooter from './components/PageFooter.vue'
 import PageHeader from './components/PageHeader.vue'
+import ButtonVerticalNavigation from './components/ui/nav/ButtonVerticalNavigation.vue'
 
 const route = useRoute()
-const { frontmatter } = useData()
-const { locale } = useI18n({
-  useScope: 'global',
-})
-
-// watchEffect(() => {
-//   if (frontmatter.value.locale) {
-//     defaultDocument!.documentElement.lang = frontmatter.value.locale as string
-//     locale.value = frontmatter.value.locale as string
-//   }
-//   else {
-//     defaultDocument!.documentElement.lang = 'zh'
-//     locale.value = 'zh'
-//   }
-// })
 
 function initZoom() {
   mediumZoom('#content figure img', {
@@ -47,7 +31,6 @@ watch(
 <template>
   <div
     un-min-h-100vh
-    un-bg="stone-50 dark:stone-950"
     un-text="stone-700 dark:stone-300"
     un-relative
     un-font-serif

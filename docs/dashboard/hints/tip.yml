@@ -1,0 +1,76 @@
+- title: 强度后低负荷日
+  description: 连续 3 天高强度后，第 4 天只安排低负荷任务。
+  category: 恢复机制
+
+- title: 预警减载
+  description: 出现预警信号时，立即减少 50% 新增承诺。
+  category: 恢复机制
+
+- title: 睡眠窗口
+  description: 目标 00:30 前入睡，08:00 起床，±30 分钟浮动。
+  category: 作息节律
+
+- title: 睡前冷却
+  description: 睡前 60 分钟不做复杂决策、不参与争论。
+  category: 作息节律
+
+- title: 连续晚睡纠偏
+  description: 连续 2 天晚于 01:30 入睡，第 3 天强制提前收工。
+  category: 作息节律
+
+- title: 睡眠弹性
+  description: 需更多睡眠时允许 9 小时，只记录不纠正。
+  category: 作息节律
+
+- title: 白痴任务池
+  description: 每周准备 2–3 个极低能量任务，状态差时优先执行。
+  category: 执行策略
+
+- title: 波动时减暴露
+  description: 情绪波动时缩减 Q3/Q4 与外部输入，保护睡眠与节奏。
+  category: 执行策略
+
+- title: 分支两层限制
+  description: 任务只两层深度，第三层提升为独立任务，上层标记 Blocked。
+  category: 项目管理
+
+- title: MVP 回主线
+  description: Side task 达 MVP 后，24 小时内回到被阻塞的主任务。
+  category: 项目管理
+
+- title: 晨间技术扫描
+  description: 每日 09:00-09:30 技术资讯浏览。
+  category: 信息获取
+  links:
+    - label: GitHub Trending
+      url: https://github.com/trending
+    - label: BlueSky
+      url: https://bsky.app
+
+- title: 周度开源追踪
+  description: 每周五组会后 30 分钟开源生态追踪。
+  category: 信息获取
+  links:
+    - label: Vue Releases
+      url: https://github.com/vuejs/core/releases
+    - label: Vite Releases
+      url: https://github.com/vitejs/vite/releases
+
+- title: 推荐技术博客
+  description: 高质量技术博客源。
+  category: 信息获取
+  links:
+    - label: antfu.me
+      url: https://antfu.me
+    - label: Overreacted
+      url: https://overreacted.io
+    - label: Josh Comeau
+      url: https://www.joshwcomeau.com
+
+- title: 信息获取禁忌
+  description: 避免无目的刷社交、技术论坛争论、工作时段非技术浏览。
+  category: 信息获取
+
+- title: 躁狂期信息限制
+  description: 新项目想法写入 backlog，冷却 48 小时才能启动。
+  category: 信息获取

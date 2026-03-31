@@ -1,5 +1,5 @@
 import type { Ref } from 'vue'
-import { useData, useRoute } from 'vitepress'
+import { useData } from 'vitepress'
 import { computed } from 'vue'
 import { data as corpus } from '../src/corpus.data'
 import { data as posts } from '../src/posts.data'

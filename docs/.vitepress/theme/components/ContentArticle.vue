@@ -1,16 +1,16 @@
 <script setup lang="ts">
 import type { ComputedRef } from 'vue'
-import type { NavItem } from './ContentNav.vue'
+import type { NavItem } from '@/ui/nav/ContentNav.vue'
 import { useData, useRoute } from 'vitepress'
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
+import ArticleNavigation from '@/ui/article/ArticleNavigation.vue'
+import LinkUnderline from '@/ui/base/LinkUnderline.vue'
+import ProgressBarHeader from '@/ui/base/ProgressBarHeader.vue'
+import ContentNav from '@/ui/nav/ContentNav.vue'
 import { data as corpus } from '~/src/corpus.data'
 import { data as posts } from '~/src/posts.data'
 import { renderMdInline } from '~/utils/renderMdInline'
-import ContentNav from './ContentNav.vue'
-import LinkUnderline from './LinkUnderline.vue'
-import PostNavigation from './PostNavigation.vue'
-import ProgressBarHeader from './ProgressBarHeader.vue'
 
 const { t, d, locale } = useI18n({
   useScope: 'global',
@@ -130,25 +130,25 @@ const originalPost = computed(() => {
   return original || null
 })
 
-const otherLangPosts = computed(() => {
-  if (!post.value)
-    return []
-  // If this is original, then all the translations are other language.
-  if (!post.value.frontmatter.translated)
-    return translatedPosts.value
-  // If not, then original is one,
-  // original's translations except this is others.
-  const translatedOfOriginal = articles
-    .filter((p) => {
-      return (p.frontmatter.lang || 'zh') !== (originalPost.value!.frontmatter.lang || 'zh')
-        && p.frontmatter.translated === true
-        && p.url.includes(originalPost.value!.url)
-    })
-  return [
-    originalPost.value,
-    ...translatedOfOriginal,
-  ]
-})
+// const otherLangPosts = computed(() => {
+//   if (!post.value)
+//     return []
+//   // If this is original, then all the translations are other language.
+//   if (!post.value.frontmatter.translated)
+//     return translatedPosts.value
+//   // If not, then original is one,
+//   // original's translations except this is others.
+//   const translatedOfOriginal = articles
+//     .filter((p) => {
+//       return (p.frontmatter.lang || 'zh') !== (originalPost.value!.frontmatter.lang || 'zh')
+//         && p.frontmatter.translated === true
+//         && p.url.includes(originalPost.value!.url)
+//     })
+//   return [
+//     originalPost.value,
+//     ...translatedOfOriginal,
+//   ]
+// })
 
 const navItems: ComputedRef<NavItem[][]> = computed(() => {
   let outUrl
@@ -248,8 +248,7 @@ const navItems: ComputedRef<NavItem[][]> = computed(() => {
         <LinkUnderline
           :href="translated.url"
           :text="(translated.frontmatter.title || translated.url)"
-          un-text="stone-500 hover:stone-950 dark:hover:stone-50"
-          un-before="bg-emerald-600 dark:bg-emerald-400"
+        un-before="bg-stone-950 dark:bg-stone-50"
         />
       </div>
     </div>
@@ -273,8 +272,7 @@ const navItems: ComputedRef<NavItem[][]> = computed(() => {
       <LinkUnderline
         :href="originalPost.url"
         :text="originalPost.frontmatter.title || originalPost.url"
-        un-text="stone-500 hover:stone-950 dark:hover:stone-50"
-        un-before="bg-rose-600 dark:bg-rose-400"
+        un-before="bg-stone-950 dark:bg-stone-50"
       />
     </div>
   </div>
@@ -286,7 +284,7 @@ const navItems: ComputedRef<NavItem[][]> = computed(() => {
   />
 
   <!-- Post navigation links (previous and next post) -->
-  <PostNavigation
+  <ArticleNavigation
     :prev-post="prevPost || null"
     :next-post="nextPost || null"
   />

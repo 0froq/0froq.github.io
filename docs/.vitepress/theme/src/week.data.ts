@@ -1,48 +1,62 @@
+import type { WeekDashboardData, WeekData, WeekTask } from '../types'
 import fs from 'node:fs'
 import path from 'node:path'
 import { defineLoader } from 'vitepress'
 import YAML from 'yaml'
 
-export interface WeekLink {
-  label: string
-  url: string
-}
+declare const data: WeekDashboardData
+export { data }
 
-export type TaskPriority = 'high' | 'medium' | 'low'
+export default defineLoader({
+  watch: [
+    'docs/dashboard/weekTasks/*.yml',
+  ],
 
-export interface WeekTask {
-  title: string
-  status: 'done' | 'inProgress' | 'notStarted' | 'deferred' | 'deffered' | 'cancelled' | 'blocked'
-  priority?: TaskPriority
-  dod?: string
-  links?: WeekLink[]
-  tags?: string[]
-}
+  load(watchedFiles): WeekDashboardData {
+    const baseDir = path.dirname(watchedFiles[0].split(path.sep).slice(0, -1).join(path.sep))
+    const weeksDir = path.join(baseDir, 'weekTasks')
 
-export interface WeekData {
-  theme?: string
-  start: string // YYYY-MM-DD (also the filename)
-  end: string // computed: start + 6 days
-  tasks: WeekTask[]
-}
+    const weekFiles = fs.existsSync(weeksDir)
+      ? fs.readdirSync(weeksDir)
+          .filter(f => f.endsWith('.yml') || f.endsWith('.yaml'))
+          .map(f => path.join(weeksDir, f))
+      : []
 
-export interface DashboardData {
-  today: string
-  currentStart: string
-  currentWeek: WeekData | null
-  weeks: Array<{
-    start: string
-    end: string
-    file: string
-  }>
-}
+    const parsedWeeks = weekFiles
+      .map((abs) => {
+        const filename = path.basename(abs).replace(/\.(yml|yaml)$/, '')
+        const w = safeWeekData(readYaml<WeekData>(abs), filename)
+        return {
+          start: w.start,
+          end: w.end,
+          file: `./weekTasks/${path.basename(abs)}`,
+        }
+      })
+      .sort((a, b) => b.start.localeCompare(a.start))
+
+    const todayDate = new Date()
+    const today = toISODate(todayDate)
+    const currentStart = toISODate(getWeekStart(todayDate, 1))
+
+    const currentFile = parsedWeeks.find(x => x.start === currentStart)?.file
+    const currentWeek = currentFile
+      ? safeWeekData(readYaml<WeekData>(path.join('docs/dashboard/', currentFile)), currentStart)
+      : null
+
+    return {
+      today,
+      currentStart,
+      currentWeek,
+      weeks: parsedWeeks,
+    }
+  },
+})
 
 function readYaml<T>(file: string): T {
   return YAML.parse(fs.readFileSync(file, 'utf-8')) as T
 }
 
 function toISODate(d: Date): string {
-  // local date -> YYYY-MM-DD
   const yyyy = d.getFullYear()
   const mm = String(d.getMonth() + 1).padStart(2, '0')
   const dd = String(d.getDate()).padStart(2, '0')
@@ -55,14 +69,10 @@ function addDays(d: Date, days: number): Date {
   return x
 }
 
-/**
- * weekStartsOn: 1 = Monday (JS: 0 Sun..6 Sat)
- * returns a Date at local timezone midnight-ish representing the week start
- */
 function getWeekStart(date: Date, weekStartsOn = 1): Date {
   const d = new Date(date)
   d.setHours(0, 0, 0, 0)
-  const day = d.getDay() // 0..6
+  const day = d.getDay()
   const diff = (day - weekStartsOn + 7) % 7
   d.setDate(d.getDate() - diff)
   return d
@@ -91,52 +101,3 @@ function safeWeekData(input: Partial<WeekData> & { start?: string }, startFromFi
     tasks: input.tasks ?? [],
   }
 }
-
-declare const data: DashboardData
-export { data }
-
-export default defineLoader({
-  watch: [
-    'docs/dashboard/weeks/*.yml',
-  ],
-
-  load(watchedFiles): DashboardData {
-    const baseDir = path.dirname(watchedFiles[0].split(path.sep).slice(0, -1).join(path.sep))
-    const weeksDir = path.join(baseDir, 'weeks')
-
-    const weekFiles = fs.existsSync(weeksDir)
-      ? fs.readdirSync(weeksDir)
-          .filter(f => f.endsWith('.yml') || f.endsWith('.yaml'))
-          .map(f => path.join(weeksDir, f))
-      : []
-
-    const parsedWeeks = weekFiles
-      .map((abs) => {
-        const filename = path.basename(abs).replace(/\.(yml|yaml)$/, '')
-        // filename should be YYYY-MM-DD
-        const w = safeWeekData(readYaml<WeekData>(abs), filename)
-        return {
-          start: w.start,
-          end: w.end,
-          file: `./weeks/${path.basename(abs)}`,
-        }
-      })
-      .sort((a, b) => b.start.localeCompare(a.start)) // newest first
-
-    const todayDate = new Date()
-    const today = toISODate(todayDate)
-    const currentStart = toISODate(getWeekStart(todayDate, 1)) // Monday-start weeks
-
-    const currentFile = parsedWeeks.find(x => x.start === currentStart)?.file
-    const currentWeek = currentFile
-      ? safeWeekData(readYaml<WeekData>(path.join('docs/dashboard/', currentFile)), currentStart)
-      : null
-
-    return {
-      today,
-      currentStart,
-      currentWeek,
-      weeks: parsedWeeks,
-    }
-  },
-})

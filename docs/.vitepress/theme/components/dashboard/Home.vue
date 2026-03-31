@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { useRoute } from 'vitepress'
 import { useI18n } from 'vue-i18n'
-import ContentNav from '@/ContentNav.vue'
-import LinkUnderline from '@/LinkUnderline.vue'
-import ProgressBarHeader from '@/ProgressBarHeader.vue'
+import LinkUnderline from '@/ui/base/LinkUnderline.vue'
+import ProgressBarHeader from '@/ui/base/ProgressBarHeader.vue'
+import ContentNav from '@/ui/nav/ContentNav.vue'
 import { useRouteI18n } from '~/utils/useRouteI18n'
 import DayTodos from './DayTodos.vue'
 import BackLogs from './MonthBacklogs.vue'

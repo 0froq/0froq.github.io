@@ -1,0 +1,125 @@
+# AI-MONTH-BACKLOG-START
+monthId: "2026-04"
+period: "2026-04-01 至 2026-04-30"
+
+categories:
+  - name: 科研推进
+    description: 论文相关持续任务
+    
+  - name: 开源维护
+    description: 项目健康度保持
+    
+  - name: 技能成长
+    description: 开发者转型长期任务
+    
+  - name: 内容创作
+    description: 播客与博客持续产出
+    
+  - name: 系统优化
+    description: 工作流和工具改进
+
+items:
+  # === 科研推进 ===
+  - title: 论文数据验证持续迭代
+    dod: 根据验证结果调整分析方案，保持数据pipeline可用
+    status: ongoing
+    category: 科研推进
+    notes: 贯穿整个论文周期的背景任务，不求每日推进，但求持续积累
+    
+  - title: 文献追踪
+    dod: 每周浏览1-2篇相关领域新文献，更新文献库
+    status: ongoing
+    category: 科研推进
+    notes: 利用 Zotero 保持对湖泊温度、气候变化领域的关注
+    links:
+      - label: Google Scholar Alerts
+        url: https://scholar.google.com/scholar_alerts
+
+  # === 开源维护 ===
+  - title: LiG.nvim 维护
+    dod: 处理用户反馈的 issue，修复关键 bug
+    status: maintenance
+    category: 开源维护
+    notes: 目前 2000+ 下载，需保持基本可用性，躁狂期可推进新功能
+    links:
+      - label: Issues
+        url: https://github.com/Fro-Q/Qlean/issues
+        
+  - title: headup.nvim 维护
+    dod: 确保插件在最新 nvim 版本可用
+    status: maintenance
+    category: 开源维护
+    notes: 个人高频使用工具，需保持稳定性
+    links:
+      - label: Repository
+        url: https://github.com/Fro-Q/headup.nvim
+        
+  - title: 开源项目 Stars 策略
+    dod: 思考如何将现有项目打磨到可推广状态
+    status: incubating
+    category: 开源维护
+    notes: 年度目标 50-100 stars，需要系统性策略而非随机维护
+
+  # === 技能成长 ===
+  - title: 前端技术栈跟进
+    dod: 每周至少接触一项 Vue/Vite/TypeScript 新特性或生态变化
+    status: ongoing
+    category: 技能成长
+    notes: 为转型全职开源开发者积累，利用晨间扫描时间
+    
+  - title: Neovim 配置持续优化
+    dod: 根据实际使用痛点改进配置，记录为博客素材
+    status: ongoing
+    category: 技能成长
+    notes: 既是工具优化，也是内容创作来源
+    
+  - title: Rust 语言学习
+    dod: 通过维护 bibr 项目保持 Rust 手感
+    status: maintenance
+    category: 技能成长
+    notes: bibr 是纯 vibe coding 项目，可作为学习载体
+
+  # === 内容创作 ===
+  - title: 播客持续更新
+    dod: 保持至少双周1期节奏，积累内容库
+    status: ongoing
+    category: 内容创作
+    notes: 第2期及以后，目标每周1期但接受双周节奏
+    links:
+      - label: ToQ 播客
+        url: https://www.xiaoyuzhoufm.com/podcast/68fb1be73ffa38fac58d6bf2
+        
+  - title: 技术博客积累
+    dod: 将工作流优化、工具配置、项目经验转化为博客文章
+    status: ongoing
+    category: 内容创作
+    notes: 理想 1-2 周/篇，从 Neovim 配置、科研 workflow 等切入
+
+  # === 系统优化 ===
+  - title: 日程管理系统迭代
+    dod: 根据实际使用反馈优化 start/end my week/day skills
+    status: ongoing
+    category: 系统优化
+    notes: 今天搭建的基础系统，需要在实际使用中持续改进
+    
+  - title: 信息获取习惯建立
+    dod: 将晨间扫描和周度追踪形成稳定习惯
+    status: establishing
+    category: 系统优化
+    notes: 参考 tip.yml 中的信息获取规范，观察2-4周效果
+    
+  - title: 双相周期识别与利用
+    dod: 建立对自己躁狂/抑郁周期的觉察，优化任务匹配
+    status: establishing
+    category: 系统优化
+    notes: 本月重点观察：何时进入躁狂期，何时进入抑郁期，如何调整
+
+meta:
+  generatedAt: "2026-03-31T23:00:00+08:00"
+  lastReview: null
+  nextReview: "2026-04-15"
+  notes: |
+    本月 backlog 特点是：无硬 deadline，重在持续积累。
+    核心是论文推进 + 开源维护 + 开发者技能成长三条线并行。
+    建议每周五组会前快速浏览此列表，决定下周是否纳入周计划。
+# AI-MONTH-BACKLOG-END

@@ -2,7 +2,7 @@
 title: "*The Moon and Sixpence* · 懒得"
 created: 2022-03-23
 status: form
-last_modified: 2026-03-15 14:37:27
+last_modified: 2026-03-31 20:20:26
 ---
 
 > 我忘记是谁曾经说过，
@@ -13,6 +13,8 @@ last_modified: 2026-03-15 14:37:27
 > 晚上也都会睡觉。
 
 ---
+
+[[toc]]
 
 [source](../100_ingesta/ing_the_moon_and_sixpence.md)
 

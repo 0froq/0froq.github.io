@@ -1,8 +1,8 @@
 ---
-title: Global Lakes Are Warming Slower than Surface Air Temperature Due to Accelerated Evaporation
+title: '@tong2023: Global Lakes Are Warming Slower than Surface Air Temperature Due to Accelerated Evaporation'
 created: 2026-03-27
 status: probe
-last_modified: 2026-03-26 14:04:53
+last_modified: 2026-03-31 18:56:06
 lang: en
 ---
 

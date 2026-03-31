@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import LinkUnderline from './LinkUnderline.vue'
+import LinkUnderline from '@/ui/base/LinkUnderline.vue'
 </script>
 
 <template>

@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { useRoute } from 'vitepress'
 import { useI18n } from 'vue-i18n'
-import ContentNav from './ContentNav.vue'
-import ProgressBarHeader from './ProgressBarHeader.vue'
+import ContentNav from '@/ui/nav/ContentNav.vue'
+import ProgressBarHeader from '@/ui/base/ProgressBarHeader.vue'
 
 const route = useRoute()
 useI18n({

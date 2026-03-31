@@ -1,0 +1,168 @@
+export interface TaskLink {
+  label: string
+  url: string
+}
+
+export interface TaskItem {
+  title: string
+  status: string
+  priority?: 'high' | 'medium' | 'low'
+  dod?: string
+  due?: string
+  links?: TaskLink[]
+  tags?: string[]
+}
+
+export interface TaskStatusConfig {
+  label: string
+}
+
+export type TaskProgress = { done: number, total: number } | number
+
+export type DayTaskPriority = 'high' | 'medium' | 'low'
+
+export interface DayTaskLink {
+  label: string
+  url: string
+}
+
+export interface DayTask {
+  title: string
+  status: 'done' | 'inProgress' | 'notStarted' | 'deferred' | 'deffered' | 'cancelled' | 'blocked'
+  priority?: DayTaskPriority
+  dod?: string
+  links?: DayTaskLink[]
+  tags?: string[]
+}
+
+export interface DayRecord {
+  date: string
+  theme?: string
+  tasks: DayTask[]
+  file: string
+}
+
+export interface DayData {
+  today: string
+  currentDay: DayRecord | null
+  days: DayRecord[]
+}
+
+export interface WeekLink {
+  label: string
+  url: string
+}
+
+export type WeekTaskPriority = 'high' | 'medium' | 'low'
+
+export interface WeekTask {
+  title: string
+  status: 'done' | 'inProgress' | 'notStarted' | 'deferred' | 'deffered' | 'cancelled' | 'blocked'
+  priority?: WeekTaskPriority
+  dod?: string
+  links?: WeekLink[]
+  tags?: string[]
+}
+
+export interface WeekData {
+  theme?: string
+  start: string
+  end: string
+  tasks: WeekTask[]
+}
+
+export interface WeekDashboardData {
+  today: string
+  currentStart: string
+  currentWeek: WeekData | null
+  weeks: Array<{
+    start: string
+    end: string
+    file: string
+  }>
+}
+
+export interface BacklogLink {
+  label: string
+  url: string
+}
+
+export interface BacklogItem {
+  title: string
+  status: 'notPlanned' | 'arranging' | 'deferred' | 'deffered'
+  due?: string
+  dod?: string
+  links?: BacklogLink[]
+  locale?: string
+}
+
+export interface BacklogRecord {
+  month: string
+  items: BacklogItem[]
+  file: string
+}
+
+export interface BacklogData {
+  currentMonth: string
+  current: BacklogRecord | null
+  months: BacklogRecord[]
+}
+
+export interface VisionLink {
+  label: string
+  url: string
+}
+
+export interface VisionItem {
+  title: string
+  links?: VisionLink[]
+  locale?: string
+}
+
+export interface GlobalVision {
+  type: 'global'
+  items: VisionItem[]
+}
+
+export interface YearVision {
+  type: 'year'
+  year: string
+  items: VisionItem[]
+}
+
+export interface VisionsData {
+  global: GlobalVision
+  years: YearVision[]
+  currentYear: YearVision | null
+}
+
+export interface HintLink {
+  label: string
+  url: string
+}
+
+export interface HintItem {
+  title: string
+  description?: string
+  category: string
+  links?: HintLink[]
+  locale?: string
+}
+
+export interface HintCategory {
+  category: string
+  items: HintItem[]
+}
+
+export interface FenceData {
+  categories: HintCategory[]
+}
+
+export interface TipData {
+  categories: HintCategory[]
+}
+
+export interface HintsData {
+  fence: FenceData
+  tip: TipData
+}

@@ -2,13 +2,15 @@
 title: "*L'Étranger* · 该吃饭了"
 created: 2022-04-06
 status: form
-last_modified: 2026-03-15 14:36:36
+last_modified: 2026-03-31 20:20:07
 ---
 
 > ……我们的午饭吃得太早了，
 > 不过，这也很自然，肚子饿的时候，也就是该吃饭的时候。
 
 ---
+
+[[toc]]
 
 #scope/life/read #thought #source/book #author/camus
 

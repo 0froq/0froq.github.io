@@ -2,12 +2,14 @@
 title: "*The Moon and Sixpence* · 艺术家"
 created: 2023-10-30
 status: form
-last_modified: 2026-03-15 14:37:22
+last_modified: 2026-03-31 20:20:22
 ---
 
 > 艺术家哪怕有上千个缺点，但只要有着特立独行的个性，那就是可取的。
 
 ---
+
+[[toc]]
 
 [source](../100_ingesta/ing_the_moon_and_sixpence.md)
 

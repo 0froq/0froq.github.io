@@ -1,27 +1,6 @@
+import type { ContentNavItem, RouteContext } from '../types'
 import type { Composer } from 'vue-i18n'
 
-/**
- * Tree node structure for ContentNav component
- */
-export interface ContentNavItem {
-  label: string
-  url: string
-  tooltip?: string
-  children?: ContentNavItem[]
-}
-
-/**
- * Route context returned by findRouteContext
- */
-export interface RouteContext {
-  current: ContentNavItem | null
-  parent: ContentNavItem | null
-}
-
-/**
- * Creates the default navigation tree for the blog
- * Includes HOME, Corpus (with categories), Posts, Dashboard, and Tags
- */
 export function createDefaultContentNavTree(t: Composer['t']): ContentNavItem[] {
   return [
     {
@@ -48,11 +27,6 @@ export function createDefaultContentNavTree(t: Composer['t']): ContentNavItem[] 
   ]
 }
 
-/**
- * Resolves the parent URL for an article based on its URL
- * - Posts go to /posts/
- * - Corpus articles go to their parent folder
- */
 export function resolveArticleParentUrl(url: string): string {
   const parts = url.split('/').filter(Boolean)
 
@@ -60,8 +34,6 @@ export function resolveArticleParentUrl(url: string): string {
     return '/posts/'
   }
 
-  // For corpus articles, go up one level from the article
-  // e.g., /corpus/100_ingesta/article.md -> /corpus/100_ingesta/
   if (parts.length >= 2) {
     return `/${parts.slice(0, -1).join('/')}/`
   }
@@ -69,9 +41,6 @@ export function resolveArticleParentUrl(url: string): string {
   return '/'
 }
 
-/**
- * Recursively finds the current route and its parent in the navigation tree
- */
 export function findRouteContext(
   items: ContentNavItem[],
   currentPath: string,

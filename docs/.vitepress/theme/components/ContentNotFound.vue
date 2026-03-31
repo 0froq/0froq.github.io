@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n'
-import LinkUnderline from './LinkUnderline.vue'
+import LinkUnderline from '@/ui/base/LinkUnderline.vue'
 
 const { t } = useI18n({
   useScope: 'global',

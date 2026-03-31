@@ -2,11 +2,7 @@
 title: 'Speaking English: A Comedy of Errors and Small Victories'
 created: 2026-03-18 02:11:00
 status: draft
-last_modified: 2026-03-18 02:11:00
----
-
-
-
+last_modified: 2026-03-31 10:52:11
 ---
 
 [[toc]]
@@ -27,7 +23,7 @@ sitting at a keyboard pretending I know what I'm doing.
 
 None of this would have started without a Korean researcher named Suh.
 
-## The Setup
+## Meeting Suh
 
 A few weeks ago,
 I met him through a group meeting for our research lab.
@@ -56,9 +52,11 @@ and I can't just sit there repeating "I don't speak English" in English
 like some absurdist theater piece.
 Except—I already did that once. Multiple times.
 
-## The Flashback: Three Humiliations
+## Past Failures
 
-### Age 14, the basketball court near my house
+Three times I've spoken English to actual humans. Let that sink in.
+
+### Basketball Court Panic (Age 14)
 
 A group of men approached me.
 They looked foreign, spoke English,
@@ -79,7 +77,7 @@ That's how broken I was.
 
 They got their photo. Conversation over. I survived.
 
-### Age 17, an inter-family dinner
+### Movie Chat Freeze (Age 17)
 
 An American exchange student came to eat with us.
 She lived with my sister's friend's family,
@@ -104,7 +102,7 @@ The gears literally stopped turning.
 I nodded, said something noncommittal, and we moved on.
 That was the end of that conversation.
 
-### Last year, the safe option
+### Safe Intro (Last Year)
 
 A professor from Europe visited to give a talk and
 meet with our research group.
@@ -116,13 +114,9 @@ Prepared. Nervous. Safe.
 I spoke English. No one died.
 Nothing went wrong because I said almost nothing of substance.
 
-Those were the three times I spoke English with an actual human being
-in my entire life.
-Three times. Let that sink in.
+## Talking Now
 
-## The Present: Forced Evolution
-
-Now I talk to the Suh regularly. In English.
+Now I talk to Suh regularly. In English.
 There's no escape route.
 No script. No "let me call my dad" option.
 Just two people trying to communicate across a language barrier
@@ -137,7 +131,7 @@ Sometimes I'm even saying things correctly.
 
 This is when I noticed something about myself.
 
-## The AI Obsession
+## AI in English
 
 I use language models constantly.
 For work, for learning, for prompts, for everything.
@@ -149,7 +143,7 @@ The training data is predominantly English, so of course they do.
 So I started speaking to them in English too.
 
 I record voice memos and feed them into the machine.
-The machine transcribes. 
+The machine transcribes.
 Sometimes it gets it wrong—my accent,
 the background noise,
 the weird way I describe things—but it tries to make sense of it.
@@ -158,7 +152,6 @@ Here's where it gets interesting:
 the polishing sometimes changes what I meant.
 It smooths out the edges where my actual thought lived.
 It's like my broken English *meant* something that proper English erases.
-
 But overall?
 Talking to AI in English is becoming natural.
 
@@ -169,9 +162,9 @@ The whole world's AI infrastructure is built on English.
 We're all just walking around in that gravity well
 whether we know it or not.
 
-## The Microwave Rant
+## Message Bloat
 
-Last night I sent the Suh a message on WeChat using voice input.
+Last night I sent Suh a message on WeChat using voice input.
 It turned into a massive, rambling, verbose thing.
 Like an email. A *real email*. Pages long.
 
@@ -187,7 +180,7 @@ until it becomes this bloated thing that no one asked for.
 
 I turn casual messages into obligations.
 
-## The Real Puzzle: Internationalization
+## Blog i18n Puzzle
 
 Here's what I'm actually working on now:
 I'm adding English to my blog.
@@ -217,7 +210,7 @@ not just the literal way.
 
 It's backwards, maybe. But it makes sense.
 
-## The Domain Paradox
+## Tech Fluency Paradox
 
 Here's what terrifies and fascinates me equally:
 when I talk about code, keyboards, AI systems, anything technical—
@@ -228,7 +221,7 @@ But when someone asks me about my tech stack or my keyboard setup
 or the weirdness of LLM agents, English just happens.
 Fluently. Without thinking.
 
-Why?
+### Why Concepts Stick in English
 
 I think it's because the first time I encountered these ideas,
 they were in English. GitHub is English.
@@ -242,6 +235,8 @@ my brain goes straight to the original language.
 it means "representative" or "proxy", which isn't the same thing at all.
 The concept is baked in English. To translate it is to betray it.
 
+### Code-Switching Reality
+
 This explains something I used to find frustrating:
 why so many Chinese people code-switch between Chinese and English,
 especially in technical contexts.
@@ -254,7 +249,7 @@ And I'm understanding now that I do the same thing.
 I just didn't realize it
 until I started being *forced* to speak English with an actual person.
 
-## The Precompiled Cache
+## Response Cache
 
 There's another layer:
 I've absorbed so much English-language technical thinking—
@@ -274,17 +269,16 @@ dormant, waiting for the conversation.
 
 It's like muscle memory. Except it's vocabulary memory.
 
-## The Anxiety Problem and Its Solution
+## Sync Anxiety Hack
 
 This connects to something darker:
 my fear of synchronous communication.
 
 Messages are safe. I can edit, revise, rewrite, delete.
 But real-time conversation? That's terrifying.
-With the Korean researcher, I *have* to be present.
-I *have* to respond. There's no cmd+z, no mulligan,
+With Suh, I *have* to be present.
+I *have* to respond. There's no Cmd+Z, no mulligan,
 no way to unsay what I've said.
-
 Maybe that's why my messages to him become these endless,
 obsessive things.
 I'm trying to compress all my editing capacity into asynchronous text.
@@ -293,7 +287,7 @@ so thoroughly considered, that it performs the function of multiple drafts.
 
 It doesn't work, obviously. It just makes messages longer.
 
-But here's the hack: I could use this knowledge.
+But here's the hack:
 Prefer written communication for important things.
 Use async channels where I have control.
 Use voice calls and real-time chat for low-stakes things
@@ -301,7 +295,7 @@ where perfection doesn't matter.
 Restructure my communication to play to my strengths
 instead of my weaknesses.
 
-## The Path Forward
+## Path Ahead
 
 I don't know where this ends.
 I'm not a native English speaker and

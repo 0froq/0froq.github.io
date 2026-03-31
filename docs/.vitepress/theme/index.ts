@@ -11,7 +11,7 @@ import 'uno.css'
 import '@shikijs/vitepress-twoslash/style.css'
 import 'vitepress/dist/client/theme-default/styles/vars.css'
 
-const __VUE_PROD_DEVTOOLS__ = false
+declare const __VUE_PROD_DEVTOOLS__: boolean
 
 const savedLocale = typeof localStorage !== 'undefined'
   ? localStorage.getItem('locale') ?? 'zh'

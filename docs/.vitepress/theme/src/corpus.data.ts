@@ -1,32 +1,12 @@
+import type { CorpusData } from '../types'
 import { createContentLoader } from 'vitepress'
 import { toChineseNumber } from '../utils/toChineseNumber'
 import {
   calculateReadingTime,
   getTags,
-  normalizeCategory,
 } from '../utils/usePostUtils'
 
-export interface Data {
-  url: string
-  frontmatter: Record<string, any>
-  excerpt?: string
-  created: Date
-  lastModified: Date
-  readingTime: number
-  tagsExtended: string[]
-  tags: string[]
-  title: string
-  layer: string
-  year: string
-  chineseYear: string
-  // groupProperty: {
-  //   category: string
-  //   chineseYear: string
-  // }
-  html?: string
-}
-
-declare const data: Data[]
+declare const data: CorpusData[]
 export { data }
 
 export default createContentLoader([
@@ -49,11 +29,6 @@ export default createContentLoader([
       layer: url.split('/')[2],
       year: String(new Date(frontmatter.created).getFullYear()),
       chineseYear: toChineseNumber(String(new Date(frontmatter.created).getFullYear())),
-      groupProperty: {
-        // category: frontmatter.category,
-        // Use url to determine category to avoid issues with missing frontmatter
-        // category: normalizeCategory(url.split('/')[-1].split('_')[1]) || '未分类',
-      },
     }))
       .sort((a, b) => b.created.getTime() - a.created.getTime())
   },

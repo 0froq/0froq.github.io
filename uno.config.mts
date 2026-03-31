@@ -10,14 +10,11 @@ import {
   transformerDirectives,
   transformerVariantGroup,
 } from 'unocss'
-import contacts from './docs/.vitepress/theme/src/contacts.json' with { type: 'json' }
 import safeIcon from './docs/.vitepress/theme/src/safeIcon.json' with { type: 'json' }
 
 const safeIcons = [
-  ...contacts.map(c => c.iconUno),
   ...safeIcon.appIcons,
 ]
-const safeColors = contacts.map(c => c.colorUno)
 export default defineConfig({
   theme: {
     breakpoints: {
@@ -34,9 +31,6 @@ export default defineConfig({
   ],
   safelist: [
     ...safeIcons,
-    ...safeColors.map(c => `border-${c}-500`),
-    ...safeColors.map(c => `text-${c}-500`),
-    ...safeColors.map(c => `hover:text-${c}-500`),
   ],
   content: {
     pipeline: {

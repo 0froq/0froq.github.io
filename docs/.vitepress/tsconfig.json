@@ -10,7 +10,7 @@
   },
   "include": [
     "./**/*.ts",
-    "./**/*.d.ts",
+    "./**.d.ts",
     "./**/*.vue",
     "../auto-imports.d.ts"
   ]

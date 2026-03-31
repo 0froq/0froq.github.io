@@ -1,3 +1,4 @@
+import type { PostsData } from '../types'
 import { createContentLoader } from 'vitepress'
 import { toChineseNumber } from '../utils/toChineseNumber'
 import {
@@ -6,20 +7,7 @@ import {
   normalizeCategory,
 } from '../utils/usePostUtils'
 
-export interface Data {
-  url: string
-  frontmatter: Record<string, any>
-  excerpt?: string
-  created: Date
-  lastModified: Date
-  readingTime: number
-  tagsExtended: string[]
-  tags: string[]
-  title: string
-  html?: string
-}
-
-declare const data: Data[]
+declare const data: PostsData[]
 export { data }
 
 export default createContentLoader('posts/**/!(index).md', {

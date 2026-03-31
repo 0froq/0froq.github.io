@@ -1,0 +1,63 @@
+<script setup lang="ts">
+import LinkUnderline from '@/ui/base/LinkUnderline.vue'
+
+interface Link {
+  label: string
+  url: string
+}
+
+interface Item {
+  title: string
+  description?: string
+  dod?: string
+  links?: Link[]
+  locale?: string
+}
+
+withDefaults(defineProps<{
+  item: Item
+  enableMarkdown?: boolean
+  linkIndent?: 'sm' | 'md' | 'lg'
+}>(), {
+  enableMarkdown: false,
+  linkIndent: 'md',
+})
+
+const linkIndentClass = {
+  sm: 'un-ml-5',
+  md: 'un-ml-8',
+  lg: 'un-ml-10',
+}
+</script>
+
+<template>
+  <li :key="item.title">
+    <div>{{ item.title }}</div>
+    <div
+      v-if="item.description || item.dod"
+      un-ml-4
+      un-text="stone-600 dark:stone-400"
+    >
+      {{ item.description || item.dod }}
+    </div>
+
+    <ul
+      v-if="item.links?.length"
+      :class="linkIndentClass[linkIndent]"
+      un-text-sm
+      un-text-stone-500
+    >
+      <li
+        v-for="link in item.links"
+        :key="link.url"
+        un-ml-10
+      >
+        <LinkUnderline
+          :href="link.url"
+          :text="link.label"
+          :vanilla="true"
+        />
+      </li>
+    </ul>
+  </li>
+</template>

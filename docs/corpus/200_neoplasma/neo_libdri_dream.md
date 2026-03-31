@@ -2,12 +2,14 @@
 title: "《礼拜日》· 做梦"
 created: 2022-03-12
 status: form
-last_modified: 2026-03-15 14:37:12
+last_modified: 2026-03-31 20:20:14
 ---
 
 > “我要么整宿整宿失眠，要么睡着了就整宿整宿做梦。”
 
 ---
+
+[[toc]]
 
 [source](../100_ingesta/ing_libdri.md)
 

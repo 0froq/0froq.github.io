@@ -2,7 +2,7 @@
 title: "*L'Étranger* · 树干里的我"
 created: 2022-04-13
 status: form
-last_modified: 2026-03-15 14:36:30
+last_modified: 2026-03-31 20:20:03
 ---
 
 > 我常想，如果要我住在一颗枯树的树干里，
@@ -13,6 +13,8 @@ last_modified: 2026-03-15 14:36:30
 > 或者就像我在自由的日子里耐心地等到星期六而去拥抱玛丽的肉体。
 
 ---
+
+[[toc]]
 
 #scope/life/read #thought #source/book #author/camus
 

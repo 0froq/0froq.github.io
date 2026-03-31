@@ -2,7 +2,7 @@
 title: "*La Peste* · 天灾人祸"
 created: 2022-03-29
 status: form
-last_modified: 2026-03-15 14:36:41
+last_modified: 2026-03-31 20:20:11
 ---
 
 > 的确，天灾人祸是常见之事，
@@ -11,6 +11,8 @@ last_modified: 2026-03-15 14:36:41
 > 然而，无论闹瘟疫还是爆发战争，总是出乎人的意料，猝不及防。
 
 ---
+
+[[toc]]
 
 [source](../100_ingesta/ing_la_peste.md)
 

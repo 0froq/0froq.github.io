@@ -1,8 +1,8 @@
 ---
-title: Remote Sensing Evidence of Seasonal and Long-Term Warming in Lake Surface Water Temperature
+title: 'Remote Sensing Evidence of Seasonal and Long-Term Warming in Lake Surface Water Temperature'
 created: 2026-03-26
 status: probe
-last_modified: 2026-03-26 22:51:31
+last_modified: 2026-03-31 19:28:05
 lang: en
 ---
 

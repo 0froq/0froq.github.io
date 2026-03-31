@@ -1,8 +1,8 @@
 ---
-title: Recent Arctic Amplification and Extreme Mid-Latitude Weather
+title: '@cohen2014: Recent Arctic Amplification and Extreme Mid-Latitude Weather'
 created: 2026-03-20
 status: probe
-last_modified: 2026-03-26 09:39:38
+last_modified: 2026-03-31 18:54:52
 lang: en
 ---
 

@@ -2,7 +2,7 @@
 title: '《关于詹牧师的报告文学》· 目的'
 created: 2022-03-27
 status: form
-last_modified: 2026-03-15 14:36:19
+last_modified: 2026-03-31 20:18:57
 ---
 
 > 有目的的功利主义总比莫名其妙的扯皮主义要好。
@@ -12,6 +12,8 @@ last_modified: 2026-03-15 14:36:19
 > 将死的人乐于同看坟的论交情，都很正常。
 
 ---
+
+[[toc]]
 
 #scope/life/read #thought #source/book #author/shitiesheng
 
