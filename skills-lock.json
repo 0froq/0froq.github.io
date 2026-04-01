@@ -4,22 +4,22 @@
     "end-my-day": {
       "source": "0froq/skills",
       "sourceType": "github",
-      "computedHash": "f9ba15d692f52d167f07a00cdc25ac835c34314f99403dbb121ba3fc5a91c52b"
+      "computedHash": "a7c9657927e8022d40140480410438ba3e2becb57370202857229449074f7804"
     },
     "end-my-week": {
       "source": "0froq/skills",
       "sourceType": "github",
-      "computedHash": "b936a3aefb401b81ac134d637f65195566bfca21a2ff77b78aa9217f0fadba06"
+      "computedHash": "6f595aabe0a14e0452ea3b0e1784a61f768558ea7bf1b1b57c4681dc6ef70487"
     },
     "start-my-day": {
       "source": "0froq/skills",
       "sourceType": "github",
-      "computedHash": "89892a4e7d3efa0e7fe2f42f06e8b30a86f8dafae878efbcd4472d5615dbcc86"
+      "computedHash": "47caf402d49c2494bafb12a0693b483c3a739c84b9d0a63787851455fca29bf2"
     },
     "start-my-week": {
       "source": "0froq/skills",
       "sourceType": "github",
-      "computedHash": "a57a836bfdaeb1e5a955d15d358792df7ccab456e9053a0eb1e623987a426877"
+      "computedHash": "5504d099b941e9c2ceb7f48c57a244090f4a8a274251371eac8b0feea560cab0"
     },
     "update-hard-context": {
       "source": "0froq/skills",

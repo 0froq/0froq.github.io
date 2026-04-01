@@ -1,48 +1,48 @@
 # AI-DAY-PLAN-START
-date: "2026-03-31"
-weekday: "周二"
-theme: "系统基础设施搭建"
+date: 2026-03-31
+weekday: 周二
+theme: 系统基础设施搭建
 
 tasks:
   - title: 设计 start-my-week skill
     priority: high
-    dod: "完成 skill 指令、对话流程、YAML 输出规范"
+    dod: 完成 skill 指令、对话流程、YAML 输出规范
     status: done
     tags: [deepWork]
-    
+
   - title: 设计 end-my-week skill
     priority: high
-    dod: "完成复盘流程、偏差分析、交接建议生成"
+    dod: 完成复盘流程、偏差分析、交接建议生成
     status: done
     tags: [deepWork]
-    
+
   - title: 设计 start-my-day skill
     priority: high
-    dod: "完成日计划对话流程、验证状态检查机制"
+    dod: 完成日计划对话流程、验证状态检查机制
     status: done
     tags: [deepWork]
-    
+
   - title: 设计 end-my-day skill
     priority: high
-    dod: "完成日终复盘、验证机制、状态持久化设计"
+    dod: 完成日终复盘、验证机制、状态持久化设计
     status: done
     tags: [deepWork]
-    
+
   - title: 设计验证与全局信息规范
     priority: high
-    dod: "完成验证状态检查、ack 机制、全局信息存储规范"
+    dod: 完成验证状态检查、ack 机制、全局信息存储规范
     status: done
     tags: [deepWork]
-    
+
   - title: 建立 Hard Context
     priority: medium
-    dod: "完成用户固定上下文的深度 interview 和文档化"
+    dod: 完成用户固定上下文的深度 interview 和文档化
     status: done
     tags: []
 
   - title: 课上文献追踪
     priority: medium
-    dod: "浏览 3-5 篇湖泊温度/气候变化相关文献，收藏到 Zotero"
+    dod: 浏览 3-5 篇湖泊温度/气候变化相关文献，收藏到 Zotero
     status: done
     tags: [forIdiot]
     links:
@@ -51,7 +51,7 @@ tasks:
 
   - title: 课上技术资讯浏览
     priority: low
-    dod: "GitHub Trending + BlueSky 开发者动态，收藏 1-2 个有趣项目"
+    dod: 'GitHub Trending + BlueSky 开发者动态，收藏 1-2 个有趣项目'
     status: cancelled
     tags: []
     links:
@@ -62,21 +62,21 @@ tasks:
 
   - title: 课上播客主题构思
     priority: low
-    dod: "列出 2-3 个第 2 期播客备选主题，每个写 3-4 个要点"
+    dod: 列出 2-3 个第 2 期播客备选主题，每个写 3-4 个要点
     status: cancelled
     tags: []
 
 notes: |
   今天原计划进行论文大纲框架设计，但实际投入了系统基础设施建设。
   这是一个合理的调整：完善的日程管理系统将提升后续所有工作的效率。
-  
+
   明日（周三）计划回到科研主线：
   - 上午早课（9:30-12:00）
   - 下午启动：论文大纲框架设计 + 论文撰写工具探索
 
 meta:
-  generatedAt: "2026-03-31T22:00:00Z"
-  basedOn: ["week-plan", "actual-completion"]
-  weekId: "2026-03-30"
-  adjustment: "原计划论文任务延后一天，优先完成系统搭建"
+  generatedAt: '2026-03-31T22:00:00Z'
+  basedOn: [week-plan, actual-completion]
+  weekId: 2026-03-30
+  adjustment: 原计划论文任务延后一天，优先完成系统搭建
 # AI-DAY-PLAN-END

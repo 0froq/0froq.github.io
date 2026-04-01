@@ -15,6 +15,7 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { dirname } from 'node:path'
 import { simpleGit } from 'simple-git'
 import YAML from 'yaml'
+import { readLatestEnd, hasAcknowledgement, readIssues } from './lib/state.ts'
 
 const CONFIG = {
   paths: {
@@ -41,7 +42,7 @@ interface Task {
   title: string
   priority: 'high' | 'medium' | 'low'
   dod: string
-  status: 'done' | 'inProgress' | 'notStarted' | 'deferred' | 'deffered' | 'cancelled' | 'blocked'
+  status: 'done' | 'inProgress' | 'notStarted' | 'deferred' | 'cancelled' | 'blocked'
   links?: { label: string; url: string }[]
   tags?: string[]
   carryOverFrom?: string
@@ -205,7 +206,7 @@ async function readLastWeek(weekId: string): Promise<LastWeekInfo | null> {
 
 function extractCarryOverTasks(lastWeek: LastWeekInfo): Task[] {
   return lastWeek.tasks.filter((task: Task) => {
-    return ['notStarted', 'inProgress', 'deferred', 'deffered', 'blocked'].includes(task.status)
+    return ['notStarted', 'inProgress', 'deferred', 'deferred', 'blocked'].includes(task.status)
   }).map((task: Task) => ({
     ...task,
     carryOverFrom: lastWeek.weekId,
@@ -513,7 +514,7 @@ ${context.monthBacklog.theme || '未设定'}
 ${lastWeek ? `- 总任务: ${lastWeek.tasks.length}
 - 已完成: ${lastWeek.tasks.filter(t => t.status === 'done').length}
 - 进行中: ${lastWeek.tasks.filter(t => t.status === 'inProgress').length}
-- 已推迟: ${lastWeek.tasks.filter(t => t.status === 'deferred' || t.status === 'deffered').length}` : '无上周数据'}
+- 已推迟: ${lastWeek.tasks.filter(t => t.status === 'deferred').length}` : '无上周数据'}
 
 ### 遗留任务
 
@@ -620,7 +621,7 @@ function displayLastWeekSummary(lastWeek: LastWeekInfo | null): void {
 
   const done = lastWeek.tasks.filter(t => t.status === 'done').length
   const inProgress = lastWeek.tasks.filter(t => t.status === 'inProgress').length
-  const deferred = lastWeek.tasks.filter(t => t.status === 'deferred' || t.status === 'deffered').length
+  const deferred = lastWeek.tasks.filter(t => t.status === 'deferred').length
 
   console.log('═══════════════════════════════════════')
   console.log(`📅 上周总结 (${lastWeek.weekId})`)
@@ -685,6 +686,31 @@ async function main(): Promise<void> {
 
   const weekId = getCurrentWeekId()
   console.log(`📅 当前周: ${weekId}\n`)
+
+  const lastEnd = await readLatestEnd('weekly')
+  if (lastEnd && (lastEnd.status === 'fail' || lastEnd.status === 'block')) {
+    const hasAck = await hasAcknowledgement(lastEnd.run_id)
+    if (!hasAck) {
+      console.log('🔒 上周复盘存在未解决的验证问题')
+      console.log(`   状态: ${lastEnd.status}`)
+      console.log(`   时间: ${lastEnd.window_id}`)
+      console.log(`   未解决问题: ${lastEnd.issues_open}\n`)
+
+      const issues = await readIssues(lastEnd.run_id)
+      if (issues.length > 0) {
+        console.log('问题列表:')
+        for (const issue of issues) {
+          console.log(`  [${issue.severity.toUpperCase()}] ${issue.message}`)
+        }
+      }
+
+      console.log('\n处理方式:')
+      console.log('  1. 补充缺失的文档或记录')
+      console.log('  2. 修改任务状态（如改回 in_progress）')
+      console.log(`  3. 提供确认: npx tsx ../verify-task-doc/index.ts --ack "说明" --issue ISSUE-xxx\n`)
+      return
+    }
+  }
 
   const context = await readContext(weekId)
   

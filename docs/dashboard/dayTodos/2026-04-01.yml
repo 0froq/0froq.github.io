@@ -1,0 +1,40 @@
+# AI-DAY-PLAN-START
+date: 2026-04-01
+weekday: 周三
+theme: 论文大纲初步设计
+
+tasks:
+  - title: 完成论文初步大纲
+    priority: high
+    dod: 确定研究思路、核心主题、章节框架（引言-方法-数据-结果-讨论），每章有1-2个关键要点
+    status: notStarted
+    tags: [deepWork, forIdiot]
+    
+  - title: 探索论文撰写工具（手机）
+    priority: medium
+    dod: 了解Quarto/LaTeX/Overleaf社区评价，记录1-2个候选方案
+    status: notStarted
+    tags: []
+    links:
+      - label: Quarto 官网
+        url: https://quarto.org
+      - label: Overleaf
+        url: https://www.overleaf.com
+
+notes: |
+  时间约束：
+  - 工位时间：11:30-14:30（约3小时）
+  - 15:00外出吃饭，排队时可用手机探索工具
+  
+  精力状态：无感觉（中性），适合专注工作
+  
+  今日策略：
+  - 大纲采用"先粗后细"策略，今天确定框架和核心论点
+  - 不必追求完美，明日完善细节
+  - 工具探索用手机完成，不占用电脑工作时间
+
+meta:
+  generatedAt: '2026-04-01T11:30:00+08:00'
+  basedOn: [week-plan, user-input]
+  weekId: 2026-03-30
+# AI-DAY-PLAN-END

@@ -5,7 +5,8 @@
   "private": true,
   "scripts": {
     "start": "tsx index.ts",
-    "dry-run": "tsx index.ts --dry-run"
+    "dry-run": "tsx index.ts --dry-run",
+    "test": "node --test **/*.test.ts"
   },
   "dependencies": {
     "simple-git": "^3.22.0",

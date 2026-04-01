@@ -15,6 +15,7 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { dirname } from 'node:path'
 import { simpleGit } from 'simple-git'
 import YAML from 'yaml'
+import { readLatestEnd, hasAcknowledgement, readIssues } from './lib/state.ts'
 
 const CONFIG = {
   paths: {
@@ -41,7 +42,7 @@ interface Task {
   title: string
   priority: 'high' | 'medium' | 'low'
   dod: string
-  status: 'done' | 'inProgress' | 'notStarted' | 'deferred' | 'deffered' | 'cancelled' | 'blocked'
+  status: 'done' | 'inProgress' | 'notStarted' | 'deferred' | 'cancelled' | 'blocked'
   links?: { label: string; url: string }[]
   tags?: string[]
   carryOverFrom?: string
@@ -767,6 +768,31 @@ async function main(): Promise<void> {
 
   const today = getTodayDate()
   console.log(`📅 今天: ${today} (${getWeekdayName(today)})\n`)
+
+  const lastEnd = await readLatestEnd('daily')
+  if (lastEnd && (lastEnd.status === 'fail' || lastEnd.status === 'block')) {
+    const hasAck = await hasAcknowledgement(lastEnd.run_id)
+    if (!hasAck) {
+      console.log('🔒 上次复盘存在未解决的验证问题')
+      console.log(`   状态: ${lastEnd.status}`)
+      console.log(`   时间: ${lastEnd.window_id}`)
+      console.log(`   未解决问题: ${lastEnd.issues_open}\n`)
+
+      const issues = await readIssues(lastEnd.run_id)
+      if (issues.length > 0) {
+        console.log('问题列表:')
+        for (const issue of issues) {
+          console.log(`  [${issue.severity.toUpperCase()}] ${issue.message}`)
+        }
+      }
+
+      console.log('\n处理方式:')
+      console.log('  1. 补充缺失的文档或记录')
+      console.log('  2. 修改任务状态（如改回 in_progress）')
+      console.log(`  3. 提供确认: npx tsx ../verify-task-doc/index.ts --ack "说明" --issue ISSUE-xxx\n`)
+      return
+    }
+  }
 
   const context = await readContext(today)
   

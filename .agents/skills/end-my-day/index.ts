@@ -12,9 +12,12 @@
  */
 
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
-import { dirname } from 'node:path'
+import { dirname, join } from 'node:path'
 import { simpleGit } from 'simple-git'
 import YAML from 'yaml'
+import { verifyTaskDocConsistency } from './lib/verify.ts'
+
+type VerificationContext = Awaited<ReturnType<typeof verifyTaskDocConsistency>>
 
 const CONFIG = {
   paths: {
@@ -39,7 +42,7 @@ interface Task {
   title: string
   priority: 'high' | 'medium' | 'low'
   dod?: string
-  status: 'done' | 'inProgress' | 'notStarted' | 'deferred' | 'deffered' | 'cancelled' | 'blocked'
+  status: 'done' | 'inProgress' | 'notStarted' | 'deferred' | 'cancelled' | 'blocked'
   links?: { label: string; url: string }[]
   tags?: string[]
   carryOverFrom?: string
@@ -737,6 +740,30 @@ function displayReview(review: DayTodo): void {
   console.log('')
 }
 
+function displayVerificationContext(verification: VerificationContext): void {
+  console.log('🧠 已收集验证上下文（由 AI 自行判断 pass / warn / fail）')
+  console.log(`   run_id: ${verification.run_id}`)
+  console.log(`   tasks: ${verification.tasks.length}`)
+  console.log(`   documents: ${verification.documents.length}`)
+  console.log(`   git_commits: ${verification.git_commits.length}`)
+  console.log(`   potential_links: ${verification.potential_links.length}`)
+
+  const topLinks = verification.potential_links.slice(0, 5)
+  if (topLinks.length > 0) {
+    console.log('   候选关联（前 5 条）:')
+    for (const link of topLinks) {
+      console.log(`   - [${link.confidence}] ${link.task_id} ↔ ${link.doc_path}`)
+      console.log(`     reasons: ${link.reasons.join(' | ')}`)
+    }
+  }
+  else {
+    console.log('   未发现明显的 task-doc 候选关联。')
+  }
+
+  console.log(`   详细上下文: docs/dashboard/advisor/runs/${verification.run_id}/context.yml`)
+  console.log('')
+}
+
 async function main(): Promise<void> {
   const args = process.argv.slice(2)
   const dryRun = args.includes('--dry-run')
@@ -769,6 +796,25 @@ async function main(): Promise<void> {
   const answers = parseInteractiveAnswers(dayTodo, '')
   const dayReview = generateDayReview(today, dayTodo, answers)
   displayReview(dayReview)
+
+  console.log('\n🔍 验证任务-文档一致性...')
+  const verification = await verifyTaskDocConsistency({
+    window_type: 'daily',
+    window_id: today,
+    plan: {
+      tasks: dayReview.tasks.map(t => ({
+        title: t.title,
+        status: t.status,
+        priority: t.priority,
+        dod: t.dod,
+        tags: t.tags
+      }))
+    },
+    corpus_dirs: ['docs/corpus', 'docs/posts', 'docs/dashboard'],
+    git_enabled: true
+  })
+
+  displayVerificationContext(verification)
 
   if (!autoApprove && !dryRun) {
     console.log('═══════════════════════════════════════')

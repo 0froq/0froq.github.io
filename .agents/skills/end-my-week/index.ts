@@ -15,6 +15,9 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { dirname } from 'node:path'
 import { simpleGit } from 'simple-git'
 import YAML from 'yaml'
+import { verifyTaskDocConsistency } from '../lib/verification.ts'
+
+type VerificationContext = Awaited<ReturnType<typeof verifyTaskDocConsistency>>
 
 const CONFIG = {
   paths: {
@@ -41,7 +44,7 @@ interface Task {
   title: string
   priority: 'high' | 'medium' | 'low'
   dod: string
-  status: 'done' | 'inProgress' | 'notStarted' | 'deferred' | 'deffered' | 'cancelled' | 'blocked'
+  status: 'done' | 'inProgress' | 'notStarted' | 'deferred' | 'cancelled' | 'blocked'
   links?: { label: string; url: string }[]
   tags?: string[]
   carryOverFrom?: string
@@ -279,7 +282,7 @@ function calculateWeekStats(weekPlan: WeekPlan, dayTodos: DayTodo[]): WeekStats 
   const total = allTasks.length
   const completed = allTasks.filter(t => t.status === 'done').length
   const inProgress = allTasks.filter(t => t.status === 'inProgress').length
-  const deferred = allTasks.filter(t => t.status === 'deferred' || t.status === 'deffered').length
+  const deferred = allTasks.filter(t => t.status === 'deferred').length
   const cancelled = allTasks.filter(t => t.status === 'cancelled').length
   const notStarted = allTasks.filter(t => t.status === 'notStarted').length
 
@@ -368,7 +371,7 @@ function generateQuestionsForAI(
 
   // 显示遗留任务
   const deferredTasks = weekPlan.tasks.filter(t => 
-    t.status === 'deferred' || t.status === 'deffered' || t.status === 'blocked'
+    t.status === 'deferred' || t.status === 'blocked'
   )
   if (deferredTasks.length > 0) {
     lines.push('参考（被推迟/阻塞的任务）:')
@@ -383,7 +386,7 @@ function generateQuestionsForAI(
   )
 
   const unfinishedTasks = weekPlan.tasks.filter(t => 
-    t.status === 'notStarted' || t.status === 'inProgress' || t.status === 'deferred' || t.status === 'deffered'
+    t.status === 'notStarted' || t.status === 'inProgress' || t.status === 'deferred'
   )
   if (unfinishedTasks.length > 0) {
     lines.push('未完成任务列表:')
@@ -435,7 +438,7 @@ function generateWeekReview(
 
   // 识别需要延后的任务
   const deferred: DeferredTask[] = weekPlan.tasks
-    .filter(t => t.status === 'deferred' || t.status === 'deffered' || t.status === 'blocked')
+    .filter(t => t.status === 'deferred' || t.status === 'blocked')
     .map(t => ({
       title: t.title,
       reason: t.reason || '状态顺延',
@@ -760,7 +763,7 @@ function displayWeekSummary(weekPlan: WeekPlan, stats: WeekStats): void {
   if (stats.cancelled > 0) console.log(`❌ 已取消: ${stats.cancelled}`)
 
   const unfinished = weekPlan.tasks.filter(t =>
-    t.status === 'notStarted' || t.status === 'inProgress' || t.status === 'deferred' || t.status === 'deffered'
+    t.status === 'notStarted' || t.status === 'inProgress' || t.status === 'deferred'
   )
   if (unfinished.length > 0) {
     console.log('\n📋 未完成任务:')
@@ -803,6 +806,30 @@ function displayReview(review: WeekReview): void {
     console.log('\n已推迟:')
     review.deferred.forEach(d => console.log(`   ⏸️  ${d.title} (${d.suggestion})`))
   }
+  console.log('')
+}
+
+function displayVerificationContext(verification: VerificationContext): void {
+  console.log('🧠 已收集验证上下文（由 AI 自行判断 pass / warn / fail）')
+  console.log(`   run_id: ${verification.run_id}`)
+  console.log(`   tasks: ${verification.tasks.length}`)
+  console.log(`   documents: ${verification.documents.length}`)
+  console.log(`   git_commits: ${verification.git_commits.length}`)
+  console.log(`   potential_links: ${verification.potential_links.length}`)
+
+  const topLinks = verification.potential_links.slice(0, 5)
+  if (topLinks.length > 0) {
+    console.log('   候选关联（前 5 条）:')
+    for (const link of topLinks) {
+      console.log(`   - [${link.confidence}] ${link.task_id} ↔ ${link.doc_path}`)
+      console.log(`     reasons: ${link.reasons.join(' | ')}`)
+    }
+  }
+  else {
+    console.log('   未发现明显的 task-doc 候选关联。')
+  }
+
+  console.log(`   详细上下文: docs/dashboard/advisor/runs/${verification.run_id}/context.yml`)
   console.log('')
 }
 
@@ -851,8 +878,39 @@ async function main(): Promise<void> {
   const highlights = identifyCompletedHighlights(weekPlan, dayTodos)
   const review = generateWeekReview(weekPlan, stats, dayTodos, highlights)
 
-  // 显示复盘
   displayReview(review)
+
+  console.log('\n🔍 验证任务-文档一致性...')
+  const allTasks = [...weekPlan.tasks]
+  for (const day of dayTodos) {
+    for (const task of day.tasks) {
+      if (!allTasks.find(t => t.title === task.title)) {
+        allTasks.push(task)
+      }
+    }
+  }
+
+  const verification = await verifyTaskDocConsistency({
+    window_type: 'weekly',
+    window_id: weekId,
+    plan: {
+      tasks: allTasks.map(t => ({
+        title: t.title,
+        status: t.status,
+        priority: t.priority,
+        dod: t.dod,
+        tags: t.tags
+      }))
+    },
+    daily_plans: dayTodos.map(d => ({
+      date: d.date,
+      tasks: d.tasks
+    })),
+    corpus_dirs: ['docs/corpus', 'docs/posts', 'docs/dashboard'],
+    git_enabled: true
+  })
+
+  displayVerificationContext(verification)
 
   if (!autoApprove && !dryRun) {
     console.log('═══════════════════════════════════════')
