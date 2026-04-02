@@ -1,17 +1,14 @@
 <script setup lang="ts">
-import type { NavItem } from '@/header/Nav.vue'
 import type { CorpusData } from '~/types'
 import { useEventListener, useMouse } from '@vueuse/core'
 import { useRoute } from 'vitepress'
 import { onBeforeUnmount, onMounted, onUpdated, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
-import HeaderNav from '@/header/Nav.vue'
 import TooltipArticleInfo from '@/ui/article/TooltipArticleInfo.vue'
 import LinkUnderline from '@/ui/base/LinkUnderline.vue'
 import ProgressBarHeader from '@/ui/base/ProgressBarHeader.vue'
 import QSeperator from '@/ui/base/QSeperator.vue'
 import { data as posts } from '~/src/corpus.data'
-import { useRouteI18n } from '~/utils/useRouteI18n'
 
 const { path } = useRoute()
 const { locale } = useI18n()
@@ -146,47 +143,9 @@ onBeforeUnmount(() => {
     refreshRafId = null
   }
 })
-
-const navItems: NavItem[][] = [
-  [{ label: 'Home', url: '/' }],
-  [
-    { label: 'Corpus', url: '/corpus/', current: true },
-    { label: 'Posts', url: '/posts/' },
-    { label: 'Dashboard', url: '/dashboard/' },
-    { label: 'Tags', url: '/tags/' },
-  ],
-  [
-    { label: 'Autopsia', url: '/corpus/000_autopsia/' },
-    { label: 'Ingesta', url: '/corpus/100_ingesta/' },
-    { label: 'Neoplasma', url: '/corpus/200_neoplasma/' },
-    { label: 'Putredo', url: '/corpus/300_putredo/' },
-    { label: 'Delirium', url: '/corpus/400_delirium/' },
-    { label: 'Vigil', url: '/corpus/500_vigil/' },
-  ],
-]
-
-const { currentBasePath } = useRouteI18n(path, locale.value)
-
-navItems.forEach((group) => {
-  group.forEach((item) => {
-    if (item.url === currentBasePath.value) {
-      item.current = true
-    }
-    if (item.children) {
-      item.children.forEach((child) => {
-        if (child.url === currentBasePath.value) {
-          child.current = true
-        }
-      })
-    }
-  })
-})
 </script>
 
 <template>
-  <HeaderNav
-    :items="navItems"
-  />
   <div>
     <ProgressBarHeader
       :key="layer"

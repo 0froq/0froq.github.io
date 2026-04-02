@@ -1,9 +1,8 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n'
-import LinkUnderline from '@/ui/base/LinkUnderline.vue'
+import DashboardItem from '@/ui/base/DashboardItem.vue'
 import ProgressBarHeader from '@/ui/base/ProgressBarHeader.vue'
 import { data as visions } from '~/src/vision.data'
-import DashboardItem from '@/ui/base/DashboardItem.vue'
 
 const { t, locale } = useI18n({
   useScope: 'global',
@@ -21,15 +20,6 @@ const { t, locale } = useI18n({
 </script>
 
 <template>
-  <LinkUnderline
-    :href="`/dashboard/${locale === 'zh' ? '' : `${locale}/`}`"
-    text="Dashboard"
-    un-inline-block
-    un-text-sm
-    un-w-fit
-    un-text="stone-600 dark:stone-400"
-    un-before="h-px bg-stone-950 dark:bg-stone-50"
-  />
   <ProgressBarHeader
     id="yearly-and-vision-header"
     :title="t('headerText')"
@@ -54,7 +44,7 @@ const { t, locale } = useI18n({
       >
         {{ yearVision.year }}
       </h3>
-      <ul un-ml-4>
+      <ul>
         <DashboardItem
           v-for="goal in yearVision.items.filter(g => g.locale === $i18n.locale || !g.locale)"
           :key="goal.title"
@@ -83,7 +73,6 @@ const { t, locale } = useI18n({
     </h3>
     <ul
       un-pt-4
-      un-ml-4
     >
       <DashboardItem
         v-for="vision in visions.global.items.filter(v => v.locale === locale || !v.locale)"
