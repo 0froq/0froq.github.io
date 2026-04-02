@@ -1,18 +1,21 @@
 # AI-WEEK-PLAN-START
-weekId: "2026-03-30"
-theme: "论文架构攻坚 + 数据验证启动"
+weekId: 2026-03-30
+theme: '论文架构攻坚 + 数据验证启动'
 
 tasks:
   # === 科研工作 (Q1 - 必须完成) ===
   - title: 完成论文详细大纲
     priority: high
-    dod: "包含引言、方法、数据、结果预期、讨论结构的完整大纲，每节有3-5个要点"
-    status: notStarted
-    tags: [deepWork, forIdiot]
-    
+    dod: 包含引言、方法、数据、结果预期、讨论结构的完整大纲，每节有3-5个要点
+    status: inProgress
+    tags: [deepWork]
+    links:
+      - label: 正在进行
+        url: /corpus/300_putredo/put_lswt_hiatus_paper_outline_202604011442
+
   - title: 探索论文撰写工具
     priority: high
-    dod: "评估 Quarto/LaTeX/Markdown 等工具，选定方案并完成基础配置"
+    dod: 评估 Quarto/LaTeX/Markdown 等工具，选定方案并完成基础配置
     status: notStarted
     tags: [deepWork]
     links:
@@ -20,55 +23,65 @@ tasks:
         url: https://quarto.org
       - label: LaTeX Project
         url: https://www.latex-project.org
-        
+
   - title: 下载湖泊温度数据集
-    priority: high
-    dod: "确认数据源并启动下载，预估数据量和处理时间"
-    status: notStarted
+    priority: medium
+    dod: 确认数据源并启动下载，预估数据量和处理时间
+    status: deferred
     tags: [forIdiot]
-    
+    links:
+      - label: CCI
+        url: https://cds.climate.copernicus.eu/datasets/satellite-lake-water-temperature
+      - label: '数据太大，所里网络不稳定，切片下载 (040226: update status)'
+
   - title: 数据验证方案初步测试
     priority: medium
-    dod: "用已下载数据跑通分析 pipeline，验证方法可行性"
-    status: notStarted
+    dod: 用已下载数据跑通分析 pipeline，验证方法可行性
+    status: blocked
     tags: [deepWork]
+    lins:
+      - label: blocked by data download
 
   # === 播客与创作 (Q2 - 灵活完成) ===
   - title: 播客第 2 期内容创作
     priority: medium
-    dod: "确定主题 + 写提纲或初稿，不一定要录制"
-    status: notStarted
+    dod: '确定主题 + 写提纲或初稿，不一定要录制'
+    status: inProgress
     tags: []
-    
+    links:
+      - label: 与「嘉宾」约好周末录制
+
   - title: 发布英文博客文章
     priority: low
-    dod: "明天发布，不需要额外维护"
-    status: notStarted
+    dod: 明天发布，不需要额外维护
+    status: done
     tags: []
 
   # === 开源项目状态盘点 (Q3 - 观察记录) ===
   - title: 评估近期开源项目状态
     priority: low
-    dod: "记录 LiG.nvim、headup.nvim、bibr 当前状态，不强制推进"
-    status: notStarted
+    dod: 记录 LiG.nvim、headup.nvim、bibr 当前状态，不强制推进
+    status: deferred
     tags: []
+    links:
+      - label: '本周任务较重，暂不推进 (040226: update status)'
 
 goals:
-  - "建立论文完整大纲，明确各章节逻辑"
-  - "启动数据下载，为下周深度分析做准备"
-  - "搭建好写作环境，消除工具 friction"
+  - 建立论文完整大纲，明确各章节逻辑
+  - 启动数据下载，为下周深度分析做准备
+  - 搭建好写作环境，消除工具 friction
 
 capacity:
   estimatedDays: 4.5
   plannedDeepWorkDays: 3
-  notes: "周二晚课后、周三周四早课后、周五组会后为黄金时段"
+  notes: 周二晚课后、周三周四早课后、周五组会后为黄金时段
 
 meta:
-  generatedAt: "2026-03-31T16:00:00+08:00"
-  basedOn: ["user-interview", "time-constraints", "research-priority"]
+  generatedAt: '2026-03-31T16:00:00+08:00'
+  basedOn: [user-interview, time-constraints, research-priority]
   constraints:
-    - "周二 18:30-21:00 晚课"
-    - "周三周四 9:30-12:00 早课"
-    - "周五 14:30 组会 + 晚课"
-    - "周六晚餐，周末不安排工作"
+    - '周二 18:30-21:00 晚课'
+    - '周三周四 9:30-12:00 早课'
+    - '周五 14:30 组会 + 晚课'
+    - 周六晚餐，周末不安排工作
 # AI-WEEK-PLAN-END

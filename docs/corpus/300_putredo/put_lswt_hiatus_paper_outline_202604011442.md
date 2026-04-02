@@ -2,7 +2,7 @@
 title: LSWT Hiatus Paper Outline
 created: 2026-04-01
 status: draft
-last_modified: 2026-04-01 15:24:15
+last_modified: 2026-04-02 16:00:50
 lang: en
 ---
 
@@ -50,3 +50,8 @@ Or maybe we need some change point detection?
   variability inside a fast warming)
 - Relationship between teleconnections and trend (Explain the machanism)
 - Relationship between ecological processes and the trend (Explain the influence)
+
+## Discussion
+
+
+

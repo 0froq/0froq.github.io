@@ -148,10 +148,17 @@ function renderDod(dod: string): string {
         :key="link.url"
       >
         <LinkUnderline
+          v-if="link.url"
           :href="link.url"
           :text="link.label"
           un-before="bg-stone-700 dark:bg-stone-300"
         />
+        <span
+          v-else
+          un-text="stone-600 dark:stone-400"
+        >
+          {{ link.label }}
+        </span>
       </li>
     </ul>
   </li>
