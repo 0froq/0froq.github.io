@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import { useRoute } from 'vitepress'
 import { useI18n } from 'vue-i18n'
-import LinkUnderline from '@/ui/base/LinkUnderline.vue'
-import ProgressBarHeader from '@/ui/base/ProgressBarHeader.vue'
+import PostListSection from '@/ui/article/PostListSection.vue'
+import { data as posts } from '~/src/posts.data'
+import { toChineseNumber } from '~/utils/toChineseNumber'
 
-const route = useRoute()
+const { path } = useRoute()
 const { t } = useI18n({
   useScope: 'global',
   messages: {
@@ -41,45 +42,18 @@ const { t } = useI18n({
   },
 })
 
-const categories: string[] = ['610_log', '620_roadmap', '630_collection']
+const category = path.split('/')[2]
 </script>
 
 <template>
-  <div>
-    <ProgressBarHeader
-      title="Posts"
-      un-mb-8
-      un-font="script"
-    />
-    <Content
-      :key="route.path"
-      un-text="base/10"
-      class="markdown-rendered"
-    />
-
-    <div
-      v-for="category in categories"
-      :key="`${category}-${$i18n.locale}`"
-      un-even="pl-10"
-      un-my-10
-      un-mx-20
-      un-flex
-      un-gap-4
-      un-text="stone-700 dark:stone-300 hover:stone-950 dark:hover:stone-50 xl"
-    >
-      <LinkUnderline
-        :href="`/posts/${category}/`"
-        :text="t(`categories.${category}`)"
-        un-before="bg-rose-600 dark:bg-rose-400"
-      >
-        <template #tooltip>
-          <div
-            un-max-w-300px
-          >
-            {{ t(`intros.${category}`) || '' }}
-          </div>
-        </template>
-      </LinkUnderline>
-    </div>
-  </div>
+  <PostListSection
+    :show-excerpt-toggle="true"
+    :posts="posts.filter(post => {
+      return post.url.split('/')[2] === category
+    })"
+    :title="t(`categories.${category}`)"
+    :group-by-year="true"
+    :year-formatter="$i18n.locale === 'zh' ? toChineseNumber : (year: string) => year"
+    :intro="t(`intros.${category}`)"
+  />
 </template>
