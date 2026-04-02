@@ -1,13 +1,10 @@
 <script setup lang="ts">
-import type { ComputedRef } from 'vue'
-import type { NavItem } from '@/ui/nav/ContentNav.vue'
 import { useData, useRoute } from 'vitepress'
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import ArticleNavigation from '@/ui/article/ArticleNavigation.vue'
 import LinkUnderline from '@/ui/base/LinkUnderline.vue'
 import ProgressBarHeader from '@/ui/base/ProgressBarHeader.vue'
-import ContentNav from '@/ui/nav/ContentNav.vue'
 import { data as corpus } from '~/src/corpus.data'
 import { data as posts } from '~/src/posts.data'
 import { renderMdInline } from '~/utils/renderMdInline'
@@ -149,34 +146,9 @@ const originalPost = computed(() => {
 //     ...translatedOfOriginal,
 //   ]
 // })
-
-const navItems: ComputedRef<NavItem[][]> = computed(() => {
-  let outUrl
-  let outLabel
-  if (!post.value)
-    return [[]]
-  if (post.value.url.includes('corpus')) {
-    outUrl = `${post.value.url.split('/').slice(0, -1).join('/')}/`
-    outLabel = post.value.url.split('/').slice(-2, -1)[0]
-  }
-  else if (post.value.url.includes('posts')) {
-    outUrl = '/posts/'
-    outLabel = 'Posts'
-  }
-
-  return [[
-    {
-      label: outLabel || 'Home',
-      url: outUrl || '/',
-    },
-  ]]
-})
 </script>
 
 <template>
-  <ContentNav
-    :items="navItems"
-  />
   <ProgressBarHeader
     v-if="post?.frontmatter.title"
     :id="post?.frontmatter.title"
@@ -248,7 +220,7 @@ const navItems: ComputedRef<NavItem[][]> = computed(() => {
         <LinkUnderline
           :href="translated.url"
           :text="(translated.frontmatter.title || translated.url)"
-        un-before="bg-stone-950 dark:bg-stone-50"
+          un-before="bg-stone-950 dark:bg-stone-50"
         />
       </div>
     </div>

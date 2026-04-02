@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { useRoute } from 'vitepress'
 import { useI18n } from 'vue-i18n'
-import ContentNav from '@/ui/nav/ContentNav.vue'
 import ProgressBarHeader from '@/ui/base/ProgressBarHeader.vue'
+import ContentNav from '@/ui/nav/ContentNav.vue'
 
 const route = useRoute()
 useI18n({
@@ -28,8 +28,15 @@ const navItems = [
       { label: 'Delirium', url: '/corpus/400_delirium/' },
       { label: 'Vigil', url: '/corpus/500_vigil/' },
     ] },
-    { label: 'Posts', url: '/posts/' },
-    { label: 'Dashboard', url: '/dashboard/' },
+    { label: 'Posts', url: '/posts/', children: [
+      { label: 'Log', url: '/posts/610_log/' },
+      { label: 'Roadmap', url: '/posts/620_roadmap/' },
+      { label: 'Collection', url: '/posts/630_collection/' },
+    ] },
+    { label: 'Dashboard', url: '/dashboard/', children: [
+      { label: 'Visions', url: '/dashboard/visions/' },
+      { label: 'Hints', url: '/dashboard/hints/' },
+    ] },
     { label: 'Tags', url: '/tags/' },
   ],
 ]

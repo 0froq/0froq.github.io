@@ -187,15 +187,6 @@ function getGlobalIndex(section: 'current' | 'extended', index: number) {
 </script>
 
 <template>
-  <LinkUnderline
-    href="/tags/"
-    text="Tags"
-    un-inline-block
-    un-text-sm
-    un-w-fit
-    un-text="stone-600 dark:stone-400"
-    un-before="h-px bg-stone-950 dark:bg-stone-50"
-  />
   <TagDisplay />
   <Content />
 

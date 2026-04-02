@@ -76,11 +76,13 @@ function handleChangeLocale(newVal: string) {
     >
       <div
         un-flex="~ col"
+        un-m-1
       >
         <span
           v-for="l in $i18n.availableLocales"
           :key="l"
           un-text-sm
+          un-px-1
         >
           <button
             un-transition-colors
@@ -93,6 +95,11 @@ function handleChangeLocale(newVal: string) {
           >{{ localeMap[l] }}</button>
         </span>
       </div>
+      <span
+        un-text-stone-500
+      >
+        /
+      </span>
       <Layer
         :key="`${route.path}-${$i18n.locale}`"
         :path-suffix="$i18n.locale === 'zh' ? '' : `${$i18n.locale}/`"

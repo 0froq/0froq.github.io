@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import ProgressBarHeader from '@/ui/base/ProgressBarHeader.vue'
-import ContentNav from '@/ui/nav/ContentNav.vue'
 import TagTreeNode from '@/ui/tag/TagTreeNode.vue'
 import { data as corpus } from '~/src/corpus.data'
 import { data as posts } from '~/src/posts.data'
@@ -77,29 +76,9 @@ const tagTree = computed<TagNode[]>(() => {
 
   return applyTotalCount(toArray(root))
 })
-
-const navItems = [
-  [{ label: 'Home', url: '/' }],
-  [
-    { label: 'Corpus', url: '/corpus/', children: [
-      { label: 'Autopsia', url: '/corpus/000_autopsia/' },
-      { label: 'Ingesta', url: '/corpus/100_ingesta/' },
-      { label: 'Neoplasma', url: '/corpus/200_neoplasma/' },
-      { label: 'Putredo', url: '/corpus/300_putredo/' },
-      { label: 'Delirium', url: '/corpus/400_delirium/' },
-      { label: 'Vigil', url: '/corpus/500_vigil/' },
-    ] },
-    { label: 'Posts', url: '/posts/' },
-    { label: 'Dashboard', url: '/dashboard/' },
-    { label: 'Tags', url: '/tags/', current: true },
-  ],
-]
 </script>
 
 <template>
-  <ContentNav
-    :items="navItems"
-  />
   <ProgressBarHeader
     title="Tags"
     intro=""
