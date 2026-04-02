@@ -1,4 +1,4 @@
-import type { HintsData, HintItem, HintCategory } from '../types'
+import type { HintCategory, HintItem, HintsData } from '../types'
 import fs from 'node:fs'
 import { defineLoader } from 'vitepress'
 import YAML from 'yaml'
@@ -35,15 +35,19 @@ function readYaml<T>(file: string): T {
   return YAML.parse(fs.readFileSync(file, 'utf-8')) as T
 }
 
-function groupByCategory(items: HintItem[]): HintCategory[] {
-  const categories: HintCategory[] = []
+function groupByCategory(items: HintItem[]): Record<string, HintCategory[]> {
+  const categories: Record<string, HintCategory[]> = {}
   const seen = new Map<string, HintItem[]>()
 
   for (const item of items) {
     if (!seen.has(item.category)) {
       const bucket: HintItem[] = []
       seen.set(item.category, bucket)
-      categories.push({ category: item.category, items: bucket })
+      categories[item.locale || 'undefined'] = categories[item.locale || 'undefined'] || []
+      categories[item.locale || 'undefined'].push({
+        category: item.category,
+        items: bucket,
+      })
     }
     seen.get(item.category)!.push(item)
   }
