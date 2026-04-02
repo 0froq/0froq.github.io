@@ -1,5 +1,5 @@
-import type { ContentNavItem, RouteContext } from '../types'
 import type { Composer } from 'vue-i18n'
+import type { ContentNavItem, RouteContext } from '../types'
 
 export function createDefaultContentNavTree(t: Composer['t']): ContentNavItem[] {
   return [

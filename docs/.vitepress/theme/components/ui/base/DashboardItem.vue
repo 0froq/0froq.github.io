@@ -55,7 +55,7 @@ const linkIndentClass = {
         <LinkUnderline
           :href="link.url"
           :text="link.label"
-          :vanilla="true"
+          un-before="bg-stone-700 dark:bg-stone-300"
         />
       </li>
     </ul>

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import LinkUnderline from '@/ui/base/LinkUnderline.vue'
+import { useRouteI18n } from '~/utils/useRouteI18n'
 
 export interface NavItem {
   label: string
@@ -13,7 +14,24 @@ interface Props {
   items: NavItem[][]
 }
 
-defineProps<Props>()
+const props = defineProps<Props>()
+
+const { currentBasePath, getLocaledPath } = useRouteI18n()
+
+props.items.forEach((group) => {
+  group.filter(i => i.url !== '/').forEach((item) => {
+    if (currentBasePath.value.startsWith(item.url)) {
+      item.current = true
+    }
+    if (item.children) {
+      item.children.forEach((child) => {
+        if (currentBasePath.value.startsWith(child.url)) {
+          child.current = true
+        }
+      })
+    }
+  })
+})
 </script>
 
 <template>
@@ -36,7 +54,7 @@ defineProps<Props>()
           :un-font="item.current ? 'bold' : 'medium'"
         >
           <LinkUnderline
-            :href="item.url"
+            :href="getLocaledPath(item.url)"
             :text="item.label"
             :follow-mouse="!item.children"
             :un-before="`bg-stone-300 dark:bg-stone-700${item.current ? ' w-full text-stone-950 dark:text-stone-50' : ''}`"

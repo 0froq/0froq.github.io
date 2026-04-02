@@ -155,11 +155,11 @@ export interface HintCategory {
 }
 
 export interface FenceData {
-  categories: HintCategory[]
+  categories: Record<string, HintCategory[]>
 }
 
 export interface TipData {
-  categories: HintCategory[]
+  categories: Record<string, HintCategory[]>
 }
 
 export interface HintsData {
