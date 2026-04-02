@@ -7,13 +7,13 @@ tasks:
   - title: 完成论文初步大纲
     priority: high
     dod: 确定研究思路、核心主题、章节框架（引言-方法-数据-结果-讨论），每章有1-2个关键要点
-    status: notStarted
-    tags: [deepWork, forIdiot]
+    status: inProgress
+    tags: [deepWork]
     
   - title: 探索论文撰写工具（手机）
     priority: medium
     dod: 了解Quarto/LaTeX/Overleaf社区评价，记录1-2个候选方案
-    status: notStarted
+    status: inProgress
     tags: []
     links:
       - label: Quarto 官网

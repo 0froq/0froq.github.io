@@ -1,0 +1,54 @@
+# AI-DAY-PLAN-START
+date: 2026-04-02
+weekday: 周四
+theme: 论文大纲细化 + 组会准备
+
+tasks:
+  - title: 完善论文大纲 - 补充 Discussion 框架
+    priority: high
+    dod: Discussion 章节包含核心论点总结、研究意义、局限性与未来工作方向
+    status: notStarted
+    tags: [deepWork]
+
+  - title: 明确数据源方案
+    priority: medium
+    dod: 初步评估卫星数据 vs ERA5 vs ML 融合的可行性，记录初步倾向
+    status: notStarted
+    tags: []
+
+  - title: 细化 Methods 要点
+    priority: low
+    dod: 将 Methods 拆分为具体可执行的 3-5 个分析步骤
+    status: notStarted
+    tags: [deepWork]
+
+  - title: 准备周五组会汇报
+    priority: medium
+    dod: 基于上次汇报更新进展：大纲完成、研究问题细化、下一步计划
+    status: notStarted
+    tags: [forIdiot]
+
+notes: |
+  时间约束：
+  - 早课：9:20-12:00
+  - 工作时段：12:00-16:30（约4.5小时）
+  - 必须结束：16:30-17:00
+  - 最晚硬截止：20:00
+
+  今日策略（根据精力状态调整）：
+  - 主线任务：完善 Discussion 框架（高优先级，必须完成）
+  - 如果精力尚可：处理数据源评估 + 组会汇报准备
+  - 如果精力不佳：只做组会汇报准备（低耗能任务）
+  - Methods 细化可延后，不强制今天完成
+  - 16:30 必须收工，剩余时间自由安排
+
+  精力管理：
+  - 昨晚休息不多，下午可能出现精力低谷
+  - 感到疲惫时优先做「forIdiot」标记的简单任务
+  - 状态不佳不强求，Discussion 完成后即可视为今日成功
+
+meta:
+  generatedAt: '2026-04-02T10:00:00+08:00'
+  basedOn: [week-plan, yesterday-review]
+  weekId: 2026-03-30
+# AI-DAY-PLAN-END

@@ -1,43 +1,59 @@
-- title: 深工里程碑
-  description: 每日预先设定 2–3 个可停止里程碑，抵达任一里程碑时必须评估是否继续。
-  category: 专注边界
+- title: 先完任务
+  description: 周一周二尽量把有 due 的任务做完（其实每周有个固定 due，是什么东西我不说）
+  category: 上班
+  locale: zh
 
-- title: 日终复盘
-  description: 每天 23:00 前完成一次 10 分钟复盘，更新任务状态并记录当天违规情况。
-  category: 专注边界
+- title: 保险
+  description: 周三前就能把「那个 due」做完最好
+  category: 上班
+  locale: zh
 
-- title: 低能优先最低版本
-  description: 当天精力明显不足时，只要求交付 Q1 的最低必要版本，其余任务允许顺延且不自责。
-  category: 专注边界
+- title: End my day!
+  description: 每晚复盘（一定要）
+  category: 如何完毕
+  locale: zh
 
-- title: 信息限流
-  description: 非工作信息总时长 ≤30 分钟/天，分 2–3 次，每次不超过 15 分钟。
-  category: 信息饮食
+- title: 「当时睡觉了，闭着眼，我说婷婷」
+  description: 23:00 后不突发奇想
+  category: 如何完毕
+  locale: zh
 
-- title: 夜间降噪
-  description: 22:00 后避免高刺激输入，如争论、情绪新闻、重度技术探索和社交冲突。
-  category: 信息饮食
+- title: 但你先别急
+  description: 新坑先进 monthBacklogs，有空再评估
+  category: 如何开始
+  locale: zh
 
-- title: 情绪低落降对比
-  description: 情绪低落或敏感时减少对比型内容，优先过程型内容。
-  category: 信息饮食
+- title: 补觉
+  description: 补觉
+  category: 补觉
+  locale: zh
 
-- title: 兴奋期禁开新坑
-  description: 明显兴奋或冲动时不接新项目、不立新目标、不开新 repo。
-  category: 信息饮食
+- title: Due first, fun later
+  description: On Monday and Tuesday, prioritize finishing tasks with actual deadlines (you know the one — no need to name it)
+  category: At Work
+  locale: en
 
-- title: Q3 时间盒
-  description: Q3 事项每天只在一个固定 30 分钟时间盒内处理，其余时间不响应。
-  category: 任务边界
+- title: Safety buffer
+  description: Ideally, get that deadline wrapped up by Wednesday so I don’t panic on Thursday
+  category: At Work
+  locale: en
 
-- title: 统一回复时间
-  description: 对不影响年度目标的临时请求，只在约定时间段统一回复。
-  category: 任务边界
+- title: End my day!
+  description: Every night, force myself to do the review (you better do so)
+  category: How to Finish
+  locale: en
 
-- title: 先绑定年度目标
-  description: 新任务若无法绑定到年度目标，则进入 backlog 或直接拒绝。
-  category: 任务边界
+- title: Eyes closed, no more ideas
+  description: After 23:00, stop coming up with new plans or "brilliant" ideas
+  category: How to Finish
+  locale: en
 
-- title: 周度承诺上限
-  description: 单周最多新增 3 个 Q2 承诺项，超出全部进入 backlog。
-  category: 任务边界
+- title: Whoa easy there
+  description: Ideas go into monthBacklogs first and be evaluated when I'm free
+  category: How to Start
+  locale: en
+
+- title: Nap
+  description: Nap
+  category: Nap
+  locale: en
