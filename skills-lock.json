@@ -14,12 +14,12 @@
     "start-my-day": {
       "source": "0froq/skills",
       "sourceType": "github",
-      "computedHash": "47caf402d49c2494bafb12a0693b483c3a739c84b9d0a63787851455fca29bf2"
+      "computedHash": "ca2a0286ffac2cfeb4bd6c843a20d66bb3f58cfc77d73c62b41cf668a2da06b7"
     },
     "start-my-week": {
       "source": "0froq/skills",
       "sourceType": "github",
-      "computedHash": "5504d099b941e9c2ceb7f48c57a244090f4a8a274251371eac8b0feea560cab0"
+      "computedHash": "96eb6ce3929f72bc76dc92ccb47a6926f64f7de225d0eb38e6974cc946c3a094"
     },
     "update-hard-context": {
       "source": "0froq/skills",
