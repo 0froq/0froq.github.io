@@ -16,7 +16,7 @@ tasks:
   - title: 探索论文撰写工具
     priority: high
     dod: 评估 Quarto/LaTeX/Markdown 等工具，选定方案并完成基础配置
-    status: notStarted
+    status: inProgress
     tags: [deepWork]
     links:
       - label: Quarto 官网
@@ -27,7 +27,7 @@ tasks:
   - title: 下载湖泊温度数据集
     priority: medium
     dod: 确认数据源并启动下载，预估数据量和处理时间
-    status: deferred
+    status: inProgress
     tags: [forIdiot]
     links:
       - label: CCI

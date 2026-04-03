@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { TaskItem } from '../../types'
+import { computed, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import LinkUnderline from '@/ui/base/LinkUnderline.vue'
 import { renderMdInline } from '~/utils/renderMdInline'
@@ -15,6 +16,71 @@ const props = withDefaults(defineProps<{
   showDueDate: false,
   enableMarkdown: false,
 })
+
+const isExpanded = ref(false)
+const hasDetails = computed(() => Boolean(props.task.dod) || Boolean(props.task.links?.length))
+
+function toggleExpand() {
+  if (!hasDetails.value)
+    return
+  isExpanded.value = !isExpanded.value
+}
+
+function asHTMLElement(el: Element): HTMLElement | null {
+  return el instanceof HTMLElement ? el : null
+}
+
+function beforeEnter(el: Element) {
+  const element = asHTMLElement(el)
+  if (!element)
+    return
+  element.style.maxHeight = '0px'
+  element.style.opacity = '0'
+}
+
+function enter(el: Element) {
+  const element = asHTMLElement(el)
+  if (!element)
+    return
+  requestAnimationFrame(() => {
+    element.style.maxHeight = `${element.scrollHeight}px`
+    element.style.opacity = '1'
+  })
+}
+
+function afterEnter(el: Element) {
+  const element = asHTMLElement(el)
+  if (!element)
+    return
+  element.style.maxHeight = ''
+  element.style.opacity = ''
+}
+
+function beforeLeave(el: Element) {
+  const element = asHTMLElement(el)
+  if (!element)
+    return
+  element.style.maxHeight = `${element.scrollHeight}px`
+  element.style.opacity = '1'
+}
+
+function leave(el: Element) {
+  const element = asHTMLElement(el)
+  if (!element)
+    return
+  requestAnimationFrame(() => {
+    element.style.maxHeight = '0px'
+    element.style.opacity = '0'
+  })
+}
+
+function afterLeave(el: Element) {
+  const element = asHTMLElement(el)
+  if (!element)
+    return
+  element.style.maxHeight = ''
+  element.style.opacity = ''
+}
 
 const { t } = useI18n({
   useScope: 'global',
@@ -97,10 +163,17 @@ function renderDod(dod: string): string {
       un-flex="~ row wrap"
       un-items-center
       un-gap-x-2
+      class="task-header"
+      :class="{ 'has-details': hasDetails, 'is-expanded': isExpanded }"
+      @click="toggleExpand"
     >
-      <div
-        class="status-badge"
-      />
+      <un-i-solar-alt-arrow-right-bold-duotone
+        class="expanded-indicator"
+        :data-status="status"
+        :data-expanded="isExpanded ? 'true' : 'false'"
+      >
+        >
+      </un-i-solar-alt-arrow-right-bold-duotone>
       <span
         v-if="showPriority && priorityLevel(task.priority)"
         un-font-mono
@@ -124,49 +197,121 @@ function renderDod(dod: string): string {
       >
         ⏰ {{ t(`due.${dueTag(task.due)}`) }} · {{ t('dueDate', { date: task.due }) }}
       </span>
-      <un-i-openmj-drooling-face
-        v-if="task.tags?.includes('forIdiot')"
-        un-text-xl
-      />
-    </div>
-    <div
-      v-if="task.dod"
-      class="dod-text"
-      un-ml-6
-      un-text="stone-700 dark:stone-300"
-      v-html="renderDod(task.dod)"
-    />
-
-    <ul
-      v-if="task.links?.length"
-      un-ml-10
-      un-text-sm
-      un-text="stone-500"
-    >
-      <li
-        v-for="link in task.links"
-        :key="link.url"
+      <div
+        v-if="task.tags?.length"
+        un-flex="~ row wrap"
       >
-        <LinkUnderline
-          v-if="link.url"
-          :href="link.url"
-          :text="link.label"
-          un-before="bg-stone-700 dark:bg-stone-300"
+        <un-i-openmoji-check-mark-button
+          v-if="task.tags?.includes('optional')"
+          un-text-xl
         />
-        <span
-          v-else
-          un-text="stone-600 dark:stone-400"
+        <un-i-openmj-drooling-face
+          v-if="task.tags?.includes('forIdiot')"
+          un-text-xl
+        />
+        <un-i-openmoji-sweat-droplets
+          v-if="task.tags?.includes('deepWork')"
+          un-text-xl
+        />
+        <un-i-openmoji-alarm-clock
+          v-if="task.tags?.includes('timeBoxing')"
+          un-text-xl
+        />
+      </div>
+    </div>
+    <Transition
+      name="task-expand"
+      @before-enter="beforeEnter"
+      @enter="enter"
+      @after-enter="afterEnter"
+      @before-leave="beforeLeave"
+      @leave="leave"
+      @after-leave="afterLeave"
+    >
+      <div v-show="isExpanded">
+        <div
+          v-if="task.dod"
+          class="dod-text"
+          un-ml-6
+          un-mt-2
+          un-text="stone-700 dark:stone-300"
+          un-border-l="~"
+          un-pl-4
+          v-html="renderDod(task.dod)"
+        />
+
+        <ul
+          v-if="task.links?.length"
+          un-mt-2
+          un-ml-10
+          un-text-xs
+          un-text="stone-500"
         >
-          {{ link.label }}
-        </span>
-      </li>
-    </ul>
+          <li
+            v-for="link in task.links"
+            :key="link.url"
+          >
+            <LinkUnderline
+              v-if="link.url"
+              :href="link.url"
+              :text="link.label"
+              un-before="bg-stone-700 dark:bg-stone-300"
+            />
+            <span
+              v-else
+              un-text="stone-600 dark:stone-400"
+            >
+              {{ link.label }}
+            </span>
+          </li>
+        </ul>
+      </div>
+    </Transition>
   </li>
 </template>
 
 <style scoped>
-.status-badge {
-  --uno: 'w-2 h-2 flex-shrink-0';
-  --uno: 'border-px border-stone-600 dark:border-stone-400';
+.expanded-indicator {
+  --uno: 'flex-shrink-0';
+  --uno: 'border-px';
+  --uno: 'transition duration-200';
+
+  &[data-expanded='true'] {
+    --uno: 'rotate-90';
+  }
+
+  &[data-status='done'] {
+    --uno: 'border-green-500';
+  }
+
+  &[data-status='cancelled'] {
+    --uno: 'bg-green-500 border-green-500';
+  }
+}
+
+.task-header {
+  --uno: 'cursor-default';
+}
+
+.task-header.has-details {
+  --uno: 'cursor-pointer';
+}
+
+.task-header.is-expanded .expand-indicator {
+  --uno: 'rotate-0';
+}
+
+.task-expand-enter-active,
+.task-expand-leave-active {
+  transition:
+    max-height 220ms ease,
+    opacity 220ms ease;
+  overflow: hidden;
+}
+
+.task-expand-enter-from,
+.task-expand-leave-to {
+  max-height: 0;
+  opacity: 0;
 }
 </style>

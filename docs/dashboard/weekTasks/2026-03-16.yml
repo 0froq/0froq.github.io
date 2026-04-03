@@ -1,9 +1,0 @@
-theme: Read papers and write codes
-
-tasks:
-  - title: 安排本周的任务
-    priority: high
-    dod: 搞完了？我看未必……
-    status: notStarted
-    tags:
-      - forIdiot

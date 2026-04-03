@@ -1,0 +1,55 @@
+# AI-DAY-PLAN-START
+date: 2026-04-03
+weekday: 周五
+theme: 核心问题探索推进（组会取消后重排）
+
+tasks:
+  - title: 准备组会汇报 3-5 个要点
+    priority: low
+    dod: 预留模板：仅保留一版简要汇报骨架，不作为今日硬交付
+    status: cancelled
+    tags: [forIdiot]
+    links:
+      - label: '导师临时有事，今日组会取消 (040312: update status, by Sisyphus)'
+      - label: 'DoD 调整为保留模板，不做完整汇报稿 (040312: update dod, by Sisyphus)'
+
+  - title: 核心问题探索与研究问题收敛
+    priority: high
+    dod: 明确论文核心问题的候选版本、关键判别条件与下一步验证路径
+    status: inProgress
+    tags: [deepWork]
+    links:
+      - label: '主线从“大纲回写”切换为“核心问题探索” (040312: update title, by Sisyphus)'
+      - label: '组会取消后，优先推进问题定义而非反馈整理 (040312: update dod, by Sisyphus)'
+
+  - title: 数据源方案对比
+    priority: medium
+    dod: 用 30-45 分钟记录卫星/ERA5/融合方案的优劣与当前倾向，不做最终拍板
+    status: notStarted
+    tags: [timeBoxing, deepWork]
+    links:
+      - label: '保留时间盒，不升级为硬交付 (040312: keep strategy, by Sisyphus)'
+
+  - title: Methods 细化
+    priority: low
+    dod: 若有余力，补 1-2 条具体分析步骤
+    status: notStarted
+    tags: [deepWork, optional]
+    links:
+      - label: '组会取消后仍保持可选位，避免任务膨胀 (040312: keep optional, by Sisyphus)'
+
+notes: |
+  时间约束（修补后）：
+  - 原 14:30-17:00 组会取消
+  - 晚课：18:30-21:00
+
+  今日策略（修补后）：
+  - 主线转为“核心问题探索”，不以大纲写作量为目标
+  - 先收敛研究问题，再决定后续章节展开顺序
+  - 数据源对比继续时间盒，防止探索失控
+  - 所有修补均在 links 记录时间与原因
+
+meta:
+  generatedAt: '2026-04-03T13:46:00+08:00'
+  basedOn: [week-plan, day-end-review, routine-patch]
+  weekId: 2026-03-30
