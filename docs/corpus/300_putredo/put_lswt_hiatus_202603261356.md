@@ -2,7 +2,7 @@
 title: LSWT 增温停滞（hiatus）探索
 created: 2026-03-26
 status: probe
-last_modified: 2026-03-27 11:40:40
+last_modified: 2026-04-07 14:23:42
 ---
 
 About the exploration of LSWT hiatus.
@@ -191,3 +191,12 @@ GLAST 结论（[@tong2023](../100_ingesta/ing_@tong2023.md)）：
   尚未在卫星 LSWT 等其他产品和长窗分析中验证
 - ERA5 湖泊模型参数化与真实湖泊存在偏差，需要交叉验证（可能用 ESA CCI）
 - post-hiatus 段目前只有约 10–12 年，时间序列仍相对短，统计功效有限
+
+## 04/07/26
+
+> [粗大纲](./put_lswt_hiatus_paper_outline_202604011442.md)
+
+开始下载数据，先不用 ESA CCI 因为太大，用 GloboLakes 和 ARC-Lake，
+然后用 ERA5-Land 的各种变量来做机器学习插补和序列延长。
+
+所以，看看需要用哪些变量来做插补。看论文。
