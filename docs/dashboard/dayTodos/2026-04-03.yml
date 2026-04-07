@@ -16,7 +16,7 @@ tasks:
   - title: 核心问题探索与研究问题收敛
     priority: high
     dod: 明确论文核心问题的候选版本、关键判别条件与下一步验证路径
-    status: inProgress
+    status: done
     tags: [deepWork]
     links:
       - label: '主线从“大纲回写”切换为“核心问题探索” (040312: update title, by Sisyphus)'
@@ -25,18 +25,21 @@ tasks:
   - title: 数据源方案对比
     priority: medium
     dod: 用 30-45 分钟记录卫星/ERA5/融合方案的优劣与当前倾向，不做最终拍板
-    status: notStarted
+    status: cancelled
     tags: [timeBoxing, deepWork]
     links:
       - label: '保留时间盒，不升级为硬交付 (040312: keep strategy, by Sisyphus)'
+      - label: '组会取消后，数据源对比不作为今日核心目标 (040312: update status, by Sisyphus)'
 
   - title: Methods 细化
     priority: low
     dod: 若有余力，补 1-2 条具体分析步骤
-    status: notStarted
+    status: done
     tags: [deepWork, optional]
     links:
       - label: '组会取消后仍保持可选位，避免任务膨胀 (040312: keep optional, by Sisyphus)'
+      - label: here
+        url: /corpus/300_putredo/put_lswt_hiatus_paper_outline_202604011442
 
 notes: |
   时间约束（修补后）：

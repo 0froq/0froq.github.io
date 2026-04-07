@@ -1,0 +1,40 @@
+# AI-DAY-PLAN-START
+date: "2026-04-07"
+weekday: "周二"
+theme: "数据集调研与下载启动"
+
+tasks:
+  - title: GloboLakes / ARC-Lake 数据集快速评估
+    priority: high
+    dod: "30分钟内完成两个数据集的覆盖范围、时间跨度、下载方式评估，确定优先目标"
+    status: notStarted
+    tags: [timeBoxing, deepWork]
+    links:
+      - label: GloboLakes Catalogue
+        url: https://catalogue.ceda.ac.uk/uuid/76a29c5b55204b66a40308fc2ba9cdb3
+      - label: ARC-Lake
+        url: https://www.laketemp.net/home_ARCLake
+
+  - title: 选定数据集小样本下载
+    priority: high
+    dod: "启动并推进至少一个数据集的小样本下载"
+    status: notStarted
+    tags: [deepWork]
+
+  - title: ERA5-Land 辅助变量调研
+    priority: medium
+    dod: "列出 ML 补全短序列所需的辅助变量清单"
+    status: notStarted
+    tags: [forIdiot]
+
+constraints:
+  - "09:30-12:00 早课"
+  - "12:00-17:30 工作窗口"
+  - "17:30 离开去吃饭"
+  - "18:30-21:00 晚课"
+
+meta:
+  generatedAt: "2026-04-07T10:30:00+08:00"
+  basedOn: ["week-plan", "user-intent"]
+  weekId: "040626"
+# AI-DAY-PLAN-END

@@ -340,23 +340,21 @@ html {
   & blockquote {
     --uno: 'my-4 relative px-4';
     --uno: 'bg-stone-950/5 dark:bg-stone-50/5';
-    --uno: 'border-(l-4 stone-500)';
-    --uno: 'hover:(border-stone-700 dark:border-stone-300)';
-    --uno: 'transition duration-200';
-    /* --uno: 'rounded-sm'; */
+    --uno: 'border-(l stone-500)';
     /* blockquote icon */
     --uno: 'z-0';
-    --uno: 'before:(content-[""] i-ph-quotes-duotone block w-4 h-4 absolute right-4 top-4 text-stone-500 z--1 opacity-50)';
+    --uno: 'before:(content-[""] i-solar-chat-line-bold-duotone block w-8 h-8 absolute right-4 top-4 text-stone-500 z--1 opacity-50)';
   }
 
   /* custom block (aka callout, alert)*/
   & .custom-block {
-    --uno: 'my-8 px-8 relative';
+    --uno: 'my-4 px-4 relative';
     --uno: 'before:content-[""]';
     --uno: 'before:(absolute right-4 top-4)';
     /* style at utilities layer to overwrite width and height set by icon below */
     --uno: 'before:(inline-block align-middle layer-utilities:w-8 layer-utilities:h-8)';
     --uno: 'before:opacity-50';
+    --uno: 'border-l-1';
 
     /* container colors */
     &.details {
@@ -379,8 +377,8 @@ html {
     }
 
     &.tip {
-      --uno: 'bg-indigo-100/80 dark:bg-indigo-900/80';
-      --uno: 'border-(~ indigo-500/50)';
+      --uno: 'bg-indigo-100/80 dark:bg-indigo-900/20';
+      --uno: 'border-indigo-500/50';
 
       --uno: 'before:(text-indigo-500)';
     }
@@ -403,39 +401,41 @@ html {
     /* title */
     & .custom-block-title,
     & summary {
-      --uno: 'my-4';
-      --uno: 'text-lg';
-      --uno: 'text-stone-800 dark:text-stone-200';
+      --uno: 'absolute right-4 bottom-4';
+      --uno: 'my-0';
+      --uno: 'op-10';
+      --uno: 'text-lg font-bold';
+      /* --uno: 'text-stone-800 dark:text-stone-200'; */
     }
 
     /* icons */
     &.note {
       /* icon at layer components to have the width and height overwritten */
-      --uno: 'before:layer-components:(i-ph-notepad-duotone)';
+      --uno: 'before:layer-components:(i-solar-notebook-bold-duotone)';
     }
 
     &.info {
-      --uno: 'before:layer-components:(i-ph-info-duotone)';
+      --uno: 'before:layer-components:(i-solar-info-square-bold-duotone)';
     }
 
     &.warning {
-      --uno: 'before:layer-components:(i-ph-warning-duotone)';
+      --uno: 'before:layer-components:(i-solar-shield-warning-bold-duotone)';
     }
 
     &.tip {
-      --uno: 'before:layer-components:(i-ph-lightbulb-duotone)';
+      --uno: 'before:layer-components:(i-solar-lightbulb-bolt-bold-duotone)';
     }
 
     &.important {
-      --uno: 'before:layer-components:(i-ph-star-duotone)';
+      --uno: 'before:layer-components:(i-solar-stars-bold-duotone)';
     }
 
     &.caution {
-      --uno: 'before:layer-components:(i-ph-siren-duotone)';
+      --uno: 'before:layer-components:(i-solar-siren-rounded-bold-duotone)';
     }
 
     &.danger {
-      --uno: 'before:layer-components:(i-ph-bomb-duotone)';
+      --uno: 'before:layer-components:(i-solar-bomb-emoji-bold-duotone);
     }
   }
 
@@ -459,7 +459,15 @@ html {
 
     & li {
       --uno: 'marker:(text-stone-500)';
+
+      & p {
+        --uno: 'my-0';
+      }
     }
+  }
+
+  & p:has(+ ol, + ul) {
+    --uno: 'my-0';
   }
 
   /* table */
