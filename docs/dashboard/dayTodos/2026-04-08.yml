@@ -26,8 +26,8 @@ tasks:
     status: inProgress
     tags: [deepWork, timeBoxing]
     links:
-      - label: '剩余约 2 小时工位时间，需完成 pipeline 设计'
-      - label: '目标：让 macmini 自动进行数据处理'
+      - label: 剩余约 2 小时工位时间，需完成 pipeline 设计
+      - label: 目标：让 macmini 自动进行数据处理
 
   - title: ML 插补方法初探
     priority: medium
@@ -35,18 +35,18 @@ tasks:
     status: notStarted
     tags: [forIdiot]
     links:
-      - label: '回家后 1-2 小时'
-      - label: '目标：了解所需变量，不深入实现'
+      - label: 回家后 1-2 小时
+      - label: 目标：了解所需变量，不深入实现
 
 constraints:
   - '09:30-12:00 上午：与伴侣进餐（无工作）'
   - '15:00-17:30 工作窗口（约 2.5 小时）'
   - '17:30 离开工位'
-  - '回家后：1-2 小时阅读时间'
+  - 回家后：1-2 小时阅读时间
 
 meta:
   generatedAt: '2026-04-08T17:00:00+08:00'
   basedOn: [week-plan, day-carryover, user-intent]
   weekId: '040626'
-  note: '计划生成时已过大部分工作时间，基于实际情况记录'
+  note: 计划生成时已过大部分工作时间，基于实际情况记录
 # AI-DAY-PLAN-END
