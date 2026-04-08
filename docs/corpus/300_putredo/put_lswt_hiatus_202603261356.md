@@ -2,7 +2,7 @@
 title: LSWT 增温停滞（hiatus）探索
 created: 2026-03-26
 status: probe
-last_modified: 2026-04-07 14:23:42
+last_modified: 2026-04-08 17:21:52
 ---
 
 About the exploration of LSWT hiatus.
@@ -200,3 +200,6 @@ GLAST 结论（[@tong2023](../100_ingesta/ing_@tong2023.md)）：
 然后用 ERA5-Land 的各种变量来做机器学习插补和序列延长。
 
 所以，看看需要用哪些变量来做插补。看论文。
+
+已完成下载，在本地目录中。
+下载了 GloboLakes、ARC-Lake 和 HydroLAKES 的湖泊边界数据。
