@@ -1,20 +1,20 @@
 # AI-DAY-PLAN-START
-date: "2026-04-09"
-weekday: "周四"
-theme: "CCI 数据下载 + 大纲完善 + 项目重构"
+date: 2026-04-09
+weekday: 周四
+theme: 'CCI 数据下载 + 大纲完善 + 项目重构'
 
 tasks:
   - title: 论文大纲完善（可传阅版本）
     priority: high
-    dod: "将现有大纲转换为可传阅格式，包含各章节关键点和思路，非详细撰写但结构清晰"
+    dod: 将现有大纲转换为可传阅格式，包含各章节关键点和思路，非详细撰写但结构清晰
     status: notStarted
     tags: [forIdiot]
-    notes: "早课（音乐鉴赏）期间在 MacBook Air 上进行"
+    notes: 早课（音乐鉴赏）期间在 MacBook Air 上进行
 
   - title: CCI 数据下载（1998-2024，每月15号）
     priority: high
-    dod: "完成 ESA CCI 湖泊温度数据下载，仅取每月15号以减少数据量（目标约10GB），覆盖完整 pre/hiatus/post-hiatus 时段"
-    status: notStarted
+    dod: 完成 ESA CCI 湖泊温度数据下载，仅取每月15号以减少数据量（目标约10GB），覆盖完整 pre/hiatus/post-hiatus 时段
+    status: inProgress
     tags: [deepWork]
     links:
       - label: ESA CCI Lake Surface Water Temperature
@@ -22,25 +22,25 @@ tasks:
 
   - title: 数据处理与验证
     priority: high
-    dod: "完成 CCI 数据处理，验证是否能形成完整时间序列，确认数据质量"
-    status: notStarted
+    dod: 完成 CCI 数据处理，验证是否能形成完整时间序列，确认数据质量
+    status: blocked
     tags: [deepWork]
-    notes: "依赖下载完成"
+    notes: 依赖下载完成
 
   - title: Nuxt Playground 项目重构
     priority: medium
-    dod: "重构可视化项目，支持多数据集兼容，移除硬编码参数（时间范围等），改为从输入数据动态获取"
+    dod: 重构可视化项目，支持多数据集兼容，移除硬编码参数（时间范围等），改为从输入数据动态获取
     status: notStarted
     tags: [deepWork]
 
 constraints:
-  - "09:30-12:00 早课（音乐鉴赏）"
-  - "12:00-16:30 工作窗口（到工位后下载数据）"
-  - "16:30 离开"
-  - "明天周五 14:30 组会"
+  - '09:30-12:00 早课（音乐鉴赏）'
+  - '12:00-16:30 工作窗口（到工位后下载数据）'
+  - '16:30 离开'
+  - '明天周五 14:30 组会'
 
 meta:
-  generatedAt: "2026-04-09T00:30:00+08:00"
-  basedOn: ["week-plan", "user-intent", "data-strategy-update"]
-  weekId: "040626"
+  generatedAt: '2026-04-09T00:30:00+08:00'
+  basedOn: [week-plan, user-intent, data-strategy-update]
+  weekId: '040626'
 # AI-DAY-PLAN-END
