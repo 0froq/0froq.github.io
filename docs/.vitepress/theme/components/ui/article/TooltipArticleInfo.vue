@@ -60,7 +60,7 @@ const { t } = useI18n({
     </div>
     <div
       v-if="post.tags && post.tags.length > 0"
-      un-flex="~ row wrap"
+      un-flex="~ row"
       un-items-start
       un-gap-2
     >

@@ -129,12 +129,13 @@ function handleMouseMove(e: MouseEvent) {
     <div
       un-bg="stone-100 dark:stone-900"
       un-text="stone-700 dark:stone-300"
-      un-rounded="~ sm"
+      un-rounded="~ none"
       un-border="~ px stone-300 dark:stone-700"
       un-text-align-start
       un-py-2
       un-px-4
       un-max-w-fit
+      un-w-full
       un-text-base
     >
       <slot name="tooltip" />
