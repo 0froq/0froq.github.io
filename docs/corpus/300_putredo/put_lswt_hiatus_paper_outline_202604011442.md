@@ -1,8 +1,8 @@
 ---
 title: LSWT Hiatus Paper Outline
 created: 2026-04-01
-status: draft
-last_modified: 2026-04-07 09:37:10
+status: void
+last_modified: 2026-04-10 17:58:18
 lang: en
 ---
 

@@ -2,8 +2,7 @@
 title: '@yang2025: 基于BP神经网络与遥感反演的太湖热浪规律研究'
 created: 2025-10-29
 status: draft
-last_modified: 2026-03-31 18:59:13
-lang: en
+last_modified: 2026-04-10 17:59:42
 ---
 
 ---
@@ -19,6 +18,8 @@ lang: en
 - year: 2025
 - doi: 10.18307/2025.0341
 
-## Points
+---
 
-- MODIS11A1 LST daily + BP neural network
+#todo
+哪些变量被用来训练 BP 神经网络？
+
