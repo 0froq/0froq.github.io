@@ -338,23 +338,31 @@ html {
 
   /* blockquote */
   & blockquote {
-    --uno: 'my-4 relative px-4';
+    --uno: 'my-4 relative';
     --uno: 'bg-stone-950/5 dark:bg-stone-50/5';
     --uno: 'border-(l stone-500)';
     /* blockquote icon */
     --uno: 'z-0';
-    --uno: 'before:(content-[""] i-solar-chat-line-bold-duotone block w-8 h-8 absolute right-4 top-4 text-stone-500 z--1 opacity-50)';
+    --uno: 'before:(content-[""] i-solar-chat-line-bold-duotone block w-8 h-8 absolute right-1 top-1 text-stone-500 z--1 opacity-50)';
+
+    & p {
+      --uno: 'mx-4';
+    }
   }
 
   /* custom block (aka callout, alert)*/
   & .custom-block {
-    --uno: 'my-4 px-4 relative';
+    --uno: 'my-4 relative';
     --uno: 'before:content-[""]';
-    --uno: 'before:(absolute right-4 top-4)';
+    --uno: 'before:(absolute right-1 top-1)';
     /* style at utilities layer to overwrite width and height set by icon below */
     --uno: 'before:(inline-block align-middle layer-utilities:w-8 layer-utilities:h-8)';
     --uno: 'before:opacity-50';
     --uno: 'border-l-1';
+
+    & p {
+      --uno: 'mx-4';
+    }
 
     /* container colors */
     &.details {
@@ -363,37 +371,37 @@ html {
 
     &.note,
     &.info {
-      --uno: 'bg-stone-100/80 dark:bg-stone-900/80';
-      --uno: 'border-(~ stone-500/50)';
+      --uno: 'bg-stone-100/50 dark:bg-stone-900/20';
+      --uno: 'border-stone-500/50';
 
       --uno: 'before:(text-stone-500)';
     }
 
     &.warning {
-      --uno: 'bg-yellow-100/80 dark:bg-yellow-900/80';
-      --uno: 'border-(~ yellow-500/50)';
+      --uno: 'bg-yellow-100/50 dark:bg-yellow-900/20';
+      --uno: 'border-yellow-500/50';
 
       --uno: 'before:(text-yellow-500)';
     }
 
     &.tip {
-      --uno: 'bg-indigo-100/80 dark:bg-indigo-900/20';
+      --uno: 'bg-indigo-100/50 dark:bg-indigo-900/20';
       --uno: 'border-indigo-500/50';
 
       --uno: 'before:(text-indigo-500)';
     }
 
     &.important {
-      --uno: 'bg-violet-100/80 dark:bg-violet-900/80';
-      --uno: 'border-(~ violet-500/50)';
+      --uno: 'bg-violet-100/50 dark:bg-violet-900/20';
+      --uno: 'border-violet-500/50';
 
       --uno: 'before:(text-violet-500)';
     }
 
     &.caution,
     &.danger {
-      --uno: 'bg-red-100/80 dark:bg-red-900/80';
-      --uno: 'border-(~ red-500/50)';
+      --uno: 'bg-red-100/50 dark:bg-red-900/20';
+      --uno: 'border-red-500/50';
 
       --uno: 'before:(text-red-500)';
     }
@@ -401,11 +409,11 @@ html {
     /* title */
     & .custom-block-title,
     & summary {
-      --uno: 'absolute right-4 bottom-4';
-      --uno: 'my-0';
-      --uno: 'op-10';
+      --uno: 'absolute -bottom-8';
+      --uno: 'my-0 mx-auto w-full text-center';
+      --uno: 'op-30';
       --uno: 'text-lg font-bold';
-      /* --uno: 'text-stone-800 dark:text-stone-200'; */
+      --uno: 'text-stone-800 dark:text-stone-200';
     }
 
     /* icons */

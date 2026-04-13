@@ -17,12 +17,16 @@ const { t, d, locale } = useI18n({
       original: 'Original: ',
       otherLangs: 'In Other Languages:',
       noTranslation: 'No translation available.',
+      voidHint: 'This post is marked as "void", which means it might be outdated or no longer maintained. Please read with caution.',
+      draftHint: 'This post is currently a "draft", which means it is still being worked on and may contain incomplete information. Please stay tuned for updates.',
     },
     zh: {
       readingTime: '约 {count} 分钟',
       original: '原文：',
       otherLangs: '其他语言：',
       noTranslation: '暂无翻译稿。',
+      voidHint: '此文章被标记为「void」，可能已经过时或不再维护，请谨慎阅读。',
+      draftHint: '此文章目前处于「draft」状态，仍在撰写中，可能包含不完整的信息，敬请期待更新。',
     },
   },
 })
@@ -247,6 +251,22 @@ const originalPost = computed(() => {
         un-before="bg-stone-950 dark:bg-stone-50"
       />
     </div>
+  </div>
+  <div
+    v-if="post?.frontmatter.status === 'void'"
+    un-mt-6
+    un-border-l="~ 2px rose-600 dark:rose-400"
+    un-px-4
+  >
+    {{ t('voidHint') }}
+  </div>
+  <div
+    v-if="post?.frontmatter.status === 'draft'"
+    un-mt-6
+    un-border-l="~ 2px sky-600 dark:sky-400"
+    un-px-4
+  >
+    {{ t('draftHint') }}
   </div>
 
   <Content
