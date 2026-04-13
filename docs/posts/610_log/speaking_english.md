@@ -1,8 +1,14 @@
 ---
 title: 'Speaking English: A Comedy of Errors and Small Victories'
 created: 2026-03-18 02:11:00
-status: draft
-last_modified: 2026-03-31 10:52:11
+status: form
+last_modified: 2026-04-10 19:24:38
+lang: en
+---
+
+The joke's on me, I guess.
+And I'm okay with that.
+
 ---
 
 [[toc]]
