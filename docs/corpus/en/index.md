@@ -5,6 +5,16 @@ locale: en
 
 [A place to watch knowledge grow, decay, and recombine]{.text-rose-600.dark:text-rose-400.underline}.
 
+:::warning Disclaimer
+Feel free to browse, but be aware that some content may be:
+1. Overly personal;
+2. Fragmented to the point of being meaningless;
+3. Obscure, even to myself;
+7. Subjective, extreme, or paranoid;
+8. Attempting to challenge certain social taboos;
+9. Attempting to deliberately offend some people.
+:::
+
 ## Six Slices
 
 - <ruby><rb>[Autopsia](/corpus/000_autopsia/en/){.font-stylish}</rb><rt>dissection</rt></ruby>: Self-reflection and introspection

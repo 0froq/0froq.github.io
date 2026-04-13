@@ -5,6 +5,17 @@ locale: zh
 
 [一个观察知识如何生长、腐烂、重组的地方]{.text-rose-600.dark:text-rose-400.underline}。
 
+:::warning 免责声明
+你当然可以随意浏览，但注意，
+一些内容可能：
+1. 过于个人化；
+2. 碎片化，以至于可能毫无意义；
+3. 晦涩，甚至我自己也不理解；
+7. 主观、极端、偏执；
+8. 试图挑战一些社会禁忌；
+9. 试图主动冒犯一些人。
+:::
+
 ## 六个切片
 
 - <ruby><rb>[Autopsia](/corpus/000_autopsia/){.font-stylish}</rb><rt>dissection</rt></ruby>：自我反思与内省
