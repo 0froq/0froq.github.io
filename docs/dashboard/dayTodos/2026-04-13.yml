@@ -1,0 +1,47 @@
+# AI-DAY-PLAN-START
+date: 2026-04-13
+weekday: 周一
+theme: '博客发布 + ID匹配调研 + LaTeX调研'
+
+tasks:
+  - title: 博客翻译与发布
+    priority: high
+    dod: 完成英文博客翻译为中文并发布
+    status: completed
+    tags: []
+    notes: 上午已完成
+
+  - title: 湖泊 ID 匹配调研
+    priority: high
+    dod: 查找跨数据集对齐的论文/数据库方案
+    status: inProgress
+    tags: [deepWork]
+    notes: >
+      晚课期间在 MacBook Air 上进行
+      重点：GLAST 与 ESA CCI 之间的湖泊 ID 如何对应
+
+  - title: LaTeX/期刊格式调研
+    priority: medium
+    dod: 确认目标期刊投稿格式要求，决定写作工具
+    status: notStarted
+    tags: []
+    notes: 晚课期间轻量调研
+
+  - title: 数据缺失模式初步分析
+    priority: low
+    dod: 理解 ESA CCI 每月15号数据的缺失规律
+    status: notStarted
+    tags: []
+    notes: 如有时间，查看已下载数据的时空分布
+
+constraints:
+  - '18:30-21:00 晚课（图书馆，MacBook Air）'
+  - '仅轻量工作，无深度计算'
+  - '回家后 22:00-00:00 可继续'
+
+meta:
+  generatedAt: '2026-04-13T18:15:00+08:00'
+  basedOn: [week-plan, user-intent]
+  weekId: '041326'
+  notes: '今天上午已完成博客翻译发布，现在补做日规划'
+# AI-DAY-PLAN-END
