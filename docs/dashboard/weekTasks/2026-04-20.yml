@@ -1,0 +1,43 @@
+# AI-WEEK-PLAN-START
+weekId: 2026-04-20
+theme: '论文撰写 + 数据分析启动'
+
+tasks:
+  - title: 论文撰写
+    priority: high
+    dod: 确定非Word写作方案，开始Introduction撰写，让导师能同步看到进度
+    status: inProgress
+    tags: [deepWork]
+    notes: 研究Overleaf/本地LaTeX/Typst方案，确保有字数统计和PDF同步
+    links: []
+
+  - title: 数据分析代码
+    priority: high
+    dod: '编写GLAST 1数据处理代码，分三个时期分析（1984/85-1998, 1998-2012, 2012-2020）'
+    status: inProgress
+    tags: [deepWork]
+    notes: 作图与数据处理同步推进
+
+  - title: 补充遗漏文献
+    priority: medium
+    dod: 继续找回并收录之前读过但未加入Zotero的论文
+    status: notStarted
+    tags: []
+    notes: 强制收录原则：不再犹豫，所有读过的论文都纳入Zotero
+
+goals:
+  - 周五组会能展示论文写作和数据分析的实质性进展
+  - '建立论文撰写+数据分析的并行工作流'
+
+capacity:
+  estimatedDays: 5
+  plannedDeepWorkDays: 3
+
+meta:
+  generatedAt: '2026-04-19T22:00:00+08:00'
+  basedOn: [last-week-review, friday-advisor-feedback, user-intent]
+  constraints:
+    - '周五 14:30 组会'
+    - '周二/周五 18:30-21:00 晚课'
+  notes: 本周状态波动，部分时刻抑郁消极，任务安排留有缓冲
+# AI-WEEK-PLAN-END

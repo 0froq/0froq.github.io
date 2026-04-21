@@ -1,0 +1,40 @@
+# AI-DAY-PLAN-START
+date: 2026-04-20
+weekday: 周一
+theme: '轻量准备 + 确定写作方案'
+
+tasks:
+  - title: 补充遗漏文献
+    priority: medium
+    dod: 找回并收录之前读过但未加入Zotero的论文
+    status: inProgress
+    tags: []
+    notes: 会上进行，强制收录原则
+
+  - title: 确定非Word写作方案
+    priority: high
+    dod: 研究Overleaf/本地LaTeX/Typst方案，确保有字数统计和PDF同步给导师
+    status: notStarted
+    tags: []
+    notes: 核心任务：让导师能同步看到进度，不使用Word
+
+  - title: 开始Introduction撰写
+    priority: high
+    dod: 把已有大纲写入文件，开始Introduction写作（哪怕只有开头部分）
+    status: notStarted
+    tags: []
+    notes: 已有大纲，直接开始写入
+
+constraints:
+  - '下午2:15-3:30 评优评先会议（会上做轻量文献工作）'
+  - '下午3:30-6:00 图书馆（确定方案+开始撰写）'
+  - '晚上6:30-9:00 晚课（继续撰写或收尾）'
+  - 全程只能用笔记本，无法高强度coding
+  - 明天周二启动高强度科研
+
+meta:
+  generatedAt: '2026-04-20T14:15:00+08:00'
+  basedOn: [week-plan, today-constraints, friday-advisor-feedback]
+  weekId: 2026-04-20
+  notes: 周一设备和时间受限，调整为轻量准备日，高强度任务移到明天
+# AI-DAY-PLAN-END

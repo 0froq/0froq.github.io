@@ -2,7 +2,7 @@
 title: LSWT 增温停滞（hiatus）探索
 created: 2026-03-26
 status: probe
-last_modified: 2026-04-09 09:46:34
+last_modified: 2026-04-13 20:34:26
 ---
 
 About the exploration of LSWT hiatus.
@@ -11,202 +11,34 @@ About the exploration of LSWT hiatus.
 
 [[toc]]
 
-#scope/work/research #log/project
+#scope/work/research/warming_hiatus #log/project
 
-## 10/22/25
+<script setup lang="ts">
+import { data as corpus } from '~/src/corpus.data'
+import { useData } from 'vitepress'
 
-- 重构：
-  - 在这个项目中，重点不在于水体边界的精确提取，
-    而在于如何高效地在大范围内提取湖泊的表层温度。
-  - 湖泊可以被视为均一的水体单元，因此不需要确保所有的水体像元都被提取出来，
-    而是要确保提取的像元确实属于水体。
+const { page } = useData()
 
-## 11/04/25
+const thisCorpus = corpus.filter(
+  (c) => {
+    return c.tags.includes('scope/work/research/warming_hiatus') 
+      && c.url + '.md' !== '/' + page.value.filePath
+      && c.frontmatter.status !== 'void'
+  }
+).sort((a, b) => new Date(b.created).getTime() - new Date(a.created).getTime())
 
-- 方案：
-  - MODIS 获取湖泊表层温度（LST）数据，2000-2024 年应该都有，逐日。
-  - 缺失值插补：利用缺失值同时间的 ERA5 其他变量建立机器学习模型进行插补。
+const thisPuts = thisCorpus.filter((c) => {
+  console.log(c.url)
+  return c.url.startsWith('/corpus/300_')
+})
+</script>
 
-ERA5-Land 有一个 `Lake cover` 变量，可以用来判断湖泊的覆盖情况。
+## Logs
 
-目前是使用 Landsat 来计算 MNDWI，获取湖泊水体，然后提取 MODIS LST。
-第一个问题是，湖泊的选择问题。
-需要面积筛选，因为 ERA5 很粗。
-研究的湖泊的面积至少要大于 ERA5 的一个像元，
-最好是能通过 `Lake cover` 来进一步筛选。
-原本是通过 GLAKES 来选择湖泊，但更简单一点似乎可以直接用 ERA5 来筛。
+<ul>
+  <li v-for="c in thisPuts" :key="c.path">
+    <a :href="c.url" :text="c.title" />
+  </li>
+</ul>
 
-## 11/05/25
 
-GEE 基本上是一坨屎。
-想不通 Google 为什么搞得这么烂。
-最新方案是把 ERA5-Land 下载下来在本地做。
-
-### 预实验
-
-没做机器学习部分。
-
-先用 ERA5-Land 的 Lake cover 来筛选湖泊，
-Lake cover > 0.8 的像元视作纯湖泊像元。
-然后提取连通域，经典。
-
-只要一个连通域的像元数量大于 2，认为是一个湖泊。
-然后直接用 ERA5-Land 的 Lake mix-layer temperature 作为湖泊表层温度，
-
-获取 1978-2023 年的逐月数据。
-本意是 1981-2020 年，但由于后续要做突变点分析，
-需要控制突变点不能在时间序列的边缘，所以限制了最短的时间阶段为 3 年，
-这样一来前后各需要多 3 年的数据。
-
-拿到时间序列后，计算年均温度，然后突变点分析。
-得出突变点年份和前后阶段的斜率。
-
-## 11/07/25
-
-3 年的 Min segment 有点短，我看了很多都是 1980 这个点。
-
-前天的图有问题，突变检测没做好。现在换成 Mann-Kendall 检测趋势变化点。
-
-## 11/25/25
-
-其实是直接用 ERA5-Land 来做了。
-GEE 一坨屎，而且很慢。
-
-ERA5-Land 的 Lake mix-layer temperature 直接作为湖泊表层温度。
-所以现在的工作重点是趋势分析和突变点检测。
-
-## 11/27/25
-
-突变检测的问题。
-
-突变检测本质上是不是算是一个定性分析？
-做的过程中发现很强的参数依赖性和方法依赖性。
-比如 Min segment 长度，或者不同的突变检测方法，结果差异都挺大。
-
-考虑转向定量分析，比如直接计算趋势斜率，或者变化幅度。
-
-## 11/28/25
-
-所以在此之前，我需要先对比不同的突变检测方法和参数设置，
-看看结果的差异性到底有多大。
-
-组会：
-- 去趋势再做突变检测
-- 区域或湖泊分类
-
-## 12/03/25
-
-### 去趋势（detrend）方案
-
-**一阶差分**：
-后一个值减去前一个值，得到一个新的时间序列，表示每个时间点的变化量。
-可能会放大噪声，可以先做 3 年滑动平均。
-
-## 03/26/26
-
-没有形成一个清晰的研究问题和结果框架。
-
-之前在初步数据探索阶段，使用了 STL 分解和以 4 年为窗口的分段斜率分析，
-发现 2016–2020 年全球平均 LSWT 的线性趋势接近 0 甚至略负
-（即疑似 platform / hiatus）。
-
-### 认知更新
-
-#### 增温停滞的时间尺度
-
-此前误将「全球增温停滞」理解为 4–5 年尺度的现象（约 2008–2012）。
-
-正确理解为：增温停滞（hiatus）在文献中定义于年代际尺度（10–15 年），
-气温最常用的区间为 1998–2012 或 2001–2013。
-在 4–5 年窗口内观察到的 hiatus 极容易被 ENSO、短期极端事件等内部变率支配，
-在统计和物理上都不足以上升为 climate hiatus。
-
-即，分析需使用 10 年及以上的滑动窗口才能稳健识别年代际结构。
-
-可用「多窗口滑动趋势（scale-dependency）」方法，
-在不同 L 下检验某一 hiatus / acceleration 信号的稳定性。
-
-#### Regime shift 的三个层次
-
-文献中「regime shift」至少有三个不同层次的含义：
-
-- 统计层（均值/斜率参数突变）
-  - [@woolway2017](../100_ingesta/ing_@woolway2017.md)
-    （中欧 20 个湖 1988 年前后均值跃迁）
-  - STARS、Pettitt、分段回归 + Chow test
-  - 不同形状？
-    - 台阶型（均值突变 + 后续平缓）
-    - 折线型（斜率突变，前缓后陡）
-- 气候动力学层（大尺度模态翻相）
-  - 如 PDO/IPO 相位翻转（1976/77、2013/14），NAO 长期状态变化
-  - 湖泊的统计 regime shift 往往是这类大尺度翻相的下游投影
-  - 要谈得上「climate regime shift」这个词，
-    必须能把统计断点连到一个可知的强迫或模态
-  - [@xiao2023](../100_ingesta/ing_@xiao2023.md)
-    北太平洋 2013/14 SST regime shift
-- 生态/水文机制层（反馈结构翻相，可能不可逆）
-  - 如富营养化->藻华跃迁；
-    冰川融水注入导致 $\text{d} T_{lake}/\text{d}T_{air}$ 符号翻转
-  - 非线性阈值 + 滞后/不可逆特征
-  - 当前阶段不是重点，但是后续机制探讨的方向之一
-
-#### 全球气温与湖泊水温 post-2012 的状态
-
-2012 年后，有报道 2015–2024 连续刷新全球最暖记录，
-但无对此段全球湖泊水温趋势的分析。
-（且我用 ERA5-Land 和 yang 都看到 2016–2020 的平台现象）
-
-#### 湖气响应的差异性
-
-湖泊与气温的响应不完全同步，差异由湖泊自身属性决定。
-
-冷、深、高纬湖：对气温年际变率有放大响应，热惯性大但暖季短，变暖信号强；
-暖、浅、蒸发强湖：升温被加速蒸发部分抵消，LSWT 上升速率往往低于 SAT。
-
-GLAST 结论（[@tong2023](../100_ingesta/ing_@tong2023.md)）：
-全球 92245 个湖泊（1981–2020）整体升温速率慢于大气，
-核心机制是蒸发反馈（负反馈）
-
-蒸发反馈是否在 post-hiatus 段发生变化？
-（大气加速 -> 蒸发更强 -> 湖泊的加速幅度是否被部分抵消？）
-
-### 核心的问题
-
-<u un-font-bold>全球湖泊表层水温（LSWT）在 2012/2013 年全球气温 hiatus 结束后，
-是否进入了增温速率的再加速阶段（post-hiatus acceleration）？</u>
-
-- post-hiatus 段（2013–2024）的全球平均 LSWT 趋势斜率，
-  是否显著大于 hiatus 段（1998–2012）？
-  是否显著大于 pre-hiatus 段（1980s–1997）？
-- 这种加速（如存在）是否具有空间分异：
-  哪些纬度带/湖泊类型的加速最强？
-- 2013/14 年北太平洋 SST 的 regime shift
-  是否在 LSWT 的遥相关格局上留下可识别信号？
-- 蒸发反馈在 pre-hiatus / hiatus / post-hiatus 三段中是否有系统性变化？
-  湖气响应的差异性是否在 post-hiatus 段发生变化？
-
-### Be Careful With ……
-
-- 2016–2020 的「平台」目前只在 ERA5 和 yang 的短窗（4–5 年）里出现，
-  尚未在卫星 LSWT 等其他产品和长窗分析中验证
-- ERA5 湖泊模型参数化与真实湖泊存在偏差，需要交叉验证（可能用 ESA CCI）
-- post-hiatus 段目前只有约 10–12 年，时间序列仍相对短，统计功效有限
-
-## 04/07/26
-
-> [粗大纲](./put_lswt_hiatus_paper_outline_202604011442.md)
-
-开始下载数据，先不用 ESA CCI 因为太大，用 GloboLakes 和 ARC-Lake，
-然后用 ERA5-Land 的各种变量来做机器学习插补和序列延长。
-
-所以，看看需要用哪些变量来做插补。看论文。
-
-已完成下载，在本地目录中。
-下载了 GloboLakes、ARC-Lake 和 HydroLAKES 的湖泊边界数据。
-
-## 04/09/26
-
-但是 GloboLakes 和 ARC-Lake 数据时间范围有限，覆盖不到 post-hiatus 的时间段。
-还是得用 CCI 来验证 post-hiatus 的趋势。
-
-在 Macbook Air 上可以请求数据，去工位之后再下载到本地。

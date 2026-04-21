@@ -55,6 +55,7 @@ html {
 #content:not(.unstyled),
 .markdown-rendered {
   /* --uno: 'prose prose-stone dark:prose-invert'; */
+  /* --uno: 'overflow-x-hidden'; */
 
   & hr {
     --uno: 'my-8';
@@ -110,7 +111,7 @@ html {
   }
 
   & a:not([href^='#'], [href^='../../tags/']) {
-    --uno: 'relative inline text-nowrap';
+    --uno: 'relative inline text-wrap';
     --uno: 'text-stone-900 dark:text-stone-100';
     --uno: 'border-b border-dashed border-stone-500';
     --uno: 'hover:(border-stone-800 dark:border-stone-200 border-solid)';
