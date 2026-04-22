@@ -2,7 +2,7 @@
 title: '@pi2022: Mapping Global Lake Dynamics Reveals the Emerging Roles of Small Lakes'
 created: 2025-10-29
 status: form
-last_modified: 2026-03-31 18:55:55
+last_modified: 2026-04-21 20:41:59
 lang: en
 ---
 

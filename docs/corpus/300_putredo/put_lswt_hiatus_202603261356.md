@@ -2,7 +2,7 @@
 title: LSWT 增温停滞（hiatus）探索
 created: 2026-03-26
 status: probe
-last_modified: 2026-04-13 20:34:26
+last_modified: 2026-04-22 01:30:26
 ---
 
 About the exploration of LSWT hiatus.
@@ -11,7 +11,7 @@ About the exploration of LSWT hiatus.
 
 [[toc]]
 
-#scope/work/research/warming_hiatus #log/project
+#scope/work/research/warmingHiatus #log/project
 
 <script setup lang="ts">
 import { data as corpus } from '~/src/corpus.data'
