@@ -13,7 +13,7 @@ import { data as posts } from '~/src/corpus.data'
 const { path } = useRoute()
 const { locale } = useI18n()
 
-const layer = path.split('/')[2].split('_')[1].slice(0, 1).toUpperCase() + path.split('/')[2].split('_')[1].slice(1)
+const layer = path.split('/')[2].split('-')[1].slice(0, 1).toUpperCase() + path.split('/')[2].split('-')[1].slice(1)
 
 // Extend Data type to include createdComponent
 interface PostWithCreatedComponent extends CorpusData {

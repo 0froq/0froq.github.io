@@ -1,6 +1,7 @@
 import type { WeekDashboardData, WeekData, WeekTask } from '../types'
 import fs from 'node:fs'
 import path from 'node:path'
+import process from 'node:process'
 import { defineLoader } from 'vitepress'
 import YAML from 'yaml'
 
@@ -13,7 +14,10 @@ export default defineLoader({
   ],
 
   load(watchedFiles): WeekDashboardData {
-    const baseDir = path.dirname(watchedFiles[0].split(path.sep).slice(0, -1).join(path.sep))
+    // const baseDir = path.dirname(watchedFiles[0].split(path.sep).slice(0, -1).join(path.sep))
+    const baseDir = watchedFiles.length ?
+      path.dirname(watchedFiles[0].split(path.sep).slice(0, -1).join(path.sep)) :
+      path.join(process.cwd(), 'docs/dashboard')
     const weeksDir = path.join(baseDir, 'weekTasks')
 
     const weekFiles = fs.existsSync(weeksDir)

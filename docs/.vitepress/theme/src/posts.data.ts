@@ -25,7 +25,7 @@ export default createContentLoader('posts/**/!(index).md', {
       tags: [...getTags(html, frontmatter).tags],
       tagsExtended: [...getTags(html, frontmatter).tagsExtended],
       title: frontmatter.title,
-      category: normalizeCategory(url.split('/')[2].split('_')[1]),
+      category: normalizeCategory(url.split('/')[2].split('-')[1]),
       year: String(new Date(frontmatter.created).getFullYear()),
       chineseYear: toChineseNumber(String(new Date(frontmatter.created).getFullYear())),
     }))

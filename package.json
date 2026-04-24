@@ -7,6 +7,7 @@
     "docs:preview": "node scripts/generate-tags.mjs && vitepress preview docs"
   },
   "dependencies": {
+    "@comark/markdown-it": "^0.3.4",
     "@intlify/unplugin-vue-i18n": "catalog:vitepress",
     "@types/markdown-it": "catalog:types",
     "@types/plotly.js": "^3.0.10",
@@ -28,7 +29,6 @@
   },
   "devDependencies": {
     "@antfu/eslint-config": "catalog:lint",
-    "@babel/eslint-parser": "catalog:lint",
     "@iconify-json/carbon": "catalog:icons",
     "@iconify-json/duo-icons": "catalog:icons",
     "@iconify-json/openmoji": "catalog:icons",
@@ -57,12 +57,8 @@
     "markdown-it-mdc": "catalog:markdown",
     "markdown-it-ruby": "catalog:markdown",
     "unocss": "catalog:unocss",
+    "vite": "catalog:dev",
     "vitepress": "catalog:vitepress",
     "yaml": "catalog:tooling"
-  },
-  "config": {
-    "commitizen": {
-      "path": "./node_modules/cz-conventional-changelog"
-    }
   }
 }

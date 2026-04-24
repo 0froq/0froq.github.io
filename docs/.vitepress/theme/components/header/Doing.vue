@@ -1,9 +1,9 @@
 <script setup lang="ts">
+import type { Activity } from '~/types'
 import { onMounted, onUnmounted, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import IconApp from '@/ui/icon/IconApp.vue'
 import IconLoading from '@/ui/icon/IconLoading.vue'
-import { Activity } from '~/types'
 
 // Sync what I am doing
 const R2_PUBLIC_URL = 'https://pub-d05ff6ec0ecf448ca7cc6c2f0c0a5bcc.r2.dev/activity.json'
@@ -76,107 +76,37 @@ const appWithTitle = [
 </script>
 
 <template>
-  <div
-    v-if="activity && activity.active"
-    un-h-8
-    un-text-sm
-    un-flex="~ row"
-    un-items-center
-    un-gap-2
-    un-relative
-    un-z-1
-    un-overflow-x-hidden
-  >
-    <span
-      un-w-2
-      un-h-2
-      un-rounded-full
-      un-shrink-0
-      un-bg="emerald-600 dark:emerald-400"
-    />
-    <span
-      un-flex="~ row"
-      un-items-center
-      un-gap-1
-      un-px-2
-      un-py-0
-      un-text="emerald-600 dark:emerald-400"
-    >
+  <div v-if="activity && activity.active" un-h-8 un-text-sm un-flex="~ row" un-items-center un-gap-2 un-relative un-z-1
+    un-overflow-x-hidden>
+    <span un-w-2 un-h-2 un-rounded-full un-shrink-0 un-bg="emerald-600 dark:emerald-400" />
+    <span un-flex="~ row" un-items-center un-gap-1 un-px-2 un-py-0 un-text="emerald-600 dark:emerald-400">
       {{ activity.process?.name }}
-      <IconApp
-        v-if="activity.active"
-        un-inline-block
-        :app="activity.process?.name || ''"
-        :alt="`${activity.process?.name} icon`"
-      />
+      <IconApp v-if="activity.active" un-inline-block :app="activity.process?.name || ''"
+        :alt="`${activity.process?.name} icon`" />
     </span>
-    <span
-      v-if="activity.process?.windowTitle && appWithTitle.includes(activity.process?.name || '')"
-      un-flex="~ row"
-      un-items-center
-      un-gap-1
-      un-min-w-0
-      un-text-nowrap
-      un-text-ellipsis
-      un-text="stone-500 dark:stone-500"
-    >
+    <span v-if="activity.process?.windowTitle && appWithTitle.includes(activity.process?.name || '')" un-flex="~ row"
+      un-items-center un-gap-1 un-min-w-0 un-text-nowrap un-text-ellipsis un-text="stone-500 dark:stone-500">
       - {{ activity.process?.windowTitle }}
-      <IconApp
-        v-if="activity.active"
-        un-inline-block
-        :app="activity.process?.windowTitle || ''"
-        :alt="`${activity.process?.windowTitle} icon`"
-      />
+      <IconApp v-if="activity.active" un-inline-block :app="activity.process?.windowTitle || ''"
+        :alt="`${activity.process?.windowTitle} icon`" />
     </span>
   </div>
-  
-  <div
-    v-else-if="sleeping"
-    un-h-8
-    un-text-sm
-    un-flex="~ row"
-    un-items-center
-    un-gap-2
-  >
-    <span
-      un-w-2
-      un-h-2
-      un-rounded-full
-      un-border="~ 1 stone-400 dark:stone-600"
-    />
-    <span
-      class="pulse-slow"
-      un-flex="~ row"
-      un-items-center
-      un-gap-1
-      un-px-2
-      un-py-0
-    >
-      <i18n-t
-        keypath="sleeping"
-      >
+
+  <div v-else-if="sleeping" un-h-8 un-text-sm un-flex="~ row" un-items-center un-gap-2>
+    <span un-w-2 un-h-2 un-rounded-full un-border="~ 1 stone-400 dark:stone-600" />
+    <span class="pulse-slow" un-flex="~ row" un-items-center un-gap-1 un-px-2 un-py-0>
+      <i18n-t keypath="sleeping">
         <template #app>
           {{ activity.process?.name }}
-          <IconApp
-            v-if="activity.process?.name"
-            un-inline-block
-            :app="activity.process?.name || ''"
-            :alt="`${activity.process?.name} icon`"
-          />
+          <IconApp v-if="activity.process?.name" un-inline-block :app="activity.process?.name || ''"
+            :alt="`${activity.process?.name} icon`" />
         </template>
       </i18n-t>
       <un-i-solar-sleeping-circle-bold-duotone />
     </span>
   </div>
-  
-  <div
-    v-else-if="loading"
-    un-h-8
-    un-text-sm
-    un-flex="~ row"
-    un-items-center
-    un-gap-2
-  >
+
+  <div v-else-if="loading" un-h-8 un-text-sm un-flex="~ row" un-items-center un-gap-2>
     <IconLoading />
   </div>
 </template>
@@ -187,10 +117,12 @@ const appWithTitle = [
 }
 
 @keyframes pulse {
+
   0%,
   100% {
     opacity: 1;
   }
+
   50% {
     opacity: 0.5;
   }

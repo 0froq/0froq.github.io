@@ -19,9 +19,9 @@ const navItems: NavItem[][] = [
   [
     { label: 'Corpus', url: '/corpus/' },
     { label: 'Posts', url: '/posts/', children: [
-      { label: 'Log', url: '/posts/610_log/' },
-      { label: 'Roadmap', url: '/posts/620_roadmap/' },
-      { label: 'Collection', url: '/posts/630_collection/' },
+      { label: 'Log', url: '/posts/610-log/' },
+      { label: 'Roadmap', url: '/posts/620-roadmap/' },
+      { label: 'Collection', url: '/posts/630-collection/' },
     ] },
     { label: 'Dashboard', url: '/dashboard/', children: [
       { label: 'Visions', url: '/dashboard/visions/' },
@@ -30,12 +30,12 @@ const navItems: NavItem[][] = [
     { label: 'Tags', url: '/tags/' },
   ],
   [
-    { label: 'Autopsia', url: '/corpus/000_autopsia/' },
-    { label: 'Ingesta', url: '/corpus/100_ingesta/' },
-    { label: 'Neoplasma', url: '/corpus/200_neoplasma/' },
-    { label: 'Putredo', url: '/corpus/300_putredo/' },
-    { label: 'Delirium', url: '/corpus/400_delirium/' },
-    { label: 'Vigil', url: '/corpus/500_vigil/' },
+    { label: 'Autopsia', url: '/corpus/000-autopsia/' },
+    { label: 'Ingesta', url: '/corpus/100-ingesta/' },
+    { label: 'Neoplasma', url: '/corpus/200-neoplasma/' },
+    { label: 'Putredo', url: '/corpus/300-putredo/' },
+    { label: 'Delirium', url: '/corpus/400-delirium/' },
+    { label: 'Vigil', url: '/corpus/500-vigil/' },
   ],
 ]
 </script>
@@ -48,7 +48,7 @@ const navItems: NavItem[][] = [
     v-if="currentBasePath === '/corpus/'"
   />
   <Layer
-    v-else-if="currentBasePath.match(/^\/corpus\/\d{3}_[a-z]+\/$/)"
+    v-else-if="currentBasePath.match(/^\/corpus\/\d{3}-[a-z]+\/$/)"
   />
   <Article
     v-else

@@ -1,5 +1,7 @@
-/// <reference path="./markdown-it-shims.d.ts" />
+/// <reference path="./env.d.ts" />
 
+// import markdownItMdc from 'markdown-it-mdc'
+import comark from '@comark/markdown-it'
 import VueI18nPlugin from '@intlify/unplugin-vue-i18n/vite'
 import { transformerColorizedBrackets } from '@shikijs/colorized-brackets'
 import { transformerMetaWordHighlight, transformerNotationWordHighlight } from '@shikijs/transformers'
@@ -10,7 +12,6 @@ import markdownItFootnote from 'markdown-it-footnote'
 import markdownItHashtag from 'markdown-it-hashtag'
 import markdownItFigures from 'markdown-it-implicit-figures'
 import markdownItMark from 'markdown-it-mark'
-import markdownItMdc from 'markdown-it-mdc'
 import markdownItRuby from 'markdown-it-ruby'
 import UnoCSS from 'unocss/vite'
 import { defineConfig } from 'vitepress'
@@ -48,17 +49,6 @@ export default defineConfig({
       },
     },
   },
-  // locales: {
-  //   root: {
-  //     label: '中文',
-  //     lang: 'zh',
-  //   },
-  //   en: {
-  //     label: 'English',
-  //     lang: 'en',
-  //     link: '/en/',
-  //   },
-  // },
   markdown: {
     codeTransformers: [
       transformerTwoslash({
@@ -91,7 +81,7 @@ export default defineConfig({
         })
         .use(markdownItRuby)
         // .use(markdownItAttrs)
-        .use(markdownItMdc)
+        .use(comark)
 
       md.renderer.rules.hashtag_text = function (tokens, idx) {
         return `${tokens[idx].content}`
