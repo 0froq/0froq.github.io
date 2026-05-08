@@ -2,7 +2,7 @@
 title: '@dai2018: Identifying the Early 2000s Hiatus Associated with Internal Climate Variability'
 created: 2026-03-20
 status: probe
-last_modified: 2026-04-22 19:08:57
+last_modified: 2026-04-26 13:13:10
 lang: en
 ---
 
@@ -10,7 +10,8 @@ lang: en
 
 [[toc]]
 
-#scope/work/research #source/paper
+#scope/work/research/warmingHiatus
+#source/paper
 
 - citation_key: dai2018
 - title: Identifying the Early 2000s Hiatus Associated with Internal Climate Variability
