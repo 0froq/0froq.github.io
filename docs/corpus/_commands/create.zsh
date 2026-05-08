@@ -1,7 +1,7 @@
 #!/opt/homebrew/bin/zsh
 # Version: 2.0.0
 # File name: create.zsh
-# Last modified: 2025-11-06 02:30:26
+# Last modified: 2026-04-26 14:07:20
 
 # Main Create Function
 
@@ -165,7 +165,7 @@ corpus_create_instant_note() {
   /bin/rm -f "$temp_file"
 
   # Load template
-  local template_file="$CORPUS_DIR/_template/tp_${normalized_layer}.md"
+  local template_file="$CORPUS_DIR/_template/tp-${normalized_layer}.md"
   if [[ ! -f "$template_file" ]]; then
     corpus_error "Template not found: $template_file"
     return 1
@@ -210,7 +210,7 @@ corpus_create_paper_entry() {
   local paper_title="${citation_or_content:-}"
   local filename="$(corpus_generate_filename "$layer" "$paper_title" "paper")"
   local file_path="$target_dir/$filename"
-  local template_file="$CORPUS_DIR/_template/tp_paper.md"
+  local template_file="$CORPUS_DIR/_template/tp-paper.md"
 
   # Prevent unintended overwrite unless forced
   if [[ -e "$file_path" && "${ARG_force:-}" != "true" ]]; then
@@ -257,7 +257,7 @@ corpus_create_standard_entry() {
   local file_path="$target_dir/$filename"
 
   # Select template (simplified to use layer template)
-  local template_file="$CORPUS_DIR/_template/tp_${layer}.md"
+  local template_file="$CORPUS_DIR/_template/tp-${layer}.md"
 
   if [[ ! -f "$template_file" ]]; then
     corpus_error "Template not found: $template_file"
@@ -340,7 +340,7 @@ corpus_create_paper_fallback() {
   local citation_key="$(corpus_extract_citation_key "$citation_input")"
   local filename="$(corpus_generate_filename "$layer" "$citation_key" "paper")"
   local file_path="$target_dir/$filename"
-  local template_file="$CORPUS_DIR/_template/tp_paper.md"
+  local template_file="$CORPUS_DIR/_template/tp-paper.md"
 
   # Prevent unintended overwrite unless forced
   if [[ -e "$file_path" && "${ARG_force:-}" != "true" ]]; then
@@ -393,7 +393,7 @@ corpus_create_paper_with_metadata() {
   local citation_key="$(corpus_extract_citation_key "$citation_input")"
   local filename="$(corpus_generate_filename "$layer" "$citation_input" "paper")"
   local file_path="$target_dir/$filename"
-  local template_file="$CORPUS_DIR/_template/tp_paper.md"
+  local template_file="$CORPUS_DIR/_template/tp-paper.md"
 
   # Prevent unintended overwrite unless forced
   if [[ -e "$file_path" && "${ARG_force:-}" != "true" ]]; then

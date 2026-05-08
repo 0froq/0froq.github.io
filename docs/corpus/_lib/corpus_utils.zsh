@@ -1,7 +1,7 @@
 #!/opt/homebrew/bin/zsh
 # Version: 2.0.0
 # File name: corpus_utils.zsh
-# Last modified: 2025-11-08 11:00:55
+# Last modified: 2026-04-26 14:11:08
 
 # Corpus utility library
 
@@ -103,7 +103,7 @@ corpus_safe_filename() {
   local input="$1"
 
   # Replace spaces with underscores first
-  local safe="${input// /_}"
+  local safe="${input// /-}"
 
   # Attempt transliteration to ASCII (handles accented letters). Falls back to original if iconv unavailable.
   if command -v iconv >/dev/null 2>&1; then
@@ -111,15 +111,15 @@ corpus_safe_filename() {
   fi
 
   # Remove any non-ASCII characters (drops CJK and symbols) and filesystem-unsafe characters
-  safe="${safe//[^A-Za-z0-9_\-]/_}"
+  safe="${safe//[^A-Za-z0-9_\-]/-}"
 
   # Collapse multiple underscores to a single underscore
-  while [[ "$safe" == *"__"* ]]; do
-    safe="${safe//__/_}"
+  while [[ "$safe" == *"--"* ]]; do
+    safe="${safe//--/-}"
   done
 
-  safe="${safe#_}"
-  safe="${safe%_}"
+  safe="${safe#-}"
+  safe="${safe%-}"
 
   [[ -z "$safe" ]] && safe="unnamed"
 
@@ -147,13 +147,13 @@ corpus_generate_filename() {
   if [[ -n "$content" ]]; then
     local safe_content="$(corpus_safe_filename "$content")"
     if [[ "$include_date" == "true" ]]; then
-      echo "${layer}_${safe_content}_${timestamp}.md"
+      echo "${layer}-${safe_content}-${timestamp}.md"
     else
-      echo "${layer}_${safe_content}.md"
+      echo "${layer}-${safe_content}.md"
     fi
   else
     if [[ "$include_date" == "true" ]]; then
-      echo "${layer}_${timestamp}.md"
+      echo "${layer}-${timestamp}.md"
     else
       echo "${layer}.md"
     fi

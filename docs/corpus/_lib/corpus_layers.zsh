@@ -1,19 +1,19 @@
 #!/opt/homebrew/bin/zsh
 # Version: 2.0.0
 # File name: corpus_layers.zsh
-# Last modified: 2026-02-13 15:07:18
+# Last modified: 2026-04-26 14:08:31
 
 # Corpus layer management library - Six Layer Architecture
 
 # Format: category|full_name|alias|path|description|requires_arg|include_date
 typeset -g -r CORPUS_LAYERS_DATA='
-autopsia|autopsia|aut|000_autopsia|Metacognitive dissection and optimization|false|true
-ingesta|ingesta|ing|100_ingesta|Information ingestion and intake|true|false
-paper|ingesta|paper|100_ingesta|Create paper entry with metadata (uses tp_paper.md)|true|false
-neoplasma|neoplasma|neo|200_neoplasma|Internalization and thinking|true|false
-putredo|putredo|put|300_putredo|Journaling and retrospective review|false|true
-delirium|delirium|del|400_delirium|Aesthetic materials and wonders|true|true
-vigil|vigil|vig|500_vigil|Non-rational and semi-rational creation|false|true
+autopsia|autopsia|aut|000-autopsia|Metacognitive dissection and optimization|false|true
+ingesta|ingesta|ing|100-ingesta|Information ingestion and intake|true|false
+paper|ingesta|paper|100-ingesta|Create paper entry with metadata (uses tp_paper.md)|true|false
+neoplasma|neoplasma|neo|200-neoplasma|Internalization and thinking|true|false
+putredo|putredo|put|300-putredo|Journaling and retrospective review|false|true
+delirium|delirium|del|400-delirium|Aesthetic materials and wonders|true|true
+vigil|vigil|vig|500-vigil|Non-rational and semi-rational creation|false|true
 '
 
 # -----------------------
