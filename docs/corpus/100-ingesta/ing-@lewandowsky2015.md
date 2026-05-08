@@ -2,14 +2,15 @@
 title: "@lewandowsky2015: On the Definition and Identifiability of the Alleged 'Hiatus' in Global Warming"
 created: 2026-04-22
 status: draft
-last_modified: 2026-04-22 19:08:09
+last_modified: 2026-04-26 13:23:44
 ---
 
 ---
 
 [[toc]]
 
-#scope/work/research #source/paper
+#scope/work/research/warmingHiatus
+#source/paper
 
 - citation_key: lewandowsky2015
 - title: On the Definition and Identifiability of the Alleged ``Hiatus'' in Global Warming
