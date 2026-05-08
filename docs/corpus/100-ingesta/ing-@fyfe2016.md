@@ -2,14 +2,15 @@
 title: '@fyfe2016: Making Sense of the Early-2000s Warming Slowdown'
 created: 2026-04-22
 status: draft
-last_modified: 2026-04-22 19:08:28
+last_modified: 2026-04-26 13:22:02
 ---
 
 ---
 
 [[toc]]
 
-#scope/work/research #source/paper
+#scope/work/research/warmingHiatus
+#source/paper
 
 - citation_key: fyfe2016
 - title: Making Sense of the Early-2000s Warming Slowdown
