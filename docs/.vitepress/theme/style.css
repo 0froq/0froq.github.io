@@ -444,11 +444,10 @@ html {
     }
 
     &.danger {
-      --uno: 'before:layer-components:(i-solar-bomb-emoji-bold-duotone);
+      --uno: 'before:layer-components:(i-solar-bomb-emoji-bold-duotone)';
     }
   }
 
-  /* list */
   & ol {
     list-style-type: decimal;
   }
@@ -457,7 +456,6 @@ html {
     list-style-type: square;
 
     & li {
-      /* align with the ol's indicator */
       --uno: '-mx-2 px-2';
     }
   }
@@ -514,7 +512,10 @@ html {
     --uno: 'whitespace-nowrap';
     --uno: 'before:content-[""]';
     --uno: 'before:(inline-block h-0.25em w-full absolute bottom-0)';
-    --uno: 'before:(bg-rose-500/80)';
+
+    &:not([class^='before:bg-']) {
+      --uno: 'before:(bg-rose-500/80)';
+    }
   }
 
   /* hashtag */
