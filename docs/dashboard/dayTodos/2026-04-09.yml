@@ -45,30 +45,30 @@ meta:
   weekId: '040626'
 # AI-DAY-PLAN-END
 
-
 # AI-DAY-REVIEW-START
 review:
-  summary: 'CCI 数据处理顺利完成，论文环境配置完成，大纲主体完成'
+  summary: CCI 数据处理顺利完成，论文环境配置完成，大纲主体完成
   completed:
-    - 'CCI 数据下载与初步处理完成（1998-2024 每月15号数据）'
-    - '回家后完成时间序列和阶段性特征检查'
-    - '论文写作环境配置完成（Typst）'
-    - '论文大纲内容主体完成'
+    - CCI 数据下载与初步处理完成（1998-2024 每月15号数据）
+    - 回家后完成时间序列和阶段性特征检查
+    - 论文写作环境配置完成（Typst）
+    - 论文大纲内容主体完成
   partial:
-    - title: '论文大纲完善'
+    - title: 论文大纲完善
       progress: '95% - 主体内容完成，周五收尾'
-  energy: 'high'
-  mood: 'positive'
+  energy: high
+  mood: positive
   insights:
-    - 'CCI 数据下载策略有效（每月15号）显著减少了数据量'
-    - '回家后继续工作提高了整体产出'
-    - 'Typst 写作环境配置顺利，为后续论文撰写打下基础'
+    - CCI 数据下载策略有效（每月15号）显著减少了数据量
+    - 回家后继续工作提高了整体产出
+    - Typst 写作环境配置顺利，为后续论文撰写打下基础
   tomorrow_notes: '周五收尾论文大纲，准备14:30组会'
 verification:
-  status: 'pass'
+  status: pass
   checked_at: '2026-04-10T20:00:00+08:00'
-  summary: '基于用户口述和 era5-land 数据文件存在确认'
+  summary: 基于用户口述和 era5-land 数据文件存在确认
   acknowledgement:
-    by: 'user'
-    note: '周四工作内容已确认，大纲收尾延续至周五'
+    by: user
+    note: 周四工作内容已确认，大纲收尾延续至周五
 # AI-DAY-REVIEW-END
+

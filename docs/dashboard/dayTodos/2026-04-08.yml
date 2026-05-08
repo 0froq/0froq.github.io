@@ -53,7 +53,7 @@ meta:
 
 # AI-DAY-REVIEW-START
 review:
-  summary: '数据处理完成但发现关键时间缺口，明日需补充 ESA CCI 数据'
+  summary: 数据处理完成但发现关键时间缺口，明日需补充 ESA CCI 数据
   completed:
     - title: Zotero 修复完成
     - title: Raw 数据查阅与评估
@@ -78,7 +78,6 @@ review:
 verification:
   status: pass
   checked_at: '2026-04-09T00:00:00+08:00'
-  summary: '用户口述完成状态清晰，关键发现已记录'
+  summary: 用户口述完成状态清晰，关键发现已记录
   concerns: []
 # AI-DAY-REVIEW-END
-
