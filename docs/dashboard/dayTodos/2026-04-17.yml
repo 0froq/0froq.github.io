@@ -1,55 +1,55 @@
 # AI-DAY-PLAN-START
 # 周五未提前制定计划，基于实际发生记录
-date: "2026-04-17"
-weekday: "周五"
-theme: "Presentation展示"
+date: 2026-04-17
+weekday: 周五
+theme: Presentation展示
 
 tasks:
-  - title: "完善Presentation slides"
+  - title: 完善Presentation slides
     priority: high
-    dod: "完成slides最终版本，准备展示"
+    dod: 完成slides最终版本，准备展示
     status: done
     tags: [deepWork]
-    notes: "白天继续完善slides"
+    notes: 白天继续完善slides
 
-  - title: "晚课Presentation展示"
+  - title: 晚课Presentation展示
     priority: high
-    dod: "顺利完成Presentation展示"
+    dod: 顺利完成Presentation展示
     status: inProgress
     tags: []
-    notes: "目前正在晚课上等待轮次，slides已完善"
+    notes: 目前正在晚课上等待轮次，slides已完善
 
 meta:
-  generatedAt: "2026-04-17T21:00:00+08:00"
-  basedOn: ["user-recall"]
-  weekId: "041326"
-  notes: "周五未提前制定计划，这是基于实际发生事后记录"
+  generatedAt: '2026-04-17T21:00:00+08:00'
+  basedOn: [user-recall]
+  weekId: '041326'
+  notes: 周五未提前制定计划，这是基于实际发生事后记录
 # AI-DAY-PLAN-END
 
 # AI-DAY-REVIEW-START
 review:
-  summary: 'Presentation准备完成，正在晚课等待展示'
+  summary: Presentation准备完成，正在晚课等待展示
   completed:
-    - 'slides已完善，准备就绪'
+    - slides已完善，准备就绪
   partial:
-    - title: 'Presentation展示'
-      progress: '正在晚课上等待轮次，尚未完成展示'
+    - title: Presentation展示
+      progress: 正在晚课上等待轮次，尚未完成展示
   deferred:
-    - '可视化项目重构（本周未完成）'
-    - '数据融合策略其他任务（因GLAST 2.0决策改变而搁置）'
-  energy: 'low'
-  mood: 'neutral'
+    - 可视化项目重构（本周未完成）
+    - 数据融合策略其他任务（因GLAST 2.0决策改变而搁置）
+  energy: low
+  mood: neutral
   insights:
-    - '高强度连续工作导致精力消耗大，但任务推进有效'
-    - 'GLAST 2.0策略改变后，研究范围收缩为单数据集探索'
-    - '本周核心目标Presentation即将完成'
-    - '需要休息恢复，避免 burnout'
-  tomorrow_notes: '周末休息，下周重新规划数据探索研究'
+    - 高强度连续工作导致精力消耗大，但任务推进有效
+    - GLAST 2.0策略改变后，研究范围收缩为单数据集探索
+    - 本周核心目标Presentation即将完成
+    - 需要休息恢复，避免 burnout
+  tomorrow_notes: 周末休息，下周重新规划数据探索研究
 verification:
-  status: 'pass'
+  status: pass
   checked_at: '2026-04-17T21:00:00+08:00'
-  summary: '基于用户口述确认'
+  summary: 基于用户口述确认
   acknowledgement:
-    by: 'user'
-    note: '周五完成Presentation准备，正在晚课等待展示，精力略低'
+    by: user
+    note: 周五完成Presentation准备，正在晚课等待展示，精力略低
 # AI-DAY-REVIEW-END
