@@ -38,12 +38,11 @@ tasks:
       2. 目标筛选到多少个湖泊？
       3. 筛选后如何与ESA CCI对应？
 
-
 constraints:
   - '09:30-12:00 早课（MacBook Air）'
   - '12:00-17:30 工作窗口（Mac mini）'
   - '18:30-21:00 晚课'
-  - '晚上 presentation 题目发布'
+  - 晚上 presentation 题目发布
 
 meta:
   generatedAt: '2026-04-14T09:48:00+08:00'
@@ -56,28 +55,28 @@ meta:
 
 # AI-DAY-REVIEW-START
 review:
-  summary: 'LaTeX环境搭建完成，ID匹配策略初步确认，Presentation题目已获取'
+  summary: LaTeX环境搭建完成，ID匹配策略初步确认，Presentation题目已获取
   completed:
-    - 'LaTeX环境搭建完成，可以正常编译预览和写作'
-    - '确定使用HydroLAKES元数据进行湖泊筛选（如面积阈值）'
-    - 'Presentation题目已获取'
+    - LaTeX环境搭建完成，可以正常编译预览和写作
+    - 确定使用HydroLAKES元数据进行湖泊筛选（如面积阈值）
+    - Presentation题目已获取
   partial:
-    - title: 'Presentation构思'
-      progress: '题目已拿到，计划周三进行精读和内容规划'
-    - title: 'ID匹配方案细化'
-      progress: '筛选思路初步确认（基于HydroLAKES元数据），具体阈值待确定'
-  energy: 'medium'
-  mood: 'positive'
+    - title: Presentation构思
+      progress: 题目已拿到，计划周三进行精读和内容规划
+    - title: ID匹配方案细化
+      progress: 筛选思路初步确认（基于HydroLAKES元数据），具体阈值待确定
+  energy: medium
+  mood: positive
   insights:
-    - 'LaTeX环境顺利搭建，写作工具链就绪'
-    - 'HydroLAKES元数据筛选是可行路径，需确定具体筛选标准'
-    - 'Presentation时间充裕，可周三再启动'
-  tomorrow_notes: '周三重点：Presentation精读和框架规划'
+    - LaTeX环境顺利搭建，写作工具链就绪
+    - HydroLAKES元数据筛选是可行路径，需确定具体筛选标准
+    - Presentation时间充裕，可周三再启动
+  tomorrow_notes: 周三重点：Presentation精读和框架规划
 verification:
-  status: 'pass'
+  status: pass
   checked_at: '2026-04-14T23:00:00+08:00'
-  summary: '基于用户口述确认'
+  summary: 基于用户口述确认
   acknowledgement:
-    by: 'user'
-    note: 'LaTeX环境搭建顺利，ID匹配思路初步明确'
+    by: user
+    note: LaTeX环境搭建顺利，ID匹配思路初步明确
 # AI-DAY-REVIEW-END
