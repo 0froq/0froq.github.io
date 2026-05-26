@@ -155,7 +155,6 @@ html {
     --uno: 'text-sm';
     --uno: 'bg-stone-100 dark:bg-stone-900';
     --uno: 'border border-stone-300 dark:border-stone-700';
-    --uno: 'rounded-md';
 
     /* pre wrapper */
     & pre {
@@ -340,6 +339,7 @@ html {
   /* blockquote */
   & blockquote {
     --uno: 'my-4 relative';
+    --uno: 'pl-4';
     --uno: 'bg-stone-950/5 dark:bg-stone-50/5';
     --uno: 'border-(l stone-500)';
     /* blockquote icon */
@@ -347,7 +347,7 @@ html {
     --uno: 'before:(content-[""] i-solar-chat-line-bold-duotone block w-8 h-8 absolute right-1 top-1 text-stone-500 z--1 opacity-50)';
 
     & p {
-      --uno: 'mx-4';
+      /* --uno: 'mx-4'; */
     }
   }
 

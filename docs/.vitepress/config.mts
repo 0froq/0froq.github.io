@@ -71,7 +71,6 @@ export default defineConfig({
     math: true,
     config: (md) => {
       md
-        .use(markdownItFootnote)
         .use(markdownItMark)
         .use(markdownItHashtag, {
           hashtagRegExp: '\\w+(\\/\\w+)*',
@@ -82,6 +81,7 @@ export default defineConfig({
         .use(markdownItRuby)
         // .use(markdownItAttrs)
         .use(comark)
+        .use(markdownItFootnote)
 
       md.renderer.rules.hashtag_text = function (tokens, idx) {
         return `${tokens[idx].content}`
