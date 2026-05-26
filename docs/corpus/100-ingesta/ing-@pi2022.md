@@ -2,9 +2,11 @@
 title: '@pi2022: Mapping Global Lake Dynamics Reveals the Emerging Roles of Small Lakes'
 created: 2025-10-29
 status: form
-last_modified: 2026-04-26 13:47:42
+last_modified: 2026-05-11 20:43:09
 lang: en
 ---
+
+Use U-net to construct a dataset.
 
 ---
 

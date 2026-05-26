@@ -1,8 +1,8 @@
 ---
 title: '@xiao2023: A Regime Shift in North Pacific Annual Mean Sea Surface Temperature in 2013/14'
 created: 2026-03-27
-status: probe
-last_modified: 2026-04-26 13:48:52
+status: form
+last_modified: 2026-05-12 14:50:45
 lang: en
 ---
 
@@ -34,6 +34,4 @@ EOF mode of the annual mean SST in the NP, and is characterized by a horseshoe
 pattern of SST anomalies.
 
 Says that might indicate hiatus is over.
-
-## Think
 

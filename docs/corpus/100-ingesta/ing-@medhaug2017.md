@@ -1,8 +1,8 @@
 ---
 title: "@medhaug2017: Reconciling Controversies about the 'Global Warming Hiatus'"
 created: 2026-04-21
-status: probe
-last_modified: 2026-04-26 13:23:49
+status: draft
+last_modified: 2026-05-12 14:49:56
 lang: en
 ---
 

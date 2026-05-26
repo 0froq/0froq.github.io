@@ -1,8 +1,8 @@
 ---
 title: '@kartal: Remote Sensing Evidence of Seasonal and Long-Term Warming in Lake Surface Water Temperature'
 created: 2026-03-26
-status: probe
-last_modified: 2026-04-26 13:47:19
+status: draft
+last_modified: 2026-05-12 14:49:46
 lang: en
 ---
 

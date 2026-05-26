@@ -1,8 +1,8 @@
 ---
 title: '@reid2016: Global Impacts of the 1980s Regime Shift'
 created: 2026-04-03
-status: probe
-last_modified: 2026-04-26 13:33:40
+status: draft
+last_modified: 2026-05-12 14:50:05
 lang: en
 ---
 

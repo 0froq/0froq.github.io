@@ -1,9 +1,13 @@
 ---
 title: '@fyfe2016: Making Sense of the Early-2000s Warming Slowdown'
 created: 2026-04-22
-status: draft
-last_modified: 2026-04-26 13:22:02
+status: form
+last_modified: 2026-05-12 11:08:42
+lang: en
 ---
+
+NCC commentary, slowdown was real, but not a stop, and mainly driven by internal decadal
+variability plus natural forcing.
 
 ---
 
@@ -18,3 +22,22 @@ last_modified: 2026-04-26 13:22:02
 - journal: Nature Climate Change
 - year: 2016
 - doi: 10.1038/nclimate2938
+
+## If there is a "hiatus"?
+
+Some paper argues that the "hiatus" or "slowdown" is not real, lack of
+statistical significance, or just a bais in the data.
+
+This paper says it's real, statistically observable.
+
+One important point is that we should pick the baseline period carefully.
+Some papers pick 1950-1999 and argue that the slowdown is not there.
+But the period that has the similar physical processes and human influence with
+the under review period (about 2001-2014) should be 1972-2001.
+
+## .
+
+The vital scientific question is not "is there a hiatus/slowdown",
+but "how do the internal variability and external forcing combine
+and influence the surface temperature trend".
+
