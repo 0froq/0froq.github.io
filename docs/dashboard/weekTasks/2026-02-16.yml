@@ -5,6 +5,6 @@ tasks:
     priority: high
     dod: 不再动
     status: done
-    links:
-      - label: Check it here
+    notes:
+      - text: Check it here
         url: https://froq.me

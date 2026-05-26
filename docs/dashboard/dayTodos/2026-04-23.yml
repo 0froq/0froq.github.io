@@ -10,14 +10,16 @@ tasks:
     dod: 继续数据处理代码编写
     status: done
     tags: [deepWork]
-    notes: 继续代码分析
+    notes:
+      - text: 继续代码分析
 
   - title: 论文撰写
     priority: high
     dod: 撰写论文草稿部分内容
     status: done
     tags: [deepWork]
-    notes: Typst草稿继续完善
+    notes:
+      - text: Typst草稿继续完善
 
 meta:
   generatedAt: '2026-04-24T23:00:00+08:00'
@@ -46,4 +48,5 @@ verification:
   acknowledgement:
     by: user
     note: '周四代码+论文并行'
+
 # AI-DAY-REVIEW-END

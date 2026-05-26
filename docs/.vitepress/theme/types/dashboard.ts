@@ -1,168 +1,143 @@
-export interface TaskLink {
-  label: string
-  url: string
+export interface TaskNote {
+   text: string
+   url?: string
 }
 
 export interface TaskItem {
-  title: string
-  status: string
-  priority?: 'high' | 'medium' | 'low'
-  dod?: string
-  due?: string
-  links?: TaskLink[]
-  tags?: string[]
+   title: string
+   status: string
+   priority?: 'high' | 'medium' | 'low'
+   dod?: string
+   due?: string
+   notes?: TaskNote[]
+   tags?: string[]
 }
 
 export interface TaskStatusConfig {
-  label: string
+   label: string
 }
 
 export type TaskProgress = { done: number, total: number } | number
 
 export type DayTaskPriority = 'high' | 'medium' | 'low'
 
-export interface DayTaskLink {
-  label: string
-  url: string
-}
-
 export interface DayTask {
-  title: string
-  status: 'done' | 'inProgress' | 'notStarted' | 'deferred' | 'deffered' | 'cancelled' | 'blocked'
-  priority?: DayTaskPriority
-  dod?: string
-  links?: DayTaskLink[]
-  tags?: string[]
+   title: string
+   status: 'done' | 'inProgress' | 'notStarted' | 'deferred' | 'deffered' | 'cancelled' | 'blocked'
+   priority?: DayTaskPriority
+   dod?: string
+   notes?: TaskNote[]
+   tags?: string[]
 }
 
 export interface DayRecord {
-  date: string
-  theme?: string
-  tasks: DayTask[]
-  file: string
+   date: string
+   theme?: string
+   tasks: DayTask[]
+   file: string
 }
 
 export interface DayData {
-  today: string
-  currentDay: DayRecord | null
-  days: DayRecord[]
-}
-
-export interface WeekLink {
-  label: string
-  url: string
+   today: string
+   currentDay: DayRecord | null
+   days: DayRecord[]
 }
 
 export type WeekTaskPriority = 'high' | 'medium' | 'low'
 
 export interface WeekTask {
-  title: string
-  status: 'done' | 'inProgress' | 'notStarted' | 'deferred' | 'deffered' | 'cancelled' | 'blocked'
-  priority?: WeekTaskPriority
-  dod?: string
-  links?: WeekLink[]
-  tags?: string[]
+   title: string
+   status: 'done' | 'inProgress' | 'notStarted' | 'deferred' | 'deffered' | 'cancelled' | 'blocked'
+   priority?: WeekTaskPriority
+   dod?: string
+   notes?: TaskNote[]
+   tags?: string[]
 }
 
 export interface WeekData {
-  theme?: string
-  start: string
-  end: string
-  tasks: WeekTask[]
+   theme?: string
+   start: string
+   end: string
+   tasks: WeekTask[]
 }
 
 export interface WeekDashboardData {
-  today: string
-  currentStart: string
-  currentWeek: WeekData | null
-  weeks: Array<{
-    start: string
-    end: string
-    file: string
-  }>
-}
-
-export interface BacklogLink {
-  label: string
-  url: string
+   today: string
+   currentStart: string
+   currentWeek: WeekData | null
+   weeks: Array<{
+      start: string
+      end: string
+      file: string
+   }>
 }
 
 export interface BacklogItem {
-  title: string
-  status: 'notPlanned' | 'arranging' | 'deferred' | 'deffered'
-  due?: string
-  dod?: string
-  links?: BacklogLink[]
-  locale?: string
+   title: string
+   status: 'notPlanned' | 'arranging' | 'deferred' | 'deffered'
+   due?: string
+   dod?: string
+   notes?: TaskNote[]
+   locale?: string
 }
 
 export interface BacklogRecord {
-  month: string
-  items: BacklogItem[]
-  file: string
+   month: string
+   items: BacklogItem[]
+   file: string
 }
 
 export interface BacklogData {
-  currentMonth: string
-  current: BacklogRecord | null
-  months: BacklogRecord[]
-}
-
-export interface VisionLink {
-  label: string
-  url: string
+   currentMonth: string
+   current: BacklogRecord | null
+   months: BacklogRecord[]
 }
 
 export interface VisionItem {
-  title: string
-  links?: VisionLink[]
-  locale?: string
+   title: string
+   notes?: TaskNote[]
+   locale?: string
 }
 
 export interface GlobalVision {
-  type: 'global'
-  items: VisionItem[]
+   type: 'global'
+   items: VisionItem[]
 }
 
 export interface YearVision {
-  type: 'year'
-  year: string
-  items: VisionItem[]
+   type: 'year'
+   year: string
+   items: VisionItem[]
 }
 
 export interface VisionsData {
-  global: GlobalVision
-  years: YearVision[]
-  currentYear: YearVision | null
-}
-
-export interface HintLink {
-  label: string
-  url: string
+   global: GlobalVision
+   years: YearVision[]
+   currentYear: YearVision | null
 }
 
 export interface HintItem {
-  title: string
-  description?: string
-  category: string
-  links?: HintLink[]
-  locale?: string
+   title: string
+   description?: string
+   category: string
+   notes?: TaskNote[]
+   locale?: string
 }
 
 export interface HintCategory {
-  category: string
-  items: HintItem[]
+   category: string
+   items: HintItem[]
 }
 
 export interface FenceData {
-  categories: Record<string, HintCategory[]>
+   categories: Record<string, HintCategory[]>
 }
 
 export interface TipData {
-  categories: Record<string, HintCategory[]>
+   categories: Record<string, HintCategory[]>
 }
 
 export interface HintsData {
-  fence: FenceData
-  tip: TipData
+   fence: FenceData
+   tip: TipData
 }

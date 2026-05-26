@@ -10,14 +10,16 @@ tasks:
     dod: 完成slides最终版本，准备展示
     status: done
     tags: [deepWork]
-    notes: 白天继续完善slides
+    notes:
+      - text: 白天继续完善slides
 
   - title: 晚课Presentation展示
     priority: high
     dod: 顺利完成Presentation展示
     status: inProgress
     tags: []
-    notes: 目前正在晚课上等待轮次，slides已完善
+    notes:
+      - text: 目前正在晚课上等待轮次，slides已完善
 
 meta:
   generatedAt: '2026-04-17T21:00:00+08:00'
@@ -52,4 +54,5 @@ verification:
   acknowledgement:
     by: user
     note: 周五完成Presentation准备，正在晚课等待展示，精力略低
+
 # AI-DAY-REVIEW-END

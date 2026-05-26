@@ -45,8 +45,8 @@ tasks:
     dod: 浏览 3-5 篇湖泊温度/气候变化相关文献，收藏到 Zotero
     status: done
     tags: [forIdiot]
-    links:
-      - label: Google Scholar
+    notes:
+      - text: Google Scholar
         url: https://scholar.google.com
 
   - title: 课上技术资讯浏览
@@ -54,10 +54,10 @@ tasks:
     dod: 'GitHub Trending + BlueSky 开发者动态，收藏 1-2 个有趣项目'
     status: cancelled
     tags: []
-    links:
-      - label: GitHub Trending
+    notes:
+      - text: GitHub Trending
         url: https://github.com/trending
-      - label: BlueSky
+      - text: BlueSky
         url: https://bsky.app
 
   - title: 课上播客主题构思
@@ -130,9 +130,11 @@ review:
 verification:
   status: pass
   checked_at: '2026-03-31T23:35:00Z'
-  notes: |
-    - 文献笔记已记录在 corpus/300_putredo/put_20260331.md
-    - 9 篇文献笔记已创建在 corpus/100_ingesta/
-    - 系统搭建产出为 skills 设计和配置文件，无 corpus 文档但合理
+  notes:
+    - text: |
+        - 文献笔记已记录在 corpus/300_putredo/put_20260331.md
+        - 9 篇文献笔记已创建在 corpus/100_ingesta/
+        - 系统搭建产出为 skills 设计和配置文件，无 corpus 文档但合理
   issues: []
+
 # AI-DAY-REVIEW-END

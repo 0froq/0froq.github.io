@@ -9,14 +9,16 @@ tasks:
     dod: 从浏览器历史、记忆片段中找回读过但未收录的论文，直接加入Zotero
     status: inProgress
     tags: []
-    notes: 不再犹豫是否收录，所有读过的论文都强制纳入Zotero
+    notes:
+      - text: 不再犹豫是否收录，所有读过的论文都强制纳入Zotero
 
   - title: 快速浏览已有笔记
     priority: medium
     dod: '过一遍100_ingesta/下的ing_@*.md文件，了解核心内容，补充必要评论'
     status: done
     tags: []
-    notes: 重点关注与湖泊温度、hiatus相关的文献
+    notes:
+      - text: 重点关注与湖泊温度、hiatus相关的文献
 
 constraints:
   - 在家使用笔记本电脑，不适合高强度coding
@@ -53,4 +55,5 @@ verification:
   acknowledgement:
     by: user
     note: 找回部分文献，浏览完笔记，晚上外出
+
 # AI-DAY-REVIEW-END

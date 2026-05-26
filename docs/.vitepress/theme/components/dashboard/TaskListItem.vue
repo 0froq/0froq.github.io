@@ -18,7 +18,7 @@ const props = withDefaults(defineProps<{
 })
 
 const isExpanded = ref(false)
-const hasDetails = computed(() => Boolean(props.task.dod) || Boolean(props.task.links?.length))
+const hasDetails = computed(() => Boolean(props.task.dod) || Boolean(props.task.notes?.length))
 
 function toggleExpand() {
   if (!hasDetails.value)
@@ -241,27 +241,27 @@ function renderDod(dod: string): string {
         />
 
         <ul
-          v-if="task.links?.length"
+          v-if="task.notes?.length"
           un-mt-2
           un-ml-10
           un-text-xs
           un-text="stone-500"
         >
           <li
-            v-for="link in task.links"
-            :key="link.url"
+            v-for="note in task.notes"
+            :key="`${note.text}:${note.url ?? ''}`"
           >
             <LinkUnderline
-              v-if="link.url"
-              :href="link.url"
-              :text="link.label"
+              v-if="note.url"
+              :href="note.url"
+              :text="note.text"
               un-before="bg-stone-700 dark:bg-stone-300"
             />
             <span
               v-else
               un-text="stone-600 dark:stone-400"
             >
-              {{ link.label }}
+              {{ note.text }}
             </span>
           </li>
         </ul>

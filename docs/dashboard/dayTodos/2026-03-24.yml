@@ -5,8 +5,8 @@ tasks:
     priority: high
     status: inProgress
     dod: 支持优先级分组、状态统计、空态展示
-    links:
-      - label: Dashboard page
+    notes:
+      - text: Dashboard page
         url: /dashboard/
 
   - title: 补充 day 数据样例

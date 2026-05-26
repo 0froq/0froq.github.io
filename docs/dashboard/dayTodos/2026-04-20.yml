@@ -9,21 +9,24 @@ tasks:
     dod: 找回并收录之前读过但未加入Zotero的论文
     status: inProgress
     tags: []
-    notes: 会上进行，强制收录原则
+    notes:
+      - text: 会上进行，强制收录原则
 
   - title: 确定非Word写作方案
     priority: high
     dod: 研究Overleaf/本地LaTeX/Typst方案，确保有字数统计和PDF同步给导师
     status: notStarted
     tags: []
-    notes: 核心任务：让导师能同步看到进度，不使用Word
+    notes:
+      - text: 核心任务：让导师能同步看到进度，不使用Word
 
   - title: 开始Introduction撰写
     priority: high
     dod: 把已有大纲写入文件，开始Introduction写作（哪怕只有开头部分）
     status: notStarted
     tags: []
-    notes: 已有大纲，直接开始写入
+    notes:
+      - text: 已有大纲，直接开始写入
 
 constraints:
   - '下午2:15-3:30 评优评先会议（会上做轻量文献工作）'
@@ -41,24 +44,25 @@ meta:
 
 # AI-DAY-REVIEW-START
 review:
-  summary: '完成轻量准备工作，确定Typst写作方案，补充遗漏文献'
+  summary: 完成轻量准备工作，确定Typst写作方案，补充遗漏文献
   completed:
-    - '评优评先会议期间补充遗漏文献'
-    - '确定使用Typst作为写作工具（非Word方案）'
-    - '图书馆确定写作方案并启动Introduction撰写'
-    - '晚课继续写作准备'
-  energy: 'medium'
-  mood: 'neutral'
+    - 评优评先会议期间补充遗漏文献
+    - 确定使用Typst作为写作工具（非Word方案）
+    - 图书馆确定写作方案并启动Introduction撰写
+    - 晚课继续写作准备
+  energy: medium
+  mood: neutral
   insights:
-    - 'Typst方案可行，可通过NAS同步给导师'
-    - '周一设备受限，轻量准备策略正确'
-    - '高强度任务推到周二执行'
-  tomorrow_notes: '周二启动高强度科研：数据分析代码'
+    - Typst方案可行，可通过NAS同步给导师
+    - 周一设备受限，轻量准备策略正确
+    - 高强度任务推到周二执行
+  tomorrow_notes: 周二启动高强度科研：数据分析代码
 verification:
-  status: 'pass'
+  status: pass
   checked_at: '2026-04-20T21:00:00+08:00'
-  summary: '基于用户口述确认'
+  summary: 基于用户口述确认
   acknowledgement:
-    by: 'user'
-    note: '周一完成方案确定和文献补充'
+    by: user
+    note: 周一完成方案确定和文献补充
+
 # AI-DAY-REVIEW-END

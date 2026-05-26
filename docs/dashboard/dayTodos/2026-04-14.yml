@@ -9,34 +9,27 @@ tasks:
     dod: 确认目标期刊投稿格式要求，决定写作工具（LaTeX/Typst/Word）
     status: done
     tags: []
-    notes: >
-      早课期间在 MacBook Air 上进行
-      重点关注：
-      1. 目标期刊列表及各自格式要求
-      2. LaTeX vs Typst vs Word 的投稿兼容性
-      3. 是否需要现在配置 LaTeX 环境
+    notes:
+      - text: |
+          早课期间在 MacBook Air 上进行 重点关注： 1. 目标期刊列表及各自格式要求 2. LaTeX vs Typst vs Word 的投稿兼容性 3. 是否需要现在配置 LaTeX 环境
 
   - title: Presentation 题目接收与初步构思
     priority: high
     dod: 拿到题目后快速构思框架和大纲
     status: deferred
     tags: []
-    notes: >
-      晚课结束后（约21:00后）拿到题目
-      回家快速构思框架，记录初步想法
-      实际制作：周三-周五
+    notes:
+      - text: |
+          晚课结束后（约21:00后）拿到题目 回家快速构思框架，记录初步想法 实际制作：周三-周五
 
   - title: ID匹配方案细化
     priority: medium
     dod: 基于Hylak_id-HydroLAKES对应，设计具体筛选策略
     status: inProgress
     tags: [deepWork]
-    notes: >
-      工作窗口（12:00-17:30）进行
-      思考：
-      1. 用HydroLAKES的哪些变量筛选？（面积、位置等）
-      2. 目标筛选到多少个湖泊？
-      3. 筛选后如何与ESA CCI对应？
+    notes:
+      - text: |
+          工作窗口（12:00-17:30）进行 思考： 1. 用HydroLAKES的哪些变量筛选？（面积、位置等） 2. 目标筛选到多少个湖泊？ 3. 筛选后如何与ESA CCI对应？
 
 constraints:
   - '09:30-12:00 早课（MacBook Air）'
@@ -49,8 +42,7 @@ meta:
   basedOn: [week-plan, yesterday-deferred]
   weekId: '041326'
   notes: >
-    早课优先完成LaTeX调研（昨天推迟）
-    工作窗口等待presentation题目，同时推进ID匹配方案
+    早课优先完成LaTeX调研（昨天推迟） 工作窗口等待presentation题目，同时推进ID匹配方案
 # AI-DAY-PLAN-END
 
 # AI-DAY-REVIEW-START
@@ -79,4 +71,5 @@ verification:
   acknowledgement:
     by: user
     note: LaTeX环境搭建顺利，ID匹配思路初步明确
+
 # AI-DAY-REVIEW-END

@@ -9,8 +9,8 @@ tasks:
     dod: Discussion 章节包含核心论点总结、研究意义、局限性与未来工作方向
     status: done
     tags: [deepWork]
-    links:
-      - label: 目前大纲
+    notes:
+      - text: 目前大纲
         url: /corpus/300_putredo/put_lswt_hiatus_paper_outline_202604011442
 
   - title: 明确数据源方案
@@ -30,8 +30,8 @@ tasks:
     dod: 基于上次汇报更新进展：大纲完成、研究问题细化、下一步计划
     status: deferred
     tags: [forIdiot]
-    links:
-      - label: 明日继续完善 (update status)
+    notes:
+      - text: 明日继续完善 (update status)
 
 notes: |
   时间约束：
@@ -64,19 +64,20 @@ review:
 
   completed:
     - title: 持续推进 LSWT 论文框架
-      notes: |
-        - 论文框架文件已存在并处于 draft：corpus/300_putredo/put_lswt_hiatus_paper_outline_202604011442.md
-        - 内容覆盖背景问题、数据清单、方法清单、结果框架与下一步验证项
-        - 可作为周五组会的进展依据
+      notes:
+        - text: |
+            - 论文框架文件已存在并处于 draft：corpus/300_putredo/put_lswt_hiatus_paper_outline_202604011442.md
+            - 内容覆盖背景问题、数据清单、方法清单、结果框架与下一步验证项
+            - 可作为周五组会的进展依据
 
     - title: NeoVim 维护与回退（口述补录）
-      notes: |
-        - 用户口述：4/2 尝试升级至 NeoVim 0.12.0 后出现 Bug
-        - 用户口述：投入较多精力尝试修复但未成功
-        - 用户口述：最终回退到 0.11.7 以恢复可用性
-      links:
-        - label: '用户补录：0.12.0 升级尝试与修复失败 (040312: add record)'
-        - label: '用户补录：回退 0.11.7，保障稳定工作流 (040312: add fallback)'
+      notes:
+        - text: |
+            - 用户口述：4/2 尝试升级至 NeoVim 0.12.0 后出现 Bug
+            - 用户口述：投入较多精力尝试修复但未成功
+            - 用户口述：最终回退到 0.11.7 以恢复可用性
+        - text: '用户补录：0.12.0 升级尝试与修复失败 (040312: add record)'
+        - text: '用户补录：回退 0.11.7，保障稳定工作流 (040312: add fallback)'
 
   partial:
     - title: 完善论文大纲 - 补充 Discussion 框架
@@ -108,10 +109,12 @@ review:
 verification:
   status: pass
   checked_at: '2026-04-03T13:45:00+08:00'
-  notes: |
-    - 已核对 2026-04-02 日计划文件存在：docs/dashboard/dayTodos/2026-04-02.yml
-    - 已核对论文框架草稿文件存在且可用于汇报：docs/corpus/300_putredo/put_lswt_hiatus_paper_outline_202604011442.md
-    - NeoVim 升级/回退信息来自用户口述补录，仓库内暂无可核验日志证据
-    - 未将未验证结论写为“已完成”
+  notes:
+    - text: |
+        - 已核对 2026-04-02 日计划文件存在：docs/dashboard/dayTodos/2026-04-02.yml
+        - 已核对论文框架草稿文件存在且可用于汇报：docs/corpus/300_putredo/put_lswt_hiatus_paper_outline_202604011442.md
+        - NeoVim 升级/回退信息来自用户口述补录，仓库内暂无可核验日志证据
+        - 未将未验证结论写为“已完成”
   issues: []
+
 # AI-DAY-REVIEW-END

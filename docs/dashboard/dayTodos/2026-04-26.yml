@@ -8,7 +8,8 @@ tasks:
     dod: 详细记录分析框架大变的背景和决策过程
     status: done
     tags: []
-    notes: 从预设hiatus改为三段式分析，需要文档化这个重大转变
+    notes:
+      - text: 从预设hiatus改为三段式分析，需要文档化这个重大转变
 
 constraints:
   - 周日轻量工作
@@ -41,4 +42,5 @@ verification:
   acknowledgement:
     by: user
     note: 周日完成工作日志补充
+
 # AI-DAY-REVIEW-END

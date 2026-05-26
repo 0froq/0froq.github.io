@@ -3,9 +3,9 @@ items:
     dod: 找到可用数据并下载
     status: notPlanned
     due: 2026/03/25
-    links:
+    notes: []
   - title: 抖音看完
     dod: 字面意思
     status: arranging
     due: 2026/03/24
-    links:
+    notes: []

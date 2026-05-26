@@ -9,28 +9,32 @@ tasks:
     dod: 论文大纲完全定稿，可传阅版本完成
     status: completed
     tags: [forIdiot]
-    notes: 中午12点左右完成
+    notes:
+      - text: 中午12点左右完成
 
   - title: 数据验证推进
     priority: high
     dod: 验证数据是否存在显著规律，确认方向可行性
     status: completed
     tags: [deepWork]
-    notes: 验证成功，数据呈现显著规律，可继续推进
+    notes:
+      - text: 验证成功，数据呈现显著规律，可继续推进
 
   - title: 组会汇报准备
     priority: high
     dod: 准备汇报材料（slidev / corpus 文章 / iPad 手写）
     status: cancelled
     tags: []
-    notes: 组会取消，改为参加韩国学者汇报
+    notes:
+      - text: 组会取消，改为参加韩国学者汇报
 
   - title: 补全周四周五文档
     priority: medium
     dod: 完成周四和周五的日复盘记录，补全遗漏的规划文档
     status: inProgress
     tags: []
-    notes: 晚课期间在 MacBook Air 上进行
+    notes:
+      - text: 晚课期间在 MacBook Air 上进行
 
 constraints:
   - '09:30-12:00 论文大纲收尾'
@@ -69,5 +73,5 @@ verification:
   acknowledgement:
     by: user
     note: 周五工作顺利，数据验证取得突破性进展
-# AI-DAY-REVIEW-END
 
+# AI-DAY-REVIEW-END

@@ -10,14 +10,16 @@ tasks:
     dod: 恢复精力，为下午和晚上的工作储备能量
     status: done
     tags: []
-    notes: 昨晚睡眠不足，上午用来补觉是必要的恢复
+    notes:
+      - text: 昨晚睡眠不足，上午用来补觉是必要的恢复
 
   - title: Presentation全力冲刺
     priority: high
     dod: 完成slides制作和内容梳理
     status: done
     tags: [deepWork]
-    notes: 从下午开始全力投入，持续到深夜
+    notes:
+      - text: 从下午开始全力投入，持续到深夜
 
 meta:
   generatedAt: '2026-04-16T23:00:00+08:00'
@@ -50,4 +52,5 @@ verification:
   acknowledgement:
     by: user
     note: 周四上午补觉，下午晚上全力冲刺Presentation
+
 # AI-DAY-REVIEW-END

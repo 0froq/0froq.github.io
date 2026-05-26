@@ -15,10 +15,10 @@ tasks:
     dod: 了解Quarto/LaTeX/Overleaf社区评价，记录1-2个候选方案
     status: cancelled
     tags: []
-    links:
-      - label: Quarto 官网
+    notes:
+      - text: Quarto 官网
         url: https://quarto.org
-      - label: Overleaf
+      - text: Overleaf
         url: https://www.overleaf.com
 
 notes: |
@@ -45,21 +45,23 @@ review:
 
   completed:
     - title: 形成论文初步大纲框架
-      notes: |
-        - 大纲结构完整：引言→数据方法→结果→待确认事项
-        - 核心创新点明确：post-hiatus 研究空白、空间异质性分析
-        - 关键假设已列出：2015-2018平台期、生态过程影响、遥相关机制
-        - 文件路径: corpus/300_putredo/put_lswt_hiatus_paper_outline_202604011442.md
+      notes:
+        - text: |
+            - 大纲结构完整：引言→数据方法→结果→待确认事项
+            - 核心创新点明确：post-hiatus 研究空白、空间异质性分析
+            - 关键假设已列出：2015-2018平台期、生态过程影响、遥相关机制
+            - 文件路径: corpus/300_putredo/put_lswt_hiatus_paper_outline_202604011442.md
 
     - title: 探索论文撰写工具
-      notes: |
-        - 投入时间：2-3小时路上调研
-        - 候选方案评估：
-          1. LaTeX: 生态好但上手难，协作有挑战
-          2. Markdown+Pandoc: 专注内容但样式控制弱，协作流程待优化
-          3. Typst: 平衡选择但数学语法自成体系
-          4. Quarto: 需进一步了解
-        - 当前倾向：Overleaf（在线LaTeX）可能最适合导师协作
+      notes:
+        - text: |
+            - 投入时间：2-3小时路上调研
+            - 候选方案评估：
+              1. LaTeX: 生态好但上手难，协作有挑战
+              2. Markdown+Pandoc: 专注内容但样式控制弱，协作流程待优化
+              3. Typst: 平衡选择但数学语法自成体系
+              4. Quarto: 需进一步了解
+            - 当前倾向：Overleaf（在线LaTeX）可能最适合导师协作
 
   partial: []
   deferred: []
@@ -97,9 +99,11 @@ review:
 verification:
   status: pass
   checked_at: '2026-04-01T23:00:00+08:00'
-  notes: |
-    - 论文大纲文件已确认存在，当前状态为草稿框架
-    - 工具探索虽未完全按计划进行（手机电量），但完成了替代方案（路上调研）
-    - 记录内容与已存在文件保持一致
+  notes:
+    - text: |
+        - 论文大纲文件已确认存在，当前状态为草稿框架
+        - 工具探索虽未完全按计划进行（手机电量），但完成了替代方案（路上调研）
+        - 记录内容与已存在文件保持一致
   issues: []
+
 # AI-DAY-REVIEW-END

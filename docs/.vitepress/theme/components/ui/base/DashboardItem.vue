@@ -1,16 +1,16 @@
 <script setup lang="ts">
 import LinkUnderline from '@/ui/base/LinkUnderline.vue'
 
-interface Link {
-  label: string
-  url: string
+interface Note {
+  text: string
+  url?: string
 }
 
 interface Item {
   title: string
   description?: string
   dod?: string
-  links?: Link[]
+  notes?: Note[]
   locale?: string
 }
 
@@ -42,21 +42,28 @@ const linkIndentClass = {
     </div>
 
     <ul
-      v-if="item.links?.length"
+      v-if="item.notes?.length"
       :class="linkIndentClass[linkIndent]"
       un-text-sm
       un-text-stone-500
     >
       <li
-        v-for="link in item.links"
-        :key="link.url"
+        v-for="note in item.notes"
+        :key="`${note.text}:${note.url ?? ''}`"
         un-ml-10
       >
         <LinkUnderline
-          :href="link.url"
-          :text="link.label"
+          v-if="note.url"
+          :href="note.url"
+          :text="note.text"
           un-before="bg-stone-700 dark:bg-stone-300"
         />
+        <span
+          v-else
+          un-text="stone-600 dark:stone-400"
+        >
+          {{ note.text }}
+        </span>
       </li>
     </ul>
   </li>

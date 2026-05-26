@@ -8,22 +8,24 @@ tasks:
     dod: 确定非Word写作方案，开始Introduction撰写，让导师能同步看到进度
     status: done
     tags: [deepWork]
-    notes: 研究Overleaf/本地LaTeX/Typst方案，确保有字数统计和PDF同步
-    links: []
+    notes:
+      - text: 研究Overleaf/本地LaTeX/Typst方案，确保有字数统计和PDF同步
 
   - title: 数据分析代码
     priority: high
     dod: '编写GLAST 1数据处理代码，分三个时期分析（1984/85-1998, 1998-2012, 2012-2020）'
     status: done
     tags: [deepWork]
-    notes: 作图与数据处理同步推进
+    notes:
+      - text: 作图与数据处理同步推进
 
   - title: 补充遗漏文献
     priority: medium
     dod: 继续找回并收录之前读过但未加入Zotero的论文
     status: done
     tags: []
-    notes: 强制收录原则：不再犹豫，所有读过的论文都纳入Zotero
+    notes:
+      - text: 强制收录原则：不再犹豫，所有读过的论文都纳入Zotero
 
 goals:
   - 周五组会能展示论文写作和数据分析的实质性进展
@@ -44,29 +46,30 @@ meta:
 
 # AI-WEEK-REVIEW-START
 review:
-  summary: '论文Typst草稿投入使用，数据分析大幅推进，改用三段式新框架'
+  summary: 论文Typst草稿投入使用，数据分析大幅推进，改用三段式新框架
   completed:
-    - '论文撰写：Typst草稿投入使用，整体框架已有大致内容'
-    - '导师可通过NAS同步查看进度'
-    - '数据分析代码大幅推进，改用新框架'
+    - 论文撰写：Typst草稿投入使用，整体框架已有大致内容
+    - 导师可通过NAS同步查看进度
+    - 数据分析代码大幅推进，改用新框架
     - '新框架：先分三段（1984/85-1998, 1998-2012, 2012-2020）再看结构'
-    - '不预设hiatus，改为让数据说话的三段分析模式'
-    - '补充遗漏文献（周一晚和周二上午完成）'
+    - 不预设hiatus，改为让数据说话的三段分析模式
+    - 补充遗漏文献（周一晚和周二上午完成）
   partial:
-    - title: '周五组会反馈'
-      progress: '已展示进展，具体反馈待后续跟进'
-  energy: 'high'
+    - title: 周五组会反馈
+      progress: 已展示进展，具体反馈待后续跟进
+  energy: high
   notes:
-    - '周二周三高强度数据分析，进展顺利'
+    - 周二周三高强度数据分析，进展顺利
     - '周四代码+论文并行，建立工作流'
-    - 'Typst写作流畅，NAS同步方案有效'
-    - '周六完全休息，恢复精力'
+    - Typst写作流畅，NAS同步方案有效
+    - 周六完全休息，恢复精力
   handoff:
-    - '继续完善论文草稿'
-    - '深化三段式数据分析'
-    - '跟进周五组会反馈'
+    - 继续完善论文草稿
+    - 深化三段式数据分析
+    - 跟进周五组会反馈
 verification:
-  status: 'pass'
+  status: pass
   checked_at: '2026-04-26T22:00:00+08:00'
-  summary: '基于本周任务完成情况确认'
+  summary: 基于本周任务完成情况确认
+
 # AI-WEEK-REVIEW-END

@@ -9,28 +9,26 @@ tasks:
     dod: 30分钟内完成两个数据集的覆盖范围、时间跨度、下载方式评估，确定优先目标
     status: done
     tags: [timeBoxing, deepWork]
-    links:
-      - label: GloboLakes Catalogue
+    notes:
+      - text: GloboLakes Catalogue
         url: https://catalogue.ceda.ac.uk/uuid/76a29c5b55204b66a40308fc2ba9cdb3
-      - label: ARC-Lake
+      - text: ARC-Lake
         url: https://www.laketemp.net/home_ARCLake
-      - label: '040726: mark as done'
 
   - title: 选定数据集小样本下载
     priority: high
     dod: 启动并推进至少一个数据集的小样本下载
     status: done
     tags: [deepWork]
-    links:
-      - label: '040726: mark as done'
+    notes: []
 
   - title: ERA5-Land 辅助变量调研
     priority: medium
     dod: 列出 ML 补全短序列所需的辅助变量清单
     status: deferred
     tags: [forIdiot]
-    links:
-      - label: 'Zotero 需要维护，大量论文附件丢失 (040726: deferred)'
+    notes:
+      - text: Zotero 需要维护，大量论文附件丢失 (Deferred)
 
 constraints:
   - '09:30-12:00 早课'
@@ -70,4 +68,5 @@ review:
     checked_at: '2026-04-08T20:00:00+08:00'
     summary: 下载任务有明确文档记录（见 put_lswt_hiatus_202603261356.md），Zotero 问题用户已说明
     concerns: []
+
 # AI-DAY-REVIEW-END

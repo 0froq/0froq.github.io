@@ -9,8 +9,8 @@ tasks:
     dod: 包含引言、方法、数据、结果预期、讨论结构的完整大纲，每节有3-5个要点
     status: done
     tags: [deepWork]
-    links:
-      - label: 正在进行
+    notes:
+      - text: 正在进行
         url: /corpus/300_putredo/put_lswt_hiatus_paper_outline_202604011442
 
   - title: 探索论文撰写工具
@@ -18,10 +18,10 @@ tasks:
     dod: 评估 Quarto/LaTeX/Markdown 等工具，选定方案并完成基础配置
     status: deferred
     tags: [deepWork]
-    links:
-      - label: Quarto 官网
+    notes:
+      - text: Quarto 官网
         url: https://quarto.org
-      - label: LaTeX Project
+      - text: LaTeX Project
         url: https://www.latex-project.org
 
   - title: 下载湖泊温度数据集
@@ -29,18 +29,18 @@ tasks:
     dod: 确认数据源并启动下载，预估数据量和处理时间
     status: deferred
     tags: [forIdiot]
-    links:
-      - label: CCI
+    notes:
+      - text: CCI
         url: https://cds.climate.copernicus.eu/datasets/satellite-lake-water-temperature
-      - label: '数据太大，所里网络不稳定，切片下载 (040226: update status)'
+      - text: '数据太大，所里网络不稳定，切片下载 (040226: update status)'
 
   - title: 数据验证方案初步测试
     priority: medium
     dod: 用已下载数据跑通分析 pipeline，验证方法可行性
     status: blocked
     tags: [deepWork]
-    lins:
-      - label: blocked by data download
+    notes:
+      - text: blocked by data download
 
   # === 播客与创作 (Q2 - 灵活完成) ===
   - title: 播客第 2 期内容创作
@@ -48,9 +48,9 @@ tasks:
     dod: '确定主题 + 写提纲或初稿，不一定要录制'
     status: deferred
     tags: []
-    links:
-      - label: 与「嘉宾」约好周末录制
-      - label: '录制效果不佳，推迟 (040626: update status)'
+    notes:
+      - text: 与「嘉宾」约好周末录制
+      - text: '录制效果不佳，推迟 (040626: update status)'
 
   - title: 发布英文博客文章
     priority: low
@@ -64,8 +64,8 @@ tasks:
     dod: 记录 LiG.nvim、headup.nvim、bibr 当前状态，不强制推进
     status: deferred
     tags: []
-    links:
-      - label: '本周任务较重，暂不推进 (040226: update status)'
+    notes:
+      - text: '本周任务较重，暂不推进 (040226: update status)'
 
 goals:
   - 建立论文完整大纲，明确各章节逻辑
@@ -111,7 +111,7 @@ review:
   notes:
     - 假期期间未能保持每日 start/end，导致过程记录不连续
     - 临时事件（组会取消、编辑器维护）对当日计划有较大扰动
-    - 计划修补标注机制（links + 时间 + 原因）本周开始形成规范
+    - 计划修补标注机制（notes + 时间 + 原因）本周开始形成规范
   handoff:
     - 继续收敛论文核心问题与判别路径
     - 完成数据源方案比较并决定下一步下载策略
@@ -125,5 +125,6 @@ verification:
   concerns:
     - 本周 7 天中仅有部分 dayTodos/day-end 记录，过程证据连续性不足
     - 个别任务状态由后续修补更新，需在下周保持同日闭环记录
+
 # AI-WEEK-REVIEW-END
 # AI-WEEK-PLAN-END

@@ -10,14 +10,16 @@ tasks:
     dod: 上午完善分析结果，准备组会展示
     status: done
     tags: [deepWork]
-    notes: 组会前最后完善
+    notes:
+      - text: 组会前最后完善
 
   - title: 周五组会
     priority: high
     dod: 展示本周论文写作和数据分析进展
     status: done
     tags: []
-    notes: '14:30组会，展示三段式分析框架和论文草稿'
+    notes:
+      - text: 14:30组会，展示三段式分析框架和论文草稿
 
 meta:
   generatedAt: '2026-04-25T18:00:00+08:00'
@@ -49,4 +51,5 @@ verification:
   acknowledgement:
     by: user
     note: 周五组会展示完成
+
 # AI-DAY-REVIEW-END

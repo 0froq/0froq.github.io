@@ -9,16 +9,16 @@ tasks:
     dod: 找到支撑三段式分解方法的论文，记录核心方法和结论
     status: notStarted
     tags: [deepWork]
-    notes: '为三段式分析结构（1984/85-1998, 1998-2012, 2012-2020）寻找方法论支撑'
-    links: []
+    notes:
+      - text: 为三段式分析结构（1984/85-1998, 1998-2012, 2012-2020）寻找方法论支撑
 
   - title: 整理阅读笔记
     priority: medium
     dod: 将阅读收获整理为 Corpus 笔记
     status: notStarted
     tags: []
-    notes: 文献笔记与论文框架对接
-    links: []
+    notes:
+      - text: 文献笔记与论文框架对接
 
 constraints:
   - '15:00-18:30 图书馆工作块（3.5小时）'
@@ -31,4 +31,5 @@ meta:
   basedOn: [week-plan, today-constraints, user-intent]
   weekId: 2026-04-27
   notes: '今日设备受限（MacBook Air），聚焦轻量任务：读论文+做笔记。数据分析延后至周二回工位。用户后续自行调整。'
+
 # AI-DAY-PLAN-END

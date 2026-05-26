@@ -10,7 +10,8 @@ tasks:
     dod: 编写GLAST 1数据处理代码，分三个时期分析
     status: done
     tags: [deepWork]
-    notes: 大量代码分析，推进新框架（先分三段再看结构）
+    notes:
+      - text: 大量代码分析，推进新框架（先分三段再看结构）
 
 meta:
   generatedAt: '2026-04-22T23:00:00+08:00'
@@ -39,4 +40,5 @@ verification:
   acknowledgement:
     by: user
     note: 周二大量代码分析
+
 # AI-DAY-REVIEW-END

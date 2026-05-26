@@ -9,30 +9,30 @@ tasks:
     dod: 完成论文精读，梳理内容框架，规划展示结构
     status: notStarted
     tags: [deepWork]
-    links: []
+    notes: []
 
   - title: 下午2点找老师聊GLAST 2.0
     priority: high
     dod: 向老师确认是否等待GLAST 2.0发布，确定后续数据策略
     status: notStarted
     tags: []
-    links: []
+    notes: []
 
   - title: 可视化项目代码重构
     priority: medium
     dod: 持续推进代码层面重构，完成阶段性进度
     status: notStarted
     tags: [deepWork]
-    links: []
-    notes: 预计2-3天完成，需持续推进
+    notes:
+      - text: 预计2-3天完成，需持续推进
 
   - title: ID匹配方案收尾
     priority: medium
     dod: 确认HydroLAKES筛选思路，完成方案文档记录
     status: notStarted
     tags: []
-    links: []
-    notes: 方案已定：用HydroLAKES筛选，ID与GLAST相同
+    notes:
+      - text: 方案已定：用HydroLAKES筛选，ID与GLAST相同
 
 meta:
   generatedAt: '2026-04-15T09:00:00+08:00'
@@ -66,5 +66,5 @@ verification:
   acknowledgement:
     by: user
     note: 周三完成GLAST 2.0沟通决策，可视化重构推进中
-# AI-DAY-REVIEW-END
 
+# AI-DAY-REVIEW-END

@@ -10,7 +10,8 @@ tasks:
     dod: 继续编写GLAST 1数据处理代码，深化三个时期分析
     status: done
     tags: [deepWork]
-    notes: 继续大量代码分析，推进数据处理
+    notes:
+      - text: 继续大量代码分析，推进数据处理
 
 meta:
   generatedAt: '2026-04-23T23:00:00+08:00'
@@ -38,4 +39,5 @@ verification:
   acknowledgement:
     by: user
     note: 周三大量代码分析
+
 # AI-DAY-REVIEW-END
