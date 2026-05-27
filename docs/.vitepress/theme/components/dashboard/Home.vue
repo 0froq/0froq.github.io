@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import ProgressBarHeader from '@/ui/base/ProgressBarHeader.vue'
-import DayTodos from './DayTodos.vue'
-import BackLogs from './MonthBacklogs.vue'
-import WeekTasks from './WeekTasks.vue'
+import Board from './Board.vue'
 </script>
 
 <template>
@@ -10,9 +8,7 @@ import WeekTasks from './WeekTasks.vue'
     un-font="mono"
     title="Dashboard"
   />
-  <DayTodos />
-  <WeekTasks />
-  <BackLogs />
+  <Board />
 </template>
 
 <style scoped>

@@ -24,101 +24,50 @@ Rules:
 - Existing render logic treats `notes[].text`/`notes[].url` like the old `links[].label`/`links[].url`.
 - Top-level prose fields named `notes` may still be scalar strings or block scalars inside `meta`, review sections, or free-form context, but task/item `notes` must be a sequence of `{ text, url? }` objects.
 
-### Day plans: `docs/dashboard/dayTodos/YYYY-MM-DD.yml`
+### Board: `docs/dashboard/board.yml` (primary)
+
+The board is the **single source of truth** for current tasks. It replaces the former dayTodos/weekTasks/monthBacklogs system.
 
 ```yaml
-# AI-DAY-PLAN-START
-date: "YYYY-MM-DD"
-weekday: "周一"
-theme: "本日主题"
+# AI-BOARD
+updated: "YYYY-MM-DDTHH:mm:ss+08:00"
+weekTheme: "本周主题"
 
-tasks:
+active:
   - title: "任务标题"
     priority: high # high | medium | low
+    status: inProgress # inProgress | notStarted | blocked | deferred
     dod: "完成定义"
-    status: notStarted # done | inProgress | notStarted | deferred | cancelled | blocked
+    notes:
+      - text: "说明或链接标题"
+        url: "https://example.com/optional"
     tags: [deepWork] # optional: forIdiot, deepWork, timeBoxing, optional, etc.
+    since: "YYYY-MM-DD"
+
+done:
+  - title: "已完成任务"
+    completed: "YYYY-MM-DD"
     notes:
-      - text: "说明或链接标题"
-        url: "https://example.com/optional"
+      - text: "备注"
 
-constraints:
-  - "当日时间或环境约束"
-
-meta:
-  generatedAt: "YYYY-MM-DDTHH:mm:ss+08:00"
-  basedOn: [week, advisor, corpus, hard-context]
-  weekId: "YYYY-MM-DD" # that week's Monday
-  notes: "自由文本元信息"
-# AI-DAY-PLAN-END
+backlog:
+  - title: "待办任务"
+    notes:
+      - text: "说明"
+# AI-BOARD-END
 ```
 
-### Week plans: `docs/dashboard/weekTasks/YYYY-MM-DD.yml`
+Sections:
+- `active`: tasks currently in progress or planned for today/this week.
+- `done`: recently completed tasks (rotate out old entries periodically).
+- `backlog`: future tasks, low priority, waiting for conditions.
 
-The filename and `weekId` are the Monday of the week.
-
-```yaml
-# AI-WEEK-PLAN-START
-weekId: "YYYY-MM-DD"
-theme: "本周主题"
-
-tasks:
-  - title: "任务标题"
-    priority: high
-    dod: "完成定义"
-    status: notStarted
-    tags: [deepWork]
-    notes:
-      - text: "说明或链接标题"
-        url: "https://example.com/optional"
-
-goals:
-  - "本周目标"
-
-capacity:
-  estimatedDays: 5
-  plannedDeepWorkDays: 3
-
-meta:
-  generatedAt: "YYYY-MM-DDTHH:mm:ss+08:00"
-  basedOn: [last-week-review, month-backlog, year-vision]
-  constraints:
-    - "本周时间约束"
-  notes: "自由文本元信息"
-# AI-WEEK-PLAN-END
-```
-
-When objective time disappears because of travel, exams, experiments, illness, etc., mark unfinished planned tasks as `deferred` and explain the cause in task `notes[].text` and/or `meta.notes`. Do not leave them as `notStarted` if the reason is a legitimate external constraint.
-
-### Month backlogs: `docs/dashboard/monthBacklogs/YYYY-MM.yml`
-
-```yaml
-# AI-MONTH-BACKLOG-START
-monthId: YYYY-MM
-period: YYYY-MM-01 至 YYYY-MM-DD
-
-categories:
-  - name: 分类名
-    description: 分类说明
-
-items:
-  - title: "任务标题"
-    dod: "完成定义"
-    status: arranging # arranging | notPlanned | deferred
-    category: 分类名
-    due: 2026/05/31 # optional
-    notes:
-      - text: "说明或链接标题"
-        url: "https://example.com/optional"
-
-meta:
-  generatedAt: "YYYY-MM-DDTHH:mm:ss+08:00"
-  lastReview: null
-  nextReview: YYYY-MM-DD
-  notes: |
-    自由文本月度说明。
-# AI-MONTH-BACKLOG-END
-```
+Rules:
+- Update `board.yml` when task status changes (start, complete, defer, etc.), not on a fixed schedule.
+- `active` tasks should have a `status` field. `done` and `backlog` tasks default to `done` and `notStarted` respectively if status is omitted.
+- `notes` is always an array of `{ text, url? }` objects.
+- `weekTheme` can be updated when the week's focus shifts.
+- Old dayTodos/weekTasks/monthBacklogs files are preserved for history but should NOT be created for new plans.
 
 ### Visions and hints
 
@@ -134,22 +83,24 @@ meta:
       url: "https://example.com/optional"
 ```
 
-## Dashboard advisor Markdown
+## Dashboard advisor context
 
-Advisor context files live under `docs/dashboard/advisor/`.
+Advisor context lives in a **single rolling file**: `docs/dashboard/advisor/context.md`.
 
-- Start context files: `YYYY-MM-DD-start.md`.
-- End/review context files: `YYYY-MM-DD-end.md`.
-- Persistent state files: `docs/dashboard/advisor/state/latest-end.daily.yml` and `latest-end.weekly.yml`.
+- Update it when something significant changes (direction shift, major milestone, new constraint), not as a daily ritual.
 - `hard.md` contains fixed context: identity, routine, recurring commitments, current constraints, long-term projects, and rhythms. Update it when the user reports durable schedule/project changes.
+- Old per-day advisor files (`YYYY-MM-DD-start.md`, `YYYY-MM-DD-end.md`) and state files (`state/*.yml`) are preserved for history but should NOT be created for new plans.
 
-Advisor Markdown is free-form but should include explicit headings for:
-- date/week id,
-- theme,
-- context used,
-- constraints,
-- task carryover,
-- outcome/reason when a plan is deferred.
+## Legacy formats (preserved, do not create new)
+
+The following formats are retained in existing files for historical reference. **Do not create new files** using these schemas:
+
+- `docs/dashboard/dayTodos/YYYY-MM-DD.yml` — old daily plans
+- `docs/dashboard/weekTasks/YYYY-MM-DD.yml` — old weekly plans
+- `docs/dashboard/monthBacklogs/YYYY-MM.yml` — old monthly backlogs
+- `docs/dashboard/advisor/YYYY-MM-DD-start.md` — old daily advisor start context
+- `docs/dashboard/advisor/YYYY-MM-DD-end.md` — old daily advisor end context
+- `docs/dashboard/advisor/state/*.yml` — old verification state files
 
 ## Corpus conventions
 
@@ -197,9 +148,16 @@ Rules:
   - `doi`
 - Prefer creating corpus entries through the existing corpus tooling/templates when possible instead of inventing a new structure.
 
+### Hashtag conventions
+
+- Do not invent new hashtags on the tag line or anywhere in corpus entries.
+- If you believe a new hashtag is warranted, ask the user for review first. Use it only after approval.
+- Existing tags (e.g. `#scope/...`, `#source/...`, `#log/...`) should be reused whenever they fit.
+
 ## Agent behavior requirements
 
-- Before writing dashboard plans, read the relevant existing dashboard files and preserve the current schema.
+- Read `board.yml` and `advisor/context.md` before starting any planning conversation.
 - Do not create `links` fields in dashboard YAML.
 - Do not mix scalar task/item notes with note arrays. For tasks/items, use `notes: [{ text, url? }]`.
-- If a plan was made but later became impossible because external time disappeared, update statuses to `deferred` and record the reason so future agents do not interpret it as being stuck.
+- If a task becomes impossible because external constraints changed, update its status in `board.yml` and explain the reason in its `notes`.
+- Do not create new files using the legacy dayTodos/weekTasks/monthBacklogs/advisor-start/advisor-end formats.

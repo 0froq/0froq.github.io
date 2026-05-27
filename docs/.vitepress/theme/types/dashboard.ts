@@ -141,3 +141,26 @@ export interface HintsData {
    fence: FenceData
    tip: TipData
 }
+
+// ── Board (consolidated dashboard) ──
+
+export type BoardTaskStatus = 'done' | 'inProgress' | 'notStarted' | 'deferred' | 'deffered' | 'cancelled' | 'blocked'
+
+export interface BoardTask {
+   title: string
+   status?: BoardTaskStatus
+   priority?: 'high' | 'medium' | 'low'
+   dod?: string
+   notes?: TaskNote[]
+   tags?: string[]
+   since?: string
+   completed?: string
+}
+
+export interface BoardData {
+   updated: string
+   weekTheme?: string
+   active: BoardTask[]
+   done: BoardTask[]
+   backlog: BoardTask[]
+}
