@@ -33,7 +33,7 @@ const navItems = [
     { label: 'Tags', url: '/tags/' },
   ],
   [
-    { label: 'History', url: 'https://github.com/0froq/0froq.github.io/tree/main/docs/dashboard/weekTasks' },
+    { label: 'History', url: 'https://github.com/0froq/0froq.github.io/tree/main/docs/dashboard' },
     { label: 'Visions', url: `/dashboard/visions/` },
     { label: 'Hints', url: `/dashboard/hints/` },
   ],

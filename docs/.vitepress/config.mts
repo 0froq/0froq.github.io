@@ -88,7 +88,7 @@ export default defineConfig({
       }
 
       md.renderer.rules.hashtag_open = function (tokens, idx) {
-        const tagName = tokens[idx].content.toLowerCase()
+        const tagName = tokens[idx].content
         return `<a href="../../tags/${tagName}"><span class="tag">`
       }
 
