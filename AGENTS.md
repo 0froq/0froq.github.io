@@ -106,15 +106,15 @@ The following formats are retained in existing files for historical reference. *
 
 Corpus content lives under `docs/corpus/` and uses the six-layer architecture defined in `docs/corpus/_lib/corpus_layers.zsh`:
 
-| Layer | Alias | Directory | Meaning | Filename pattern |
-|---|---|---|---|---|
-| autopsia | aut | `000-autopsia/` | Metacognitive dissection and optimization | `aut-... .md` |
-| ingesta | ing | `100-ingesta/` | Information intake and sources | `ing-... .md` |
-| paper | paper | `100-ingesta/` | Paper/citation entries | `ing-@citation.md` or generated paper form |
-| neoplasma | neo | `200-neoplasma/` | Internalization and thinking | `neo-... .md` |
-| putredo | put | `300-putredo/` | Journaling and retrospective review | `put-YYYYMMDD... .md` or `put-topic.md` |
-| delirium | del | `400-delirium/` | Aesthetic materials and wonders | `del-... .md` |
-| vigil | vig | `500-vigil/` | Non-rational/semi-rational creation | `vig-... .md` |
+| Layer | Alias | Directory | Meaning | Filename pattern | Scope |
+|---|---|---|---|---|---|
+| autopsia | aut | `000-autopsia/` | Metacognitive dissection and optimization | `aut-... .md` | Internal |
+| ingesta | ing | `100-ingesta/` | Information intake and sources | `ing-... .md` | External |
+| paper | paper | `100-ingesta/` | Paper/citation entries | `ing-@citation.md` or generated paper form | External |
+| neoplasma | neo | `200-neoplasma/` | Internalization of external knowledge | `neo-... .md` | External → Internal |
+| putredo | put | `300-putredo/` | Journaling and retrospective review | `put-YYYYMMDD... .md` or `put-topic.md` | Internal |
+| delirium | del | `400-delirium/` | Aesthetic materials and wonders | `del-... .md` | External → Internal |
+| vigil | vig | `500-vigil/` | Non-rational/semi-rational creation | `vig-... .md` | Internal |
 
 ### Corpus Markdown frontmatter
 
