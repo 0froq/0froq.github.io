@@ -506,7 +506,7 @@ html {
   /* mark */
   & mark {
     --uno: 'relative';
-    --uno: 'bg-transparent';
+    --uno: 'bg-rose-500/20';
     --uno: 'text-stone-900 dark:text-stone-100';
     --uno: 'font-black';
     --uno: 'whitespace-nowrap';
