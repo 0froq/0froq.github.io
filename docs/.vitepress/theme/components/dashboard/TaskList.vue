@@ -13,8 +13,8 @@ const props = withDefaults(defineProps<{
   title: string
   subtitle?: string
   tasks: TaskItem[]
-  statusOrder: string[]
-  statusConfig: Record<string, TaskStatusConfig>
+  statusOrder?: string[]
+  statusConfig?: Record<string, TaskStatusConfig>
   showPriority?: boolean
   showDueDate?: boolean
   enableMarkdown?: boolean
@@ -44,11 +44,14 @@ function toggle() {
   isOpen.value = !isOpen.value
 }
 
+const statusSequence = computed(() => props.statusOrder ?? [])
+const shouldGroupByStatus = computed(() => statusSequence.value.length > 0)
+
 const groupedTasks = computed(() => {
   const grouped = new Map<string, TaskItem[]>()
 
   for (const task of props.tasks) {
-    const key = task.status
+    const key = task.status ?? 'unclassified'
     if (!grouped.has(key))
       grouped.set(key, [])
     grouped.get(key)?.push(task)
@@ -58,7 +61,7 @@ const groupedTasks = computed(() => {
 })
 
 function getStatusLabel(status: string): string {
-  return props.statusConfig[status]?.label ?? status
+  return props.statusConfig?.[status]?.label ?? status
 }
 
 function formatProgress(): string {
@@ -120,43 +123,59 @@ function formatProgress(): string {
         <div
           v-show="isOpen"
           un-p-2
+          un-pt-4
           un-text-sm
           un-overflow-hidden
           v-bind="{ 'un-bg': $attrs['un-bg-content'] }"
         >
           <template v-if="tasks.length">
-            <div
-              v-for="status in statusOrder"
-              :key="status"
-            >
+            <template v-if="shouldGroupByStatus">
               <div
-                v-if="groupedTasks.get(status)?.length"
-                un-mb-2
+                v-for="status in statusSequence"
+                :key="status"
               >
                 <div
-                  un-w="50%"
-                  un-mx-auto
+                  v-if="groupedTasks.get(status)?.length"
+                  un-mb-2
                 >
-                  <QSeperator
-                    un-text="stone-900 dark:stone-100"
-                    un-my-2
-                    :title="getStatusLabel(status)"
-                  />
+                  <div
+                    un-w="50%"
+                    un-mx-auto
+                  >
+                    <QSeperator
+                      un-text="stone-900 dark:stone-100"
+                      un-my-2
+                      :title="getStatusLabel(status)"
+                    />
+                  </div>
+                  <ul un-list-none>
+                    <TaskListItem
+                      v-for="task in groupedTasks.get(status)"
+                      :key="task.title"
+                      :task="task"
+                      :status="status"
+                      :show-priority="showPriority"
+                      :show-due-date="showDueDate"
+                      :enable-markdown="enableMarkdown"
+                    />
+                  </ul>
                 </div>
-                <ul un-list-none>
-                  <TaskListItem
-                    v-for="task in groupedTasks.get(status)"
-                    :key="task.title"
-                    :task="task"
-                    :status="status"
-                    :status-config="statusConfig"
-                    :show-priority="showPriority"
-                    :show-due-date="showDueDate"
-                    :enable-markdown="enableMarkdown"
-                  />
-                </ul>
               </div>
-            </div>
+            </template>
+
+            <ul
+              v-else
+              un-list-none
+            >
+              <TaskListItem
+                v-for="task in tasks"
+                :key="task.title"
+                :task="task"
+                :show-priority="showPriority"
+                :show-due-date="showDueDate"
+                :enable-markdown="enableMarkdown"
+              />
+            </ul>
           </template>
 
           <div

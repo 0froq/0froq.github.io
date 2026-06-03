@@ -9,8 +9,8 @@ const { t } = useI18n({
   messages: {
     en: {
       active: 'Active',
-      done: 'Done',
       backlog: 'Backlog',
+      archive: 'Archive',
       status: {
         done: 'Done',
         inProgress: 'In Progress',
@@ -23,8 +23,8 @@ const { t } = useI18n({
     },
     zh: {
       active: '进行中',
-      done: '已完成',
       backlog: '待办池',
+      archive: '归档',
       status: {
         done: '完毕',
         inProgress: '途中',
@@ -38,12 +38,11 @@ const { t } = useI18n({
   },
 })
 
-const activeStatusOrder = ['inProgress', 'notStarted', 'blocked', 'deferred', 'deffered', 'cancelled']
-const doneStatusOrder = ['done']
-const backlogStatusOrder = ['notStarted']
+const activeStatusOrder = ['inProgress', 'notStarted', 'blocked', 'done', 'deferred', 'deffered', 'cancelled']
 
 const activeStatusConfig = {
   inProgress: { label: t('status.inProgress') },
+  done: { label: t('status.done') },
   notStarted: { label: t('status.notStarted') },
   blocked: { label: t('status.blocked') },
   deferred: { label: t('status.deferred') },
@@ -51,17 +50,9 @@ const activeStatusConfig = {
   cancelled: { label: t('status.cancelled') },
 }
 
-const doneStatusConfig = {
-  done: { label: t('status.done') },
-}
-
-const backlogStatusConfig = {
-  notStarted: { label: t('status.notStarted') },
-}
-
 const activeTasks = boardData.asTaskItems.active
-const doneTasks = boardData.asTaskItems.done
 const backlogTasks = boardData.asTaskItems.backlog
+const archiveTasks = boardData.asTaskItems.archive
 
 const activeDone = activeTasks.filter((t: TaskItem) => t.status === 'done').length
 const activeTotal = activeTasks.filter((t: TaskItem) => !['deferred', 'deffered', 'cancelled'].includes(t.status)).length
@@ -82,27 +73,23 @@ const activeTotal = activeTasks.filter((t: TaskItem) => !['deferred', 'deffered'
     un-border-color="amber-400 dark:amber-600"
   />
   <TaskList
-    v-if="doneTasks.length"
-    :title="t('done')"
-    :tasks="doneTasks"
-    :status-order="doneStatusOrder"
-    :status-config="doneStatusConfig"
-    :progress="doneTasks.length"
-    un-bg-header="emerald-100/40 dark:emerald-900/40"
-    un-bg-content="emerald-100/20 dark:emerald-900/20"
-    un-border-color="emerald-400 dark:emerald-600"
-  />
-  <TaskList
     v-if="backlogTasks.length"
     :title="t('backlog')"
     :tasks="backlogTasks"
-    :status-order="backlogStatusOrder"
-    :status-config="backlogStatusConfig"
     enable-markdown
     :progress="backlogTasks.length"
     un-bg-header="sky-100/40 dark:sky-900/40"
     un-bg-content="sky-100/20 dark:sky-900/20"
     un-border-color="sky-400 dark:sky-600"
+  />
+  <TaskList
+    v-if="archiveTasks.length"
+    :title="t('archive')"
+    :tasks="archiveTasks"
+    :progress="archiveTasks.length"
+    un-bg-header="emerald-100/40 dark:emerald-900/40"
+    un-bg-content="emerald-100/20 dark:emerald-900/20"
+    un-border-color="emerald-400 dark:emerald-600"
   />
   <!-- To generate unocss classes -->
   <div

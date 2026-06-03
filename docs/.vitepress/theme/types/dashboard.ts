@@ -5,7 +5,7 @@ export interface TaskNote {
 
 export interface TaskItem {
    title: string
-   status: string
+   status?: string
    priority?: 'high' | 'medium' | 'low'
    dod?: string
    due?: string
@@ -161,6 +161,6 @@ export interface BoardData {
    updated: string
    weekTheme?: string
    active: BoardTask[]
-   done: BoardTask[]
    backlog: BoardTask[]
+   archive: BoardTask[]
 }

@@ -7,11 +7,12 @@ import { renderMdInline } from '~/utils/renderMdInline'
 
 const props = withDefaults(defineProps<{
   task: TaskItem
-  status: string
+  status?: string
   showPriority?: boolean
   showDueDate?: boolean
   enableMarkdown?: boolean
 }>(), {
+  status: '',
   showPriority: false,
   showDueDate: false,
   enableMarkdown: false,
@@ -168,12 +169,18 @@ function renderDod(dod: string): string {
       @click="toggleExpand"
     >
       <un-i-solar-alt-arrow-right-bold-duotone
+        v-if="task.notes?.length || task.dod?.length"
+        un-w-4
+        un-h-4
         class="expanded-indicator"
         :data-status="status"
         :data-expanded="isExpanded ? 'true' : 'false'"
-      >
-        >
-      </un-i-solar-alt-arrow-right-bold-duotone>
+      />
+      <span
+        v-else
+        un-w-4
+        un-h-4
+      />
       <span
         v-if="showPriority && priorityLevel(task.priority)"
         un-font-mono

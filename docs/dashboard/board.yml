@@ -1,48 +1,49 @@
 # AI-BOARD
-updated: '2026-05-27T09:00:00+08:00'
-weekTheme: '实验归来整理 + 论文 Results 优化'
+updated: '2026-06-03T20:40:00+08:00'
+weekTheme: ''
 
 active:
-  - title: Results 初稿审阅优化
+  - title: 扩展数据验证 1994 边界效应
     priority: high
-    status: inProgress
-    dod: 逐节审阅 AI 初稿，修正逻辑和表述问题
+    status: done
     notes:
-      - text: AI 已产出全球尺度第一版初稿，需人工审阅和优化
-    tags: [deepWork]
-    since: 2026-05-26
-
-  - title: 规划系统简化
-    priority: high
-    status: inProgress
-    dod: 将多层 YAML + advisor 体系替换为滚动 board + 单一 context 文件
-    notes:
-      - text: 当前系统过于繁琐，正在讨论新方案
-      - text: 去掉了验证机制，再分析一下
-    since: 2026-05-27
-
-  - title: 出差记录整理
+      - text: 2026-06-03 已完成；1994 年是边界，但 1990 年不是，1990 年是真的 shift 点
+  - title: 导师任务：中韩合作项目申报书（？）中的某一部分
     priority: medium
+    due: 2026-06-08
     status: notStarted
-    dod: 整理 05-12 至 05-24 期间零散记录，需要的归档，不需要的删除
-    since: 2026-05-27
+    notes:
+      - text: 在这里编辑文稿
+        url: https://word.cloud.microsoft/open/onedrive/?docId=37A5EFB32CC610FA%21sa98ad297e4e24e3fb3985081c3eb32d6&driveId=37A5EFB32CC610FA
+      - text: 这是参考
+        url: https://word.cloud.microsoft/open/onedrive/?docId=37A5EFB32CC610FA%21s38dbaff312f54201b67e56e3a89424f8&driveId=37A5EFB32CC610FA
+  - title: 一个小组 Presentation 的 slides
+    priority: high
+    due: 2026-06-09
+    status: notStarted
 
-done:
+backlog:
+  - title: PDO/bloom 叙事 → discussion future directions
+    notes:
+      - text: 从论证必须降级为 future directions；bloom 数据湖泊数少（~4500 vs 92000），时间尺度粗，暂不做归因
+  - title: 新的 theme
+    notes:
+      - text: 风格：人文、低饱和，可以参考 OpenHahako
+  - title: Results 初稿审阅优化
+    # priority: high
+    # status: done
+    notes:
+      - text: 2026-06-03 已完成；作为后续区域尺度初稿与论文叙事收敛的直接上下文保留在 active
+
+archive:
   - title: 结课论文提交
     completed: 2026-05-19
   - title: 协助合作实验（站点 05-18~24）
     completed: 2026-05-24
   - title: agent 配置与论文 AI 分析
     completed: 2026-05-26
-
-backlog:
-  - title: Results 区域尺度初稿
-    notes:
-      - text: 全球尺度完成后启动
-  - title: 论文叙事框架整理
-    notes:
-      - text: 整理 Introduction 到 Results 的叙事顺序
-  - title: LiG.nvim README 完善与宣传
-    notes:
-      - text: 等论文有进展后再做
+  - title: 论文叙事方向调整（PDO/bloom 降级 + 5.5 节移位决策）
+    completed: 2026-05-29
+  - title: 规划系统简化
+    completed: 2026-05-28
 # AI-BOARD-END
