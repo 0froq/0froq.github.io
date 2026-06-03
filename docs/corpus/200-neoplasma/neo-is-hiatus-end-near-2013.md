@@ -1,8 +1,8 @@
 ---
 title: Is Hiatus End Near 2013?
 created: 2026-03-31
-status: draft
-last_modified: 2026-04-22 18:52:43
+status: void
+last_modified: 2026-06-03 19:46:44
 ---
 
 They said that the warming hiatus ended in near 2013, but I noticed \~2016 -

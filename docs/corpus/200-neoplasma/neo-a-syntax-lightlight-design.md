@@ -1,8 +1,8 @@
 ---
 title: A Syntax Lightlight Design
 created: 2025-12-10
-status: draft
-last_modified: 2026-04-10 19:23:25
+status: form
+last_modified: 2026-06-03 19:46:36
 ---
 
 ---
