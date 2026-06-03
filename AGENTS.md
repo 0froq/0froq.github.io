@@ -1,163 +1,149 @@
-# Repository Agent Notes
+# Agent Operational Notes (Draft)
 
-This repository is a VitePress knowledge-management site. Future agents must preserve the dashboard and corpus file formats below; malformed YAML/frontmatter causes later planning agents and dashboard renderers to misread state.
+This file collects operational edge cases and pitfalls not covered by skill definitions.
+Format per entry: Problem → Real case → Correct practice.
 
-## Dashboard YAML conventions
+> ⚠️ **Draft — under review by froQ**
 
-Dashboard data lives under `docs/dashboard/`.
+---
 
-### Link-like notes
+## 1. Dashboard & Board.yml
 
-Dashboard items use `notes`, not `links`, for link-like annotations.
+### 1.1 notes format in YAML
 
-```yaml
-notes:
-  - text: Human-readable note text
-    url: https://example.com/optional
-  - text: Plain note without a URL
-```
-
-Rules:
-- Do not write `links` in dashboard YAML.
-- Do not write `label` under dashboard item notes; use `text`.
-- `url` is optional. Omit it for status-change notes, handoff comments, or other non-link annotations.
-- Existing render logic treats `notes[].text`/`notes[].url` like the old `links[].label`/`links[].url`.
-- Top-level prose fields named `notes` may still be scalar strings or block scalars inside `meta`, review sections, or free-form context, but task/item `notes` must be a sequence of `{ text, url? }` objects.
-
-### Board: `docs/dashboard/board.yml` (primary)
-
-The board is the **single source of truth** for current tasks. It replaces the former dayTodos/weekTasks/monthBacklogs system.
-
-```yaml
-# AI-BOARD
-updated: "YYYY-MM-DDTHH:mm:ss+08:00"
-weekTheme: "本周主题"
-
-active:
-  - title: "任务标题"
-    priority: high # high | medium | low
-    status: inProgress # inProgress | notStarted | blocked | deferred
-    dod: "完成定义"
-    notes:
-      - text: "说明或链接标题"
-        url: "https://example.com/optional"
-    tags: [deepWork] # optional: forIdiot, deepWork, timeBoxing, optional, etc.
-    since: "YYYY-MM-DD"
-
-done:
-  - title: "已完成任务"
-    completed: "YYYY-MM-DD"
-    notes:
-      - text: "备注"
-
-backlog:
-  - title: "待办任务"
-    notes:
-      - text: "说明"
-# AI-BOARD-END
-```
-
-Sections:
-- `active`: tasks currently in progress or planned for today/this week.
-- `done`: recently completed tasks (rotate out old entries periodically).
-- `backlog`: future tasks, low priority, waiting for conditions.
-
-Rules:
-- Update `board.yml` when task status changes (start, complete, defer, etc.), not on a fixed schedule.
-- `active` tasks should have a `status` field. `done` and `backlog` tasks default to `done` and `notStarted` respectively if status is omitted.
-- `notes` is always an array of `{ text, url? }` objects.
-- `weekTheme` can be updated when the week's focus shifts.
-- Old dayTodos/weekTasks/monthBacklogs files are preserved for history but should NOT be created for new plans.
-
-### Visions and hints
-
-`docs/dashboard/visions/*.yml`, `docs/dashboard/hints/fence.yml`, and `docs/dashboard/hints/tip.yml` are YAML sequences of items. Use `notes` for URLs or annotations:
-
-```yaml
-- title: "目标或提示"
-  description: "可选说明"
-  category: "分类"
-  locale: zh
+- **Problem**: Writing `notes` as a scalar string or using `links`/`label` fields breaks dashboard render logic silently.
+- **Case**: `notes: "just a note"` — YAML parser accepts this, but the dashboard renderer expects `[{text, url?}]` and produces blank output with no error.
+- **Correct**: Always use `notes:` as a sequence of objects:
+  ```yaml
   notes:
-    - text: "链接标题或补充说明"
-      url: "https://example.com/optional"
-```
+    - text: Human-readable note
+      url: 'https://optional.url'
+  ```
+  This applies to `board.yml` (active/backlog/archive), visions, hints, and any other dashboard YAML.
+  Top-level prose fields named `notes` outside dashboard YAML (e.g. in free-form context blocks) may still be scalar strings.
 
-## Dashboard advisor context
+### 1.2 Board column semantics
 
-Advisor context lives in a **single rolling file**: `docs/dashboard/advisor/context.md`.
+- **Problem**: Treating top-level board columns and per-task execution status as the same state axis creates redundant or contradictory data.
+- **Correct**:
+  - `active`: all tasks that still belong to the current execution narrative. Active tasks may use `status` such as `inProgress`, `notStarted`, `blocked`, `done`, `deferred`, or `cancelled`.
+  - `backlog`: ideas or possible tasks with no concrete arrangement yet. Backlog items should not use `status`.
+  - `archive`: completed long ago, fully closed, or no longer relevant to subsequent work. Archive items should not use `status`; use `completed` when known.
+  - There is no top-level `done` column. Recent completions that still inform ongoing work remain in `active` with `status: done`; only fully closed items move to `archive`.
 
-- Update it when something significant changes (direction shift, major milestone, new constraint), not as a daily ritual.
-- `hard.md` contains fixed context: identity, routine, recurring commitments, current constraints, long-term projects, and rhythms. Update it when the user reports durable schedule/project changes.
-- Old per-day advisor files (`YYYY-MM-DD-start.md`, `YYYY-MM-DD-end.md`) and state files (`state/*.yml`) are preserved for history but should NOT be created for new plans.
+### 1.3 Confirm gate: when to apply strictly vs when to skip
 
-## Legacy formats (preserved, do not create new)
+- **Problem**: Applying the full confirm flow (preview → ask → wait) to trivial or corrective updates makes the agent feel bureaucratic.
+- **Case A — Trivial update**: User says "mark the blog-post task as done". Agent responds with "Here's the change, please confirm:" instead of just doing it.
+- **Case B — Correction**: User says "actually I made a mistake, task X is NOT done, change it back". Agent re-applies the full confirm gate instead of just reverting.
+- **Correct**:
+  - ✅ Full confirm flow (skill-defined): multi-task planning, weekly themes, context changes — anything that meaningfully changes the plan.
+  - ✅ Brief acknowledgment: single-task status updates within `active`, flagging, priority tweaks — do it and say "done" or ask "anything else?".
+  - ✅ Direct execute (no gate): error corrections the user explicitly flags as corrections, reverts, and "never mind" rollbacks.
 
-The following formats are retained in existing files for historical reference. **Do not create new files** using these schemas:
+### 1.4 Reading vs planning: trigger discrimination
 
-- `docs/dashboard/dayTodos/YYYY-MM-DD.yml` — old daily plans
-- `docs/dashboard/weekTasks/YYYY-MM-DD.yml` — old weekly plans
-- `docs/dashboard/monthBacklogs/YYYY-MM.yml` — old monthly backlogs
-- `docs/dashboard/advisor/YYYY-MM-DD-start.md` — old daily advisor start context
-- `docs/dashboard/advisor/YYYY-MM-DD-end.md` — old daily advisor end context
-- `docs/dashboard/advisor/state/*.yml` — old verification state files
+- **Problem**: A read-only query triggers the full start-my-day / end-my-day skill flow, which feels overwhelming.
+- **Case**: User asks "what's on my board today?" Agent launches into "Good morning! Let me help you plan your day..."
+- **Correct**: Read-only queries (status check, "show me X", "what's active") → read board.yml and serve the data plainly. Only enter planning/review conversation flow when user signals intent with phrases like "let's plan", "帮我规划", "复盘一下", or equivalent.
 
-## Corpus conventions
+### 1.5 Malformed board.yml handling
 
-Corpus content lives under `docs/corpus/` and uses the six-layer architecture defined in `docs/corpus/_lib/corpus_layers.zsh`:
-
-| Layer | Alias | Directory | Meaning | Filename pattern | Scope |
-|---|---|---|---|---|---|
-| autopsia | aut | `000-autopsia/` | Metacognitive dissection and optimization | `aut-... .md` | Internal |
-| ingesta | ing | `100-ingesta/` | Information intake and sources | `ing-... .md` | External |
-| paper | paper | `100-ingesta/` | Paper/citation entries | `ing-@citation.md` or generated paper form | External |
-| neoplasma | neo | `200-neoplasma/` | Internalization of external knowledge | `neo-... .md` | External → Internal |
-| putredo | put | `300-putredo/` | Journaling and retrospective review | `put-YYYYMMDD... .md` or `put-topic.md` | Internal |
-| delirium | del | `400-delirium/` | Aesthetic materials and wonders | `del-... .md` | External → Internal |
-| vigil | vig | `500-vigil/` | Non-rational/semi-rational creation | `vig-... .md` | Internal |
-
-### Corpus Markdown frontmatter
-
-Use YAML frontmatter exactly at the top:
-
-```markdown
----
-title: Title
-created: YYYY-MM-DD
-status: draft
-last_modified: YYYY-MM-DD HH:mm:ss
----
+- **Problem**: board.yml has a YAML syntax error (e.g. from a previous bad write by another agent). The agent silently fails to parse it and proceeds with an empty view.
+- **Case**: A previous write left `notes: ""` instead of `notes: []`, causing YAML parse to return null for an entire section.
+- **Correct**: If board.yml fails to parse or a section is unexpectedly empty/null:
+  1. Report the exact file path and the parse error to the user.
+  2. Attempt to identify and fix the syntax issue manually (the agent can reason about YAML structure).
+  3. Present the fix as a diff and ask the user to verify.
+  4. Do not proceed with planning/review on an empty parse.
 
 ---
 
-[[toc]]
+## 2. Corpus Conventions
 
-#scope/... #source/...
-```
+### 2.1 Filename prefix must match layer
 
-Rules:
-- `title`, `created`, `status`, and `last_modified` are required for normal corpus entries.
-- `status` values seen in this corpus include `draft` and `form`; prefer `draft` unless the user explicitly says the note is finalized/formalized.
-- Keep the separator line `---`, `[[toc]]`, and tag line structure from the templates in `docs/corpus/_template/`.
-- Paper entries add bibliographic bullets after the tag line:
-  - `citation_key`
-  - `title`
-  - `author`
-  - `journal`
-  - `year`
-  - `doi`
-- Prefer creating corpus entries through the existing corpus tooling/templates when possible instead of inventing a new structure.
+- **Problem**: Creating a file in the wrong directory or with the wrong prefix for its content type. The corpus tooling and the six-layer architecture rely on consistent prefix→layer mapping.
+- **Case**: Dropping a metacognitive entry into `100-ingesta/` with prefix `aut-`, or putting an aesthetic entry in `000-autopsia/` with prefix `del-`.
+- **Correct**: Prefix strictly follows layer directory:
 
-### Hashtag conventions
+  | Directory        | Prefix | Content                  |
+  | ---------------- | ------ | ------------------------ |
+  | `000-autopsia/`  | `aut-` | Metacognition            |
+  | `100-ingesta/`   | `ing-` | External intake & papers |
+  | `200-neoplasma/` | `neo-` | Internalized knowledge   |
+  | `300-putredo/`   | `put-` | Journaling & review      |
+  | `400-delirium/`  | `del-` | Aesthetic materials      |
+  | `500-vigil/`     | `vig-` | Non-rational creation    |
 
-- Do not invent new hashtags on the tag line or anywhere in corpus entries.
-- If you believe a new hashtag is warranted, ask the user for review first. Use it only after approval.
-- Existing tags (e.g. `#scope/...`, `#source/...`, `#log/...`) should be reused whenever they fit.
+  The [layer reference tooling](docs/corpus/_lib/corpus_layers.zsh) provides `corpus_normalize_layer` to resolve aliases.
 
-## Agent behavior requirements
+### 2.2 Putredo: date-based vs topic-based naming
 
-- Read `board.yml` and `advisor/context.md` before starting any planning conversation.
-- Do not create `links` fields in dashboard YAML.
-- Do not mix scalar task/item notes with note arrays. For tasks/items, use `notes: [{ text, url? }]`.
-- If a task becomes impossible because external constraints changed, update its status in `board.yml` and explain the reason in its `notes`.
-- Do not create new files using the legacy dayTodos/weekTasks/monthBacklogs/advisor-start/advisor-end formats.
+- **Problem**: Not knowing when to use a date vs a topic as the filename, leading to either a cluttered directory or untrackable entries.
+- **Case A**: Creating `put-my-thoughts.md` for a single-day journal entry — should have been `put-YYYYMMDD.md`.
+- **Case B**: Creating `put-20260528.md` for a long-term recurring topic like "research-ltmp" — should have been `put-research-ltmp.md`.
+- **Correct**:
+  - **Journal entry** (single day, one-off reflection): `put-YYYYMMDD.md`
+  - **Topic entry** (recurring or long-form reflection on a specific theme): `put-topic.md`
+  - **Dated topic entry** (a session on a topic that may recur): `put-topic-YYYYMMDDHHMM.md`
+  - Examples from the corpus: `put-20260527.md` (journal), `put-research-ltmp.md` (topic), `put-lswt-hiatus-202603261356.md` (dated topic).
+
+### 2.3 Paper entries require the @ prefix
+
+- **Problem**: Creating paper entries without the `@` prefix, which breaks the paper-vs-other-ingesta distinction.
+- **Case**: Creating `ing-dai2018.md` instead of `ing-@dai2018.md`.
+- **Correct**: Paper entries in `100-ingesta/` use `ing-@citation_key.md`. The `@` signals a paper citation rather than a general intake note. Use the paper template (`_template/tp-paper.md`) which includes bib metadata fields after the tag line:
+  ```markdown
+  - citation_key: dai2018
+  - title: ...
+  - author: ...
+  - journal: ...
+  - year: ...
+  - doi: ...
+  ```
+
+### 2.4 Frontmatter completeness
+
+- **Problem**: Omitting one or more required frontmatter fields, which breaks corpus rendering and tag-based queries.
+- **Case**: Creating a corpus entry with only `title` and `created`, missing `status` and `last_modified`.
+- **Correct**: Every corpus entry must have all four required fields:
+  ```yaml
+  ---
+  title: Entry Title
+  created: YYYY-MM-DD
+  status: draft # or "form" if the user says finalized
+  last_modified: YYYY-MM-DD HH:mm:ss
+  ---
+  ```
+  Always start from the corresponding template in `docs/corpus/_template/`.
+
+### 2.5 Hashtag invention
+
+- **Problem**: Inventing new hashtags on the tag line without user approval, creating tag fragmentation.
+- **Case**: Adding `#my-custom-tag` to a corpus entry when existing tags like `#scope/work`, `#source/paper`, or `#log/reading` would fit.
+- **Correct**:
+  - Reuse existing tags (`#scope/...`, `#source/...`, `#log/...`) whenever they fit.
+  - If no existing tag covers the concept, propose the new tag to the user in conversation and wait for approval.
+  - Do not add unapproved tags to the file.
+
+---
+
+## 3. Agent Behavior & Tool Use
+
+### 3.1 Confirm gate for skills vs direct instructions
+
+(Related to 1.2 above, but from the tool-use perspective rather than board structural perspective.)
+
+- **Problem**: Applying the skill's strict confirm sequence (preview → ask → write) to every agent action, even when the user's instruction is unambiguous and standalone.
+- **Case**: User says "add this task to backlog: 'read paper X'". Agent responds with "Here's the preview, please confirm:" instead of just adding it and saying "done".
+- **Correct**:
+  - **Unambiguous, single-step instructions**: execute and report. The execution itself is the confirmation — if there's an error, the user will correct it.
+  - **Multi-step or consequential changes**: preview → ask confirm → write. When in doubt, preview briefly.
+  - Use judgment: "change status of active task X to done" → execute. "Move X to archive" → execute if explicit. "Let's plan the week" → full confirm flow.
+
+### 3.2 read-then-ask-then-write: the one exception
+
+- **Problem**: Reading `board.yml` + `context.md` is mandatory before any planning/review conversation, but some agents skip this in the name of "natural conversation".
+- **Case**: User says "let's review my week" and the agent starts asking "so how was your week?" without having read the board — leading to uninformed questions like "what did you work on?"
+- **Correct**: Always read `board.yml` + `advisor/context.md` + relevant hints before entering a planning or review conversation. The skill flow explicitly calls this out as step 1 in all four skills.
