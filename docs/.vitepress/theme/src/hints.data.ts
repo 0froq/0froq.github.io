@@ -1,5 +1,7 @@
 import type { HintCategory, HintItem, HintsData } from '../types'
 import fs from 'node:fs'
+import path from 'node:path'
+import process from 'node:process'
 import { defineLoader } from 'vitepress'
 import YAML from 'yaml'
 
@@ -12,9 +14,10 @@ export default defineLoader({
     'docs/dashboard/hints/tip.yml',
   ],
 
-  load(watchedFiles): HintsData {
-    const fenceFile = watchedFiles.find(f => f.endsWith('fence.yml'))
-    const tipFile = watchedFiles.find(f => f.endsWith('tip.yml'))
+  load(): HintsData {
+    
+    const fenceFile = path.join(process.cwd(), 'docs/dashboard/hints/fence.yml')
+    const tipFile = path.join(process.cwd(), 'docs/dashboard/hints/tip.yml')
 
     const fenceItems = fenceFile && fs.existsSync(fenceFile)
       ? readYaml<HintItem[]>(fenceFile) ?? []
