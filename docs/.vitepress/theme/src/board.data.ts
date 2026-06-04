@@ -12,7 +12,6 @@ export default defineLoader({
    watch: ['docs/dashboard/board.yml'],
 
    load(watchedFiles): typeof data {
-      console.warn(watchedFiles)
       const boardFile = watchedFiles[0]
          ?? path.join(process.cwd(), 'docs/dashboard/board.yml')
 
