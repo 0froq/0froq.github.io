@@ -99,6 +99,8 @@ const rowRefs = ref<(HTMLElement | null)[]>([])
 const separatorOpacities = ref<number[]>([])
 
 function scheduleSeparatorRefresh() {
+  if (typeof window === 'undefined')
+    return
   if (refreshRafId != null)
     cancelAnimationFrame(refreshRafId)
   refreshRafId = requestAnimationFrame(() => {
@@ -135,19 +137,19 @@ watch([pointerX, pointerY, pointerActive], () => {
   scheduleSeparatorRefresh()
 })
 
-useEventListener(window, 'pointermove', () => {
+useEventListener('pointermove', () => {
   pointerActive.value = true
 }, { passive: true })
 
-useEventListener(window, 'pointerleave', () => {
+useEventListener('pointerleave', () => {
   pointerActive.value = false
 }, { passive: true })
 
-useEventListener(window, 'scroll', () => {
+useEventListener('scroll', () => {
   scheduleSeparatorRefresh()
 }, { passive: true, capture: true })
 
-useEventListener(window, 'resize', () => {
+useEventListener('resize', () => {
   scheduleSeparatorRefresh()
 }, { passive: true })
 

@@ -14,6 +14,7 @@ const titleWrapperVisible = useElementVisibility(titleWrapper)
 const progressBarWidth = useCssVar('--progress-bar-width', titleWrapper)
 
 function handleScroll() {
+  if (typeof window === 'undefined') return
   // const categoryWrapper = titleWrapper.value!.parentElement
   if (!titleWrapper.value)
     return
@@ -36,11 +37,12 @@ function handleScroll() {
   }
 }
 watchEffect(() => {
+  if (typeof window === 'undefined') return
   if (titleWrapperVisible.value) {
-    useEventListener(window, ['scroll', 'resize'], handleScroll)
+    useEventListener(['scroll', 'resize'], handleScroll)
   }
   else {
-    const clean = useEventListener(window, ['scroll', 'resize'], handleScroll)
+    const clean = useEventListener(['scroll', 'resize'], handleScroll)
     clean()
   }
 })

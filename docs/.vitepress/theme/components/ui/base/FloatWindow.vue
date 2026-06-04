@@ -129,7 +129,7 @@ function close() {
 
 // 监听 resize/scroll 关闭窗口
 onMounted(() => {
-  useEventListener(window, ['resize', 'scroll'], close)
+  useEventListener(['resize', 'scroll'], close)
 })
 
 // 暴露方法给父组件

@@ -2,7 +2,7 @@
 import { defaultDocument, useScroll } from '@vueuse/core'
 import { toRefs } from 'vue'
 
-const { y, arrivedState } = useScroll(window)
+const { y, arrivedState } = useScroll()
 const { top, bottom } = toRefs(arrivedState)
 </script>
 

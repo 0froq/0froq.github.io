@@ -167,9 +167,10 @@ const rowRef = ref<HTMLElement | null>(null)
 const separatorOpacity = ref(0.08)
 
 function scheduleSeparatorRefresh() {
+  if (!defaultWindow) return
   if (refreshRafId != null)
-    cancelAnimationFrame(refreshRafId)
-  refreshRafId = requestAnimationFrame(() => {
+    defaultWindow.cancelAnimationFrame(refreshRafId)
+  refreshRafId = defaultWindow.requestAnimationFrame(() => {
     refreshRafId = null
     updateSeparatorOpacity()
   })
