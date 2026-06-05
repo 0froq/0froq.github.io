@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import type { Data } from '~/src/posts.data'
+import type { PostsData } from '~/types'
 import { useI18n } from 'vue-i18n'
 import TooltipArticleInfo from '@/ui/article/TooltipArticleInfo.vue'
 import LinkUnderline from '@/ui/base/LinkUnderline.vue'
 
 defineProps<{
-  prevPost: Data | null
-  nextPost: Data | null
+  prevPost: PostsData | null
+  nextPost: PostsData | null
 }>()
 
 const { t } = useI18n({

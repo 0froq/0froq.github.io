@@ -74,7 +74,7 @@ const metaStrings = computed(() => {
 const postPool = computed(() => {
   if (!post.value)
     return []
-  let filteredPosts = articles.filter(p => p.frontmatter.category === post.value!.frontmatter.category)
+  let filteredPosts = articles.filter(p => p.url.split('/').slice(-2)[0] === post.value!.url.split('/').slice(-2)[0])
   if (post.value.frontmatter.series) {
     filteredPosts = filteredPosts.filter(p => p.frontmatter.series === post.value!.frontmatter.series)
   }
