@@ -3,7 +3,7 @@ index: true
 locale: zh
 ---
 
-[一个观察知识如何生长、腐烂、重组的地方]{.text-rose-600.dark:text-rose-400.underline}。
+:u[一个观察知识如何生长、腐烂、重组的地方]{.underline-rose-500}。
 
 :::warning 免责声明
 你当然可以随意浏览，但注意，
