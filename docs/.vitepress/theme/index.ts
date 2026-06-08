@@ -10,6 +10,12 @@ import './style.css'
 import 'uno.css'
 import '@shikijs/vitepress-twoslash/style.css'
 import 'vitepress/dist/client/theme-default/styles/vars.css'
+import '@fontsource/caveat'
+import '@fontsource-variable/eb-garamond/wght-italic.css'
+import '@fontsource/eb-garamond'
+import '@fontsource/ephesis'
+import '@fontsource/source-serif-pro'
+import '@fontsource/alegreya-sans'
 
 declare const __VUE_PROD_DEVTOOLS__: boolean
 
@@ -35,7 +41,7 @@ const i18n = createI18n({
     },
   },
   datetimeFormats: {
-    'en': {
+    en: {
       short: {
         year: 'numeric',
         month: 'short',
@@ -51,7 +57,7 @@ const i18n = createI18n({
         day: 'numeric',
       },
     },
-    'zh': {
+    zh: {
       short: {
         year: 'numeric',
         month: 'short',
@@ -67,7 +73,7 @@ const i18n = createI18n({
         day: 'numeric',
       },
     },
-  }
+  },
 })
 
 export default {

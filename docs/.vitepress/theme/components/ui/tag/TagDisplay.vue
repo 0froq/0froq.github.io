@@ -73,14 +73,25 @@ onClickOutside(extendedTagsRef as any, () => {
       <div
         v-if="showExtendedTags"
         ref="extendedTagsRef"
+        class="no-scrollbar"
         un-absolute
         un-z-20
-        un-bg="stone-100 dark:stone-900"
-        un-border="~ stone-300 dark:stone-700"
         un-rounded-sm
-        un-text-base
         un-p-2
         un-min-w-max
+        un-bg="stone-50/30 dark:stone-950/30"
+        un-text="stone-700 dark:stone-300"
+        un-rounded="~ none"
+        un-border="~ px stone-300 dark:stone-700"
+        un-backdrop-blur-md
+        un-text-align-start
+        un-py-2
+        un-px-4
+        un-max-w-fit
+        un-w-full
+        un-text-base
+        un-max-h-300px
+        un-overflow-y-auto
       >
         <div
           v-for="tag in extendedTagsForCurrentTag"
@@ -108,3 +119,9 @@ onClickOutside(extendedTagsRef as any, () => {
     </div>
   </div>
 </template>
+
+<style>
+.no-scrollbar::-webkit-scrollbar {
+  width: 1px;
+}
+</style>

@@ -31,9 +31,10 @@ watch(
 <template>
   <div
     un-min-h-100vh
-    un-text="stone-700 dark:stone-300"
+    un-text="stone-700 dark:stone-400"
+    un-bg="stone-100 dark:stone-950"
     un-relative
-    un-font-serif
+    un-font-sans
   >
     <PageHeader />
     <PageContent

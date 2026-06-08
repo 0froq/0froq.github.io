@@ -12,7 +12,7 @@ active:
     dod: 完成文稿
     priority: medium
     due: 2026-06-08
-    status: notStarted
+    status: done
     notes:
       - text: 在这里编辑文稿
         url: https://word.cloud.microsoft/open/onedrive/?docId=37A5EFB32CC610FA%21sa98ad297e4e24e3fb3985081c3eb32d6&driveId=37A5EFB32CC610FA
@@ -20,19 +20,22 @@ active:
         url: https://word.cloud.microsoft/open/onedrive/?docId=37A5EFB32CC610FA%21s38dbaff312f54201b67e56e3a89424f8&driveId=37A5EFB32CC610FA
       - text: 需要向 Dr. Suh 获取信息
       - text: Dr. Suh 信息不多，可能我需要自己查阅或者直接询问 Dr. Suh 的 boss Prof. Jo
+      - text: '已完成（06-07: mark as `done`)'
   - title: 一个小组 Presentation 的 slides
     dod: 完成 slides 制作
     priority: high
     due: 2026-06-09
-    status: notStarted
+    status: done
     notes:
       - text: '阻塞原因：组内尚未分配每人负责的部分，无法开始执行 (06-04: mark as `blocked`)'
       - text: '已分配（06-05: mark as `notStarted`)'
+      - text: '已完成（06-07: mark as `done`)'
   - title: 推进论文分析
     dod: 完整的论文叙事
     priority: medium
     status: inProgress
-
+    notes:
+      - text: 导师称「比较平淡，没有什么特别吸引人的地方」「还得重新琢磨一下，凝练出有新意的点来吸引读者」(06-07)
 
 backlog:
   - title: PDO/bloom 叙事 → discussion future directions
@@ -41,13 +44,13 @@ backlog:
   - title: 新的 theme
     notes:
       - text: 风格：人文、低饱和，可以参考 OpenHahako
-  - title: Results 初稿审阅优化
-    # priority: high
-    # status: done
+  - title: 一个 iOS app
     notes:
-      - text: 2026-06-03 已完成；作为后续区域尺度初稿与论文叙事收敛的直接上下文保留在 active
+      - text: timeline 式的日程管理，本来想做到 dashboard 里，效果一般
 
 archive:
+  - title: Results 初稿审阅优化
+    completed: 2026-05-31
   - title: 结课论文提交
     completed: 2026-05-19
   - title: 协助合作实验（站点 05-18~24）

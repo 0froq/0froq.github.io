@@ -18,12 +18,12 @@ locale: zh
 
 ## 六个切片
 
-- <ruby><rb>[Autopsia](/corpus/000_autopsia/){.font-stylish}</rb><rt>dissection</rt></ruby>：自我反思与内省
-- <ruby><rb>[Ingesta](/corpus/100_ingesta/){.font-stylish}</rb><rt>intake</rt></ruby>：摄入，未经评判的原始信息
-- <ruby><rb>[Neoplasma](/corpus/200_neoplasma/){.font-stylish}</rb><rt>new growth</rt></ruby>：内化后的思考碎片
-- <ruby><rb>[Putredo](/corpus/300_putredo/){.font-stylish}</rb><rt>decay</rt></ruby>：实践与试验的记录
-- [Delirium](/corpus/400_delirium/){.font-stylish}：审美与非理性
-- [Vigil](/corpus/500_vigil/){.font-stylish}：存在的证明
+- <ruby><rb>[Autopsia](/corpus/000-autopsia/){.font-stylish}</rb><rt>dissection</rt></ruby>：自我反思与内省
+- <ruby><rb>[Ingesta](/corpus/100-ingesta/){.font-stylish}</rb><rt>intake</rt></ruby>：摄入，未经评判的原始信息
+- <ruby><rb>[Neoplasma](/corpus/200-neoplasma/){.font-stylish}</rb><rt>new growth</rt></ruby>：内化后的思考碎片
+- <ruby><rb>[Putredo](/corpus/300-putredo/){.font-stylish}</rb><rt>decay</rt></ruby>：实践与试验的记录
+- [Delirium](/corpus/400-delirium/){.font-stylish}：审美与非理性
+- [Vigil](/corpus/500-vigil/){.font-stylish}：存在的证明
 
 进去看看。
 

@@ -8,6 +8,13 @@
   },
   "dependencies": {
     "@comark/markdown-it": "^0.3.4",
+    "@fontsource-variable/eb-garamond": "^5.2.7",
+    "@fontsource/alegreya-sans": "^5.2.8",
+    "@fontsource/caveat": "^5.2.8",
+    "@fontsource/eb-garamond": "^5.2.7",
+    "@fontsource/ephesis": "^5.2.8",
+    "@fontsource/source-sans-pro": "^5.2.5",
+    "@fontsource/source-serif-pro": "^5.2.5",
     "@intlify/unplugin-vue-i18n": "catalog:vitepress",
     "@types/markdown-it": "catalog:types",
     "@types/plotly.js": "^3.0.10",

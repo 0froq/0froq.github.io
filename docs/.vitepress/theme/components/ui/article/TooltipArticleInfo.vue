@@ -38,12 +38,12 @@ const { t } = useI18n({
     </div>
     <div
       un-flex="~ row"
-      un-items-center
+      un-items-start
       un-gap-2
     >
       <un-i-solar-clock-circle-bold-duotone
         un-w-4
-        un-h-4
+        un-h-6
         un-inline-block
         un-align-middle
         :class="post.readingTime < 5
@@ -66,7 +66,7 @@ const { t } = useI18n({
     >
       <un-i-solar-tag-horizontal-bold-duotone
         un-w-4
-        un-h-4
+        un-h-6
         un-shrink-0
         un-inline-block
         un-text="sky-600 dark:sky-400"
@@ -90,7 +90,7 @@ const { t } = useI18n({
     >
       <un-i-solar-document-text-bold-duotone
         un-w-4
-        un-h-4
+        un-h-6
         un-shrink-0
         un-inline-block
         un-align-middle

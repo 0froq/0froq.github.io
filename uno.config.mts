@@ -1,5 +1,4 @@
 import extractorMdc from '@unocss/extractor-mdc'
-
 import {
   defineConfig,
   presetAttributify,
@@ -10,6 +9,7 @@ import {
   transformerDirectives,
   transformerVariantGroup,
 } from 'unocss'
+
 import safeIcon from './docs/.vitepress/theme/src/safeIcon.json' with { type: 'json' }
 
 const safeIcons = [
@@ -23,11 +23,12 @@ export default defineConfig({
     },
   },
   rules: [
-    ['font-sans', { 'font-family': 'LXGW Neo ZhiSong Plus' }],
-    ['font-serif', { 'font-family': 'YshiPen-ShutiTC' }],
     ['font-mono', { 'font-family': 'LXGW Bright Code TC' }],
-    ['font-stylish', { 'font-family': 'Caveat' }],
+    ['font-serif', { 'font-family': 'Source Serif Pro, LXGW Neo ZhiSong Plus' }],
     ['font-script', { 'font-family': 'Ephesis' }],
+    ['font-stylish', { 'font-family': 'Caveat' }],
+    ['font-sans', { 'font-family': 'Alegreya Sans, YshiPen-ShutiTC' }],
+    ['font-italicSerif', { 'font-family': 'EB Garamond Variable, YshiPen-ShutiTC' }],
   ],
   safelist: [
     ...safeIcons,
@@ -67,6 +68,16 @@ export default defineConfig({
       prefix: 'un-',
     }),
     presetTypography(),
+    // presetWebFonts({
+    //   provider: 'fontsource',
+    //   fonts: {
+    //     sans: ['Alegreya Sans'],
+    //     serif: ['Source Serif 4'],
+    //     italicSerif: ['EB Garamond:400'],
+    //     stylish: 'Caveat',
+    //     script: 'Ephesis',
+    //   },
+    // }),
   ],
   transformers: [
     transformerDirectives(),

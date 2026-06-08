@@ -51,12 +51,13 @@ props.items.forEach((group) => {
       >
         <div
           :data-current="item.current"
-          :un-font="item.current ? 'bold' : 'medium'"
+          :un-font="item.current ? '400' : '100'"
         >
           <LinkUnderline
             :href="getLocaledPath(item.url)"
             :text="item.label"
             :follow-mouse="!item.children"
+            :un-text="`${item.current ? 'stone-950 dark:stone-50' : ''}`"
             :un-before="`bg-stone-300 dark:bg-stone-700${item.current ? ' w-full text-stone-950 dark:text-stone-50' : ''}`"
           >
             <template

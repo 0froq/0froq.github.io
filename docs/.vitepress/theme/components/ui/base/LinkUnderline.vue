@@ -68,6 +68,7 @@ function handleMouseMove(e: MouseEvent) {
     un-max-w-full
     un-overflow-hidden
     un-items-center
+    un-font-italicSerif
   >
     <span
       ref="triggerRef"
@@ -127,10 +128,11 @@ function handleMouseMove(e: MouseEvent) {
     :offset="offset"
   >
     <div
-      un-bg="stone-100 dark:stone-900"
+      un-bg="stone-50/30 dark:stone-950/30"
       un-text="stone-700 dark:stone-300"
       un-rounded="~ none"
       un-border="~ px stone-300 dark:stone-700"
+      un-backdrop-blur-md
       un-text-align-start
       un-py-2
       un-px-4

@@ -3,7 +3,6 @@ import { useRoute } from 'vitepress'
 import { useI18n } from 'vue-i18n'
 import { useRouteI18n } from '~/utils/useRouteI18n'
 import ContentNav from '../ui/nav/ContentNav.vue'
-import CalendarTest from './CalendarTest.vue'
 import Hints from './Hints.vue'
 import Home from './Home.vue'
 import Visions from './Visions.vue'
@@ -35,7 +34,6 @@ const navItems = [
   ],
   [
     { label: 'History', url: 'https://github.com/0froq/0froq.github.io/tree/main/docs/dashboard' },
-    { label: 'Calendar', url: `/dashboard/calendar-test/` },
     { label: 'Visions', url: `/dashboard/visions/` },
     { label: 'Hints', url: `/dashboard/hints/` },
   ],
@@ -48,9 +46,6 @@ const navItems = [
   />
   <Home
     v-if="currentBasePath === '/dashboard/'"
-  />
-  <CalendarTest
-    v-else-if="currentBasePath.endsWith('/calendar-test/')"
   />
   <Visions
     v-else-if="currentBasePath.endsWith('/visions/')"

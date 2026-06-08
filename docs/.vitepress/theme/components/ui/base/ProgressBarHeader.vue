@@ -56,7 +56,7 @@ watchEffect(() => {
     un-top-0
     un-py-5
     un-z-10
-    un-bg="stone-50 dark:stone-950"
+    un-bg="stone-100 dark:stone-950"
     class="title-wrapper"
   >
     <div class="progress-bar">
@@ -88,6 +88,8 @@ watchEffect(() => {
         un-mt-4
         un-text-3xl
         un-w-fit
+        un-font-serif
+        un-text="neutral-900 dark:neutral-100"
         v-html="title !== '-' ? title : ''"
       />
       <div

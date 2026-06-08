@@ -3,21 +3,13 @@ import { useEventListener } from '@vueuse/core'
 import { computed, nextTick, onMounted, ref } from 'vue'
 
 export interface FloatWindowProps {
-  /** 是否可见（v-model） */
   visible?: boolean
-  /** 触发元素的 ref */
   triggerRef?: HTMLElement | null
-  /** 是否跟随鼠标，false 则固定在触发元素旁 */
   followMouse?: boolean
-  /** 固定位置时的方位 */
   placement?: 'bottom' | 'top' | 'left' | 'right'
-  /** 固定位置时的偏移量 */
   offset?: number
-  /** 跟随鼠标时的边距 */
   mouseMargin?: number
-  /** Teleport 目标 */
   teleportTo?: string
-  /** 是否禁用 Teleport */
   disableTeleport?: boolean
 }
 
@@ -37,11 +29,9 @@ const emit = defineEmits<{
 
 const windowRef = ref<HTMLElement | null>(null)
 
-// 鼠标位置（跟随鼠标模式）
 const mouseX = ref(0)
 const mouseY = ref(0)
 
-// 元素边界（固定位置模式）- 使用传入的 triggerRef
 const triggerBounds = computed(() => {
   if (!props.triggerRef) return null
   const rect = props.triggerRef.getBoundingClientRect()
@@ -55,7 +45,6 @@ const triggerBounds = computed(() => {
   }
 })
 
-// 计算悬浮窗口位置样式
 const windowStyle = computed(() => {
   if (props.followMouse) {
     return {
@@ -97,14 +86,12 @@ const windowStyle = computed(() => {
   }
 })
 
-// 更新鼠标位置并检查边界
 async function updateMousePosition(e: MouseEvent) {
   if (!props.followMouse) return
 
   let newX = e.clientX + props.mouseMargin
   let newY = e.clientY + props.mouseMargin
 
-  // 检查视口边界
   if (windowRef.value) {
     const rect = windowRef.value.getBoundingClientRect()
     const viewportWidth = window.innerWidth
@@ -122,17 +109,14 @@ async function updateMousePosition(e: MouseEvent) {
   mouseY.value = newY
 }
 
-// 关闭窗口
 function close() {
   emit('update:visible', false)
 }
 
-// 监听 resize/scroll 关闭窗口
 onMounted(() => {
   useEventListener(['resize', 'scroll'], close)
 })
 
-// 暴露方法给父组件
 defineExpose({
   updateMousePosition,
   close,
