@@ -53,6 +53,7 @@ function toTaskItem(t: BoardTask): TaskItem {
       status: t.status,
       priority: t.priority,
       dod: t.dod,
+      due: t.due,
       notes: t.notes,
       tags: t.tags,
    }

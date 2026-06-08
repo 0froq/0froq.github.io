@@ -151,10 +151,50 @@ export interface BoardTask {
    status?: BoardTaskStatus
    priority?: 'high' | 'medium' | 'low'
    dod?: string
+   due?: string
    notes?: TaskNote[]
    tags?: string[]
    since?: string
    completed?: string
+}
+
+export type CalendarEventSource = 'board' | 'schedule'
+
+export interface ScheduleItem {
+   id?: string
+   title: string
+   start: string
+   end: string
+   type?: string
+   content?: string
+   url?: string
+   notes?: TaskNote[]
+   allDay?: boolean
+}
+
+export interface ScheduleData {
+   updated?: string
+   schedule: ScheduleItem[]
+}
+
+export interface DashboardCalendarEvent {
+   id: string
+   title: string
+   start: string
+   end: string
+   source: CalendarEventSource
+   type: string
+   content?: string
+   url?: string
+   allDay?: boolean
+   status?: BoardTaskStatus
+   priority?: 'high' | 'medium' | 'low'
+   raw?: BoardTask | ScheduleItem
+}
+
+export interface DashboardCalendarData {
+   updated: string
+   events: DashboardCalendarEvent[]
 }
 
 export interface BoardData {

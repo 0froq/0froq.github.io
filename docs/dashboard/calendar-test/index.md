@@ -1,0 +1,4 @@
+---
+index: true
+locale: zh
+---
