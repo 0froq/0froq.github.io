@@ -204,9 +204,6 @@ importers:
       vue:
         specifier: catalog:runtime
         version: 3.5.30(typescript@5.9.3)
-      vue-cal:
-        specifier: 5.0.1-rc.46
-        version: 5.0.1-rc.46(vue@3.5.30(typescript@5.9.3))
       vue-i18n:
         specifier: catalog:runtime
         version: 11.3.0(vue@3.5.30(typescript@5.9.3))
@@ -4063,11 +4060,6 @@ packages:
         optional: true
       jsdom:
         optional: true
-
-  vue-cal@5.0.1-rc.46:
-    resolution: {integrity: sha512-bLBN07vswzaXXfmxQDVutheJ7tNoX9dF8gK+j4ukL99aYpS8GcKOkRZNwcd/JvP9xRFcT10ZPBIAdbBnhSJ4kg==}
-    peerDependencies:
-      vue: ^3.5.11
 
   vue-component-type-helpers@2.2.12:
     resolution: {integrity: sha512-YbGqHZ5/eW4SnkPNR44mKVc6ZKQoRs/Rux1sxC6rdwXb4qpbOSYfDr9DsTHolOTGmIKgM9j141mZbBeg05R1pw==}
@@ -8225,10 +8217,6 @@ snapshots:
       happy-dom: 20.8.9
     transitivePeerDependencies:
       - msw
-
-  vue-cal@5.0.1-rc.46(vue@3.5.30(typescript@5.9.3)):
-    dependencies:
-      vue: 3.5.30(typescript@5.9.3)
 
   vue-component-type-helpers@2.2.12: {}
 

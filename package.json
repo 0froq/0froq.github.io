@@ -25,7 +25,6 @@
     "plotly.js-dist-min": "^3.4.0",
     "vitest": "^4.1.2",
     "vue": "catalog:runtime",
-    "vue-cal": "5.0.1-rc.46",
     "vue-i18n": "catalog:runtime"
   },
   "devDependencies": {

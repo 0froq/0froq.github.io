@@ -1,26 +1,36 @@
 <script setup lang="ts">
 import type { DashboardCalendarEvent } from '~/types'
-import type { VueCalEvent, VueCalViewKeys } from 'vue-cal'
-import { useDark } from '@vueuse/core'
-import { addDatePrototypes, VueCal } from 'vue-cal'
 import { computed, ref } from 'vue'
 import FloatWindow from '@/ui/base/FloatWindow.vue'
 import { data as calendarData } from '~/src/calendar.data'
-import 'vue-cal/style.css'
 
-addDatePrototypes()
+type TimelineEvent = DashboardCalendarEvent & {
+  startMs: number
+  endMs: number
+  left: number
+  width: number
+  lane: number
+}
 
-type CalendarViewEvent = VueCalEvent & DashboardCalendarEvent & { class?: string }
+type TimelineTask = DashboardCalendarEvent & {
+  dueMs: number
+  left: number
+  stack: number
+}
 
-const isDark = useDark()
+const DAY = 24 * 60 * 60 * 1000
+const HOUR = 60 * 60 * 1000
+const DAY_WIDTH = 112
+const TIMELINE_PADDING = 96
+const BASELINE_Y = 164
+const SCHEDULE_START_Y = 56
+const SCHEDULE_LANE_HEIGHT = 14
+const TASK_STACK_GAP = 12
 
-const view = ref<VueCalViewKeys>('week')
-const viewDate = ref('2026-06-10')
-const hoveredEvent = ref<CalendarViewEvent | null>(null)
+const hoveredEvent = ref<DashboardCalendarEvent | null>(null)
 const floatWindowRef = ref<InstanceType<typeof FloatWindow> | null>(null)
 
 const fixtureEvents: DashboardCalendarEvent[] = [
-  // Case 1: same-day multiple task deadlines.
   {
     id: 'fixture-task-1',
     title: '[fixture] 同日到期 task A',
@@ -57,7 +67,30 @@ const fixtureEvents: DashboardCalendarEvent[] = [
     content: '测试：同一天多个 due task 的圆点堆叠。',
     url: '/dashboard/calendar-test/',
   },
-  // Case 2a: single multi-day schedule.
+  {
+    id: 'fixture-task-done',
+    title: '[fixture] 已完成 task',
+    start: '2026-06-11 00:00',
+    end: '2026-06-11 23:59',
+    allDay: true,
+    source: 'board',
+    type: 'task-fixture',
+    priority: 'medium',
+    status: 'done',
+    content: '测试：已完成 task 的 due 点应该更低对比。',
+    url: '/dashboard/calendar-test/',
+  },
+  {
+    id: 'fixture-task-timed-high',
+    title: '[fixture] 有具体时间 high task',
+    start: '2026-06-12 19:30',
+    end: '2026-06-12 20:00',
+    source: 'board',
+    type: 'task-fixture',
+    priority: 'high',
+    content: '测试：有具体时间的 task due 不落在 22:00，而落在精确时间。',
+    url: '/dashboard/calendar-test/',
+  },
   {
     id: 'fixture-schedule-multiday-single',
     title: '[fixture] 单个跨多天 schedule',
@@ -65,10 +98,10 @@ const fixtureEvents: DashboardCalendarEvent[] = [
     end: '2026-06-12 18:00',
     source: 'schedule',
     type: 'fixture',
-    content: '测试：单个跨越多天的 schedule 在月/周视图中的长条渲染。',
+    priority: 'high',
+    content: '测试：单个跨越多天的 high priority schedule 横线渲染。',
     url: '/dashboard/calendar-test/',
   },
-  // Case 2b: overlapping multi-day schedules.
   {
     id: 'fixture-schedule-overlap-a',
     title: '[fixture] 重叠跨日 schedule A',
@@ -76,7 +109,8 @@ const fixtureEvents: DashboardCalendarEvent[] = [
     end: '2026-06-14 16:00',
     source: 'schedule',
     type: 'fixture',
-    content: '测试：多个跨多天日程互相重合时的堆叠方式。',
+    priority: 'medium',
+    content: '测试：多个跨多天 medium schedule 互相重合时的 lane 分配。',
     url: '/dashboard/calendar-test/',
   },
   {
@@ -86,10 +120,54 @@ const fixtureEvents: DashboardCalendarEvent[] = [
     end: '2026-06-15 11:00',
     source: 'schedule',
     type: 'fixture',
-    content: '测试：与 schedule A 部分重叠，并跨到下一周。',
+    priority: 'low',
+    content: '测试：与 schedule A 部分重叠，并跨到下一周的 low schedule。',
     url: '/dashboard/calendar-test/',
   },
-  // Case 3: different time slots and overnight schedule.
+  {
+    id: 'fixture-schedule-parallel-a',
+    title: '[fixture] 平行 schedule A',
+    start: '2026-06-10 09:00',
+    end: '2026-06-10 18:00',
+    source: 'schedule',
+    type: 'fixture',
+    priority: 'high',
+    content: '测试：同一天大段平行 schedule A。',
+    url: '/dashboard/calendar-test/',
+  },
+  {
+    id: 'fixture-schedule-parallel-b',
+    title: '[fixture] 平行 schedule B',
+    start: '2026-06-10 10:00',
+    end: '2026-06-10 16:00',
+    source: 'schedule',
+    type: 'fixture',
+    priority: 'medium',
+    content: '测试：同一天大段平行 schedule B。',
+    url: '/dashboard/calendar-test/',
+  },
+  {
+    id: 'fixture-schedule-parallel-c',
+    title: '[fixture] 平行 schedule C',
+    start: '2026-06-10 11:00',
+    end: '2026-06-10 15:00',
+    source: 'schedule',
+    type: 'fixture',
+    priority: 'low',
+    content: '测试：同一天大段平行 schedule C。',
+    url: '/dashboard/calendar-test/',
+  },
+  {
+    id: 'fixture-schedule-parallel-d',
+    title: '[fixture] 平行 schedule D',
+    start: '2026-06-10 13:00',
+    end: '2026-06-10 19:30',
+    source: 'schedule',
+    type: 'fixture',
+    priority: 'medium',
+    content: '测试：同一天更多平行 schedule D。',
+    url: '/dashboard/calendar-test/',
+  },
   {
     id: 'fixture-schedule-morning',
     title: '[fixture] 上午短日程',
@@ -122,23 +200,112 @@ const fixtureEvents: DashboardCalendarEvent[] = [
   },
 ]
 
-const events = computed<CalendarViewEvent[]>(() => [...calendarData.events, ...fixtureEvents]
-  .map(event => ({
-    ...event,
-    class: [event.source, event.type, event.priority].filter(Boolean).join(' '),
-  }))
-  .sort((a, b) => String(a.start).localeCompare(String(b.start))))
+const rawEvents = computed(() => [...calendarData.events, ...fixtureEvents])
 
-function showEventTooltip(event: CalendarViewEvent, e: MouseEvent) {
+const timeBounds = computed(() => {
+  const times = rawEvents.value.flatMap(event => [toMs(event.start), toMs(event.end)])
+  const min = startOfDay(Math.min(...times) - DAY)
+  const max = startOfDay(Math.max(...times) + DAY * 2)
+  return { min, max }
+})
+
+const timelineWidth = computed(() => TIMELINE_PADDING * 2 + ((timeBounds.value.max - timeBounds.value.min) / DAY) * DAY_WIDTH)
+
+const scheduleEvents = computed<TimelineEvent[]>(() => assignScheduleLanes(
+  rawEvents.value
+    .filter(event => event.source === 'schedule')
+    .map((event) => {
+      const startMs = toMs(event.start)
+      const endMs = toMs(event.end)
+      return {
+        ...event,
+        startMs,
+        endMs,
+        left: xForMs(startMs),
+        width: Math.max(12, xForMs(endMs) - xForMs(startMs)),
+        lane: 0,
+      }
+    })
+    .sort((a, b) => a.startMs - b.startMs),
+))
+
+const taskEvents = computed<TimelineTask[]>(() => {
+  const stackByDate = new Map<string, number>()
+
+  return rawEvents.value
+    .filter(event => event.source === 'board')
+    .map((event) => {
+      const dueMs = event.allDay ? startOfDay(toMs(event.end)) + 22 * HOUR : toMs(event.end)
+      const dateKey = formatDate(new Date(dueMs))
+      const stack = stackByDate.get(dateKey) ?? 0
+      stackByDate.set(dateKey, stack + 1)
+
+      return {
+        ...event,
+        dueMs,
+        left: xForMs(dueMs),
+        stack,
+      }
+    })
+    .sort((a, b) => a.dueMs - b.dueMs)
+})
+
+const ticks = computed(() => {
+  const result: Array<{ key: string, x: number, label: string, subLabel: string, major: boolean }> = []
+  for (let t = timeBounds.value.min; t <= timeBounds.value.max; t += DAY) {
+    const date = new Date(t)
+    result.push({
+      key: formatDate(date),
+      x: xForMs(t),
+      label: `${date.getMonth() + 1}/${date.getDate()}`,
+      subLabel: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][date.getDay()],
+      major: date.getDate() === 1 || date.getDay() === 1,
+    })
+  }
+  return result
+})
+
+function assignScheduleLanes(events: TimelineEvent[]) {
+  const laneEnds: number[] = []
+
+  return events.map((event) => {
+    let lane = laneEnds.findIndex(end => event.startMs >= end)
+    if (lane === -1) {
+      lane = laneEnds.length
+      laneEnds.push(event.endMs)
+    }
+    else {
+      laneEnds[lane] = event.endMs
+    }
+
+    return { ...event, lane }
+  })
+}
+
+function xForMs(ms: number) {
+  return TIMELINE_PADDING + ((ms - timeBounds.value.min) / DAY) * DAY_WIDTH
+}
+
+function yForSchedule(event: TimelineEvent) {
+  return SCHEDULE_START_Y + event.lane * SCHEDULE_LANE_HEIGHT
+}
+
+function yForTask(task: TimelineTask) {
+  const direction = task.stack % 2 === 0 ? 1 : -1
+  const distance = Math.ceil(task.stack / 2) * TASK_STACK_GAP
+  return BASELINE_Y + direction * distance
+}
+
+function showTooltip(event: DashboardCalendarEvent, e: MouseEvent) {
   hoveredEvent.value = event
   floatWindowRef.value?.updateMousePosition(e)
 }
 
-function moveEventTooltip(e: MouseEvent) {
+function moveTooltip(e: MouseEvent) {
   floatWindowRef.value?.updateMousePosition(e)
 }
 
-function hideEventTooltip() {
+function hideTooltip() {
   hoveredEvent.value = null
 }
 
@@ -154,22 +321,34 @@ function openEvent(event = hoveredEvent.value) {
   window.location.href = event.url
 }
 
-function formatTimeRange(event: CalendarViewEvent) {
-  if (event.allDay)
-    return '全天'
-
-  return `${extractTime(event.start)}–${extractTime(event.end)}`
+function toMs(value: string) {
+  const normalized = value.replace(' ', 'T')
+  return new Date(normalized).getTime()
 }
 
-function extractTime(value: CalendarViewEvent['start']) {
-  if (value instanceof Date)
-    return `${String(value.getHours()).padStart(2, '0')}:${String(value.getMinutes()).padStart(2, '0')}`
-
-  return value.split(' ')[1]?.slice(0, 5) ?? ''
+function startOfDay(ms: number) {
+  const date = new Date(ms)
+  date.setHours(0, 0, 0, 0)
+  return date.getTime()
 }
 
-function eventSourceLabel(source: DashboardCalendarEvent['source']) {
-  return source === 'board' ? 'task' : 'schedule'
+function formatDate(date: Date) {
+  return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`
+}
+
+function formatTimeRange(event: DashboardCalendarEvent) {
+  if (event.source === 'board')
+    return event.allDay ? `due · ${datePart(event.end)}` : `due · ${datePart(event.end)} ${timePart(event.end)}`
+
+  return `${datePart(event.start)} ${timePart(event.start)} → ${datePart(event.end)} ${timePart(event.end)}`
+}
+
+function datePart(value: string) {
+  return value.split(' ')[0]
+}
+
+function timePart(value: string) {
+  return value.split(' ')[1]?.slice(0, 5) ?? '00:00'
 }
 </script>
 
@@ -180,116 +359,102 @@ function eventSourceLabel(source: DashboardCalendarEvent['source']) {
     un-px="4 md:6"
     un-py="8"
   >
-    <div
-      un-mb-5
-      un-flex="~ col gap-2 md:row md:items-end md:justify-between"
-    >
-      <div>
-        <p
-          un-font-mono
-          un-text="xs stone-500 dark:stone-400"
-          un-uppercase
-          un-tracking-widest
-        >
-          Calendar Prototype
-        </p>
-        <h1
-          un-mt-1
-          un-text="2xl md:3xl stone-900 dark:stone-100"
-          un-font-semibold
-        >
-          Board 日程视图测试
-        </h1>
-        <p
-          un-mt-2
-          un-max-w-2xl
-          un-text="sm stone-600 dark:stone-400"
-        >
-          只读日历视图。数据来自 board.yml 中带 due 的 task，以及 docs/dashboard/schedule.yml 中的时间段日程。当前测试页额外注入 fixture，用于压力测试同日多 task、跨日 schedule、重叠跨日和过夜日程。
-        </p>
-      </div>
-
-      <div
-        un-flex="~ wrap gap-2"
-        un-text="xs"
+    <div un-mb-6>
+      <p
+        un-font-mono
+        un-text="xs stone-500 dark:stone-400"
+        un-uppercase
+        un-tracking-widest
       >
-        <span un-rounded-full un-bg="amber-100 dark:amber-950" un-px-3 un-py-1 un-text="amber-800 dark:amber-200">task due</span>
-        <span un-rounded-full un-bg="sky-100 dark:sky-950" un-px-3 un-py-1 un-text="sky-800 dark:sky-200">schedule</span>
-        <span un-rounded-full un-bg="stone-200 dark:stone-800" un-px-3 un-py-1 un-text="stone-700 dark:stone-300">fixture on</span>
-      </div>
+        Timeline Prototype
+      </p>
+      <h1
+        un-mt-1
+        un-text="2xl md:3xl stone-900 dark:stone-100"
+        un-font-semibold
+      >
+        Board 时间线测试
+      </h1>
+      <p
+        un-mt-2
+        un-max-w-2xl
+        un-text="sm stone-600 dark:stone-400"
+      >
+        一条可横向滚动的连续时间轴。schedule 渲染为短横线，task due 渲染为圆点。当前页面包含 fixture，用于压力测试同日多 task、跨日 schedule、重叠 schedule 和过夜 schedule。
+      </p>
     </div>
 
     <div
-      class="calendar-shell"
-      un-overflow-hidden
+      class="timeline-viewport"
+      un-overflow-x-auto
+      un-overflow-y-hidden
       un-rounded-2xl
       un-border="1 stone-200 dark:stone-800"
       un-bg="stone-50/80 dark:stone-950/70"
       un-shadow="sm"
     >
-        <ClientOnly>
-          <VueCal
-            v-model:view="view"
-            v-model:view-date="viewDate"
-            :dark="isDark"
-            locale="zh-cn"
-            :views="['month', 'week', 'day']"
-            :events="events"
-            :editable-events="false"
-            :events-on-month-view="'short'"
-            :event-count="false"
-            :time="true"
-            :time-from="0"
-            :time-to="24 * 60"
-            :time-step="120"
-            :time-cell-height="42"
-            :current-time-label="true"
-            :today-button="true"
-            :watch-real-time="false"
-          >
-            <template #event="{ event }">
-              <button
-                class="cal-event-card"
-                :class="{
-                  'is-month': view === 'month',
-                  'is-task': event.source === 'board',
-                  'is-schedule': event.source === 'schedule',
-                }"
-                :title="`${event.title}\n${event.content ?? ''}`"
-                type="button"
-                @click.stop="openEvent(event)"
-                @mouseenter="showEventTooltip(event, $event)"
-                @mousemove="moveEventTooltip"
-                @mouseleave="hideEventTooltip"
-              >
-                <template v-if="view === 'month'">
-                  <span
-                    v-if="event.source === 'board'"
-                    class="cal-event-card__dot"
-                    aria-hidden="true"
-                  />
-                  <span
-                    v-else
-                    class="cal-event-card__bar"
-                    aria-hidden="true"
-                  />
-                </template>
-                <template v-else>
-                  <span class="cal-event-card__meta">
-                    <span>{{ eventSourceLabel(event.source) }}</span>
-                    <span>{{ formatTimeRange(event) }}</span>
-                  </span>
-                  <span class="cal-event-card__title">{{ event.title }}</span>
-                </template>
-              </button>
-            </template>
-          </VueCal>
-          <template #fallback>
-            <div un-p-8 un-text="sm stone-500">
-              Calendar loading...
-            </div>
-          </template>
-        </ClientOnly>
+      <div
+        class="timeline-canvas"
+        :style="{ width: `${timelineWidth}px` }"
+      >
+        <div
+          class="timeline-axis"
+          :style="{
+            left: `${TIMELINE_PADDING}px`,
+            right: `${TIMELINE_PADDING}px`,
+            top: `${BASELINE_Y}px`,
+          }"
+        />
+
+        <div
+          v-for="tick in ticks"
+          :key="tick.key"
+          class="timeline-tick"
+          :class="{ major: tick.major }"
+          :style="{ left: `${tick.x}px`, top: `${BASELINE_Y}px` }"
+        >
+          <span class="timeline-tick__line" />
+          <span class="timeline-tick__label">{{ tick.label }}</span>
+          <span class="timeline-tick__sub">{{ tick.subLabel }}</span>
+        </div>
+
+        <button
+          v-for="event in scheduleEvents"
+          :key="event.id"
+          class="timeline-schedule"
+          :class="`priority-${event.priority ?? 'medium'}`"
+          :style="{
+            left: `${event.left}px`,
+            top: `${yForSchedule(event)}px`,
+            width: `${event.width}px`,
+          }"
+          type="button"
+          @click.stop="openEvent(event)"
+          @mouseenter="showTooltip(event, $event)"
+          @mousemove="moveTooltip"
+          @mouseleave="hideTooltip"
+        >
+          <span class="timeline-schedule__line" />
+        </button>
+
+        <button
+          v-for="task in taskEvents"
+          :key="task.id"
+          class="timeline-task"
+          :class="[`priority-${task.priority ?? 'medium'}`, { 'is-done': task.status === 'done' }]"
+          :style="{
+            left: `${task.left}px`,
+            top: `${yForTask(task)}px`,
+          }"
+          type="button"
+          @click.stop="openEvent(task)"
+          @mouseenter="showTooltip(task, $event)"
+          @mousemove="moveTooltip"
+          @mouseleave="hideTooltip"
+        >
+          <span class="timeline-task__dot" />
+        </button>
+      </div>
     </div>
 
     <FloatWindow
@@ -300,8 +465,8 @@ function eventSourceLabel(source: DashboardCalendarEvent['source']) {
     >
       <div
         v-if="hoveredEvent"
-        class="calendar-tooltip"
-        un-w="72"
+        class="timeline-tooltip"
+        un-w="76"
         un-rounded-xl
         un-border="1 stone-300/80 dark:stone-700/90"
         un-bg="stone-50/95 dark:stone-950/95"
@@ -321,9 +486,17 @@ function eventSourceLabel(source: DashboardCalendarEvent['source']) {
           un-text="xs stone-600 dark:stone-300"
           un-font-mono
         >
-          <span>{{ eventSourceLabel(hoveredEvent.source) }}</span>
+          <span>{{ hoveredEvent.source }}</span>
           <span>·</span>
           <span>{{ hoveredEvent.type }}</span>
+          <template v-if="hoveredEvent.priority">
+            <span>·</span>
+            <span>{{ hoveredEvent.priority }}</span>
+          </template>
+          <template v-if="hoveredEvent.status">
+            <span>·</span>
+            <span>{{ hoveredEvent.status }}</span>
+          </template>
         </div>
 
         <h2
@@ -367,47 +540,66 @@ function eventSourceLabel(source: DashboardCalendarEvent['source']) {
 </template>
 
 <style scoped>
-.calendar-shell {
-  height: min(70vh, 640px);
-  min-height: 560px;
+.timeline-viewport {
+  height: 300px;
+  scrollbar-width: thin;
 }
 
-.calendar-shell :deep(.vuecal) {
-  height: 100%;
-  border: 0;
-  font-family: var(--font-sans, ui-sans-serif, system-ui, sans-serif);
-  background: transparent;
+.timeline-canvas {
+  position: relative;
+  height: 300px;
+  min-width: 100%;
 }
 
-.calendar-shell :deep(.vuecal__header) {
-  border-bottom: 1px solid rgb(214 211 209 / 0.65);
+.timeline-axis {
+  position: absolute;
+  height: 1px;
+  background: rgb(120 113 108 / 0.45);
 }
 
-.calendar-shell :deep(.vuecal__title-bar),
-.calendar-shell :deep(.vuecal__views-bar) {
-  background: transparent;
+.timeline-tick {
+  position: absolute;
+  width: 1px;
+  color: rgb(120 113 108);
+  transform: translateX(-0.5px);
 }
 
-.calendar-shell :deep(.vuecal__event) {
-  border: 0;
-  border-radius: 0.6rem;
-  background: rgb(231 229 228 / 0.9);
-  color: rgb(68 64 60);
-  box-shadow: 0 1px 2px rgb(0 0 0 / 0.08);
-  overflow: hidden;
+.timeline-tick__line {
+  position: absolute;
+  top: -7px;
+  left: 0;
+  width: 1px;
+  height: 14px;
+  background: rgb(120 113 108 / 0.35);
 }
 
-.calendar-shell :deep(.vuecal__event:has(.cal-event-card.is-month)) {
-  min-height: 0;
-  border-radius: 0;
-  background: transparent;
-  box-shadow: none;
+.timeline-tick.major .timeline-tick__line {
+  top: -11px;
+  height: 22px;
+  background: rgb(120 113 108 / 0.7);
 }
 
-.cal-event-card {
-  width: 100%;
-  height: 100%;
-  padding: 0.25rem 0.4rem;
+.timeline-tick__label,
+.timeline-tick__sub {
+  position: absolute;
+  left: 0.5rem;
+  white-space: nowrap;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.7rem;
+}
+
+.timeline-tick__label {
+  top: 1rem;
+}
+
+.timeline-tick__sub {
+  top: 2.05rem;
+  opacity: 0.6;
+}
+
+.timeline-schedule,
+.timeline-task {
+  position: absolute;
   border: 0;
   background: transparent;
   color: inherit;
@@ -415,71 +607,112 @@ function eventSourceLabel(source: DashboardCalendarEvent['source']) {
   cursor: pointer;
 }
 
-.cal-event-card.is-month {
-  display: flex;
-  align-items: center;
-  min-height: 0.75rem;
-  padding: 0.05rem 0.2rem;
+.timeline-schedule {
+  height: 10px;
+  padding: 0;
 }
 
-.cal-event-card.is-month.is-task {
-  justify-content: center;
-}
-
-.cal-event-card__dot {
-  width: 0.42rem;
-  height: 0.42rem;
-  border: 1.5px solid rgb(87 83 78);
-  border-radius: 999px;
-  background: transparent;
-}
-
-.cal-event-card__bar {
+.timeline-schedule__line {
   display: block;
   width: 100%;
-  height: 0.32rem;
+  height: 2px;
+  margin-top: 4px;
   border-radius: 999px;
-  background: rgb(87 83 78 / 0.7);
+  background: currentColor;
+  opacity: 0.68;
 }
 
-.cal-event-card__meta {
-  display: flex;
-  gap: 0.35rem;
-  align-items: center;
-  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-  font-size: 0.65rem;
-  opacity: 0.65;
+.timeline-schedule.priority-high {
+  color: rgb(120 113 108);
 }
 
-.cal-event-card__title {
+.timeline-schedule.priority-medium {
+  color: rgb(120 113 108 / 0.72);
+}
+
+.timeline-schedule.priority-low {
+  color: rgb(120 113 108 / 0.48);
+}
+
+.timeline-task {
+  width: 16px;
+  height: 16px;
+  padding: 0;
+  transform: translate(-50%, -50%);
+}
+
+.timeline-task__dot {
   display: block;
-  margin-top: 0.1rem;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  font-size: 0.78rem;
-  font-weight: 600;
+  width: 9px;
+  height: 9px;
+  margin: 3.5px;
+  border: 1.5px solid currentColor;
+  border-radius: 999px;
+  background: rgb(250 250 249);
 }
 
-:global(.dark) .calendar-shell :deep(.vuecal__header) {
-  border-bottom-color: rgb(41 37 36 / 0.9);
+.timeline-task.priority-high {
+  color: rgb(220 38 38);
 }
 
-:global(.dark) .calendar-shell :deep(.vuecal__event) {
-  background: rgb(68 64 60 / 0.9);
-  color: rgb(245 245 244);
+.timeline-task.priority-medium {
+  color: rgb(217 119 6);
 }
 
-:global(.dark) .calendar-shell :deep(.vuecal__event:has(.cal-event-card.is-month)) {
-  background: transparent;
-  box-shadow: none;
+.timeline-task.priority-low {
+  color: rgb(2 132 199);
 }
 
-:global(.dark) .cal-event-card__dot {
-  border-color: rgb(214 211 209);
+.timeline-task.is-done {
+  color: rgb(120 113 108);
+  opacity: 0.42;
 }
 
-:global(.dark) .cal-event-card__bar {
-  background: rgb(214 211 209 / 0.72);
+.timeline-task.is-done .timeline-task__dot {
+  background: currentColor;
+}
+
+:global(.dark) .timeline-axis {
+  background: rgb(214 211 209 / 0.36);
+}
+
+:global(.dark) .timeline-tick {
+  color: rgb(168 162 158);
+}
+
+:global(.dark) .timeline-tick__line {
+  background: rgb(214 211 209 / 0.28);
+}
+
+:global(.dark) .timeline-tick.major .timeline-tick__line {
+  background: rgb(214 211 209 / 0.6);
+}
+
+:global(.dark) .timeline-schedule.priority-high {
+  color: rgb(214 211 209);
+}
+
+:global(.dark) .timeline-schedule.priority-medium {
+  color: rgb(214 211 209 / 0.72);
+}
+
+:global(.dark) .timeline-schedule.priority-low {
+  color: rgb(214 211 209 / 0.48);
+}
+
+:global(.dark) .timeline-task__dot {
+  background: rgb(28 25 23);
+}
+
+:global(.dark) .timeline-task.priority-high {
+  color: rgb(248 113 113);
+}
+
+:global(.dark) .timeline-task.priority-medium {
+  color: rgb(251 191 36);
+}
+
+:global(.dark) .timeline-task.priority-low {
+  color: rgb(56 189 248);
 }
 </style>
