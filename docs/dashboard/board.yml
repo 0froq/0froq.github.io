@@ -19,13 +19,15 @@ active:
       - text: 这是参考
         url: https://word.cloud.microsoft/open/onedrive/?docId=37A5EFB32CC610FA%21s38dbaff312f54201b67e56e3a89424f8&driveId=37A5EFB32CC610FA
       - text: 需要向 Dr. Suh 获取信息
+      - text: Dr. Suh 信息不多，可能我需要自己查阅或者直接询问 Dr. Suh 的 boss Prof. Jo
   - title: 一个小组 Presentation 的 slides
     dod: 完成 slides 制作
     priority: high
     due: 2026-06-09
-    status: blocked
+    status: notStarted
     notes:
       - text: '阻塞原因：组内尚未分配每人负责的部分，无法开始执行 (06-04: mark as `blocked`)'
+      - text: '已分配（06-05: mark as `notStarted`)'
   - title: 推进论文分析
     dod: 完整的论文叙事
     priority: medium
