@@ -68,7 +68,7 @@ function handleMouseMove(e: MouseEvent) {
     un-max-w-full
     un-overflow-hidden
     un-items-center
-    un-font-italicSerif
+    un-font-sans
   >
     <span
       ref="triggerRef"
