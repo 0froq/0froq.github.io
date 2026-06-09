@@ -11,3 +11,4 @@ docs/posts/_template/blog_temp.md
 .session.vim
 .sisyphus/
 *.numbers
+docs/.vitepress/generated/tags.json
