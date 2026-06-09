@@ -2,7 +2,7 @@
 title: Growth Patrol：低饱和人文主义主题
 created: 2026-06-09
 status: probe
-last_modified: 2026-06-09 01:29:31
+last_modified: 2026-06-09 09:22:03
 ---
 
 本文由 AI（花花）基于项目内容自动生成，属于 Autopsia Growth Patrol 的一次生长记录。  
@@ -81,6 +81,90 @@ last_modified: 2026-06-09 01:29:31
 - [ ] 「人文主义」里最不能丢的一点是什么：温度、可读性、长期耐受、中文写作气质，还是某种更难命名的东西？
 
 ## froQ 反馈
+
+<!-- froQ 在这里回答、评价、修正，或标记“继续 / 暂停 / 换方向”。 -->
+
+在你做这一次生长的时候，我的 prompt 还不够好，
+导致你给出的这一版生长文档不够符合我的要求。
+当你下一次生长读到这里时，请重新对「低饱和人文主义主题」做一次生长，
+我不会回复这一个生长，但因为我对这个领域有兴趣，
+所以需要你下一次在更完善的 prompt 下再生长一次，我会回复那一个。
+
+## 二次生长：把温柔做成可执行的约束
+
+### 今夜的入口
+
+这次我没有把上一版当作已经成立的枝条，而是把它当作一片需要重新翻土的区域。真正的入口不只是 `docs/corpus/300-putredo/put-20260606.md` 里那句「低饱和人文主义」，也不只是 `docs/corpus/200-neoplasma/neo-a-syntax-lightlight-design.md` 里关于 action、struc、ref 的语义犹疑；入口还在 `docs/dashboard/board.yml` 的 backlog 里，那一行更具体的话：
+
+> 新的 theme：风格：人文、低饱和，可以参考 OpenHahako
+
+这里多了一个很关键的限定：参考的不是抽象的「人文主义」，而是一个正在被使用的界面气质。它说明新主题不是为了证明某种审美概念，而是要回到日常工具里，回到编辑器、博客、知识库这些会长期贴着眼睛的地方。
+
+上一版已经说到「低饱和不是平均降噪」。这次我想把判断再压低一层：如果这个主题要成立，它需要先区分两种温柔。一种是视觉上变软，把所有颜色都揉进米色和灰色；另一种是工程上变稳，让每一种颜色都知道自己为什么出现、在哪些场景必须退后、在哪些场景不能退。前者会产生一个舒服的皮肤，后者才可能产生一套可迁移的个人环境。
+
+### 我沿着它查了一会儿
+
+我从四个种子词开始走：`low saturation humanist interface`、`semantic color tokens`、`syntax highlighting semantic tokens`、`shibui wabi-sabi interface`。一开始我以为这次仍然会落在「温暖纸感、克制色彩、长期阅读」这些熟悉词上，但搜索很快把路分成了两条：一条是直接相关的工程路径，另一条是旁支但有启发的审美路径。
+
+直接相关的资料里，最硬的一块来自 semantic colour tokens。Singapore Government Design System 对 semantic colour 的定义很清楚：primitive token 只命名一个色值，semantic token 命名这个色值在界面里的工作。也就是说，`blue-600` 只是颜料，`link-color-default` 才是职责。这个概念改变了我对「低饱和」的理解。低饱和如果停在 primitive 层，就只是把颜料调淡；如果进入 semantic 层，它就变成一份职责分配表：正文、弱正文、边框、悬停、选中、警告、错误、搜索命中、Git diff，每一个都需要不同的音量。
+
+沿着 token 又走到 OKLCH。MDN 对 `oklch()` 的解释里有一句很适合放进这次生长：它的 `L` 是 perceived lightness，也就是人眼感知到的亮度，不同于 HSL 里更机械的 lightness。这里出现了一个新节点：低饱和主题最好不要从 HSL 的 S 轴开始，而应从 OKLCH 的 L 与 C 开始。L 决定阅读层级，C 决定颜色含量，H 只是色相方向。换句话说，主题的第一性问题不是「要不要更灰」，而是「每一层信息应该拥有多少感知亮度与色彩含量」。
+
+再往下，我碰到 APCA。它对 WCAG 2.x 的批评很有用：传统 contrast ratio 对暗色模式、字体大小、字重、正负极性并不敏感，可能给出合规但读起来不舒服的判断。APCA 用 Lc 值描述感知对比，并把字号与字重纳入阅读判断。这里的限制也必须写进来：APCA 还不是现实合规里的最终标准，WCAG 2.x 仍然是许多场景的法律与采购底线。所以更稳的策略不是用 APCA 替代 WCAG，而是把 WCAG 当地板，把 APCA 当调音器。对一个长期阅读与编码主题来说，这比「看起来低饱和」更接近人文主义的骨头。
+
+语法高亮这一支，我回到 VS Code 的 semantic highlighting 文档。VS Code 明确说 TextMate grammar 是基于单文件与正则的 lexical rules，而 semantic token 依赖 language server 对项目上下文的理解，并覆盖在 TextMate 高亮之上。这给 `neo-a-syntax-lightlight-design.md` 里的困惑提供了一个更精确的框架：action、struc、ref 不应该强行映射到单一技术层。TextMate 适合做稳定的词法底色，Tree-sitter 适合提供结构层，LSP semantic token 才更接近「这个符号在项目里是什么」。如果三者给出的世界不一致，主题不该假装一致，而应设计 fallback 与置信度。
+
+旁支但有启发的资料来自 Flexoki、Pequod，以及 shibui / 侘寂 / Ma 这一组词。Flexoki 不是简单低饱和，它强调「ink on paper」，同时承认数字屏幕的加色混合和纸上颜料的减色混合不同；它还提到一个反直觉限制：过度追求感知均匀会让语法高亮变得 washed out，难以解析。Pequod 更像一个有文学骨架的 palette，它把 Moby-Dick 的角色映射到 accent hues，让颜色不是任意装饰，而是带有记忆钩子的语义角色。shibui 和 Ma 则提醒我，克制不等于把界面做淡；克制也可以通过空白、间隔、hairline、字重、结构性留白来承担，而不是把所有任务都压给颜色。
+
+这几条线合起来后，本次主题的中心发生了变化。低饱和人文主义不应该被定义为「暖、淡、柔」，而应该被定义为一种较少打扰人的可执行约束：用 semantic tokens 给颜色职责，用 OKLCH 管理感知亮度与色彩含量，用 WCAG/APCA 约束可读性，用 TextMate/Tree-sitter/LSP 的分层承认高亮信息的来源差异，再用 shibui 或 Ma 这类旁支审美提醒自己，留白和结构也能承担温柔。
+
+### 它可能继续长向哪里
+
+#### 把 palette 从颜料表改成职责表
+
+这枝从 board 里的「新的 theme」和 putredo 里的维护 LiG 长出来。下一步不急着挑一组好看的 hex，而是先写出 token contract：primitive、semantic、component 三层各自负责什么。比如 primitive 可以有 `sand-50`、`ink-900`、`sage-600`；semantic 才能有 `text.body`、`syntax.action`、`syntax.structure`、`status.danger.text`、`diff.added.background`；component 层只消费职责，不直接吃颜料。
+
+它可能通向一个 `tokens.json`，再由脚本导出 VS Code theme、Neovim palette、VitePress CSS variables。值得 froQ 判断的是：这会把「主题」从审美作品推向基础设施。代价是前期会更慢，因为每个色值都要先通过职责命名，而不是凭眼睛挑中就用。
+
+#### 用 OKLCH 写一份低饱和的物理学
+
+这枝从「低饱和」这个词本身长出来。HSL 的 saturation 很容易让人以为降 S 就等于安静，但人眼并不按 HSL 感知世界。OKLCH 提供了更适合工程化的三轴：L 管层级，C 管色彩含量，H 管性格。
+
+它可能通向一份小型实验：固定 8 到 10 个 L 阶梯，给正文、弱正文、边框、背景、hover、selection、syntax tier 分配 L 区间；再限定常驻 token 的 C 上限，把高 C 留给错误、警告、搜索、当前焦点。这样低饱和不再是感觉词，而是有阈值的物理学。它值得判断，因为这会决定新主题是否能跨亮色、暗色、网页、编辑器保持同一种拓扑。
+
+#### 让语法高亮按置信度说话
+
+这枝从 `neo-a-syntax-lightlight-design.md` 的难处长出来。action、struc、ref 的问题不是命名不够优雅，而是信息源不同：TextMate 只能看见词法，Tree-sitter 看见局部结构，LSP 才能借项目上下文判断符号身份。把它们硬揉成一套绝对语义，会不断产生例外。
+
+更可生长的方式是把 token 分成「稳定层」和「解释层」。稳定层包括 keyword、string、comment、number、operator、type-ish 这类跨语言较稳的对象；解释层包括 variable、property、parameter、readonly、defaultLibrary、declaration、modification 这类依赖语言服务的对象。稳定层可以给明确色相，解释层用同色系明度、字重或轻微 fontStyle 表示，避免把不稳定语义涂得过分笃定。
+
+这条路值得判断，因为它能保留 froQ 对语义秩序的执念，同时承认 parser 与 LSP 的现实边界。主题在这里会像一张地质图：岩层清楚，但断层也被标出来。
+
+#### 从 Flexoki 学纸墨，从 Pequod 学记忆钩子
+
+这枝从旁支资料长出来。Flexoki 的价值不是它的色值可以照抄，而是它把「纸墨」翻译成了数字屏幕上的感知问题：纸的温度、墨的密度、加色与减色的差异、亮暗模式之间的平衡。Pequod 的价值则在于它给 accent hues 安排了故事角色，让颜色变成可记忆的语义，而不只是八个漂亮色相。
+
+新的主题可以不借 Moby-Dick，但可以借这种方法：给每个 syntax role 一个隐喻性的命名系统。比如 action 不是「蓝 600」，而是某种流动、执行、动词性的颜色；structure 不是「紫 600」，而是梁、骨、框架；ref 不是「灰 500」，而是注脚、回声、边缘。隐喻不能替代 contrast test，但它能帮助长期维护时不迷路。
+
+它值得判断，是因为 froQ 的工具审美很在意命名。一个有记忆钩子的 palette，比一份普通色表更可能活过第一次重构。
+
+#### 给人文主义留一道反例门
+
+这枝从搜索中的限制条件长出来。低饱和、shibui、侘寂、Calm UX 都有一个共同危险：它们很容易把可操作性伪装成安静，把低对比伪装成高级，把看不见的控件伪装成克制。Terracotta 这类强调 WCAG 验证与 color-blind mode 的主题提供了一个反例方向：真正面向人的主题，不能只照顾审美疲劳，也要照顾色觉差异、焦点可见性、错误可见性、Git 状态可辨性。
+
+因此「人文主义」应当保留一条硬规则：任何表达状态、风险、焦点、选择的颜色，都必须有非颜色线索或足够的形状 / 字重 / 边框配合；注释可以低声，但不能低到像不存在；disabled 可以退后，但不能退到无法区分；暗色模式不能用纯白撞纯黑制造眩光。
+
+它值得判断，因为这会防止新主题滑向漂亮但脆弱。人文主义在这里不是温情滤镜，而是对人的感知限制负责。
+
+### 留给 froQ 的几句话
+
+- [ ] 你更想先做 `tokens.json` 这样的跨工具基础设施，还是先做 VS Code / Neovim 其中一个可用主题来验证气质？
+- [ ] 「参考 OpenHahako」具体指向什么：色温、低干扰、边框与留白、字体气质，还是整体的非攻击性？
+- [ ] action / struc / ref 这套命名要继续保留，还是应该改成更接近 semantic token 来源的分层命名？
+- [ ] 你能接受用 OKLCH 和 contrast test 给审美设硬阈值吗，还是希望先由眼睛生成，再由测试修正？
+- [ ] 如果这套主题只能留下一个最重要的原则，它应该是「长期阅读耐受」，「语义秩序」，「跨工具一致」，还是「有人的纸墨气」？
+
+### froQ 反馈
 
 <!-- froQ 在这里回答、评价、修正，或标记“继续 / 暂停 / 换方向”。 -->
 
