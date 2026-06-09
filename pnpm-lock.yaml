@@ -168,6 +168,9 @@ importers:
       '@fontsource/ephesis':
         specifier: ^5.2.8
         version: 5.2.8
+      '@fontsource/monaspace-argon':
+        specifier: ^5.2.5
+        version: 5.2.5
       '@fontsource/source-sans-pro':
         specifier: ^5.2.5
         version: 5.2.5
@@ -898,6 +901,9 @@ packages:
 
   '@fontsource/ephesis@5.2.8':
     resolution: {integrity: sha512-OIMcaWrWEAP2lyIq9WrBIwuWpwh/G6azSdqLyn3Rcawc6GNmYY88rwde4DKJvZQgkc6UY75kYYxpRYTgIFRgnQ==}
+
+  '@fontsource/monaspace-argon@5.2.5':
+    resolution: {integrity: sha512-EJ+jq1Smm3BB+8RK/gwB1uzjrSKdycZkKm8OZGCYvqJiTChKcGe7b2lmj0PmQbb/+lAEdCBIAcFLlPaWhtRANA==}
 
   '@fontsource/source-sans-pro@5.2.5':
     resolution: {integrity: sha512-ypendqc4pYUc+EgF7qqPY9iVYEz1t/Qr03VojKxG/2g3dnpHa1B6DOlDxWQjQXDj5QrG6inEqGT0g+edjALZyg==}
@@ -4670,6 +4676,8 @@ snapshots:
   '@fontsource/eb-garamond@5.2.7': {}
 
   '@fontsource/ephesis@5.2.8': {}
+
+  '@fontsource/monaspace-argon@5.2.5': {}
 
   '@fontsource/source-sans-pro@5.2.5': {}
 

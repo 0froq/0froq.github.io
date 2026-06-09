@@ -16,6 +16,7 @@ import '@fontsource/eb-garamond'
 import '@fontsource/ephesis'
 import '@fontsource/source-serif-pro'
 import '@fontsource/alegreya-sans'
+import '@fontsource/monaspace-argon'
 
 declare const __VUE_PROD_DEVTOOLS__: boolean
 

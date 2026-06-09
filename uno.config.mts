@@ -23,8 +23,8 @@ export default defineConfig({
     },
   },
   rules: [
-    ['font-mono', { 'font-family': 'LXGW Bright Code TC' }],
-    ['font-serif', { 'font-family': 'Source Serif Pro, LXGW Neo ZhiSong Plus' }],
+    ['font-mono', { 'font-family': 'LXGW Bright Code TC, Monaspace Argon' }],
+    ['font-serif', { 'font-family': 'Source Serif Pro, LXGW Neo ZhiSong Plus, SongTi SC' }],
     ['font-script', { 'font-family': 'Ephesis' }],
     ['font-stylish', { 'font-family': 'Caveat' }],
     ['font-sans', { 'font-family': 'Alegreya Sans, YshiPen-ShutiTC' }],

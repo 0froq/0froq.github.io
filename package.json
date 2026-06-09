@@ -13,6 +13,7 @@
     "@fontsource/caveat": "^5.2.8",
     "@fontsource/eb-garamond": "^5.2.7",
     "@fontsource/ephesis": "^5.2.8",
+    "@fontsource/monaspace-argon": "^5.2.5",
     "@fontsource/source-sans-pro": "^5.2.5",
     "@fontsource/source-serif-pro": "^5.2.5",
     "@intlify/unplugin-vue-i18n": "catalog:vitepress",
