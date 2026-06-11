@@ -4,10 +4,10 @@
 
 ## 1. VitePress 版本时间线
 
-| 版本 | 日期 | 性质 |
-|------|------|------|
-| v1.0 | 2024-03-21 | 正式版（Evan You 宣布） |
-| v2.0.0-alpha.9 | 2025-07-26 | 首个 v2 alpha 进入 rapid 迭代 |
+| 版本            | 日期       | 性质                             |
+| --------------- | ---------- | -------------------------------- |
+| v1.0            | 2024-03-21 | 正式版（Evan You 宣布）          |
+| v2.0.0-alpha.9  | 2025-07-26 | 首个 v2 alpha 进入 rapid 迭代    |
 | v2.0.0-alpha.17 | 2026-03-19 | 最新 alpha（含 breaking change） |
 
 v2 的发布节奏稳定在每月 1~2 个 alpha。目前尚无明确的 stable 时间表，但从 CHANGELOG 看核心架构已趋于稳定，主要在做主题和 a11y 打磨。
@@ -46,6 +46,7 @@ v2 的发布节奏稳定在每月 1~2 个 alpha。目前尚无明确的 stable �
 ### 2.5 froQ 项目值得关注的迁移点
 
 当前项目使用 `vitepress: "catalog:vitepress"`（pnpm catalog）。如果 catalog 指向的是 v1.x：
+
 - `@layer` 机制是向后兼容的，不需要改动
 - 如果升级到 v2 alpha，需注意 `<!-- @include -->` 语法的 breaking change
 - `text-autospace` 是默认启用的，可能与 UnoCSS 的排版规则产生交互
@@ -55,6 +56,7 @@ v2 的发布节奏稳定在每月 1~2 个 alpha。目前尚无明确的 stable �
 ### 3.1 RSS
 
 **vitepress-plugin-rss**（sugarat，MIT）
+
 - 最新版 0.4.4（2026-04-26），维护活跃
 - 使用 `feed` 库生成 RSS/Atom/JSON Feed
 - 支持过滤、limit、自定义 render、i18n locales
@@ -64,6 +66,7 @@ v2 的发布节奏稳定在每月 1~2 个 alpha。目前尚无明确的 stable �
 ### 3.2 自动侧边栏
 
 **VitePress Sidebar**（cdget.com）
+
 - 最新版 1.33.2（2026-05-06），已 drop Node 20
 - 自动根据文件结构生成侧边栏
 - 对 corpus 六层目录结构（000~500）可能需要自定义 exclude/include
@@ -100,6 +103,7 @@ Comark 是一个 **Markdown + Component** 的解析器/渲染器，类似 MDC（
 Comark 和 MDC 都解决「在 Markdown 中嵌入组件」的问题，语法相似但不完全相同。Comark 更强调 parser/renderer 的独立性（支持 Vue / React / Svelte / HTML / ANSI terminal），而非仅绑定 Vue 生态。
 
 froQ 选择 Comark 而非 Nuxt Content 的 MDC，可能是因为：
+
 - VitePress 而非 Nuxt 作为 SSG
 - Comark 的语法更通用，不锁定框架
 - 轻量级 markdown-it 插件，不引入额外构建依赖

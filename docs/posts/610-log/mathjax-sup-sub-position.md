@@ -48,7 +48,7 @@ last_modified: 2026-03-15 14:42:11
 
 例如：
 
-- `\textstyle \sum_{i=1}^{\infty} A_i` 
+- `\textstyle \sum_{i=1}^{\infty} A_i`
   或仅 `\sum_{i=1}^{\infty} A_i`：
   $\textstyle \sum_{i=1}^{\infty} A_i$
 - `\displaystyle \sum_{i=1}^{\infty} A_i`：
@@ -71,5 +71,5 @@ last_modified: 2026-03-15 14:42:11
 可以使用 `\limits`。
 如 $\sum \limits_{i=1}^{\infty} A_i$ (`\sum \limits_{i=1}^{\infty} A_i`)，
 与 $\sum_{i=1}^{\infty} A_i$ (`\sum_{i=1}^{\infty} A_i`) 具有相同的运算符高度，
-与 $\displaystyle \sum_{i=1}^{\infty} A_i$ (`\displaystyle \sum_{i=1}^{\infty} A_i`) 
+与 $\displaystyle \sum_{i=1}^{\infty} A_i$ (`\displaystyle \sum_{i=1}^{\infty} A_i`)
 具有相同的上下标位置。

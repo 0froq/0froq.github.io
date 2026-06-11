@@ -22,8 +22,10 @@ function calculateS(data: TimeSeriesPoint[]): number {
   for (let i = 0; i < n - 1; i++) {
     for (let j = i + 1; j < n; j++) {
       const diff = data[j].y - data[i].y
-      if (diff > 0) s++
-      else if (diff < 0) s--
+      if (diff > 0)
+        s++
+      else if (diff < 0)
+        s--
     }
   }
 
@@ -51,7 +53,8 @@ function calculateVarianceS(data: TimeSeriesPoint[]): number {
 function calculateZ(s: number, varianceS: number): number {
   if (s > 0) {
     return (s - 1) / Math.sqrt(varianceS)
-  } else if (s < 0) {
+  }
+  else if (s < 0) {
     return (s + 1) / Math.sqrt(varianceS)
   }
   return 0
@@ -85,7 +88,8 @@ function calculateSenSlope(data: TimeSeriesPoint[]): number {
     }
   }
 
-  if (slopes.length === 0) return 0
+  if (slopes.length === 0)
+    return 0
 
   slopes.sort((a, b) => a - b)
   const mid = Math.floor(slopes.length / 2)
@@ -136,8 +140,10 @@ export function mannKendallTest(
   const intercept = calculateIntercept(data, senSlope)
 
   let trendDirection: 'increasing' | 'decreasing' | 'no trend' = 'no trend'
-  if (senSlope > 0) trendDirection = 'increasing'
-  else if (senSlope < 0) trendDirection = 'decreasing'
+  if (senSlope > 0)
+    trendDirection = 'increasing'
+  else if (senSlope < 0)
+    trendDirection = 'decreasing'
 
   return {
     s,
@@ -154,10 +160,11 @@ export function mannKendallTest(
 
 export function calculateTrendLine(
   data: TimeSeriesPoint[],
-): { x: number[]; y: number[] } | null {
+): { x: number[], y: number[] } | null {
   const mk = mannKendallTest(data)
 
-  if (data.length < 2) return null
+  if (data.length < 2)
+    return null
 
   const xValues = data.map(p => p.x)
   const minX = Math.min(...xValues)

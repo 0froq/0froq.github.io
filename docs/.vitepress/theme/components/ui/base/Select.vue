@@ -1,7 +1,7 @@
 <script setup lang="ts">
-const props = defineProps<{
+defineProps<{
   modelValue: string | number
-  options: Array<{ value: string | number; label: string }>
+  options: Array<{ value: string | number, label: string }>
   id?: string
 }>()
 

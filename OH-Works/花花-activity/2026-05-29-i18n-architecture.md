@@ -12,6 +12,7 @@ vue-i18n: ^11.2.8           # 运行时 i18n 库
 ```
 
 `@intlify/unplugin-vue-i18n` 的作用：
+
 - 构建时静态分析 i18n 消息，tree-shaking 未使用的 locale
 - SSR 兼容（`ssr: true`）
 - 减少运行时开销
@@ -25,6 +26,7 @@ VitePress 内置 i18n 的设计假设是：每个 locale 有独立的配置（`t
 3. **Search 行为变化**：内置搜索按 locale 隔离
 
 而 froQ 的方案保留了：
+
 - 中文作为默认语言，使用 clean URLs（无前缀）
 - 英文作为次要语言，文件在 `en/` 子目录，URL 追加 `/en/`
 - 单套 Nav/Sidebar 配置，通过 `useRouteI18n` 动态调整链接
@@ -53,21 +55,23 @@ corpus/
 
 ### Frontmatter 约定
 
-| 字段 | 位置 | 语义 |
-|------|------|------|
-| `lang: zh` | 文章 frontmatter | 文章主语言为中文 |
-| `lang: en` | 文章 frontmatter | 文章主语言为英文 |
-| `translated: true` | 文章 frontmatter | 标记为翻译版本 |
-| `locale: zh` | 索引页 frontmatter | 该索引页的中文入口 |
-| `locale: en` | 索引页 frontmatter | 该索引页的英文入口 |
+| 字段               | 位置               | 语义               |
+| ------------------ | ------------------ | ------------------ |
+| `lang: zh`         | 文章 frontmatter   | 文章主语言为中文   |
+| `lang: en`         | 文章 frontmatter   | 文章主语言为英文   |
+| `translated: true` | 文章 frontmatter   | 标记为翻译版本     |
+| `locale: zh`       | 索引页 frontmatter | 该索引页的中文入口 |
+| `locale: en`       | 索引页 frontmatter | 该索引页的英文入口 |
 
 注意 `lang`（文章级）和 `locale`（索引页级）是两个不同的约定：
+
 - `lang` 描述内容本身的语言属性
 - `locale` 用于语言切换逻辑（PageHeader 的 `handleChangeLocale` 检查 `frontmatter.value.locale`）
 
 ### 翻译关系
 
 翻译通过**独立文件 + `translated: true` 标记**建立关联：
+
 - `speaking-english.md`（原版，`lang: en`）
 - `speaking-english-zh.md`（翻译版，`lang: zh`, `translated: true`）
 
@@ -96,7 +100,8 @@ function handleChangeLocale(newVal: string) {
       // en → zh: 移除路径中的 /en/ 后缀
       const newPath = route.path.replace(`/${locale.value}/`, '/')
       router.go(newPath)
-    } else {
+    }
+    else {
       // zh → en: 追加 /en/ 后缀
       const newPath = `${route.path}${newVal}/`
       router.go(newPath)
@@ -178,15 +183,15 @@ messages: {
 
 ### 与 VitePress 内置 i18n 的对比
 
-| 维度 | VitePress 内置 | froQ 方案 |
-|------|---------------|-----------|
-| URL 结构 | `/zh/xxx/`, `/en/xxx/` | 默认 zh clean URL，en 在 `/en/` 下 |
-| 构建方式 | 多实例（每个 locale 独立构建） | 单实例 |
-| Nav/Sidebar | 按 locale 独立配置 | 单套配置，运行时动态调整 |
-| 翻译链接 | `localeLinks` frontmatter | 文件命名约定（`-zh` 后缀） |
-| 搜索 | 按 locale 隔离 | 混合（如启用搜索） |
-| UI 文案翻译 | themeConfig 分离 | vue-i18n 消息文件 |
-| 扩展性 | 新增 locale = 新增一套配置 | 新增 locale = 新增目录 + 消息 |
+| 维度        | VitePress 内置                 | froQ 方案                          |
+| ----------- | ------------------------------ | ---------------------------------- |
+| URL 结构    | `/zh/xxx/`, `/en/xxx/`         | 默认 zh clean URL，en 在 `/en/` 下 |
+| 构建方式    | 多实例（每个 locale 独立构建） | 单实例                             |
+| Nav/Sidebar | 按 locale 独立配置             | 单套配置，运行时动态调整           |
+| 翻译链接    | `localeLinks` frontmatter      | 文件命名约定（`-zh` 后缀）         |
+| 搜索        | 按 locale 隔离                 | 混合（如启用搜索）                 |
+| UI 文案翻译 | themeConfig 分离               | vue-i18n 消息文件                  |
+| 扩展性      | 新增 locale = 新增一套配置     | 新增 locale = 新增目录 + 消息      |
 
 ## 当前状态
 

@@ -29,7 +29,7 @@ No gonna describe it in great detail.
 
 - ==First==, it's sequential, meaning it processes the time series in order,
   and different start points can lead to different results.
-- ==Second==, it processes new data points as they come in. 
+- ==Second==, it processes new data points as they come in.
   Every new data is checked immediately.
   so it's kinda near-real-time.
 - ==Third==, since it deals the data points in a specific window,

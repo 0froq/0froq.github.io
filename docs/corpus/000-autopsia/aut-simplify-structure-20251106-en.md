@@ -45,4 +45,3 @@ leaving only the YAML header, and all content is edited by users themselves.
 ---
 
 Let's see how it works in practice.
-

@@ -10,15 +10,15 @@ froQ 的博客有 5 套字体体系，其中 CJK 字体（`LXGW Neo ZhiSong Plus
 
 从 `uno.config.mts` 和 `style.css` 可以看到当前的字体加载策略：
 
-| 字体角色 | 字族 | 来源 | 加载方式 |
-|---------|------|------|---------|
-| 正文（font-sans） | LXGW Neo ZhiSong Plus | 本地 TTF | `@font-face` 本地文件 |
-| 手写/标题（font-serif） | YshiPen-ShutiTC | fontsapi.zeoseven.com | 外部 CSS import |
-| 代码（font-mono） | LXGW Bright Code TC | 本地 TTF | `@font-face` 本地文件 |
-| 装饰（font-stylish） | Caveat | Google Fonts | CSS2 API import |
-| 装饰（font-script） | Ephesis | Google Fonts | CSS2 API import |
-| 未使用 | Recursive | Google Fonts | CSS2 API import |
-| 未使用 | League Script | Google Fonts | CSS2 API import |
+| 字体角色                | 字族                  | 来源                  | 加载方式              |
+| ----------------------- | --------------------- | --------------------- | --------------------- |
+| 正文（font-sans）       | LXGW Neo ZhiSong Plus | 本地 TTF              | `@font-face` 本地文件 |
+| 手写/标题（font-serif） | YshiPen-ShutiTC       | fontsapi.zeoseven.com | 外部 CSS import       |
+| 代码（font-mono）       | LXGW Bright Code TC   | 本地 TTF              | `@font-face` 本地文件 |
+| 装饰（font-stylish）    | Caveat                | Google Fonts          | CSS2 API import       |
+| 装饰（font-script）     | Ephesis               | Google Fonts          | CSS2 API import       |
+| 未使用                  | Recursive             | Google Fonts          | CSS2 API import       |
+| 未使用                  | League Script         | Google Fonts          | CSS2 API import       |
 
 ### 关键观察
 
@@ -98,6 +98,7 @@ vite-plugin-font (Vite 插件封装)
 ### 推荐策略
 
 对于 froQ 的博客，推荐 **unicode-range 分片（策略 1）+ 高频字符优先** 的组合。这是因为：
+
 - 博客内容会持续增长，频率和内容导向都有遗漏风险
 - unicode-range 分片覆盖全字符集，不会有排版降级
 - 首屏自动只加载高频分片，兼顾性能与覆盖
@@ -106,18 +107,19 @@ vite-plugin-font (Vite 插件封装)
 
 ### font-display 的选择
 
-| 值 | 行为 | 适用 |
-|----|------|------|
-| `swap` | 先用 fallback，字体加载后替换 | **正文**：内容可读性优先 |
-| `block` | 短暂隐藏文字，等字体加载 | 不推荐：CJK 字体大，FOIT 时间长 |
-| `fallback` | 极短 block 期后 swap | 标题/装饰性文字 |
-| `optional` | 100ms 内未加载则放弃，不替换 | 装饰性字体，非核心 |
+| 值         | 行为                          | 适用                            |
+| ---------- | ----------------------------- | ------------------------------- |
+| `swap`     | 先用 fallback，字体加载后替换 | **正文**：内容可读性优先        |
+| `block`    | 短暂隐藏文字，等字体加载      | 不推荐：CJK 字体大，FOIT 时间长 |
+| `fallback` | 极短 block 期后 swap          | 标题/装饰性文字                 |
+| `optional` | 100ms 内未加载则放弃，不替换  | 装饰性字体，非核心              |
 
 对于 CJK 正文，`font-display: swap` 几乎是最优选。但 swap 的问题是 CLS——fallback 字体与 web font 的 metrics 不一致时，文字会发生位移。
 
 ### CJK 特有问题
 
 CJK 字体的 CLS 比拉丁字体更严重，原因：
+
 1. **字符框（em-box）比例不同**：中文是方形的，拉丁 fallback 字体的中文字符可能使用不同的 advance width
 2. **行高差异**：CJK 字体的默认行高通常比拉丁字体大
 3. **基线偏移**：不同于拉丁 baseline，CJK 的字符居中于 em-box
@@ -133,7 +135,7 @@ CJK 字体的 CLS 比拉丁字体更严重，原因：
    @font-face {
      font-family: 'LXGW Fallback';
      src: local('PingFang SC'), local('Microsoft YaHei');
-     size-adjust: 105%;  /* 精细调校 */
+     size-adjust: 105%; /* 精细调校 */
      ascent-override: 90%;
    }
    ```
@@ -156,7 +158,7 @@ CJK 字体的 CLS 比拉丁字体更严重，原因：
    - 下载字体文件到本地
    - 配置 `vite-plugin-font` 自动分包
    - 移除外部 CDN import
-   
+
    这样同时解决了第三方依赖和体积问题。
 
 5. **对 LXGW 系列本地字体也做分包**：虽然是本地文件，但仍是完整 TTF。可以同样接入 cn-font-split 分包。
@@ -173,11 +175,9 @@ CJK 字体的 CLS 比拉丁字体更严重，原因：
 
 7. **Fallback 字体栈优化**：
    ```css
-   --font-sans: 'LXGW Neo ZhiSong Plus', 'PingFang SC', 'Hiragino Sans GB', 
-                'Microsoft YaHei', 'Noto Sans SC', sans-serif;
+   --font-sans: 'LXGW Neo ZhiSong Plus', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Noto Sans SC', sans-serif;
    --font-serif: 'YshiPen-ShutiTC', 'STKaiti', 'KaiTi', 'Noto Serif SC', serif;
-   --font-mono: 'LXGW Bright Code TC', 'Cascadia Code', 'Fira Code', 
-                'JetBrains Mono', 'Source Code Pro', monospace;
+   --font-mono: 'LXGW Bright Code TC', 'Cascadia Code', 'Fira Code', 'JetBrains Mono', 'Source Code Pro', monospace;
    ```
    PingFang SC 作为 macOS/iOS 上最接近宋体的系统字体，是 LXGW Neo ZhiSong Plus 的最佳 fallback。
 

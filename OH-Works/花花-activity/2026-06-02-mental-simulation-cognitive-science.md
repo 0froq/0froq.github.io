@@ -13,6 +13,7 @@ froQ 自述：「用模拟器思维运作——把现实问题抽象为变量，
 > If the organism carries a "small-scale model" of external reality and of its own possible actions within its head, it is able to try out various alternatives, conclude which is the best of them, react to future situations before they arise, utilise the knowledge of past events in dealing with the present and future, and in every way react in a much fuller, safer, and more competent manner to the emergencies which face it.
 
 Craik 的核心论点：
+
 1. 心智在内部构建外部现实的「小比例模型」（small-scale model）
 2. 这个模型不是静态的——可以在上面「尝试各种替代方案」
 3. 模型使得「在未来的情况出现之前就对之做出反应」成为可能
@@ -31,6 +32,7 @@ Philip Johnson-Laird 将 Craik 的直觉发展为系统性的推理理论。
 **核心主张**：人类推理不是在命题逻辑上操作，而是在心智模型（mental models）上操作。当我们听到 "A 在 B 的左边，B 在 C 的左边"，我们不是将这句话翻译成逻辑公式再推理，而是在心智中构建一个空间布局的模型，然后「读」出 A 在 C 的左边。
 
 **关键机制**：
+
 - 理解 = 构建模型。语言输入激活的不仅是语义表征，更是情境模型（situation model）
 - 推理 = 操作模型。在模型上执行变换、检查、比较
 - 模型可以包含「令牌」（tokens）代表个体，以及令牌之间的关系
@@ -45,11 +47,13 @@ Philip Johnson-Laird 将 Craik 的直觉发展为系统性的推理理论。
 Kahneman 和 Tversky 1982 年引入的「模拟启发式」（simulation heuristic）从另一个方向切入：人如何想象「本可以不同的」场景。
 
 **核心机制**——反事实思维的三种变异操作：
+
 1. **下坡变异（downhill）**：移除不太可能发生的元素，使场景回归正常（最常见，因为认知成本最低）
 2. **上坡变异（uphill）**：添加不太可能发生的元素
 3. **水平变异（horizontal）**：用同等可能性的元素替换
 
 **行为后果**：
+
 - **例外性效应**：不寻常的事件比寻常事件更容易触发反事实思维（"如果走平时的路就不会出车祸了"）
 - **可控性效应**：可控事件比不可控事件更容易触发替代想象
 - **行动效应**：人们更容易想象撤销一个行动（做了某事→如果没做），而非撤销一个不行动（没做某事→如果做了）
@@ -58,6 +62,7 @@ Kahneman 和 Tversky 1982 年引入的「模拟启发式」（simulation heurist
 Kahneman & Miller（1986）后来将模拟启发式扩展为「规范理论」（norm theory）：反事实思维的激活取决于事件偏离「规范」的程度。规范不是统计均值，而是认知中「应该是」的原型。
 
 **模拟启发式的双重功能**：
+
 - 负面：可能导致后悔、自责等情绪偏差
 - 正面：是因果推理和未来规划的基础（你可以通过模拟「如果 X 没发生，Y 还会发生吗？」来判断因果）
 
@@ -68,12 +73,14 @@ Kahneman & Miller（1986）后来将模拟启发式扩展为「规范理论」�
 Daniel Schacter 和 Donna Rose Addis 2007 年提出的「建构性情节模拟假说」（constructive episodic simulation hypothesis）揭示了记忆与想象之间的神经认知共享基础。
 
 **核心主张**：
+
 1. 情节记忆的一个关键功能不是准确记录过去，而是**支持对未来事件的模拟**
 2. 记忆过去和想象未来依赖相同的大脑核心网络（默认模式网络 DMN，包括海马体、内侧前额叶、后扣带回等）
 3. 情节记忆通过**灵活检索和重组**存储的元素来构建新场景
 4. 同一灵活性也导致记忆错误（重组过程中的错误结合）
 
 **关键证据**：
+
 - 老年人同时减少过去记忆和未来想象的内部细节
 - 海马体损伤患者同时损害记忆和未来想象能力
 - 特异性诱导（episodic specificity induction）同时增强记忆和想象的细节表现
@@ -90,12 +97,14 @@ Daniel Schacter 和 Donna Rose Addis 2007 年提出的「建构性情节模拟�
 Alvin Goldman 后来将此发展为最全面的模拟理论（Simulation Theory, ST）。
 
 **核心操作流程**（高层面读心）：
+
 1. 在心智中创建**假装的欲望和信念**，使之对应于目标的推定心理状态
 2. 将这些假装状态**输入**自己的决策机制（但将机制设为「离线」——不连接运动系统）
 3. 让决策机制产生**输出**（假装的决策或情绪）
 4. 将输出**投射或归因**给目标
 
 **低层 vs 高层模拟**：
+
 - 低层模拟：无意识、硬连接的镜像过程（如镜像神经元对面部表情的自动模拟）
 - 高层模拟：需要意识的、自愿控制的想象模拟（如「如果我处在她的位置，我会怎么做」）
 
@@ -110,6 +119,7 @@ Alvin Goldman 后来将此发展为最全面的模拟理论（Simulation Theory,
 这是五条理论中的后来者，但它提供了一个**统一的框架**：大脑是一台多层级的预测机器。
 
 **核心主张**：
+
 1. 大脑不是被动接收感官信号然后逐步构建表征的，而是**持续地从上到下生成预测**——预测下一层级的输入应该是什么
 2. 感官信号与预测之间的差异 = **预测误差（prediction error）**
 3. 大脑的目标是最小化预测误差（prediction error minimization, PEM）
@@ -124,6 +134,7 @@ Alvin Goldman 后来将此发展为最全面的模拟理论（Simulation Theory,
 **认知的三层嵌套**：Clark 指出，预测加工 + 具身认知 + 延展心智是同一故事的三个层面——大脑的预测任务被身体结构、环境结构和外部工具（笔记本、代码编辑器、dotfiles）所分担。
 
 **与 froQ 的连接**：
+
 - 「把现实问题抽象为变量」→ 构建生成模型的抽象层
 - 「在脑内推演」→ 在生成模型上运行 forward simulation
 - 「再落地」→ 用现实世界的反馈（预测误差）来校准模型
@@ -136,6 +147,7 @@ Alvin Goldman 后来将此发展为最全面的模拟理论（Simulation Theory,
 Nancy Nersessian 将模拟推理的研究从日常认知延伸到**科学发现**的核心过程。她的认知-历史分析表明：思想实验（thought experiment）、类比建模（analogical modeling）和视觉建模（visual modeling）共享同一个认知基础——心智模拟（mental simulation）。
 
 **模型推理（model-based reasoning）的完整循环**：
+
 1. 从目标领域提取约束
 2. 从源领域提取约束
 3. 构建**中间模型**（intermediary model）——结合目标约束和源约束的混合实体
@@ -160,6 +172,7 @@ Nersessian 的关键贡献在于指出：**思想实验通过叙事结构引导�
 **认知操作**：识别目标系统的关键实体（tokens）和关系（relations），构建一个简约的内部表征。
 
 **理论基础**：
+
 - Craik 的 small-scale model（心智构建外部现实的简化版）
 - Johnson-Laird 的 mental model construction（理解的本质是构建模型）
 - 预测加工中的 generative model building（生成模型作为世界的内在表征）
@@ -171,6 +184,7 @@ Nersessian 的关键贡献在于指出：**思想实验通过叙事结构引导�
 **认知操作**：在心智模型上运行 forward simulation，探索可能的状态序列和反事实空间。
 
 **理论基础**：
+
 - Kahneman & Tversky 的 simulation heuristic（下行/上行/水平变异）
 - Schacter & Addis 的 constructive episodic simulation（重组过去经验的元素构建未来场景）
 - 预测加工中的 top-down prediction（大脑持续生成关于感觉流应该是什么的预测）
@@ -182,6 +196,7 @@ Nersessian 的关键贡献在于指出：**思想实验通过叙事结构引导�
 **认知操作**：将模拟结果与外部现实对照，用预测误差更新内部模型。
 
 **理论基础**：
+
 - 预测加工中的 prediction error minimization（模拟结果 vs 实际结果的差距驱动模型更新）
 - Goldman 模拟理论中的投影（假装状态投射到目标，观察是否匹配）
 - Nersessian 模型推理循环中的评估阶段
@@ -199,6 +214,7 @@ Nersessian 的关键贡献在于指出：**思想实验通过叙事结构引导�
 ### 模拟器思维 × 工具哲学（06-01）
 
 工具在认知过程中的角色有两个方向：
+
 1. **模拟的外部化**：代码、图表、笔记将内部模拟的中间状态投射到外部介质上，解除工作记忆的瓶颈（Extended Mind 方向）
 2. **模拟的约束化**：工具的形式语言（类型系统、语法规则）限制了你构建的模型的自由度——这减少了错误构建的可能性但可能限制创造性的模型重组
 

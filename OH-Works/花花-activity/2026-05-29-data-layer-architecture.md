@@ -48,6 +48,7 @@ docs/dashboard/
 ### board.yml 任务状态模型
 
 任务分三列：
+
 - **active**：当前进行中，状态为 inProgress / notStarted
 - **done**：已完成，含 completed 时间戳
 - **backlog**：待评估，不在此迭代中
@@ -62,31 +63,31 @@ AGENTS.md 提到「规划系统简化」任务（已于 05-28 完成），方向
 
 所有类型定义集中在 `docs/.vitepress/theme/types/`：
 
-| 文件 | 内容 |
-|------|------|
-| dashboard.ts | BoardTask、DayTask、WeekTask、BacklogItem、VisionItem、HintItem 等任务类型 |
-| content.ts | CorpusData、PostsData、TagsData 等内容类型 |
-| nav.ts | NavItem、ContentNavItem、RouteI18n 等导航和 i18n 类型 |
-| activity.ts | 活动相关类型（自主活动记录等） |
-| plotly.ts | Plotly 图表配置类型 |
-| lakeTemperature.ts | 湖温数据专用类型 |
+| 文件               | 内容                                                                       |
+| ------------------ | -------------------------------------------------------------------------- |
+| dashboard.ts       | BoardTask、DayTask、WeekTask、BacklogItem、VisionItem、HintItem 等任务类型 |
+| content.ts         | CorpusData、PostsData、TagsData 等内容类型                                 |
+| nav.ts             | NavItem、ContentNavItem、RouteI18n 等导航和 i18n 类型                      |
+| activity.ts        | 活动相关类型（自主活动记录等）                                             |
+| plotly.ts          | Plotly 图表配置类型                                                        |
+| lakeTemperature.ts | 湖温数据专用类型                                                           |
 
 ## 跨领域工具函数
 
 `docs/.vitepress/theme/utils/`：
 
-| 文件 | 功能 |
-|------|------|
-| usePostUtils.ts | 阅读时间计算（中文 400 字/分、英文 225 词/分、代码块 1 块/分）、标签层级展开（`a/b/c` → `{a, a/b, a/b/c}`）、分类标准化 |
-| useRouteI18n.ts | 路由级别的国际化路径处理 |
-| useTagUtils.ts | 标签过滤和层级导航逻辑 |
-| useStringOperation.ts | 字符串操作工具 |
-| toChineseNumber.ts | 阿拉伯数字 → 中文数字转换（年份用） |
-| chartTheme.ts | Plotly 图表主题配置 |
-| contentNav.ts | 内容导航树构建 |
-| deepMerge.ts | 深度合并对象 |
-| renderMdInline.ts | 行内 Markdown 渲染 |
-| statistics/ | 统计相关工具 |
+| 文件                  | 功能                                                                                                                    |
+| --------------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| usePostUtils.ts       | 阅读时间计算（中文 400 字/分、英文 225 词/分、代码块 1 块/分）、标签层级展开（`a/b/c` → `{a, a/b, a/b/c}`）、分类标准化 |
+| useRouteI18n.ts       | 路由级别的国际化路径处理                                                                                                |
+| useTagUtils.ts        | 标签过滤和层级导航逻辑                                                                                                  |
+| useStringOperation.ts | 字符串操作工具                                                                                                          |
+| toChineseNumber.ts    | 阿拉伯数字 → 中文数字转换（年份用）                                                                                     |
+| chartTheme.ts         | Plotly 图表主题配置                                                                                                     |
+| contentNav.ts         | 内容导航树构建                                                                                                          |
+| deepMerge.ts          | 深度合并对象                                                                                                            |
+| renderMdInline.ts     | 行内 Markdown 渲染                                                                                                      |
+| statistics/           | 统计相关工具                                                                                                            |
 
 ## 数据流
 
@@ -132,5 +133,6 @@ defineLoader() watch             createContentLoader() glob
 ## 与 VitePress 默认方案的差异
 
 VitePress 默认的 data loading 主要通过 `createContentLoader` 处理 markdown 内容。本项目扩展了两种模式：
+
 - 自定义 `defineLoader` + YAML 处理更复杂的结构化数据
 - 构建时脚本 + 运行时 loader 的混合模式（tags）

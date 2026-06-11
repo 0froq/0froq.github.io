@@ -52,14 +52,15 @@ require("config.autocmds")
 
 ### 2.1 lazy.nvim（当前事实标准）
 
-| 维度 | 状态 |
-|------|------|
-| Stars | 20,829 |
-| 最新版 | v11.17.5 (2025-11) |
-| 语言 | Lua 100% |
+| 维度   | 状态                |
+| ------ | ------------------- |
+| Stars  | 20,829              |
+| 最新版 | v11.17.5 (2025-11)  |
+| 语言   | Lua 100%            |
 | 维护者 | folke (103+ 贡献者) |
 
 核心优势：
+
 - **默认 lazy-loading**：`lazy = true` 全局默认，按 event/ft/cmd/keys 按需加载
 - **自动缓存和字节码编译**：减少运行时开销
 - **声明式 spec**：每个插件一个 table，放在 `lua/plugins/` 下自动被发现
@@ -81,29 +82,32 @@ require("config.autocmds")
 Neovim 0.12 (2026-03-29) 引入了原生 Lua 实现的 `vim.pack`：
 
 **优势：**
+
 - 零外部依赖，Neovim 核心团队维护
 - 干净的 API：`vim.pack.add("user/repo")` 声明依赖
 - Lockfile 支持：`$XDG_CONFIG_HOME/nvim/nvim-pack-lock.json`
 - `:Pack install` / `:Pack update` 极简命令
 
 **致命短板（当前）：**
+
 - **无 lazy-loading**。只有 start（启动加载）和 opt（手动 `:packadd`）两种模式
 - 没有 event/filetype/command 触发式的按需加载
 - 实测：30 插件 start-only → 180-250ms，远慢于 lazy.nvim 的 55-70ms
 
 **0.13 改进（2026-05）：**
+
 - 新增 `vim.pack` 功能增强，社区讨论活跃
 - Lazy 作者 folke 表示 lazy.nvim 会长期共存
 - 共识：新配置可尝试 vim.pack（<15 插件场景），已有 lazy.nvim 配置不值得迁移
 
 ### 2.3 决策框架
 
-| 场景 | 推荐 |
-|------|------|
-| <15 插件，新配置 | vim.pack（零引导代码） |
-| >20 插件 | lazy.nvim（lazy-loading 不可或缺） |
-| 已有 lazy.nvim 配置 | 不要迁移 |
-| 需要分发给他人 | vim.pack（零安装步骤） |
+| 场景                | 推荐                               |
+| ------------------- | ---------------------------------- |
+| <15 插件，新配置    | vim.pack（零引导代码）             |
+| >20 插件            | lazy.nvim（lazy-loading 不可或缺） |
+| 已有 lazy.nvim 配置 | 不要迁移                           |
+| 需要分发给他人      | vim.pack（零安装步骤）             |
 
 ---
 
@@ -112,6 +116,7 @@ Neovim 0.12 (2026-03-29) 引入了原生 Lua 实现的 `vim.pack`：
 ### 3.1 LuaLS (lua-language-server)
 
 Neovim 官方推荐的 Lua LSP。核心能力：
+
 - 支持 Lua 5.1-5.5 + LuaJIT
 - 20+ EmmyLua 注解类型（`---@param`、`---@return`、`---@type`、`---@field`、`---@class`）
 - 动态类型检查、自动补全、跳转定义、查找引用
@@ -143,6 +148,7 @@ Neovim 社区的标准 Lua 格式化器（Rust 实现，速度快）。
 ### 3.3 luarocks
 
 官方推荐的 Lua 包管理器。适用于：
+
 - 插件有编译依赖（C/Rust 组件）
 - 插件需要被其他插件作为依赖引用
 - 发布到 luarocks.org 供社区发现
@@ -153,13 +159,14 @@ Neovim 0.9+ 通过 `vim.lsp.luarocks` 内置 luarocks 路径解析。
 
 **三足鼎立：**
 
-| 框架 | 定位 | 状态 |
-|------|------|------|
-| plenary.nvim busted | 传统社区标准，BDD 风格 | 已停止维护 |
+| 框架                  | 定位                                   | 状态                   |
+| --------------------- | -------------------------------------- | ---------------------- |
+| plenary.nvim busted   | 传统社区标准，BDD 风格                 | 已停止维护             |
 | nvim-test (lewis6991) | 轻量替代，直接 fork 自 neovim 核心测试 | 活跃 (v1.4.0, 2026-03) |
-| plentest.nvim | treesitter 团队 fork，精简自包含 | 内部使用 |
+| plentest.nvim         | treesitter 团队 fork，精简自包含       | 内部使用               |
 
 **`nvim-test` 特点：**
+
 - 命令行工具，非 Neovim 插件
 - 支持指定 runner 和 target Neovim 版本（含 nightly）
 - 底层调用 busted，兼容 plenary 测试语法
@@ -231,6 +238,7 @@ return M
 ```
 
 **关键约定：**
+
 - `M = {}` 模式：导出 table，不是全局变量
 - 状态保持 local：防止外部直接修改
 - `vim.deepcopy` 返回配置：避免引用泄漏
@@ -282,16 +290,16 @@ return M
 
 0.12 (2026-03-29) 是一次方向性发布：
 
-| 新增/增强 | 说明 |
-|-----------|------|
-| `vim.pack` | 内置插件管理器 |
-| 原生 LSP 扩展 | `selectionRange`、`inlineCompletion`、`linkedEditingRange`、`documentLink` |
-| `'autocomplete'` 选项 | 原生 insert-mode 自动补全（无需第三方补全插件） |
-| Treesitter 内建 | 解析器和语法高亮默认启用，不再需要 nvim-treesitter 插件 |
-| 内置插件 | `:Undotree`、`:DiffTool` |
-| `vim.lsp.config()` / `vim.lsp.enable()` | 新的原生 LSP 配置 API（替代 lspconfig 模式） |
-| `vim.net.request()` | 原生 HTTP 客户端 |
-| `vim.fs` | 文件系统操作 API 扩展 |
+| 新增/增强                               | 说明                                                                       |
+| --------------------------------------- | -------------------------------------------------------------------------- |
+| `vim.pack`                              | 内置插件管理器                                                             |
+| 原生 LSP 扩展                           | `selectionRange`、`inlineCompletion`、`linkedEditingRange`、`documentLink` |
+| `'autocomplete'` 选项                   | 原生 insert-mode 自动补全（无需第三方补全插件）                            |
+| Treesitter 内建                         | 解析器和语法高亮默认启用，不再需要 nvim-treesitter 插件                    |
+| 内置插件                                | `:Undotree`、`:DiffTool`                                                   |
+| `vim.lsp.config()` / `vim.lsp.enable()` | 新的原生 LSP 配置 API（替代 lspconfig 模式）                               |
+| `vim.net.request()`                     | 原生 HTTP 客户端                                                           |
+| `vim.fs`                                | 文件系统操作 API 扩展                                                      |
 
 **0.13 路线图**：官方称为 "Year of Batteries Included"，进一步推进功能内置化。
 

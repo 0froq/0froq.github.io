@@ -21,7 +21,7 @@ const { page } = useData()
 
 const thisCorpus = corpus.filter(
   (c) => {
-    return c.tags.includes('scope/work/research/warmingHiatus') 
+    return c.tags.includes('scope/work/research/warmingHiatus')
       && c.url + '.md' !== '/' + page.value.filePath
       && c.frontmatter.status !== 'void'
   }
@@ -43,5 +43,3 @@ const thisPuts = thisCorpus.filter((c) => {
     <a :href="c.url" :text="c.title" />
   </li>
 </ul>
-
-

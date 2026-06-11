@@ -16,14 +16,14 @@ oq skill 的 release-workflow 参考文档已经记录了 changelogithub + GitHu
 
 bumpp 的每一项改动都体现了明确的设计立场：
 
-| 特性 | 决策 | 理由 |
-|------|------|------|
-| 默认启用 commit + tag + push | 交互式确认后自动执行全套 git 操作 | 减少手动步骤，但不跳过人类确认 |
-| Conventional Commits 默认格式 | `chore(release): v1.2.3` | 与 changelogithub 无缝衔接 |
-| `--recursive` 递归 monorepo | 一次 bump 所有子包 | 解决多包版本同步的痛点 |
-| `--execute` 钩子 | bump 后、commit 前执行命令 | 比如先跑 build 再提交 |
-| ESM + CJS 双格式 | 兼容所有 Node.js 环境 | 不强制 ESM-only |
-| `bump.config.ts` 配置文件 | TypeScript 原生配置 | 类型安全、自动补全 |
+| 特性                          | 决策                              | 理由                           |
+| ----------------------------- | --------------------------------- | ------------------------------ |
+| 默认启用 commit + tag + push  | 交互式确认后自动执行全套 git 操作 | 减少手动步骤，但不跳过人类确认 |
+| Conventional Commits 默认格式 | `chore(release): v1.2.3`          | 与 changelogithub 无缝衔接     |
+| `--recursive` 递归 monorepo   | 一次 bump 所有子包                | 解决多包版本同步的痛点         |
+| `--execute` 钩子              | bump 后、commit 前执行命令        | 比如先跑 build 再提交          |
+| ESM + CJS 双格式              | 兼容所有 Node.js 环境             | 不强制 ESM-only                |
+| `bump.config.ts` 配置文件     | TypeScript 原生配置               | 类型安全、自动补全             |
 
 ### 默认行为的「意见」
 
@@ -60,16 +60,16 @@ $ npx bumpp --execute "pnpm build"  # bump 后先 build 再 commit
 
 ### 四工具对比
 
-| 维度 | bumpp | semantic-release | release-please | changesets |
-|------|-------|-----------------|----------------|------------|
-| **触发方式** | 开发者手动执行 CLI | git push 自动触发 | git push → bot 创建 Release PR | 开发者写 changeset → 合并后自动 |
-| **版本决定** | 人选择 | 从 commit message 推断 | 从 commit message 推断 | 从 changeset 文件推断 |
-| **Changelog** | 不生成（配 changelogithub） | 自动生成 | 自动生成 | 自动生成 |
-| **npm publish** | 不处理 | 自动 | 合并 PR 后自动 | 自动 |
-| **Monorepo** | `--recursive` 同步 bump | 插件支持 | manifest 配置 | 一等公民（核心设计目标） |
-| **交互性** | 高（确认后才执行） | 零（全自动） | 中（通过 PR 审核） | 中（changeset 机制需人工写） |
-| **学习成本** | 极低 | 高（插件体系复杂） | 中 | 中 |
-| **适合场景** | 个人/小团队库 | 严格 CC 规范的团队 | 需要人工审核的团队 | monorepo 多包协调发布 |
+| 维度            | bumpp                       | semantic-release       | release-please                 | changesets                      |
+| --------------- | --------------------------- | ---------------------- | ------------------------------ | ------------------------------- |
+| **触发方式**    | 开发者手动执行 CLI          | git push 自动触发      | git push → bot 创建 Release PR | 开发者写 changeset → 合并后自动 |
+| **版本决定**    | 人选择                      | 从 commit message 推断 | 从 commit message 推断         | 从 changeset 文件推断           |
+| **Changelog**   | 不生成（配 changelogithub） | 自动生成               | 自动生成                       | 自动生成                        |
+| **npm publish** | 不处理                      | 自动                   | 合并 PR 后自动                 | 自动                            |
+| **Monorepo**    | `--recursive` 同步 bump     | 插件支持               | manifest 配置                  | 一等公民（核心设计目标）        |
+| **交互性**      | 高（确认后才执行）          | 零（全自动）           | 中（通过 PR 审核）             | 中（changeset 机制需人工写）    |
+| **学习成本**    | 极低                        | 高（插件体系复杂）     | 中                             | 中                              |
+| **适合场景**    | 个人/小团队库               | 严格 CC 规范的团队     | 需要人工审核的团队             | monorepo 多包协调发布           |
 
 ### 选型决策树
 
@@ -177,7 +177,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # 需要完整历史来生成 changelog
+          fetch-depth: 0 # 需要完整历史来生成 changelog
 
       - run: npx changelogithub
         env:
@@ -185,6 +185,7 @@ jobs:
 ```
 
 changelogithub 做的事情：
+
 1. 读取自上一个 tag 以来的所有 CC 格式的 commit
 2. 按类型分组（feat → Features, fix → Bug Fixes, etc.）
 3. 生成 Markdown changelog
@@ -206,9 +207,9 @@ export default defineConfig({
   },
   // 按 scope 分组（monorepo 场景）
   scopeMap: {
-    'core': '核心库',
-    'cli': '命令行工具',
-    'docs': '文档站点',
+    core: '核心库',
+    cli: '命令行工具',
+    docs: '文档站点',
   },
 })
 ```
@@ -236,6 +237,7 @@ oq skill 中 release-workflow 参考文档已经包含了 changelogithub 的标�
 ### 1. 全自动发布的隐性成本
 
 semantic-release 看起来很理想——commit 即发布。但它的隐性成本在于：
+
 - 团队必须严格遵循 CC 规范，一个错误的 `fix:` 前缀可能触发意外的 major bump
 - 调试发布问题需要在 CI 日志中翻找
 - 插件生态系统复杂，`@semantic-release/changelog` + `@semantic-release/git` + `@semantic-release/npm` + `@semantic-release/github` 四个插件之间的交互需要理解

@@ -47,5 +47,3 @@ lang: en
 > [@cohen2014](./ing_@cohen2014.md)
 
 ![dai2018f1](./dai2018/dai2018f1.png)
-
-

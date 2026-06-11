@@ -44,12 +44,14 @@ export default defineConfig({
 ```
 
 **优点：**
+
 - 零额外依赖，`Intl.Segmenter` 是 Baseline 2024 标准，所有现代浏览器原生支持
 - MiniSearch 在 Node.js 端构建索引（`Intl.Segmenter` 从 Node 18+ 开始支持）
 - 索引在构建时生成，搜索在浏览器端执行
 - 对小站点（<500 页），索引体积可控（约 50-100KB），点击搜索框时才加载
 
 **缺点：**
+
 - `Intl.Segmenter` 中文分词质量不如 jieba 等专用分词器（但已基本可用）
 - MiniSearch 索引和查询在主线程执行，大规模站点可能造成卡顿
 - 需要同时在 `tokenize`（索引侧）和 `processTerm`（查询侧）配置分词
@@ -65,14 +67,14 @@ export default defineConfig({
 // config.mts
 import { cut_for_search } from 'jieba-wasm'
 
+// theme/index.ts
+import init, { cut_for_search } from 'jieba-wasm'
+
 function tokenize(term: string): string[] {
   return cut_for_search(term)
     .map((w: string) => w.trim().toLowerCase())
     .filter((w: string) => w.length >= 1)
 }
-
-// theme/index.ts
-import init, { cut_for_search } from 'jieba-wasm'
 
 export default {
   extends: DefaultTheme,
@@ -86,10 +88,12 @@ export default {
 ```
 
 **优点：**
+
 - 分词质量显著优于 `Intl.Segmenter`（jieba 是中文 NLP 领域标准工具）
 - 词典丰富，对专业术语、人名地名识别更好
 
 **缺点：**
+
 - 需要预加载约 3MB 的 WASM 文件
 - 配置更复杂（需要在 theme enhanceApp 中异步初始化）
 - 对于内容量不大的博客，3MB 的 overhead 性价比不高
@@ -122,19 +126,22 @@ function chineseSearchOptimize(input: string) {
   const segmenter = new Intl.Segmenter('zh-CN', { granularity: 'word' })
   const result: string[] = []
   for (const it of segmenter.segment(input)) {
-    if (it.isWordLike) result.push(it.segment)
+    if (it.isWordLike)
+      result.push(it.segment)
   }
   return result.join(' ')
 }
 ```
 
 **Pagefind 架构要点：**
+
 - 构建时：Rust 二进制遍历静态 HTML → 提取文本 → 分词索引 → 输出 `/_pagefind/` 静态文件
 - 运行时：首次打开搜索时加载 WASM（~30KB）+ manifest → 按需懒加载分片索引 → 浏览器端查询
 - Pagefind v1.5.0（2026-04）新增 CJK 搜索端分词（`Intl.Segmenter`），解决了之前「索引分词但搜索不分词」的问题
 - 分片机制：索引被切割为多个 chunk，仅在查询需要时加载对应 chunk，不会一次性加载全部索引
 
 **优点：**
+
 - 初始 JS 载荷极小（约 30KB WASM + manifest）
 - 索引分片懒加载，对站点规模不敏感
 - 提供完整的预构建 UI（Modal 搜索框），也可自定义
@@ -142,6 +149,7 @@ function chineseSearchOptimize(input: string) {
 - 2016 年 4 月已解决 CJK 搜索端分词
 
 **缺点：**
+
 - 额外的构建步骤（需在 `vite build` 后运行 `pagefind`）
 - 比 MiniSearch 方案多一个依赖
 - Pagefind UI 与 VitePress 原生搜索 UI 不同，自定义需要额外工作
@@ -160,7 +168,7 @@ export default defineConfig({
   vite: {
     plugins: [
       SearchPlugin({
-        tokenize: 'full',  // 对 CJK 使用 full tokenization
+        tokenize: 'full', // 对 CJK 使用 full tokenization
         encode: str => str.replace(/[\x00-\x7F]/g, '').split(''),
       }),
     ],
@@ -169,10 +177,12 @@ export default defineConfig({
 ```
 
 **优点：**
+
 - FlexSearch 性能优异，有内置的 CJK 语言包
 - 社区使用较多，有中文搜索的配置参考
 
 **缺点：**
+
 - 非 VitePress 官方方案，插件维护活跃度不确定
 - 中文配置依赖 `tokenize: 'full'`（逐字索引），索引体积大
 - FlexSearch 的 CJK 支持本质上是逐字匹配 + bigram 策略，不如 jieba 精确
@@ -181,16 +191,16 @@ export default defineConfig({
 
 ## 路径对比矩阵
 
-| 维度 | MiniSearch + Intl.Segmenter | MiniSearch + jieba-wasm | Pagefind | FlexSearch plugin |
-|------|---------------------------|------------------------|----------|-------------------|
-| 额外依赖 | 0 | jieba-wasm | pagefind + plugin | flexsearch + plugin |
-| 初始 JS 体积 | 0（内置于 VitePress） | ~3MB WASM | ~30KB WASM | 取决于 FlexSearch 包 |
-| CJK 分词质量 | 中等（原生 API） | 高（专业分词器） | 中等（同 Intl.Segmenter） | 中低（逐字+bigram） |
-| 索引构建 | 构建时（Node.js） | 构建时（Node.js） | 构建后（Rust CLI） | 构建时（Node.js） |
-| 双语支持 | 需自行处理 | 需自行处理 | 自动识别 lang 属性 | 需自行处理 |
-| 可扩展性 | 小站点 | 小站点 | 大站点 | 中等站点 |
-| 维护风险 | 低（官方方案） | 中（社区包） | 中低（活跃维护） | 中（社区插件） |
-| 适合博客规模 | <500 页 | <500 页 | 任意规模 | <1000 页 |
+| 维度         | MiniSearch + Intl.Segmenter | MiniSearch + jieba-wasm | Pagefind                  | FlexSearch plugin    |
+| ------------ | --------------------------- | ----------------------- | ------------------------- | -------------------- |
+| 额外依赖     | 0                           | jieba-wasm              | pagefind + plugin         | flexsearch + plugin  |
+| 初始 JS 体积 | 0（内置于 VitePress）       | ~3MB WASM               | ~30KB WASM                | 取决于 FlexSearch 包 |
+| CJK 分词质量 | 中等（原生 API）            | 高（专业分词器）        | 中等（同 Intl.Segmenter） | 中低（逐字+bigram）  |
+| 索引构建     | 构建时（Node.js）           | 构建时（Node.js）       | 构建后（Rust CLI）        | 构建时（Node.js）    |
+| 双语支持     | 需自行处理                  | 需自行处理              | 自动识别 lang 属性        | 需自行处理           |
+| 可扩展性     | 小站点                      | 小站点                  | 大站点                    | 中等站点             |
+| 维护风险     | 低（官方方案）              | 中（社区包）            | 中低（活跃维护）          | 中（社区插件）       |
+| 适合博客规模 | <500 页                     | <500 页                 | 任意规模                  | <1000 页             |
 
 ## 双语搜索的额外考量
 
@@ -207,20 +217,22 @@ export default defineConfig({
 function bilingualTokenizer(text: string): string[] {
   const tokens: string[] = []
   const cjkSegmenter = new Intl.Segmenter('zh-CN', { granularity: 'word' })
-  
+
   // 简单启发式：按语言边界分割后分别处理
   // CJK 段落走 Intl.Segmenter，其他走空格分词
   let buffer = ''
   let isCJK = false
-  
+
   for (const char of text) {
-    const charIsCJK = /[\u4e00-\u9fff\u3400-\u4dbf]/.test(char)
+    const charIsCJK = /[\u4E00-\u9FFF\u3400-\u4DBF]/.test(char)
     if (charIsCJK !== isCJK && buffer) {
       if (isCJK) {
         for (const seg of cjkSegmenter.segment(buffer)) {
-          if (seg.isWordLike) tokens.push(seg.segment)
+          if (seg.isWordLike)
+            tokens.push(seg.segment)
         }
-      } else {
+      }
+      else {
         tokens.push(...buffer.split(/\s+/).filter(Boolean))
       }
       buffer = ''
@@ -236,6 +248,7 @@ function bilingualTokenizer(text: string): string[] {
 ## 对博客的推荐
 
 考虑到博客的实际情况：
+
 - 页面数目前不大（< 200 页），但 corpus 体系会持续增长
 - 已有较多依赖（Comark、UnoCSS、Vue I18n 等），不希望引入过重的新依赖
 - 前端性能敏感（已有 CJK 字体优化等考虑）

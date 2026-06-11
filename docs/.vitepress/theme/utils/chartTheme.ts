@@ -1,6 +1,7 @@
-import { useDark } from '@vueuse/core'
-import { computed, type ComputedRef } from 'vue'
 import type { Config, Layout } from 'plotly.js'
+import type { ComputedRef } from 'vue'
+import { useDark } from '@vueuse/core'
+import { computed } from 'vue'
 import { deepMerge } from './deepMerge'
 
 export interface ThemeColors {

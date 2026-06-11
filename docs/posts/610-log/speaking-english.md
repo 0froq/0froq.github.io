@@ -41,8 +41,8 @@ he doesn't speak Chinese, I don't speak Korean,
 so English became our only bridge.
 Not by choice, exactly. By necessity.
 Which is terrifying when you're someone
-who has spent most of his life *knowing* English
-but never actually *using* it.
+who has spent most of his life _knowing_ English
+but never actually _using_ it.
 
 This is my confession: I've been a fraud.
 
@@ -94,7 +94,7 @@ kept nudging me: "Go talk to her. You're good at English."
 The pressure was excruciating.
 We made conversation.
 She asked what kind of movies I liked.
-I tried to describe something like *Fast & Furious*—a car racing movie.
+I tried to describe something like _Fast & Furious_—a car racing movie.
 But the word "racing" evaporated from my mind.
 I had "car" and nothing else.
 
@@ -157,7 +157,7 @@ the weird way I describe things—but it tries to make sense of it.
 Here's where it gets interesting:
 the polishing sometimes changes what I meant.
 It smooths out the edges where my actual thought lived.
-It's like my broken English *meant* something that proper English erases.
+It's like my broken English _meant_ something that proper English erases.
 But overall?
 Talking to AI in English is becoming natural.
 
@@ -172,14 +172,14 @@ whether we know it or not.
 
 Last night I sent Suh a message on WeChat using voice input.
 It turned into a massive, rambling, verbose thing.
-Like an email. A *real email*. Pages long.
+Like an email. A _real email_. Pages long.
 
 I found it hilarious and embarrassing.
 In Chinese, I can send fragmented thoughts, emoji, single characters.
 The medium allows for incompleteness.
 But with English? There's this psychological weight.
 Maybe it's because I'm not a native speaker.
-Maybe it's because I'm hyperaware that every word needs to *mean* something.
+Maybe it's because I'm hyperaware that every word needs to _mean_ something.
 So I keep adding, explaining, clarifying.
 I keep packing meaning into each message
 until it becomes this bloated thing that no one asked for.
@@ -198,9 +198,9 @@ Do I translate them to English? Here's my dilemma:
 
 If I write in Chinese first and translate to English,
 I'm basically doing word-for-word conversion.
-I'm not thinking about *how* English speakers actually talk.
+I'm not thinking about _how_ English speakers actually talk.
 I'm not reaching for idioms, cultural context,
-the rhythm that makes English *feel* right.
+the rhythm that makes English _feel_ right.
 My translations would be technically correct but emotionally flat.
 That's the honest assessment.
 
@@ -211,7 +211,7 @@ because English-language technical writing is a universal standard.
 Then when I translate back to Chinese,
 I'm working with material that's already solid.
 And since I'm a native Chinese speaker,
-I have the freedom to adapt, to find the *right* way to say it in my language,
+I have the freedom to adapt, to find the _right_ way to say it in my language,
 not just the literal way.
 
 It's backwards, maybe. But it makes sense.
@@ -220,7 +220,7 @@ It's backwards, maybe. But it makes sense.
 
 Here's what terrifies and fascinates me equally:
 when I talk about code, keyboards, AI systems, anything technical—
-my English becomes *natural*.
+my English becomes _natural_.
 
 I can't explain this completely. I live in Chinese. I work in Chinese.
 But when someone asks me about my tech stack or my keyboard setup
@@ -253,7 +253,7 @@ So they say "agent". It's the path of least cognitive resistance.
 
 And I'm understanding now that I do the same thing.
 I just didn't realize it
-until I started being *forced* to speak English with an actual person.
+until I started being _forced_ to speak English with an actual person.
 
 ## Response Cache
 
@@ -282,8 +282,8 @@ my fear of synchronous communication.
 
 Messages are safe. I can edit, revise, rewrite, delete.
 But real-time conversation? That's terrifying.
-With Suh, I *have* to be present.
-I *have* to respond. There's no Cmd+Z, no mulligan,
+With Suh, I _have_ to be present.
+I _have_ to respond. There's no Cmd+Z, no mulligan,
 no way to unsay what I've said.
 Maybe that's why my messages to him become these endless,
 obsessive things.

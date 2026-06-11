@@ -8,15 +8,15 @@
 
 ## 1. 格局概览
 
-| 维度 | Tailwind CSS v4.3 | UnoCSS v66.7 |
-|------|------------------|--------------|
-| 周下载量 | ~12M | ~2M |
-| 核心语言 | Rust (Oxide) + CSS | TypeScript |
-| 构建引擎 | Lightning CSS (Rust) | 纯按需字符串匹配 |
-| 配置方式 | CSS-first (`@theme`) | TypeScript-first (`defineConfig`) |
-| 零依赖体积 | — | ~6KB min+brotli |
-| 组件生态 | shadcn/ui, daisyUI, Headless UI | Onu UI (Vue), Una UI (Nuxt), AtoUI (Svelte) |
-| VS Code 工具 | 官方 IntelliSense（成熟） | 社区 UnoCSS Tools（追赶中） |
+| 维度         | Tailwind CSS v4.3               | UnoCSS v66.7                                |
+| ------------ | ------------------------------- | ------------------------------------------- |
+| 周下载量     | ~12M                            | ~2M                                         |
+| 核心语言     | Rust (Oxide) + CSS              | TypeScript                                  |
+| 构建引擎     | Lightning CSS (Rust)            | 纯按需字符串匹配                            |
+| 配置方式     | CSS-first (`@theme`)            | TypeScript-first (`defineConfig`)           |
+| 零依赖体积   | —                               | ~6KB min+brotli                             |
+| 组件生态     | shadcn/ui, daisyUI, Headless UI | Onu UI (Vue), Una UI (Nuxt), AtoUI (Svelte) |
+| VS Code 工具 | 官方 IntelliSense（成熟）       | 社区 UnoCSS Tools（追赶中）                 |
 
 2026 年的核心叙事：**Tailwind v4 用 Rust 重写缩小了与 UnoCSS 的性能差距，但 UnoCSS 在灵活性、bundle 体积、非 React 框架集成上保持独特优势。两者不再只是「快 vs 慢」的取舍，而是生态选择。**
 
@@ -30,11 +30,11 @@ v4 是一次 ground-up rewrite，五大根本变化：
 
 Tailwind Labs 自己项目的基准数据（Catalyst）：
 
-| 指标 | v3.4 | v4.0 | 提升 |
-|------|------|------|------|
-| 完整构建 | 378ms | 100ms | 3.78× |
-| 增量（有新 CSS） | 44ms | 5ms | 8.8× |
-| 增量（无新 CSS） | 35ms | 192μs | 182× |
+| 指标             | v3.4  | v4.0  | 提升  |
+| ---------------- | ----- | ----- | ----- |
+| 完整构建         | 378ms | 100ms | 3.78× |
+| 增量（有新 CSS） | 44ms  | 5ms   | 8.8×  |
+| 增量（无新 CSS） | 35ms  | 192μs | 182×  |
 
 v4.2 进一步优化了重编译性能。Next.js lead Tim Neutkens 在 X 上报告最大应用的重编译速度提升 3.8×。
 
@@ -43,7 +43,7 @@ v4.2 进一步优化了重编译性能。Next.js lead Tim Neutkens 在 X 上报�
 `tailwind.config.js` 消失，改为 CSS 中的 `@theme` 指令：
 
 ```css
-@import "tailwindcss";
+@import 'tailwindcss';
 @theme {
   --color-brand-500: oklch(0.84 0.18 117.33);
   --font-heading: 'Inter', sans-serif;
@@ -99,26 +99,27 @@ UnoCSS 对 Tailwind v4 CSS-first 架构的回应。关键设计：
 
 **主题键调整**：
 
-| PresetWind3 | PresetWind4 |
-|-------------|-------------|
-| `fontFamily` | `font` |
-| `fontSize` | `text.fontSize` |
-| `lineHeight` | `text.lineHeight` 或 `leading` |
+| PresetWind3     | PresetWind4                        |
+| --------------- | ---------------------------------- |
+| `fontFamily`    | `font`                             |
+| `fontSize`      | `text.fontSize`                    |
+| `lineHeight`    | `text.lineHeight` 或 `leading`     |
 | `letterSpacing` | `text.letterSpacing` 或 `tracking` |
-| `borderRadius` | `radius` |
-| `breakpoints` | `breakpoint` |
-| `boxShadow` | `shadow` |
-| 尺寸属性 | 统一为 `spacing` |
+| `borderRadius`  | `radius`                           |
+| `breakpoints`   | `breakpoint`                       |
+| `boxShadow`     | `shadow`                           |
+| 尺寸属性        | 统一为 `spacing`                   |
 
 **新增 CSS 层**：
 
-| 层名 | 用途 | z-order |
-|------|------|---------|
-| `properties` | `@property` 注册的 CSS 属性 | -200 |
-| `theme` | 主题 CSS 变量 | -150 |
-| `base` | reset/preflight 样式 | -100 |
+| 层名         | 用途                        | z-order |
+| ------------ | --------------------------- | ------- |
+| `properties` | `@property` 注册的 CSS 属性 | -200    |
+| `theme`      | 主题 CSS 变量               | -150    |
+| `base`       | reset/preflight 样式        | -100    |
 
 **关键特性**：
+
 - 内建 reset（不需要 `@unocss/reset`）
 - `@property` 生成（`text-op-xx` 等 opacity 工具类的底层实现）
 - 主题变量按需生成（`mode: 'on-demand'`，默认）
@@ -157,11 +158,11 @@ Tailwind 没有对等物的五项能力：
 
 但在 bundle 体积上，差距仍然真实：
 
-| 场景 | Tailwind v4 JIT | UnoCSS |
-|------|----------------|--------|
-| 100 组件 CSS | 60KB | 38KB |
-| 纯 CSS Modules | 202KB | — |
-| UnoCSS 本身 | — | ~6KB min+brotli |
+| 场景           | Tailwind v4 JIT | UnoCSS          |
+| -------------- | --------------- | --------------- |
+| 100 组件 CSS   | 60KB            | 38KB            |
+| 纯 CSS Modules | 202KB           | —               |
+| UnoCSS 本身    | —               | ~6KB min+brotli |
 
 对于冷首次加载的 CSS-heavy 产品，UnoCSS 的 22% 体积优势是实在的。
 
@@ -176,13 +177,13 @@ Tailwind 没有对等物的五项能力：
 
 ### 4.3 框架集成
 
-| 框架 | Tailwind v4 | UnoCSS | 优势方 |
-|------|------------|--------|--------|
-| Vite | `@tailwindcss/vite`（官方） | `@unocss/vite`（官方） | 平手 |
-| Astro | `@astrojs/tailwind` 废弃，用 Vite 插件 | `@unocss/astro`（活跃维护） | UnoCSS |
-| Next.js | `create-next-app` 默认 + v4.2 webpack 插件 | `@unocss/webpack` | Tailwind |
-| SvelteKit | 通过 Vite 插件 | `@unocss/svelte-scoped` | UnoCSS |
-| Nuxt 3 | `@nuxtjs/tailwindcss`（社区） | `@unocss/nuxt`（官方） | UnoCSS |
+| 框架      | Tailwind v4                                | UnoCSS                      | 优势方   |
+| --------- | ------------------------------------------ | --------------------------- | -------- |
+| Vite      | `@tailwindcss/vite`（官方）                | `@unocss/vite`（官方）      | 平手     |
+| Astro     | `@astrojs/tailwind` 废弃，用 Vite 插件     | `@unocss/astro`（活跃维护） | UnoCSS   |
+| Next.js   | `create-next-app` 默认 + v4.2 webpack 插件 | `@unocss/webpack`           | Tailwind |
+| SvelteKit | 通过 Vite 插件                             | `@unocss/svelte-scoped`     | UnoCSS   |
+| Nuxt 3    | `@nuxtjs/tailwindcss`（社区）              | `@unocss/nuxt`（官方）      | UnoCSS   |
 
 ### 4.4 IDE 体验
 
@@ -199,6 +200,7 @@ Tailwind 没有对等物的五项能力：
 ## 5. 决策框架
 
 **选 Tailwind CSS v4.3，如果你**：
+
 - 用或计划用 shadcn/ui（UnoCSS 无官方支持）
 - 在 Next.js 上构建（默认脚手架、官方 webpack 插件、最大社区面）
 - 团队已熟悉 Tailwind（零培训成本）
@@ -206,6 +208,7 @@ Tailwind 没有对等物的五项能力：
 - IDE 自动补全质量是日常关注点
 
 **选 UnoCSS v66.x，如果你**：
+
 - 在 Nuxt 3 或 SvelteKit 上构建（原生集成）
 - 需要高度定制的设计系统（regex 规则比 Tailwind 插件更灵活）
 - CSS bundle 体积对首屏性能预算敏感
@@ -228,6 +231,7 @@ Tailwind 没有对等物的五项能力：
 4. **presetWind4**：如果需要 Tailwind v4 兼容类名，presetWind4 提供 drop-in 替代
 
 **潜在关注点**：
+
 - 博客的 UnoCSS 版本应跟进到 v66.7+（当前 npm 最新），以获取 presetWind4 的改进和 Nuxt/Vite 兼容修复
 - `presetWind4` 的 `oklch` 色彩模型与博客现有的主题色定义需要验证兼容性
 - UnoCSS Tools VS Code 扩展的自动补全体验不如 Tailwind IntelliSense 成熟，这是已知的 trade-off
@@ -239,6 +243,7 @@ Tailwind 没有对等物的五项能力：
 **原子 CSS 领域 2026 年的核心矛盾不是性能，而是生态锁定。**
 
 Tailwind v4 用 Rust 重写后，UnoCSS 曾经的核心卖点（构建速度）已被追平。但 UnoCSS 在三个维度保持不可替代性：
+
 - **灵活性**（regex 规则、多 preset 共存）
 - **Vue/Nuxt/SvelteKit/Astro 生态的深度集成**
 - **CSS bundle 体积优势**

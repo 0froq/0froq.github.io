@@ -5,6 +5,7 @@
 ## 值得关注的论文
 
 ### Tong et al. (2023) — Nature Water
+
 **Global lakes are warming slower than surface air temperature due to accelerated evaporation**
 
 - 直接反驳"湖泊升温与气温同步"的简单假设
@@ -13,12 +14,14 @@
 - DOI: 10.1038/s44221-023-00148-8
 
 ### Wang et al. (2024) — Nature Climate Change
+
 **Disproportionate impact of atmospheric heat events on lake surface water temperature increases**
 
 - 极端热事件对 LSWT 的放大效应
 - 与 froQ 关注的 hiatus 后升温加速可能相关
 
 ### Nature Reviews Earth & Environment (April 2025)
+
 **Lake surface water temperature in 2024**
 
 - 2024 年全球平均 LSWT 较 2001-2023 均值高 0.3°C，历史第四高
@@ -28,12 +31,14 @@
 - 总结性质，引用多篇关键文献
 
 ### Winslow et al. (2026) — Lake and Reservoir Management
+
 **Year-round water temperature patterns of warming and cooling in ...**
 
 - 2026 年 2 月发表，非常新
 - 即使邻近湖泊的夏季 LSWT 变化也可能不同，受湖沼形态影响
 
 ### Ecological Memory paper (PMC, 2025)
+
 - 382 个温带湖泊的表层 vs 底层水温差异随时间扩大：中位数 +0.5°C/decade
 - 对 froQ 只关注表层的论文可能是 limitation 讨论的素材
 

@@ -33,7 +33,8 @@ const mouseX = ref(0)
 const mouseY = ref(0)
 
 const triggerBounds = computed(() => {
-  if (!props.triggerRef) return null
+  if (!props.triggerRef)
+    return null
   const rect = props.triggerRef.getBoundingClientRect()
   return {
     top: rect.top,
@@ -87,7 +88,8 @@ const windowStyle = computed(() => {
 })
 
 async function updateMousePosition(e: MouseEvent) {
-  if (!props.followMouse) return
+  if (!props.followMouse)
+    return
 
   let newX = e.clientX + props.mouseMargin
   let newY = e.clientY + props.mouseMargin

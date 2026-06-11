@@ -34,7 +34,7 @@ froQ 的 corpus 用六层拉丁/希腊语词命名，每一层都是医学、病
 
 ### 400 Delirium
 
-拉丁语 dēlīrāre："偏离犁沟"。农业隐喻：de-（离开）+ līra（犁沟、田垄）。耕地时偏离直线，比喻精神错乱。Cicero 在 De Officiis 中将 delirare 与「犯错误、受骗」并列（*falli, errare, labi, decipi tam dedecet quam delirare*）。Horace 的名句：*quicquid delirant reges, plectuntur Achivi*（君王无论发什么疯，遭殃的都是阿开亚人）。
+拉丁语 dēlīrāre："偏离犁沟"。农业隐喻：de-（离开）+ līra（犁沟、田垄）。耕地时偏离直线，比喻精神错乱。Cicero 在 De Officiis 中将 delirare 与「犯错误、受骗」并列（_falli, errare, labi, decipi tam dedecet quam delirare_）。Horace 的名句：_quicquid delirant reges, plectuntur Achivi_（君王无论发什么疯，遭殃的都是阿开亚人）。
 
 在 corpus 中是最**稀疏的层**（仅 2 条内容条目 + index）：`del-20251015.md` 和 `del-20251023.md`。编号 400，接近终点。delirium 不是贬义——在知识生命周期中，「偏离犁沟」是必要的：旧框架被打破，连接重新编织。最稀疏可能是因为这是最危险的阶段，产出难以系统化。
 
@@ -59,15 +59,16 @@ froQ 的 corpus 用六层拉丁/希腊语词命名，每一层都是医学、病
 
 ## 与主流知识分类法的对比
 
-| 体系 | 结构 | 终点 |
-|------|------|------|
-| Bloom's taxonomy | 金字塔层级 | 创造 (create) |
-| DIKW 金字塔 | 金字塔层级 | 智慧 (wisdom) |
-| Luhmann Zettelkasten | 无固定分类，涌现结构 | 持续对话 |
-| Matuschak evergreen notes | 原子化 + 密集链接 | 永恒常青 |
-| **froQ corpus** | **线性生命周期** | **守夜 (vigil)** |
+| 体系                      | 结构                 | 终点             |
+| ------------------------- | -------------------- | ---------------- |
+| Bloom's taxonomy          | 金字塔层级           | 创造 (create)    |
+| DIKW 金字塔               | 金字塔层级           | 智慧 (wisdom)    |
+| Luhmann Zettelkasten      | 无固定分类，涌现结构 | 持续对话         |
+| Matuschak evergreen notes | 原子化 + 密集链接    | 永恒常青         |
+| **froQ corpus**           | **线性生命周期**     | **守夜 (vigil)** |
 
 froQ 体系的独特性：
+
 1. **线性而非层级**：知识不「上升」，它经历一个完整生命周期
 2. **病理化而非理想化**：腐烂和谵妄不是失败，是必经阶段
 3. **终点是警觉而非完成**：vigil，不是 wisdom。没有最终答案，只有持续的注意力

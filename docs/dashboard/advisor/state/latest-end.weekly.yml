@@ -1,9 +1,9 @@
-run_id: "2026-04-07T10-28-00+08-00"
-window_type: "weekly"
-window_id: "2026-03-30"
-status: "warn"
+run_id: '2026-04-07T10-28-00+08-00'
+window_type: weekly
+window_id: 2026-03-30
+status: warn
 blocking: false
 issues_open: 2
 has_high_severity: false
-proof_hash: "weektask-20260330-review-warn"
-created_at: "2026-04-07T10:29:00+08:00"
+proof_hash: weektask-20260330-review-warn
+created_at: '2026-04-07T10:29:00+08:00'

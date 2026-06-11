@@ -21,9 +21,10 @@ uniquely identify and classify living organisms.
 ### Naming format
 
 **Genus + Specific epithet**. E.g.:
-- *Hypomesus nipponensis* (or *H. nipponensis*)
-- *Daphnia* spp.
-- *Bosmina* spp.
+
+- _Hypomesus nipponensis_ (or _H. nipponensis_)
+- _Daphnia_ spp.
+- _Bosmina_ spp.
 
 ### Writing conventions
 
@@ -37,4 +38,3 @@ uniquely identify and classify living organisms.
   but the exact species is not specified
 - **spp.** (species pluralis) - plural, refers to multiple species within the genus,
   but the exact species are not specified
-

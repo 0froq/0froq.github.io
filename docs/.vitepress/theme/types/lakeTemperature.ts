@@ -37,7 +37,7 @@ export interface SegmentedTrendSummary {
 export interface GlobalMonthlySeries {
   dates: string[]
   values: (number | null)[]
-  annualMeans: Array<{ year: number; value: number | null }>
+  annualMeans: Array<{ year: number, value: number | null }>
 }
 
 export interface PlateauTestResult {
@@ -83,7 +83,7 @@ export interface ChangePointComparisonSummary {
 
 export interface LakeTemperatureData {
   metadata: {
-    availableDateRange: { start: string; end: string }
+    availableDateRange: { start: string, end: string }
     lakeCount: number
   }
   globalSeries: GlobalMonthlySeries

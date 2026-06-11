@@ -11,9 +11,10 @@ froQ 兴趣列表中的「空间设计」在 55 轮巡检中始终未被触及�
 ## 一、Christopher Alexander：模式语言与生成的秩序
 
 ### 核心著作
-- *A Pattern Language*（1977）：253 个模式，从区域尺度到门把手尺度
-- *The Timeless Way of Building*（1979）：模式的生成哲学
-- *The Nature of Order*（四卷，2002-2004）：生命结构与宇宙论基础
+
+- _A Pattern Language_（1977）：253 个模式，从区域尺度到门把手尺度
+- _The Timeless Way of Building_（1979）：模式的生成哲学
+- _The Nature of Order_（四卷，2002-2004）：生命结构与宇宙论基础
 
 ### 核心思想
 
@@ -25,11 +26,11 @@ froQ 兴趣列表中的「空间设计」在 55 轮巡检中始终未被触及�
 
 ### Alexander → GoF 的知识谱系
 
-1987 年，Ward Cunningham 和 Kent Beck 在 Smalltalk 社区引入了 Alexander 的模式思想。1994 年 Gamma/Helm/Johnson/Vlissides 出版 *Design Patterns*，将模式语言从建筑移植到面向对象软件。
+1987 年，Ward Cunningham 和 Kent Beck 在 Smalltalk 社区引入了 Alexander 的模式思想。1994 年 Gamma/Helm/Johnson/Vlissides 出版 _Design Patterns_，将模式语言从建筑移植到面向对象软件。
 
 这个移植做了一个关键简化：**GoF 保留了「问题→解决方案」的结构，但剥离了 Alexander 的「渐进生长」和「全局 wholeness」维度。** Alexander 的模式指向一个更大的整体（城镇、社区、建筑），单个模式只有在与其他模式的网络中才有意义；GoF 的模式是独立的微架构，可以单独使用。这是实用主义的选择，但也失去了模式语言最核心的哲学承诺。
 
-Richard P. Gabriel（*Patterns of Software* 作者）是少数试图恢复 Alexander 原意的软件人。他在 OOPSLA '99「GoF 审判」中指出：GoF 只讨论了开发者视角的微架构，完全没有触及 Alexander 关心的「人本整体」——用户、建造者、系统交互的全景体验。GoF 的技术胜利同时也是 Alexander 哲学的损失。
+Richard P. Gabriel（_Patterns of Software_ 作者）是少数试图恢复 Alexander 原意的软件人。他在 OOPSLA '99「GoF 审判」中指出：GoF 只讨论了开发者视角的微架构，完全没有触及 Alexander 关心的「人本整体」——用户、建造者、系统交互的全景体验。GoF 的技术胜利同时也是 Alexander 哲学的损失。
 
 不过 Alexander 的影响远超 GoF。Wiki 的发明、Extreme Programming 的诞生、Sims 游戏的设计哲学，都直接引用 Alexander 为源头。
 
@@ -38,7 +39,8 @@ Richard P. Gabriel（*Patterns of Software* 作者）是少数试图恢复 Alexa
 ## 二、Gaston Bachelard：空间的诗学
 
 ### 核心著作
-- *La Poétique de l'Espace*（1958，英译 1964）
+
+- _La Poétique de l'Espace_（1958，英译 1964）
 
 ### 核心思想
 
@@ -61,7 +63,8 @@ Foucault 从 Bachelard 停下的地方开始。他用「异托邦」（heterotop
 ## 三、Yi-Fu Tuan：空间与地方
 
 ### 核心著作
-- *Space and Place: The Perspective of Experience*（1977）
+
+- _Space and Place: The Perspective of Experience_（1977）
 
 ### 核心思想
 
@@ -70,6 +73,7 @@ Foucault 从 Bachelard 停下的地方开始。他用「异托邦」（heterotop
 **身体是地方，心灵是空间。** Tuan 在告别演讲中说：人的身体通过感官与环境绑定，所以身体是地方；心灵可以自由漫游，所以心灵是空间。「正因如此，人类几乎无法完全在自己所在之处。」你的身体在教室，你的心灵可能在披萨店或另一个城市。这种「在此处又在他处」的双重存在，是人类的独特处境，也是一切空间经验的前提。
 
 **从空间到地方的转化。** 「当空间对我们变得熟悉，它就变成了地方。」这不是一个自动化过程。它需要时间、重复、命名、故事。一个坐标点（location）变成地方（place）需要：
+
 - 感官的长期接触（气味、声音、质地，而不只是视觉）
 - 情感的投入（依恋、记忆、意义赋予）
 - 叙事的编织（这个地方发生了什么）
@@ -83,9 +87,10 @@ Foucault 从 Bachelard 停下的地方开始。他用「异托邦」（heterotop
 ## 四、Bernard Tschumi：事件与空间的断裂
 
 ### 核心著作
-- *Architecture and Disjunction*（1996，收录 1975-1990 年论文）
-- *The Manhattan Transcripts*
-- *Event-Cities* 系列
+
+- _Architecture and Disjunction_（1996，收录 1975-1990 年论文）
+- _The Manhattan Transcripts_
+- _Event-Cities_ 系列
 
 ### 核心思想
 
@@ -116,6 +121,7 @@ Ma（間）常被翻译为 interval、gap、pause、negative space。但所有�
 ### 六个维度
 
 Heike Salzer 的研究将 Ma 分解为六个相互交织的维度：
+
 1. **时间维度**：Noh 剧中的停顿、音乐中的休止
 2. **物理维度**：柱子之间的空间、枯山水中的留白
 3. **音乐维度**：节奏不是重复相同，而是在更新中回归相似
@@ -139,13 +145,13 @@ Ma 的核心洞见：**意义不在事物之中，而在事物之间。** 这和
 
 ### 信息架构的空间隐喻谱系
 
-| 隐喻 | 经验基础 | 数字界面表现 | 隐含价值 |
-|------|---------|-------------|---------|
-| 桌面 | 物理办公桌 | 文件/文件夹/回收站 | 所有权、秩序、可控 |
-| 站点/页面 | 物理地点/书页 | URL、导航、面包屑 | 定位感、可寻址性 |
-| 房间/空间 | 物理围合 | 聊天室、工作区、仪表盘 | 归属感、边界、语境 |
-| 花园 | 自然生长 | Digital garden、wiki | 有机性、非线性和公开性 |
-| 城市/建筑 | 建成环境 | 信息架构（IA 本身） | 规划、结构、可导航性 |
+| 隐喻      | 经验基础      | 数字界面表现           | 隐含价值               |
+| --------- | ------------- | ---------------------- | ---------------------- |
+| 桌面      | 物理办公桌    | 文件/文件夹/回收站     | 所有权、秩序、可控     |
+| 站点/页面 | 物理地点/书页 | URL、导航、面包屑      | 定位感、可寻址性       |
+| 房间/空间 | 物理围合      | 聊天室、工作区、仪表盘 | 归属感、边界、语境     |
+| 花园      | 自然生长      | Digital garden、wiki   | 有机性、非线性和公开性 |
+| 城市/建筑 | 建成环境      | 信息架构（IA 本身）    | 规划、结构、可导航性   |
 
 froQ 的博客在所有这四个层级上都使用了空间隐喻：corpus 六层是「知识的建筑」（每一层是一个房间），posts 三层是「花园的输出」，Dashboard 是「控制室」，整个项目是「站点」。但 froQ 用病理隐喻（autopsia→vigil）替代了培育隐喻（garden→bloom），这是对主流数字花园叙事的自觉偏离。
 
@@ -170,6 +176,7 @@ Tschumi 则走得更远：架构不仅是空间中的关系，也是空间与事
 ### 3. corpus 的空间结构
 
 如果用 Bachelard 的拓扑分析审视 corpus 体系：
+
 - **Autopsia**（亲眼审视）：阁楼——俯瞰、审视、批判距离
 - **Ingesta**（摄入）：门槛——外部进入内部的通道
 - **Neoplasma**（肿瘤增生）：生长的房间——不受控的增殖
@@ -191,17 +198,17 @@ Alexander 的 pattern language 是一个由 253 个模式构成的网络，每�
 
 ## 参考与延伸
 
-- Alexander, C. et al. (1977). *A Pattern Language*. Oxford University Press.
-- Alexander, C. (1979). *The Timeless Way of Building*. Oxford University Press.
-- Bachelard, G. (1958/1964). *The Poetics of Space*. Beacon Press.
-- Tuan, Y-F. (1977). *Space and Place: The Perspective of Experience*. University of Minnesota Press.
-- Tschumi, B. (1996). *Architecture and Disjunction*. MIT Press.
-- Salzer, H. (2019). Ma and Traditional Japanese Aesthetics in Spatial Music and Sonic Art. *Organised Sound*.
-- Pitt, B. & Casasanto, D. (2022). Spatial metaphors and the design of everyday things. *Frontiers in Psychology*.
-- Gabriel, R. P. (1996). *Patterns of Software*. Oxford University Press.
-- Lefebvre, H. (1974/1991). *The Production of Space*. Basil Blackwell.
+- Alexander, C. et al. (1977). _A Pattern Language_. Oxford University Press.
+- Alexander, C. (1979). _The Timeless Way of Building_. Oxford University Press.
+- Bachelard, G. (1958/1964). _The Poetics of Space_. Beacon Press.
+- Tuan, Y-F. (1977). _Space and Place: The Perspective of Experience_. University of Minnesota Press.
+- Tschumi, B. (1996). _Architecture and Disjunction_. MIT Press.
+- Salzer, H. (2019). Ma and Traditional Japanese Aesthetics in Spatial Music and Sonic Art. _Organised Sound_.
+- Pitt, B. & Casasanto, D. (2022). Spatial metaphors and the design of everyday things. _Frontiers in Psychology_.
+- Gabriel, R. P. (1996). _Patterns of Software_. Oxford University Press.
+- Lefebvre, H. (1974/1991). _The Production of Space_. Basil Blackwell.
 - Foucault, M. (1967). Of Other Spaces: Utopias and Heterotopias.
 
 ---
 
-*下轮预告：空间设计的邻居——「客制化硬件」或「播客」尚未触及。*
+_下轮预告：空间设计的邻居——「客制化硬件」或「播客」尚未触及。_

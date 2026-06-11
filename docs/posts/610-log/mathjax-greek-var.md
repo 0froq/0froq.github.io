@@ -96,4 +96,4 @@ _Core Spec_ 的 [Chapter 22 | Letterlike Symbols](https://www.unicode.org/versio
 
 [^2]: 由于 `\stigma` 无法通过 Markdown 中的 MathJax 输入，这里直接使用了 Unicode 字符。
 
-[^3]: [Wikipedia, Stigma (ligature)](<https://en.wikipedia.org/wiki/Stigma_(ligature)>)
+[^3]: [Wikipedia, Stigma (ligature)](https://en.wikipedia.org/wiki/Stigma_(ligature))

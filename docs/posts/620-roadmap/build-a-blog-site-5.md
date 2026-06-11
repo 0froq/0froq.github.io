@@ -153,7 +153,7 @@ import { data as posts } from '../src/posts.data'
 ### 一些类型问题
 
 不出意外的话，TS 用户又要出意外了。
-根据 [VitePress 文档](<https://vitepress.dev/zh/guide/data-loading#:~:text=%E4%BD%A0%E4%BC%9A%E6%B3%A8%E6%84%8F%E5%88%B0%20data%20loader%20%E6%9C%AC%E8%BA%AB%E5%B9%B6%E6%B2%A1%E6%9C%89%E5%AF%BC%E5%87%BA%20data%E3%80%82%E8%BF%99%E6%98%AF%E5%9B%A0%E4%B8%BA%20VitePress%20%E5%9C%A8%E5%90%8E%E5%8F%B0%E8%B0%83%E7%94%A8%E4%BA%86%20load()%20%E6%96%B9%E6%B3%95%EF%BC%8C%E5%B9%B6%E9%80%9A%E8%BF%87%E5%90%8D%E4%B8%BA%20data%20%E7%9A%84%E5%85%B7%E5%90%8D%E5%AF%BC%E5%87%BA%E9%9A%90%E5%BC%8F%E5%9C%B0%E6%9A%B4%E9%9C%B2%E4%BA%86%E7%BB%93%E6%9E%9C%E3%80%82>) 所述，
+根据 [VitePress 文档](https://vitepress.dev/zh/guide/data-loading#:~:text=%E4%BD%A0%E4%BC%9A%E6%B3%A8%E6%84%8F%E5%88%B0%20data%20loader%20%E6%9C%AC%E8%BA%AB%E5%B9%B6%E6%B2%A1%E6%9C%89%E5%AF%BC%E5%87%BA%20data%E3%80%82%E8%BF%99%E6%98%AF%E5%9B%A0%E4%B8%BA%20VitePress%20%E5%9C%A8%E5%90%8E%E5%8F%B0%E8%B0%83%E7%94%A8%E4%BA%86%20load()%20%E6%96%B9%E6%B3%95%EF%BC%8C%E5%B9%B6%E9%80%9A%E8%BF%87%E5%90%8D%E4%B8%BA%20data%20%E7%9A%84%E5%85%B7%E5%90%8D%E5%AF%BC%E5%87%BA%E9%9A%90%E5%BC%8F%E5%9C%B0%E6%9A%B4%E9%9C%B2%E4%BA%86%E7%BB%93%E6%9E%9C%E3%80%82) 所述，
 VitePress 在后台调用了 `load()` 方法，
 将 `*.data.ts` 的默认导出用 `data` 具名导出来隐式暴露。
 所以在使用具名导入的时候，

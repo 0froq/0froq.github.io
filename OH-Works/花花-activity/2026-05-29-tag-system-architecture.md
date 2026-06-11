@@ -32,12 +32,12 @@ post/corpus data loaders → usePostUtils.ts → TagTreeNode
 
 两者都使用 regex `/<a href="[./tags][^"]*">\s*<span class="tag">(.*?)<\/span>\s*<\/a>/g` 从渲染后 HTML 中提取标签。区别在于：
 
-| 维度 | generate-tags.mjs | usePostUtils.ts |
-|---|---|---|
-| 运行时机 | 构建时（Node.js） | VitePress data loader 中 |
-| 输出 | `tags.json`（全局扁平列表） | 单篇文章的 `tags` + `tagsExtended` |
-| 应用 | tag 首页树形结构 | 文章数据、tag 详情页筛选 |
-| 环境 | 独立 markdown-it 实例 | 使用 VitePress 内置渲染 |
+| 维度     | generate-tags.mjs           | usePostUtils.ts                    |
+| -------- | --------------------------- | ---------------------------------- |
+| 运行时机 | 构建时（Node.js）           | VitePress data loader 中           |
+| 输出     | `tags.json`（全局扁平列表） | 单篇文章的 `tags` + `tagsExtended` |
+| 应用     | tag 首页树形结构            | 文章数据、tag 详情页筛选           |
+| 环境     | 独立 markdown-it 实例       | 使用 VitePress 内置渲染            |
 
 这种重复源于需求分层：`scripts/generate-tags.mjs` 需要**全局标签汇总**（用于标签首页），而 data loaders 需要**每篇文章的标签列表**（用于摘要、筛选、详情页）。
 
@@ -61,6 +61,7 @@ export const data: TagsData = readTags()
 ### posts.data.ts 和 corpus.data.ts
 
 两个 data loader 的模式类似，以 `createContentLoader` + `transform` 为基础。在 transform 中调用 `getTags(html, frontmatter)` 获取：
+
 - `tags`：文章的精确标签集合
 - `tagsExtended`：展开后的层级标签集合
 
@@ -96,6 +97,7 @@ function dealTagHierarchy(tag: string): Set<string> {
 - **totalCount**：匹配该标签或其子标签的文章总数
 
 举例：如果一篇文章标记为 `scope/work/corpus`，则：
+
 - `scope/work/corpus` 的 exactCount +1
 - `scope/work` 的 exactCount 不变，但 totalCount +1
 - `scope` 的 exactCount 不变，但 totalCount +1
@@ -111,6 +113,7 @@ function dealTagHierarchy(tag: string): Set<string> {
 ### TagTreeNode.vue — 递归树组件
 
 标签首页的核心组件。每个节点展示：
+
 - 标签名（带 LinkUnderline 链接到 `/tags/{fullPath}`）
 - 树结构缩进（depth > 0 时显示 `../` 前缀）
 - 可展开/折叠的子标签（`..` 按钮，用 Vue Transition 实现动画）
@@ -167,6 +170,7 @@ function dealTagHierarchy(tag: string): Set<string> {
 标签系统在 markdown 管线中处于 `markdown-it-hashtag` 插件层（config 中排在 `markdown-it-mark` 之后、`markdown-it-implicit-figures` 之前）。它不属于 Comark 组件系统，是独立的标签层。
 
 在 VitePress 架构中，标签系统利用了两个机制：
+
 1. **createContentLoader** 为每篇文章计算标签（post/corpus data loader）
 2. **自定义路由** `/tags/{tag}` 通过 VitePress 的动态路由处理
 
@@ -174,15 +178,15 @@ function dealTagHierarchy(tag: string): Set<string> {
 
 ## 关键文件索引
 
-| 文件 | 作用 |
-|---|---|
-| `scripts/generate-tags.mjs` | 构建时标签生成脚本 |
-| `docs/.vitepress/generated/tags.json` | 全局标签列表（构建产物） |
-| `docs/.vitepress/theme/src/tags.data.ts` | 运行时标签数据加载 |
-| `docs/.vitepress/theme/utils/usePostUtils.ts` | 标签提取和层级展开工具函数 |
-| `docs/.vitepress/theme/utils/useTagUtils.ts` | 标签组合式函数（层级、子标签） |
-| `docs/.vitepress/theme/components/tags/Home.vue` | 标签首页（森林视图） |
-| `docs/.vitepress/theme/components/tags/Detail.vue` | 标签详情页（文章列表） |
-| `docs/.vitepress/theme/components/ui/tag/TagDisplay.vue` | 标签面包屑组件 |
-| `docs/.vitepress/theme/components/ui/tag/TagTreeNode.vue` | 递归标签树节点组件 |
-| `docs/.vitepress/config.mts` | markdown-it-hashtag 插件配置 |
+| 文件                                                      | 作用                           |
+| --------------------------------------------------------- | ------------------------------ |
+| `scripts/generate-tags.mjs`                               | 构建时标签生成脚本             |
+| `docs/.vitepress/generated/tags.json`                     | 全局标签列表（构建产物）       |
+| `docs/.vitepress/theme/src/tags.data.ts`                  | 运行时标签数据加载             |
+| `docs/.vitepress/theme/utils/usePostUtils.ts`             | 标签提取和层级展开工具函数     |
+| `docs/.vitepress/theme/utils/useTagUtils.ts`              | 标签组合式函数（层级、子标签） |
+| `docs/.vitepress/theme/components/tags/Home.vue`          | 标签首页（森林视图）           |
+| `docs/.vitepress/theme/components/tags/Detail.vue`        | 标签详情页（文章列表）         |
+| `docs/.vitepress/theme/components/ui/tag/TagDisplay.vue`  | 标签面包屑组件                 |
+| `docs/.vitepress/theme/components/ui/tag/TagTreeNode.vue` | 递归标签树节点组件             |
+| `docs/.vitepress/config.mts`                              | markdown-it-hashtag 插件配置   |

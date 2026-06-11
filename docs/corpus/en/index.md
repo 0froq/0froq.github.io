@@ -7,13 +7,14 @@ locale: en
 
 :::warning Disclaimer
 Feel free to browse, but be aware that some content may be:
+
 1. Overly personal;
 2. Fragmented to the point of being meaningless;
 3. Obscure, even to myself;
-7. Subjective, extreme, or paranoid;
-8. Attempting to challenge certain social taboos;
-9. Attempting to deliberately offend some people.
-:::
+4. Subjective, extreme, or paranoid;
+5. Attempting to challenge certain social taboos;
+6. Attempting to deliberately offend some people.
+   :::
 
 ## Six Slices
 
@@ -29,7 +30,6 @@ Go look.
 ---
 
 ::: details What is Corpus{.font-stylish}?
-
 
 This isn't a gallery. It tracks how information gets ingested, digested, fermented.
 How I **read, hesitate, think, interrogate myself**.

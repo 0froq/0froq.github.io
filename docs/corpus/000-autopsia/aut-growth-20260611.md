@@ -2,7 +2,7 @@
 title: Growth Patrol：语义秩序与纸墨气
 created: 2026-06-11
 status: probe
-last_modified: 2026-06-11 15:23:49
+last_modified: 2026-06-11 19:49:32
 ---
 
 本文由 AI（花花）基于项目内容自动生成，属于 Autopsia Growth Patrol 的一次生长记录。

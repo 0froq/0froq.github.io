@@ -18,15 +18,16 @@
 
 **核心原则**：
 
-| 原则 | 含义 |
-|------|------|
-| 原子性（Atomicity） | 一张卡片 = 一个想法，自包含、可独立理解 |
+| 原则                        | 含义                                         |
+| --------------------------- | -------------------------------------------- |
+| 原子性（Atomicity）         | 一张卡片 = 一个想法，自包含、可独立理解      |
 | 超文本性（Hypertextuality） | 非线性链接结构，卡片之间通过编号系统互相关联 |
-| 用自己的话 | 重述而非摘抄，理解发生在改写过程中 |
-| 有机涌现 | 结构从链接中自然形成，不预设分类体系 |
-| 对话隐喻 | "与卡片盒沟通"——把卡片盒视为思考伙伴 |
+| 用自己的话                  | 重述而非摘抄，理解发生在改写过程中           |
+| 有机涌现                    | 结构从链接中自然形成，不预设分类体系         |
+| 对话隐喻                    | "与卡片盒沟通"——把卡片盒视为思考伙伴         |
 
 **关键特征**：
+
 - 扁平结构，无文件夹层级
 - 链接优先于分类
 - 偶然发现（serendipity）是美德
@@ -47,13 +48,13 @@
 
 **核心原则**：
 
-| 原则 | 含义 |
-|------|------|
-| 原子性 | 每条笔记聚焦一个概念 |
-| 概念导向 | 围绕概念组织，而非按来源、时间、项目 |
-| 密集链接 | 链接是笔记的一等公民 |
-| 联想本体论优先于层级分类 | 让关系网络自然形成，不用文件夹 |
-| 为自己写 | 默认不考虑读者 |
+| 原则                     | 含义                                 |
+| ------------------------ | ------------------------------------ |
+| 原子性                   | 每条笔记聚焦一个概念                 |
+| 概念导向                 | 围绕概念组织，而非按来源、时间、项目 |
+| 密集链接                 | 链接是笔记的一等公民                 |
+| 联想本体论优先于层级分类 | 让关系网络自然形成，不用文件夹       |
+| 为自己写                 | 默认不考虑读者                       |
 
 **与 Zettelkasten 的关键差异**：
 
@@ -77,16 +78,17 @@ Caufield 的核心论证：我们被"溪流"淹没了——邮件收件箱、群
 
 **Maggie Appleton 总结的六大模式**：
 
-| 模式 | 含义 |
-|------|------|
-| 拓扑学优先于时间线 | 按概念关联组织，而非发布日期 |
-| 持续生长 | 没有"最终版本"，永远在修订和扩展 |
-| 不完美与公开学习 | 接受粗糙边缘，分享学习过程而非专家成品 |
+| 模式               | 含义                                   |
+| ------------------ | -------------------------------------- |
+| 拓扑学优先于时间线 | 按概念关联组织，而非发布日期           |
+| 持续生长           | 没有"最终版本"，永远在修订和扩展       |
+| 不完美与公开学习   | 接受粗糙边缘，分享学习过程而非专家成品 |
 | 玩闹、个人、实验性 | 花园应该是个人玩耍空间，不套用他人模板 |
-| 间作与内容多样性 | 文本、图像、音频、视频混合 |
-| 独立所有权 | 自己控制自己的那一小片网络土地 |
+| 间作与内容多样性   | 文本、图像、音频、视频混合             |
+| 独立所有权         | 自己控制自己的那一小片网络土地         |
 
 **与 Zettelkasten 的区别**：
+
 - Digital Garden 面向**公开**，Zettelkasten 面向**私人**思考
 - Garden 强调审美和空间体验（"探索景观"），Zettelkasten 强调功能性的链接和检索
 - Garden 接受多媒体内容多样性，Zettelkasten 传统上是纯文本
@@ -103,14 +105,15 @@ Caufield 的核心论证：我们被"溪流"淹没了——邮件收件箱、群
 
 **PARA 框架**：
 
-| 文件夹 | 用途 |
-|--------|------|
-| Projects | 有截止日期的当前任务 |
-| Areas | 持续关注的领域（无截止日期） |
-| Resources | 参考材料 |
-| Archives | 已完成/不活跃的项目和领域 |
+| 文件夹    | 用途                         |
+| --------- | ---------------------------- |
+| Projects  | 有截止日期的当前任务         |
+| Areas     | 持续关注的领域（无截止日期） |
+| Resources | 参考材料                     |
+| Archives  | 已完成/不活跃的项目和领域    |
 
 **关键特征**：
+
 - 按**可操作性**组织，而非按主题或链接
 - 渐进式摘要（progressive summarization）：逐层加粗→高亮→摘要
 - 明确区分"执行层"和"知识层"
@@ -122,17 +125,17 @@ Caufield 的核心论证：我们被"溪流"淹没了——邮件收件箱、群
 
 ## 三、四流派对比矩阵
 
-| 维度 | Zettelkasten | Evergreen Notes | Digital Garden | BASB/PARA |
-|------|-------------|-----------------|----------------|-----------|
-| 核心隐喻 | 对话伙伴 | 常青植物 | 花园 | 第二大脑 |
-| 受众 | 私人 | 私人+公开 | 公开为主 | 私人 |
-| 组织原则 | 链接涌现 | 链接涌现 | 拓扑/概念关联 | 可操作性/紧急性 |
-| 结构 | 完全扁平 | 扁平+笔记类型分层 | 扁平+空间探索 | 四层文件夹 |
-| 内容单元 | 原子卡片 | 原子笔记 | 原子笔记+多媒体 | 任意大小 |
-| 时间观 | 累积式、无终点 | 持续更新、无终点 | 持续生长、无终点 | 项目有截止、归档后静止 |
-| 核心优势 | 意外连接催生新想法 | 发展自己的核心创意 | 公开学习、建立知识身份 | 简单、可执行、产出导向 |
-| 核心弱点 | 学习曲线陡峭 | 需要持续投入 | 可能沦为表演 | 不促进想法间连接 |
-| 最佳场景 | 学者、研究者、写作者 | 创意工作者、独立研究者 | 公开知识工作者 | 项目管理、执行者 |
+| 维度     | Zettelkasten         | Evergreen Notes        | Digital Garden         | BASB/PARA              |
+| -------- | -------------------- | ---------------------- | ---------------------- | ---------------------- |
+| 核心隐喻 | 对话伙伴             | 常青植物               | 花园                   | 第二大脑               |
+| 受众     | 私人                 | 私人+公开              | 公开为主               | 私人                   |
+| 组织原则 | 链接涌现             | 链接涌现               | 拓扑/概念关联          | 可操作性/紧急性        |
+| 结构     | 完全扁平             | 扁平+笔记类型分层      | 扁平+空间探索          | 四层文件夹             |
+| 内容单元 | 原子卡片             | 原子笔记               | 原子笔记+多媒体        | 任意大小               |
+| 时间观   | 累积式、无终点       | 持续更新、无终点       | 持续生长、无终点       | 项目有截止、归档后静止 |
+| 核心优势 | 意外连接催生新想法   | 发展自己的核心创意     | 公开学习、建立知识身份 | 简单、可执行、产出导向 |
+| 核心弱点 | 学习曲线陡峭         | 需要持续投入           | 可能沦为表演           | 不促进想法间连接       |
+| 最佳场景 | 学者、研究者、写作者 | 创意工作者、独立研究者 | 公开知识工作者         | 项目管理、执行者       |
 
 ---
 
@@ -150,28 +153,33 @@ autopsia  →  ingesta  →  neoplasma  →  putredo  →  delirium  →  vigil
 #### 4.2.1 根本差异一：病理隐喻 vs 培育隐喻
 
 四大流派的核心隐喻都是**生命/培育**系的：
+
 - Zettelkasten：沟通伙伴（社会性）
 - Evergreen Notes：常青植物（植物生命）
 - Digital Garden：花园（培育、耕作）
 - BASB/PARA：第二大脑（生物延伸）
 
 froQ 的体系使用的是**病理/分解**隐喻：
+
 - 知识不是被"培育"的，而是被**审视→摄入→增生→腐烂→分解→警觉**的
 - 这是一个**疾病进程**，不是**耕作过程**
 - 终点不是"收获"或"盛开"，而是"警觉"
 
 这不仅是审美选择，暗示了根本的知识观差异：
+
 - 培育隐喻假设知识是**有益的、需要精心照料的东西**
 - 病理隐喻承认知识可能**失控增生（neoplasma）、腐败（putredo）、使人偏离轨道（delirium）**
 
 #### 4.2.2 根本差异二：线性生命周期 vs 网状涌现
 
 四大流派都强调**非线性的、涌现的结构**：
+
 - Zettelkasten 的链接不需要预设分类
 - Evergreen Notes 的联想本体论
 - Digital Garden 的拓扑学优先于时间线
 
 corpus 体系是**严格线性的生命周期**：
+
 - autopsia → ingesta → neoplasma → putredo → delirium → vigil
 - 每个阶段有明确的进出条件
 - 知识必须经过这六个阶段才能"完成"
@@ -190,13 +198,13 @@ froQ 使用拉丁语医学术语：autopsia、ingesta、neoplasma、putredo、de
 
 #### 4.2.4 根本差异四：终点不是完成，而是警觉
 
-| 体系 | 终点状态 |
-|------|---------|
-| Zettelkasten | 持续的对话（无终点） |
-| Evergreen Notes | 持续更新（无终点） |
-| Digital Garden | 持续生长（无终点） |
-| BASB/PARA | 项目完成→归档 |
-| **corpus** | **vigil（守夜警觉）** |
+| 体系            | 终点状态              |
+| --------------- | --------------------- |
+| Zettelkasten    | 持续的对话（无终点）  |
+| Evergreen Notes | 持续更新（无终点）    |
+| Digital Garden  | 持续生长（无终点）    |
+| BASB/PARA       | 项目完成→归档         |
+| **corpus**      | **vigil（守夜警觉）** |
 
 corpus 的终点是 vigil——守夜、警觉、持续的注视。这不是"完成了"的解放状态，也不是"无限生长"的乐观状态。它是一种**存在主义状态**：知识完成了它的生命周期，但你仍需要看着它。
 
@@ -246,6 +254,7 @@ corpus 的终点是 vigil——守夜、警觉、持续的注视。这不是"完
 ```
 
 corpus 体系处于一个独特位置：
+
 - **私人侧**的线性管道（corpus 六层）
 - **公开侧**的网状花园（posts 三层）
 - 管道喂养花园，花园不反哺管道——这是一个单向的知识处理架构
@@ -259,6 +268,7 @@ corpus 体系处于一个独特位置：
 ### 6.1 为什么是六层而不是三层或十层
 
 六层对应一个完整的病理进程：
+
 1. autopsia：看见（疾病初现）
 2. ingesta：摄入（病原进入）
 3. neoplasma：增生（异常生长）
@@ -303,10 +313,10 @@ froQ 的 corpus 六层体系在现有知识管理哲学谱系中是一个**独�
 
 ## 参考文献
 
-- Ahrens, S. (2017). *How to Take Smart Notes*.
-- Appleton, M. (2020). *A Brief History & Ethos of the Digital Garden*. https://maggieappleton.com/garden-history
-- Caufield, M. (2015). *The Garden and the Stream: A Technopastoral*.
-- Forte, T. (2022). *Building a Second Brain*.
-- Luhmann, N. (1992). Communicating with Slip Boxes. In *Universität als Milieu: Kleine Schriften*.
-- Matuschak, A. (2023). *Evergreen notes*. https://notes.andymatuschak.org/z5E5QawiXCMbtNtupvxeoEX
-- Matuschak, A. (2023). *Similarities and differences between evergreen note-writing and Zettelkasten*. https://notes.andymatuschak.org/zQvwwb95vzcHcpow3GWy5Wi
+- Ahrens, S. (2017). _How to Take Smart Notes_.
+- Appleton, M. (2020). _A Brief History & Ethos of the Digital Garden_. https://maggieappleton.com/garden-history
+- Caufield, M. (2015). _The Garden and the Stream: A Technopastoral_.
+- Forte, T. (2022). _Building a Second Brain_.
+- Luhmann, N. (1992). Communicating with Slip Boxes. In _Universität als Milieu: Kleine Schriften_.
+- Matuschak, A. (2023). _Evergreen notes_. https://notes.andymatuschak.org/z5E5QawiXCMbtNtupvxeoEX
+- Matuschak, A. (2023). _Similarities and differences between evergreen note-writing and Zettelkasten_. https://notes.andymatuschak.org/zQvwwb95vzcHcpow3GWy5Wi

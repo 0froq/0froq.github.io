@@ -34,4 +34,3 @@ EOF mode of the annual mean SST in the NP, and is characterized by a horseshoe
 pattern of SST anomalies.
 
 Says that might indicate hiatus is over.
-

@@ -1,7 +1,7 @@
 # Comark 语法深度调研
 
-**时间**：2026-05-29 14:00  
-**来源**：comark.dev 官方文档 + 源码分析  
+**时间**：2026-05-29 14:00
+**来源**：comark.dev 官方文档 + 源码分析
 **关联**：博客 markdown 管线（config.mts → @comark/markdown-it）
 
 ---
@@ -54,7 +54,7 @@ Comark = **Co**mponents in **Mark**down。前身是 Anthony Fu 创建的 MDC（M
 
 **YAML 块属性**（两种风格）：
 
-```
+````
 ::card
 ```yaml [props]
 title: 文章标题
@@ -65,11 +65,12 @@ items:
   - 项目二
 config:
   theme: dark
-```
+````
+
 内容
 ::
-```
 
+```
 或使用 frontmatter 风格 `---` 分隔符。规则：
 - 必须在组件内容最开头，slot 之前
 - 对象保持对象、数组保持数组、数字/布尔保持类型
@@ -78,8 +79,8 @@ config:
 ### 2.4 数据绑定
 
 以 `:` 为前缀的 prop 在渲染时进行 JSON 解析或上下文查找：
-
 ```
+
 ---
 theAnswer: 42
 user: { name: Ada }
@@ -87,8 +88,8 @@ user: { name: Ada }
 
 ::question{:answer="frontmatter.theAnswer"}
 ::
-```
 
+```
 四个命名空间：
 | 命名空间 | 来源 |
 |----------|------|
@@ -98,29 +99,30 @@ user: { name: Ada }
 | `props` | 父组件的 props |
 
 嵌套组件可引用父组件 props：
-
 ```
+
 ::card{title="Hello" variant="primary"}
-  :::badge{:color="props.variant" :text="props.title"}
-  :::
+:::badge{:color="props.variant" :text="props.title"}
+:::
 ::
-```
 
+```
 ### 2.5 插槽（Slots）
 
 **默认插槽**：直接放在组件内的内容
-
 ```
+
 ::alert{type="info"}
 默认插槽内容
 ::
-```
 
+```
 **命名插槽**：
-
 ```
+
 ::card
 #header
+
 ## 卡片标题
 
 #content
@@ -129,23 +131,23 @@ user: { name: Ada }
 #footer
 页脚文本
 ::
-```
 
+```
 - YAML 块属性必须在所有 slot 之前
 - 顺序：`::component{inline}` → YAML props → `#slot` → `::`
 
 ### 2.6 嵌套
-
 ```
+
 ::level-1
-  :::level-2
-    ::::level-3
-    内容
-    ::::
-  :::
+:::level-2
+::::level-3
+内容
+::::
+:::
 ::
-```
 
+````
 多余冒号不是必须的，但推荐用于视觉一致性。解析器通过匹配开闭标签层级来处理嵌套。
 
 ---
@@ -169,11 +171,12 @@ user: { name: Ada }
 ```ts
 // docs/.vitepress/config.mts
 md.use(comark)
-```
+````
 
 管线顺序：`mark → hashtag → figures → ruby → comark → footnote`
 
 这意味着：
+
 1. Comark 组件语法在 markdown-it 渲染阶段被解析
 2. 转换为 HTML 标签（构建时，静态输出）
 3. 不依赖运行时 `<Comark>` 组件（那是 `@comark/vue` 的用法）
@@ -184,6 +187,7 @@ md.use(comark)
 ### 与其他插件的关系
 
 Comark 在管线的第 5 位（倒数第 2），这意味着：
+
 - `markdown-it-hashtag` 先处理 `#tag` 语法
 - `markdown-it-implicit-figures` 处理图片
 - `markdown-it-ruby` 处理注音

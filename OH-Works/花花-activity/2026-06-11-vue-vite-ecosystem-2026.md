@@ -17,6 +17,7 @@ Rolldown 自身 1.0 稳定版于 2026 年 5 月发布，现已支持独立使用
 VueConf US 2026（5 月 19–21 日，亚特兰大）上确认：Vapor Mode 已在 Vue 3.6 中稳定，作为 opt-in 编译目标。不再需要虚拟 DOM 的组件可单独标记 `vapor` 指令，与经典 VDOM 组件在同一页面共存。
 
 关键特性：
+
 - 按组件粒度开启，非全有或全无
 - 支持 Composition API 全部稳定特性
 - 不支持 Options API、`getCurrentInstance()`、Suspense（仅 Vapor-only 模式下）
@@ -41,6 +42,7 @@ Oxlint 1.0 GA 于 2025 年 6 月发布。2026 年 3 月 JS 插件 alpha 上线�
 ### Nuxt 4.4：路由引擎重写
 
 Nuxt 4.4（2026-03-12）的亮点：
+
 - **Vue Router v5**：移除对 `unplugin-vue-router` 的依赖，首个自 Nuxt 3 以来的 vue-router 大版本升级
 - **`createUseFetch` / `createUseAsyncData`**：可创建带自定义默认选项的工厂函数
 - **Typed Layout Props**：在 `definePageMeta` 中向 layout 传递类型化 props
@@ -58,13 +60,13 @@ VoidZero 将 Vite、Vitest、Oxlint、Oxfmt、Rolldown、tsdown 打包为单一 
 
 对蛙的栈而言，几个值得关注的迁移节点：
 
-| 工具 | 当前栈 | 迁移时机 | 理由 |
-|------|--------|----------|------|
-| Vite 8 | Vite 7 | 可立即评估 | 插件生态兼容性好，Rolldown 性能提升实在 |
-| Oxfmt | Prettier | 立即可用 | 零 diff 迁移，蛙当前项目可无痛切换 |
-| Oxlint | ESLint | 取决于规则覆盖 | 先跑 `oxlint --check` 对比，规则缺口可量化后决定 |
-| Vue 3.6 Vapor | Vue 3.5 | 观望至 Q4 | 稳定版未出，先在性能敏感组件上实验 |
-| Vite+ | Vite CLI | 等稳定版 | alpha 阶段，但包管理统一方向契合蛙的 CLI 优先偏好 |
+| 工具          | 当前栈   | 迁移时机       | 理由                                              |
+| ------------- | -------- | -------------- | ------------------------------------------------- |
+| Vite 8        | Vite 7   | 可立即评估     | 插件生态兼容性好，Rolldown 性能提升实在           |
+| Oxfmt         | Prettier | 立即可用       | 零 diff 迁移，蛙当前项目可无痛切换                |
+| Oxlint        | ESLint   | 取决于规则覆盖 | 先跑 `oxlint --check` 对比，规则缺口可量化后决定  |
+| Vue 3.6 Vapor | Vue 3.5  | 观望至 Q4      | 稳定版未出，先在性能敏感组件上实验                |
+| Vite+         | Vite CLI | 等稳定版       | alpha 阶段，但包管理统一方向契合蛙的 CLI 优先偏好 |
 
 ## 一句话
 

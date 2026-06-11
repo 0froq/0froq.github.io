@@ -119,8 +119,10 @@ function priorityLevel(priority?: 'high' | 'medium' | 'low'): number {
   return 0
 }
 
+const SLASH_RE = /\//g
+
 function normalizeDate(dueDate: string): string {
-  return dueDate.replace(/\//g, '-')
+  return dueDate.replace(SLASH_RE, '-')
 }
 
 function calculateDaysUntilDue(dueDate: string): number {

@@ -5,6 +5,7 @@
 ## 问题框架
 
 给定 35 年月尺度 LSWT 时间序列（经 STL 分解后取趋势分量），需要自动检测两个断点：
+
 1. **hiatus 起始点**（pre-warming → hiatus）
 2. **hiatus 结束点**（hiatus → post-hiatus）
 
@@ -27,6 +28,7 @@
 **优势**：与 froQ 已有的 STL 工作流直接对接。论文引用量高（>2000），在遥感/气候领域有成熟应用。
 
 **注意事项**：
+
 - 需要指定 `h`（最小分段长度，以时间单位计）。对 35 年月数据，h 至少应为 36~60（3~5 年），避免检出短期波动
 - `season="harmonic"` 可降低参数维度，对月数据更稳定
 
@@ -39,6 +41,7 @@
 - 实现简单：`trend::pettitt.test(x)`
 
 **局限**：
+
 - 单断点检测（需分段迭代才能做多断点）
 - 对渐变型转变（gradual shift）不敏感，更适合 abrupt shift
 - 已知 power 不足问题（arXiv:2411.05233 提供 bootstrap 改进版）
@@ -54,6 +57,7 @@ Rodionov (2004)。R 包 `rshift`。
 - 参数：`L`（cut-off length，典型 10~15）+ 显著性 p
 
 **局限**：
+
 - 对自相关敏感（气候时间序列通常有强自相关，需预白化）
 - 对参数 L 选择敏感
 - 在湖泊温度文献中引用少于 Pettitt 和 BFAST
@@ -105,13 +109,13 @@ R 包 `bcp`（Barry & Hartigan 1993）或 `mcp`（Lindeløv 2020）。
 
 ## 相关湖泊/气候文献
 
-| 文献 | 方法 | 场景 |
-|---|---|---|
-| Winslow et al. (2015, Scientific Data) | 趋势分段 | 全球 291 湖 1985–2009 |
-| Winslow et al. (2018, ERL) | 两段式对比 | 全球 155 湖 pre-hiatus vs hiatus 趋势差异 |
-| Wang et al. (2024, Nature Climate Change) | 极端热事件检测 | 湖热浪频率变化 |
-| Tong et al. (2023, Nature Water) | 蒸发机制 | GLAST 数据集 1981–2099 |
-| Woolway et al. (2017, GCB) | 趋势分析 | 全球湖温长期趋势 |
+| 文献                                      | 方法           | 场景                                      |
+| ----------------------------------------- | -------------- | ----------------------------------------- |
+| Winslow et al. (2015, Scientific Data)    | 趋势分段       | 全球 291 湖 1985–2009                     |
+| Winslow et al. (2018, ERL)                | 两段式对比     | 全球 155 湖 pre-hiatus vs hiatus 趋势差异 |
+| Wang et al. (2024, Nature Climate Change) | 极端热事件检测 | 湖热浪频率变化                            |
+| Tong et al. (2023, Nature Water)          | 蒸发机制       | GLAST 数据集 1981–2099                    |
+| Woolway et al. (2017, GCB)                | 趋势分析       | 全球湖温长期趋势                          |
 
 ---
 
@@ -128,4 +132,4 @@ R 包 `bcp`（Barry & Hartigan 1993）或 `mcp`（Lindeløv 2020）。
 
 ---
 
-*整理于 2026-05-28 15:00 巡检*
+_整理于 2026-05-28 15:00 巡检_

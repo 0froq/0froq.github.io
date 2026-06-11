@@ -20,7 +20,7 @@
 
 ## 一、Heidegger：消失的锤子
 
-Martin Heidegger 在 *Being and Time* (1927) 中提出了他最著名的现象学分析：**上手状态（Zuhandenheit / ready-to-hand）** 与 **现成状态（Vorhandenheit / present-at-hand）**。
+Martin Heidegger 在 _Being and Time_ (1927) 中提出了他最著名的现象学分析：**上手状态（Zuhandenheit / ready-to-hand）** 与 **现成状态（Vorhandenheit / present-at-hand）**。
 
 当你用锤子钉钉子时，锤子本身不在你的意识中。你「看穿」了它。你的注意力在钉子上，在木板上，在你要建造的东西上。锤子越是好用，它越是不被注意。这就是上手状态：工具在真正的使用中消失了。
 
@@ -47,6 +47,7 @@ Martin Heidegger 在 *Being and Time* (1927) 中提出了他最著名的现象�
 Clark & Chalmers 的论点：Otto 查阅笔记本的过程，在功能上与 Inga 回忆大脑信息的过程是等价的。如果 Inga 的回忆算作认知过程，那么 Otto 查阅笔记本也算。笔记本是 Otto 心智的物理延伸。
 
 三个关键条件：
+
 1. **恒常可得性（constant availability）**：外部资源必须随时可用
 2. **直接取用（direct access）**：不需要中介或翻译步骤
 3. **自动认可（automatic endorsement）**：取出的信息被自动信任，不像向别人借笔记需要验证
@@ -61,17 +62,19 @@ Clark & Chalmers 的论点：Otto 查阅笔记本的过程，在功能上与 Ing
 
 ## 三、Richard Sennett：手与脑的同一
 
-Richard Sennett 在 *The Craftsman* (2008) 中提出一个看似简单但深远的主张：**Making is thinking.**
+Richard Sennett 在 _The Craftsman_ (2008) 中提出一个看似简单但深远的主张：**Making is thinking.**
 
 工匠在使用工具时，不是在执行一个预先在脑中完成的计划。手在材料上的运动本身就是思考。木工的手感觉到木纹的变化，即时调整刨子的角度——这不是「先思考再执行」，是「思考与执行是同一个过程」。
 
 Sennett 区分了两种知识：
+
 - **显性知识（explicit knowledge）**：可以写成手册、传给别人
 - **隐性知识（tacit knowledge）**：只能在实践中习得，无法完全形式化
 
 工具是隐性知识的沉积物。一把好用的刨子，体现了数百年木工对木材行为、人体力学、刀刃角度的集体隐性知识。你握住它的一刻，你接入的不只是一把工具，而是一条横亘若干世纪的隐性知识链。
 
 对开发者的平行类比：
+
 - Neovim 的 `ci"`（change inside quotes）这组按键，它的设计体现了一种对「文本结构」的隐性理解——引号内的内容是一个语义单元，应该作为一个整体被操作。这不是 Vim 发明的，是无数编辑者对身体与文本关系的隐性知识在几十年中结晶成的语法。
 - lint 规则体现的是整个社区对「什么代码容易出 bug」的隐性知识。
 - TypeScript 的类型系统体现的是对「程序正确性应该在哪里被保证」的隐性判断。
@@ -82,7 +85,7 @@ Sennett 区分了两种知识：
 
 ## 四、David Pye：风险与确定性的辩证
 
-David Pye 在 *The Nature and Art of Workmanship* (1968) 中提出了一个比「手工 vs 机器」更深刻的二分：
+David Pye 在 _The Nature and Art of Workmanship_ (1968) 中提出了一个比「手工 vs 机器」更深刻的二分：
 
 **Workmanship of Risk（风险工艺）**：成品的质量取决于制作者在每一个执行瞬间的判断、灵巧和谨慎。一刀错误，作品就毁了。
 
@@ -92,13 +95,13 @@ David Pye 在 *The Nature and Art of Workmanship* (1968) 中提出了一个比�
 
 把这个框架移植到软件开发：
 
-| 实践 | 工艺类型 | 说明 |
-|------|---------|------|
-| 无测试的手写代码 | 风险工艺 | 每次修改都在赌 |
-| CI + 类型检查 + 测试 | 确定性工艺 | 夹具把错误概率降到已知 |
-| 手写 CI pipeline 配置 | 风险工艺 | pipeline 本身的逻辑是手写的 |
-| 脚手架生成的样板代码 | 确定性工艺 | 模具生产的，千篇一律 |
-| 架构设计 | 风险工艺 | 不可夹具化，质量全在设计者的判断 |
+| 实践                  | 工艺类型   | 说明                             |
+| --------------------- | ---------- | -------------------------------- |
+| 无测试的手写代码      | 风险工艺   | 每次修改都在赌                   |
+| CI + 类型检查 + 测试  | 确定性工艺 | 夹具把错误概率降到已知           |
+| 手写 CI pipeline 配置 | 风险工艺   | pipeline 本身的逻辑是手写的      |
+| 脚手架生成的样板代码  | 确定性工艺 | 模具生产的，千篇一律             |
+| 架构设计              | 风险工艺   | 不可夹具化，质量全在设计者的判断 |
 
 Pye 最重要的后续洞见：工业化没有消灭风险工艺，它把风险往上游推了。工厂流水线上每个工人的工作是确定性工艺，但设计这条流水线的工程师做的是风险工艺。同理，使用 CI pipeline 的开发者做的是确定性工艺，但写 CI 配置的人做的是风险工艺。
 
@@ -118,7 +121,8 @@ Doug McIlroy（Unix pipe 的发明者）总结 Unix 哲学为三条：
 2. Write programs to work together.
 3. Write programs to handle text streams, because that is a universal interface.
 
-Eric Raymond 在 *The Art of Unix Programming* 中扩展为 17 条规则，其中与工具有关的核心几条：
+Eric Raymond 在 _The Art of Unix Programming_ 中扩展为 17 条规则，其中与工具有关的核心几条：
+
 - **Rule of Composition**：设计程序时要让它们可以被连接
 - **Rule of Modularity**：写简单的部件，用干净的接口连接
 - **Rule of Separation**：把机制和策略分开
@@ -141,6 +145,7 @@ froQ 的工具链同时体现了这两种哲学。Neovim 是 Sennett 式的深�
 **核心概念：模态编辑是一种认知状态机。**
 
 在普通编辑器中，按键直接映射到字符。在 Vim 中，按键的含义取决于当前的模式：
+
 - Normal 模式：按键是命令
 - Insert 模式：按键是字符
 - Visual 模式：按键是选择
@@ -149,6 +154,7 @@ froQ 的工具链同时体现了这两种哲学。Neovim 是 Sennett 式的深�
 这不是「多了几种模式」的小差异，而是两种根本不同的交互范式。普通编辑器是**无状态界面**——每个按键的行为是固定的。Vim 是**有状态界面**——同一个按键在不同状态下做完全不同的事。
 
 两种范式的认知含义截然不同：
+
 - **无状态界面**：思考负担在记忆上（「Ctrl+Shift+L 是什么来着？」）
 - **有状态界面**：思考负担在状态追踪上（「我现在在什么模式？」）
 
@@ -206,6 +212,7 @@ Layer 1: 基础设施层 —— git / pnpm / dotfiles（元工具）
 ```
 
 每层有不同的消失方式：
+
 - **Layer 1** 通过标准化消失：`git commit` 和 `pnpm install` 不需要思考
 - **Layer 2** 通过持久化消失：Zellij session 从不关闭，你不需要「启动环境」
 - **Layer 3** 通过语言化消失：操作和思维重合，没有翻译成本
@@ -249,11 +256,11 @@ Sennett 讨论了工艺的道德含义：做好工作本身就是一种善，与
 
 ## 参考与延伸阅读
 
-- Heidegger, M. *Being and Time* (1927), Division I, Ch. 3: "The Worldhood of the World"
-- Clark, A. & Chalmers, D. "The Extended Mind" (1998), *Analysis* 58(1): 7-19
-- Sennett, R. *The Craftsman* (2008), Yale University Press
-- Pye, D. *The Nature and Art of Workmanship* (1968), Cambridge University Press
-- Raymond, E.S. *The Art of Unix Programming* (2003), Addison-Wesley
+- Heidegger, M. _Being and Time_ (1927), Division I, Ch. 3: "The Worldhood of the World"
+- Clark, A. & Chalmers, D. "The Extended Mind" (1998), _Analysis_ 58(1): 7-19
+- Sennett, R. _The Craftsman_ (2008), Yale University Press
+- Pye, D. _The Nature and Art of Workmanship_ (1968), Cambridge University Press
+- Raymond, E.S. _The Art of Unix Programming_ (2003), Addison-Wesley
 - Kernighan, B. & Pike, R. "Program Design in the UNIX Environment" (1984)
-- McIlroy, M.D. "Unix Time-Sharing System: Foreword" (1978), *The Bell System Technical Journal*
+- McIlroy, M.D. "Unix Time-Sharing System: Foreword" (1978), _The Bell System Technical Journal_
 - 与 froQ 体系连接点：05-31 系统思维（dotfiles 作为 homeostasis）、05-31 命名哲学（命名 vs 工具：距离 vs 消失）、05-30 Ghostty（消失的终端）、05-30 Neovim 生态、06-01 能量管理（工具摩擦作为能量消耗）

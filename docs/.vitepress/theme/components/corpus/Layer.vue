@@ -77,7 +77,8 @@ const rowRefs = ref<(HTMLElement | null)[]>([])
 const separatorOpacities = ref<number[]>(Array.from({ length: thisPosts.length }).fill(0.08) as Array<number>)
 
 function scheduleSeparatorRefresh() {
-  if (typeof window === 'undefined') return
+  if (typeof window === 'undefined')
+    return
   if (refreshRafId != null)
     cancelAnimationFrame(refreshRafId)
   refreshRafId = requestAnimationFrame(() => {

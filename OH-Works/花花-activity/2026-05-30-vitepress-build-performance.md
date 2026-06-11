@@ -3,6 +3,7 @@
 ## 一、当前状态：博客零优化基线
 
 实测数据：
+
 - **markdown 文件数**：186（含 corpus 六层 + posts 三层 + dashboard）
 - **docs 目录体积**：162 MB（平均每文件 ~870KB，说明含大量图片/图表等重资源）
 - **当前构建命令**：`node scripts/generate-tags.mjs && vitepress build docs`
@@ -36,12 +37,12 @@ resolveConfig (配置解析 + page discovery)
 
 ### 2.3 插件生命周期与性能关键点
 
-| Hook | 职能 | 性能影响 |
-|---|---|---|
+| Hook             | 职能                                           | 性能影响                                                           |
+| ---------------- | ---------------------------------------------- | ------------------------------------------------------------------ |
 | `configResolved` | 预取 git timestamps（`cacheAllGitTimestamps`） | **高**：单次 `git log` 批处理所有文件，启用 lastUpdated 时耗时显著 |
-| `transform` | `.md` → Vue SFC 源码 | **中**：每文件经 markdown-it 管线完整渲染 |
-| `load` | 虚拟模块 `/@siteData` | 低：简单序列化 |
-| `resolveId` | `@theme` 别名解析 | 低 |
+| `transform`      | `.md` → Vue SFC 源码                           | **中**：每文件经 markdown-it 管线完整渲染                          |
+| `load`           | 虚拟模块 `/@siteData`                          | 低：简单序列化                                                     |
+| `resolveId`      | `@theme` 别名解析                              | 低                                                                 |
 
 ---
 
@@ -54,12 +55,14 @@ resolveConfig (配置解析 + page discovery)
 **PR #4958 优化**：改为单次 `git log --name-only` 批处理所有文件时间戳（一次 git 调用 ≈ 183ms for 552 files），替代逐文件查询。但存在一些边界 case（已删除/重命名的文件在 git log 中丢失）。
 
 **当前 v2.x 状态**：`configResolved` hook 中 `cacheAllGitTimestamps()` 已实现批处理。主要剩余问题：
+
 - 无持久化文件缓存：每次构建都重新查询 git
 - sitemap 内部也调用 `getGitTimestamp`，且无法被用户侧 plugin 覆盖
 
 ### 3.2 Content Loader 的处理成本
 
 `createContentLoader` 对每个 markdown 文件执行：
+
 1. `fs.statSync` — 获取文件修改时间
 2. **缓存检查** — 对比内部 `Map<cache>` 的时间戳，跳过未变更文件
 3. `fs.readFileSync` — 读取原始内容
@@ -80,6 +83,7 @@ resolveConfig (配置解析 + page discovery)
 ### 3.4 大 Chunk 警告
 
 **Issue #4227**：某些 chunk 超过 500KB 触发 Rollup 警告。解决方案：
+
 - `build.rollupOptions.output.manualChunks` 手动拆分
 - 或提高 `build.chunkSizeWarningLimit` 阈值
 - Vue/VitePress 自身的 framework chunk 通常 ~200KB，加上自定义组件可能更大
@@ -90,40 +94,40 @@ resolveConfig (配置解析 + page discovery)
 
 ### 4.1 VitePress 级别
 
-| 策略 | 配置 | 适用场景 |
-|---|---|---|
-| **buildConcurrency** | `buildConcurrency: 32`（默认 64） | 低内存 CI 环境，降低并发换取稳定 |
-| **MPA 模式** | `mpa: true` | 纯静态内容、不需要 SPA 导航的页面 |
-| **ignoreDeadLinks** | `ignoreDeadLinks: true` | 已启用，跳过死链检查 |
-| **lastUpdated 按需** | 仅在需要时启用，或使用自定义 `lastUpdated` 函数做缓存 | 减少 git 调用 |
-| **sitemap 选择性** | `sitemap` 配置 `transformItems` 过滤不需要的页面 | 减少 sitemap 体积 |
+| 策略                 | 配置                                                  | 适用场景                          |
+| -------------------- | ----------------------------------------------------- | --------------------------------- |
+| **buildConcurrency** | `buildConcurrency: 32`（默认 64）                     | 低内存 CI 环境，降低并发换取稳定  |
+| **MPA 模式**         | `mpa: true`                                           | 纯静态内容、不需要 SPA 导航的页面 |
+| **ignoreDeadLinks**  | `ignoreDeadLinks: true`                               | 已启用，跳过死链检查              |
+| **lastUpdated 按需** | 仅在需要时启用，或使用自定义 `lastUpdated` 函数做缓存 | 减少 git 调用                     |
+| **sitemap 选择性**   | `sitemap` 配置 `transformItems` 过滤不需要的页面      | 减少 sitemap 体积                 |
 
 ### 4.2 Vite / Rollup 级别
 
-| 策略 | 配置 |
-|---|---|
+| 策略             | 配置                                                   |
+| ---------------- | ------------------------------------------------------ |
 | **manualChunks** | `build.rollupOptions.output.manualChunks` 拆分大 chunk |
-| **minify** | `build.minify: 'esbuild'`（默认，比 terser 快 20-40x） |
-| **sourcemap** | 生产构建关闭 `build.sourcemap: false` |
-| **target** | `build.target` 设为目标浏览器范围，减少 polyfill |
-| **cssCodeSplit** | `build.cssCodeSplit: true` 按需加载 CSS |
+| **minify**       | `build.minify: 'esbuild'`（默认，比 terser 快 20-40x） |
+| **sourcemap**    | 生产构建关闭 `build.sourcemap: false`                  |
+| **target**       | `build.target` 设为目标浏览器范围，减少 polyfill       |
+| **cssCodeSplit** | `build.cssCodeSplit: true` 按需加载 CSS                |
 
 ### 4.3 内容级别
 
-| 策略 | 说明 |
-|---|---|
-| **Markdown 图片优化** | 162MB/186 文件 ≈ 870KB/文件，大量体积来自图片。使用 WebP/AVIF、懒加载、响应式图片 |
-| **代码块** | Twoslash 已启用 `createFileSystemTypesCache`（文件系统缓存），但 `explicitTrigger` 策略仍需评估 |
-| **excerpt 控制** | `createContentLoader` 的 `excerpt` 选项可减少内存占用 |
-| **render: false** | 不需要 HTML 内容的 data loader 设置 `render: false`，跳过最重的 markdown-it 渲染 |
+| 策略                  | 说明                                                                                            |
+| --------------------- | ----------------------------------------------------------------------------------------------- |
+| **Markdown 图片优化** | 162MB/186 文件 ≈ 870KB/文件，大量体积来自图片。使用 WebP/AVIF、懒加载、响应式图片               |
+| **代码块**            | Twoslash 已启用 `createFileSystemTypesCache`（文件系统缓存），但 `explicitTrigger` 策略仍需评估 |
+| **excerpt 控制**      | `createContentLoader` 的 `excerpt` 选项可减少内存占用                                           |
+| **render: false**     | 不需要 HTML 内容的 data loader 设置 `render: false`，跳过最重的 markdown-it 渲染                |
 
 ### 4.4 构建环境级别
 
-| 策略 | 说明 |
-|---|---|
-| **NODE_OPTIONS** | `--max-old-space-size=4096` 增加堆内存上限 |
-| **CI 缓存** | GitHub Actions 等 CI 中缓存 `node_modules`、`.vitepress/cache`、`.vitepress/dist` |
-| **增量构建** | 目前 VitePress 不原生支持生产增量构建，需外部脚本（如对比 git diff 只 build 变更页） |
+| 策略             | 说明                                                                                 |
+| ---------------- | ------------------------------------------------------------------------------------ |
+| **NODE_OPTIONS** | `--max-old-space-size=4096` 增加堆内存上限                                           |
+| **CI 缓存**      | GitHub Actions 等 CI 中缓存 `node_modules`、`.vitepress/cache`、`.vitepress/dist`    |
+| **增量构建**     | 目前 VitePress 不原生支持生产增量构建，需外部脚本（如对比 git diff 只 build 变更页） |
 
 ---
 
@@ -142,6 +146,7 @@ resolveConfig (配置解析 + page discovery)
 ### 5.2 中期（搜索功能上线后）
 
 搜索索引生成是重量级操作：
+
 - **本地搜索**（MiniSearch）：需要在 `buildEnd` 中遍历所有页面、分词、建索引。对于 CJK 内容，分词成本尤其高（Intl.Segmenter 比 jieba-wasm 轻但精度低）。
 - **建议**：`buildConcurrency: 16` 给索引生成留足内存，避免与页面渲染竞争。
 
@@ -154,18 +159,19 @@ resolveConfig (配置解析 + page discovery)
 
 ### 5.4 立即可做的低成本优化
 
-| 优化项 | 预期收益 | 实施成本 |
-|---|---|---|
-| `buildConcurrency: 32`（显式声明） | 稳定性，避免 CI OOM | 一行配置 |
-| `build.cssCodeSplit: true`（确认默认） | JS 按需加载 | 零成本（默认行为） |
-| 图片格式检查 | 构建体积可能减半 | 一次性审计 |
-| contentLoader 中 `render: false` 用于纯元数据场景 | 跳过 markdown-it 渲染 | 审视现有 loader |
+| 优化项                                            | 预期收益              | 实施成本           |
+| ------------------------------------------------- | --------------------- | ------------------ |
+| `buildConcurrency: 32`（显式声明）                | 稳定性，避免 CI OOM   | 一行配置           |
+| `build.cssCodeSplit: true`（确认默认）            | JS 按需加载           | 零成本（默认行为） |
+| 图片格式检查                                      | 构建体积可能减半      | 一次性审计         |
+| contentLoader 中 `render: false` 用于纯元数据场景 | 跳过 markdown-it 渲染 | 审视现有 loader    |
 
 ---
 
 ## 六、关键监控指标
 
 当博客上线后，建议在 CI 中记录：
+
 1. **构建总时间**（`time vitepress build`）
 2. **各阶段耗时**（git timestamp → bundling → rendering → sitemap/RSS）
 3. **内存峰值**（CI runner 的 `max-old-space-size` 使用情况）

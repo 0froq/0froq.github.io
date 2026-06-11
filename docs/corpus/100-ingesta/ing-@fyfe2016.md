@@ -40,4 +40,3 @@ the under review period (about 2001-2014) should be 1972-2001.
 The vital scientific question is not "is there a hiatus/slowdown",
 but "how do the internal variability and external forcing combine
 and influence the surface temperature trend".
-

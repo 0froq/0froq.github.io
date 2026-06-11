@@ -20,11 +20,11 @@
 
 这三个术语经常被混用，但各有侧重：
 
-| 术语 | 核心关注 | 代表人物 | 关键概念 |
-|------|---------|---------|---------|
-| **一般系统论** (GST) | 系统的结构与组织 | Bertalanffy | 开放系统、层级、等终性 |
-| **控制论** (Cybernetics) | 系统的功能：通信与控制 | Wiener, Ashby | 反馈、信息、目的论机制 |
-| **复杂适应系统** (CAS) | 涌现与自组织 | Holland, SFI | building blocks、适应性、非均衡 |
+| 术语                     | 核心关注               | 代表人物      | 关键概念                        |
+| ------------------------ | ---------------------- | ------------- | ------------------------------- |
+| **一般系统论** (GST)     | 系统的结构与组织       | Bertalanffy   | 开放系统、层级、等终性          |
+| **控制论** (Cybernetics) | 系统的功能：通信与控制 | Wiener, Ashby | 反馈、信息、目的论机制          |
+| **复杂适应系统** (CAS)   | 涌现与自组织           | Holland, SFI  | building blocks、适应性、非均衡 |
 
 Principia Cybernetica 项目对此做了一个精炼的区分：系统论更关注系统的**结构**及其模型，控制论更关注系统如何**运作**——如何控制行动、如何与其他系统通信。但结构和功能不可分离，两者本质上是同一事业的两个面向。实践中，大多数核心期刊、学会和会议都同时包含"systems"和"cybernetics"两个词。
 
@@ -138,6 +138,7 @@ Bateson 的回答：**心智是内在于整个系统（人+拐杖+环境）的�
 Bateson 的 double bind 理论（双绑困境）最初是为了理解精神分裂症的通信模式，但它的应用范围远超精神病学。
 
 Double bind 的结构：
+
 1. 两个或更多人处于重要的关系中
 2. 其中一个反复发出包含两个矛盾层面的信息（例如，言语说"我爱你"，但语调和身体语言说"我恨你"）
 3. 接收者被禁止指出这个矛盾或离开这个情境
@@ -161,6 +162,7 @@ Bateson 在晚年最关注的一个主题是：**有意识的目的（conscious 
 Jay Forrester 在 MIT 创立了系统动力学（System Dynamics），将控制论的反馈概念转化为可模拟的数学模型。
 
 核心构件：
+
 - **存量（stocks）**：系统中累积的东西。水库中的水、银行账户的余额、知识储备、代码债。
 - **流量（flows）**：改变存量的速率。入流和出流。
 - **反馈环路**：存量→信息→决策→流量→存量 的闭合回路。
@@ -172,20 +174,20 @@ Forrester 最著名的观察是：**人们直觉上知道系统的杠杆点在�
 
 Donella Meadows 是 Forrester 的学生，《增长的极限》的主要作者。她最著名的文章《Places to Intervene in a System》(1997) 按干预效力从低到高列出了系统的十二个杠杆点：
 
-| 序号 | 杠杆点 | 干预效力 |
-|------|--------|---------|
-| 12 | 常数、参数、数字（补贴、税率、标准） | 最低 |
-| 11 | 缓冲区的规模 | |
-| 10 | 存量与流量的物理结构 | |
-| 9 | 延迟的长度 | |
-| 8 | 负反馈环路的强度 | |
-| 7 | 正反馈环路的增益 | |
-| 6 | 信息流的通路（谁能获得什么信息） | |
-| 5 | 系统的规则（激励、惩罚、约束） | |
-| 4 | 添加/改变/进化/自组织系统结构的能力 | |
-| 3 | 系统的目标 | |
-| 2 | 系统产生于其中的心智范式 | |
-| 1 | **超越范式的力量** | 最高 |
+| 序号 | 杠杆点                               | 干预效力 |
+| ---- | ------------------------------------ | -------- |
+| 12   | 常数、参数、数字（补贴、税率、标准） | 最低     |
+| 11   | 缓冲区的规模                         |          |
+| 10   | 存量与流量的物理结构                 |          |
+| 9    | 延迟的长度                           |          |
+| 8    | 负反馈环路的强度                     |          |
+| 7    | 正反馈环路的增益                     |          |
+| 6    | 信息流的通路（谁能获得什么信息）     |          |
+| 5    | 系统的规则（激励、惩罚、约束）       |          |
+| 4    | 添加/改变/进化/自组织系统结构的能力  |          |
+| 3    | 系统的目标                           |          |
+| 2    | 系统产生于其中的心智范式             |          |
+| 1    | **超越范式的力量**                   | 最高     |
 
 注意这个顺序：**改变参数是最弱的干预，改变规则和目标更强，改变范式是最强的，而最强的干预是认识到所有范式都只是范式——保持不被任何特定范式绑定。**
 
@@ -254,6 +256,7 @@ hiatus 项目研究湖泊升温的断点，本质上是一个控制论问题：
 - 系统状态：断点（changepoint）是从一个反馈均衡态到另一个均衡态的相变
 
 用 Meadows 的杠杆点框架看 hiatus 研究：
+
 - **参数层**（12-9）：STL 参数、季节性窗口、delta 阈值——这是当前正在 tuning 的层
 - **信息流**（6）：ERA5 数据的空间分辨率、湖泊面积筛选、ice exclusion 的标准——改变这些会改变系统的"感知"到什么
 - **规则**（5）：断点的定义方式（m 的选择、BIC vs 其他判据）——这定义了什么是"显著变化"
@@ -263,14 +266,14 @@ hiatus 项目研究湖泊升温的断点，本质上是一个控制论问题：
 
 corpus 六层可以精确映射为系统动力学模型：
 
-| corpus 层 | 系统动力学对应 | 说明 |
-|-----------|---------------|------|
-| Autopsia | 输入流（inflow） | 亲眼审视外部信息，知识进入系统 |
-| Ingesta | 存量 1 | 摄入的材料，等待处理 |
-| Neoplasma | 内部生产流 | 发问、连接、增生——知识在此"肿瘤化" |
-| Putredo | 存量 2 + 衰减流 | 实践日志，同时包含生产和分解 |
-| Delirium | 低流量存量 | 偏离犁沟的溢出，低频但高信号 |
-| Vigil | 目标态 / 终态存量 | 守夜警觉——系统趋于平衡后的稳定态 |
+| corpus 层 | 系统动力学对应    | 说明                               |
+| --------- | ----------------- | ---------------------------------- |
+| Autopsia  | 输入流（inflow）  | 亲眼审视外部信息，知识进入系统     |
+| Ingesta   | 存量 1            | 摄入的材料，等待处理               |
+| Neoplasma | 内部生产流        | 发问、连接、增生——知识在此"肿瘤化" |
+| Putredo   | 存量 2 + 衰减流   | 实践日志，同时包含生产和分解       |
+| Delirium  | 低流量存量        | 偏离犁沟的溢出，低频但高信号       |
+| Vigil     | 目标态 / 终态存量 | 守夜警觉——系统趋于平衡后的稳定态   |
 
 posts 三层（代序/成言/前脩）则是从 corpus 存量中**抽取输出流**——语步、成品文章、翻译。
 
@@ -367,17 +370,17 @@ Meadows 把「超越范式的力量」列为排名第一的杠杆点——不是
 
 ## 参考文献与延伸阅读
 
-- Wiener, N. (1948). *Cybernetics: Or Control and Communication in the Animal and the Machine*. MIT Press.
-- Ashby, W. R. (1956). *An Introduction to Cybernetics*. Chapman & Hall.
-- Bertalanffy, L. von (1968). *General System Theory: Foundations, Development, Applications*. George Braziller.
-- Bateson, G. (1972). *Steps to an Ecology of Mind*. Ballantine Books.
-- Forrester, J. W. (1969). *Urban Dynamics*. MIT Press.
-- Meadows, D. H. (1997). "Places to Intervene in a System." *Whole Earth*, Winter 1997.
-- Meadows, D. H. (2008). *Thinking in Systems: A Primer*. Chelsea Green.
-- Maturana, H. R. & Varela, F. J. (1980). *Autopoiesis and Cognition: The Realization of the Living*. D. Reidel.
-- Maturana, H. R. & Varela, F. J. (1987). *The Tree of Knowledge: The Biological Roots of Human Understanding*. Shambhala.
-- Holland, J. H. (1992). *Adaptation in Natural and Artificial Systems*. MIT Press.
-- Holland, J. H. (1995). *Hidden Order: How Adaptation Builds Complexity*. Basic Books.
-- Holland, J. H. (1999). *Emergence: From Chaos to Order*. Perseus Books.
-- von Foerster, H. (2003). *Understanding Understanding: Essays on Cybernetics and Cognition*. Springer.
-- von Glasersfeld, E. (1995). *Radical Constructivism: A Way of Knowing and Learning*. Falmer Press.
+- Wiener, N. (1948). _Cybernetics: Or Control and Communication in the Animal and the Machine_. MIT Press.
+- Ashby, W. R. (1956). _An Introduction to Cybernetics_. Chapman & Hall.
+- Bertalanffy, L. von (1968). _General System Theory: Foundations, Development, Applications_. George Braziller.
+- Bateson, G. (1972). _Steps to an Ecology of Mind_. Ballantine Books.
+- Forrester, J. W. (1969). _Urban Dynamics_. MIT Press.
+- Meadows, D. H. (1997). "Places to Intervene in a System." _Whole Earth_, Winter 1997.
+- Meadows, D. H. (2008). _Thinking in Systems: A Primer_. Chelsea Green.
+- Maturana, H. R. & Varela, F. J. (1980). _Autopoiesis and Cognition: The Realization of the Living_. D. Reidel.
+- Maturana, H. R. & Varela, F. J. (1987). _The Tree of Knowledge: The Biological Roots of Human Understanding_. Shambhala.
+- Holland, J. H. (1992). _Adaptation in Natural and Artificial Systems_. MIT Press.
+- Holland, J. H. (1995). _Hidden Order: How Adaptation Builds Complexity_. Basic Books.
+- Holland, J. H. (1999). _Emergence: From Chaos to Order_. Perseus Books.
+- von Foerster, H. (2003). _Understanding Understanding: Essays on Cybernetics and Cognition_. Springer.
+- von Glasersfeld, E. (1995). _Radical Constructivism: A Way of Knowing and Learning_. Falmer Press.

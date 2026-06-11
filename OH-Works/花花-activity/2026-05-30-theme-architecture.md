@@ -23,6 +23,7 @@ export default {
 ```
 
 `enhanceApp` 注入了四个插件：
+
 - **TwoslashFloatingVue**：Shiki Twoslash 的浮动类型弹窗
 - **GesturePlugin**（@vueuse/gesture）：拖拽、捏合等手势支持
 - **MotionPlugin**（@vueuse/motion）：声明式动画
@@ -42,6 +43,7 @@ ButtonVerticalNavigation → 固定侧边导航（md 断点以上显示）
 ```
 
 关键设计：
+
 - 根元素使用 `un-font-serif`（实际映射到 `YshiPen-ShutiTC` 手写体），这是 **语义倒置** 的体现
 - `min-h-100vh` 保证全高，`text-stone-700 dark:stone-300` 统一文字色
 - `PageContent` 的 `:key="route.path"` 确保路由切换时完整重建 DOM，避免跨页状态污染
@@ -54,11 +56,17 @@ PageContent 是内容层的核心路由器，根据 `route.path` 分发到六个
 
 ```vue
 <ContentIndexGlobal v-if="['/', '/en/'].includes(route.path)" />
+
 <Corpus v-else-if="route.path.startsWith('/corpus/')" />
+
 <Posts v-else-if="route.path.startsWith('/posts/')" />
+
 <Dashboard v-else-if="route.path.startsWith('/dashboard/')" />
+
 <Tags v-else-if="route.path.startsWith('/tags/')" />
+
 <ContentArticle v-else-if="!page.isNotFound" />
+
 <ContentNotFound v-else />
 ```
 
@@ -113,13 +121,13 @@ Dashboard Home 直接用 `ProgressBarHeader` + `Board` 组件，Board 内部从 
 
 这是整个设计系统最有趣的设计决策。在 UnoCSS rules 中，标准语义名被映射到了「反直觉」的字体：
 
-| CSS class | 映射字体 | 实际用途 |
-|-----------|---------|---------|
-| `font-sans` | LXGW Neo ZhiSong Plus（宋体） | 标题、强调 |
-| `font-serif` | YshiPen-ShutiTC（手写） | 正文 |
-| `font-mono` | LXGW Bright Code TC | 仪表盘 |
-| `font-stylish` | Caveat（英文手写） | Corpus 标题 |
-| `font-script` | Ephesis（英文花体） | Posts 标题 |
+| CSS class      | 映射字体                      | 实际用途    |
+| -------------- | ----------------------------- | ----------- |
+| `font-sans`    | LXGW Neo ZhiSong Plus（宋体） | 标题、强调  |
+| `font-serif`   | YshiPen-ShutiTC（手写）       | 正文        |
+| `font-mono`    | LXGW Bright Code TC           | 仪表盘      |
+| `font-stylish` | Caveat（英文手写）            | Corpus 标题 |
+| `font-script`  | Ephesis（英文花体）           | Posts 标题  |
 
 **设计哲学**：在中文语境下，宋体是「正式、端庄」的，更适合标题定位；手写体是「亲近、流动」的，更适合正文阅读。这突破了「sans = 无衬线 = 现代 = 正文 / serif = 衬线 = 传统 = 标题」的西文排版惯例，按中文阅读体验重新定义了语义层。
 
@@ -129,22 +137,23 @@ Dashboard Home 直接用 `ProgressBarHeader` + `Board` 组件，Board 内部从 
 
 8 套图标集通过 presetIcons 动态加载：
 
-| 前缀 | 来源 | 用途 |
-|------|------|------|
-| `i-carbon` | Carbon（IBM） | 通用 UI |
-| `i-ph` | Phosphor | 通用 UI（主力） |
-| `i-solar` | Solar | 通用 UI |
-| `i-duo` | Duo Icons | 装饰 |
-| `i-simple` | Simple Icons | 品牌 Logo |
-| `i-skill` | Skill Icons | 技术栈图标 |
-| `i-twe` | Twemoji | Emoji |
-| `i-openmj` | OpenMoji | Emoji |
+| 前缀       | 来源          | 用途            |
+| ---------- | ------------- | --------------- |
+| `i-carbon` | Carbon（IBM） | 通用 UI         |
+| `i-ph`     | Phosphor      | 通用 UI（主力） |
+| `i-solar`  | Solar         | 通用 UI         |
+| `i-duo`    | Duo Icons     | 装饰            |
+| `i-simple` | Simple Icons  | 品牌 Logo       |
+| `i-skill`  | Skill Icons   | 技术栈图标      |
+| `i-twe`    | Twemoji       | Emoji           |
+| `i-openmj` | OpenMoji      | Emoji           |
 
 其中 `ph` 和 `solar` 在代码中出现频率最高。图标通过 `safeIcon.json` 的 safelist 机制确保构建时不丢失。
 
 ### 5.3 Attributify 模式
 
 使用 `presetAttributify({ strict: true, prefixedOnly: true, prefix: 'un-' })`：
+
 - `strict`：只解析显式属性值
 - `prefixedOnly`：只有 `un-` 前缀的属性才被解析为 UnoCSS 规则
 - 这避免了与原生 HTML 属性的命名冲突
@@ -175,6 +184,7 @@ components/
 ### LinkUnderline 的巧思
 
 这是最常用的基础组件之一。核心设计：
+
 - 使用 `::after` 伪元素做下划线动画（`hover:before:w-full` 展开）
 - 通过 `v-bind` 透传 UnoCSS 属性，允许调用方自定义颜色和样式
 - 内置 `FloatWindow` tooltip 支持（hover 跟随鼠标 / click 切换两种模式）
@@ -192,6 +202,7 @@ components/
 ### Dashboard 组件系统
 
 Board 是仪表盘的核心，采用了结构化设计：
+
 - 从 `board.data.ts` 读取 YAML 数据
 - 按 status 分组（active / done / backlog），每列用 TaskList 渲染
 - 三列分别用 amber / emerald / sky 色彩主题
@@ -209,6 +220,7 @@ useChartTheme() → { isDark, colors, layout, mergeLayout }
 ```
 
 特性：
+
 - **响应式暗色模式**：`computed(() => useDark().value)` 自动切换 light/dark 主题色
 - **主题色覆盖**：背景、文字、网格线、零线、tooltip 全部可配置
 - **mergeLayout**：`deepMerge(baseLayout, userLayout)` 允许组件层覆盖默认布局
@@ -231,15 +243,15 @@ useChartTheme() → { isDark, colors, layout, mergeLayout }
 
 ## 9. 架构特征总结
 
-| 特征 | 实现方式 | 评价 |
-|------|---------|------|
-| 主题定制 | 完全自定义 Layout，不依赖 Default Theme | 灵活但维护成本高 |
-| 路由分发 | PageContent 的 v-if 链 | 简单直观，适合当前规模 |
-| 设计 token | UnoCSS rules + presets | 统一、可扩展 |
-| 组件复用 | 领域分层（ui/ → 业务组件） | 清晰 |
-| 暗色模式 | VueUse useDark + CSS 变量 | 标准方案 |
-| 图表主题 | computed + deepMerge | 优雅 |
-| 字体策略 | 语义倒置 + 5 套字体 + 本地/外部混合 | 有设计主张但 CDN 依赖需关注 |
+| 特征       | 实现方式                                | 评价                        |
+| ---------- | --------------------------------------- | --------------------------- |
+| 主题定制   | 完全自定义 Layout，不依赖 Default Theme | 灵活但维护成本高            |
+| 路由分发   | PageContent 的 v-if 链                  | 简单直观，适合当前规模      |
+| 设计 token | UnoCSS rules + presets                  | 统一、可扩展                |
+| 组件复用   | 领域分层（ui/ → 业务组件）              | 清晰                        |
+| 暗色模式   | VueUse useDark + CSS 变量               | 标准方案                    |
+| 图表主题   | computed + deepMerge                    | 优雅                        |
+| 字体策略   | 语义倒置 + 5 套字体 + 本地/外部混合     | 有设计主张但 CDN 依赖需关注 |
 
 ---
 

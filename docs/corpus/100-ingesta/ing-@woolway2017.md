@@ -21,5 +21,3 @@ lang: en
 - journal: Climatic Change
 - year: 2017
 - doi: 10.1007/s10584-017-1966-4
-
-

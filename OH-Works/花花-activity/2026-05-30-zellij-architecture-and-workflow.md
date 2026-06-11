@@ -28,15 +28,15 @@ Zellij 采用三层架构，Client 和 Server 作为独立进程，通过 Unix d
 
 Server 内部按职责划分专用线程，每个线程有独立的消息队列（`Bus<T>`）和事件循环：
 
-| 线程 | 入口函数 | 指令枚举 | 职责 |
-|------|---------|---------|------|
-| Server | `start_server()` | `ServerInstruction` | 会话生命周期，client attach/detach |
-| Route | `route_thread_main()` | `Action` | 中心路由，将 Action 转为线程指令 |
-| Screen | `screen_thread_main()` | `ScreenInstruction` | UI 渲染、tab/pane 管理、布局应用 |
-| PTY | `pty_thread_main()` | `PtyInstruction` | 终端进程 spawn/kill、PTY I/O |
-| Plugin | `plugin_thread_main()` | `PluginInstruction` | WASM 插件加载/卸载、事件分发 |
-| PTY Writer | `pty_writer_main()` | `PtyWriteInstruction` | 异步写入 PTY fd |
-| Background Jobs | `background_jobs_main()` | `BackgroundJob` | HTTP 下载、文件 I/O |
+| 线程            | 入口函数                 | 指令枚举              | 职责                               |
+| --------------- | ------------------------ | --------------------- | ---------------------------------- |
+| Server          | `start_server()`         | `ServerInstruction`   | 会话生命周期，client attach/detach |
+| Route           | `route_thread_main()`    | `Action`              | 中心路由，将 Action 转为线程指令   |
+| Screen          | `screen_thread_main()`   | `ScreenInstruction`   | UI 渲染、tab/pane 管理、布局应用   |
+| PTY             | `pty_thread_main()`      | `PtyInstruction`      | 终端进程 spawn/kill、PTY I/O       |
+| Plugin          | `plugin_thread_main()`   | `PluginInstruction`   | WASM 插件加载/卸载、事件分发       |
+| PTY Writer      | `pty_writer_main()`      | `PtyWriteInstruction` | 异步写入 PTY fd                    |
+| Background Jobs | `background_jobs_main()` | `BackgroundJob`       | HTTP 下载、文件 I/O                |
 
 线程间通信通过 **类型安全的消息通道**（typed instruction enums + MPSC），Route 线程充当中心调度器，将用户 Action 转换为目标线程的指令。
 
@@ -277,21 +277,21 @@ macOS 上 Ghostty 的 `macos-option-as-alt = true`（Zellij 需要 Alt 键）会
 
 ## 6. 与 tmux 的对比
 
-| 维度 | tmux | Zellij |
-|------|------|--------|
-| 语言 | C | Rust |
-| 配置语言 | 自定义 | KDL |
-| 配置热加载 | `tmux source-file` | 自动监听 |
-| 插件系统 | tpm + shell 脚本 | WASM 沙箱 |
-| UI 组件 | 需外部工具 | 内置 status-bar/tab-bar/session-manager |
-| 浮动窗格 | 通过插件实现 | 原生支持 |
-| 堆叠窗格 | 无 | 原生支持 |
-| 会话复活 | 需插件（tmux-resurrect） | 内置 |
-| Web 客户端 | 第三方方案 | 内置 |
-| 多人协作 | 无 | 内置 |
-| 学习曲线 | 陡峭（需记快捷键） | 温和（屏幕提示 + 模式 UI） |
-| 键位冲突 | 可完全自定义 | 模式化，但 Neovim 有冲突 |
-| 成熟度 | 15 年+，生态庞大 | 5 年，快速增长 |
+| 维度       | tmux                     | Zellij                                  |
+| ---------- | ------------------------ | --------------------------------------- |
+| 语言       | C                        | Rust                                    |
+| 配置语言   | 自定义                   | KDL                                     |
+| 配置热加载 | `tmux source-file`       | 自动监听                                |
+| 插件系统   | tpm + shell 脚本         | WASM 沙箱                               |
+| UI 组件    | 需外部工具               | 内置 status-bar/tab-bar/session-manager |
+| 浮动窗格   | 通过插件实现             | 原生支持                                |
+| 堆叠窗格   | 无                       | 原生支持                                |
+| 会话复活   | 需插件（tmux-resurrect） | 内置                                    |
+| Web 客户端 | 第三方方案               | 内置                                    |
+| 多人协作   | 无                       | 内置                                    |
+| 学习曲线   | 陡峭（需记快捷键）       | 温和（屏幕提示 + 模式 UI）              |
+| 键位冲突   | 可完全自定义             | 模式化，但 Neovim 有冲突                |
+| 成熟度     | 15 年+，生态庞大         | 5 年，快速增长                          |
 
 ---
 

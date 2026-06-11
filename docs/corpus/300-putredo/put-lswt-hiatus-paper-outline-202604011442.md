@@ -16,7 +16,7 @@ LSWT Post-Hiatus Trend Study Memo
 
 ## Background + Questions
 
-- hiatus/post-hiatus framework: ?-1998 vs 1998-2012 vs 2012-present  
+- hiatus/post-hiatus framework: ?-1998 vs 1998-2012 vs 2012-present
 - Core questions:
   - Does [post-hiatus]{.text-amber} trend differ significantly from [pre-hiatus]{.text-amber} and [hiatus]{.text-amber}?
   - What's the [spatial]{.text-amber} consistency?
@@ -78,12 +78,13 @@ mechanism explanation.
 ## Methods Checklist
 
 > Generally, we want to compare the trend among pre-hiatus, hiatus and post-hiatus.
-> 
+>
 > We can do it in a:
-> 1) predefined segmentation way, i.e., 1986-1998, 1998-2012, 2012-2024. or,
-> 2) data-driven way, i.e., use changepoint detection to
-> determine the segmentation.
-> 
+>
+> 1. predefined segmentation way, i.e., 1986-1998, 1998-2012, 2012-2024. or,
+> 2. data-driven way, i.e., use changepoint detection to
+>    determine the segmentation.
+>
 > They both have their cons. 1 is more straightforward but due to spatial
 > heterogeneity, the segmentation may not be optimal for all lakes.
 > 2 has the issue that the changpoint detection may be affected by the internal
@@ -129,7 +130,7 @@ mechanism explanation.
 ### Spatial consistency
 
 - Globally synchronized enhancement regions
-- Regional divergence patterns  
+- Regional divergence patterns
 - High-lat/elev/deep vs others
 
 ### Mechanism explanation

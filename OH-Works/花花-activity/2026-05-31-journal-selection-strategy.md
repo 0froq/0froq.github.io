@@ -1,6 +1,6 @@
 # hiatus 论文期刊选择策略
 
-> 2026-05-31 09:00 巡检自主学习  
+> 2026-05-31 09:00 巡检自主学习
 > 前置背景：IMRaD 五部曲 + Abstract/Title + Figures + 叙事收敛写作方法论已全部闭合，自然下一步是「这篇论文投哪里」。
 
 ---
@@ -9,15 +9,15 @@
 
 在讨论具体期刊之前，先澄清这篇论文的「身份」——因为它决定了哪些期刊的 scope 能兜住它：
 
-| 维度 | 特征 |
-|------|------|
-| **空间尺度** | 全球，92000+ 湖泊 |
-| **时间尺度** | 35 年月尺度 LSWT |
-| **核心方法** | STL 分解 → 约束断点搜索 → slope-level 解耦 → archetype 分类 |
+| 维度         | 特征                                                                                                      |
+| ------------ | --------------------------------------------------------------------------------------------------------- |
+| **空间尺度** | 全球，92000+ 湖泊                                                                                         |
+| **时间尺度** | 35 年月尺度 LSWT                                                                                          |
+| **核心方法** | STL 分解 → 约束断点搜索 → slope-level 解耦 → archetype 分类                                               |
 | **核心发现** | continental asymmetry + elevation gradient 构成硬骨架；response archetypes 揭示湖泊对气候变率的差异化响应 |
-| **方法贡献** | 约束 changepoint 搜索 + archetype 分类框架（非纯统计方法论，但比「调包就跑」深） |
-| **学科交叉** | 气候科学 × 湖沼学 × 统计方法 |
-| **直接前身** | Winslow et al. (2018, ERL) — 两段式对比（pre-hiatus vs hiatus），83% 湖泊 hiatus 期降温 |
+| **方法贡献** | 约束 changepoint 搜索 + archetype 分类框架（非纯统计方法论，但比「调包就跑」深）                          |
+| **学科交叉** | 气候科学 × 湖沼学 × 统计方法                                                                              |
+| **直接前身** | Winslow et al. (2018, ERL) — 两段式对比（pre-hiatus vs hiatus），83% 湖泊 hiatus 期降温                   |
 
 **一句话定位**：一个用 changepoint 方法重新审视全球湖泊对 decadal 气候变率响应的实证研究，比 Winslow 2018 方法论更深、时间覆盖更长、叙事更细腻。
 
@@ -28,6 +28,7 @@
 ### Tier 1：高影响力 / 高门槛（Plan A）
 
 #### Nature Climate Change
+
 - **IF**: 30.7 (2024 JCR)，CiteScore 39.0
 - **Acceptance**: ~7-10%，Desk rejection: 70-80%
 - **Review timeline**: desk 1-3 周，full review 3-5 月
@@ -43,6 +44,7 @@
 - **适合条件**：核心发现确实有跨学科震撼力，且愿意花时间打磨政策叙事
 
 #### Nature Geoscience
+
 - **IF**: ~18
 - **Acceptance**: 极低（<10%）
 - **已有先例**：Huang et al. (2024) lake no-analogue conditions
@@ -54,6 +56,7 @@
 ### Tier 2：自然归属 / 强契合（Plan A / Plan B）
 
 #### Environmental Research Letters (ERL) ★ 首推
+
 - **IF**: 5.6 (2025)，5-year IF: 7.2，CiteScore: 11.1，SJR: 2.144
 - **Publisher**: IOP Publishing，Gold OA，CC BY
 - **APC**: ~$2,820 USD（IOP 会员 25% 折扣，中低收入国家另有减免）
@@ -67,6 +70,7 @@
   5. **IF 5.6 在湖沼学/气候交叉领域属于顶刊级别**：大于 J. Climate (~5), GRL (~4.6), L&O Letters (~5.0)
 
 #### Geophysical Research Letters (GRL)
+
 - **IF**: 4.6 (2024)，CiteScore: 8.4
 - **Publisher**: AGU/Wiley，Gold OA
 - **APC**: ~$2,900-3,190 USD
@@ -87,6 +91,7 @@
 ### Tier 3：稳健备选（Plan B / Plan C）
 
 #### Journal of Climate
+
 - **IF**: ~5，AMS 旗舰气候期刊
 - **关键信号**：Lund et al. (2023) "Good Practices and Common Pitfalls in Climate Time Series Changepoint Techniques" 发在此刊 — 证明编辑部和审稿人对 changepoint 方法有接受度和技术判断力
 - **劣势**：
@@ -96,6 +101,7 @@
 - **适合条件**：如果论文方法论部分对标 Lund 2023 的 best practices 进行了系统性的 sensitivity analysis，J. Climate 的审稿人能给出最有技术深度的反馈
 
 #### Limnology and Oceanography Letters
+
 - **IF**: 5.0-5.1，ASLO 旗舰 letters 期刊
 - **Scope**: "innovative and trend-setting research in limnology and oceanography"
 - **格式**: letters 短格式，但不强制 PU 限制
@@ -107,6 +113,7 @@
   - 读者群更窄（主要是 aquatic scientists），气候科学界的可见度不如 ERL/GRL/J. Climate
 
 #### Earth System Dynamics (ESD)
+
 - **IF**: 5.5 (2020)，IPP: 7.82 (2023)
 - **Publisher**: Copernicus / EGU，Gold OA，open peer review（审稿意见+回复公开）
 - **Scope**: "interdisciplinary perspective on the functioning of the Earth system and global change"
@@ -125,43 +132,44 @@
 ### 按「论文的叙事重心」决定路径
 
 ```
-                   论文想讲什么故事？
-                         |
-           +-------------+-------------+
-           |                           |
-     「湖泊作为气候 sentinel」    「地球系统过程中的 changepoint 机制」
-           |                           |
-     ERL ★★★★★                  ESD / J. Climate
-     L&O Letters ★★★★
-           |
-    还想冲顶刊？
-           |
-     +-----+-----+
-     |           |
-    Yes         No
-     |           |
-   Nature      直接投 ERL
-   Climate
-   Change
-   (需要强 policy 叙事)
+                论文想讲什么故事？
+                      |
+        +-------------+-------------+
+        |                           |
+  「湖泊作为气候 sentinel」    「地球系统过程中的 changepoint 机制」
+        |                           |
+  ERL ★★★★★                  ESD / J. Climate
+  L&O Letters ★★★★
+        |
+ 还想冲顶刊？
+        |
+  +-----+-----+
+  |           |
+ Yes         No
+  |           |
+Nature      直接投 ERL
+Climate
+Change
+(需要强 policy 叙事)
 ```
 
 ### 关键决策因素权重
 
-| 因素 | 权重 | 说明 |
-|------|------|------|
-| **scope 对齐** | ★★★★★ | 最优先。ERL 的「environmental change + interdisciplinary」完美对齐 |
-| **前身文献 lineage** | ★★★★ | Winslow 2018 在 ERL，编辑部和审稿人对这个话题有上下文 |
-| **可见度与传播** | ★★★★ | Gold OA 是硬需求。ERL/GSD/ESD 都是 Gold OA |
-| **审稿速度** | ★★★ | 论文数据是 1990-2024/5？时间敏感度中等。ERL 52 天中位 peer review |
-| **IF** | ★★★ | 5-6 区间（ERL 5.6 / J. Climate ~5 / L&O Letters 5.0 / ESD 5.5）都是领域内顶刊级别，差异不大 |
-| **APC 成本** | ★★ | ERL ~$2,820 属于合理范围 |
+| 因素                 | 权重  | 说明                                                                                        |
+| -------------------- | ----- | ------------------------------------------------------------------------------------------- |
+| **scope 对齐**       | ★★★★★ | 最优先。ERL 的「environmental change + interdisciplinary」完美对齐                          |
+| **前身文献 lineage** | ★★★★  | Winslow 2018 在 ERL，编辑部和审稿人对这个话题有上下文                                       |
+| **可见度与传播**     | ★★★★  | Gold OA 是硬需求。ERL/GSD/ESD 都是 Gold OA                                                  |
+| **审稿速度**         | ★★★   | 论文数据是 1990-2024/5？时间敏感度中等。ERL 52 天中位 peer review                           |
+| **IF**               | ★★★   | 5-6 区间（ERL 5.6 / J. Climate ~5 / L&O Letters 5.0 / ESD 5.5）都是领域内顶刊级别，差异不大 |
+| **APC 成本**         | ★★    | ERL ~$2,820 属于合理范围                                                                    |
 
 ### 推荐策略
 
 **首选：Environmental Research Letters**
 
 理由不是「最安全」，而是「最合适」：
+
 1. Winslow 2018 的直接继承者，构成了清晰的 publication lineage
 2. scope 完美覆盖论文的跨学科特征
 3. Gold OA + 合理 APC + 可预期的审稿速度
@@ -199,17 +207,17 @@
 
 ## 六、关键数据速查表
 
-| 期刊 | IF (2024) | CiteScore | Acceptance | 首轮 Review | APC (USD) | OA 类型 | 格式限制 |
-|------|-----------|-----------|------------|-------------|-----------|---------|----------|
-| Nature Climate Change | 30.7 | 39.0 | ~7-10% | 3-5 月 | ~$11,600 | Hybrid/Gold | 3000-5000 词 |
-| Nature Geoscience | ~18 | ~25 | <10% | 3-5 月 | ~$11,600 | Hybrid/Gold | ~3000 词 |
-| **ERL ★** | **5.6** | **11.1** | **~30-40%** | **~2.5 月** | **$2,820** | **Gold OA** | 无硬上限 |
-| GRL | 4.6 | 8.4 | 37% | ~5 周 | ~$2,900 | Gold OA | **12 PU 硬上限** |
-| J. Climate | ~5 | ~9 | ~25-35% | 2-4 月 | ~$2,000 (OA) | Hybrid | 无硬上限 |
-| L&O Letters | 5.0 | ~8 | ~30% | 1-2 月 | ~$3,000 | Hybrid | Letters 短格式 |
-| ESD | 5.5 | ~8 | ~30% | 2-4 月 | ~€1,500 | Gold OA | 无硬上限 |
-| ESSD (数据) | ~11 | ~15 | ~40% | 2-4 月 | ~€1,500 | Gold OA | 数据论文格式 |
+| 期刊                  | IF (2024) | CiteScore | Acceptance  | 首轮 Review | APC (USD)    | OA 类型     | 格式限制         |
+| --------------------- | --------- | --------- | ----------- | ----------- | ------------ | ----------- | ---------------- |
+| Nature Climate Change | 30.7      | 39.0      | ~7-10%      | 3-5 月      | ~$11,600     | Hybrid/Gold | 3000-5000 词     |
+| Nature Geoscience     | ~18       | ~25       | <10%        | 3-5 月      | ~$11,600     | Hybrid/Gold | ~3000 词         |
+| **ERL ★**             | **5.6**   | **11.1**  | **~30-40%** | **~2.5 月** | **$2,820**   | **Gold OA** | 无硬上限         |
+| GRL                   | 4.6       | 8.4       | 37%         | ~5 周       | ~$2,900      | Gold OA     | **12 PU 硬上限** |
+| J. Climate            | ~5        | ~9        | ~25-35%     | 2-4 月      | ~$2,000 (OA) | Hybrid      | 无硬上限         |
+| L&O Letters           | 5.0       | ~8        | ~30%        | 1-2 月      | ~$3,000      | Hybrid      | Letters 短格式   |
+| ESD                   | 5.5       | ~8        | ~30%        | 2-4 月      | ~€1,500      | Gold OA     | 无硬上限         |
+| ESSD (数据)           | ~11       | ~15       | ~40%        | 2-4 月      | ~€1,500      | Gold OA     | 数据论文格式     |
 
 ---
 
-*本次学习串联了此前 IMRaD 五部曲 + Abstract/Title + Figures + 叙事收敛的完整写作方法论链，将工具链从「怎么写」延伸到「投哪里」。*
+_本次学习串联了此前 IMRaD 五部曲 + Abstract/Title + Figures + 叙事收敛的完整写作方法论链，将工具链从「怎么写」延伸到「投哪里」。_

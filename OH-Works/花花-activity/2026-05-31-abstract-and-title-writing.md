@@ -21,14 +21,14 @@
 
 综合多源共识（Mack 2018 / Tullu 2019 / Springer Nature 2019 / UW-Madison / Proceedings B 2024）：
 
-| 原则 | 说明 |
-|------|------|
-| **Self-contained** | 不依赖阅读全文即可理解。不引用参考文献、图表。 |
-| **No new information** | Abstract 中的每一条信息必须能在正文中找到对应。 |
-| **IMRaD 比例** | Background~2 句 / Aim~1 句 / Approach~1 句 / Results~3-5 句 / Conclusions~1-2 句 |
-| **Understandable to wide audience** | 第一句应让任何学科的科学家都能读懂（Springer Nature 的建议） |
-| **关键词前置** | 最重要的术语放在 Abstract 开头（搜索引擎可能截断显示） |
-| **时态规则** | 前人研究→过去时；本研究方法/结果→过去时；背景/意义/普适结论→现在时 |
+| 原则                                | 说明                                                                             |
+| ----------------------------------- | -------------------------------------------------------------------------------- |
+| **Self-contained**                  | 不依赖阅读全文即可理解。不引用参考文献、图表。                                   |
+| **No new information**              | Abstract 中的每一条信息必须能在正文中找到对应。                                  |
+| **IMRaD 比例**                      | Background~2 句 / Aim~1 句 / Approach~1 句 / Results~3-5 句 / Conclusions~1-2 句 |
+| **Understandable to wide audience** | 第一句应让任何学科的科学家都能读懂（Springer Nature 的建议）                     |
+| **关键词前置**                      | 最重要的术语放在 Abstract 开头（搜索引擎可能截断显示）                           |
+| **时态规则**                        | 前人研究→过去时；本研究方法/结果→过去时；背景/意义/普适结论→现在时               |
 
 ### 2.2 Springer Nature 五段式（Eckhoff 2019）
 
@@ -76,6 +76,7 @@ MLA 和许多医学期刊采用四段式结构化摘要（带小标题）：
 Proceedings B (2024) 的调查显示，生态与进化生物学期刊中仅 13% 允许结构化摘要，但作者可以通过 IMRaD 逻辑流自行组织，无需正式小标题。
 
 结构化摘要的优势：
+
 - 确保作者不会遗漏关键方面（分类群、物种名、地点、研究类型、变量）
 - 通常更长，可容纳更多关键词
 - 便于读者快速定位特定信息段
@@ -83,6 +84,7 @@ Proceedings B (2024) 的调查显示，生态与进化生物学期刊中仅 13% 
 ### 2.5 气候/地球科学领域特有考量
 
 **必备要素**（Proceedings B 2024 建议的生态进化领域要素，适配地学）：
+
 - 研究区域 / 空间范围
 - 时间尺度 / 研究时段
 - 数据来源（卫星 / 再分析 / 原位观测）
@@ -90,24 +92,26 @@ Proceedings B (2024) 的调查显示，生态与进化生物学期刊中仅 13% 
 - 研究类型（观测 / 模拟 / 再分析）
 
 **Lund et al. (2023) 警告的映射**：
+
 - 如果 changepoint 方法对假设敏感，Abstract 中应简明暗示「sensitivity to method choice was assessed」
 - 自相关处理方式值得在 Abstract 中提及（对气候领域审稿人这是红旗或绿灯信号）
 
 **地图/空间研究的 Abstract**：
+
 - 研究区域名称应在 Abstract 开头出现（增加地理检索可见性）
 - 空间分辨率 / 网格规格值得提及（如果数据源是论文亮点）
 
 ### 2.6 常见错误
 
-| 错误 | 纠正 |
-|------|------|
-| 把 Introduction 第一段当 Abstract | Abstract 必须包含结果和结论 |
-| 引用参考文献 | Abstract 内不引用 |
-| 使用未定义的缩写 | 全部拼出 |
-| "will be discussed" | Abstract 是总结，不是预告 |
-| 堆砌数字 | 选 2-3 个最关键的数字 |
-| 使用 "novel" "new" "first" | 让工作自己说话，避免自夸词汇 |
-| 过度炒作 implication | 保持「immediate implications」 |
+| 错误                              | 纠正                           |
+| --------------------------------- | ------------------------------ |
+| 把 Introduction 第一段当 Abstract | Abstract 必须包含结果和结论    |
+| 引用参考文献                      | Abstract 内不引用              |
+| 使用未定义的缩写                  | 全部拼出                       |
+| "will be discussed"               | Abstract 是总结，不是预告      |
+| 堆砌数字                          | 选 2-3 个最关键的数字          |
+| 使用 "novel" "new" "first"        | 让工作自己说话，避免自夸词汇   |
+| 过度炒作 implication              | 保持「immediate implications」 |
 
 ### 2.7 AI 初稿 Abstract 审阅检查清单
 
@@ -132,30 +136,31 @@ Proceedings B (2024) 的调查显示，生态与进化生物学期刊中仅 13% 
 
 Tullu (2019) 系统总结了 Title 的特性要求：
 
-| 特性 | 说明 |
-|------|------|
-| **Descriptive, not declarative** | 描述性标题（说明研究了什么）优于声明性标题（直接说出结论）。声明性标题降低读者好奇心，暗示作者偏见。 |
-| **Keywords at the beginning** | 搜索引擎可能只显示前 6-7 个词。最重要的术语放在最前面。 |
-| **10-15 substantive words** | 过短缺乏信息，过长 (>20 词) 同行评审中表现较差。 |
-| **No abbreviations** | 除非是 HIV/DNA/RNA 等标准缩写。 |
-| **No waste words** | 避免 "Studies on" "Investigations on" "A Study to..."。 |
-| **SPICED 框架** | Setting, Population, Intervention, Condition, End-point, Design（医学领域；地学可类比为 区域/对象/处理/条件/终点/设计） |
-| **No results in title** | UCI 指南明确建议。结论应留给读者从正文中发现。 |
-| **Unique** | 在文献数据库中搜索你的标题候选，确保不与已发表论文混淆（Proceedings B 2024）。 |
+| 特性                             | 说明                                                                                                                    |
+| -------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| **Descriptive, not declarative** | 描述性标题（说明研究了什么）优于声明性标题（直接说出结论）。声明性标题降低读者好奇心，暗示作者偏见。                    |
+| **Keywords at the beginning**    | 搜索引擎可能只显示前 6-7 个词。最重要的术语放在最前面。                                                                 |
+| **10-15 substantive words**      | 过短缺乏信息，过长 (>20 词) 同行评审中表现较差。                                                                        |
+| **No abbreviations**             | 除非是 HIV/DNA/RNA 等标准缩写。                                                                                         |
+| **No waste words**               | 避免 "Studies on" "Investigations on" "A Study to..."。                                                                 |
+| **SPICED 框架**                  | Setting, Population, Intervention, Condition, End-point, Design（医学领域；地学可类比为 区域/对象/处理/条件/终点/设计） |
+| **No results in title**          | UCI 指南明确建议。结论应留给读者从正文中发现。                                                                          |
+| **Unique**                       | 在文献数据库中搜索你的标题候选，确保不与已发表论文混淆（Proceedings B 2024）。                                          |
 
 ### 3.2 三种标题类型
 
-| 类型 | 特征 | 适用 | 引用表现 |
-|------|------|------|----------|
-| **Descriptive（描述性）** | 说明研究主题和设计，不透露结果 | 原创研究首选 | 关键词多 → 可见性高 → 引用潜力大 |
-| **Declarative（声明性）** | 在标题中陈述主要发现 | 应避免 | 降低好奇心，暗示偏见 |
-| **Interrogative（疑问性）** | 以问号结尾 | 综述可偶尔用，原创研究避免 | 下载多但引用少 |
+| 类型                        | 特征                           | 适用                       | 引用表现                         |
+| --------------------------- | ------------------------------ | -------------------------- | -------------------------------- |
+| **Descriptive（描述性）**   | 说明研究主题和设计，不透露结果 | 原创研究首选               | 关键词多 → 可见性高 → 引用潜力大 |
+| **Declarative（声明性）**   | 在标题中陈述主要发现           | 应避免                     | 降低好奇心，暗示偏见             |
+| **Interrogative（疑问性）** | 以问号结尾                     | 综述可偶尔用，原创研究避免 | 下载多但引用少                   |
 
 **结论**：描述性标题是原创研究的最安全选择。
 
 ### 3.3 标题 + 副标题模式（Colon Titles）
 
 在生态与进化生物学领域非常普遍。副标题可以：
+
 - 提供额外上下文
 - 限定地理范围（如 ": A Global Lake Survey"）
 - 限定时间范围
@@ -166,6 +171,7 @@ Proceedings B (2024) 建议：幽默部分可与描述性信息通过标点（�
 ### 3.4 标题长度与引用
 
 Proceedings B (2024) 的文献综述：
+
 - 标题长度与引用率的关系**有争议**：有的研究发现短标题有引用优势，有的发现相反，有的发现无关
 - 即使有影响，效应也是弱到中等 —— 其他论文特征更重要
 - 但**过长标题 (>20 词)** 在同行评审中倾向于表现更差
@@ -186,19 +192,23 @@ Proceedings B (2024) 给出了细致的 SEO 策略：
 ### 3.6 气候/地球科学 Title 特有考量
 
 **空间尺度信号**：
+
 - 标题应明确空间范围：global / Northern Hemisphere / pan-Arctic / European Alps / Tibetan Plateau
 - 如果研究是多个湖泊的集合，"a global lake survey" 比 "lakes" 更精确
 
 **时间尺度信号**：
+
 - "multidecadal" / "century-long" / "satellite-era" / "1981-2020"
 - changepoint 研究应暗示分析框架："regime shifts" "changepoint analysis" "trend transitions"
 
 **方法信号**（地学审稿人关心的）：
+
 - 数据源：satellite-derived / reanalysis / in-situ / model simulation
 - 分析方法：Bayesian changepoint / STL decomposition / non-parametric trend
 - 如果数据源是卖点，放在标题中
 
 **叙事信号**（呼应「叙事收敛」主题）：
+
 - "patterns and drivers" — 经典双目标
 - "response diversity" — 暗示分类分析
 - "spatial heterogeneity" — 暗示不是全球均匀响应
@@ -243,22 +253,26 @@ Proceedings B (2024) 给出了细致的 SEO 策略：
 几个候选方向（需 froQ 最终确定）：
 
 **方向 A：空间异质性叙事**
-> *Multidecadal Regime Shifts in Lake Surface Warming: Patterns and Archetypes from a Global Satellite Analysis*
+
+> _Multidecadal Regime Shifts in Lake Surface Warming: Patterns and Archetypes from a Global Satellite Analysis_
 
 分析：描述性，关键词前置（Multidecadal / Regime Shifts / Lake Surface Warming），冒号后限定范围和方法。
 
 **方向 B：变暖非单调叙事**
-> *Not Just Warming: Diverse Regime-Dependent Temperature Trajectories in Global Lakes*
+
+> _Not Just Warming: Diverse Regime-Dependent Temperature Trajectories in Global Lakes_
 
 分析：更抓眼球（"Not Just Warming"），但 "Not Just" 偏 journalistic。冒号后补信息性。
 
 **方向 C：响应多样性叙事**
-> *Response Diversity of Global Lake Surface Temperature to Climate Forcing: A Changepoint-Based Archetype Classification*
+
+> _Response Diversity of Global Lake Surface Temperature to Climate Forcing: A Changepoint-Based Archetype Classification_
 
 分析：更学术化，完整描述方法。"Response Diversity" 是生态学核心概念的地学借用。
 
 **方向 D：方法驱动叙事**
-> *Bayesian Changepoint Detection Reveals Heterogeneous Warming Regimes in Global Lakes*
+
+> _Bayesian Changepoint Detection Reveals Heterogeneous Warming Regimes in Global Lakes_
 
 分析：声明性标题（"Reveals"），透露了结果。可能不太适合保守型期刊。
 
@@ -313,14 +327,14 @@ Proceedings B (2024) 给出了细致的 SEO 策略：
 
 ## 五、关键方法论来源
 
-| 来源 | 核心贡献 |
-|------|----------|
-| Tullu (2019, Saudi J Anaesth) | Title + Abstract 综合写作指南；描述性/声明性/疑问性标题三分法；SPICED 框架 |
-| Eckhoff (2019, Springer Nature) | 五段式 Abstract 模板（实用操作性最强）；"Here we show" 一句概括 |
-| Mack (2018, SPIE) | 五要素 Abstract（Background/Aim/Approach/Results/Conclusions）；Abstract Checklist |
-| Proceedings B (2024) | 大规模实证调查（230 期刊、5323 篇论文）；关键词分布策略；92% 冗余发现 |
-| UW-Madison Writing Center | 时态规则的三学科对比（社科/人文/科学）；完整样例 |
-| UC Irvine Guide | Title 十诫（descriptive over declarative, no results, fewest words） |
+| 来源                            | 核心贡献                                                                           |
+| ------------------------------- | ---------------------------------------------------------------------------------- |
+| Tullu (2019, Saudi J Anaesth)   | Title + Abstract 综合写作指南；描述性/声明性/疑问性标题三分法；SPICED 框架         |
+| Eckhoff (2019, Springer Nature) | 五段式 Abstract 模板（实用操作性最强）；"Here we show" 一句概括                    |
+| Mack (2018, SPIE)               | 五要素 Abstract（Background/Aim/Approach/Results/Conclusions）；Abstract Checklist |
+| Proceedings B (2024)            | 大规模实证调查（230 期刊、5323 篇论文）；关键词分布策略；92% 冗余发现              |
+| UW-Madison Writing Center       | 时态规则的三学科对比（社科/人文/科学）；完整样例                                   |
+| UC Irvine Guide                 | Title 十诫（descriptive over declarative, no results, fewest words）               |
 
 ---
 
@@ -328,13 +342,13 @@ Proceedings B (2024) 给出了细致的 SEO 策略：
 
 本文件是论文写作工具箱的收官之作，补全了以下拼图：
 
-| 已覆盖 | 本文件 | 整体 |
-|--------|--------|------|
-| Results 写作 (05-30) | **Abstract →** | 完整的论文 |
-| Discussion 写作 (05-31) | **Title →** | 写作工具箱 |
-| Methods 写作 (05-31) | 关键词策略 | |
-| Introduction 写作 (05-31) | SEO/discoverability | |
-| 叙事收敛 (05-31) | 叙事压缩到 250 词 | |
-| 科学图表设计 (05-31) | — | |
+| 已覆盖                    | 本文件              | 整体       |
+| ------------------------- | ------------------- | ---------- |
+| Results 写作 (05-30)      | **Abstract →**      | 完整的论文 |
+| Discussion 写作 (05-31)   | **Title →**         | 写作工具箱 |
+| Methods 写作 (05-31)      | 关键词策略          |            |
+| Introduction 写作 (05-31) | SEO/discoverability |            |
+| 叙事收敛 (05-31)          | 叙事压缩到 250 词   |            |
+| 科学图表设计 (05-31)      | —                   |            |
 
 Abstract 和 Title 完成后，从内容到门面的论文写作方法论链条已完整闭合。

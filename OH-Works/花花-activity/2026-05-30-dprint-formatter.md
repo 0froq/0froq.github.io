@@ -10,7 +10,7 @@ froQ 的博客 ESLint 配置中，markdown 格式化选择了 dprint 而非 Pret
 // eslint.config.mjs
 export default antfu({
   formatters: {
-    markdown: 'dprint',  // ← 这里
+    markdown: 'dprint', // ← 这里
   },
 })
 ```
@@ -22,6 +22,7 @@ export default antfu({
 ### 1. 速度：10-100x Prettier
 
 dprint 用 Rust 编写，编译为原生二进制。实测数据：
+
 - Prettier 格式化中型项目：~2.3 秒
 - dprint 相同项目：~75ms（约 30x 差距）
 - 大型代码库差距更大（可达 100x）
@@ -31,6 +32,7 @@ dprint 用 Rust 编写，编译为原生二进制。实测数据：
 ### 2. WASM 插件沙箱
 
 每个语言的格式化逻辑编译为 .wasm 文件，在沙箱中运行，无网络/文件系统访问。插件从 URL 加载：
+
 ```
 https://plugins.dprint.dev/markdown-0.18.0.wasm
 https://plugins.dprint.dev/typescript-0.93.0.wasm
@@ -43,6 +45,7 @@ https://plugins.dprint.dev/typescript-0.93.0.wasm
 ### 4. 高度可配置
 
 与 Prettier 的「opinionated, minimal config」哲学不同，dprint 允许精细调整格式化规则。Markdown 插件配置项包括：
+
 - `lineWidth`、`useTabs`、`newlineKind`
 - `textWrap`：`always` / `never` / `maintain`（保持原换行）
 - `emphasisKind`：`underscores` / `asterisks`
@@ -53,11 +56,12 @@ https://plugins.dprint.dev/typescript-0.93.0.wasm
 
 ### 5. 代码块内格式化
 
-dprint 的 Markdown 插件可以格式化 markdown 内的代码块——只需同时加载对应语言的插件。例如，加载 TypeScript + JSON 插件后，markdown 中的 ` ```ts ` 和 ` ```json ` 代码块会被自动格式化。
+dprint 的 Markdown 插件可以格式化 markdown 内的代码块——只需同时加载对应语言的插件。例如，加载 TypeScript + JSON 插件后，markdown 中的 `` ```ts `` 和 `` ```json `` 代码块会被自动格式化。
 
 ## Markdown 插件（pulldown-cmark）
 
 dprint 使用 Rust 生态的 [pulldown-cmark](https://github.com/raphlinus/pulldown-cmark) 作为 markdown 解析器。这是一个 pull-based 解析器，特点：
+
 - 100% CommonMark 兼容
 - 支持 GFM 扩展（表格、任务列表、删除线）
 - 支持 footnote、heading attributes 等
@@ -66,16 +70,16 @@ dprint 使用 Rust 生态的 [pulldown-cmark](https://github.com/raphlinus/pulld
 
 ## 与 Prettier 的对比
 
-| 维度 | dprint | Prettier |
-|------|--------|----------|
-| 语言 | Rust | JavaScript |
-| 速度 | 10-100x | 基线 |
-| 依赖 | 0（单二进制） | 20MB+ npm |
-| 可配置性 | 高 | 极低（opinionated） |
-| Markdown | pulldown-cmark | remark |
-| 代码块格式化 | 原生支持 | 需 prettier 插件 |
-| 生态成熟度 | 成长中 | 绝对成熟 |
-| 行保留策略 | 重印（同 Prettier） | 重印 |
+| 维度         | dprint              | Prettier            |
+| ------------ | ------------------- | ------------------- |
+| 语言         | Rust                | JavaScript          |
+| 速度         | 10-100x             | 基线                |
+| 依赖         | 0（单二进制）       | 20MB+ npm           |
+| 可配置性     | 高                  | 极低（opinionated） |
+| Markdown     | pulldown-cmark      | remark              |
+| 代码块格式化 | 原生支持            | 需 prettier 插件    |
+| 生态成熟度   | 成长中              | 绝对成熟            |
+| 行保留策略   | 重印（同 Prettier） | 重印                |
 
 ## Anthony Fu 的取舍
 
@@ -84,12 +88,14 @@ dprint 使用 Rust 生态的 [pulldown-cmark](https://github.com/raphlinus/pulld
 > dprint is also a great formatter that with more abilities to customize. However, it's in the same model as Prettier which reads the AST and reprints the code from scratch. This means it's similar to Prettier, which ignores the original line breaks and might also cause the inconsistent diff. So in general, we prefer to use ESLint to format and lint JavaScript/TypeScript code. Meanwhile, we do have dprint integrations for formatting other files such as .md.
 
 关键判断：
+
 - JS/TS 代码用 ESLint 自带格式化（保留原换行，diff 稳定）
 - .md 等非代码文件用 dprint（因为 ESLint 管不到，且 markdown 对 diff 稳定性要求低于代码）
 
 ## froQ 博客中的应用
 
 博客的 ESLint 配置中：
+
 - `markdown: 'dprint'` — markdown 文件用 dprint 格式化
 - `css: true` — CSS 用 Prettier
 - `html: true` — HTML 用 Prettier

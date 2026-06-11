@@ -15,7 +15,6 @@ export default defineLoader({
   ],
 
   load(): HintsData {
-    
     const fenceFile = path.join(process.cwd(), 'docs/dashboard/hints/fence.yml')
     const tipFile = path.join(process.cwd(), 'docs/dashboard/hints/tip.yml')
 

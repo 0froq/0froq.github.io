@@ -32,12 +32,12 @@
 
 Flow 不是单一神经递质的作用，而是**顺序释放的四阶段级联**：
 
-| 阶段 | 触发条件 | 神经化学事件 |
-|------|---------|-------------|
-| 1. 挑战检测 | 任务刚好超出舒适区 | 蓝斑核释放去甲肾上腺素 → 唤醒度上升 → 注意力锐化 |
-| 2. 技能调用 | 开始执行并收到反馈 | 多巴胺持续释放 → 强化投入动机 → 窄化注意力 |
-| 3. 持续沉浸 | 长时间深度投入 | 花生四烯酰乙醇胺（anandamide）释放 → 扩大联想网络 → 抑制无关内省 → 创造力通路打开 |
-| 4. 全化学组合 | 四物同时在位 | **瞬时前额叶功能减退（transient hypofrontality）** → PFC 自我监控下线 → 进入高效低干扰运行模式 |
+| 阶段          | 触发条件           | 神经化学事件                                                                                   |
+| ------------- | ------------------ | ---------------------------------------------------------------------------------------------- |
+| 1. 挑战检测   | 任务刚好超出舒适区 | 蓝斑核释放去甲肾上腺素 → 唤醒度上升 → 注意力锐化                                               |
+| 2. 技能调用   | 开始执行并收到反馈 | 多巴胺持续释放 → 强化投入动机 → 窄化注意力                                                     |
+| 3. 持续沉浸   | 长时间深度投入     | 花生四烯酰乙醇胺（anandamide）释放 → 扩大联想网络 → 抑制无关内省 → 创造力通路打开              |
+| 4. 全化学组合 | 四物同时在位       | **瞬时前额叶功能减退（transient hypofrontality）** → PFC 自我监控下线 → 进入高效低干扰运行模式 |
 
 关键洞察：**flow 不能被 shortcut**。你不能用兴奋剂模拟多巴胺 + 抗焦虑药模拟 PFC 抑制来「制造」flow。触发必须是任务本身。级联是顺序的、挑战驱动的。
 
@@ -51,16 +51,16 @@ Flow 不是单一神经递质的作用，而是**顺序释放的四阶段级联*
 
 ### 2.1 对比矩阵
 
-| 维度 | Flow（心流） | Hyperfocus（过度专注） |
-|------|------------|---------------------|
-| **触发** | 挑战-技能平衡、清晰目标 | 新奇感、情绪强度、或纯粹兴趣 |
-| **活动类型** | 通常是技能成长型或意义型 | 可以是任何事，包括无意义的事 |
-| **掌控感** | 高——「我选择在这里」 | 低——经常感觉被强迫 |
-| **脱离** | 任务完成时自然退出 | 即使需要停止也难以脱离 |
-| **后效** | 精力充沛、满足、成长感 | 可能精力充沛，也可能疲惫不堪 |
-| **是否有成长** | 总是拉伸能力 | 不一定 |
-| **自我意识** | 消失但不丧失——inner critic 沉默 | 可能丧失到忽略身体需求（不吃饭、不上厕所） |
-| **神经化学特征** | 多巴胺+去甲肾上腺素+anandamide+内啡肽的完整级联 | 主要由多巴胺驱动，缺乏完整的调节级联 |
+| 维度             | Flow（心流）                                    | Hyperfocus（过度专注）                     |
+| ---------------- | ----------------------------------------------- | ------------------------------------------ |
+| **触发**         | 挑战-技能平衡、清晰目标                         | 新奇感、情绪强度、或纯粹兴趣               |
+| **活动类型**     | 通常是技能成长型或意义型                        | 可以是任何事，包括无意义的事               |
+| **掌控感**       | 高——「我选择在这里」                            | 低——经常感觉被强迫                         |
+| **脱离**         | 任务完成时自然退出                              | 即使需要停止也难以脱离                     |
+| **后效**         | 精力充沛、满足、成长感                          | 可能精力充沛，也可能疲惫不堪               |
+| **是否有成长**   | 总是拉伸能力                                    | 不一定                                     |
+| **自我意识**     | 消失但不丧失——inner critic 沉默                 | 可能丧失到忽略身体需求（不吃饭、不上厕所） |
+| **神经化学特征** | 多巴胺+去甲肾上腺素+anandamide+内啡肽的完整级联 | 主要由多巴胺驱动，缺乏完整的调节级联       |
 
 Hupfeld et al. (2019) 用 Adult Hyperfocus Questionnaire (AHQ) 和 Dispositional Flow Scale-2 (DFS-2) 做了定量对比，发现两者**仅低到中度相关**。更深层的发现是：hyperfocus 与 DFS-2 的目标、反馈、专注、控制子量表呈**负相关**——说明 hyperfocus 的深度吸收伴随着**控制感丧失**（「我可以做到任何事」的错觉），而这正是 Csikszentmihalyi 定义的 flow 的第九维度。
 
@@ -91,6 +91,7 @@ Psychology Today 上一位治疗师写道（2019）：
 > 「人们在躁狂期感觉到的强烈能量上升，常被误认为创造力的突然涌现。但这不是创造力运作的方式。一个能量充沛的人可能*感觉*自己很有创造力，有无穷的兴奋想要『把事情做完』——但这同样可能导致混乱和鲁莽的路径，而躁狂中的人会通过否认来强悍地为其辩护。」
 
 关键区分：
+
 - **躁狂能量** = 身体燃料加速燃烧。它让你*感觉*你可以写伟大的美国小说，不代表你真的能。
 - **真正的创造力** = 需要发展的技能组合 + 时间规划 + 持续学习和精炼。这只能在情绪稳定后系统性地构建。
 
@@ -143,6 +144,7 @@ Psychology Today 用一个精准的类比描述了这个悖论：
 同一项活动可以在过程中转变性质。开始是滋养的——挑战刚好、技能匹配、有清晰的下一步。但随着时间推移，多巴胺级联的平衡被打破，anandamide 耗尽，只剩下多巴胺在驱动——从 flow 滑入 hyperfocus。
 
 识别这个过渡点是关键技能。信号：
+
 - 反馈环路从「进展中」变成「停不下来」
 - 从「我想继续看看」变成「我必须继续」
 - 从「再做 10 分钟」变成「再做 10 分钟」（同一个句子，不同的语气——前者是选择，后者是央求）
@@ -156,6 +158,7 @@ Psychology Today 用一个精准的类比描述了这个悖论：
 Interpersonal and Social Rhythm Therapy 是双相障碍最有效的心理干预之一。核心思想：**通过稳定日常节律来稳定生物钟，从而预防情绪事件。**
 
 五个关键节律锚点：
+
 1. **睡眠时间**：同一时间起床比同一时间入睡更重要（因为起床时间设定昼夜节律）
 2. **进食时间**：规律的血糖水平维持稳定的能量和注意力
 3. **社交接触**：哪怕只是一个简短的互动
@@ -175,6 +178,7 @@ NAMI（National Alliance on Mental Illness）建议的方案：
 froQ 自述：「需要『小步推进』而非宏大目标来平稳过渡。」
 
 这与多个来源一致：
+
 - SELF 杂志的双相生产力指南：**从最小、最容易完成的任务开始制作待办清单**，每个完成后庆祝
 - Harvard Health：**小步骤建立势头**，允许自己为完成小事感到好
 - ADHD flow 研究：15-25 分钟是进入 flow 的门槛——第一步只需要熬过这个窗口，不是完成整个项目
@@ -186,6 +190,7 @@ froQ 自述：「需要『小步推进』而非宏大目标来平稳过渡。」
 定时器对滋养型心流是破坏性的——它打断了 flow 需要的神经化学级联。但对消耗型强迫是必需的——它是外部刹车。
 
 策略：**区分使用**。
+
 - 进入时不用定时器（它会破坏 15-25 分钟的启动窗口）
 - 启动后给自己一个「检查点」，而非「截止点」
 - 如果检测到消耗型强迫的信号，用物理中断而非意志力中断——站起来、换房间、洗个手
@@ -208,6 +213,7 @@ Meadows 的杠杆点框架也适用：**改规则优于改参数**。不是优�
 ### 6.3 知识管理的能量维度
 
 corpus 六层体系（autopsia→vigil）本身就是一个能量管理装置：
+
 - **autopsia**（亲眼审视）：高能量——主动探索、输入
 - **ingesta**（摄入）：中高能量——消化吸收
 - **neoplasma**（肿瘤增生）：中能量——连接重组
@@ -245,10 +251,10 @@ froQ 使用多个 Agent 各司其职——这不仅是分工，也是**认知负
 
 ## 参考文献线索
 
-- Csikszentmihalyi, M. (1990). *Flow: The Psychology of Optimal Experience*. Harper & Row.
-- Dietrich, A. (2003). Functional neuroanatomy of altered states of consciousness: The transient hypofrontality hypothesis. *Consciousness and Cognition*, 12(2), 231-256.
-- Hupfeld, K. E., Abagis, T. R., & Shah, P. (2019). Living "in the zone": hyperfocus in adult ADHD. *ADHD Attention Deficit and Hyperactivity Disorders*, 11, 191-208.
-- Ashinoff, B. K., & Abu-Akel, A. (2021). Hyperfocus: the forgotten frontier of attention. *Psychological Research*, 85, 1-19.
-- Miklowitz, D. J., & Johnson, S. L. (2009). Social and familial factors in the course of bipolar disorder: Basic processes and relevant interventions. *Clinical Psychology: Science and Practice*, 16(2), 281-296.
-- Kotler, S. (2014). *The Rise of Superman: Decoding the Science of Ultimate Human Performance*. New Harvest.
-- Frank, E., Swartz, H. A., & Kupfer, D. J. (2000). Interpersonal and social rhythm therapy: Managing the pace of life. *Biological Psychiatry*, 48(6), 593-604.
+- Csikszentmihalyi, M. (1990). _Flow: The Psychology of Optimal Experience_. Harper & Row.
+- Dietrich, A. (2003). Functional neuroanatomy of altered states of consciousness: The transient hypofrontality hypothesis. _Consciousness and Cognition_, 12(2), 231-256.
+- Hupfeld, K. E., Abagis, T. R., & Shah, P. (2019). Living "in the zone": hyperfocus in adult ADHD. _ADHD Attention Deficit and Hyperactivity Disorders_, 11, 191-208.
+- Ashinoff, B. K., & Abu-Akel, A. (2021). Hyperfocus: the forgotten frontier of attention. _Psychological Research_, 85, 1-19.
+- Miklowitz, D. J., & Johnson, S. L. (2009). Social and familial factors in the course of bipolar disorder: Basic processes and relevant interventions. _Clinical Psychology: Science and Practice_, 16(2), 281-296.
+- Kotler, S. (2014). _The Rise of Superman: Decoding the Science of Ultimate Human Performance_. New Harvest.
+- Frank, E., Swartz, H. A., & Kupfer, D. J. (2000). Interpersonal and social rhythm therapy: Managing the pace of life. _Biological Psychiatry_, 48(6), 593-604.

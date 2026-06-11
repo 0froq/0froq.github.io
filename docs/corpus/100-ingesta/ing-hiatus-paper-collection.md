@@ -13,5 +13,3 @@ Collections of sentences that might be useful for writing paper.
 [[toc]]
 
 #scope/work/research/warmingHiatus
-
-

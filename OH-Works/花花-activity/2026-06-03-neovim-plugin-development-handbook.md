@@ -69,6 +69,7 @@ end)
 Lua 是动态类型语言——配置场景下足够灵活，但大型项目中是隐患。用 **LuaCATS 注解** + **lua-language-server** 在 CI 中提前捕获 bug。
 
 **推荐工具链：**
+
 - [lua-language-server](https://github.com/LuaLS/lua-language-server) — 类型检查 + 自动补全
 - [lua-typecheck-action](https://github.com/marketplace/actions/lua-typecheck-action) — CI 集成
 - [luacheck](https://github.com/mpeterv/luacheck) — 额外 linting
@@ -89,6 +90,7 @@ local default_config = {
 ### 2.2 用户命令：用子命令替代扁平命令
 
 ❌ 不要这样做（污染命令命名空间）：
+
 ```
 :RocksInstall {arg}
 :RocksPrune {arg}
@@ -96,6 +98,7 @@ local default_config = {
 ```
 
 ✅ 这样做（子命令 + 自动补全）：
+
 ```
 :Rocks install {arg}
 :Rocks prune {arg}
@@ -121,6 +124,7 @@ vim.keymap.set("n", "<leader>h", "<Plug>(MyPluginAction)")
 ```
 
 `<Plug>` 映射的优势：
+
 - 支持 `expr = true` 等高级选项
 - 内置 mode 处理，同一映射在不同 mode 下行为不同
 - 可用 `hasmapto()` 检测用户是否已绑定
@@ -131,6 +135,7 @@ vim.keymap.set("n", "<leader>h", "<Plug>(MyPluginAction)")
 这是 Neovim 社区争议最大的话题之一。mrcjkb 有[详尽的论述](https://mrcjkb.dev/posts/2023-08-22-setup.html)解释为什么 `setup()` 是一种反模式。
 
 **核心论点：**
+
 - 强制 `setup()` 使插件无法开箱即用
 - 用户必须 `require` 插件才能配置，妨碍了按需加载
 - 配置和初始化应该严格分离
@@ -138,6 +143,7 @@ vim.keymap.set("n", "<leader>h", "<Plug>(MyPluginAction)")
 ✅ **推荐做法：**
 
 **方案 A**：用 `vim.g` 全局变量作为配置入口（不需要 `require` 插件即可配置）：
+
 ```lua
 -- 用户 init.lua 中（不加载插件本身）
 vim.g.my_plugin_config = {
@@ -148,6 +154,7 @@ vim.g.my_plugin_config = {
 **方案 B**：提供可选的 `setup(opts)` 函数，但仅用于覆盖默认配置，不包含初始化逻辑。初始化在 `plugin/` 脚本中自动完成。
 
 **例外情况（`setup()` 可以接受）：**
+
 - 需要兼容 Neovim ≤ 0.6
 - 插件实际是 monorepo 包含多个子插件
 - 集成的另一个插件强制要求
@@ -157,6 +164,7 @@ vim.g.my_plugin_config = {
 ❌ 不要依赖插件管理器（lazy.nvim 等）来实现按需加载——这会给用户增加不必要的开销。
 
 ✅ 利用 Neovim 的内置机制自己处理：
+
 - `plugin/` 文件中的注册代码天然轻量
 - 在命令/keymap 回调内做 `require`
 - 文件类型特定逻辑放 `ftplugin/`
@@ -224,6 +232,7 @@ end)
 ```
 
 **运行方式：**
+
 ```bash
 nvim --headless -c "PlenaryBustedDirectory tests/ {minimal_init = 'tests/minimal_init.lua'}"
 ```
@@ -235,6 +244,7 @@ nvim --headless -c "PlenaryBustedDirectory tests/ {minimal_init = 'tests/minimal
 echasnovski 专为 Neovim 插件设计的测试框架，是 mini.nvim 生态的一部分。
 
 **特性：**
+
 - 层级化测试 + hooks + 参数化 + 过滤（从当前文件/光标位置运行）
 - 子 Neovim 进程管理 + 屏幕截图测试
 - Busted 风格接口模拟
@@ -257,6 +267,7 @@ return T
 Neovim ≥ 0.9 可用 `nvim -l` 作为 Lua 解释器运行 busted 测试。
 
 **优势：**
+
 - 使用标准 Lua 测试框架
 - 利用 luarocks 管理依赖，可复现
 - 标准 `.rockspec` 声明测试依赖
@@ -264,6 +275,7 @@ Neovim ≥ 0.9 可用 `nvim -l` 作为 Lua 解释器运行 busted 测试。
 **配置：**
 
 `.busted` 文件：
+
 ```lua
 return {
   _all = {
@@ -276,6 +288,7 @@ return {
 ```
 
 `{plugin}-scm-1.rockspec`：
+
 ```lua
 rockspec_format = '3.0'
 package = 'my-plugin.nvim'
@@ -293,12 +306,12 @@ build = { type = 'builtin' }
 
 ### 选择建议
 
-| 场景 | 推荐 |
-|------|------|
-| 快速原型、小型插件 | plenary.test |
-| 需要屏幕截图测试、子进程管理 | mini.test |
-| 大型插件、追求生态标准化 | busted + luarocks |
-| 已有 plenary 依赖 | 沿用 plenary.test |
+| 场景                         | 推荐              |
+| ---------------------------- | ----------------- |
+| 快速原型、小型插件           | plenary.test      |
+| 需要屏幕截图测试、子进程管理 | mini.test         |
+| 大型插件、追求生态标准化     | busted + luarocks |
+| 已有 plenary 依赖            | 沿用 plenary.test |
 
 ---
 
@@ -307,6 +320,7 @@ build = { type = 'builtin' }
 ### 4.1 vimdoc 格式规范
 
 Neovim 帮助文档使用 vimdoc 格式。核心约定：
+
 - 标签：`*plugin-name.txt*` 定义帮助标签
 - 标题行：`*tag*` 后跟 Tab + 简短描述
 - 用 `|link|` 创建交叉引用
@@ -341,13 +355,14 @@ jobs:
       - uses: kdheepak/panvimdoc@v4.0.1
         with:
           vimdoc: ${{ github.event.repository.name }}
-          description: "A Neovim plugin for..."
+          description: A Neovim plugin for...
       - uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: "docs: auto generate vimdoc"
+          commit_message: 'docs: auto generate vimdoc'
 ```
 
 **其他选项：**
+
 - [ibhagwan/ts-vimdoc.nvim](https://github.com/ibhagwan/ts-vimdoc.nvim) — 基于 Tree-sitter Markdown parser，纯 Neovim 方案
 - [wincent/docvim](https://github.com/wincent/docvim) — Haskell 实现
 - [FooSoft/md2vim](https://github.com/FooSoft/md2vim) — Go 实现
@@ -356,12 +371,12 @@ jobs:
 
 ## 五、代码质量工具
 
-| 工具 | 用途 | CI 集成 |
-|------|------|---------|
-| [stylua](https://github.com/JohnnyMorganz/StyLua) | Lua 代码格式化 | `stylua --check .` |
-| [luacheck](https://github.com/mpeterv/luacheck) | 静态分析 + lint | `luacheck lua/` |
-| [lua-language-server](https://github.com/LuaLS/lua-language-server) | 类型检查 | `lua-language-server --check` |
-| [selene](https://github.com/Kampfkarren/selene) | 现代 Lua linter（更快） | `selene lua/` |
+| 工具                                                                | 用途                    | CI 集成                       |
+| ------------------------------------------------------------------- | ----------------------- | ----------------------------- |
+| [stylua](https://github.com/JohnnyMorganz/StyLua)                   | Lua 代码格式化          | `stylua --check .`            |
+| [luacheck](https://github.com/mpeterv/luacheck)                     | 静态分析 + lint         | `luacheck lua/`               |
+| [lua-language-server](https://github.com/LuaLS/lua-language-server) | 类型检查                | `lua-language-server --check` |
+| [selene](https://github.com/Kampfkarren/selene)                     | 现代 Lua linter（更快） | `selene lua/`                 |
 
 ### .stylua.toml 推荐配置
 
@@ -435,10 +450,10 @@ jobs:
 
 ### 6.3 发布渠道矩阵
 
-| 渠道 | 适用场景 | 工具 |
-|------|----------|------|
-| GitHub Releases | 所有用户 | release-please + tag |
-| LuaRocks | 系统级安装、依赖管理 | luarocks-tag-release |
+| 渠道                   | 适用场景              | 工具                             |
+| ---------------------- | --------------------- | -------------------------------- |
+| GitHub Releases        | 所有用户              | release-please + tag             |
+| LuaRocks               | 系统级安装、依赖管理  | luarocks-tag-release             |
 | lazy.nvim / rocks.nvim | Neovim 插件管理器社区 | 无需额外操作，天然支持 GitHub 源 |
 
 ---
@@ -467,6 +482,7 @@ jobs:
 ### 8.1 LiG.nvim 直接映射
 
 LiG.nvim 作为 Neovim 插件，本手册覆盖了其完整开发生命周期：
+
 - **结构**：`plugin/lig.lua`（轻量入口）→ `lua/lig/init.lua`（主逻辑）
 - **测试**：选择 mini.test（echasnovski 生态，与 mini.nvim 一致）或 plenary.test（社区主流）
 - **文档**：README.md → panvimdoc → `doc/lig.txt`
@@ -483,6 +499,7 @@ LiG.nvim 作为 Neovim 插件，本手册覆盖了其完整开发生命周期：
 ### 8.3 工具选择原则在插件开发中的体现
 
 froQ「工具的优雅直接关联思维的清晰」的三层含义在此找到具体实例：
+
 1. **Heidegger 层（不可见性）**：好的插件 API 让用户忘记插件存在——`<Plug>` 映射、开箱即用的默认值、不需要 `setup()` 就能工作
 2. **Extended Mind 层（可靠耦合）**：`require()` 的缓存机制、`plugin/` 的启动保证、vimdoc 的 `:help` 即时可达
 3. **Vim 语言层（认知翻译成本为零）**：子命令模式、composable mappings、buffer-local 作用域——插件的交互方式与 Vim 本身的模态语言同构

@@ -19,7 +19,7 @@ const { top, bottom } = toRefs(arrivedState)
       :un-opacity="top ? 0 : 100"
       un-items-center
       un-transition
-      un-text='stone-950 dark:stone-50'
+      un-text="stone-950 dark:stone-50"
       un-border-none
       un-rounded-full
       un-w-10
@@ -34,7 +34,7 @@ const { top, bottom } = toRefs(arrivedState)
     </button>
     <button
       :un-opacity="bottom ? 0 : 100"
-      un-text='stone-950 dark:stone-50'
+      un-text="stone-950 dark:stone-50"
       un-border-none
       un-rounded-full
       un-w-10

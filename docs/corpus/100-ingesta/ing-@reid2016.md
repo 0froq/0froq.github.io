@@ -19,4 +19,3 @@ lang: en
 - journal: Global Change Biology
 - year: 2016
 - doi: 10.1111/gcb.13106
-

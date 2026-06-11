@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { defaultDocument } from '@vueuse/core'
 import mediumZoom from 'medium-zoom'
-import {  useRoute } from 'vitepress'
+import { useRoute } from 'vitepress'
 import { nextTick, onMounted, watch } from 'vue'
 import PageContent from './components/PageContent.vue'
 import PageFooter from './components/PageFooter.vue'

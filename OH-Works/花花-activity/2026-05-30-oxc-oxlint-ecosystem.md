@@ -9,6 +9,7 @@
 **oxc**（The JavaScript Oxidation Compiler）是 VoidZero（Evan You 的公司）开发的 Rust 原生 JavaScript/TypeScript 工具链基础库。它不是面向终端用户的工具，而是一组高性能原语：parser、transformer、linter、minifier、formatter。
 
 面向终端用户的产品：
+
 - **oxlint**：Rust 原生 linter，对标 ESLint
 - **oxfmt**：Rust 原生 formatter，对标 Prettier
 - **Rolldown**：Rust 原生 bundler（基于 oxc parser），Vite 8 的 bundler 引擎
@@ -86,16 +87,19 @@ antfu/eslint-config 项目 Issue [#767](https://github.com/antfu/eslint-config/i
 两个可能的集成路径：
 
 ### 路径 A：oxlint 作为 ESLint 规则运行
+
 - 需要 oxlint 提供细粒度的程序化 JS API
 - oxlint 作为 ESLint rules 运行，加速已支持的规则
 - 保持 ESLint CLI 和 eslint-config 作为单一配置源
 
 ### 路径 B：oxlint 完全替代 ESLint
+
 - 需要 flat config 兼容（目前 `.oxlintrc.json` 不是 flat config）
 - 需要 JS Plugin API 完全兼容所有 ESLint 插件
 - 理想情况：用户无感知，直接使用现有 eslint-config
 
 关键障碍：
+
 1. **配置格式**：oxlint 用 JSON，ESLint 用 JS/TS flat config。无法共享同一份配置
 2. **JS Plugin 完整度**：alpha 阶段，性能损失大，API 覆盖不完整
 3. **Embedded languages**：TypeScript in Vue、JavaScript in Markdown、CSS in HTML——这些跨语言规则的配置在 oxlint 中还没有统一方案
@@ -110,9 +114,10 @@ Anthony Fu 的态度很务实：**不接受以失去功能为代价换取速度*
 ```js
 // eslint.config.mjs
 import antfu from '@antfu/eslint-config'
+
 export default antfu({
   unocss: true,
-  vue: true,           // ← 依赖 eslint-plugin-vue
+  vue: true, // ← 依赖 eslint-plugin-vue
   typescript: true,
   formatters: {
     markdown: 'dprint' // ← 已经 Rust 化！
@@ -122,15 +127,15 @@ export default antfu({
 
 ### 迁移可行性评估
 
-| 维度 | 现状 | 结论 |
-|------|------|------|
-| JS/TS rules | oxlint 覆盖 813 条规则，大部分 antfu config 规则已覆盖 | ✅ 可行 |
-| Type-aware rules | tsgo 8-12x 快于 typescript-eslint | ✅ 可行 |
-| Vue script | 内置 vue 插件支持 | ✅ 可行 |
-| Vue template | eslint-plugin-vue 模板规则**无法迁移** | ❌ 阻塞 |
-| UnoCSS | oxlint 无对应插件 | ❌ 缺失 |
-| Markdown linting | dprint 已处理，不需要 ESLint | ⚪ 无关 |
-| 配置格式 | antfu/eslint-config 是 JS flat config，oxlint 是 JSON | ❌ 分裂 |
+| 维度             | 现状                                                   | 结论    |
+| ---------------- | ------------------------------------------------------ | ------- |
+| JS/TS rules      | oxlint 覆盖 813 条规则，大部分 antfu config 规则已覆盖 | ✅ 可行 |
+| Type-aware rules | tsgo 8-12x 快于 typescript-eslint                      | ✅ 可行 |
+| Vue script       | 内置 vue 插件支持                                      | ✅ 可行 |
+| Vue template     | eslint-plugin-vue 模板规则**无法迁移**                 | ❌ 阻塞 |
+| UnoCSS           | oxlint 无对应插件                                      | ❌ 缺失 |
+| Markdown linting | dprint 已处理，不需要 ESLint                           | ⚪ 无关 |
+| 配置格式         | antfu/eslint-config 是 JS flat config，oxlint 是 JSON  | ❌ 分裂 |
 
 ### 推荐策略
 
@@ -159,19 +164,20 @@ oxlint (快速初筛) → ESLint + eslint-plugin-vue (模板规则 + 剩余)
 
 oxc 不是孤立现象。2025-2026 年 JavaScript 工具链正在经历系统性的 Rust 重写：
 
-| 工具 | Rust 替代 | 状态 (2026.05) | froQ 使用情况 |
-|------|-----------|----------------|---------------|
-| Linter | **oxlint** (oxc) | v1.67, Vue template 待支持 | 使用 ESLint (@antfu/eslint-config) |
-| Formatter | **dprint** / **oxfmt** (oxc) | dprint 成熟, oxfmt v0.52 | ✅ 使用 dprint |
-| Bundler | **Rolldown** (oxc) | v1.0 beta, Vite 8 引擎 | VitePress → 未来 Vite 8 |
-| CSS | **Lightning CSS** | 成熟，已集成 Vite | VitePress 内置 |
-| Parser | **oxc_parser** | 成熟，被 Rolldown/oxlint/oxfmt 共用 | 间接使用 |
-| Type Checker | **tsgo** (TypeScript 7 Go 移植) | 被 oxlint type-aware 使用 | 间接使用 |
-| All-in-one | **Biome** | v2.3, linter+formatter 成熟 | 未使用 |
+| 工具         | Rust 替代                       | 状态 (2026.05)                      | froQ 使用情况                      |
+| ------------ | ------------------------------- | ----------------------------------- | ---------------------------------- |
+| Linter       | **oxlint** (oxc)                | v1.67, Vue template 待支持          | 使用 ESLint (@antfu/eslint-config) |
+| Formatter    | **dprint** / **oxfmt** (oxc)    | dprint 成熟, oxfmt v0.52            | ✅ 使用 dprint                     |
+| Bundler      | **Rolldown** (oxc)              | v1.0 beta, Vite 8 引擎              | VitePress → 未来 Vite 8            |
+| CSS          | **Lightning CSS**               | 成熟，已集成 Vite                   | VitePress 内置                     |
+| Parser       | **oxc_parser**                  | 成熟，被 Rolldown/oxlint/oxfmt 共用 | 间接使用                           |
+| Type Checker | **tsgo** (TypeScript 7 Go 移植) | 被 oxlint type-aware 使用           | 间接使用                           |
+| All-in-one   | **Biome**                       | v2.3, linter+formatter 成熟         | 未使用                             |
 
 这个趋势的核心逻辑不是「Rust 更好」，而是 **parser 不应该用 JavaScript 写**——它是整个工具链的瓶颈。oxc 的战略意义在于：**一次解析，所有工具共用 AST**。ESLint 自己 parse 一遍，Prettier 再 parse 一遍，TypeScript 再 parse 一遍——oxc 的愿景是只 parse 一次。
 
 对于 froQ 而言：
+
 - **dprint 已上车**（markdown/HTML/CSS 格式化已 Rust 化）
 - **Vite 8 / Rolldown 自动上车**（VitePress 升级后免费获得）
 - **oxlint 待 Vue template 支持稳定后迁移**（1-2 年内）

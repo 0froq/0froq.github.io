@@ -61,12 +61,12 @@ Ghostty 内嵌 JetBrains Mono + Nerd Fonts，开箱即可用。官方文档明�
 
 ### 2.2 技术选型
 
-| 层面 | macOS | Linux |
-|------|-------|-------|
+| 层面     | macOS            | Linux                  |
+| -------- | ---------------- | ---------------------- |
 | GUI 框架 | SwiftUI + AppKit | GTK4（Zig 调用 C API） |
-| 字体渲染 | CoreText | FreeType / fontconfig |
-| GPU 渲染 | Metal | OpenGL / Vulkan |
-| 窗口管理 | 原生 NSWindow | GTK Window |
+| 字体渲染 | CoreText         | FreeType / fontconfig  |
+| GPU 渲染 | Metal            | OpenGL / Vulkan        |
+| 窗口管理 | 原生 NSWindow    | GTK Window             |
 
 ### 2.3 Zig 的选择
 
@@ -107,14 +107,14 @@ Hashimoto 在开发过程中还频繁向 Zig 编译器提交补丁——这是�
 
 以下数据来自 2026 年独立测试（MacBook Pro M3 Max + macOS 15.6）：
 
-| 指标 | Ghostty | iTerm2 | Warp | Alacritty |
-|------|---------|--------|------|-----------|
-| 冷启动 | 0.08s | 0.45s | 1.2s | ~0.05s |
-| 空闲 RAM | 45MB | 120MB | 280MB | ~30MB |
-| 滚动帧率 | 120fps | 60fps | 90fps | 120fps |
-| 输入延迟 | 1.8ms | 6ms | 8ms | ~2ms |
-| 100K 行 cat | 0.6s | 1.8s | 2.3s | ~0.5s |
-| Neovim 启动 | 0.15s | 0.3s | 0.4s | ~0.12s |
+| 指标        | Ghostty | iTerm2 | Warp  | Alacritty |
+| ----------- | ------- | ------ | ----- | --------- |
+| 冷启动      | 0.08s   | 0.45s  | 1.2s  | ~0.05s    |
+| 空闲 RAM    | 45MB    | 120MB  | 280MB | ~30MB     |
+| 滚动帧率    | 120fps  | 60fps  | 90fps | 120fps    |
+| 输入延迟    | 1.8ms   | 6ms    | 8ms   | ~2ms      |
+| 100K 行 cat | 0.6s    | 1.8s   | 2.3s  | ~0.5s     |
+| Neovim 启动 | 0.15s   | 0.3s   | 0.4s  | ~0.12s    |
 
 ### 吞吐量对比
 
@@ -173,12 +173,12 @@ keybind = trigger=action
 
 支持修饰键前缀：
 
-| 前缀 | 含义 |
-|------|------|
-| `global:` | 全局快捷键（macOS 需辅助功能权限） |
-| `all:` | 应用于所有终端 surface |
-| `unconsumed:` | 不消费输入，同时发送到终端内程序 |
-| `performable:` | 仅在动作可执行时消费输入 |
+| 前缀           | 含义                               |
+| -------------- | ---------------------------------- |
+| `global:`      | 全局快捷键（macOS 需辅助功能权限） |
+| `all:`         | 应用于所有终端 surface             |
+| `unconsumed:`  | 不消费输入，同时发送到终端内程序   |
+| `performable:` | 仅在动作可执行时消费输入           |
 
 **Key Tables**（v1.3.0，2025-12）：命名的快捷键集合，支持栈式激活/停用。这是实现"vi mode / copy mode"等模态操作的基础设施。
 
@@ -259,6 +259,7 @@ keybind = ctrl+alt+l=goto_split:right
 ### 5.7 Shell 集成
 
 自动注入 shell 集成（bash / zsh / fish / elvish / nushell），支持：
+
 - 工作目录报告
 - 光标位置追踪
 - sudo 检测
@@ -280,19 +281,19 @@ keybind = ctrl+alt+l=goto_split:right
 
 ### 6.1 五维对比
 
-| 维度 | Ghostty | Alacritty | Kitty | WezTerm | iTerm2 |
-|------|---------|-----------|-------|---------|--------|
-| **语言** | Zig | Rust | C + Python | Rust | Obj-C |
-| **渲染** | Metal / Vulkan | OpenGL | OpenGL | wgpu (多后端) | Metal (v3.5+) |
-| **GUI** | SwiftUI + GTK4 | 无（纯窗口） | 自绘 | 自绘 | AppKit |
-| **原生感(macOS)** | ★★★★★ | ★★ | ★★ | ★★★ | ★★★★★ |
-| **配置** | key=value | TOML | conf 格式 | Lua 脚本 | GUI + plist |
-| **分屏/标签** | ✅ | ❌ | ✅ | ✅ | ✅ |
-| **图形协议** | Kitty + Sixel | ❌ | Kitty(自有) | 全支持 | iTerm2 |
-| **插件/扩展** | ❌ | ❌ | Kittens(Py) | Lua 脚本 | Python API |
-| **SSH 集成** | 基础 | ❌ | kitten 深度 | 内建 mux | tmux 集成 |
-| **内存(idle)** | ~45MB | ~30MB | ~80MB | ~320MB | ~120MB |
-| **启动速度** | 极快 | 极快 | 快 | 中 | 中 |
+| 维度              | Ghostty        | Alacritty    | Kitty       | WezTerm       | iTerm2        |
+| ----------------- | -------------- | ------------ | ----------- | ------------- | ------------- |
+| **语言**          | Zig            | Rust         | C + Python  | Rust          | Obj-C         |
+| **渲染**          | Metal / Vulkan | OpenGL       | OpenGL      | wgpu (多后端) | Metal (v3.5+) |
+| **GUI**           | SwiftUI + GTK4 | 无（纯窗口） | 自绘        | 自绘          | AppKit        |
+| **原生感(macOS)** | ★★★★★          | ★★           | ★★          | ★★★           | ★★★★★         |
+| **配置**          | key=value      | TOML         | conf 格式   | Lua 脚本      | GUI + plist   |
+| **分屏/标签**     | ✅             | ❌           | ✅          | ✅            | ✅            |
+| **图形协议**      | Kitty + Sixel  | ❌           | Kitty(自有) | 全支持        | iTerm2        |
+| **插件/扩展**     | ❌             | ❌           | Kittens(Py) | Lua 脚本      | Python API    |
+| **SSH 集成**      | 基础           | ❌           | kitten 深度 | 内建 mux      | tmux 集成     |
+| **内存(idle)**    | ~45MB          | ~30MB        | ~80MB       | ~320MB        | ~120MB        |
+| **启动速度**      | 极快           | 极快         | 快          | 中            | 中            |
 
 ### 6.2 选择逻辑
 
@@ -314,25 +315,27 @@ Ghostty 在 Alacritty 的简洁和 Kitty 的功能之间找到了一个独特的
 
 froQ 的工具链中，Ghostty 是终端模拟器，Zellij 是 multiplexer。这两个角色有重叠——两者都提供分屏和标签页——但设计哲学不同：
 
-| 层面 | Ghostty | Zellij |
-|------|---------|--------|
-| 分屏 | 应用级，GUI 原生渲染 | 终端级，字符网格模拟 |
-| 标签页 | 原生 macOS 标签 | TUI 标签栏 |
-| 持久化 | 窗口关闭即丢失 | 会话可 detach/attach |
-| 远程 | 不支持 | 可通过 SSH 远程 attach |
-| 性能 | GPU 加速渲染 | 每个窗格独立 PTY |
+| 层面   | Ghostty              | Zellij                 |
+| ------ | -------------------- | ---------------------- |
+| 分屏   | 应用级，GUI 原生渲染 | 终端级，字符网格模拟   |
+| 标签页 | 原生 macOS 标签      | TUI 标签栏             |
+| 持久化 | 窗口关闭即丢失       | 会话可 detach/attach   |
+| 远程   | 不支持               | 可通过 SSH 远程 attach |
+| 性能   | GPU 加速渲染         | 每个窗格独立 PTY       |
 
 **推荐分工**：用 Zellij 管理会话生命周期（detach / attach / 布局持久化），Ghostty 原生分屏用于临时快速操作。如果只用 Ghostty 原生分屏而不使用 Zellij，会失去 detach/attach 能力；反过来，如果完全依赖 Zellij 的分屏，也不会损失太多——Ghostty 的 GPU 加速同样作用于 Zellij 窗格内的文本渲染。
 
 ### 7.2 已知键位冲突
 
 （在之前的 Zellij 分析中已详细讨论）
+
 - **Option+Arrow → Alt 陷阱**：Ghostty 默认将 Option 映射为 Alt，Zellij 用 Alt+Arrow 做窗格导航。如果 Ghostty 消费了 Alt+Arrow 但发给了终端内的程序而非 Zellij，会导致窗格切换失效。
 - **解决方案**：`macos-option-as-alt = true`（仅左 Option 或仅右 Option）或使用 Ghostty 的 `key-remap` 功能（v1.4.0+）重映射修饰键。
 
 ### 7.3 Neovim 体验
 
 Ghostty 对 Neovim 用户非常友好：
+
 - 120fps 滚动使得语法高亮文件浏览完全流畅
 - `background-opacity-cells = true` 确保 Neovim 配色与终端透明层正确叠加
 - Kitty Keyboard Protocol 支持（可选启用）让组合键更精确

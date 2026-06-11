@@ -34,4 +34,3 @@ last_modified: 2026-06-03 19:46:36
 
 很难做出语义的区分，各个 treesitter parser 实现得天差地别，
 而且和 textmate 差别过大。
-

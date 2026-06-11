@@ -1,9 +1,9 @@
-run_id: "2026-04-07T10-11-00+08-00"
-window_type: "daily"
-window_id: "2026-04-03"
-status: "pass"
+run_id: '2026-04-07T10-11-00+08-00'
+window_type: daily
+window_id: 2026-04-03
+status: pass
 blocking: false
 issues_open: 0
 has_high_severity: false
-proof_hash: "daytodo-20260403-end-pass"
-created_at: "2026-04-07T10:11:00+08:00"
+proof_hash: daytodo-20260403-end-pass
+created_at: '2026-04-07T10:11:00+08:00'

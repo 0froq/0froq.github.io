@@ -26,13 +26,13 @@
 
 ### 1.2 Geographic CRS（地理坐标系）vs Projected CRS（投影坐标系）
 
-| | Geographic CRS | Projected CRS |
-|---|---|---|
-| 坐标单位 | 角度（度） | 长度（米） |
-| 坐标范围 | lat [-90, 90], lon [-180, 180] | 依投影而定 |
-| 典型 EPSG | 4326 (WGS84) | 3857 (Web Mercator), 326xx (UTM) |
-| 用途 | 存储、交换、GPS | 测距、算面积、制图显示 |
-| 本质 | 球面上的位置 | 平面上的位置 |
+|           | Geographic CRS                 | Projected CRS                    |
+| --------- | ------------------------------ | -------------------------------- |
+| 坐标单位  | 角度（度）                     | 长度（米）                       |
+| 坐标范围  | lat [-90, 90], lon [-180, 180] | 依投影而定                       |
+| 典型 EPSG | 4326 (WGS84)                   | 3857 (Web Mercator), 326xx (UTM) |
+| 用途      | 存储、交换、GPS                | 测距、算面积、制图显示           |
+| 本质      | 球面上的位置                   | 平面上的位置                     |
 
 一句口诀：**数据用 Geographic 存，分析用 Projected 算，展示按需投影**。
 
@@ -58,11 +58,13 @@ WGS84 是全球数据交换的 lingua franca。存数据永远用 WGS84。
 - EPSG 官方名称：WGS 84 / Pseudo-Mercator，因为官方不认可其数学正确性
 
 **Web Mercator 的致命缺陷**：
+
 - 面积随纬度严重失真（格陵兰 ≈ 非洲大小）
 - 距离在高纬度被拉伸
 - 极点附近（|lat| > 85.06°）完全不可用
 
 **使用原则**：
+
 - 永远不要在 Web Mercator 中计算面积或距离
 - 数据显示 → Web Mercator 可以，但要知道你看到的是扭曲的
 - 数据分析 → 用等面积投影或 UTM
@@ -76,10 +78,12 @@ WGS84 是全球数据交换的 lingua franca。存数据永远用 WGS84。
 - EPSG: 北半球 32601-32660，南半球 32701-32760
 
 **UTM 选择**：
+
 - 南京（118.8°E）→ UTM Zone 50N (EPSG:32650)
 - 研究区跨多带 → 选包含数据最多的带，或用等面积投影
 
 **UTM 的局限**：
+
 - 跨 Zone 边界数据有 10-15% 误差
 - 极地（>84°N 或 >80°S）用 UPS（Universal Polar Stereographic）替代
 
@@ -89,13 +93,13 @@ WGS84 是全球数据交换的 lingua franca。存数据永远用 WGS84。
 
 在面积相关的分析中（湖泊面积变化、冰盖范围、森林覆盖），必须用等面积投影。TM/UTM 是保角的，面积误差随距离中心经线增大而增大。
 
-| 投影 | 类型 | 适用场景 | EPSG 示例 |
-|---|---|---|---|
-| Albers Equal-Area Conic | 圆锥等面积 | 中纬度东西延伸区域 | ESRI:102003 (USA) |
-| Sinusoidal | 伪圆柱等面积 | 全球栅格数据 | MODIS 默认投影 |
-| Mollweide | 伪圆柱等面积 | 全球专题图 | ESRI:54009 |
-| Equal Earth | 伪圆柱等面积 | 全球专题图（2018 年改进版） | EPSG:8857 |
-| Lambert Azimuthal Equal-Area | 方位等面积 | 极地、半球 | EPSG:3035 (ETRS89-LAEA Europe) |
+| 投影                         | 类型         | 适用场景                    | EPSG 示例                      |
+| ---------------------------- | ------------ | --------------------------- | ------------------------------ |
+| Albers Equal-Area Conic      | 圆锥等面积   | 中纬度东西延伸区域          | ESRI:102003 (USA)              |
+| Sinusoidal                   | 伪圆柱等面积 | 全球栅格数据                | MODIS 默认投影                 |
+| Mollweide                    | 伪圆柱等面积 | 全球专题图                  | ESRI:54009                     |
+| Equal Earth                  | 伪圆柱等面积 | 全球专题图（2018 年改进版） | EPSG:8857                      |
+| Lambert Azimuthal Equal-Area | 方位等面积   | 极地、半球                  | EPSG:3035 (ETRS89-LAEA Europe) |
 
 实际案例：PMC 研究（2013）显示，1,000 ha 地块在 UTM（6° 带）中面积误差可达 6,000 m²，在 Albers 等面积投影中小于 1 m²。对于全球尺度的湖泊温度分析，面积计算不是核心，但如果要计算湖面面积、冰盖范围、或验证数据覆盖度——**必须用等面积投影**。
 
@@ -106,12 +110,14 @@ WGS84 是全球数据交换的 lingua franca。存数据永远用 WGS84。
 ERA5 的空间参考来自 ECMWF 官方文档，有几个关键点：
 
 ### 4.1 原生数据格式
+
 - ERA5 在 ECMWF 内部以 spectral coefficients（谱系数）或 reduced Gaussian grid（N320）存储
 - 下载时转为 NetCDF → **自动插值到 0.25° × 0.25° 规则经纬度网格**
 - 坐标系统：Decimal Degrees, lat/lon, 基于 WGS84 datum
 - 纬度范围 [-90, +90]，经度范围 [0, 360]（部分软件自动显示为 [-180, +180]）
 
 ### 4.2 网格约定 —— silent gotcha
+
 ERA5 的 0.25° 网格有精确的像素排列约定：
 
 ```
@@ -120,13 +126,16 @@ bottom right 数据点：Lon = 360° - r = 359.75°, Lat = -90°
 ```
 
 这意味着**每个数据点是网格中心点（centroid），坐标就是整数 0.25° 的倍数**：
+
 - (0.00°, 90.00°), (0.25°, 90.00°), ... (359.75°, -90.00°)
 - 共 1440 × 721 = 1,038,240 个格点
 
 当用 raster 包读取时，extent 可能显示为 `-0.125, 359.875, -90.125, 90.125`——这是网格单元角点的坐标，不是数据点坐标。理解这个约定对数据分析和可视化至关重要。
 
 ### 4.3 与湖泊数据对接
+
 hiatus 项目中，ERA5 的 0.25° 格点需要与具体湖泊位置对接：
+
 - ESA CCI Lakes 数据集采用 WGS84
 - 湖泊多边形（shapefile/GeoJSON）→ 提取对应格点的时间序列
 - **空间分辨率 0.25° ≈ 27.8 km（赤道）**→ 一个小湖可能只落在 1-2 个格点上
@@ -159,6 +168,7 @@ GDAL（Geospatial Data Abstraction Library）是读写、转换、处理几乎�
 - 格式支持：NetCDF/HDF5/GeoTIFF/GeoJSON/Shapefile/GPKG/...
 
 **hiatus 项目中的典型使用场景**：
+
 ```bash
 # 从 ERA5 NetCDF 中提取子区域并重投影
 gdalwarp -t_srs EPSG:32650 -te <xmin> <ymin> <xmax> <ymax> \
@@ -196,15 +206,15 @@ Python 侧用 rasterio / rioxarray 更自然，但底层调用的是同一个 PR
 
 ### 6.2 hiatus 项目的推荐投影策略
 
-| 任务 | 推荐 CRS | EPSG |
-|---|---|---|
-| 数据存储与交换 | WGS84 | 4326 |
-| 全球湖泊分布图（显示） | Equal Earth 或 Robinson | 8857 / ESRI:54030 |
-| 区域放大图（某一大陆） | 对应 UTM Zone 或 Albers | 326xx / 自定义 |
-| 面积相关分析（冰盖范围等） | 等面积投影 | Mollweide 或 Sinusoidal |
-| 湖泊-格点对应（空间连接） | WGS84（避免重投影误差） | 4326 |
-| 距离/相邻关系计算 | 对应 UTM Zone | 326xx |
-| 论文最终地图 | 按期刊规范 | 查询期刊 author guidelines |
+| 任务                       | 推荐 CRS                | EPSG                       |
+| -------------------------- | ----------------------- | -------------------------- |
+| 数据存储与交换             | WGS84                   | 4326                       |
+| 全球湖泊分布图（显示）     | Equal Earth 或 Robinson | 8857 / ESRI:54030          |
+| 区域放大图（某一大陆）     | 对应 UTM Zone 或 Albers | 326xx / 自定义             |
+| 面积相关分析（冰盖范围等） | 等面积投影              | Mollweide 或 Sinusoidal    |
+| 湖泊-格点对应（空间连接）  | WGS84（避免重投影误差） | 4326                       |
+| 距离/相邻关系计算          | 对应 UTM Zone           | 326xx                      |
+| 论文最终地图               | 按期刊规范              | 查询期刊 author guidelines |
 
 ---
 
@@ -242,5 +252,5 @@ Python 侧用 rasterio / rioxarray 更自然，但底层调用的是同一个 PR
 - ECMWF Confluence: ERA5 Spatial Reference
 - PROJ 9.8 Documentation (proj.org)
 - GDAL NetCDF Driver Documentation
-- Usery & Seong (2001): All equal-area map projections are created equal, but some are more equal than others. *Cartography and Geographic Information Science*, 28(3), 183-193.
+- Usery & Seong (2001): All equal-area map projections are created equal, but some are more equal than others. _Cartography and Geographic Information Science_, 28(3), 183-193.
 - PMC 3790990: Selecting Map Projections in Minimizing Area Distortions in GIS Applications

@@ -37,6 +37,7 @@ save_plot_pdf_png() → 同时输出 PDF + PNG
 **优势**：Plots.jl 生态成熟、文档丰富、TTFP（Time To First Plot）优于 Makie（~1.3s vs ~3.6s）、GR backend 渲染稳定。
 
 **劣势**：
+
 - GR backend 对 PDF 透明背景存在已知 bug（opacity 不一致，#4992）
 - 字体控制自由度有限（依赖 GR 的 fontconfig 查找路径）
 - 布局系统不如 Makie 的 GridLayout 灵活（复杂多面板需要更多手工拼接）
@@ -70,17 +71,18 @@ Makie.jl (核心抽象层)
 
 **与 Plots.jl + GR 的 PDF 输出对比**：
 
-| 维度 | Plots.jl + GR | CairoMakie |
-|------|-------------|------------|
-| 字体嵌入 | 依赖 fontconfig，可能缺失 | FreeType 直接渲染，完整嵌入 |
-| 透明背景 | 有已知 bug | 稳定支持 |
-| 图层栅格化控制 | 全有或全无 | 逐图层 `rasterize` |
-| 数学公式 | 需 LaTeXStrings.jl | 原生 MathTeXEngine + 未来 TypstEngine |
-| 布局复杂度 | 有限的 subplot grid | 任意嵌套 GridLayout |
+| 维度           | Plots.jl + GR             | CairoMakie                            |
+| -------------- | ------------------------- | ------------------------------------- |
+| 字体嵌入       | 依赖 fontconfig，可能缺失 | FreeType 直接渲染，完整嵌入           |
+| 透明背景       | 有已知 bug                | 稳定支持                              |
+| 图层栅格化控制 | 全有或全无                | 逐图层 `rasterize`                    |
+| 数学公式       | 需 LaTeXStrings.jl        | 原生 MathTeXEngine + 未来 TypstEngine |
+| 布局复杂度     | 有限的 subplot grid       | 任意嵌套 GridLayout                   |
 
 ### 2.2 GLMakie：交互式探索
 
 对数据分析阶段（非出版输出）有价值：
+
 - GPU 加速渲染大数据集（9.2 万湖泊 × 35 年月尺度）
 - 交互式缩放、旋转（3D 地形可视化）
 - 实时 slider 参数调整
@@ -97,6 +99,7 @@ hiatus 项目是全球湖泊温度分析，涉及地图投影。GeoMakie 提供�
 - CairoMakie 下推荐 `image!` / `heatmap!`；GLMakie 下推荐 `surface!`
 
 **与 hiatus 当前地图制图的关系**：当前 fig-01、fig-02 是全球湖泊分布/断点地图。如果用 GeoMakie，可以：
+
 - 使用更合理的地图投影（Equal Earth、Robinson）替代简单经纬度网格
 - 自动处理经纬度 180° 边界循环（当前可能需手动 circshift）
 - 叠加地理参照（海岸线、湖泊边界）
@@ -104,6 +107,7 @@ hiatus 项目是全球湖泊温度分析，涉及地图投影。GeoMakie 提供�
 ### 2.4 MakiePublication.jl：期刊模板
 
 提供预配置的出版主题，对应主要期刊/出版社：
+
 - `theme_acs`：American Chemical Society
 - `theme_aps`：American Physical Society / AIP（四边刻度）
 - `theme_rsc`：Royal Society of Chemistry
@@ -115,12 +119,14 @@ hiatus 项目是全球湖泊温度分析，涉及地图投影。GeoMakie 提供�
 ### 2.5 MakieTypstEngine.jl：Typst 字符串渲染
 
 PoC 阶段（2025-10 JuliaCon hackathon 产物），但方向极其契合：
+
 - 通过 Typstry.jl 将 Typst 字符串传入 Makie
 - 绕过 MathTeXEngine 的 LaTeX 渲染限制
 - 直接在图表内使用 Typst 排版（标题、轴标签、注释）
 - 实现图表与论文正文的**字体/排版一致性**
 
 目前限制：
+
 - 需要本地 Rust/Cargo 编译 Typst wrapper
 - 字体 glyph 索引对齐仍不稳定（NewComputerModern 有乱序问题）
 - API 感觉 over-engineered，需重构
@@ -131,6 +137,7 @@ PoC 阶段（2025-10 JuliaCon hackathon 产物），但方向极其契合：
 ### 2.6 v0.24 关键变化：Compute Graphs 替代 Observables
 
 v0.24 将内部响应式系统从 Observables.jl 迁移到 ComputePipeline.jl：
+
 - 多属性同步更新（之前多个 Observables 各自触发 → 中间冗余计算）
 - 消除了 "multiple updates conundrum"
 - 对用户代码影响小，但大幅提升复杂图表更新性能
@@ -138,6 +145,7 @@ v0.24 将内部响应式系统从 Observables.jl 迁移到 ComputePipeline.jl：
 ### 2.7 即将到来：Complex Recipes
 
 JuliaCon 2026 预告的新功能：
+
 - 现有 `@recipe` 宏定位为低级构建块，不支持多轴场景
 - Complex Recipes 将原生支持：自动 legend、colorbars、UI 元素
 - 解决 "how do I simply add an axis title to my recipe" 这个经典痛点
@@ -148,14 +156,14 @@ JuliaCon 2026 预告的新功能：
 
 ### 3.1 何时值得迁移
 
-| 信号 | 权重 |
-|------|------|
-| 需要 PDF 矢量输出且 GR 的透明/字体问题不可接受 | 高 |
-| 需要复杂多面板布局（>4 个子图，嵌套 grid） | 高 |
-| 需要交互式数据探索（缩放、旋转 3D） | 中 |
-| 需要地图投影（非简单经纬度网格） | 中 |
-| 需要 Typst 字体一致性（图表 = 论文正文字体） | 低（MakieTypstEngine 尚未成熟） |
-| 已有大规模 Plots.jl 代码库且输出质量可接受 | 不迁移 |
+| 信号                                           | 权重                            |
+| ---------------------------------------------- | ------------------------------- |
+| 需要 PDF 矢量输出且 GR 的透明/字体问题不可接受 | 高                              |
+| 需要复杂多面板布局（>4 个子图，嵌套 grid）     | 高                              |
+| 需要交互式数据探索（缩放、旋转 3D）            | 中                              |
+| 需要地图投影（非简单经纬度网格）               | 中                              |
+| 需要 Typst 字体一致性（图表 = 论文正文字体）   | 低（MakieTypstEngine 尚未成熟） |
+| 已有大规模 Plots.jl 代码库且输出质量可接受     | 不迁移                          |
 
 ### 3.2 迁移成本
 
@@ -168,6 +176,7 @@ JuliaCon 2026 预告的新功能：
 ### 3.3 混合策略
 
 不一定要全量迁移。可以：
+
 - **探索性分析**：GLMakie（交互式看图，验证断点检测）
 - **出版图表**：CairoMakie（矢量 PDF 输出）
 - **快速原型**：保留 Plots.jl（TTFP 优势）

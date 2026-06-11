@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted, watch, computed } from 'vue'
-import type { Data, Config, Layout } from 'plotly.js'
-import { useChartTheme, defaultConfig } from '~/utils/chartTheme'
+import type { Config, Data, Layout } from 'plotly.js'
+import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
+import { defaultConfig, useChartTheme } from '~/utils/chartTheme'
 import { deepMerge } from '~/utils/deepMerge'
 
 interface Props {
@@ -35,7 +35,8 @@ const mergedConfig = computed<Partial<Config>>(() => {
 })
 
 async function initPlotly() {
-  if (!chartRef.value || typeof window === 'undefined') return
+  if (!chartRef.value || typeof window === 'undefined')
+    return
 
   const module = await import('plotly.js-dist-min')
   Plotly.value = module.default
@@ -49,7 +50,8 @@ async function initPlotly() {
 }
 
 function updateChart() {
-  if (!Plotly.value || !chartRef.value) return
+  if (!Plotly.value || !chartRef.value)
+    return
   Plotly.value.react(
     chartRef.value,
     props.data,
@@ -76,7 +78,10 @@ watch(isDark, () => {
 </script>
 
 <template>
-  <div ref="chartRef" class="plotly-chart" />
+  <div
+    ref="chartRef"
+    class="plotly-chart"
+  />
 </template>
 
 <style scoped>

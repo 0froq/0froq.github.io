@@ -65,19 +65,25 @@
 ## 跨领域连接点
 
 ### 1. 工具链 Rust 化浪潮
+
 dprint（Rust 格式化）→ oxlint（Rust lint）→ Rolldown（Rust bundler，Vite 8 内建）→ Lightning CSS（Rust CSS）→ tsgo（Rust type-checking）。这是整个 JavaScript 生态的结构性迁移，froQ 已通过 dprint 和 Vite 8 自动上车。
 
 ### 2. 终端三角的分工哲学
+
 Ghostty（终端模拟，Zig 核心，专注渲染）→ Zellij（multiplexer，Rust 多进程，专注会话管理）→ Neovim（编辑器，Lua 配置，专注编辑）。三者在 froQ 工作流中边界清晰，各司其职。Ghostty 的 libghostty-vt 可能成为基础设施层标准。
 
 ### 3. 「异质化命名制造认知距离」
+
 这是贯穿 froQ 系统的设计原则：
+
 - corpus 六层拉丁语命名：用病理过程隐喻知识处理
 - UnoCSS 字体语义倒置：宋体→sans，手写→serif，打破西文排版惯例
 - 本质相同：用陌生化制造认知张力，防止滑入无意识的默认思维
 
 ### 4. 博客技术栈完整性
+
 经过 5 月 28-30 日的分析，博客的技术栈分析已覆盖全部层次：
+
 - 内容层（corpus 六层 + posts 三层 + frontmatter schema）
 - 渲染层（Comark + markdown-it 插件链 + Shiki Twoslash）
 - 数据层（9 个 data loader + Dashboard YAML 体系 + 标签系统）
@@ -98,13 +104,13 @@ Ghostty（终端模拟，Zig 核心，专注渲染）→ Zellij（multiplexer，
 
 ## 与前日的对比
 
-| 维度 | 5月28日 | 5月30日 |
-|------|---------|---------|
-| 轮次 | 10 轮 | 22 轮 |
-| 主题域 | 3 域（hiatus 方法论→Typst→博客） | 4 域（博客→工具链→创意→学术写作） |
-| hiatus 占比 | 60% | 5%（仅 Julia 可视化+科学配色+学术写作） |
-| 博客占比 | 30% | 40% |
-| 新领域 | Typst | MCP、Zellij、Ghostty、dprint、bumpp、oxlint、字体设计 |
-| 深度最高 | Cahill 方法论逐段对比论文 #gap() | 博客架构六层全栈分析 |
+| 维度        | 5月28日                          | 5月30日                                               |
+| ----------- | -------------------------------- | ----------------------------------------------------- |
+| 轮次        | 10 轮                            | 22 轮                                                 |
+| 主题域      | 3 域（hiatus 方法论→Typst→博客） | 4 域（博客→工具链→创意→学术写作）                     |
+| hiatus 占比 | 60%                              | 5%（仅 Julia 可视化+科学配色+学术写作）               |
+| 博客占比    | 30%                              | 40%                                                   |
+| 新领域      | Typst                            | MCP、Zellij、Ghostty、dprint、bumpp、oxlint、字体设计 |
+| 深度最高    | Cahill 方法论逐段对比论文 #gap() | 博客架构六层全栈分析                                  |
 
 今日覆盖广度远超 28 日——从 MCP 协议到字体设计，从终端模拟器到开源贡献战略，形成了 froQ 完整技术栈的知识地图。

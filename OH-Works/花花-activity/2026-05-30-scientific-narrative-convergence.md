@@ -14,7 +14,7 @@
 
 ### 1. Thesis First（先找到那句话）
 
-Drake & Han (2025, *PLOS Comp Biol*) 的 15 步法中，第 1 步就是：
+Drake & Han (2025, _PLOS Comp Biol_) 的 15 步法中，第 1 步就是：
 
 > **What is the main point of your study? Write it as a short declarative sentence.**
 
@@ -28,7 +28,7 @@ Claes Bäckman (2026, Substack) 给出了更犀利的版本：
 - **Message**（信息）= 你希望读者放下论文一年后还记得的那句话。**在整个项目生命周期中持续迭代**，不是最后擦亮的表面功夫。
 - 好的论文并非「先有好想法，再写好信息」的线性过程。**倒过来写**：先写出 message，它会告诉你哪些回归该跑、哪些扩展是干扰、60% 的内容该进附录。
 
-Drake & Han 举了一个好例子：*"Dose-dependent interaction of parasites with tiers of host defense predicts wormholes that prolong infection at intermediate inoculum sizes"*。有主语（interaction）、有谓语（predicts）、划定了现象范围（duration of infection）。一句话确定整个论文的指向。
+Drake & Han 举了一个好例子：_"Dose-dependent interaction of parasites with tiers of host defense predicts wormholes that prolong infection at intermediate inoculum sizes"_。有主语（interaction）、有谓语（predicts）、划定了现象范围（duration of infection）。一句话确定整个论文的指向。
 
 ### 2. Two-Part Narrative Arc（两段式叙事弧）
 
@@ -37,12 +37,13 @@ Drake & Han 的核心结构原则：
 > The centerpiece of the narrative should consist of **two parts**. One part = too simple (or unpublishable). Three or more parts = too complicated to remember.
 
 常见的两段式组合：
-| Part 1 | Part 2 |
-|---|---|
-| Model/Theory | Empirical test / Experiment |
-| Observational study | Meta-analysis |
-| General theory | Applied case study |
-| **Detection** | **Classification** |
+
+| Part 1              | Part 2                      |
+| ------------------- | --------------------------- |
+| Model/Theory        | Empirical test / Experiment |
+| Observational study | Meta-analysis               |
+| General theory      | Applied case study          |
+| **Detection**       | **Classification**          |
 
 最后一个恰好对应 hiatus 项目的自然结构：**断点检测 → 响应原型分类**。
 
@@ -66,6 +67,7 @@ Whewell (1840) 的概念，后来被 E.O. Wilson 推广：
 > 多条独立证据线指向同一结论时，该结论的可信度超过任何单条证据线所能赋予的。
 
 这对 hiatus 论文至关重要。你的证据线包括：
+
 - 卫星 LSWT 数据
 - 原位观测数据
 - 区域气候再分析数据（气温、辐射）
@@ -101,6 +103,7 @@ ASCB 写作指南用了一个精彩的类比：
 两个段落，每个段落的核心动作是什么？
 
 对 hiatus 项目可能是：
+
 - Part 1: 检测断点，证明湖泊变暖不是单调的，而是存在结构断点
 - Part 2: 对断点前后的行为变化进行分类，揭示湖泊对气候变异的响应存在可识别的原型
 
@@ -121,6 +124,7 @@ ASCB 写作指南用了一个精彩的类比：
 ### Step 5: 用 CARS 模型框定叙事空间
 
 Swales 的 CARS (Create A Research Space) 模型，三步走：
+
 1. **Establish a territory**：这个领域已知什么
 2. **Create a niche**：缺什么、哪里不对、哪里没看过
 3. **Occupy the niche**：我们做了什么、发现了什么
@@ -159,26 +163,26 @@ The Scientist 的 convince 阶段特别强调：
 
 ## 对 hiatus 论文的直接映射
 
-| 叙事要素 | hiatus 论文对应 |
-|---|---|
+| 叙事要素                             | hiatus 论文对应                                                            |
+| ------------------------------------ | -------------------------------------------------------------------------- |
 | Thesis ("this paper shows that ___") | 湖泊对全球变暖 hiatus 的响应不是均质的，而是存在可识别的时间断点和行为原型 |
-| Two-part arc Part 1 | 约束断点检测（demonstrate structural breaks exist） |
-| Two-part arc Part 2 | 响应原型分类（classify and interpret the archetypes） |
-| Consilience 证据线 | 卫星 + 原位 + 气候再分析 + 多方法交叉验证 |
-| CARS Move 1 (territory) | 湖泊变暖已有大量证据；hiatus 期间变暖减缓有争议 |
-| CARS Move 2 (niche) | 但湖泊层面的 hiatus 响应是均质的还是异质的？存在什么模式？——没人系统回答过 |
-| CARS Move 3 (occupy) | 我们用断点检测 + 原型分类系统回答了这个问题 |
+| Two-part arc Part 1                  | 约束断点检测（demonstrate structural breaks exist）                        |
+| Two-part arc Part 2                  | 响应原型分类（classify and interpret the archetypes）                      |
+| Consilience 证据线                   | 卫星 + 原位 + 气候再分析 + 多方法交叉验证                                  |
+| CARS Move 1 (territory)              | 湖泊变暖已有大量证据；hiatus 期间变暖减缓有争议                            |
+| CARS Move 2 (niche)                  | 但湖泊层面的 hiatus 响应是均质的还是异质的？存在什么模式？——没人系统回答过 |
+| CARS Move 3 (occupy)                 | 我们用断点检测 + 原型分类系统回答了这个问题                                |
 
 ---
 
 ## 关键文献
 
-- Drake JM, Han BA (2025). "How to write a scientific paper in fifteen steps." *PLOS Computational Biology*, 21(9): e1013505.
+- Drake JM, Han BA (2025). "How to write a scientific paper in fifteen steps." _PLOS Computational Biology_, 21(9): e1013505.
 - Bäckman C (2026). "This Paper Shows That ___." Substack, May 27, 2026.
 - ASCB (n.d.). "Student-to-student writing guide part 1: the structure and style of a science story."
 - The Scientist (n.d.). "Building a Scientific Narrative."
-- Whewell W (1840). *The Philosophy of the Inductive Sciences.*
-- Swales JM (1990). *Genre Analysis: English in Academic and Research Settings.* Cambridge UP.
+- Whewell W (1840). _The Philosophy of the Inductive Sciences._
+- Swales JM (1990). _Genre Analysis: English in Academic and Research Settings._ Cambridge UP.
 
 ---
 

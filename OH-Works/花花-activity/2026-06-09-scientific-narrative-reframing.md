@@ -10,12 +10,12 @@
 
 「平淡」的本质通常不是数据不够，而是叙事结构出了问题——论文按 IMRaD 的「阅读顺序」写，而非按「发现逻辑」写。常见的叙事病：
 
-| 症状 | 原因 |
-|------|------|
-| 读起来像实验报告 | Results 按时间/方法顺序罗列，而非按「答案→问题」链组织 |
-| Discussion 是 Results 的重新叙述 | 缺少 synthesis，没有把多条证据线拧成一条 |
-| 看完不知道「所以呢」 | 缺少一个清晰的核心 take-home message |
-| 导师说「不够有新意」 | 最有冲击力的发现可能被埋在了支持性数据后面 |
+| 症状                             | 原因                                                   |
+| -------------------------------- | ------------------------------------------------------ |
+| 读起来像实验报告                 | Results 按时间/方法顺序罗列，而非按「答案→问题」链组织 |
+| Discussion 是 Results 的重新叙述 | 缺少 synthesis，没有把多条证据线拧成一条               |
+| 看完不知道「所以呢」             | 缺少一个清晰的核心 take-home message                   |
+| 导师说「不够有新意」             | 最有冲击力的发现可能被埋在了支持性数据后面             |
 
 ---
 
@@ -40,6 +40,7 @@ Abstract（一个微型 story，不是摘要）
 ```
 
 关键原则：
+
 - **take-home messages 不超过 3 条**，最好浓缩为 1 条核心信息
 - **Results 的每一段都要回答「这段数据是否支撑我的 take-home？」**——不是就砍
 - **Discussion 不是重复 Results，是 synthesis**
@@ -62,11 +63,11 @@ Therefore → 你的答案 / 解决方案
 
 来源：京都大学科学写作研讨会 (2025)
 
-| S | 含义 | 如何做到 |
-|---|------|---------|
-| **Simple** | 一个清晰的信息，记住：simplicity ≠ simplification | 找到唯一的核心问题，全文围绕它回答 |
-| **Solid** | 结果必须扎实、可复现 | 数据充分、方法严谨，让读者信服 |
-| **Surprising** | 出人意料的发现让故事更有吸引力 | 找到你数据中最违反直觉、最出乎意料的结果，把它放在聚光灯下 |
+| S              | 含义                                              | 如何做到                                                   |
+| -------------- | ------------------------------------------------- | ---------------------------------------------------------- |
+| **Simple**     | 一个清晰的信息，记住：simplicity ≠ simplification | 找到唯一的核心问题，全文围绕它回答                         |
+| **Solid**      | 结果必须扎实、可复现                              | 数据充分、方法严谨，让读者信服                             |
+| **Surprising** | 出人意料的发现让故事更有吸引力                    | 找到你数据中最违反直觉、最出乎意料的结果，把它放在聚光灯下 |
 
 ---
 
@@ -77,6 +78,7 @@ Therefore → 你的答案 / 解决方案
 不要从「我们做了什么」开始想，从 **「读者最应该记住什么」** 开始。
 
 提问清单：
+
 - 我的数据里，最违反直觉的结果是什么？
 - 如果只能让读者记住一件事，是什么？
 - 这个发现对领域意味着什么？对社会意味着什么？
@@ -99,18 +101,18 @@ Therefore → 你的答案 / 解决方案
 
 ### Step 4：Discussion 做 synthesis，不做 summary
 
-| 错误（summary） | 正确（synthesis） |
-|---|---|
+| 错误（summary）                               | 正确（synthesis）                                                                                      |
+| --------------------------------------------- | ------------------------------------------------------------------------------------------------------ |
 | "Our results showed that X increased by 15%." | "The 15% increase in X, together with the observed decline in Y, suggests a regime shift driven by..." |
-| 逐条复述 Results | 把多条证据线编织成一个论证 |
-| 孤立地与前人比较 | 解释你的发现如何改变了对某个过程的理解 |
+| 逐条复述 Results                              | 把多条证据线编织成一个论证                                                                             |
+| 孤立地与前人比较                              | 解释你的发现如何改变了对某个过程的理解                                                                 |
 
 ### Step 5：用 active subheadings 替代描述性标题
 
-| 描述性标题（弱） | Active subheading（强） |
-|---|---|
-| "Trend analysis of lake surface temperature" | "Lake warming accelerated after 1994 across all trophic states" |
-| "Breakpoint detection results" | "1994 marks a regime shift coincident with PDO phase transition" |
+| 描述性标题（弱）                             | Active subheading（强）                                          |
+| -------------------------------------------- | ---------------------------------------------------------------- |
+| "Trend analysis of lake surface temperature" | "Lake warming accelerated after 1994 across all trophic states"  |
+| "Breakpoint detection results"               | "1994 marks a regime shift coincident with PDO phase transition" |
 
 Active subheading 让略读的读者一眼就能抓住故事主线。
 
@@ -159,5 +161,5 @@ Active subheading 让略读的读者一眼就能抓住故事主线。
 - PLOS 15 Steps: Drake & Han (2025), https://doi.org/10.1371/journal.pcbi.1013505
 - Functional Ecology guide: https://doi.org/10.1111/1365-2435.13391
 - Kyoto Univ Scientific Storytelling Seminar (2025): https://ashbi.kyoto-u.ac.jp/cms/wp-content/uploads/20250606_ScientificWriting_Seminar_Handout_Public.pdf
-- ABT framework: Olson (2015), *Houston, We Have a Narrative*
-- Stress position: Gopen & Swan (1990), *American Scientist*
+- ABT framework: Olson (2015), _Houston, We Have a Narrative_
+- Stress position: Gopen & Swan (1990), _American Scientist_

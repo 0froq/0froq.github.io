@@ -36,7 +36,7 @@ Orta Therox（前 TypeScript 编译器团队成员）创造了它，用来驱动
 ### 类型查询 `^?`
 
 ```ts
-const abc = "Hello"
+const abc = 'Hello'
 //   ^?
 ```
 
@@ -56,7 +56,7 @@ Twoslash 调用 TypeScript 的自动补全 API，过滤 `console` 上以 `e` 开
 ```ts
 // @errors: 2339
 let x: [string, number]
-x = ["hello", 10]
+x = ['hello', 10]
 console.log(x[0].substring(1)) // OK
 console.log(x[1].substring(1)) // Error: Property 'substring' does not exist on type 'number'
 ```
@@ -81,12 +81,12 @@ const result = add(1, 2)
 
 ```ts
 // @filename: utils.ts
+// @filename: main.ts
+import { add } from './utils'
+
 export function add(a: number, b: number) {
   return a + b
 }
-
-// @filename: main.ts
-import { add } from './utils'
 const result = add(1, 2)
 //    ^?
 ```
@@ -131,7 +131,7 @@ export default defineConfig({
 关键配置：
 
 - **`typesCache`**：使用文件系统缓存 TypeScript 类型定义。`createFileSystemTypesCache()` 在 `node_modules/.vitepress/twoslash-cache/` 下缓存 `.d.ts` 文件，避免每次都重新解析。这对构建性能至关重要。
-- **`explicitTrigger: true`**（可选）：只在代码块语言标注中包含 `twoslash` 时才运行，例如 ` ```ts twoslash`。不设置时，所有 TypeScript 代码块都会被 Twoslash 处理。
+- **`explicitTrigger: true`**（可选）：只在代码块语言标注中包含 `twoslash` 时才运行，例如 `` ```ts twoslash ``。不设置时，所有 TypeScript 代码块都会被 Twoslash 处理。
 - **`rendererFloatingVue()`**（可选）：使用 Floating Vue 渲染浮动类型提示，悬停时弹出。不使用则输出纯 CSS 的静态标注。
 
 froQ 的配置**没有设置 `explicitTrigger`**（默认为 false），意味着所有 TypeScript 代码块都会被 Twoslash 处理。这适合全面控制，但要注意没有 `// @noErrors` 的错误代码可能导致构建失败。
@@ -171,7 +171,7 @@ froQ 的 Markdown 管道同时使用了 Comark（组件语法）和 Twoslash。�
 
 在同一个页面中，可以同时出现：
 
-```md
+````md
 ::tip{title="TypeScript 知识"}
 下面的代码展示了泛型约束的用法：
 ::
@@ -184,8 +184,12 @@ function identity<T extends { name: string }>(arg: T): T {
 const result = identity({ name: "froQ", age: 28 })
 //    ^?
 ```
-```
 
+```
+```
+````
+
+```
 Comark 处理 `::tip` 块，Twoslash 处理 `^?` 查询，互不干扰。
 
 ---
@@ -207,3 +211,4 @@ Comark 处理 `::tip` 块，Twoslash 处理 `^?` 查询，互不干扰。
 - VitePress Twoslash 集成：https://shiki.style/packages/vitepress-twoslash
 - Comark 语法：https://comark.dev/syntax/markdown
 - Comark 组件语法：https://comark.dev/syntax/components
+```

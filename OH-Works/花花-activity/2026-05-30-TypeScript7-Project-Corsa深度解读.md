@@ -10,12 +10,12 @@ Microsoft 用 Go 从头重写了 TypeScript 编译器（Project Corsa），10x �
 
 ## 核心数据
 
-| 指标 | TS 5.x (JS) | TS 7.0 (Go) | 提升 |
-|------|------------|-------------|------|
-| VS Code 冷类型检查 (1.5M 行) | 77s | 7.5s | **10.3x** |
-| 增量构建 | 4-8s | 0.4-0.8s | **10x** |
-| 内存占用 | 1.2GB | ~300MB | **4x** |
-| CI 类型检查 (中型项目) | 45s | 5s | **9x** |
+| 指标                         | TS 5.x (JS) | TS 7.0 (Go) | 提升      |
+| ---------------------------- | ----------- | ----------- | --------- |
+| VS Code 冷类型检查 (1.5M 行) | 77s         | 7.5s        | **10.3x** |
+| 增量构建                     | 4-8s        | 0.4-0.8s    | **10x**   |
+| 内存占用                     | 1.2GB       | ~300MB      | **4x**    |
+| CI 类型检查 (中型项目)       | 45s         | 5s          | **9x**    |
 
 Monorepo 场景叠加效应更显著：原本 5 分钟的类型检查可降至 30 秒。
 
@@ -59,15 +59,19 @@ C# 也被评估过，但 .NET runtime 作为 JS 构建工具的依赖会增加�
 ## 对开发者的实际影响
 
 ### 1. LSP / 编辑器体验
+
 tsserver → tsgo LSP，大型代码库中自动补全、跳转定义、内联错误诊断全部 10x 响应。Monorepo 里不再有 2 秒等待补全的体验。
 
 ### 2. CI 类型检查
+
 原本次分钟级的类型检查步骤变成秒级。对强制类型检查通过才能合并的团队，迭代成本大幅降低。
 
 ### 3. Watch mode
+
 `tsc --watch` 反馈循环近乎即时，即使几十万行代码的项目。
 
 ### 4. 内存
+
 1.2GB → 300MB，对资源受限环境（CI worker、低配开发机）友好很多。
 
 ---
@@ -75,11 +79,13 @@ tsserver → tsgo LSP，大型代码库中自动补全、跳转定义、内联�
 ## 生态兼容性
 
 **不受影响**（只消费 tsserver/LSP）：
+
 - VS Code、WebStorm、Neovim 等编辑器
 - 你的 `.ts` / `.tsx` 代码、`tsconfig.json` 配置全部照旧
 - TypeScript 仍然编译为 JavaScript，Go 重写的是编译器而非输出
 
 **需要迁移**（直接导入 `typescript` 编译器包）：
+
 - `typescript-eslint`：团队从 day 1 开始跟踪，将在 7.0 稳定版同步发布兼容版本
 - `ts-morph`、`ts-node` 等工具需要更新
 - 一般规则：如果工具**发布** TypeScript 就没问题；如果工具**分析或转换** TypeScript 且导入 `typescript` 包，需要迁移
@@ -98,12 +104,14 @@ vim.lsp.enable("tsgo")
 tsgo 原生支持 monorepo，自动发现各 package 对应的 `tsconfig.json`，无需启动多个实例。
 
 安装方式：
+
 ```bash
 npm install @typescript/native-preview
 npx tsgo --lsp --stdio
 ```
 
 或从源码构建（需要 Go 工具链）：
+
 ```bash
 git clone --recurse-submodules https://github.com/microsoft/typescript-go.git
 cd typescript-go

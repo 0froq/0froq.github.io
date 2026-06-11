@@ -38,11 +38,11 @@ html {
 
   /* background color for medium-zoom */
   --image-mask-bg: #fafafa;
-  background-color: white; 
+  background-color: white;
 
   &.dark {
     --image-mask-bg: #0a0a0a;
-  background-color: black; 
+    background-color: black;
   }
 }
 
@@ -136,7 +136,7 @@ html {
     --uno: 'decoration-(wavy 1)';
     /* not too close to the text */
     --uno: 'underline-offset-4';
-    --uno: 'text-neutral-900 dark:text-neutral-100'
+    --uno: 'text-neutral-900 dark:text-neutral-100';
   }
 
   /* inline code */

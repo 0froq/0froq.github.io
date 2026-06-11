@@ -11,18 +11,21 @@ froQ 的博客目前没有 RSS feed。这是 VitePress 博客一个常见的 fea
 npm: `vitepress-plugin-rss`，最新 v0.4.4（2026-04），MIT 协议。
 
 **原理**：
+
 - 作为 Vite 插件注入，在 `configResolved` 中劫持 `VPConfig.buildEnd`
 - 使用 `createContentLoader` 遍历所有 `.md` 文件
 - 底层调用 `feed` 包（jpmonette/feed）生成 RSS 2.0
 - 自动在 `socialLinks` 中添加 RSS 图标
 
 **优点**：
+
 - 一行配置即可启用
 - 内置 i18n `locales` 支持（按 locale key 分离 feed）
 - 支持 `filter`、`limit`、`ignoreHome`、`ignorePublish`
 - 活跃维护，社区使用广泛
 
 **缺点**：
+
 - 依赖固定的 frontmatter schema（`date`、`description`、`author` 等）
 - froQ 博客用 `created` 而非 `date`，用行内 hashtag 而非 frontmatter tags——需要适配
 - 对 `renderExpect` 和 `renderHTML` 的自定义程度有限
@@ -32,18 +35,21 @@ npm: `vitepress-plugin-rss`，最新 v0.4.4（2026-04），MIT 协议。
 参考：[vuejs/blog genFeed.ts](https://github.com/vuejs/blog/blob/main/.vitepress/genFeed.ts)、[Paul Laros 文章](https://laros.io/generating-an-rss-feed-with-vitepress)。
 
 **原理**：
+
 - 在 `defineConfig` 的 `buildEnd` 中直接编写逻辑
 - `createContentLoader` 加载所有文章
 - `Feed` 实例逐个 `addItem`
 - `writeFileSync` 输出到 `outDir`
 
 **优点**：
+
 - 完全控制每个 feed item 的字段映射
 - 可以适配任何 frontmatter schema
 - 零额外依赖（除 `feed` 包本身）
 - 可以同时生成 RSS 2.0 + Atom + JSON Feed
 
 **缺点**：
+
 - 需要手写代码（~50 行）
 - i18n 需自行处理（按 locale 分别生成 feed）
 - 不自动添加 socialLink 图标
@@ -55,6 +61,7 @@ npm: `vitepress-plugin-rss`，最新 v0.4.4（2026-04），MIT 协议。
 ## `feed` 包（jpmonette/feed）
 
 三条路径的底层都用了这个包。最新 v5.2.1（2026-04），支持：
+
 - **RSS 2.0**：`feed.rss2()`
 - **Atom 1.0**：`feed.atom1()`
 - **JSON Feed 1.0**：`feed.json1()`
@@ -76,13 +83,13 @@ Item Options: title*, link*, date*, id, guid, description, content,
 ### 现有 frontmatter schema
 
 ```yaml
-title: "文章标题"
-created: 2025-04-24 21:32    # ← 不是 date
-status: form                  # form | probe | ...
+title: 文章标题
+created: 2025-04-24 21:32 # ← 不是 date
+status: form # form | probe | ...
 last_modified: 2026-04-24
-series: blog_site             # 可选
-lang: zh                      # i18n 用
-locale: zh                    # i18n 用
+series: blog_site # 可选
+lang: zh # i18n 用
+locale: zh # i18n 用
 ```
 
 ### 需要处理的五个映射问题
@@ -134,18 +141,19 @@ locale: zh                    # i18n 用
 ### 参考实现骨架
 
 ```ts
+import type { SiteConfig } from 'vitepress'
 // .vitepress/genFeed.ts
 import { writeFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { Feed } from 'feed'
-import { createContentLoader, type SiteConfig } from 'vitepress'
+import { createContentLoader } from 'vitepress'
 
 const BASE_URL = 'https://froq.dev' // 示例
 
 interface LocaleConfig {
   locale: string
-  prefix: string   // URL 前缀，如 '' 或 '/en'
-  language: string  // BCP 47，如 'zh-CN' 或 'en'
+  prefix: string // URL 前缀，如 '' 或 '/en'
+  language: string // BCP 47，如 'zh-CN' 或 'en'
   title: string
   description: string
 }
@@ -174,7 +182,7 @@ export async function genFeed(config: SiteConfig) {
     })
 
     const localePosts = posts
-      .filter(p => {
+      .filter((p) => {
         // en 文章在 /en/ 子目录下，zh 文章不在
         const isEn = p.url.startsWith('/en/')
         return loc.locale === 'en' ? isEn : !isEn
@@ -220,30 +228,36 @@ export default defineConfig({
 ## 额外考虑
 
 ### WebSub（PubSubHubbub）
+
 `feed` 包支持 `hub` 选项。如果希望 RSS 阅读器能实时获取更新（而非轮询），可以配置 WebSub hub。这对小型个人博客的实际价值有限，但可以作为未来的增强项。
 
 ### RSS 自动发现
+
 在 HTML `<head>` 中添加：
+
 ```html
-<link rel="alternate" type="application/rss+xml" title="froQ (中文)" href="/feed.rss">
-<link rel="alternate" type="application/rss+xml" title="froQ (English)" href="/feed.en.rss">
+<link rel="alternate" type="application/rss+xml" title="froQ (中文)" href="/feed.rss" />
+<link rel="alternate" type="application/rss+xml" title="froQ (English)" href="/feed.en.rss" />
 ```
+
 vitepress-plugin-rss 会自动处理，手动方案需在 theme 中自行添加。
 
 ### JSON Feed
+
 JSON Feed 1.1 是较新的格式，对程序化消费更友好（如 feed reader bot、cross-posting 工具）。`feed` 包已支持，只需额外输出 `feed.json1()`。
 
 ### 与现有 data layer 的关系
+
 博客已有 `posts.data.ts` 和 `corpus.data.ts` 两个 data loader。RSS feed 生成逻辑可以复用 `createContentLoader`，但不应依赖运行时 data loader（那是在客户端 bundle 中的）。`buildEnd` 阶段独立调用 `createContentLoader` 是正确做法。
 
 ## 总结
 
-| 维度 | vitepress-plugin-rss | 手动 buildEnd |
-|------|---------------------|---------------|
-| 配置复杂度 | 低 | 中 |
-| frontmatter 适配 | 需配置覆盖 | 完全自由 |
-| i18n 支持 | 内置 locales | 需手写 |
-| 多格式输出 | 仅 RSS 2.0 | RSS+Atom+JSON |
-| 代码量 | ~5 行配置 | ~60 行 |
-| long-term 维护 | 依赖插件更新 | 自控 |
-| 推荐场景 | 标准 VitePress 博客 | froQ 博客（非标准 schema） |
+| 维度             | vitepress-plugin-rss | 手动 buildEnd              |
+| ---------------- | -------------------- | -------------------------- |
+| 配置复杂度       | 低                   | 中                         |
+| frontmatter 适配 | 需配置覆盖           | 完全自由                   |
+| i18n 支持        | 内置 locales         | 需手写                     |
+| 多格式输出       | 仅 RSS 2.0           | RSS+Atom+JSON              |
+| 代码量           | ~5 行配置            | ~60 行                     |
+| long-term 维护   | 依赖插件更新         | 自控                       |
+| 推荐场景         | 标准 VitePress 博客  | froQ 博客（非标准 schema） |

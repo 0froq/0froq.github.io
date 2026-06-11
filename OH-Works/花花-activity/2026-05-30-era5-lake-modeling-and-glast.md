@@ -13,20 +13,21 @@ hiatus 项目实际使用的是 **GLAST v1.0**（Global Lake Surface Water Tempe
 FLake（Fresh-water Lake model）是 ECMWF 集成预报系统（IFS）中内嵌的一维湖泊参数化方案，用于计算内陆水体的热通量、水汽通量和动量通量。
 
 **核心假设**：湖泊温度剖面采用预设形状：
+
 - **混合层**（mixed layer）：温度均匀分布
 - **温跃层**（thermocline）：上边界在混合层底部，下边界在湖底
 
 ### 2.2 七个预报变量
 
-| 变量 | 含义 |
-|------|------|
-| lake_mix_layer_temperature | 混合层温度（≈表层水温） |
-| lake_mix_layer_depth | 混合层深度 |
-| lake_bottom_temperature | 湖底温度 |
-| lake_total_layer_temperature | 全水柱平均温度 |
-| lake_shape_factor | 温跃层温度剖面形状因子 |
-| lake_ice_temperature | 冰面温度 |
-| lake_ice_depth | 冰厚 |
+| 变量                         | 含义                    |
+| ---------------------------- | ----------------------- |
+| lake_mix_layer_temperature   | 混合层温度（≈表层水温） |
+| lake_mix_layer_depth         | 混合层深度              |
+| lake_bottom_temperature      | 湖底温度                |
+| lake_total_layer_temperature | 全水柱平均温度          |
+| lake_shape_factor            | 温跃层温度剖面形状因子  |
+| lake_ice_temperature         | 冰面温度                |
+| lake_ice_depth               | 冰厚                    |
 
 ### 2.3 关键设计限制
 
@@ -49,16 +50,16 @@ FLake（Fresh-water Lake model）是 ECMWF 集成预报系统（IFS）中内嵌�
 
 ### 3.1 基本参数
 
-| 属性 | 值 |
-|------|-----|
-| 全称 | Global LAke Surface water Temperature |
-| 来源论文 | Tong et al. (2023), *Nature Water* |
-| 湖泊数量 | 92,245 |
-| 时间跨度 | 1981–2020（40 年） |
-| 时间分辨率 | 日（daily max / min / mean） |
-| 数据格式 | MATLAB .mat |
-| 数据体积 | daily_LSWT_data.mat ≈ 2.3 GB |
-| DOI | 10.5281/zenodo.8322038 |
+| 属性       | 值                                    |
+| ---------- | ------------------------------------- |
+| 全称       | Global LAke Surface water Temperature |
+| 来源论文   | Tong et al. (2023), _Nature Water_    |
+| 湖泊数量   | 92,245                                |
+| 时间跨度   | 1981–2020（40 年）                    |
+| 时间分辨率 | 日（daily max / min / mean）          |
+| 数据格式   | MATLAB .mat                           |
+| 数据体积   | daily_LSWT_data.mat ≈ 2.3 GB          |
+| DOI        | 10.5281/zenodo.8322038                |
 
 ### 3.2 构造方法
 
@@ -70,14 +71,14 @@ GLAST 并非直接从 ERA5 提取——它是通过 **Landsat 热红外卫星影
 
 ### 3.3 与 ERA5 原生 FLake 的区别
 
-| 维度 | ERA5 FLake | GLAST |
-|------|-----------|-------|
-| 数据来源 | 气象再分析 + FLake 模拟 | Landsat 卫星观测 + FLake 插补 |
-| 湖泊覆盖 | 所有 ≥1% 水面网格 | 92,245 个单独湖泊 |
-| 空间性质 | 网格化（grid box） | 逐湖（per-lake） |
-| 时间分辨率 | 小时 | 日 |
-| 准确性 | 受湖深输入偏差影响大 | Landsat 实测约束，更接近真实 |
-| 适用场景 | 大气-湖泊耦合模拟 | 湖泊气候变化研究 |
+| 维度       | ERA5 FLake              | GLAST                         |
+| ---------- | ----------------------- | ----------------------------- |
+| 数据来源   | 气象再分析 + FLake 模拟 | Landsat 卫星观测 + FLake 插补 |
+| 湖泊覆盖   | 所有 ≥1% 水面网格       | 92,245 个单独湖泊             |
+| 空间性质   | 网格化（grid box）      | 逐湖（per-lake）              |
+| 时间分辨率 | 小时                    | 日                            |
+| 准确性     | 受湖深输入偏差影响大    | Landsat 实测约束，更接近真实  |
+| 适用场景   | 大气-湖泊耦合模拟       | 湖泊气候变化研究              |
 
 ---
 
@@ -121,14 +122,14 @@ processed/to-monthly-average/C data-monthly-average.csv (423 MB)
 
 ### 4.2 关键依赖
 
-| 工具 | 作用 |
-|------|------|
-| MAT.jl | 读取 GLAST .mat 文件 |
+| 工具                  | 作用                       |
+| --------------------- | -------------------------- |
+| MAT.jl                | 读取 GLAST .mat 文件       |
 | SeasonalTrendLoess.jl | STL 分解（Julia 原生实现） |
-| DataFrames.jl | 表格操作 |
-| Clustering.jl | 聚类分析 |
-| Plots.jl + GR | 可视化 |
-| HDF5.jl / JLD2 | STL 结果存储 |
+| DataFrames.jl         | 表格操作                   |
+| Clustering.jl         | 聚类分析                   |
+| Plots.jl + GR         | 可视化                     |
+| HDF5.jl / JLD2        | STL 结果存储               |
 
 ### 4.3 设计决策
 
@@ -149,6 +150,7 @@ processed/to-monthly-average/C data-monthly-average.csv (423 MB)
 ### 5.2 与 ERA5 的互补可能性
 
 hiatus 项目目前仅使用 GLAST 作为湖温数据源。ERA5-Land 提供的额外变量（混合层深度、湖底温度、冰厚等）可补充分析维度：
+
 - 混合层深度变化是否与 hiatus 信号同步？
 - 冰厚变化是否影响趋势检测的断点位置？
 - 全水柱热含量 vs 表层温度的趋势差异？
@@ -161,8 +163,8 @@ Tong et al. (2023) 已被项目 zotero.bib 收录，作为数据来源和方法�
 
 ## 六、延伸阅读
 
-- **Tong et al. (2023)**: Global lakes are warming slower than surface air temperature due to accelerated evaporation. *Nature Water*. — GLAST 构造论文
+- **Tong et al. (2023)**: Global lakes are warming slower than surface air temperature due to accelerated evaporation. _Nature Water_. — GLAST 构造论文
 - **Balsamo et al. (2012)**: On the contribution of lakes in predicting near-surface temperature in NWP. — FLake 在 IFS 中的引入
 - **Mironov et al. (2010)**: Parameterization of lakes in numerical weather prediction. — FLake 核心模型
-- **Munoz-Sabater et al. (2021)**: ERA5-Land: a state-of-the-art global reanalysis dataset for land applications. *ESSD*. — ERA5-Land 完整描述
+- **Munoz-Sabater et al. (2021)**: ERA5-Land: a state-of-the-art global reanalysis dataset for land applications. _ESSD_. — ERA5-Land 完整描述
 - **Winslow et al. (2018)**: Small lakes show muted seasonal temperature trends. — GLAST 前身，小湖泊温度响应

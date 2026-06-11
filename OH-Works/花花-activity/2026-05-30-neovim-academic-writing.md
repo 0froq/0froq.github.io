@@ -20,6 +20,7 @@ Typst 生态的「官方」Language Server，功能远不止语法补全：
 - **语法模式**：省电模式下仅做 syntax checking + formatting，适合大型项目
 
 Neovim 集成要点：
+
 ```lua
 -- 需要 nvim 0.11+ 的 built-in LSP 或 lspconfig
 -- 0.11 后用 vim.lsp.config["tinymist"] = { ... }
@@ -32,6 +33,7 @@ vim.lsp.get_clients({ name = "tinymist" })[1]
 ### 1.2 typst-preview.nvim（chomosuke）
 
 Tinymist 的低延迟 Web 预览前端：
+
 - 增量渲染，键入即更新
 - 源码↔预览双向跳转（点击预览跳转源码位置，光标跟随）
 - 支持 `document` 和 `slide` 两种模式
@@ -42,10 +44,12 @@ Tinymist 的低延迟 Web 预览前端：
 ### 1.3 传统方案：typst watch + Zathura
 
 部分用户（如 dogeystamp 的笔记系统）坚持手动方案：
+
 ```bash
 typst watch document.typ  # 自动重编译
 # 另一窗口：zathura document.pdf  # PDF 阅读器自动刷新
 ```
+
 优势：零依赖、可预测、不消耗 LSP 资源。劣势：无自动补全、无格式化、无跳转。
 
 ---
@@ -55,6 +59,7 @@ typst watch document.typ  # 自动重编译
 ### 2.1 zotcite（jalvesaq/zotcite）
 
 最成熟的 Zotero↔Neovim 集成插件：
+
 - **引用键自动补全**：从 Zotero 数据库实时读取
 - **状态栏信息**：光标悬停在引用键上时显示文献详情
 - **打开 PDF 附件**：从引用键直接跳转
@@ -80,6 +85,7 @@ typst watch document.typ  # 自动重编译
 ### 2.2 typst-bib.nvim（Kirizan）
 
 专为 Typst 设计的多格式文献管理插件：
+
 - 支持 Hayagriva（Typst 原生 YAML 格式）、BibTeX、BibLaTeX、CSL-JSON
 - 格式间可互转
 - 比 zotcite 更聚焦 Typst 原生格式，但生态不如 zotcite 成熟
@@ -87,6 +93,7 @@ typst watch document.typ  # 自动重编译
 ### 2.3 手工方案：Telescope + bib 文件
 
 ohrg.org 的 Claude 辅助方案——用 telescope.nvim 自定义弹窗实现引用插入：
+
 - 全文搜索 bib 文件（不仅限于引用 ID）
 - 快捷键指定 `#bibliography()` 源文件
 - 选中文本后加注引用，或插入新引用+链接
@@ -101,6 +108,7 @@ ohrg.org 的 Claude 辅助方案——用 telescope.nvim 自定义弹窗实现�
 ### 3.1 LTeX LSP（valentjn/ltex-ls）
 
 基于 LanguageTool 的 LSP，离线工作：
+
 - **支持 20+ 语言**：含中文（但中文效果有限）、英文、法文、德文、俄文等
 - **支持格式**：Markdown、LaTeX、Typst（通过 markdown 兼容）、Org、Quarto、reStructuredText、HTML
 - **完全离线**：无需 Java、无需上传内容
@@ -109,6 +117,7 @@ ohrg.org 的 Claude 辅助方案——用 telescope.nvim 自定义弹窗实现�
 - **快速修复建议**：支持 code action 替换
 
 局限性：
+
 - 中文支持弱——LanguageTool 本身的中文规则有限
 - N-Gram 模型体积大（14G），对磁盘空间有要求
 - 无法替代人工校对，但可以抓出明显的 typo 和语法错误
@@ -116,6 +125,7 @@ ohrg.org 的 Claude 辅助方案——用 telescope.nvim 自定义弹窗实现�
 ### 3.2 Vale（vale-cli/vale）
 
 代码式 prose linter，通过 nvim-lint 集成：
+
 - **高度可定制**：通过 `.vale.ini` 配置规则集（Microsoft、Google、write-good 等）
 - **标记感知**：理解 Markdown、reStructuredText、AsciiDoc 等标记语言
 - **规则类型**：existence（禁止）、substitution（替换）、occurrence（频率）、conditional（条件）
@@ -140,13 +150,14 @@ require('lint').linters_by_ft = {
 
 ### 4.1 专注模式
 
-| 插件 | Stars | 特点 |
-|------|-------|------|
-| **zen-mode.nvim** (folke) | 2114 | 全屏浮动窗口、Twilight 暗淡非活跃代码、tmux/kitty/alacritty/wezterm 字体联动 |
-| **true-zen.nvim** | ~400 | 更早的方案，功能类似 |
-| **simplezen.nvim** | 小众 | 极简实现，居中 buffer + 隐藏 UI chrome |
+| 插件                      | Stars | 特点                                                                         |
+| ------------------------- | ----- | ---------------------------------------------------------------------------- |
+| **zen-mode.nvim** (folke) | 2114  | 全屏浮动窗口、Twilight 暗淡非活跃代码、tmux/kitty/alacritty/wezterm 字体联动 |
+| **true-zen.nvim**         | ~400  | 更早的方案，功能类似                                                         |
+| **simplezen.nvim**        | 小众  | 极简实现，居中 buffer + 隐藏 UI chrome                                       |
 
 zen-mode.nvim 的配置要点：
+
 ```lua
 {
   window = {
@@ -168,6 +179,7 @@ zen-mode.nvim 的配置要点：
 ### 4.2 散文导航
 
 Vim 原生 prose motions：
+
 - `(` / `)` — 前/后一句
 - `g)` / `g(` — 跳转到当前/前一句句尾
 - `{` / `}` — 段落跳转
@@ -177,6 +189,7 @@ Vim 原生 prose motions：
 ### 4.3 数学输入优化
 
 Typst 的数学语法比 LaTeX 简洁，但仍有大量 `_` `^` 等符号需要离开主键区。**LuaSnip** 是常用的 Neovim snippet 引擎，可定义：
+
 - `sum` + Tab → `sum_(i=1)^n`（带占位符跳转）
 - `int` + Tab → `integral_a^b`
 - 自定义项目特定缩写
@@ -192,6 +205,7 @@ Typst 的数学语法比 LaTeX 简洁，但仍有大量 `_` `^` 等符号需要�
 > "A Neovim plugin is a pretty ideal domain for LLM-assisted coding. The 'codebase' is often just a single configuration file."
 
 用 Claude Code 在 1-2 小时内搭建了功能完整的 Typst 写作插件：
+
 1. **tree-sitter** 语法高亮
 2. **tinymist LSP** 自动补全
 3. **telescope 自定义弹窗**：全文搜索 bib 文件插入引用、文件链接、脚注
@@ -203,6 +217,7 @@ Typst 的数学语法比 LaTeX 简洁，但仍有大量 `_` `^` 等符号需要�
 ### 5.2 dogeystamp.com：Typst 课堂笔记系统
 
 2023→2026 两年演进：
+
 - 编译：`typst watch` + Zathura（手动方案）
 - Tinymist LSP：自动补全 + 错误检测 + 格式化
 - Snippet：LuaSnip 加速数学输入
@@ -215,15 +230,16 @@ Typst 的数学语法比 LaTeX 简洁，但仍有大量 `_` `^` 等符号需要�
 
 ## 6. 与 froQ 工具链的映射
 
-| 需求 | 现有方案 | 潜在增强 |
-|------|---------|---------|
-| **Typst 编译** | 已有（具体工具未知） | tinymist LSP 提供自动补全 + 格式化 |
-| **引用管理** | zotero.bib（已确认） | zotcite 或 telescope 自定义方案 |
-| **文法检查** | 未知 | LTeX（英文）+ Vale（风格规则） |
-| **专注写作** | 未知 | zen-mode.nvim |
-| **预览** | 未知 | typst-preview.nvim（低延迟 Web）或 typst watch + Zathura |
+| 需求           | 现有方案             | 潜在增强                                                 |
+| -------------- | -------------------- | -------------------------------------------------------- |
+| **Typst 编译** | 已有（具体工具未知） | tinymist LSP 提供自动补全 + 格式化                       |
+| **引用管理**   | zotero.bib（已确认） | zotcite 或 telescope 自定义方案                          |
+| **文法检查**   | 未知                 | LTeX（英文）+ Vale（风格规则）                           |
+| **专注写作**   | 未知                 | zen-mode.nvim                                            |
+| **预览**       | 未知                 | typst-preview.nvim（低延迟 Web）或 typst watch + Zathura |
 
 值得关注的几个点：
+
 1. **tinymist 的 HTML/MD 导出**：如果论文需要 Web 版本展示，可以直接从 Typst 源码导出，无需 Pandoc 中转
 2. **Vale 规则集**：可以为 hiatus 论文化定制写作风格规则（如术语一致性、被动语态限制、句式长度）
 3. **Telescope 引用插入**：ohrg.org 的方案比安装 zotcite 更灵活，且与 froQ 已有的 telescope 配置衔接自然

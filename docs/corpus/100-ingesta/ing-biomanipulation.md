@@ -28,6 +28,7 @@ last_modified: 2026-04-18 18:31:31
 ## Limitations
 
 这种方法最早只在**北欧温带湖泊**中成功。在**热带或亚热带小浅湖**中效果不佳，原因：
+
 - 鱼群结构复杂（Omnivorous fish 主导）
 - Top-down control 微弱
 - Omnivore 迅速填补生态位空缺，zooplankton 被捕食压力持续存在，

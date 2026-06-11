@@ -13,16 +13,18 @@
 
 STL 三个关键平滑窗口（均需奇数）：
 
-| 参数 | R 名 | Python 名 | 默认值 | 建议范围 |
-|------|------|-----------|--------|---------|
-| 季节窗口 | `s.window` | `seasonal` | 7（R 无默认） | 7~21，或 `"periodic"` |
-| 趋势窗口 | `t.window` | `trend` | 自动计算 | 1.5×period ~ 2×period |
-| 低通窗口 | `l.window` | `low_pass` | nextodd(period) | ≥ period |
+| 参数     | R 名       | Python 名  | 默认值          | 建议范围              |
+| -------- | ---------- | ---------- | --------------- | --------------------- |
+| 季节窗口 | `s.window` | `seasonal` | 7（R 无默认）   | 7~21，或 `"periodic"` |
+| 趋势窗口 | `t.window` | `trend`    | 自动计算        | 1.5×period ~ 2×period |
+| 低通窗口 | `l.window` | `low_pass` | nextodd(period) | ≥ period              |
 
 **趋势窗口自动公式**（Cleveland et al., 1990）：
+
 ```
 t.window = nextodd( ceil( 1.5 × period / (1 - 1.5 / s.window) ) )
 ```
+
 对于月数据（period=12），s.window=7 时 t.window≈23。
 
 ## froQ 场景分析
@@ -34,6 +36,7 @@ t.window = nextodd( ceil( 1.5 × period / (1 - 1.5 / s.window) ) )
 ### 推荐参数组合
 
 **方案 A：保守（趋势非常平滑，适合检测年代际断点）**
+
 ```python
 STL(
     endog,
@@ -44,10 +47,12 @@ STL(
     robust=True       # 处理异常年份
 )
 ```
+
 优点：趋势干净，不会把年际波动当趋势
 缺点：边界附近趋势估计可能滞后
 
 **方案 B：折中（趋势保留多年波动，s.window='periodic'）**
+
 ```python
 STL(
     endog,
@@ -58,6 +63,7 @@ STL(
     robust=True
 )
 ```
+
 优点：季节分量固定（湖泊年周期确实相对稳定），10 年趋势窗口可检测 hiatus
 缺点：如果湖泊季节模式确实变化（如春秋变暖不对称），会漏掉
 
@@ -72,11 +78,13 @@ seasonal_jump = int(0.15 * (period + 1))   # ≈ 2
 trend_jump    = int(0.15 * 1.5 * (period + 1))  # ≈ 3
 low_pass_jump = int(0.15 * (period + 1))   # ≈ 2
 ```
+
 线性插值代替全部 LOESS 计算，误差极小但速度提升显著。
 
 ## 诊断方法
 
 跑完 STL 后检查：
+
 1. **残差白噪声检验**：残差不应有自相关性。用 ACF/PACF 看，如果有显著滞后相关 → 分解不充分
 2. **趋势分量平滑度**：对趋势分量差分，如果一阶差分频繁变号 → 锯齿状、平滑不够
 3. **季节分量稳定性**：boxplot 按月看季节分量分布，如果方差过大 → s.window 太小
@@ -90,9 +98,9 @@ Python 的 statsmodels 没有 `"periodic"` 选项，但 `seasonal=255`（远大�
 
 ## 参考文献
 
-- Cleveland, R.B., Cleveland, W.S., McRae, J.E., & Terpenning, I. (1990). STL: A Seasonal-Trend Decomposition Procedure Based on Loess. *Journal of Official Statistics*, 6, 3–73.
-- Hyndman, R.J. & Athanasopoulos, G. (2021). *Forecasting: Principles and Practice*, 3rd ed. Chapter 3.6.
-- Rodionov, S.N. (2004). A sequential algorithm for testing climate regime shifts. *Geophys. Res. Lett.*, 31, L09204.
+- Cleveland, R.B., Cleveland, W.S., McRae, J.E., & Terpenning, I. (1990). STL: A Seasonal-Trend Decomposition Procedure Based on Loess. _Journal of Official Statistics_, 6, 3–73.
+- Hyndman, R.J. & Athanasopoulos, G. (2021). _Forecasting: Principles and Practice_, 3rd ed. Chapter 3.6.
+- Rodionov, S.N. (2004). A sequential algorithm for testing climate regime shifts. _Geophys. Res. Lett._, 31, L09204.
 
 ## 与 froQ 论文流程的衔接
 

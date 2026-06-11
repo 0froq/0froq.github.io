@@ -96,6 +96,7 @@ ERA5-Land 的 Lake mix-layer temperature 直接作为湖泊表层温度。
 看看结果的差异性到底有多大。
 
 组会：
+
 - 去趋势再做突变检测
 - 区域或湖泊分类
 

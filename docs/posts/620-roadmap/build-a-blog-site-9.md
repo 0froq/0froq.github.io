@@ -28,7 +28,7 @@ last_modified: 2026-04-24 16:47:57
 ### VitePress 提供的
 
 想一下
-我们 [之前](<build-a-blog-site-5.md#构建时数据加载｜Build-Time Data Loading>) 做的
+我们 [之前](build-a-blog-site-5.md#构建时数据加载｜Build-Time Data Loading) 做的
 `posts.data.ts` 文件，
 里面使用 `createContentLoader` 来加载文章的数据。
 这里加载的数据是一个类型为 `ContentData[]` 的数组，

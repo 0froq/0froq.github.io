@@ -12,6 +12,7 @@
 收到 revise 而非直接拒稿，你已经超过了同一期刊当月投稿的大多数人。rebuttal letter 是决定「revise → accept」还是「revise → reject」的关键文档。
 
 **编辑读你的 response 时关心的三件事**（Manusights, 2026）：
+
 1. 你是否认真对待反馈？
 2. 你能否为科学选择辩护？
 3. 你是一个 reasonable 的合作者吗？
@@ -34,18 +35,18 @@
 ```
 Dear Dr. [Editor Name],
 
-On behalf of my co-authors, I thank you for the opportunity to revise 
-and resubmit our paper "[Title]" (manuscript [ID]). We appreciate the 
+On behalf of my co-authors, I thank you for the opportunity to revise
+and resubmit our paper "[Title]" (manuscript [ID]). We appreciate the
 helpful comments from you and the reviewers.
 
-We have carefully revised the paper in response to all comments, as 
+We have carefully revised the paper in response to all comments, as
 detailed in the point-by-point response below. Major changes include:
 - [Bullet 1: 最大的改动，如新增敏感性分析]
 - [Bullet 2: 第二大改动，如重写 Discussion 某段]
 - [Bullet 3: 第三大改动]
 
-We believe the revised manuscript is now suitable for publication in 
-[Journal Name]. Please do not hesitate to contact me if you have any 
+We believe the revised manuscript is now suitable for publication in
+[Journal Name]. Please do not hesitate to contact me if you have any
 questions.
 
 Best regards,
@@ -59,7 +60,8 @@ Best regards,
 **Part 3: Point-by-point response（核心部分）**
 
 逐条回复每一位 reviewer 的每一条评论。格式：
-- Reviewer 评论用 **粗体** 或 *斜体* 或 `>` 引用
+
+- Reviewer 评论用 **粗体** 或 _斜体_ 或 `>` 引用
 - 你的回复用普通文本
 - 修改位置用 `(page X, line Y)` 标注
 - 修改内容可以直接 quote
@@ -76,7 +78,7 @@ Best regards,
 ```
 Comment X.Y: [reviewer 原话 quote 或简短摘要]
 
-Response: 
+Response:
   1. Acknowledge（感谢 + 确认理解）
   2. Explain（说明做了什么修改，或为什么不做修改）
   3. Evidence（引用修改位置 page X, line Y；或引用文献支持）
@@ -91,38 +93,38 @@ Response:
 
 ### 3.1 Introduction 评语
 
-| Reviewer Comment | Agreement Response | Rebuttal Response |
-|---|---|---|
+| Reviewer Comment                               | Agreement Response                                                                                                                                                                                                                                     | Rebuttal Response                                                                                                                                                                                                                                                                                                                                     |
+| ---------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | "Introduction lacks context / clear rationale" | "Thank you. We agree the introduction would benefit from additional context. We have expanded the background section (page 2, paragraph 1) to clarify the problem domain and revised the final paragraph to articulate the rationale more explicitly." | "We appreciate this feedback. We respectfully believe the original introduction did provide sufficient context (background in paragraph 2, gap identification, and statement of purpose). However, to avoid any ambiguity, we have added a transitional sentence connecting the background to the study's objectives more clearly (page 2, line 15)." |
-| "Too much background; consider trimming" | "We agree. We have trimmed the introduction to highlight only the most directly relevant studies supporting the research rationale (page 1-2)." | "We considered this suggestion carefully. We believe the included context is necessary to establish the progression of ideas leading to the research question. We made minor edits for conciseness while retaining key references essential to the foundation (page 2)." |
+| "Too much background; consider trimming"       | "We agree. We have trimmed the introduction to highlight only the most directly relevant studies supporting the research rationale (page 1-2)."                                                                                                        | "We considered this suggestion carefully. We believe the included context is necessary to establish the progression of ideas leading to the research question. We made minor edits for conciseness while retaining key references essential to the foundation (page 2)."                                                                              |
 
 ### 3.2 Literature Review 评语
 
-| Reviewer Comment | Agreement Response | Rebuttal Response |
-|---|---|---|
-| "Important studies are missing" | "Thank you. We have updated the literature review to include several key publications from the past three years (Smith 2024, Jones 2025; page 3)." | "We re-examined the literature. While the current references provide a solid foundation, we have added one recent publication (Smith 2024) to acknowledge ongoing developments, while retaining foundational works that remain highly cited and relevant (page 3)." |
+| Reviewer Comment                           | Agreement Response                                                                                                                                                                                      | Rebuttal Response                                                                                                                                                                                                                                                            |
+| ------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| "Important studies are missing"            | "Thank you. We have updated the literature review to include several key publications from the past three years (Smith 2024, Jones 2025; page 3)."                                                      | "We re-examined the literature. While the current references provide a solid foundation, we have added one recent publication (Smith 2024) to acknowledge ongoing developments, while retaining foundational works that remain highly cited and relevant (page 3)."          |
 | "Too descriptive; needs critical analysis" | "We agree and have revised the section to include more evaluative commentary – comparing methodologies, highlighting inconsistencies, and identifying gaps that justify the current study (pages 3-5)." | "We intended to present a comprehensive overview before moving into critical synthesis. We have revised several paragraphs to make the evaluative elements more explicit and added transitional language to guide the reader through the critique of past work (pages 3-5)." |
 
 ### 3.3 Methods 评语
 
-| Reviewer Comment | Agreement Response | Rebuttal Response |
-|---|---|---|
-| "Why was [method] chosen over [alternative]?" | 直接解释选择理由 + 在 manuscript 中补充一段 justification。 | "We appreciate the suggestion to consider [alternative]. We chose [method] because [具体理由: data structure, established practice in our field, etc.]. This approach is supported by [citations] and is standard practice for [type of data/analysis] (Smith 2020). We have added a sentence clarifying this choice in Methods (page 6, line 12)." |
-| "Sample size too small; need more data" | "We acknowledge this limitation. We have now added [additional data / power analysis / justification]. (page 7)." | "We understand the concern about sample size. However, our sample size (n=X) is comparable to similar studies in this field (see [citations]). We have added a power analysis demonstrating adequate statistical power for our primary analyses (Supplementary Table S1), and explicitly discussed this as a study limitation (page 15)." |
-| "Need additional experiment/analysis" | 执行实验 + 报告结果。 | "We respectfully note that [requested analysis] would require [resources/time/data not available], and we believe it falls outside the scope of the current study. We have added a discussion of this as a direction for future work (page 16, paragraph 3)." |
+| Reviewer Comment                              | Agreement Response                                                                                                | Rebuttal Response                                                                                                                                                                                                                                                                                                                                   |
+| --------------------------------------------- | ----------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| "Why was [method] chosen over [alternative]?" | 直接解释选择理由 + 在 manuscript 中补充一段 justification。                                                       | "We appreciate the suggestion to consider [alternative]. We chose [method] because [具体理由: data structure, established practice in our field, etc.]. This approach is supported by [citations] and is standard practice for [type of data/analysis] (Smith 2020). We have added a sentence clarifying this choice in Methods (page 6, line 12)." |
+| "Sample size too small; need more data"       | "We acknowledge this limitation. We have now added [additional data / power analysis / justification]. (page 7)." | "We understand the concern about sample size. However, our sample size (n=X) is comparable to similar studies in this field (see [citations]). We have added a power analysis demonstrating adequate statistical power for our primary analyses (Supplementary Table S1), and explicitly discussed this as a study limitation (page 15)."           |
+| "Need additional experiment/analysis"         | 执行实验 + 报告结果。                                                                                             | "We respectfully note that [requested analysis] would require [resources/time/data not available], and we believe it falls outside the scope of the current study. We have added a discussion of this as a direction for future work (page 16, paragraph 3)."                                                                                       |
 
 ### 3.4 Results 评语
 
-| Reviewer Comment | Agreement Response | Rebuttal Response |
-|---|---|---|
-| "Statistical approach inappropriate" | "We thank the reviewer for identifying this issue. We have re-analyzed the data using [appropriate method] (page 8-10, Tables 2-3). The revised analysis [affirms / modifies] our original conclusions as follows: ..." | "We appreciate this suggestion. However, we believe our approach is appropriate because [explain data structure, assumptions met, etc.]. Specifically, [technical justification]. This approach is supported by [citations]. We have added a sentence in Methods to clarify this choice (page 6)." |
-| "Results overstated; tone down claims" | "We agree and have revised the Results section to more accurately reflect the strength of the evidence. We now use more measured language throughout (pages 8-12)." | "We considered this comment carefully. While we believe our claims are supported by the evidence presented, we have added qualifying language where appropriate (e.g., 'suggests' rather than 'demonstrates') and explicitly noted the uncertainty ranges (page 10)." |
+| Reviewer Comment                       | Agreement Response                                                                                                                                                                                                      | Rebuttal Response                                                                                                                                                                                                                                                                                  |
+| -------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| "Statistical approach inappropriate"   | "We thank the reviewer for identifying this issue. We have re-analyzed the data using [appropriate method] (page 8-10, Tables 2-3). The revised analysis [affirms / modifies] our original conclusions as follows: ..." | "We appreciate this suggestion. However, we believe our approach is appropriate because [explain data structure, assumptions met, etc.]. Specifically, [technical justification]. This approach is supported by [citations]. We have added a sentence in Methods to clarify this choice (page 6)." |
+| "Results overstated; tone down claims" | "We agree and have revised the Results section to more accurately reflect the strength of the evidence. We now use more measured language throughout (pages 8-12)."                                                     | "We considered this comment carefully. While we believe our claims are supported by the evidence presented, we have added qualifying language where appropriate (e.g., 'suggests' rather than 'demonstrates') and explicitly noted the uncertainty ranges (page 10)."                              |
 
 ### 3.5 Discussion 评语
 
-| Reviewer Comment | Agreement Response | Rebuttal Response |
-|---|---|---|
-| "Limitations not adequately discussed" | "We agree and have expanded the limitations paragraph to address [specific issues] (page 15)." | "We thank the reviewer. While we believe the original discussion of limitations was adequate (see original page 14), we have nevertheless expanded this section to explicitly address [specific concern] (page 15)." |
+| Reviewer Comment                           | Agreement Response                                                                                                        | Rebuttal Response                                                                                                                                                                                                                                                                                      |
+| ------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| "Limitations not adequately discussed"     | "We agree and have expanded the limitations paragraph to address [specific issues] (page 15)."                            | "We thank the reviewer. While we believe the original discussion of limitations was adequate (see original page 14), we have nevertheless expanded this section to explicitly address [specific concern] (page 15)."                                                                                   |
 | "Missing comparison with [specific study]" | "We have added a comparison with [study] in the Discussion (page 13, paragraph 2). [Brief summary of comparison result]." | "We considered this suggestion. While [study] is relevant to the broader topic, it differs from our work in [key dimension – spatial scale, temporal resolution, method, study system]. We have added a brief note acknowledging their contribution and explaining the difference in scope (page 13)." |
 
 ---
@@ -140,15 +142,18 @@ Response:
 ### 4.2 语言模式三阶梯
 
 **❌ 致命的语言（绝对不要用）**：
+
 - "The reviewer is incorrect..."
 - "This comment shows the reviewer didn't read our paper..."
 - "We strongly disagree..."
 - "This suggestion is unnecessary..."
 
 **⚠️ 勉强可用的语言**：
+
 - "We disagree with this assessment..."
 
 **✅ 推荐的语言模式**：
+
 - "We appreciate this suggestion. However, we believe our approach is appropriate because..."
 - "We respectfully offer a different perspective. Our data shows..."
 - "While we understand the reviewer's concern, we maintain our position for the following reasons..."
@@ -202,6 +207,7 @@ Response:
 ### 5.3 Major Revision → 需要大量额外工作
 
 Julie Shapiro（Ben-Gurion University 生态学家）的建议：
+
 - 从最简单的 comment 开始处理，建立 momentum
 - 重大修改咨询 senior co-authors
 - 需要额外实验时，评估 feasibility（时间/资源/是否真的必要）
@@ -210,6 +216,7 @@ Julie Shapiro（Ben-Gurion University 生态学家）的建议：
 ### 5.4 审稿人要求补充实验但你无法做到
 
 三步回应：
+
 1. Acknowledge the value of the suggestion
 2. Explain why it's not feasible（时间/资源/数据不可得）
 3. Offer alternative（acknowledge as limitation + future work direction + 如有条件加 power analysis）
@@ -221,12 +228,14 @@ Julie Shapiro（Ben-Gurion University 生态学家）的建议：
 ### 6.1 EGU 交互式公开审稿的特殊性
 
 EGU 期刊（包括 ERL 的直接关联期刊 ACP/ESD 等）采用独特的**交互式公开审稿**：
+
 - 审稿意见在讨论阶段就公开发布
 - 作者和审稿人在公开论坛中交互
 - 社区成员（非正式审稿人）也可参与评论
 - 所有讨论永久存档
 
 **对 rebuttal 的启示**：
+
 - 你的 response 是**公开的、永久的学术记录**
 - 保持专业不仅是为了被接受，更是为了在公共学术记录中留下正面形象
 - EGU 期刊相对较低的拒稿率（~16% in 2024）部分归因于公开审稿的自我调节效应：提交质量差的论文会得到公开的差评
@@ -235,14 +244,14 @@ EGU 期刊（包括 ERL 的直接关联期刊 ACP/ESD 等）采用独特的**交
 
 基于 Lund et al. (2023, J. Climate) 的警示：
 
-| 潜在 Reviewer 质疑 | 预判性准备 |
-|---|---|
-| "How do you justify the number of changepoints (m)?" | 准备 DIC/BIC/elbow plot 的模型选择证据；cite Cahill et al. (2015) |
-| "Results are sensitive to the choice of CP detection method." | 准备 sensitivity analysis（对比至少 2 种方法）；cite Lund et al. (2023) |
-| "What about autocorrelation in the residuals?" | 确认你的 CP 模型如何处理自相关（AR 项、pre-whitening、robust SE）；cite Lund et al. |
-| "The hiatus narrative is overstated; how do you distinguish signal from noise?" | 准备 uncertainty quantification（CP 的 CI、bootstrap、或 Bayesian posterior） |
-| "How do you handle the connected vs disconnected segments assumption?" | 明确你模型中的 continuity constraint；cite Cahill et al. 的 connected segments 假设 |
-| "Why lakes? What's the added value over global SST analysis?" | 准备 lake-specific arguments（closer to human experience, ecological implications, etc.） |
+| 潜在 Reviewer 质疑                                                              | 预判性准备                                                                                |
+| ------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
+| "How do you justify the number of changepoints (m)?"                            | 准备 DIC/BIC/elbow plot 的模型选择证据；cite Cahill et al. (2015)                         |
+| "Results are sensitive to the choice of CP detection method."                   | 准备 sensitivity analysis（对比至少 2 种方法）；cite Lund et al. (2023)                   |
+| "What about autocorrelation in the residuals?"                                  | 确认你的 CP 模型如何处理自相关（AR 项、pre-whitening、robust SE）；cite Lund et al.       |
+| "The hiatus narrative is overstated; how do you distinguish signal from noise?" | 准备 uncertainty quantification（CP 的 CI、bootstrap、或 Bayesian posterior）             |
+| "How do you handle the connected vs disconnected segments assumption?"          | 明确你模型中的 continuity constraint；cite Cahill et al. 的 connected segments 假设       |
+| "Why lakes? What's the added value over global SST analysis?"                   | 准备 lake-specific arguments（closer to human experience, ecological implications, etc.） |
 
 ### 6.3 数据/代码可用性相关的 reviewer 质疑
 
@@ -302,14 +311,14 @@ Manusights 的核心洞见：**the most damaging rebuttals are not the blunt one
 
 ### 9.1 可能出现的典型 reviewer 场景
 
-| 场景 | 预判策略 |
-|---|---|
-| Reviewer 质疑 CP 检测方法的 sensitivity | 准备 multi-method sensitivity analysis（至少 STL + Bayesian CP + Pettitt）；cite Lund et al. 并 acknowledge "conclusions are sensitive to model assumptions" |
-| Reviewer 要求额外的物理机制分析 | 指向 Discussion 中的机制讨论 + acknowledge as "beyond scope of current observational study, but important direction for process-based modeling" |
-| Reviewer 质疑 lakes 样本的代表性 | 准备 supplementary table 列出每湖的地理/形态特征（lat/lon/elevation/depth/area）；讨论 spatial coverage 的 bias 和 limitation |
-| Reviewer 询问与 Winslow et al. (2018) 的关键差异 | 准备好准确的差异论述：Winslow 用的是 linear trend comparison，你们用的是 changepoint framework，scales/granularity/story 都不同 |
-| Reviewer 对 archetype 分类有异议 | 准备 classification rules 的透明文档 + sensitivity to rule thresholds；consider acknowledging classification as "useful simplification" |
-| Reviewer 要求 ERA5 以外的数据源验证 | 如果用了其他数据源（如 in-situ buoy data 作 validation），提前 highlight；如果没用，acknowledge as limitation |
+| 场景                                             | 预判策略                                                                                                                                                     |
+| ------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Reviewer 质疑 CP 检测方法的 sensitivity          | 准备 multi-method sensitivity analysis（至少 STL + Bayesian CP + Pettitt）；cite Lund et al. 并 acknowledge "conclusions are sensitive to model assumptions" |
+| Reviewer 要求额外的物理机制分析                  | 指向 Discussion 中的机制讨论 + acknowledge as "beyond scope of current observational study, but important direction for process-based modeling"              |
+| Reviewer 质疑 lakes 样本的代表性                 | 准备 supplementary table 列出每湖的地理/形态特征（lat/lon/elevation/depth/area）；讨论 spatial coverage 的 bias 和 limitation                                |
+| Reviewer 询问与 Winslow et al. (2018) 的关键差异 | 准备好准确的差异论述：Winslow 用的是 linear trend comparison，你们用的是 changepoint framework，scales/granularity/story 都不同                              |
+| Reviewer 对 archetype 分类有异议                 | 准备 classification rules 的透明文档 + sensitivity to rule thresholds；consider acknowledging classification as "useful simplification"                      |
+| Reviewer 要求 ERA5 以外的数据源验证              | 如果用了其他数据源（如 in-situ buoy data 作 validation），提前 highlight；如果没用，acknowledge as limitation                                                |
 
 ### 9.2 投稿期刊特定的 rebuttal 注意事项
 
@@ -323,16 +332,16 @@ Manusights 的核心洞见：**the most damaging rebuttals are not the blunt one
 
 ## 十、关键参考资源
 
-1. **Breathe/PMC 6269172** (2018) — How to write a response to the reviewers of your manuscript. *最全面的 step-by-step 指南*
-2. **Manusights** (2026) — How to Write a Rebuttal Letter to Reviewers. *心理学 + 模板 + 语言模式的最佳综合*
-3. **Ref-n-Write** (2025) — Sample Rebuttal Letter Templates. *按 IMRaD 各节的 agree/disagree 双栏模板*
-4. **Fraser Lab** — How to respond to reviews. *实际操作指南（颜色编码、quote 新文本）*
-5. **Nature Geoscience Editorial Policies** — Peer review process and author guidance. *地学顶刊的预期*
-6. **Nature Methods** (2013) — The way you say it. *经典的语气指南*
-7. **Nature Index** (2021) — How to respond to difficult or negative peer-reviewer feedback. *访谈多位研究者的真实经验*
-8. **Taylor & Francis Author Services** — 9 steps on how to respond to reviewer comments. *出版社视角的实用步骤*
-9. **arXiv 2509.25701** (2025) — What Drives Paper Acceptance? A Process-Centric Analysis of Modern Peer Review (ICLR 2017-2025). *实证研究：快速且充实的 rebuttal 是 borderline paper 的救命策略；最优交互深度 2-3 轮*
-10. **Lund et al. (2023, J. Climate)** — 气候 changepoint 综述中的 reviewer sensitivity 讨论。*对 hiatus 论文 rebuttal 准备工作至关重要*
+1. **Breathe/PMC 6269172** (2018) — How to write a response to the reviewers of your manuscript. _最全面的 step-by-step 指南_
+2. **Manusights** (2026) — How to Write a Rebuttal Letter to Reviewers. _心理学 + 模板 + 语言模式的最佳综合_
+3. **Ref-n-Write** (2025) — Sample Rebuttal Letter Templates. _按 IMRaD 各节的 agree/disagree 双栏模板_
+4. **Fraser Lab** — How to respond to reviews. _实际操作指南（颜色编码、quote 新文本）_
+5. **Nature Geoscience Editorial Policies** — Peer review process and author guidance. _地学顶刊的预期_
+6. **Nature Methods** (2013) — The way you say it. _经典的语气指南_
+7. **Nature Index** (2021) — How to respond to difficult or negative peer-reviewer feedback. _访谈多位研究者的真实经验_
+8. **Taylor & Francis Author Services** — 9 steps on how to respond to reviewer comments. _出版社视角的实用步骤_
+9. **arXiv 2509.25701** (2025) — What Drives Paper Acceptance? A Process-Centric Analysis of Modern Peer Review (ICLR 2017-2025). _实证研究：快速且充实的 rebuttal 是 borderline paper 的救命策略；最优交互深度 2-3 轮_
+10. **Lund et al. (2023, J. Climate)** — 气候 changepoint 综述中的 reviewer sensitivity 讨论。_对 hiatus 论文 rebuttal 准备工作至关重要_
 
 ---
 
@@ -341,6 +350,7 @@ Manusights 的核心洞见：**the most damaging rebuttals are not the blunt one
 Rebutal 写作是学术出版全链路中最后一个被训练的技能，也是最少被正式教授的。大多数研究者通过 trial and error 学会。希望这份系统整理能让 froQ 在 hiatus 论文的投稿后阶段少走弯路。
 
 核心原则三条：
+
 1. **Be specific, never vague.** 每条回复都指向 manuscript 的具体位置。
 2. **Acknowledge before disagreeing.** 先理解再反对。
 3. **The reviewer's confusion = your lack of clarity.** 用这个心态重读每一条评论。
