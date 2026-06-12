@@ -19,80 +19,6 @@ export interface TaskStatusConfig {
 
 export type TaskProgress = { done: number, total: number } | number
 
-export type DayTaskPriority = 'high' | 'medium' | 'low'
-
-export interface DayTask {
-  title: string
-  status: 'done' | 'inProgress' | 'notStarted' | 'deferred' | 'deffered' | 'cancelled' | 'blocked'
-  priority?: DayTaskPriority
-  dod?: string
-  notes?: TaskNote[]
-  tags?: string[]
-}
-
-export interface DayRecord {
-  date: string
-  theme?: string
-  tasks: DayTask[]
-  file: string
-}
-
-export interface DayData {
-  today: string
-  currentDay: DayRecord | null
-  days: DayRecord[]
-}
-
-export type WeekTaskPriority = 'high' | 'medium' | 'low'
-
-export interface WeekTask {
-  title: string
-  status: 'done' | 'inProgress' | 'notStarted' | 'deferred' | 'deffered' | 'cancelled' | 'blocked'
-  priority?: WeekTaskPriority
-  dod?: string
-  notes?: TaskNote[]
-  tags?: string[]
-}
-
-export interface WeekData {
-  theme?: string
-  start: string
-  end: string
-  tasks: WeekTask[]
-}
-
-export interface WeekDashboardData {
-  today: string
-  currentStart: string
-  currentWeek: WeekData | null
-  weeks: Array<{
-    start: string
-    end: string
-    file: string
-  }>
-}
-
-export interface BacklogItem {
-  title: string
-  status: 'notPlanned' | 'arranging' | 'deferred' | 'deffered'
-  due?: string
-  dod?: string
-  notes?: TaskNote[]
-  locale?: string
-}
-
-export interface BacklogRecord {
-  month: string
-  items: BacklogItem[]
-  file: string
-}
-
-export interface BacklogData {
-  currentMonth: string
-  current: BacklogRecord | null
-  months: BacklogRecord[]
-}
-
 export interface VisionItem {
   title: string
   notes?: TaskNote[]
@@ -156,45 +82,6 @@ export interface BoardTask {
   tags?: string[]
   since?: string
   completed?: string
-}
-
-export type CalendarEventSource = 'board' | 'schedule'
-
-export interface ScheduleItem {
-  id?: string
-  title: string
-  start: string
-  end: string
-  type?: string
-  content?: string
-  url?: string
-  notes?: TaskNote[]
-  allDay?: boolean
-}
-
-export interface ScheduleData {
-  updated?: string
-  schedule: ScheduleItem[]
-}
-
-export interface DashboardCalendarEvent {
-  id: string
-  title: string
-  start: string
-  end: string
-  source: CalendarEventSource
-  type: string
-  content?: string
-  url?: string
-  allDay?: boolean
-  status?: BoardTaskStatus
-  priority?: 'high' | 'medium' | 'low'
-  raw?: BoardTask | ScheduleItem
-}
-
-export interface DashboardCalendarData {
-  updated: string
-  events: DashboardCalendarEvent[]
 }
 
 export interface BoardData {
