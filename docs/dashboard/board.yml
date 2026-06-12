@@ -1,41 +1,15 @@
 # AI-BOARD
-updated: '2026-06-03T20:40:00+08:00'
-weekTheme: ''
+updated: '2026-06-12T18:26:00+08:00'
+weekTheme: '论文重新凝练 + 最终实验'
 
 active:
-  - title: 扩展数据验证 1994 边界效应
-    priority: high
-    status: done
-    notes:
-      - text: 2026-06-03 已完成；1994 年是边界，但 1990 年不是，1990 年是真的 shift 点
-  - title: 导师任务：中韩合作项目申报书（？）中的某一部分
-    dod: 完成文稿
-    priority: medium
-    due: 2026-06-08
-    status: done
-    notes:
-      - text: 在这里编辑文稿
-        url: https://word.cloud.microsoft/open/onedrive/?docId=37A5EFB32CC610FA%21sa98ad297e4e24e3fb3985081c3eb32d6&driveId=37A5EFB32CC610FA
-      - text: 这是参考
-        url: https://word.cloud.microsoft/open/onedrive/?docId=37A5EFB32CC610FA%21s38dbaff312f54201b67e56e3a89424f8&driveId=37A5EFB32CC610FA
-      - text: 需要向 Dr. Suh 获取信息
-      - text: Dr. Suh 信息不多，可能我需要自己查阅或者直接询问 Dr. Suh 的 boss Prof. Jo
-      - text: '已完成（06-07: mark as `done`)'
-  - title: 一个小组 Presentation 的 slides
-    dod: 完成 slides 制作
-    priority: high
-    due: 2026-06-09
-    status: done
-    notes:
-      - text: '阻塞原因：组内尚未分配每人负责的部分，无法开始执行 (06-04: mark as `blocked`)'
-      - text: '已分配（06-05: mark as `notStarted`)'
-      - text: '已完成（06-07: mark as `done`)'
   - title: 推进论文分析
     dod: 完整的论文叙事
     priority: medium
     status: inProgress
     notes:
       - text: 导师称「比较平淡，没有什么特别吸引人的地方」「还得重新琢磨一下，凝练出有新意的点来吸引读者」(06-07)
+      - text: 策略：输出原子化结果，让他自己看 (06-12)
 
 backlog:
   - title: PDO/bloom 叙事 → discussion future directions
@@ -49,6 +23,12 @@ backlog:
       - text: timeline 式的日程管理，本来想做到 dashboard 里，效果一般
 
 archive:
+  - title: 扩展数据验证 1994 边界效应
+    completed: 2026-06-03
+  - title: 导师任务：中韩合作项目申报书
+    completed: 2026-06-07
+  - title: 小组 Presentation slides
+    completed: 2026-06-07
   - title: Results 初稿审阅优化
     completed: 2026-05-31
   - title: 结课论文提交
