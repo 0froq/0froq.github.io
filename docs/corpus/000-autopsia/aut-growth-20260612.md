@@ -5,7 +5,7 @@ status: probe
 last_modified: 2026-06-12 06:02:00
 ---
 
-本文由 AI（花花）基于项目内容自动生成，属于 Autopsia Growth Patrol 的一次生长记录。  
+本文由 AI（花花）基于项目内容自动生成，属于 Autopsia Growth Patrol 的一次生长记录。
 它不是 froQ 的结论，而是一枝等待回应的枝条。
 
 ---
@@ -102,5 +102,5 @@ last_modified: 2026-06-12 06:02:00
 
 ## AI 标注
 
-本文件是 AI（花花）的自动化输出，不代表 froQ 已确认。  
+本文件是 AI（花花）的自动化输出，不代表 froQ 已确认。
 下一次 Growth Patrol 会优先读取 froQ 在反馈区留下的回应。

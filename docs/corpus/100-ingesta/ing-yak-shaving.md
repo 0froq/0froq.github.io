@@ -2,11 +2,11 @@
 title: About Yak Shaving
 created: 2025-11-08
 status: probe
-last_modified: 2026-03-15 14:35:28
+last_modified: 2026-06-12 16:07:04
 lang: en
 ---
 
-About Yak Shaving.
+_About Yak Shaving_ by [@antfu](https://antfu.me).
 
 ---
 
