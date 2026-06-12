@@ -127,6 +127,18 @@ Format per entry: Problem → Real case → Correct practice.
   - If no existing tag covers the concept, propose the new tag to the user in conversation and wait for approval.
   - Do not add unapproved tags to the file.
 
+### 2.6 Markdown source line width
+
+- **Problem**: Writing long Markdown source lines makes corpus/posts hard to edit in terminal editors and produces noisy diffs.
+- **Case**: A prose paragraph is written as one 200+ character line; it renders fine, but exceeds the editor's comfortable width and is hard to review.
+- **Correct**:
+  - For Markdown prose, wrap lines by semantic units. Aim for about 80 English-character visual width, or about 40 Chinese characters.
+  - Prefer line breaks after Chinese punctuation, English punctuation, spaces, or Chinese/English boundaries.
+  - Do not hard-break between two adjacent Chinese characters if a nearby punctuation or phrase boundary exists.
+  - Do not break Markdown syntax units such as links, inline code, footnote markers, emphasis markers, or image syntax.
+  - Lists should wrap with indentation preserved.
+  - Frontmatter, tables, code blocks, raw URLs, and generated machine-readable blocks are exempt when wrapping would reduce correctness or readability.
+
 ---
 
 ## 3. Agent Behavior & Tool Use
