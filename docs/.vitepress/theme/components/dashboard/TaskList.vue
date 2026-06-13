@@ -22,7 +22,7 @@ const props = withDefaults(defineProps<{
   emptyText?: string
 }>(), {
   showPriority: false,
-  showDueDate: false,
+  showDueDate: true,
   enableMarkdown: false,
 })
 
