@@ -10,6 +10,13 @@ active:
     notes:
       - text: 导师称「比较平淡，没有什么特别吸引人的地方」「还得重新琢磨一下，凝练出有新意的点来吸引读者」(06-07)
       - text: 策略：输出原子化结果，让他自己看 (06-12)
+  - title: 结课考试整理
+    dod: 做好 PDF 供打印
+    priority: high
+    due: 2026-06-15
+    status: blocked
+    notes:
+      - text: '助教说还没出完卷子，等待 (06-13: mark as `blocked`)'
 
 backlog:
   - title: PDO/bloom 叙事 → discussion future directions
