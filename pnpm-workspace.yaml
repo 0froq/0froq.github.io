@@ -107,5 +107,5 @@ catalogs:
     '@types/plotly.js': ^3.0.10
 
 allowBuilds:
-  - esbuild
-  - vue-demi
+  esbuild: true
+  vue-demi: true
