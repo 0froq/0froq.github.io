@@ -2,7 +2,7 @@
 title: Simplify Corpus Structure
 created: 2025-11-06
 status: form
-last_modified: 2026-04-24 16:56:41
+last_modified: 2026-06-15 18:17:13
 lang: en
 translated: true
 ---
@@ -13,7 +13,7 @@ I simplified the structure of Corpus.
 
 [[toc]]
 
-#scope/work/corpus #practice/refactor
+#scope/meta/corpus #practice/refactor
 
 ## Overhaul
 

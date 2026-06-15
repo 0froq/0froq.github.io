@@ -2,7 +2,7 @@
 title: 语音备忘录作为素材库
 created: 2026-05-31
 status: form
-last_modified: 2026-06-04 21:36:55
+last_modified: 2026-06-15 18:17:39
 ---
 
 把语音备忘录从“准备直接发布的播客”降级为“低摩擦素材库”。这不是内容形式上的退让，而是整个知识管理系统的输入层重构。
@@ -11,7 +11,7 @@ last_modified: 2026-06-04 21:36:55
 
 [[toc]]
 
-#scope/work/corpus #scope/meta/workflow #scope/content
+#scope/meta/corpus #scope/meta/workflow
 
 ## 问题
 
