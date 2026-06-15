@@ -2,7 +2,7 @@
 title: Growth Patrol：把日程做成距离感
 created: 2026-06-15
 status: probe
-last_modified: 2026-06-15 01:02:52
+last_modified: 2026-06-16 01:02:39
 ---
 
 本文由 AI（花花）基于项目内容自动生成，属于 Autopsia Growth Patrol 的一次生长记录。  
@@ -148,3 +148,112 @@ app 内的动态刷新。但 Widget 侧要接受 TimelineProvider 的节奏，�
 本文件是 AI（花花）的自动化输出，不代表 froQ 已确认。
 本轮同时生成了对既有主题的 Continuation；本篇是独立 Growth，来自 2026-06-14
 的 iOS app 技术选型与 dashboard 中的 timeline app 线索。
+
+## 第二枝：把 Neovim Swift 环境看成一条编译信息管线
+
+同一天的文件里已经写过 timeline app 的「时间距离感」。这一次我不继续
+讨论产品形态，而是沿着 `vig-20260614.md` 里另一句很小的判断往下走：
+
+> Neovim 做 Swift 开发的环境已经成熟了（sourcekit-lsp + xcodebuild.nvim +
+> preview 插件，可以完全不开 Xcode）
+
+这句话表面是工具选择，底层其实是一个边界问题：怎样把 Apple 平台开发里
+最重、最封闭、最 GUI 化的一部分，拆成可以被终端和编辑器理解的管线。
+如果只把它理解成「不用 Xcode」，很容易变成姿态；如果把它理解成
+「Xcode 的工程知识如何外溢到 Neovim」，它就变成一个更硬的系统设计题。
+
+我从四个种子词开始查：`SourceKit-LSP Neovim`、`xcodebuild.nvim`、
+`xcode-build-server buildServer.json`、`Swift Testing neotest`。一开始我以为
+重点会是补全、跳转、预览这些 IDE 功能。但越查越清楚，真正的骨头不是 UI，
+而是 **build settings**：LSP 只有在知道一个文件用什么 SDK、target、宏、
+模块搜索路径、DerivedData 位置时，才真的知道这份 Swift 代码是什么。
+
+[SourceKit-LSP](https://github.com/swiftlang/sourcekit-lsp) 的 README 有一句
+很直接的限制：它支持 SwiftPM，也支持生成 `compile_commands.json` 的项目，
+但不会在后台自动更新全局索引或构建 Swift modules；很多跨模块功能依赖项目
+最近被 build 过。这把「编辑器智能」从魔法拉回了现实：补全不是从文件本身
+长出来的，它需要编译系统喂给语言服务器一套上下文。
+
+这也是 [xcode-build-server](https://github.com/SolaWing/xcode-build-server)
+存在的原因。它不是另一个编辑器插件，而是一层 Build Server Protocol 适配器。
+它会在项目根目录生成 `buildServer.json`，让 SourceKit-LSP 能从 Xcode 或
+`xcodebuild` 的构建日志里读到编译参数。这里带回的新节点是 **BSP**：Build
+Server Protocol。它有点像 LSP 的另一半，LSP 负责「编辑器问语言问题」，BSP
+负责「语言服务问构建系统问题」。没有后一半，iOS 项目里的 LSP 往往只能看见
+单个文件的影子。
+
+这次搜索里最有用的反例也来自 xcode-build-server 的文档：如果交叉引用失效，
+可能不是 Neovim 配错，而是 `build_root` 指到了错误的 DerivedData；如果
+standard library loading 失败，可能是 Xcode、toolchain、`sourcekit-lsp`
+版本不一致。换句话说，Swift Neovim 环境的脆弱点不在「插件不够酷」，而在
+管线两端的版本与路径是否同构。这里最好不要把 Xcode 彻底妖魔化。Xcode 可以
+不作为日常编辑器，但它仍然是 toolchain、SDK、simulator 和 signing 的重力井。
+
+[xcodebuild.nvim](https://github.com/wojciech-kulik/xcodebuild.nvim) 则在另一侧
+变得有趣。它不是只包一层 `:!xcodebuild`，而是把 build、run、debug、test、
+simulator、SwiftUI/UIKit/AppKit previews、coverage、Swift Testing、DAP 和
+file tree 操作都拉进 Neovim。它真正解决的不是「能不能不用鼠标」，而是让
+Neovim 成为 orchestrator：编辑器负责发起动作，Apple 官方命令行工具负责执行，
+SourceKit-LSP 负责语言理解，DerivedData 和 build logs 负责提供事实。
+
+顺着 Swift Testing 往旁支走，我看到 Swift Forums 上有人写了
+[neotest-swift-testing](https://forums.swift.org/t/using-swift-testing-with-neovim-and-neotest/76153)。
+这个小案例很有启发，因为它暴露出另一个层次：测试发现依赖 Tree-sitter 的
+Swift parser，LazyVim 用户后来还需要安装 `tree-sitter-cli` 和 `node` 才跑通。
+这说明「完全不开 Xcode」并不等于「只有一个 LSP 插件」。它更像一组可替换的
+感官器官：LSP 看类型，Tree-sitter 看语法结构，`xcodebuild` 看构建事实，DAP
+看运行时，simctl 看设备世界。
+
+这次带回的几个新概念可以收束成一张小拓扑：
+
+- SourceKit-LSP：语言服务，不是构建系统本身。
+- BSP / `buildServer.json`：把 Xcode 工程的编译上下文递给 LSP 的桥。
+- DerivedData / index store：跨文件跳转、引用、诊断能否完整的现实底座。
+- xcodebuild.nvim：把 build / run / test / debug / preview 编排进 Neovim。
+- neotest-swift-testing：把测试树和断点调试接进熟悉的 test workflow。
+- Tree-sitter Swift parser：测试发现、结构识别、语法层能力的旁支依赖。
+
+我会把这件事命名成「可离开 Xcode 的编辑环境」，而不是「无 Xcode 的开发环境」。
+前者承认 Apple toolchain 仍在地下运转，后者容易制造错误期待。对 iOS app 来说，
+更稳的目标不是切断 Xcode，而是把 Xcode 缩成工具链供应商：它提供 SDK、编译器、
+simulator 和 signing；日常认知界面则迁到 Neovim。
+
+如果下一步真的要搭环境，我觉得最小可验证路径不是一口气装满插件，而是先验证
+三条生命线：
+
+1. `xcrun sourcekit-lsp` 能被 Neovim 启动，SwiftPM 或示例 app 文件有补全和诊断。
+2. `xcode-build-server config ...` 生成的 `buildServer.json` 在项目根目录，且
+   build 后跳转引用能跨文件工作。
+3. xcodebuild.nvim 能跑一次 simulator build / test，失败信息能回到 buffer。
+
+只有这三条通了，SwiftUI preview、snapshot testing、coverage、DAP、Swift
+Testing adapter 才值得继续叠。否则环境会变成一朵很漂亮但没有根的插件云。
+
+这枝和 timeline app 的关系也很直接：先画静态 timeline 原型时，不必追求
+完整 app 架构。最好的第一个样本可能是一个 SwiftPM package 或极小 iOS project：
+一条 `TimelineMark` model、一段 Canvas/Shape 绘制、一个 preview、一两个
+Swift Testing case。它同时测试产品想法和工具链，不把两件事拆成两场消耗。
+
+## 等你来碰一下的枝条：工具链先别长成神殿
+
+- [ ] 你想先用 SwiftPM package 验证 timeline 绘制，还是直接起 iOS app target？
+- [ ] 对你来说，「不开 Xcode」的底线是完全不打开 GUI，还是日常编辑不依赖它即可？
+- [ ] 这个环境的第一验收标准应该是补全、跨文件跳转、simulator run、SwiftUI
+  preview，还是测试树？
+- [ ] 你愿意把 `buildServer.json`、DerivedData、toolchain 版本写成一份小型
+  troubleshooting note 吗？
+- [ ] 如果 xcodebuild.nvim 已经承担 build/test/debug，Neovim 里还需要单独设计
+  哪些快捷键，才不会把 iOS 开发变成命令记忆负担？
+
+## froQ 反馈
+
+<!-- froQ 在这里回答、评价、修正，或标记“继续 / 暂停 / 换方向”。 -->
+
+## AI 标注
+
+本节是 AI（花花）的自动化输出，不代表 froQ 已确认。
+本轮没有生成 Continuation；最近几篇 Growth / Continuation 的反馈区没有新的
+未回应展开。本节作为同日第二个 Growth 章节追加到既有文件，主题来自
+`vig-20260614.md` 与 dashboard 中的 Neovim Swift 环境线索；外部搜索补充了
+SourceKit-LSP、Build Server Protocol、xcode-build-server、xcodebuild.nvim
+与 Swift Testing / neotest 的实践边界。
