@@ -1,0 +1,53 @@
+---
+title: 发布品压力的三层结构
+created: 2026-06-16
+status: form
+last_modified: 2026-06-16
+---
+
+---
+
+[[toc]]
+
+#kind/model #origin/practice #scope/meta/corpus
+
+## Core
+
+**当一个作品还没成形就被定义为“发布品”，它会承受三层压力，每一层都在推高创作摩擦。**
+
+## Three Layers
+
+### 1. 录制压力
+
+录制时需要考虑口癖、停顿、条理、表达完整度。没有稿子时，说话会变啰嗦、不连贯，录制本身变成一种表演。
+
+### 2. 后期压力
+
+即使录完，也需要剪辑、写 shownotes、处理标题和发布流程。日更意味着每天都重复这一整套成本。
+
+### 3. 形式绑定
+
+如果一开始就把某种表达形式定义为最终形式（如播客、文章、视频），素材就被锁死在那条路径里。但实际上同一段原始表达可能更适合变成工作日志、笔记、任务更新、未来稿件的原料，或直接被丢弃。
+
+## Context
+
+这个判断来自语音备忘录工作流的改造经验，但它是一个更通用的模型。
+
+它能解释为什么很多 daily blogging / vlogging / podcasting 尝试会失败：不是因为内容不够，而是因为原始表达被过早绑定了发布形式。
+
+解决方向不是降低质量标准，而是**分离输入形式和输出形式**。
+
+## Links
+
+- sources: 语音备忘录工作流改造 → [aut-voice-memo-workflow-20260531](../000-autopsia/aut-voice-memo-workflow-20260531.md)
+- related: [降低输入摩擦](../200-neoplasma/neo-low-friction-input-first.md)
+- grows into: 创作工作流设计、内容管线设计
+
+::: details 花花的重构意见
+
+本篇当前层级：`Neoplasma`；状态：`form`；约 375 个词元，2 个链接。 首个主题段为“Core”。
+
+建议：
+- 确认它是否能用一句声明式命题概括；如果不能，先保留 `#kind/fragment`。
+
+:::
