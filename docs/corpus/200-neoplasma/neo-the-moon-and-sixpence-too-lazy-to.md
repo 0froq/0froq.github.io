@@ -16,12 +16,21 @@ last_modified: 2026-03-31 20:20:26
 
 [[toc]]
 
-[source](../100_ingesta/ing_the_moon_and_sixpence.md)
+[source](../100-ingesta/ing-the-moon-and-sixpence.md)
 
-#scope/life/read #thought #source/book #author/maugham
+#kind/response #origin/external #scope/life/read #thought #source/book #author/maugham
 
 看到这个的时候实属笑了，有点玄学。
 就像小时候，洗澡之前不想洗，
 一进去就洗一两个小时不想出来。
 大概是「_物体有保持其原有运动状态的趋势_」？
 不太懂，可能单纯是**懒**吧 I guess.
+
+::: details 花花的重构意见
+
+本篇当前层级：`Neoplasma`；状态：`form`；约 164 个词元，1 个链接。
+
+建议：
+- 这篇现在是 source response。下一步应把其中最强的一句话改写成声明式标题，形成可复用概念节点。
+
+:::

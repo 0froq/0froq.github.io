@@ -7,4 +7,14 @@ last_modified: {{date}}
 
 ---
 
-#collection/
+#kind/aesthetic #origin/aesthetic #capture
+<!-- add collection type when useful: #collection/image / #collection/music / #collection/type / #collection/space -->
+
+## Material
+
+
+## Sensation
+
+
+## Possible Use
+

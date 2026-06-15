@@ -2,7 +2,7 @@
 title: Binomial Nomenclature
 created: 2026-04-17
 status: probe
-last_modified: 2026-04-18 18:32:22
+last_modified: 2026-06-16 03:57:08
 lang: en
 ---
 
@@ -14,7 +14,7 @@ uniquely identify and classify living organisms.
 
 [[toc]]
 
-#scope/fmi/taxonomy #source/base
+#kind/source #origin/external #scope/fmi/taxonomy #source/base
 
 ## Some rules
 

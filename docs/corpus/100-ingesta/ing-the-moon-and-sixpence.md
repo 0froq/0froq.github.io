@@ -2,7 +2,7 @@
 title: "*The Moon and Sixpence*"
 created: 2022-03-23 22:43
 status: probe
-last_modified: 2026-04-21 20:52:42
+last_modified: 2026-06-16 03:59:06
 ---
 
 摘抄——_The Moon and Sixpence_ · W.S. Maugham《月亮与六便士》
@@ -11,7 +11,7 @@ last_modified: 2026-04-21 20:52:42
 
 [[toc]]
 
-#scope/life/read #source/book #author/maugham
+#kind/source #origin/external #source/book #scope/life/read #author/maugham
 
 ## 2022 / 03 / 23
 
@@ -21,9 +21,9 @@ last_modified: 2026-04-21 20:52:42
 > 我一丝不苟地遵从他的建议，
 > 因为我每天早上都会起床，
 > 晚上也都会睡觉。
-> [...](../200_neoplasma/neo_the_moon_and_sixpence_too_lazy_to.md)
+> [...](../200-neoplasma/neo-the-moon-and-sixpence-too-lazy-to.md)
 
 ## 2023 / 10 / 30
 
 > 艺术家哪怕有上千个缺点，但只要有着特立独行的个性，那就是可取的。
-> [...](../200_neoplasma/neo_the_moon_and_sixpence_artists.md)
+> [...](../200-neoplasma/neo-the-moon-and-sixpence-artists.md)

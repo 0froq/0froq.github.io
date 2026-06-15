@@ -2,7 +2,7 @@
 title: About Yak Shaving
 created: 2025-11-08
 status: probe
-last_modified: 2026-06-12 16:07:04
+last_modified: 2026-06-16 04:00:06
 lang: en
 ---
 
@@ -12,7 +12,7 @@ _About Yak Shaving_ by [@antfu](https://antfu.me).
 
 [[toc]]
 
-#scope/meta/methodology #source/blog #author/antfu
+#kind/source #origin/external #scope/meta/methodology #source/blog #author/antfu
 
 > Source: [About Yak Shaving](https://antfu.me/posts/about-yak-shaving)
 

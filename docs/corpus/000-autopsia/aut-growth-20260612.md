@@ -12,7 +12,7 @@ last_modified: 2026-06-12 06:02:00
 
 [[toc]]
 
-#scope/meta/growth #scope/ai/hanako #scope/autopsia
+#kind/reflection #origin/ai #scope/meta/growth #scope/ai/hanako #scope/autopsia
 
 ## 今晨的入口
 
@@ -104,3 +104,14 @@ last_modified: 2026-06-12 06:02:00
 
 本文件是 AI（花花）的自动化输出，不代表 froQ 已确认。
 下一次 Growth Patrol 会优先读取 froQ 在反馈区留下的回应。
+
+::: details 花花的重构意见
+
+本篇当前层级：`Autopsia`；状态：`probe`；约 3075 个词元，0 个链接。 首个主题段为“今晨的入口”。
+
+建议：
+- 先补一个 `froQ Verdict`：保留 / 蒸馏 / 反驳 / 暂停，避免 AI 生长枝条直接等同于你的结论。
+- 若其中有被确认的判断，拆到 `200 Neoplasma`；本篇只保留系统级诊断和生长过程。
+- 篇幅偏长，可以提炼一个 `## Decision / Mutation` 小节，列出真正改变系统规则的 1–3 条结论。
+
+:::

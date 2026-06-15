@@ -2,7 +2,7 @@
 title: '@xie2017: What Caused the Global Surface Warming Hiatus of 1998–2013?'
 created: 2026-03-26
 status: form
-last_modified: 2026-04-26 13:56:19
+last_modified: 2026-06-16 03:55:29
 lang: en
 ---
 
@@ -10,9 +10,7 @@ lang: en
 
 [[toc]]
 
-#scope/work/research/surfaceTemperature
-#scope/work/research/warmingHiatus
-#source/paper
+#kind/source #origin/external #source/paper #scope/work/research/surfaceTemperature #scope/work/research/warmingHiatus
 
 - citation_key: xie2017
 - title: What Caused the Global Surface Warming Hiatus of 1998–2013?

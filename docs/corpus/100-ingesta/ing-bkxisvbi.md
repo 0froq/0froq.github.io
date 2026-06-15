@@ -2,7 +2,7 @@
 title: "《病隙随笔》"
 created: 2022-03-25 00:00
 status: probe
-last_modified: 2026-03-03 18:48:11
+last_modified: 2026-06-16 03:57:34
 ---
 
 摘抄——《病隙随笔》史铁生
@@ -11,7 +11,7 @@ last_modified: 2026-03-03 18:48:11
 
 [[toc]]
 
-#scope/life/read #source/book #author/shitiesheng
+#kind/source #origin/external #source/book #scope/life/read #author/shitiesheng
 
 ## 2022 / 03 / 25
 

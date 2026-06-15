@@ -9,4 +9,19 @@ last_modified: {{date}}
 
 [[toc]]
 
-#scope/
+#kind/fragment #origin/endogenous #capture
+
+## Core
+
+
+## Context
+
+
+## Tension
+
+
+## Links
+
+- sources:
+- related:
+- grows into:

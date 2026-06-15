@@ -7,13 +7,13 @@
 
 # Format: category|full_name|alias|path|description|requires_arg|include_date
 typeset -g -r CORPUS_LAYERS_DATA='
-autopsia|autopsia|aut|000-autopsia|Metacognitive dissection and optimization|false|true
-ingesta|ingesta|ing|100-ingesta|Information ingestion and intake|true|false
-paper|ingesta|paper|100-ingesta|Create paper entry with metadata (uses tp_paper.md)|true|false
-neoplasma|neoplasma|neo|200-neoplasma|Internalization and thinking|true|false
-putredo|putredo|put|300-putredo|Journaling and retrospective review|false|true
-delirium|delirium|del|400-delirium|Aesthetic materials and wonders|true|true
-vigil|vigil|vig|500-vigil|Non-rational and semi-rational creation|false|true
+autopsia|autopsia|aut|000-autopsia|Metacognitive/system dissection, not a capture inbox|false|true
+ingesta|ingesta|ing|100-ingesta|Stable external source registry|true|false
+paper|ingesta|paper|100-ingesta|Create paper source entry with metadata|true|false
+neoplasma|neoplasma|neo|200-neoplasma|New thoughts, claims, questions, models, and designs|true|false
+putredo|putredo|put|300-putredo|Practice, execution, failure, and reality friction|false|true
+delirium|delirium|del|400-delirium|Aesthetic and non-rational materials|true|true
+vigil|vigil|vig|500-vigil|Existential anchors and living evidence|false|true
 '
 
 # -----------------------
@@ -103,6 +103,6 @@ corpus_list_layers() {
 
   echo
   echo "Special Commands:"
-  echo "  ing paper <citation>  - Create paper entry with metadata (uses tp_rel_paper.md)"
-  echo "  [layer] --insta      - Instant note-taking mode"
+  echo "  ing paper <citation>  - Create paper source entry with metadata"
+  echo "  [layer] --insta      - Instant note-taking mode; add #capture when unresolved"
 }

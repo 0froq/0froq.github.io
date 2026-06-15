@@ -11,9 +11,9 @@ last_modified: 2026-03-31 20:19:56
 
 [[toc]]
 
-#scope/life/read #thought #source/book #author/shitiesheng
+#kind/response #origin/external #scope/life/read #thought #source/book #author/shitiesheng
 
-[source](../100_ingesta/ing_iadvdeguui.md)
+[source](../100-ingesta/ing-iadvdeguui.md)
 
 世上没办法的事情太多。
 必须去面对的、不满但无力改变的、要在两难之间做出选择的事太多。
@@ -40,3 +40,12 @@ last_modified: 2026-03-31 20:19:56
 完美并**不以具象存在**着，但**于「走向」中成立**着。
 
 **「天堂不是一处空间，不是一种物质性存在，而是道路，是精神的恒途。」**
+
+::: details 花花的重构意见
+
+本篇当前层级：`Neoplasma`；状态：`form`；约 396 个词元，1 个链接。
+
+建议：
+- 这篇现在是 source response。下一步应把其中最强的一句话改写成声明式标题，形成可复用概念节点。
+
+:::

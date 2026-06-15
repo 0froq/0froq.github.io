@@ -12,7 +12,7 @@ LSWT Post-Hiatus Trend Study Memo
 
 [[toc]]
 
-#scope/work/research/warmingHiatus #scope/work/paper
+#kind/log #origin/practice #scope/work/research/warmingHiatus #scope/work/paper
 
 ## Background + Questions
 
@@ -38,7 +38,7 @@ LSWT Post-Hiatus Trend Study Memo
 > which may cause a significant temperature or trend change around.
 > So if we start from 1986,
 > the pre-hiatus trend may be affected by this regime shift.
-> [@reid2016](../100_ingesta/ing_@reid2016.md) says the shift year varies
+> [@reid2016](../100-ingesta/ing-@reid2016.md) says the shift year varies
 > among regions. See this figure:
 > ![@reid2016 f6](/attachments/reid2016/reid2016-f6.png)
 > If we are to be strict, we need to test every timeseries for to avoid the
@@ -96,7 +96,7 @@ mechanism explanation.
 > heterogeneous, it is still a global phenomenon and the actual "hiatus" period
 > should be around 1998 (pre -> hiatus) and 2012 (hiatus -> post) for most lakes.
 > We can use STARS(Sequential t Test Analysis of Regime Shifts,
-> [@rodionov2004](../100_ingesta/ing_@rodionov2004.md)) to detect the changepoints
+> [@rodionov2004](../100-ingesta/ing-@rodionov2004.md)) to detect the changepoints
 > within a window (for example 3 years) around these 2 key years.
 >
 > Also, if we need to say something about the 2015-2018 platform,
@@ -143,3 +143,13 @@ mechanism explanation.
 
 - bloom / DO / ice phenology / fish habitat
 - [Lag relationship test]{.text-rose}
+
+::: details 花花的重构意见
+
+本篇当前层级：`Putredo`；状态：`void`；约 823 个词元，8 个链接。 首个主题段为“Background + Questions”。
+
+建议：
+- 把它视为现实摩擦记录，不必追求完整叙事；关键是留下可回流的 residue。
+- 建议补 `## Residue`：可蒸馏到 200 / 需要更新 board / 需要进入 000 / 可丢弃噪音。
+
+:::

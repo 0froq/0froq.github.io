@@ -15,9 +15,9 @@ last_modified: 2026-03-31 20:18:57
 
 [[toc]]
 
-#scope/life/read #thought #source/book #author/shitiesheng
+#kind/response #origin/external #scope/life/read #thought #source/book #author/shitiesheng
 
-[source](../100_ingesta/ing_gryuvjmuuidebcgcwfxt.md)
+[source](../100-ingesta/ing-gryuvjmuuidebcgcwfxt.md)
 
 其实二者也无孰优孰劣之分，目的不同而已。
 
@@ -30,3 +30,12 @@ last_modified: 2026-03-31 20:18:57
 我目的所在的那一些事，能否被其他的事达成？
 我做的一些事，是否足以达成我的目的？
 做事情得用脑子，做事情得找出最优解，做事情得把事情做成。
+
+::: details 花花的重构意见
+
+本篇当前层级：`Neoplasma`；状态：`form`；约 258 个词元，1 个链接。
+
+建议：
+- 这篇现在是 source response。下一步应把其中最强的一句话改写成声明式标题，形成可复用概念节点。
+
+:::

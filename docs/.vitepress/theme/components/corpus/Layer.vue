@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { CorpusData } from '~/types'
 import { useEventListener, useMouse } from '@vueuse/core'
-import { useRoute } from 'vitepress'
+import { Content, useRoute } from 'vitepress'
 import { onBeforeUnmount, onMounted, onUpdated, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import TooltipArticleInfo from '@/ui/article/TooltipArticleInfo.vue'
@@ -154,6 +154,9 @@ onBeforeUnmount(() => {
       un-mb-4
       un-font="stylish"
       :title="layer"
+    />
+    <Content
+      class="markdown-rendered"
     />
     <div
       v-for="(post, index) in thisPosts"

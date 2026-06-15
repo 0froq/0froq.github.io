@@ -1,8 +1,8 @@
 ---
 title: '@yan2016: The Global Warming Hiatus: Slowdown or Redistribution?'
 created: 2026-04-21
-status: draft
-last_modified: 2026-05-13 01:12:39
+status: probe
+last_modified: 2026-06-16 03:56:11
 lang: en
 ---
 
@@ -10,9 +10,7 @@ lang: en
 
 [[toc]]
 
-#scope/work/research/surfaceTemperature
-#scope/work/research/warmingHiatus
-#source/paper
+#kind/source #origin/external #source/paper #scope/work/research/surfaceTemperature #scope/work/research/warmingHiatus
 
 - citation_key: yan2016
 - title: The Global Warming Hiatus: Slowdown or Redistribution?

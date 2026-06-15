@@ -2,7 +2,7 @@
 title: "_L'Étranger_"
 created: 2022-04-06 23:43
 status: probe
-last_modified: 2026-04-24 16:59:49
+last_modified: 2026-06-16 03:58:29
 ---
 
 摘抄——_L'Étranger_ · A. Camus《局外人》
@@ -11,7 +11,7 @@ last_modified: 2026-04-24 16:59:49
 
 [[toc]]
 
-#scope/life/read #source/book #author/camus
+#kind/source #origin/external #source/book #scope/life/read #author/camus
 
 ## 2022 / 04 / 06
 

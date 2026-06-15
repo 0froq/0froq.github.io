@@ -16,9 +16,9 @@ last_modified: 2026-03-31 20:20:03
 
 [[toc]]
 
-#scope/life/read #thought #source/book #author/camus
+#kind/response #origin/external #scope/life/read #thought #source/book #author/camus
 
-[source](../100_ingesta/ing_l'étranger.md)
+[source](../100-ingesta/ing-l'etranger.md)
 
 如果我这样说：
 如果每天只能等待着看流云的住在树干里的我有一天能够离开树干去到牢房里，
@@ -31,3 +31,12 @@ last_modified: 2026-03-31 20:20:03
 **都会有不同的人物事物扮演着这些不同生活状态里相同的成分。**
 
 或者说得通俗点：「**人的欲望是无限的。**」
+
+::: details 花花的重构意见
+
+本篇当前层级：`Neoplasma`；状态：`form`；约 311 个词元，1 个链接。
+
+建议：
+- 这篇现在是 source response。下一步应把其中最强的一句话改写成声明式标题，形成可复用概念节点。
+
+:::

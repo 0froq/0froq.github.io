@@ -2,7 +2,7 @@
 title: "《礼拜日》"
 created: 2022-03-12 00:00
 status: probe
-last_modified: 2026-03-03 18:49:07
+last_modified: 2026-06-16 03:58:48
 ---
 
 摘抄——《礼拜日》史铁生
@@ -11,7 +11,7 @@ last_modified: 2026-03-03 18:49:07
 
 [[toc]]
 
-#scope/life/read #source/book #author/shitiesheng
+#kind/source #origin/external #source/book #scope/life/read #author/shitiesheng
 
 ## 2022 / 03 / 12
 
@@ -28,7 +28,7 @@ last_modified: 2026-03-03 18:49:07
 > “我也正在想我写的是什么。”
 
 > “不过是各人有各人的方式，可能有的人更习惯一个人听听音乐，喝喝酒。”
-> [...](../200_neoplasma/neo_libdri_their_own_way.md)
+> [...](../200-neoplasma/neo-libdri-their-own-way.md)
 
 > “我要么整宿整宿失眠，要么睡着了就整宿整宿做梦。”
-> [...](../200_neoplasma/neo_libdri_dream.md)
+> [...](../200-neoplasma/neo-libdri-dream.md)

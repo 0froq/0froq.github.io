@@ -9,4 +9,15 @@ last_modified: {{date}}
 
 [[toc]]
 
-#scope/
+#kind/vigil #origin/memory #capture
+
+## Moment
+
+
+## What This Proves
+
+
+## Echoes
+
+- may return to 200:
+- related:

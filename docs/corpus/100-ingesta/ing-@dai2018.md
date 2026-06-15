@@ -2,7 +2,7 @@
 title: '@dai2018: Identifying the Early 2000s Hiatus Associated with Internal Climate Variability'
 created: 2026-03-20
 status: probe
-last_modified: 2026-04-26 13:13:10
+last_modified: 2026-06-16 03:53:08
 lang: en
 ---
 
@@ -10,8 +10,7 @@ lang: en
 
 [[toc]]
 
-#scope/work/research/warmingHiatus
-#source/paper
+#kind/source #origin/external #source/paper #scope/work/research/warmingHiatus
 
 - citation_key: dai2018
 - title: Identifying the Early 2000s Hiatus Associated with Internal Climate Variability
@@ -44,6 +43,6 @@ lang: en
 > in the datasets increase the temperature],
 > especially during the early 2000s,
 > probably due to rapid warming in the Arctic region.
-> [@cohen2014](./ing_@cohen2014.md)
+> [@cohen2014](./ing-@cohen2014.md)
 
 ![dai2018f1](./dai2018/dai2018f1.png)

@@ -2,7 +2,7 @@
 title: "@medhaug2017: Reconciling Controversies about the 'Global Warming Hiatus'"
 created: 2026-04-21
 status: draft
-last_modified: 2026-05-12 14:49:56
+last_modified: 2026-06-16 03:54:11
 lang: en
 ---
 
@@ -10,8 +10,7 @@ lang: en
 
 [[toc]]
 
-#scope/work/research/warmingHiatus
-#source/paper
+#kind/source #origin/external #source/paper #scope/work/research/warmingHiatus
 
 - citation_key: medhaug2017
 - title: Reconciling Controversies about the `Global Warming Hiatus'

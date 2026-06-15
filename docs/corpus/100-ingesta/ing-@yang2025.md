@@ -1,17 +1,15 @@
 ---
 title: '@yang2025: 基于BP神经网络与遥感反演的太湖热浪规律研究'
 created: 2025-10-29
-status: draft
-last_modified: 2026-05-12 14:51:37
+status: probe
+last_modified: 2026-06-16 03:56:22
 ---
 
 ---
 
 [[toc]]
 
-#scope/work/research/lakeHeatwave
-#scope/work/research/machineLearning
-#source/paper
+#kind/source #origin/external #source/paper #scope/work/research/lakeHeatwave #scope/work/research/machineLearning
 
 - citation_key: yang2025
 - title: 基于BP神经网络与遥感反演的太湖热浪规律研究

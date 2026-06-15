@@ -2,7 +2,7 @@
 title: "《活着》"
 created: 2022-03-05 09:50
 status: probe
-last_modified: 2026-03-03 18:48:28
+last_modified: 2026-06-16 03:58:15
 ---
 
 摘抄——《活着》余华
@@ -11,7 +11,7 @@ last_modified: 2026-03-03 18:48:28
 
 [[toc]]
 
-#scope/life/read #source/book #author/yuhua
+#kind/source #origin/external #source/book #scope/life/read #author/yuhua
 
 ## 2024 / 03 / 05
 

@@ -2,7 +2,7 @@
 title: 模板更改
 created: 2025-11-05
 status: void
-last_modified: 2026-06-15 18:17:28
+last_modified: 2026-06-16 03:39:35
 ---
 
 改改模板。
@@ -11,7 +11,7 @@ last_modified: 2026-06-15 18:17:28
 
 [[toc]]
 
-#scope/meta/corpus #practice/refactor
+#kind/practice #origin/endogenous #scope/meta/corpus
 
 ## 背景
 
@@ -33,3 +33,12 @@ last_modified: 2026-06-15 18:17:28
 虽然可能长时间的使用会培养某种记忆，
 但是在初期阶段，对各个模板中的应记录内容还不够熟悉，
 会增加认知负担。
+
+::: details 花花的重构意见
+
+本篇当前层级：`Autopsia`；状态：`void`；约 221 个词元，1 个链接。 首个主题段为“背景”。
+
+建议：
+- 保留为系统自省，但建议把具体行动项拆到 `300 Putredo` 或 dashboard，避免 000 变成任务池。
+
+:::

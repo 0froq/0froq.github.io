@@ -2,7 +2,7 @@
 title: '@xiao2023: A Regime Shift in North Pacific Annual Mean Sea Surface Temperature in 2013/14'
 created: 2026-03-27
 status: form
-last_modified: 2026-05-12 14:50:45
+last_modified: 2026-06-16 03:55:11
 lang: en
 ---
 
@@ -10,10 +10,7 @@ lang: en
 
 [[toc]]
 
-#scope/work/research/climateRegimeShift
-#scope/work/research/seaSurfaceTemperature
-#scope/work/research/warming
-#source/paper
+#kind/source #origin/external #source/paper #scope/work/research/climateRegimeShift #scope/work/research/seaSurfaceTemperature #scope/work/research/warming
 
 - citation_key: xiao2023
 - title: A Regime Shift in North Pacific Annual Mean Sea Surface Temperature in 2013/14

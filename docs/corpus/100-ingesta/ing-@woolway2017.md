@@ -2,7 +2,7 @@
 title: '@woolway: Warming of Central European Lakes and Their Response to the 1980s Climate Regime Shift'
 created: 2026-03-27
 status: draft
-last_modified: 2026-05-12 14:50:19
+last_modified: 2026-06-16 03:55:05
 lang: en
 ---
 
@@ -10,10 +10,7 @@ lang: en
 
 [[toc]]
 
-#scope/work/research/lakeSurfaceTemperature
-#scope/work/research/climateRegimeShift
-#scope/work/research/warming
-#source/paper
+#kind/source #origin/external #source/paper #scope/work/research/lakeSurfaceTemperature #scope/work/research/climateRegimeShift #scope/work/research/warming
 
 - citation_key: woolway2017
 - title: Warming of Central European Lakes and Their Response to the 1980s Climate Regime Shift

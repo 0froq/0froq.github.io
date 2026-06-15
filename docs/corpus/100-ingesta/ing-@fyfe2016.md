@@ -2,7 +2,7 @@
 title: '@fyfe2016: Making Sense of the Early-2000s Warming Slowdown'
 created: 2026-04-22
 status: form
-last_modified: 2026-05-12 11:08:42
+last_modified: 2026-06-16 03:53:17
 lang: en
 ---
 
@@ -13,8 +13,7 @@ variability plus natural forcing.
 
 [[toc]]
 
-#scope/work/research/warmingHiatus
-#source/paper
+#kind/source #origin/external #source/paper #scope/work/research/warmingHiatus
 
 - citation_key: fyfe2016
 - title: Making Sense of the Early-2000s Warming Slowdown

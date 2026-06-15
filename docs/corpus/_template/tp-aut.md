@@ -9,4 +9,17 @@ last_modified: {{date}}
 
 [[toc]]
 
-#scope/
+#kind/reflection #origin/endogenous #scope/meta/corpus
+
+## Observation
+
+
+## Dissection
+
+
+## Decision / Mutation
+
+
+## Links
+
+- related:

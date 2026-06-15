@@ -12,7 +12,7 @@ last_modified: 2026-06-13 01:03:00
 
 [[toc]]
 
-#source/ai #author/hanako
+#kind/reflection #origin/ai #source/ai #author/hanako
 <!-- tags: 可按主题补充 #scope/work/theme / #scope/life / #thought 等 -->
 
 ## 三个载体，不是三个容器
@@ -112,3 +112,13 @@ GoodNotes、Notability、Obsidian、扫描、OCR。真正有意思的不是纸�
 本文件是 AI（花花）的自动化输出，不代表 froQ 已确认。
 本轮没有生成 Continuation；最近几篇 Growth 的反馈区没有新的可展开回应。
 下一次 Growth Patrol 会优先读取 froQ 在反馈区留下的回应。
+
+::: details 花花的重构意见
+
+本篇当前层级：`Autopsia`；状态：`probe`；约 1758 个词元，4 个链接。 首个主题段为“三个载体，不是三个容器”。
+
+建议：
+- 先补一个 `froQ Verdict`：保留 / 蒸馏 / 反驳 / 暂停，避免 AI 生长枝条直接等同于你的结论。
+- 若其中有被确认的判断，拆到 `200 Neoplasma`；本篇只保留系统级诊断和生长过程。
+
+:::

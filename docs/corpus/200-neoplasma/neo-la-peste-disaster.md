@@ -14,9 +14,9 @@ last_modified: 2026-03-31 20:20:11
 
 [[toc]]
 
-[source](../100_ingesta/ing_la_peste.md)
+[source](../100-ingesta/ing-la-peste.md)
 
-#scope/life/read #thought #source/book #author/camus
+#kind/response #origin/external #scope/life/read #thought #source/book #author/camus
 
 在发现第一只黑天鹅之前，人们认为所有的天鹅都是白色的。
 
@@ -64,3 +64,12 @@ _为什么明天不会是「未来跟过去不一样」？_
 很标准地没有任何参考价值，逻辑上也毫无道理。
 
 明天太阳会不会从东方升起，会不会升起，我们都不知道。
+
+::: details 花花的重构意见
+
+本篇当前层级：`Neoplasma`；状态：`form`；约 664 个词元，1 个链接。
+
+建议：
+- 这篇现在是 source response。下一步应把其中最强的一句话改写成声明式标题，形成可复用概念节点。
+
+:::

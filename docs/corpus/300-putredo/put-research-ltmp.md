@@ -11,7 +11,7 @@ last_modified: 2026-03-15 14:38:18
 
 [[toc]]
 
-#scope/work/research #log/project
+#kind/log #origin/practice #practice/research #scope/work/research #log/project
 
 - GEE 获取 MODIS LST 逐日数据，下载
 - 机器学习部分用 Python 或 **Julia** 实现
@@ -107,3 +107,13 @@ ERA5-Land 的 Lake mix-layer temperature 直接作为湖泊表层温度。
 **一阶差分**：
 后一个值减去前一个值，得到一个新的时间序列，表示每个时间点的变化量。
 可能会放大噪声，可以先做 3 年滑动平均。
+
+::: details 花花的重构意见
+
+本篇当前层级：`Putredo`；状态：`void`；约 883 个词元，0 个链接。 首个主题段为“Log”。
+
+建议：
+- 把它视为现实摩擦记录，不必追求完整叙事；关键是留下可回流的 residue。
+- 建议补 `## Residue`：可蒸馏到 200 / 需要更新 board / 需要进入 000 / 可丢弃噪音。
+
+:::

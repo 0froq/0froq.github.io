@@ -11,9 +11,9 @@ last_modified: 2026-03-31 20:20:18
 
 [[toc]]
 
-[source](../100_ingesta/ing_libdri.md)
+[source](../100-ingesta/ing-libdri.md)
 
-#scope/life/read #thought #source/book #author/shitiesheng
+#kind/response #origin/external #scope/life/read #thought #source/book #author/shitiesheng
 
 但是说到底，人还是期望**自己更合群**，或者换言之，
 期望**群更合自己**。
@@ -29,3 +29,12 @@ last_modified: 2026-03-31 20:20:18
 「没有差别的世界将会是一潭死水，一片没有任何肥力的沙漠。」——史铁生
 
 不假，但全是差别的世界只能是一片混沌。
+
+::: details 花花的重构意见
+
+本篇当前层级：`Neoplasma`；状态：`form`；约 206 个词元，1 个链接。
+
+建议：
+- 这篇现在是 source response。下一步应把其中最强的一句话改写成声明式标题，形成可复用概念节点。
+
+:::

@@ -2,7 +2,7 @@
 title: 生物操纵——通过鱼类移除控制蓝藻水华
 created: 2026-04-17
 status: form
-last_modified: 2026-04-18 18:31:31
+last_modified: 2026-06-16 03:57:25
 ---
 
 通过生态干预手段，改变水生生物群落结构，从而改善水质和生态系统状态。
@@ -11,7 +11,7 @@ last_modified: 2026-04-18 18:31:31
 
 [[toc]]
 
-#scope/work/research/cyanobacteria #source/base
+#kind/source #origin/external #scope/work/research/cyanobacteria #source/base
 
 ## Trophic Cascade
 

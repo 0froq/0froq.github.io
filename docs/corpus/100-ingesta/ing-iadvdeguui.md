@@ -2,7 +2,7 @@
 title: "《插队的故事》"
 created: 2022-03-25 00:00
 status: probe
-last_modified: 2026-04-24 16:57:57
+last_modified: 2026-06-16 03:58:20
 ---
 
 摘抄——《插队的故事》史铁生
@@ -11,7 +11,7 @@ last_modified: 2026-04-24 16:57:57
 
 [[toc]]
 
-#scope/life/read #source/book #author/shitiesheng
+#kind/source #origin/external #source/book #scope/life/read #author/shitiesheng
 
 ## 2022 / 03 / 25
 

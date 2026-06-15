@@ -2,7 +2,7 @@
 title: '@rodionov2004: A Sequential Algorithm for Testing Climate Regime Shifts'
 created: 2026-04-06
 status: form
-last_modified: 2026-05-12 14:41:49
+last_modified: 2026-06-16 03:54:48
 lang: en
 ---
 
@@ -12,9 +12,7 @@ An algorithm to detect climate regime shifts. Classic work, widely cited.
 
 [[toc]]
 
-#scope/work/research/climateRegimeShift
-#scope/work/research/algorithm
-#source/paper
+#kind/source #origin/external #source/paper #scope/work/research/climateRegimeShift #scope/work/research/algorithm
 
 - citation_key: rodionov2004
 - title: A Sequential Algorithm for Testing Climate Regime Shifts

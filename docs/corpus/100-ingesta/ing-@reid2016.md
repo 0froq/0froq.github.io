@@ -2,7 +2,7 @@
 title: '@reid2016: Global Impacts of the 1980s Regime Shift'
 created: 2026-04-03
 status: draft
-last_modified: 2026-05-12 14:50:05
+last_modified: 2026-06-16 03:54:36
 lang: en
 ---
 
@@ -10,8 +10,7 @@ lang: en
 
 [[toc]]
 
-#scope/work/research/climateRegimeShift
-#source/paper
+#kind/source #origin/external #source/paper #scope/work/research/climateRegimeShift
 
 - citation_key: reid2016
 - title: Global Impacts of the 1980s Regime Shift

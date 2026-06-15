@@ -9,4 +9,20 @@ last_modified: {{date}}
 
 [[toc]]
 
-#scope/
+#kind/log #origin/practice #capture
+
+## Capture
+
+
+## What Happened
+
+
+## Friction
+
+
+## Residue
+
+- can be distilled into 200:
+- should update board:
+- should enter 000 autopsia:
+- discardable noise:
