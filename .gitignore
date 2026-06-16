@@ -12,3 +12,4 @@ docs/posts/_template/blog_temp.md
 .sisyphus/
 *.numbers
 docs/.vitepress/generated/tags.json
+docs/corpus/_scripts/__pycache__/
