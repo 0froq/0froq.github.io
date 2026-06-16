@@ -2,7 +2,7 @@
 title: 'Speaking English: A Comedy of Errors and Small Victories'
 created: 2026-03-18 02:11:00
 status: form
-last_modified: 2026-04-10 19:24:38
+last_modified: 2026-06-16 05:08:02
 lang: en
 ---
 
@@ -13,7 +13,7 @@ And I'm okay with that.
 
 [[toc]]
 
-#scope/life #thought/consciousness
+#scope/life #consciousness
 
 ---
 

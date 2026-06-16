@@ -11,7 +11,7 @@ last_modified: 2026-06-16 03:59:01
 
 [[toc]]
 
-#kind/source #origin/external #source/book #scope/life/read #author/cioran
+#kind/source #origin/external #source/book #scope/philosophy #author/cioran
 
 ## 2024 / 10 / 06
 

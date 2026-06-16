@@ -2,7 +2,7 @@
 title: '《关于詹牧师的报告文学》· 目的'
 created: 2022-03-27
 status: form
-last_modified: 2026-03-31 20:18:57
+last_modified: 2026-06-16 04:15:36
 ---
 
 > 有目的的功利主义总比莫名其妙的扯皮主义要好。
@@ -15,7 +15,7 @@ last_modified: 2026-03-31 20:18:57
 
 [[toc]]
 
-#kind/response #origin/external #scope/life/read #thought #source/book #author/shitiesheng
+#kind/response #origin/external #scope/thought #source/book #author/shitiesheng
 
 [source](../100-ingesta/ing-gryuvjmuuidebcgcwfxt.md)
 
@@ -30,12 +30,3 @@ last_modified: 2026-03-31 20:18:57
 我目的所在的那一些事，能否被其他的事达成？
 我做的一些事，是否足以达成我的目的？
 做事情得用脑子，做事情得找出最优解，做事情得把事情做成。
-
-::: details 花花的重构意见
-
-本篇当前层级：`Neoplasma`；状态：`form`；约 258 个词元，1 个链接。
-
-建议：
-- 这篇现在是 source response。下一步应把其中最强的一句话改写成声明式标题，形成可复用概念节点。
-
-:::

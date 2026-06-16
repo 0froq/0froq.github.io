@@ -2,14 +2,14 @@
 title: 发布品压力的三层结构
 created: 2026-06-16
 status: form
-last_modified: 2026-06-16
+last_modified: 2026-06-16 04:20:06
 ---
 
 ---
 
 [[toc]]
 
-#kind/model #origin/practice #scope/meta/corpus
+#kind/model #origin/practice #scope/work/podcast
 
 ## Core
 
@@ -42,12 +42,3 @@ last_modified: 2026-06-16
 - sources: 语音备忘录工作流改造 → [aut-voice-memo-workflow-20260531](../000-autopsia/aut-voice-memo-workflow-20260531.md)
 - related: [降低输入摩擦](../200-neoplasma/neo-low-friction-input-first.md)
 - grows into: 创作工作流设计、内容管线设计
-
-::: details 花花的重构意见
-
-本篇当前层级：`Neoplasma`；状态：`form`；约 375 个词元，2 个链接。 首个主题段为“Core”。
-
-建议：
-- 确认它是否能用一句声明式命题概括；如果不能，先保留 `#kind/fragment`。
-
-:::

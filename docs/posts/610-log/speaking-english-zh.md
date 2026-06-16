@@ -2,7 +2,7 @@
 title: 讲英语：一群失败和一点小赢的喜剧
 created: 2026-04-10 02:11:00
 status: form
-last_modified: 2026-04-13 15:55:47
+last_modified: 2026-06-16 05:08:11
 translated: true
 lang: zh
 ---
@@ -14,7 +14,7 @@ lang: zh
 
 [[toc]]
 
-#scope/life #thought/consciousness
+#scope/life #consciousness
 
 ---
 

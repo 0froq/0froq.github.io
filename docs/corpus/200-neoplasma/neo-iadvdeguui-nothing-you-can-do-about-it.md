@@ -2,7 +2,7 @@
 title: "《插队的故事》· 没办法的事"
 created: 2022-03-25
 status: form
-last_modified: 2026-03-31 20:19:56
+last_modified: 2026-06-16 04:15:58
 ---
 
 > “没办法。没办法的事太多。”
@@ -11,7 +11,7 @@ last_modified: 2026-03-31 20:19:56
 
 [[toc]]
 
-#kind/response #origin/external #scope/life/read #thought #source/book #author/shitiesheng
+#kind/response #origin/external #scope/thought #source/book #author/shitiesheng
 
 [source](../100-ingesta/ing-iadvdeguui.md)
 
@@ -40,12 +40,3 @@ last_modified: 2026-03-31 20:19:56
 完美并**不以具象存在**着，但**于「走向」中成立**着。
 
 **「天堂不是一处空间，不是一种物质性存在，而是道路，是精神的恒途。」**
-
-::: details 花花的重构意见
-
-本篇当前层级：`Neoplasma`；状态：`form`；约 396 个词元，1 个链接。
-
-建议：
-- 这篇现在是 source response。下一步应把其中最强的一句话改写成声明式标题，形成可复用概念节点。
-
-:::

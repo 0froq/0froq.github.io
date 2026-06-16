@@ -2,14 +2,14 @@
 title: A Syntax Lightlight Design
 created: 2025-12-10
 status: form
-last_modified: 2026-06-03 19:46:36
+last_modified: 2026-06-16 04:14:49
 ---
 
 ---
 
 [[toc]]
 
-#kind/fragment #origin/endogenous #scope/work/theme
+#kind/design #origin/endogenous #scope/work/theme
 
 ## 设计
 
@@ -34,13 +34,3 @@ last_modified: 2026-06-03 19:46:36
 
 很难做出语义的区分，各个 treesitter parser 实现得天差地别，
 而且和 textmate 差别过大。
-
-::: details 花花的重构意见
-
-本篇当前层级：`Neoplasma`；状态：`form`；约 209 个词元，0 个链接。 首个主题段为“设计”。
-
-建议：
-- 确认它是否能用一句声明式命题概括；如果不能，先保留 `#kind/fragment`。
-- 建议至少补一个来源、实践或相邻概念链接；200 的价值来自复用和连接。
-
-:::

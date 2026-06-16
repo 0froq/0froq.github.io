@@ -2,7 +2,7 @@
 title: Simplify Corpus Structure
 created: 2025-11-06
 status: form
-last_modified: 2026-06-16 03:39:29
+last_modified: 2026-06-16 04:43:34
 lang: en
 translated: true
 ---
@@ -13,7 +13,7 @@ I simplified the structure of Corpus.
 
 [[toc]]
 
-#kind/practice #origin/endogenous #scope/meta/corpus
+#kind/practice #origin/meta #scope/meta/corpus
 
 ## Overhaul
 
@@ -45,12 +45,3 @@ leaving only the YAML header, and all content is edited by users themselves.
 ---
 
 Let's see how it works in practice.
-
-::: details 花花的重构意见
-
-本篇当前层级：`Autopsia`；状态：`form`；约 168 个词元，2 个链接。 首个主题段为“Overhaul”。
-
-建议：
-- 保留为系统自省，但建议把具体行动项拆到 `300 Putredo` 或 dashboard，避免 000 变成任务池。
-
-:::

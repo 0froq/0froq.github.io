@@ -2,7 +2,7 @@
 title: "*The Moon and Sixpence*"
 created: 2022-03-23 22:43
 status: probe
-last_modified: 2026-06-16 03:59:06
+last_modified: 2026-06-16 04:12:41
 ---
 
 摘抄——_The Moon and Sixpence_ · W.S. Maugham《月亮与六便士》
@@ -11,7 +11,7 @@ last_modified: 2026-06-16 03:59:06
 
 [[toc]]
 
-#kind/source #origin/external #source/book #scope/life/read #author/maugham
+#kind/source #origin/external #source/book #scope/literature #author/maugham
 
 ## 2022 / 03 / 23
 
