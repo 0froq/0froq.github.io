@@ -2,8 +2,6 @@
 locale: zh
 ---
 
-# Neoplasma
-
 <ruby><rb>Neoplasma</rb><rt>new growth</rt></ruby> 是 Corpus 的核心生长层。
 
 这里存放新生构思：概念、判断、问题、模型、类比、设计想法、对某个来源的回应，以及暂时还没有完整上下文的思想碎片。
@@ -23,30 +21,6 @@ locale: zh
 - 一个类比或隐喻：`#kind/metaphor`
 - 一个未展开碎片：`#kind/fragment`
 - 对某个 source 的回应：`#kind/response`
-
-## 推荐标签
-
-```txt
-#kind/claim
-#kind/question
-#kind/model
-#kind/design
-#kind/metaphor
-#kind/fragment
-#kind/response
-
-#origin/external
-#origin/endogenous
-#origin/practice
-#origin/dialogue
-#origin/ai
-#origin/aesthetic
-#origin/memory
-
-#capture
-
-
-
 
 ```
 

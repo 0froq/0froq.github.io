@@ -2,8 +2,6 @@
 locale: zh
 ---
 
-# Delirium
-
 <ruby><rb>Delirium</rb><rt>delirium</rt></ruby> 是审美与非理性材料层。
 
 这里保存那些还不适合被解释、归纳或工具化的东西：图像、字体、音乐、空间、梦、冲动、风格直觉、奇怪的偏爱。
@@ -18,22 +16,3 @@ locale: zh
 - 梦、幻觉、非理性联想
 - 还说不清为什么喜欢或讨厌的东西
 
-## 推荐标签
-
-```txt
-#kind/aesthetic
-#kind/material
-#origin/aesthetic
-#capture
-
-#collection/image
-#collection/music
-#collection/type
-#collection/space
-```
-
-## 与 200 的关系
-
-当一个审美刺激开始长出判断、模型、设计原则或可复用概念时，再从这里链接到 `200 Neoplasma`。
-
-`400` 不需要为了显得理性而过早解释自己。

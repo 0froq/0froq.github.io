@@ -2,8 +2,6 @@
 locale: zh
 ---
 
-# Putredo
-
 <ruby><rb>Putredo</rb><rt>decay</rt></ruby> 是现实摩擦层。
 
 这里不只是普通日志。它记录一个想法、项目、任务、身体状态或关系现场进入现实后发生的变形、失败、阻滞和残余。
@@ -26,21 +24,6 @@ locale: zh
 多个主题追加到同一个文件的不同章节，不新建第二个 put 文件。
 
 如果当天只有零散捕捉，可以先写在 `## Capture` 下，并加 `#capture`。之后再在 `## Residue` 中判断它应该流向哪里。
-
-## 推荐标签
-
-```txt
-#kind/log
-#kind/practice
-#origin/practice
-#origin/dialogue
-#capture
-
-
-#practice/refactor
-#practice/research
-#practice/writing
-```
 
 ## Residue 协议
 
