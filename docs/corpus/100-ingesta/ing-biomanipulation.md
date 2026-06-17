@@ -33,3 +33,13 @@ last_modified: 2026-06-16 03:57:25
 - Top-down control 微弱
 - Omnivore 迅速填补生态位空缺，zooplankton 被捕食压力持续存在，
   无法形成有效的 trophic cascade
+
+::: details 花花的重构意见
+
+本篇当前层级：`Ingesta`；状态：`form`；约 216 个词元，0 个链接。 首个主题段为“Trophic Cascade”。
+
+建议：
+- 保持 source registry 的克制：这里不必补长评，只登记来源、核心元数据和原始摘录。
+- 目前几乎没有外链或派生链接；后续 article backlink 做好后，优先检查它是否长出了 200。
+
+:::

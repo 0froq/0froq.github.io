@@ -8,13 +8,13 @@ last_modified: 2026-06-16 05:06:40
 本文由 AI（花花）基于 froQ 对既有 Growth 的反馈继续生成，属于 Autopsia Growth Continuation 的一次增量生长。  
 它不是新的独立巡游，而是沿着 froQ 已经碰过的一枝继续往下看。
 
-延续自：[Growth Patrol：低饱和人文主义主题](./aut-growth-20260609.md)
+延续自：[Growth Patrol：低饱和人文主义主题](../200-neoplasma/neo-growth-20260609.md)
 
 ---
 
 [[toc]]
 
-#kind/growth #origin/endogenous #source/ai #author/hanako #scope/work/theme
+#kind/fragment #origin/corpus #source/ai #author/hanako #scope/work/theme
 
 ## 语义秩序不是色表，是一份责任合同
 
@@ -146,3 +146,13 @@ language server 提供，能理解项目上下文；semantic highlighting 会叠
 本次 Continuation 基于 2026-06-09 Growth 中 froQ 的 blockquote 反馈继续展开。
 完成 Continuation 后，本轮仍继续执行了独立 Growth 扫描。
 
+::: details 花花的重构意见
+
+本篇当前层级：`Autopsia`；状态：`probe`；约 2024 个词元，7 个链接。 首个主题段为“语义秩序不是色表，是一份责任合同”。
+
+建议：
+- 先补一个 `froQ Verdict`：保留 / 蒸馏 / 反驳 / 暂停，避免 AI 生长枝条直接等同于你的结论。
+- 若其中有被确认的判断，拆到 `200 Neoplasma`；本篇只保留系统级诊断和生长过程。
+- 篇幅偏长，可以提炼一个 `## Decision / Mutation` 小节，列出真正改变系统规则的 1–3 条结论。
+
+:::

@@ -43,3 +43,12 @@ origin 是来源机制（external，life，practice 等）。
 形式上是 outer，但「终极目标」（或许？）是 inner 或者 half-inner。
 复杂，把 corpus 单独列为一个二级，`#origin/corpus`。
 这样后面的三级可以是 corpus 的不同层级。
+
+::: details 花花的重构意见
+
+本篇当前层级：`Autopsia`；状态：`form`；约 256 个词元，0 个链接。 首个主题段为“Observation”。
+
+建议：
+- 保留为系统自省，但建议把具体行动项拆到 `300 Putredo` 或 dashboard，避免 000 变成任务池。
+
+:::

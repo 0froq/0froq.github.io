@@ -23,3 +23,12 @@ so that you stray from the work that should have been done,
 and end up not getting nothing finished.
 
 Shave the Good Yak
+
+::: details 花花的重构意见
+
+本篇当前层级：`Ingesta`；状态：`probe`；约 101 个词元，2 个链接。
+
+建议：
+- 保持 source registry 的克制：这里不必补长评，只登记来源、核心元数据和原始摘录。
+
+:::

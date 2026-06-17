@@ -163,3 +163,12 @@ Not that wild, just something more free.
 I would say nothing is wrong, everything is fine.
 
 It is a bit complicated, but I think it should function well.
+
+::: details 花花的重构意见
+
+本篇当前层级：`Autopsia`；状态：`void`；约 591 个词元，0 个链接。 首个主题段为“a Milestone”。
+
+建议：
+- 保留为系统自省，但建议把具体行动项拆到 `300 Putredo` 或 dashboard，避免 000 变成任务池。
+
+:::
