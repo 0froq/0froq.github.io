@@ -12,7 +12,7 @@ last_modified: 2026-06-16 05:07:07
 
 [[toc]]
 
-#kind/growth #origin/endogenous #source/ai #author/hanako #scope/meta/workflow
+#kind/fragment #origin/corpus #source/ai #author/hanako #scope/meta/workflow
 
 ## 三个载体，不是三个容器
 
@@ -112,3 +112,12 @@ GoodNotes、Notability、Obsidian、扫描、OCR。真正有意思的不是纸�
 本轮没有生成 Continuation；最近几篇 Growth 的反馈区没有新的可展开回应。
 下一次 Growth Patrol 会优先读取 froQ 在反馈区留下的回应。
 
+::: details 花花的重构意见
+
+本篇当前层级：`Neoplasma`；状态：`probe`；约 1747 个词元，4 个链接。 首个主题段为“三个载体，不是三个容器”。
+
+建议：
+- 确认它是否能用一句声明式命题概括；如果不能，先保留 `#kind/fragment`。
+- 篇幅已经接近小文章，考虑拆成多个原子 200，或把它升级为 posts 草稿。
+
+:::

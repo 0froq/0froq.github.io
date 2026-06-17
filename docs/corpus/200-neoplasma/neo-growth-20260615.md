@@ -12,7 +12,7 @@ last_modified: 2026-06-16 05:07:13
 
 [[toc]]
 
-#kind/growth #origin/endogenous #source/ai #author/hanako #scope/work/coding/indie
+#kind/fragment #origin/corpus #source/ai #author/hanako #scope/work/coding/indie
 
 ## 这次不是在看 Swift，而是在看「快了」这件事
 
@@ -257,3 +257,12 @@ Swift Testing case。它同时测试产品想法和工具链，不把两件事�
 SourceKit-LSP、Build Server Protocol、xcode-build-server、xcodebuild.nvim
 与 Swift Testing / neotest 的实践边界。
 
+::: details 花花的重构意见
+
+本篇当前层级：`Neoplasma`；状态：`probe`；约 4019 个词元，9 个链接。 首个主题段为“这次不是在看 Swift，而是在看「快了」这件事”。
+
+建议：
+- 确认它是否能用一句声明式命题概括；如果不能，先保留 `#kind/fragment`。
+- 篇幅已经接近小文章，考虑拆成多个原子 200，或把它升级为 posts 草稿。
+
+:::

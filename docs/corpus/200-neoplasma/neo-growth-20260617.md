@@ -12,7 +12,7 @@ last_modified: 2026-06-17 04:01:48
 
 [[toc]]
 
-#source/ai #author/hanako #scope/meta/corpus
+#kind/fragment #origin/corpus #source/ai #author/hanako #scope/meta/corpus
 <!-- tags: 可按主题补充 #scope/work/theme / #scope/life / #thought 等 -->
 
 ## 从「会长出东西」到「知道哪里可能长歪」
@@ -147,7 +147,7 @@ Corpus：真正的系统不是只会归档，它要保留争辩发生过的形�
 ```markdown
 ## Links
 
-- derived_from: [语音备忘录工作流](../000-autopsia/aut-voice-memo-workflow-20260531.md)
+- derived_from: 语音备忘录工作流（内容已原子化至 200-neoplasma）
 - supports: [降低输入摩擦](./neo-low-friction-input-first.md)
 - tensions: 发布品质量控制、后处理堆积风险
 - implemented_by: dashboard 输入候选流、agent 访谈式追问
@@ -188,3 +188,13 @@ Corpus：真正的系统不是只会归档，它要保留争辩发生过的形�
 提供的搜索入口。外部搜索补充了 LLM Wiki、Denkraum、provenance markers、
 IBIS / issue mapping、progressive summarization、evergreen notes 与 epistemic
 status 的相关脉络。
+
+::: details 花花的重构意见
+
+本篇当前层级：`Neoplasma`；状态：`probe`；约 2807 个词元，6 个链接。 首个主题段为“从「会长出东西」到「知道哪里可能长歪」”。
+
+建议：
+- 确认它是否能用一句声明式命题概括；如果不能，先保留 `#kind/fragment`。
+- 篇幅已经接近小文章，考虑拆成多个原子 200，或把它升级为 posts 草稿。
+
+:::
