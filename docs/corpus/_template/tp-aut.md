@@ -9,7 +9,7 @@ last_modified: {{date}}
 
 [[toc]]
 
-#kind/reflection #origin/endogenous #scope/meta/corpus
+#inner #scope/meta/
 
 ## Observation
 

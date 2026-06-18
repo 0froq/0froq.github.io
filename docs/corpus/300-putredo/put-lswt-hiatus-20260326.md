@@ -11,7 +11,7 @@ About the exploration of LSWT hiatus.
 
 [[toc]]
 
-#kind/log/project #origin/practice #scope/work/research/warmingHiatus
+#inner #scope/work/research/warmingHiatus
 
 <script setup lang="ts">
 import { data as corpus } from '~/src/corpus.data'
@@ -119,13 +119,3 @@ const thisPuts = thisCorpus.filter((c) => {
 <!-- TODO: 均相关接近 0 是什么意思？ -->
 
 ### 地理特征
-
-::: details 花花的重构意见
-
-本篇当前层级：`Putredo`；状态：`draft`；约 790 个词元，1 个链接。 首个主题段为“Logs”。
-
-建议：
-- 把它视为现实摩擦记录，不必追求完整叙事；关键是留下可回流的 residue。
-- 建议补 `## Residue`：可蒸馏到 200 / 需要更新 board / 需要进入 000 / 可丢弃噪音。
-
-:::

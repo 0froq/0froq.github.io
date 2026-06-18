@@ -12,7 +12,7 @@ last_modified: 2026-04-24 16:44:36
 
 [[toc]]
 
-#scope/work/site #roadmap/blogSite
+#scope/work/site #blogSite
 
 <script setup lang="ts">
 import SvgFroqLogo from '@/ui/icon/SvgFroqLogo.vue'

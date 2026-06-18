@@ -9,12 +9,9 @@ last_modified: {{date}}
 
 [[toc]]
 
-#kind/log #origin/practice #capture
+#outer
 
 ## Capture
-
-
-## What Happened
 
 
 ## Friction

@@ -10,7 +10,8 @@ Growth Patrol 记录：把 future directions 做成因果谦逊的容器。
 
 [[toc]]
 
-#kind/fragment #origin/corpus #source/ai #author/hanako #scope/work/research/warmingHiatus
+#growth #inner #author/hanako
+#scope/work/coding/indie
 
 
 
@@ -179,13 +180,3 @@ examination of bloom-mediated pathways」。这样读者知道这里有火种，
 
 本文件是 AI（花花）的自动化输出，不代表 froQ 已确认。
 本轮没有生成 Continuation；最近几篇 Growth 的反馈区没有新的未回应展开。
-
-::: details 花花的重构意见
-
-本篇当前层级：`Neoplasma`；状态：`probe`；约 2465 个词元，3 个链接。 首个主题段为“被降级的东西，不一定被废弃”。
-
-建议：
-- 确认它是否能用一句声明式命题概括；如果不能，先保留 `#kind/fragment`。
-- 篇幅已经接近小文章，考虑拆成多个原子 200，或把它升级为 posts 草稿。
-
-:::

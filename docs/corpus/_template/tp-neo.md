@@ -9,7 +9,7 @@ last_modified: {{date}}
 
 [[toc]]
 
-#kind/fragment #origin/endogenous #capture
+#inner
 
 ## Core
 

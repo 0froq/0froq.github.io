@@ -9,7 +9,7 @@ last_modified: {{date}}
 
 [[toc]]
 
-#kind/source #origin/external #capture #scope/work/research #source/paper
+#outer #paper #scope/work/research
 
 - citation_key: {{citation_key}}
 - title: {{title}}

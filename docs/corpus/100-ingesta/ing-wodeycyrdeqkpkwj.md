@@ -11,7 +11,7 @@ last_modified: 2026-06-16 04:13:21
 
 [[toc]]
 
-#kind/source #origin/external #source/book #scope/literature #author/shitiesheng
+#outer #book #scope/literature #author/shitiesheng
 
 ## 2021 / 11 / 21
 
@@ -25,14 +25,3 @@ last_modified: 2026-06-16 04:13:21
 
 > 窑顶上，院墙上，磨盘上，坐得全是人，都听得入神。
 > 可说的是什么，谁也含糊。
-
-::: details 花花的重构意见
-
-本篇当前层级：`Ingesta`；状态：`probe`；约 177 个词元，0 个链接。 首个主题段为“2021 / 11 / 21”。
-
-建议：
-- 保持 source registry 的克制：这里不必补长评，只登记来源、核心元数据和原始摘录。
-- 书摘可以继续留在这里；真正的判断、类比和回应应拆到 `200 Neoplasma`。
-- 目前几乎没有外链或派生链接；后续 article backlink 做好后，优先检查它是否长出了 200。
-
-:::

@@ -9,7 +9,7 @@ last_modified: 2026-06-16 04:20:06
 
 [[toc]]
 
-#kind/model #origin/practice #scope/work/podcast
+#model #inner #scope/work/podcast
 
 ## Core
 
@@ -42,12 +42,3 @@ last_modified: 2026-06-16 04:20:06
 - sources: 语音备忘录工作流改造 → 原长文已被原子化拆分，内容已移入本节点及关联 200
 - related: [降低输入摩擦](../200-neoplasma/neo-low-friction-input-first.md)
 - grows into: 创作工作流设计、内容管线设计
-
-::: details 花花的重构意见
-
-本篇当前层级：`Neoplasma`；状态：`form`；约 384 个词元，1 个链接。 首个主题段为“Core”。
-
-建议：
-- 确认它是否能用一句声明式命题概括；如果不能，先保留 `#kind/fragment`。
-
-:::

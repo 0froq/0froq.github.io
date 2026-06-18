@@ -17,6 +17,25 @@ locale: zh
 6. 试图主动冒犯一些人。
    :::
 
+## Corpus 的当前协议
+
+Corpus 是生态系统，不是线性流水线。
+
+```txt
+目录 = 生态位（决定这是什么）
+tag = 语义标记（只在有区分度时出现）
+链接 = 供养关系
+```
+
+Tag 采用扁平化原则：目录已经说清的事，tag 不重复。
+
+- 大多数层不需要 `#inner` / `#outer`，因为目录本身就隐含了内外属性
+- `#inner` / `#outer` 只在真正需要区分来源的层出现（如 200-neoplasma、000-autopsia）
+- `#capture` 是跨层的临时标记，表示「尚未完全脱离原始场景」
+- `#scope/...` 是唯一的命名空间 tag，因为所有记录都有领域归属
+- 来源媒介类型用扁平 tag：`#paper`、`#book`、`#article` 等
+- 概念类型用扁平 tag：`#claim`、`#model`、`#design`、`#question`、`#fragment`、`#response`
+
 ## 六个切片
 
 - <ruby><rb>[Autopsia](/corpus/000-autopsia/){.font-stylish}</rb><rt>dissection</rt></ruby>：系统自省、元认知、结构调整
@@ -26,23 +45,35 @@ locale: zh
 - [Delirium](/corpus/400-delirium/){.font-stylish}：审美刺激、非理性材料、风格直觉
 - [Vigil](/corpus/500-vigil/){.font-stylish}：存在证据、身份锚点、生活片段
 
-## Hashtag 协议
+## Tag 协议
 
-建议优先使用这些一级命名空间：
+### 跨层 tag
 
-- `#kind/...`：材料类型，例如 `source`、`claim`、`question`、`model`、`design`、`log`、`reflection`、`aesthetic`、`vigil`
-- `#origin/...`：来源机制，例如 `external`、`endogenous`、`practice`、`dialogue`、`ai`、`aesthetic`、`memory`、`experience`
-- `#source/...`：外部来源类型，例如 `book`、`paper`、`article`、`podcast`、`video`
+- `#capture`：临时捕捉标记，未完全脱离原始场景
+- `#inner`：从 froQ 身上长出来的
+- `#outer`：从外部进来的
+- `#growth`：AI growth patrol 产物
+
+### 来源媒介（主要用于 100-ingesta）
+
+`#paper` `#book` `#article` `#podcast` `#video` `#song` `#image`
+
+### 概念类型（主要用于 200-neoplasma）
+
+`#claim` `#model` `#design` `#question` `#fragment` `#response`
+
+### 命名空间 tag
+
 - `#scope/...`：主题域、生活域、项目域
 - `#author/...`：作者或生成者
-- `#project/...`：具体项目
+- `#practice/...`：具体实践方式
 
 :::tip Capture 不是目录，而是轻标记
-任何层级都可以有 `#capture`。
-`100 + #capture` 是未整理完的资料线索；
-`200 + #capture` 是未展开的新想法；
-`300 + #capture` 是未沉淀的实践流水；
-`400 + #capture` 是未解释的审美刺激；
+任何层级都可以有 `#capture`。  
+`100 + #capture` 是未整理完的资料线索；  
+`200 + #capture` 是未展开的新想法；  
+`300 + #capture` 是未沉淀的实践流水；  
+`400 + #capture` 是未解释的审美刺激；  
 `500 + #capture` 是尚未安放的存在片段。
 :::
 

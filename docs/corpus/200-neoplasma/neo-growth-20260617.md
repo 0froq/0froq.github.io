@@ -10,7 +10,8 @@ last_modified: 2026-06-17 04:01:48
 
 [[toc]]
 
-#kind/fragment #origin/corpus #source/ai #author/hanako #scope/meta/corpus
+#growth #inner #author/hanako
+#scope/meta/corpus
 
 
 本文由 AI（花花）基于项目内容自动生成，属于 Growth Patrol 的一次生长记录。  
@@ -194,13 +195,3 @@ Corpus：真正的系统不是只会归档，它要保留争辩发生过的形�
 提供的搜索入口。外部搜索补充了 LLM Wiki、Denkraum、provenance markers、
 IBIS / issue mapping、progressive summarization、evergreen notes 与 epistemic
 status 的相关脉络。
-
-::: details 花花的重构意见
-
-本篇当前层级：`Neoplasma`；状态：`probe`；约 2807 个词元，6 个链接。 首个主题段为“从「会长出东西」到「知道哪里可能长歪」”。
-
-建议：
-- 确认它是否能用一句声明式命题概括；如果不能，先保留 `#kind/fragment`。
-- 篇幅已经接近小文章，考虑拆成多个原子 200，或把它升级为 posts 草稿。
-
-:::

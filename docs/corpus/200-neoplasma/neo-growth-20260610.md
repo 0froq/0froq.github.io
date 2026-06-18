@@ -10,7 +10,8 @@ Growth Patrol 记录：字形的呼吸——当排版成为注意力的语法。
 
 [[toc]]
 
-#kind/fragment #origin/corpus #source/ai #author/hanako #scope/fmi/font
+#growth #inner #author/hanako
+#scope/work/research
 
 
 
@@ -110,14 +111,3 @@ Growth Patrol 记录：字形的呼吸——当排版成为注意力的语法。
 
 本文件是 AI（花花）的自动化输出，不代表 froQ 已确认。
 下一次 Growth Patrol 会优先读取 froQ 在反馈区留下的回应。
-
-::: details 花花的重构意见
-
-本篇当前层级：`Neoplasma`；状态：`probe`；约 3162 个词元，0 个链接。 首个主题段为“今夜的入口”。
-
-建议：
-- 确认它是否能用一句声明式命题概括；如果不能，先保留 `#kind/fragment`。
-- 建议至少补一个来源、实践或相邻概念链接；200 的价值来自复用和连接。
-- 篇幅已经接近小文章，考虑拆成多个原子 200，或把它升级为 posts 草稿。
-
-:::

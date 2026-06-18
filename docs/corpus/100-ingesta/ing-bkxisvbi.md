@@ -11,7 +11,7 @@ last_modified: 2026-06-16 04:09:25
 
 [[toc]]
 
-#kind/source #origin/external #source/book #scope/literature #author/shitiesheng
+#outer #book #scope/literature #author/shitiesheng
 
 ## 2022 / 03 / 25
 
@@ -21,14 +21,3 @@ last_modified: 2026-06-16 04:09:25
     倘若某种信心依存于某些特定的前提，那设若前提不存在，信心便也随之消散。
     这般「信心」与「**行贿**」又有何差别？
     **「不断的苦难才是不断地需要信心的原因，这是信心的原则，不可稍有更动。」**
-
-::: details 花花的重构意见
-
-本篇当前层级：`Ingesta`；状态：`probe`；约 149 个词元，0 个链接。 首个主题段为“2022 / 03 / 25”。
-
-建议：
-- 保持 source registry 的克制：这里不必补长评，只登记来源、核心元数据和原始摘录。
-- 书摘可以继续留在这里；真正的判断、类比和回应应拆到 `200 Neoplasma`。
-- 目前几乎没有外链或派生链接；后续 article backlink 做好后，优先检查它是否长出了 200。
-
-:::

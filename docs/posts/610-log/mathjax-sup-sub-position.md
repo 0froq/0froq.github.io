@@ -12,7 +12,7 @@ last_modified: 2026-03-15 14:42:11
 
 [[toc]]
 
-#scope/work/mathjax #knowledge/symbol/greek
+#scope/work/mathjax #greek
 
 ## style 影响 MathJax 中的上下标
 

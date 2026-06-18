@@ -13,7 +13,7 @@ last_modified: 2026-06-16 04:18:06
 
 [source](../100-ingesta/ing-libdri.md)
 
-#kind/response #origin/external #scope/thought #source/book #author/shitiesheng
+#response #outer #scope/thought #book #author/shitiesheng
 
 有懂的吗？
 
@@ -28,12 +28,3 @@ last_modified: 2026-06-16 04:18:06
 如果这时做了梦，就很有可能是那个人跟我道歉的梦，
 很真实，所以我分不清他到底有没有跟我道歉。
 这时我就需要去问别人。
-
-::: details 花花的重构意见
-
-本篇当前层级：`Neoplasma`；状态：`form`；约 182 个词元，1 个链接。
-
-建议：
-- 这篇现在是 source response。下一步应把其中最强的一句话改写成声明式标题，形成可复用概念节点。
-
-:::

@@ -11,7 +11,7 @@ last_modified: 2026-06-18 03:27:38
 
 [[toc]]
 
-#kind/reflection #origin/endogenous #scope/meta/corpus
+#inner #scope/meta/corpus
 
 ## Observation
 
@@ -32,12 +32,3 @@ Growth 的生成机制就是在库内找值得「生长」的点来进一步发�
 ## Decision / Mutation
 
 如上，growth 将在创建时具体判断其应该归属的层级，带有一个 `#origin/corpus/<layer>` 的 hashtag。
-
-::: details 花花的重构意见
-
-本篇当前层级：`Autopsia`；状态：`form`；约 207 个词元，1 个链接。 首个主题段为“Observation”。
-
-建议：
-- 保留为系统自省，但建议把具体行动项拆到 `300 Putredo` 或 dashboard，避免 000 变成任务池。
-
-:::

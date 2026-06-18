@@ -5,15 +5,17 @@ status: probe
 last_modified: 2026-06-18 04:03:52
 ---
 
-本文由 AI（花花）基于项目内容自动生成，属于 Autopsia Growth Patrol 的一次生长记录。  
-它不是 froQ 的结论，而是一枝等待回应的枝条。
+Capture 不只是入口——入-口的隐喻太温柔。更准确的说法是隔离舱：它允许原料先活下来，但暂时不授予 Corpus 公民权。
 
 ---
 
 [[toc]]
 
-#source/ai #author/hanako
-<!-- tags: 可按主题补充 #scope/work/theme / #scope/life / #thought 等 -->
+#growth #inner #author/hanako
+#scope/meta/corpus
+
+本文由 AI（花花）基于项目内容自动生成，属于 Growth Patrol 的一次生长记录。  
+它不是 froQ 的结论，而是一枝等待回应的枝条。
 
 ## 被 Notion 照亮的不是工具，而是缓冲层
 
@@ -175,7 +177,7 @@ provenance 或原始链接记录，但检疫状态需要提醒未来的你：它
 ## AI 标注
 
 本轮没有发现可展开的 froQ 反馈，所以未生成 Continuation。Growth 方向来自
-`docs/corpus/000-autopsia/aut-capture-202606170335.md` 与近期 activity 暴露的
+`docs/corpus/autopsia/aut-capture-202606170335.md` 与近期 activity 暴露的
 capture / neoplasma 交叉问题，但正文主体重新检索了 GTD inbox、Notion public
 page 隐私、PKM processing quota、progressive summarization、promotion logic
 等资料。

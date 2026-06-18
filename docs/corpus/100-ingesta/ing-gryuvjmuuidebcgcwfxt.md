@@ -11,7 +11,7 @@ last_modified: 2026-06-16 04:09:13
 
 [[toc]]
 
-#kind/source #origin/external #source/book #scope/literature #author/shitiesheng
+#outer #book #scope/literature #author/shitiesheng
 
 ## 2022 / 03 / 27
 
@@ -36,13 +36,3 @@ last_modified: 2026-06-16 04:09:13
 > “不不，咱们这是在屋子里说……当然啦！
 > 可是……不过……说起来……你懂了吗？
 > 我是说，咱们这是在屋子里说。”
-
-::: details 花花的重构意见
-
-本篇当前层级：`Ingesta`；状态：`probe`；约 306 个词元，1 个链接。 首个主题段为“2022 / 03 / 27”。
-
-建议：
-- 保持 source registry 的克制：这里不必补长评，只登记来源、核心元数据和原始摘录。
-- 书摘可以继续留在这里；真正的判断、类比和回应应拆到 `200 Neoplasma`。
-
-:::

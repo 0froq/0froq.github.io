@@ -13,7 +13,7 @@ last_modified: 2026-06-16 04:20:17
 
 [source](../100-ingesta/ing-the-moon-and-sixpence.md)
 
-#kind/response #origin/external #scope/thought #source/book #author/maugham
+#response #outer #scope/thought #book #author/maugham
 
 想起弗洛伊德在 _《精神分析引论》_ 里面说的，
 「**一切艺术都是神经官能症**」。
@@ -37,12 +37,3 @@ last_modified: 2026-06-16 04:20:17
 但他的作品便可能会被称为「艺术」。
 
 很少存在被全人类都推崇的艺术。
-
-::: details 花花的重构意见
-
-本篇当前层级：`Neoplasma`；状态：`form`；约 369 个词元，1 个链接。
-
-建议：
-- 这篇现在是 source response。下一步应把其中最强的一句话改写成声明式标题，形成可复用概念节点。
-
-:::

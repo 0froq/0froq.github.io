@@ -14,7 +14,7 @@ uniquely identify and classify living organisms.
 
 [[toc]]
 
-#kind/source #origin/external #scope/fmi/taxonomy #source/base
+#outer #scope/fmi/taxonomy
 
 ## Some rules
 
@@ -38,13 +38,3 @@ uniquely identify and classify living organisms.
   but the exact species is not specified
 - **spp.** (species pluralis) - plural, refers to multiple species within the genus,
   but the exact species are not specified
-
-::: details 花花的重构意见
-
-本篇当前层级：`Ingesta`；状态：`probe`；约 98 个词元，0 个链接。 首个主题段为“Some rules”。
-
-建议：
-- 保持 source registry 的克制：这里不必补长评，只登记来源、核心元数据和原始摘录。
-- 目前几乎没有外链或派生链接；后续 article backlink 做好后，优先检查它是否长出了 200。
-
-:::

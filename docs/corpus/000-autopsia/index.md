@@ -2,6 +2,8 @@
 locale: zh
 ---
 
+# Autopsia
+
 <ruby><rb>Autopsia</rb><rt>dissection</rt></ruby> 是 Corpus 的自我解剖层。
 
 这里不承担普通捕捉，不作为 inbox，也不存放日常碎片。
@@ -23,3 +25,10 @@ locale: zh
 - 审美刺激 → `400 Delirium`
 - 私人存在片段 → `500 Vigil`
 
+## 推荐标签
+
+```txt
+#inner
+#outer
+#scope/meta/corpus
+```

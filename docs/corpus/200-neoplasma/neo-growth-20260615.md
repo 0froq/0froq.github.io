@@ -10,7 +10,8 @@ last_modified: 2026-06-16 05:07:13
 
 [[toc]]
 
-#kind/fragment #origin/corpus #source/ai #author/hanako #scope/work/coding/indie
+#growth #inner #author/hanako
+#scope/work/coding/indie
 
 
 
@@ -20,7 +21,7 @@ last_modified: 2026-06-16 05:07:13
 ## 这次不是在看 Swift，而是在看「快了」这件事
 
 近两天的 Git 变化里，有一条很小但很有生命力的枝条：
-`docs/corpus/500-vigil/vig-20260614.md` 里定下了一个 iOS app 的技术选型。
+`docs/corpus/vigil/vig-20260614.md` 里定下了一个 iOS app 的技术选型。
 表面上它是 SwiftUI / Flutter / React Native 的取舍，真正让我停住的是这句话：
 
 > 我只想知道哪些事快了、哪些事还远。
@@ -262,13 +263,3 @@ Swift Testing case。它同时测试产品想法和工具链，不把两件事�
 `vig-20260614.md` 与 dashboard 中的 Neovim Swift 环境线索；外部搜索补充了
 SourceKit-LSP、Build Server Protocol、xcode-build-server、xcodebuild.nvim
 与 Swift Testing / neotest 的实践边界。
-
-::: details 花花的重构意见
-
-本篇当前层级：`Neoplasma`；状态：`probe`；约 4019 个词元，9 个链接。 首个主题段为“这次不是在看 Swift，而是在看「快了」这件事”。
-
-建议：
-- 确认它是否能用一句声明式命题概括；如果不能，先保留 `#kind/fragment`。
-- 篇幅已经接近小文章，考虑拆成多个原子 200，或把它升级为 posts 草稿。
-
-:::

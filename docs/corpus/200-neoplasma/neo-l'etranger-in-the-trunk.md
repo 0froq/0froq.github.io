@@ -16,7 +16,7 @@ last_modified: 2026-06-16 04:17:36
 
 [[toc]]
 
-#kind/response #origin/external #scope/thought #source/book #author/camus
+#response #outer #scope/thought #book #author/camus
 
 [source](../100-ingesta/ing-l'etranger.md)
 
@@ -31,12 +31,3 @@ last_modified: 2026-06-16 04:17:36
 **都会有不同的人物事物扮演着这些不同生活状态里相同的成分。**
 
 或者说得通俗点：「**人的欲望是无限的。**」
-
-::: details 花花的重构意见
-
-本篇当前层级：`Neoplasma`；状态：`form`；约 309 个词元，1 个链接。
-
-建议：
-- 这篇现在是 source response。下一步应把其中最强的一句话改写成声明式标题，形成可复用概念节点。
-
-:::

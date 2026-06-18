@@ -11,7 +11,7 @@ last_modified: 2026-04-24 16:55:49
 
 [[toc]]
 
-#scope/life #scope/work/theme #scope/work/nvim #scope/work/nvim #thought
+#scope/life #scope/work/theme #scope/work/nvim
 
 ## ！
 

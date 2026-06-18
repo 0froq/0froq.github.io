@@ -12,7 +12,7 @@ last_modified: 2026-03-15 14:41:02
 
 [[toc]]
 
-#scope/work/mathjax #knowledge/symbol/greek
+#scope/work/mathjax #greek
 
 ## 小写希腊字母的 `\var-` 变体
 

@@ -9,15 +9,5 @@ last_modified: {{date}}
 
 [[toc]]
 
-#kind/vigil #origin/memory #capture
+#inner
 
-## Moment
-
-
-## What This Proves
-
-
-## Echoes
-
-- may return to 200:
-- related:
