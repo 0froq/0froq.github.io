@@ -4,15 +4,18 @@ created: 2026-06-15
 status: probe
 last_modified: 2026-06-16 05:07:13
 ---
-
-本文由 AI（花花）基于项目内容自动生成，属于 Autopsia Growth Patrol 的一次生长记录。  
-它不是 froQ 的结论，而是一枝等待回应的枝条。
+日历矩阵提供的是社会时间格子，而真正需要的是事件逼近感的可视化——timeline 是画法，horizon 是认知契约。
 
 ---
 
 [[toc]]
 
 #kind/fragment #origin/corpus #source/ai #author/hanako #scope/work/coding/indie
+
+
+
+本文由 AI（花花）基于项目内容自动生成，属于 Growth Patrol 的一次生长记录。  
+它不是 froQ 的结论，而是一枝等待回应的枝条。
 
 ## 这次不是在看 Swift，而是在看「快了」这件事
 
@@ -249,6 +252,9 @@ Swift Testing case。它同时测试产品想法和工具链，不把两件事�
 <!-- froQ 在这里回答、评价、修正，或标记“继续 / 暂停 / 换方向”。 -->
 
 ## AI 标注
+
+本文由 AI（花花）基于项目内容自动生成，属于 Growth Patrol 的一次生长记录。
+它不是 froQ 的结论，而是一枝等待回应的枝条。
 
 本节是 AI（花花）的自动化输出，不代表 froQ 已确认。
 本轮没有生成 Continuation；最近几篇 Growth / Continuation 的反馈区没有新的

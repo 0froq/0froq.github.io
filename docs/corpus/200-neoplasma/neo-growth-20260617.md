@@ -4,15 +4,18 @@ created: 2026-06-17
 status: probe
 last_modified: 2026-06-17 04:01:48
 ---
-
-本文由 AI（花花）基于项目内容自动生成，属于 Autopsia Growth Patrol 的一次生长记录。  
-它不是 froQ 的结论，而是一枝等待回应的枝条。
+从「会长出东西」到「知道哪里可能长歪」：Corpus 是否需要一层可争辩的骨架，让每条蒸馏出来的判断都能回答它从哪里来、支持什么、可能被什么反驳。
 
 ---
 
 [[toc]]
 
 #kind/fragment #origin/corpus #source/ai #author/hanako #scope/meta/corpus
+
+
+本文由 AI（花花）基于项目内容自动生成，属于 Growth Patrol 的一次生长记录。  
+它不是 froQ 的结论，而是一枝等待回应的枝条。
+
 <!-- tags: 可按主题补充 #scope/work/theme / #scope/life / #thought 等 -->
 
 ## 从「会长出东西」到「知道哪里可能长歪」
@@ -180,6 +183,9 @@ Corpus：真正的系统不是只会归档，它要保留争辩发生过的形�
 <!-- froQ 在这里回答、评价、修正，或标记“继续 / 暂停 / 换方向”。 -->
 
 ## AI 标注
+
+本文由 AI（花花）基于项目内容自动生成，属于 Growth Patrol 的一次生长记录。
+它不是 froQ 的结论，而是一枝等待回应的枝条。
 
 本文件是 AI（花花）的自动化输出，不代表 froQ 已确认。
 本轮没有生成 Continuation；最近几篇 Growth / Continuation 的反馈区没有新的
