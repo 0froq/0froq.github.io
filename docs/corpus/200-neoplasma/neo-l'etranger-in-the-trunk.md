@@ -16,7 +16,7 @@ last_modified: 2026-06-16 04:17:36
 
 [[toc]]
 
-#response #outer #scope/thought #book #author/camus
+#response #scope/thought #book #author/camus
 
 [source](../100-ingesta/ing-l'etranger.md)
 

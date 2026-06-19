@@ -12,7 +12,7 @@ An algorithm to detect climate regime shifts. Classic work, widely cited.
 
 [[toc]]
 
-#outer #paper #scope/work/research/climateRegimeShift #scope/work/research/algorithm
+#paper #scope/work/research/climateRegimeShift #scope/work/research/algorithm
 
 - citation_key: rodionov2004
 - title: A Sequential Algorithm for Testing Climate Regime Shifts

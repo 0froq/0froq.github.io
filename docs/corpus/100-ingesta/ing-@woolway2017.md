@@ -10,7 +10,7 @@ lang: en
 
 [[toc]]
 
-#outer #paper #scope/work/research/lakeSurfaceTemperature #scope/work/research/climateRegimeShift #scope/work/research/warming
+#paper #scope/work/research/lakeSurfaceTemperature #scope/work/research/climateRegimeShift #scope/work/research/warming
 
 - citation_key: woolway2017
 - title: Warming of Central European Lakes and Their Response to the 1980s Climate Regime Shift

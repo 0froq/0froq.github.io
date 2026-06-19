@@ -10,7 +10,7 @@ lang: en
 
 [[toc]]
 
-#outer #paper #scope/work/research/warmingHiatus
+#paper #scope/work/research/warmingHiatus
 
 - citation_key: dai2018
 - title: Identifying the Early 2000s Hiatus Associated with Internal Climate Variability

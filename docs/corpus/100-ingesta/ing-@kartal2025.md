@@ -10,7 +10,7 @@ lang: en
 
 [[toc]]
 
-#outer #paper #scope/work/research/lakeSurfaceTemperature #scope/work/research/warming
+#paper #scope/work/research/lakeSurfaceTemperature #scope/work/research/warming
 
 - citation_key: kartal2025
 - title: Remote Sensing Evidence of Seasonal and Long-Term Warming in Lake Surface Water Temperature

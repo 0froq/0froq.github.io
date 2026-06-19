@@ -28,8 +28,6 @@ locale: zh
 ## 推荐标签
 
 ```txt
-#inner
-#outer
 #claim
 #model
 #design

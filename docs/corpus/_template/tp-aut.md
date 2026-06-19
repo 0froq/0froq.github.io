@@ -9,16 +9,13 @@ last_modified: {{date}}
 
 [[toc]]
 
-#inner #scope/meta/
+#scope/meta/corpus
 
 ## Observation
 
-
 ## Dissection
 
-
 ## Decision / Mutation
-
 
 ## Links
 

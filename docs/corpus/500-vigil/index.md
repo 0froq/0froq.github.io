@@ -11,7 +11,6 @@ locale: zh
 ## 推荐标签
 
 ```txt
-#inner
 #capture
 ```
 

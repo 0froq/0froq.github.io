@@ -13,7 +13,7 @@ last_modified: 2026-06-16 04:20:17
 
 [source](../100-ingesta/ing-the-moon-and-sixpence.md)
 
-#response #outer #scope/thought #book #author/maugham
+#response #scope/thought #book #author/maugham
 
 想起弗洛伊德在 _《精神分析引论》_ 里面说的，
 「**一切艺术都是神经官能症**」。

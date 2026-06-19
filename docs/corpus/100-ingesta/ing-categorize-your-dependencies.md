@@ -12,6 +12,6 @@ _Categorize Your Dependencies_ by [@antfu](https://antfu.me).
 
 [[toc]]
 
-#outer #scope/work/coding/node #author/antfu
+#scope/work/coding/node #author/antfu
 
 > Source: [Categorize Your Dependencies](https://antfu.me/posts/categorize-deps)

@@ -10,7 +10,7 @@ lang: en
 
 [[toc]]
 
-#outer #paper #scope/work/research/arcticWarming
+#paper #scope/work/research/arcticWarming
 
 - citation_key: cohen2014
 - title: Recent Arctic Amplification and Extreme Mid-Latitude Weather

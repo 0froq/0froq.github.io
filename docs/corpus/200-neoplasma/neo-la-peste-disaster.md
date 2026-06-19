@@ -16,7 +16,7 @@ last_modified: 2026-06-16 04:17:57
 
 [source](../100-ingesta/ing-la-peste.md)
 
-#response #outer #scope/thought #book #author/camus
+#response #scope/thought #book #author/camus
 
 在发现第一只黑天鹅之前，人们认为所有的天鹅都是白色的。
 

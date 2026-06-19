@@ -9,7 +9,7 @@ last_modified: 2026-06-16 03:56:22
 
 [[toc]]
 
-#outer #paper #scope/work/research/lakeHeatwave #scope/work/research/machineLearning
+#paper #scope/work/research/lakeHeatwave #scope/work/research/machineLearning
 
 - citation_key: yang2025
 - title: 基于BP神经网络与遥感反演的太湖热浪规律研究

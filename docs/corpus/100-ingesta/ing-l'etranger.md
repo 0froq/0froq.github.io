@@ -11,7 +11,7 @@ last_modified: 2026-06-16 04:10:08
 
 [[toc]]
 
-#outer #book #scope/literature #author/camus
+#book #scope/literature #author/camus
 
 ## 2022 / 04 / 06
 

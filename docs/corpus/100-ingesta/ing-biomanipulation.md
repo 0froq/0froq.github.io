@@ -11,7 +11,7 @@ last_modified: 2026-06-16 03:57:25
 
 [[toc]]
 
-#outer #scope/work/research/cyanobacteria
+#scope/work/research/cyanobacteria
 
 ## Trophic Cascade
 

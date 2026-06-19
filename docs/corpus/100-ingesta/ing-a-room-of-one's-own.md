@@ -11,7 +11,7 @@ last_modified: 2026-06-16 04:03:34
 
 [[toc]]
 
-#outer #book #scope/literature #scope/feminism #author/woolf
+#book #scope/literature #scope/feminism #author/woolf
 
 ## 2022 / 02 / 01
 

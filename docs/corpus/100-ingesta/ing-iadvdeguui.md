@@ -11,7 +11,7 @@ last_modified: 2026-06-16 04:09:57
 
 [[toc]]
 
-#outer #book #scope/literature #author/shitiesheng
+#book #scope/literature #author/shitiesheng
 
 ## 2022 / 03 / 25
 

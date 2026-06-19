@@ -11,7 +11,7 @@ last_modified: 2026-06-16 04:12:41
 
 [[toc]]
 
-#outer #book #scope/literature #author/maugham
+#book #scope/literature #author/maugham
 
 ## 2022 / 03 / 23
 

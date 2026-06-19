@@ -12,7 +12,7 @@ Use U-net to construct a dataset.
 
 [[toc]]
 
-#outer #paper #scope/work/research/lakeDataset
+#paper #scope/work/research/lakeDataset
 
 - citation_key: pi2022
 - title: Mapping Global Lake Dynamics Reveals the Emerging Roles of Small Lakes

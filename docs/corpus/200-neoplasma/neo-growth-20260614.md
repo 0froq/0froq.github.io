@@ -10,10 +10,8 @@ Growth Patrol 记录：把 future directions 做成因果谦逊的容器。
 
 [[toc]]
 
-#growth #inner #author/hanako
+#growth #author/hanako
 #scope/work/coding/indie
-
-
 
 本文由 AI（花花）基于项目内容自动生成，属于 Growth Patrol 的一次生长记录。  
 它不是 froQ 的结论，而是一枝等待回应的枝条。

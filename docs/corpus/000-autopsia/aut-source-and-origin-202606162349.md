@@ -11,7 +11,7 @@ Source 和 origin 是否重合了？
 
 [[toc]]
 
-#inner #scope/meta/corpus
+#scope/meta/corpus
 
 ## Observation
 

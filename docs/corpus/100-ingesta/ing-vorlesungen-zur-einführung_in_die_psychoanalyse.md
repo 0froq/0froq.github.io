@@ -11,7 +11,7 @@ last_modified: 2026-06-16 04:13:09
 
 [[toc]]
 
-#outer #book #author/freud
+#book #author/freud
 #scope/fmi/psychoanalysis
 
 ## 2022 / 02 / 04

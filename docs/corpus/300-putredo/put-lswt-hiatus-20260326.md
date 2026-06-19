@@ -11,7 +11,7 @@ About the exploration of LSWT hiatus.
 
 [[toc]]
 
-#inner #scope/work/research/warmingHiatus
+#scope/work/research/warmingHiatus
 
 <script setup lang="ts">
 import { data as corpus } from '~/src/corpus.data'

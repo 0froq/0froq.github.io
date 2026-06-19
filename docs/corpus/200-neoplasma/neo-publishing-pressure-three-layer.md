@@ -9,7 +9,7 @@ last_modified: 2026-06-16 04:20:06
 
 [[toc]]
 
-#model #inner #scope/work/podcast
+#model #scope/work/podcast
 
 ## Core
 

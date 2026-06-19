@@ -10,7 +10,7 @@ lang: en
 
 [[toc]]
 
-#outer #paper #scope/work/research/surfaceTemperature #scope/work/research/warmingHiatus
+#paper #scope/work/research/surfaceTemperature #scope/work/research/warmingHiatus
 
 - citation_key: xie2017
 - title: What Caused the Global Surface Warming Hiatus of 1998–2013?

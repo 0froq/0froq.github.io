@@ -10,7 +10,7 @@ lang: en
 
 [[toc]]
 
-#outer #paper #scope/work/research/surfaceTemperature #scope/work/research/warmingHiatus
+#paper #scope/work/research/surfaceTemperature #scope/work/research/warmingHiatus
 
 - citation_key: yan2016
 - title: The Global Warming Hiatus: Slowdown or Redistribution?

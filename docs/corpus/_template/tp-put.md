@@ -9,13 +9,9 @@ last_modified: {{date}}
 
 [[toc]]
 
-#outer
-
 ## Capture
 
-
 ## Friction
-
 
 ## Residue
 

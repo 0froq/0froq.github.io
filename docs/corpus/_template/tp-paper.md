@@ -9,7 +9,7 @@ last_modified: {{date}}
 
 [[toc]]
 
-#outer #paper #scope/work/research
+#paper #scope/work/research
 
 - citation_key: {{citation_key}}
 - title: {{title}}
@@ -20,9 +20,6 @@ last_modified: {{date}}
 
 ## Registry Note
 
-
 ## Raw Takeaways
 
-
 ## Possible 200 Growth
-

@@ -12,7 +12,7 @@ _About Yak Shaving_ by [@antfu](https://antfu.me).
 
 [[toc]]
 
-#outer #scope/meta/methodology #author/antfu
+#scope/meta/methodology #author/antfu
 
 > Source: [About Yak Shaving](https://antfu.me/posts/about-yak-shaving)
 

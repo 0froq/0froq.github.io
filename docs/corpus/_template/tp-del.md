@@ -7,4 +7,3 @@ last_modified: {{date}}
 
 ---
 
-

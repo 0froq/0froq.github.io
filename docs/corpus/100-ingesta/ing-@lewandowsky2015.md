@@ -9,7 +9,7 @@ last_modified: 2026-06-16 03:53:56
 
 [[toc]]
 
-#outer #paper #scope/work/research/warmingHiatus
+#paper #scope/work/research/warmingHiatus
 
 - citation_key: lewandowsky2015
 - title: On the Definition and Identifiability of the Alleged ``Hiatus'' in Global Warming

@@ -10,7 +10,7 @@ lang: en
 
 [[toc]]
 
-#outer #paper #scope/work/research/climateRegimeShift #scope/work/research/seaSurfaceTemperature #scope/work/research/warming
+#paper #scope/work/research/climateRegimeShift #scope/work/research/seaSurfaceTemperature #scope/work/research/warming
 
 - citation_key: xiao2023
 - title: A Regime Shift in North Pacific Annual Mean Sea Surface Temperature in 2013/14

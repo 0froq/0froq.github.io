@@ -13,7 +13,7 @@ last_modified: 2026-06-16 04:18:14
 
 [source](../100-ingesta/ing-libdri.md)
 
-#response #outer #scope/thought #book #author/shitiesheng
+#response #scope/thought #book #author/shitiesheng
 
 但是说到底，人还是期望**自己更合群**，或者换言之，
 期望**群更合自己**。

@@ -13,7 +13,7 @@ last_modified: 2026-06-16 04:18:06
 
 [source](../100-ingesta/ing-libdri.md)
 
-#response #outer #scope/thought #book #author/shitiesheng
+#response #scope/thought #book #author/shitiesheng
 
 有懂的吗？
 

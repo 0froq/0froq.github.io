@@ -11,7 +11,7 @@ last_modified: 2026-06-16 04:15:58
 
 [[toc]]
 
-#response #outer #scope/thought #book #author/shitiesheng
+#response #scope/thought #book #author/shitiesheng
 
 [source](../100-ingesta/ing-iadvdeguui.md)
 

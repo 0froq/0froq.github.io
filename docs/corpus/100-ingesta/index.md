@@ -23,7 +23,6 @@ locale: zh
 ## 推荐标签
 
 ```txt
-#outer
 #capture
 #paper
 #book

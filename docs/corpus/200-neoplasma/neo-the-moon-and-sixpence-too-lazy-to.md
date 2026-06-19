@@ -18,7 +18,7 @@ last_modified: 2026-06-16 04:20:25
 
 [source](../100-ingesta/ing-the-moon-and-sixpence.md)
 
-#response #outer #scope/thought #book #author/maugham
+#response #scope/thought #book #author/maugham
 
 看到这个的时候实属笑了，有点玄学。
 就像小时候，洗澡之前不想洗，

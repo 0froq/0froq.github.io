@@ -11,7 +11,7 @@ last_modified: 2026-06-16 05:06:40
 
 [[toc]]
 
-#growth #inner #author/hanako
+#growth #author/hanako
 #scope/work/theme
 
 本文由 AI（花花）基于 froQ 对既有 Growth 的反馈继续生成，属于 Growth Continuation 的一次增量生长。  

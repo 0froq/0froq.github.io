@@ -8,6 +8,3 @@ last_modified: {{date}}
 ---
 
 [[toc]]
-
-#inner
-

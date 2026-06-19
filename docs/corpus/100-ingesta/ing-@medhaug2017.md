@@ -10,7 +10,7 @@ lang: en
 
 [[toc]]
 
-#outer #paper #scope/work/research/warmingHiatus
+#paper #scope/work/research/warmingHiatus
 
 - citation_key: medhaug2017
 - title: Reconciling Controversies about the `Global Warming Hiatus'

@@ -13,7 +13,7 @@ variability plus natural forcing.
 
 [[toc]]
 
-#outer #paper #scope/work/research/warmingHiatus
+#paper #scope/work/research/warmingHiatus
 
 - citation_key: fyfe2016
 - title: Making Sense of the Early-2000s Warming Slowdown

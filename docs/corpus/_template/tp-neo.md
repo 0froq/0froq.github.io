@@ -9,16 +9,13 @@ last_modified: {{date}}
 
 [[toc]]
 
-#inner
+<!-- add kind when clear: #claim / #model / #design / #question / #fragment / #response -->
 
 ## Core
 
-
 ## Context
 
-
 ## Tension
-
 
 ## Links
 

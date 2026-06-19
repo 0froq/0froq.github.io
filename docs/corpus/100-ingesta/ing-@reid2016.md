@@ -10,7 +10,7 @@ lang: en
 
 [[toc]]
 
-#outer #paper #scope/work/research/climateRegimeShift
+#paper #scope/work/research/climateRegimeShift
 
 - citation_key: reid2016
 - title: Global Impacts of the 1980s Regime Shift

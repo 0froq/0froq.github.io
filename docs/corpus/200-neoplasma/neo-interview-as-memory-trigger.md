@@ -9,7 +9,7 @@ last_modified: 2026-06-16 04:17:16
 
 [[toc]]
 
-#claim #inner #scope/meta/workflow
+#claim #scope/meta/workflow
 
 ## Core
 

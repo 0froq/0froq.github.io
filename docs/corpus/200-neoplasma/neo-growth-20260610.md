@@ -10,10 +10,8 @@ Growth Patrol 记录：字形的呼吸——当排版成为注意力的语法。
 
 [[toc]]
 
-#growth #inner #author/hanako
+#growth #author/hanako
 #scope/work/research
-
-
 
 本文由 AI（花花）基于项目内容自动生成，属于 Growth Patrol 的一次生长记录。  
 它不是 froQ 的结论，而是一枝等待回应的枝条。

@@ -9,10 +9,9 @@ last_modified: {{date}}
 
 [[toc]]
 
-#outer
+<!-- add source type: #paper / #book / #article / #podcast / #video -->
 
 ## Raw Material
-
 
 ## Possible Connections
 

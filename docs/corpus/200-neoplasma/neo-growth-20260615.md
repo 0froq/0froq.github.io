@@ -10,10 +10,8 @@ last_modified: 2026-06-16 05:07:13
 
 [[toc]]
 
-#growth #inner #author/hanako
+#growth #author/hanako
 #scope/work/coding/indie
-
-
 
 本文由 AI（花花）基于项目内容自动生成，属于 Growth Patrol 的一次生长记录。  
 它不是 froQ 的结论，而是一枝等待回应的枝条。

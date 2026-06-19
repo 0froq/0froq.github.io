@@ -12,4 +12,4 @@ Collections of sentences that might be useful for writing paper.
 
 [[toc]]
 
-#outer #scope/work/research/warmingHiatus
+#scope/work/research/warmingHiatus

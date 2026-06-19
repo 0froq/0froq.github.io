@@ -11,7 +11,7 @@ last_modified: 2026-06-18 03:27:38
 
 [[toc]]
 
-#inner #scope/meta/corpus
+#scope/meta/corpus
 
 ## Observation
 

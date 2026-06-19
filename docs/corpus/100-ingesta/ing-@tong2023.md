@@ -10,7 +10,7 @@ lang: en
 
 [[toc]]
 
-#outer #paper #scope/work/research/lakeSurfaceTemperature #scope/work/research/airTemperature #scope/work/research/warming
+#paper #scope/work/research/lakeSurfaceTemperature #scope/work/research/airTemperature #scope/work/research/warming
 
 - citation_key: tong2023
 - title: Global Lakes Are Warming Slower than Surface Air Temperature Due to Accelerated Evaporation

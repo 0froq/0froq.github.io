@@ -28,7 +28,5 @@ locale: zh
 ## 推荐标签
 
 ```txt
-#inner
-#outer
 #scope/meta/corpus
 ```

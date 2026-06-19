@@ -12,7 +12,7 @@ A milestone of Corpus.
 
 [[toc]]
 
-#kind #inner #scope/meta/corpus
+#kind #scope/meta/corpus
 
 ## a Milestone
 
