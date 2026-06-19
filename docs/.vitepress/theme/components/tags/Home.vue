@@ -98,7 +98,7 @@ const tagTree = computed<TagNode[]>(() => {
       un-list-none
     >
       <TagTreeNode
-        v-for="node in tagTree"
+        v-for="node in tagTree.filter(t => t.totalCount > 0)"
         :key="node.fullPath"
         :node="node"
         :default-open="false"
