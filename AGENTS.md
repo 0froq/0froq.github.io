@@ -141,6 +141,44 @@ Format per entry: Problem → Real case → Correct practice.
 
 ---
 
+## 4. Git Conventions
+
+### 4.1 Prohibited commit type: chore
+
+- **Problem**: Using `chore` as a commit type undermines the conventional commit system by grouping semantically different changes under a single catch-all label.
+- **Correct**: Do not use `chore` as a commit type. Use the most specific applicable type instead:
+
+  | Type        | Use for                                                    |
+  | ----------- | ---------------------------------------------------------- |
+  | `feat`      | New user-facing features or functionality                  |
+  | `fix`       | Bug fixes                                                  |
+  | `docs`      | Documentation changes including corpus entries and posts   |
+  | `refactor`  | Code restructuring without behavioral change               |
+  | `style`     | Formatting, whitespace, lint fixes (no logic change)       |
+  | `test`      | Adding or modifying tests                                  |
+  | `build`     | Build system, dependencies, package manager changes        |
+  | `ci`        | CI/CD pipeline, automation, deployment config              |
+  | `perf`      | Performance optimization                                   |
+  | `content`   | Content-only changes (corpus entries, posts, dashboard data) |
+  | `data`      | Data file updates (board.yml state, advisor context)       |
+  | `config`    | Configuration file changes (eslint, tsconfig, etc.)        |
+
+  Prefer `content` for corpus/posts additions, `data` for dashboard/board state changes, and `config` for tooling setup. When in doubt, `docs` covers most text file changes under `/docs`.
+
+### 4.2 Commit scope
+
+- **Problem**: Omitting scope makes commit history harder to navigate.
+- **Correct**: Include a scope when the change is contained to a specific module or directory. Common scopes: `dashboard`, `board`, `advisor`, `corpus`, `posts`, `skills`, `docs`, `vitepress`, `scripts`, `config`.
+- **Examples**:
+  ```
+  docs(corpus): add growth patrol entries 2026-06-19
+  content(posts): update lake warming draft notes
+  data(board): mark exam review task as done
+  config(scripts): remove unused BibTeX parser
+  ```
+
+---
+
 ## 3. Agent Behavior & Tool Use
 
 ### 3.1 Confirm gate for skills vs direct instructions
