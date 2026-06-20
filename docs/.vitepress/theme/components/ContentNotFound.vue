@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n'
-import LinkUnderline from '@/ui/base/LinkUnderline.vue'
 
 const { t } = useI18n({
   useScope: 'global',
@@ -14,7 +13,7 @@ const { t } = useI18n({
     zh: {
       hereText: '这里',
       contactMeText: '联系我',
-      notSupposedToBeHere: '您其实不应该出现在{here}',
+      notSupposedToBeHere: '您不应该出现在{here}',
       ifYouReachHere: '如果您通过任何内部链接到达这里,请{contactMe}',
     },
   },
@@ -23,8 +22,8 @@ const { t } = useI18n({
 
 <template>
   <h1
-    un-text="align-right 400px rose-500/10"
-    un-font="900"
+    un-text="align-right 600px rose-500/10"
+    un-font="900 stylish"
     un-absolute
     un-bottom-0
     un-select-none
@@ -36,7 +35,7 @@ const { t } = useI18n({
   <un-page-content
     un-relative
     un-z-1
-    un-text="2xl stone-800 dark:stone-200"
+    un-text="lg stone-800 dark:stone-200"
     un-flex="~ col"
     un-gap-6
   >
@@ -57,17 +56,20 @@ const { t } = useI18n({
       <i18n-t
         keypath="ifYouReachHere"
       >
-        <template #contactMe>
-          <LinkUnderline
-            un-align-base
-            href="mailto:sayhola@froq.me"
-            :text="t('contactMeText')"
-            un-text="emerald-500"
-            un-before="bg-emerald-600 dark:bg-emerald-400"
-            un-vertical="bottom"
-          />
+        <template
+          #contactMe
+        >
+          <span
+            class="markdown-rendered"
+          >
+            <a
+              href="mailto:sayhola@froq.me"
+            >
+              {{ t('contactMeText') }}
+            </a>
+          </span>
         </template>
-      </i18n-t> /
+      </i18n-t>
     </div>
   </un-page-content>
 </template>

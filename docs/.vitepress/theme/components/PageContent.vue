@@ -16,7 +16,8 @@ const route = useRoute()
   <un-page-content
     un-min-h="[calc(100vh-15rem)]"
   >
-    <ContentIndexGlobal v-if="['/', '/en/'].includes(route.path)" />
+    <ContentNotFound v-if="page.isNotFound" />
+    <ContentIndexGlobal v-else-if="['/', '/en/'].includes(route.path)" />
 
     <Corpus
       v-else-if="route.path.startsWith('/corpus/')"
@@ -37,7 +38,5 @@ const route = useRoute()
     <ContentArticle
       v-else-if="!page.isNotFound"
     />
-
-    <ContentNotFound v-else />
   </un-page-content>
 </template>
