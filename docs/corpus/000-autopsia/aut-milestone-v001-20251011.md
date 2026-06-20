@@ -2,7 +2,7 @@
 title: Milestone of Corpus
 created: 2025-10-11
 status: void
-last_modified: 2026-06-16 04:45:36
+last_modified: 2026-06-20 13:47:56
 lang: en
 ---
 
@@ -12,7 +12,7 @@ A milestone of Corpus.
 
 [[toc]]
 
-#kind #scope/meta/corpus
+# scope/meta/corpus
 
 ## a Milestone
 
