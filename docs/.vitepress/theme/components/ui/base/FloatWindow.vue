@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useEventListener } from '@vueuse/core'
-import { computed, nextTick, onMounted, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 
 export interface FloatWindowProps {
   visible?: boolean
@@ -32,20 +32,6 @@ const windowRef = ref<HTMLElement | null>(null)
 const mouseX = ref(0)
 const mouseY = ref(0)
 
-const triggerBounds = computed(() => {
-  if (!props.triggerRef)
-    return null
-  const rect = props.triggerRef.getBoundingClientRect()
-  return {
-    top: rect.top,
-    bottom: rect.bottom,
-    left: rect.left,
-    right: rect.right,
-    width: rect.width,
-    height: rect.height,
-  }
-})
-
 const windowStyle = computed(() => {
   if (props.followMouse) {
     return {
@@ -54,30 +40,33 @@ const windowStyle = computed(() => {
     }
   }
 
-  const bounds = triggerBounds.value
-  if (!bounds) {
+  // Access visible to make this computed reactive to visibility changes,
+  // ensuring getBoundingClientRect() returns fresh position on each show.
+  if (!props.visible || !props.triggerRef) {
     return { left: '0px', top: '0px' }
   }
+
+  const rect = props.triggerRef.getBoundingClientRect()
 
   let top = 0
   let left = 0
 
   switch (props.placement) {
     case 'bottom':
-      top = bounds.bottom + props.offset
-      left = bounds.left
+      top = rect.bottom + props.offset
+      left = rect.left
       break
     case 'top':
-      top = bounds.top - props.offset
-      left = bounds.left
+      top = rect.top - props.offset
+      left = rect.left
       break
     case 'left':
-      top = bounds.top
-      left = bounds.left - props.offset
+      top = rect.top
+      left = rect.left - props.offset
       break
     case 'right':
-      top = bounds.top
-      left = bounds.right + props.offset
+      top = rect.top
+      left = rect.right + props.offset
       break
   }
 
