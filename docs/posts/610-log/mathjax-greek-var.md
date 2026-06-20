@@ -1,9 +1,8 @@
 ---
 title: 'MathJax 中希腊字母的 `\var-` 变体'
-series: mathjax_symbol
 created: 2024-09-25 14:33
 status: form
-last_modified: 2026-03-15 14:41:02
+last_modified: 2026-06-20 14:32:48
 ---
 
 关于 MathJax 中希腊字母的 `\var-` 变体。
@@ -12,7 +11,7 @@ last_modified: 2026-03-15 14:41:02
 
 [[toc]]
 
-#scope/work/mathjax #greek
+# scope/work/mathjax #greek
 
 ## 小写希腊字母的 `\var-` 变体
 
@@ -38,32 +37,57 @@ last_modified: 2026-03-15 14:41:02
 
 ### `\epsilon` 与 `\varepsilon`
 
-形似翻转阿拉伯数字 3 的 $\varepsilon$ 被称为 Greek small letter epsilon，是于希腊文本中被使用的形式；而 $\epsilon$ 称为 Greek lunate epsilon symbol，即月形 epsilon，继承自早期的安色尔体 [^1]，被认为是「直立的 epsilon」，且如 _Core Spec_ 中所言，仅能用于数学或技术用途。
+形似翻转阿拉伯数字 3 的 $\varepsilon$ 被称为 Greek small letter epsilon，
+是于希腊文本中被使用的形式；
+而 $\epsilon$ 称为 Greek lunate epsilon symbol，
+即月形 epsilon，继承自早期的安色尔体
+^[[Wikipedia, Epsilon](https://en.wikipedia.org/wiki/Epsilon)]，
+被认为是「直立的 epsilon」，且如 _Core Spec_ 中所言，仅能用于数学或技术用途。
 
 ### `\theta` 与 `\vartheta`
 
-与上一组相反，$\theta$ 被认为是 Greek small letter theta，可用于希腊文本；而 $\vartheta$ 被认为是 Greek theta symbol，也称 <u>script</u> theta，仅能用于数学或技术用途。
+与上一组相反，$\theta$ 被认为是 Greek small letter theta，可用于希腊文本；
+而 $\vartheta$ 被认为是 Greek theta symbol，也称 :u[script] theta，
+仅能用于数学或技术用途。
 
 :::tip
-_Core Spec_ 的 [Chapter 22 | Letterlike Symbols](https://www.unicode.org/versions/Unicode16.0.0/core-spec/chapter-22/#G12468) 中提到，script style，即（数学）手稿风格或书法风格，有 chancery 和 roundhand 两种特定变体风格。
+_Core Spec_ 的
+[Chapter 22 | Letterlike Symbols](https://www.unicode.org/versions/Unicode16.0.0/core-spec/chapter-22/#G12468)
+中提到，script style，即（数学）手稿风格或书法风格，
+有 chancery 和 roundhand 两种特定变体风格。
 :::
 
 ### `\pi` 与 `\varpi`
 
-类似地，$\pi$ 被认为是 Greek small letter pi，可用于希腊文本，在数学中用来代表圆周率常数；$\varpi$ 被认为是 Greek pi symbol，也称 omega pi，即形如 omega 的 pi，仅能用于数学或技术用途。
+类似地，$\pi$ 被认为是 Greek small letter pi，
+可用于希腊文本，在数学中用来代表圆周率常数；
+$\varpi$ 被认为是 Greek pi symbol，也称 omega pi，
+即形如 omega 的 pi，仅能用于数学或技术用途。
 
 ### `\rho` 与 `\varrho`
 
-类似地，$\rho$ 被认为是 Greek small letter rho，可用于希腊文本；$\varrho$ 被认为是 Greek rho symbol，也称 tailed rho，即带尾的 pi，仅能用于数学或技术用途。
+类似地，$\rho$ 被认为是 Greek small letter rho，可用于希腊文本；
+$\varrho$ 被认为是 Greek rho symbol，也称 tailed rho，
+即带尾的 pi，仅能用于数学或技术用途。
 
 ### `\sigma` 与 `\varsigma`
 
-此组是最不同的一组。二者都可被用于希腊文本。不同之处在于 $\varsigma$ 为 Greek small letter final sigma，即位于词尾的 sigma 字型；$\sigma$ 则是中规中矩的 Greek small letter sigma，即 sigma 的普通字型，也可用作表示数字 200。
+此组是最不同的一组。二者都可被用于希腊文本。
+不同之处在于 $\varsigma$ 为 Greek small letter final sigma，
+即位于词尾的 sigma 字型；
+$\sigma$ 则是中规中矩的 Greek small letter sigma，
+即 sigma 的普通字型，也可用作表示数字 200。
 
 :::warning
-注意，不要把 $\varsigma$ 和 $ϛ$[^2] (stigma) 混淆。后者是 $\sigma\tau$ (sigma-tau) 连字，也可用作表示数字 6。
+注意，不要把 $\varsigma$ 和 $ϛ$
+^[由于 `\stigma` 无法通过 Markdown 中的 MathJax 输入，这里直接使用了 Unicode 字符。]
+(stigma) 混淆。后者是 $\sigma\tau$ (sigma-tau) 连字，也可用作表示数字 6。
 
-从形式上区分二者可能有些困难，stigma 的圈会比 final sigma 更大，且向右延伸更远。然而由于 sigma-tau 连字不会出现在词尾，而 final sigma 也不会出现在词内部，且不会用作表示数字，故二者通常可以通过上下文较为轻易地区分开。[^3]
+从形式上区分二者可能有些困难，stigma 的圈会比 final sigma 更大，
+且向右延伸更远。然而由于 sigma-tau 连字不会出现在词尾，
+而 final sigma 也不会出现在词内部，且不会用作表示数字，
+故二者通常可以通过上下文较为轻易地区分开。
+^[[Wikipedia, Stigma (ligature)](https://en.wikipedia.org/wiki/Stigma_(ligature))]
 :::
 
 ### `\phi` 与 `\varphi`
@@ -91,9 +115,3 @@ _Core Spec_ 的 [Chapter 22 | Letterlike Symbols](https://www.unicode.org/versio
 | $\Phi$, $\varPhi$         | `\Phi`, `\varPhi`         |
 | $\Psi$, $\varPsi$         | `\Psi`, `\varPsi`         |
 | $\Omega$, $\varOmega$     | `\Omega`, `\varOmega`     |
-
-[^1]: [Wikipedia, Epsilon](https://en.wikipedia.org/wiki/Epsilon)
-
-[^2]: 由于 `\stigma` 无法通过 Markdown 中的 MathJax 输入，这里直接使用了 Unicode 字符。
-
-[^3]: [Wikipedia, Stigma (ligature)](https://en.wikipedia.org/wiki/Stigma_(ligature))

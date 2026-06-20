@@ -2,7 +2,7 @@
 title: '正在做一个 Obsidian 主题'
 created: 2023-07-08 23:00
 status: form
-last_modified: 2026-04-24 16:53:14
+last_modified: 2026-06-20 14:26:58
 ---
 
 虽然在我认识的人里面用 Obsidian 的寥寥无几，但是还是想记录一下最近在干的事情。
@@ -11,7 +11,7 @@ last_modified: 2026-04-24 16:53:14
 
 [[toc]]
 
-#scope/work/theme
+# scope/work/theme
 
 为什么突然想到自己做一个主题呢？
 
@@ -65,7 +65,7 @@ CMD Markdown 不支持即时渲染等原因，
 [Md2All](http://md.aclickall.com) 和 [openwrite](https://md.openwrite.cn)。
 总的来说，后者的默认格式更符合我的审美，
 但是其缺少了对部分 Markdown 语法的支持，
-如使用 `[TOC]` 来生成一个 TOC 的功能 [^1]。
+如使用 `[TOC]` 来生成一个 TOC 的功能 ^[2024 年 9 月 9 日补充，使用 `[toc]` 生成大纲目录并不是标准的 CommonMark 规范。]。
 所以在后期，我放弃了 openwrite，被迫学习了一部分 CSS 知识，
 用于在 Md2All 里对样式、排版等进行设计。
 
@@ -125,5 +125,3 @@ UI 的美化、其他元素（ol、il、code、callout 等）的样式设计、
 ---
 
 这次扯得有点多。希望下次能少扯点。
-
-[^1]: 2024 年 9 月 9 日补充，使用 `[toc]` 生成大纲目录并不是标准的 CommonMark 规范。

@@ -2,7 +2,7 @@
 title: '碎碎念'
 created: 2023-08-08 09:00
 status: form
-last_modified: 2026-03-15 14:42:15
+last_modified: 2026-06-20 14:35:16
 ---
 
 睡不着，忽地想起来好久没动笔了。
@@ -11,7 +11,7 @@ last_modified: 2026-03-15 14:42:15
 
 [[toc]]
 
-#scope/work
+# scope/work
 
 上一次写了点东西是在 7 月 8 日。那一篇没发公众号，因为懒得折腾。
 从开始学前端之后，我对文章排版样式要求逐渐变高了，
@@ -30,7 +30,13 @@ last_modified: 2026-03-15 14:42:15
 其实本来想把 Gridea 重做的，因为如果对网站进行了大改，Gridea 肯定是用不了的，
 但又不可能每发一篇都手搓 HTML，所以想着实现这个需求。
 不过 Gridea 是基于 Electron 的，难能上 App Store，所以就还是转去了 Swift。
-不过也没做完，只能说开了个头，仅仅完成了基于模版的 Markdown 转 HTML 的 GUI[^1]。
+不过也没做完，只能说开了个头，仅仅完成了基于模版的 Markdown 转 HTML 的 GUI
+^[
+2024 年 9 月 9 日补充：
+由于用 [Vitepress](https://vitepress.dev/) + Obsidian 实现了高度集成的流水线，
+这个 MacOS 软件基本已弃坑。
+]
+。
 后续工作量还很大，不过暂时不能急，因为我连个人网站的排版都还没重构好，
 这边的开发没发进行。所以又当即投入了个人网站的设计。
 
@@ -57,5 +63,3 @@ last_modified: 2026-03-15 14:42:15
 
 BYW 现在我那个 GitHub Page 已经不能看了。
 其实硬要看也可以看，不过没 CSS，虽然就是改一下引用的事，但是懒得改。
-
-[^1]: 2024 年 9 月 9 日补充：由于用 [Vitepress](https://vitepress.dev/) + Obsidian 实现了高度集成的流水线，这个 MacOS 软件基本已弃坑。

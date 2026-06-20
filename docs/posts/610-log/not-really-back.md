@@ -2,7 +2,7 @@
 title: 并未真正回归
 created: 2025-11-30 10:20:00
 status: form
-last_modified: 2026-04-24 16:55:49
+last_modified: 2026-06-20 14:36:45
 ---
 
 如题。
@@ -11,7 +11,7 @@ last_modified: 2026-04-24 16:55:49
 
 [[toc]]
 
-#scope/life #scope/work/theme #scope/work/nvim
+# scope/life #scope/work/theme #scope/work/nvim
 
 ## ！
 
@@ -79,7 +79,7 @@ last_modified: 2026-04-24 16:55:49
 但都还没有到能发布的程度。
 不过陆陆续续应该都要来了。
 
-### 重构！又在重构！！还在重构！！！
+### 重构！又在重构！！还在重构
 
 真的很难停下来。
 
@@ -92,7 +92,7 @@ last_modified: 2026-04-24 16:55:49
 我就开始了我这无休止重构的一生。
 
 最主要在不断重构的项目就是我的个人网站
-[froq.top](https://froq.top)。
+[froq.me](https://froq.me)。
 从 JS 到 TS，
 从 Vue 手搓到 VitePress，
 它实际上一直在经历着「无关紧要」的变化。
