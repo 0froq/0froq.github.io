@@ -14,11 +14,13 @@ Format per entry: Problem → Real case → Correct practice.
 - **Problem**: Writing `notes` as a scalar string or using `links`/`label` fields breaks dashboard render logic silently.
 - **Case**: `notes: "just a note"` — YAML parser accepts this, but the dashboard renderer expects `[{text, url?}]` and produces blank output with no error.
 - **Correct**: Always use `notes:` as a sequence of objects:
+
   ```yaml
   notes:
     - text: Human-readable note
       url: 'https://optional.url'
   ```
+
   This applies to `board.yml` (active/backlog/archive), visions, hints, and any other dashboard YAML.
   Top-level prose fields named `notes` outside dashboard YAML (e.g. in free-form context blocks) may still be scalar strings.
 
@@ -94,6 +96,7 @@ Format per entry: Problem → Real case → Correct practice.
 - **Problem**: Creating paper entries without the `@` prefix, which breaks the paper-vs-other-ingesta distinction.
 - **Case**: Creating `ing-dai2018.md` instead of `ing-@dai2018.md`.
 - **Correct**: Paper entries in `100-ingesta/` use `ing-@citation_key.md`. The `@` signals a paper citation rather than a general intake note. Use the paper template (`_template/tp-paper.md`) which includes bib metadata fields after the tag line:
+
   ```markdown
   - citation_key: dai2018
   - title: ...
@@ -108,6 +111,7 @@ Format per entry: Problem → Real case → Correct practice.
 - **Problem**: Omitting one or more required frontmatter fields, which breaks corpus rendering and tag-based queries.
 - **Case**: Creating a corpus entry with only `title` and `created`, missing `status` and `last_modified`.
 - **Correct**: Every corpus entry must have all four required fields:
+
   ```yaml
   ---
   title: Entry Title
@@ -116,6 +120,7 @@ Format per entry: Problem → Real case → Correct practice.
   last_modified: YYYY-MM-DD HH:mm:ss
   ---
   ```
+
   Always start from the corresponding template in `docs/corpus/_template/`.
 
 ### 2.5 Hashtag invention
@@ -148,20 +153,20 @@ Format per entry: Problem → Real case → Correct practice.
 - **Problem**: Using `chore` as a commit type undermines the conventional commit system by grouping semantically different changes under a single catch-all label.
 - **Correct**: Do not use `chore` as a commit type. Use the most specific applicable type instead:
 
-  | Type        | Use for                                                    |
-  | ----------- | ---------------------------------------------------------- |
-  | `feat`      | New user-facing features or functionality                  |
-  | `fix`       | Bug fixes                                                  |
-  | `docs`      | Documentation changes including corpus entries and posts   |
-  | `refactor`  | Code restructuring without behavioral change               |
-  | `style`     | Formatting, whitespace, lint fixes (no logic change)       |
-  | `test`      | Adding or modifying tests                                  |
-  | `build`     | Build system, dependencies, package manager changes        |
-  | `ci`        | CI/CD pipeline, automation, deployment config              |
-  | `perf`      | Performance optimization                                   |
-  | `content`   | Content-only changes (corpus entries, posts, dashboard data) |
-  | `data`      | Data file updates (board.yml state, advisor context)       |
-  | `config`    | Configuration file changes (eslint, tsconfig, etc.)        |
+  | Type       | Use for                                                      |
+  | ---------- | ------------------------------------------------------------ |
+  | `feat`     | New user-facing features or functionality                    |
+  | `fix`      | Bug fixes                                                    |
+  | `docs`     | Documentation changes including corpus entries and posts     |
+  | `refactor` | Code restructuring without behavioral change                 |
+  | `style`    | Formatting, whitespace, lint fixes (no logic change)         |
+  | `test`     | Adding or modifying tests                                    |
+  | `build`    | Build system, dependencies, package manager changes          |
+  | `ci`       | CI/CD pipeline, automation, deployment config                |
+  | `perf`     | Performance optimization                                     |
+  | `content`  | Content-only changes (corpus entries, posts, dashboard data) |
+  | `data`     | Data file updates (board.yml state, advisor context)         |
+  | `config`   | Configuration file changes (eslint, tsconfig, etc.)          |
 
   Prefer `content` for corpus/posts additions, `data` for dashboard/board state changes, and `config` for tooling setup. When in doubt, `docs` covers most text file changes under `/docs`.
 
@@ -170,6 +175,7 @@ Format per entry: Problem → Real case → Correct practice.
 - **Problem**: Omitting scope makes commit history harder to navigate.
 - **Correct**: Include a scope when the change is contained to a specific module or directory. Common scopes: `dashboard`, `board`, `advisor`, `corpus`, `posts`, `skills`, `docs`, `vitepress`, `scripts`, `config`.
 - **Examples**:
+
   ```
   docs(corpus): add growth patrol entries 2026-06-19
   content(posts): update lake warming draft notes
