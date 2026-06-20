@@ -124,7 +124,7 @@ html {
     --uno: 'hover:(border-stone-800 dark:border-stone-200 border-solid)';
     --uno: 'transition duration-200';
 
-    &:not([target='_blank']) {
+    &:not([target='_blank'], [href^='mailto']) {
       --uno: 'after:(content-[""] i-solar-document-bold-duotone inline-block ml-1 align-sub text-emerald-600 dark:text-emerald-400)';
       --uno: 'hover:(before:(bg-emerald-600 dark:bg-emerald-400))';
     }
@@ -136,7 +136,7 @@ html {
     --uno: 'decoration-(wavy 1)';
     /* not too close to the text */
     --uno: 'underline-offset-4';
-    --uno: 'text-neutral-900 dark:text-neutral-100';
+    --uno: 'text-stone-900 dark:text-stone-100';
   }
 
   /* inline code */
@@ -363,10 +363,10 @@ html {
   & .custom-block {
     --uno: 'my-4 relative';
     --uno: 'before:content-[""]';
-    --uno: 'before:(absolute right-1 top-1)';
+    --uno: 'before:(absolute right-1 bottom-1)';
     /* style at utilities layer to overwrite width and height set by icon below */
     --uno: 'before:(inline-block align-middle layer-utilities:w-8 layer-utilities:h-8)';
-    --uno: 'before:opacity-50';
+    --uno: 'before:opacity-20';
     --uno: 'border-l-1';
 
     & p {
@@ -422,7 +422,7 @@ html {
       --uno: 'absolute -bottom-8';
       --uno: 'my-0 mx-auto w-full text-center';
       --uno: 'op-30';
-      --uno: 'text-lg font-bold';
+      --uno: 'text-lg';
       --uno: 'text-stone-800 dark:text-stone-200';
     }
 
@@ -508,7 +508,7 @@ html {
 
     & th,
     & td {
-      --uno: 'p-(x-4 y-2)';
+      --uno: 'p-(x-2)';
     }
   }
 
@@ -566,7 +566,8 @@ html {
 
   /* toc */
   & nav.table-of-contents {
-    --uno: 'rounded-r-md';
+    --uno: 'hidden lg:block';
+    --uno: 'rounded-r-sm';
     --uno: 'pr-5';
     --uno: 'fixed top-200px left-0 z-10';
     --uno: 'max-h-320px min-w-200px max-w-400px';
@@ -575,7 +576,7 @@ html {
 
     --uno: 'bg-stone-100/60 dark:bg-stone-900/60';
     --uno: 'border border-stone-300 dark:border-stone-700 border-l-none';
-    --uno: 'opacity-10 hover:opacity-100';
+    --uno: 'opacity-5 hover:opacity-100';
     --uno: 'transition duration-200';
 
     &::-webkit-scrollbar {
@@ -583,7 +584,11 @@ html {
     }
 
     &:hover {
-      backdrop-filter: blur(10px);
+      --uno: 'backdrop-blur-xl';
+    }
+
+    & ul {
+      --uno: 'pl-6';
     }
 
     & li {

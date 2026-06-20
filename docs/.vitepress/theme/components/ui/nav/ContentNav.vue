@@ -52,6 +52,8 @@ props.items.forEach((group) => {
         <div
           :data-current="item.current"
           :un-font="item.current ? '400' : '100'"
+          un-italic
+          un-font-italicSerif
         >
           <LinkUnderline
             :href="getLocaledPath(item.url)"
@@ -73,6 +75,8 @@ props.items.forEach((group) => {
               <div
                 v-for="child in item.children"
                 :key="child.url"
+                un-italic
+                un-font-italicSerif
               >
                 <LinkUnderline
                   :href="child.url"
