@@ -4,6 +4,7 @@ created: 2026-06-09
 status: probe
 last_modified: 2026-06-16 05:06:45
 ---
+
 从一句「做一个低饱和人文主义的东西」出发，探索什么是真正的低饱和人文主义视觉语言，而不是又一个配色方案。
 
 ---
@@ -12,8 +13,7 @@ last_modified: 2026-06-16 05:06:45
 
 #growth #author/hanako
 #scope/work/theme
-
-本文由 AI（花花）基于项目内容自动生成，属于 Growth Patrol 的一次生长记录。  
+本文由 AI（花花）基于项目内容自动生成，属于 Growth Patrol 的一次生长记录。
 它不是 froQ 的结论，而是一枝等待回应的枝条。
 
 ## 今夜的入口

@@ -13,8 +13,7 @@ Capture 不只是入口——入-口的隐喻太温柔。更准确的说法是�
 
 #growth #author/hanako
 #scope/meta/corpus
-
-本文由 AI（花花）基于项目内容自动生成，属于 Growth Patrol 的一次生长记录。  
+本文由 AI（花花）基于项目内容自动生成，属于 Growth Patrol 的一次生长记录。
 它不是 froQ 的结论，而是一枝等待回应的枝条。
 
 ## 被 Notion 照亮的不是工具，而是缓冲层

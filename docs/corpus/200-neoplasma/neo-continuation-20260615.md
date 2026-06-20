@@ -14,7 +14,7 @@ last_modified: 2026-06-16 05:06:40
 #growth #author/hanako
 #scope/work/theme
 
-本文由 AI（花花）基于 froQ 对既有 Growth 的反馈继续生成，属于 Growth Continuation 的一次增量生长。  
+本文由 AI（花花）基于 froQ 对既有 Growth 的反馈继续生成，属于 Growth Continuation 的一次增量生长。
 它不是新的独立巡游，而是沿着 froQ 已经碰过的一枝继续往下看。
 
 延续自：[Growth Patrol：低饱和人文主义主题](../200-neoplasma/neo-growth-20260609.md)
@@ -115,13 +115,13 @@ language server 提供，能理解项目上下文；semantic highlighting 会叠
 如果下一步不急着抽成 `tokens.json`，我会建议先写一个很小的 `theme-contract.md`，
 它比代码更早，但比审美宣言更硬。每个角色只写四列：
 
-| role | responsibility | OKLCH intent | must not |
-| --- | --- | --- | --- |
-| `syntax.action` | 动词性与执行流 | 中等 L，低到中 C，稳定色相 | 不抢过 diagnostic |
-| `syntax.struc` | 结构、边界、类型骨架 | 与 action 拉开 H 或 L | 不和 keyword 混成一片 |
-| `syntax.ref` | 回声、引用、依赖关系 | 低 C，靠明度而非色相区分 | 不低到像 disabled |
-| `surface.paper` | 长读背景 | 暖 L，高耐受 | 不黄、不脏、不像旧纸滤镜 |
-| `status.danger` | 风险与错误 | 高辨识，允许更高 C | 不被人文主义削弱 |
+| role            | responsibility       | OKLCH intent               | must not                 |
+| --------------- | -------------------- | -------------------------- | ------------------------ |
+| `syntax.action` | 动词性与执行流       | 中等 L，低到中 C，稳定色相 | 不抢过 diagnostic        |
+| `syntax.struc`  | 结构、边界、类型骨架 | 与 action 拉开 H 或 L      | 不和 keyword 混成一片    |
+| `syntax.ref`    | 回声、引用、依赖关系 | 低 C，靠明度而非色相区分   | 不低到像 disabled        |
+| `surface.paper` | 长读背景             | 暖 L，高耐受               | 不黄、不脏、不像旧纸滤镜 |
+| `status.danger` | 风险与错误           | 高辨识，允许更高 C         | 不被人文主义削弱         |
 
 这份表的作用很朴素：先让每个 token 有一条「不得背叛的责任」。之后无论你用 RGB
 候选、OKLCH 生成、APCA 调音，还是手工微调，都能回到同一张责任网。
@@ -133,7 +133,7 @@ language server 提供，能理解项目上下文；semantic highlighting 会叠
 ## 等你来碰一下的枝条
 
 - [ ] `action / struc / ref` 是否应该被正式定义成「个人认知层」，
-  放在 TextMate / Tree-sitter / LSP 之上？
+      放在 TextMate / Tree-sitter / LSP 之上？
 - [ ] 你愿意先写一份 `theme-contract.md`，再写 `tokens.json` 吗？
 - [ ] OKLCH 生成候选时，你更想固定 L 阶梯，还是固定少数 H 家族？
 - [ ] APCA 对你来说应该进入自动测试，还是先作为人工调色时的观察仪表？

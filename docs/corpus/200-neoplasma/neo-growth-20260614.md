@@ -4,6 +4,7 @@ created: 2026-06-14
 status: probe
 last_modified: 2026-06-16 05:07:10
 ---
+
 Growth Patrol 记录：把 future directions 做成因果谦逊的容器。
 
 ---
@@ -12,8 +13,7 @@ Growth Patrol 记录：把 future directions 做成因果谦逊的容器。
 
 #growth #author/hanako
 #scope/work/coding/indie
-
-本文由 AI（花花）基于项目内容自动生成，属于 Growth Patrol 的一次生长记录。  
+本文由 AI（花花）基于项目内容自动生成，属于 Growth Patrol 的一次生长记录。
 它不是 froQ 的结论，而是一枝等待回应的枝条。
 
 ## 被降级的东西，不一定被废弃
@@ -21,7 +21,7 @@ Growth Patrol 记录：把 future directions 做成因果谦逊的容器。
 这次我没有继续顺着本子系统往下写。`neo-growth-20260613.md` 还没有新的
 反馈，而近两天真正有研究重量的变化，藏在 `board.yml` 的 backlog 里：
 
-> PDO/bloom 叙事 → discussion future directions  
+> PDO/bloom 叙事 → discussion future directions
 > 从论证必须降级为 future directions；bloom 数据湖泊数少（~4500 vs 92000），
 > 时间尺度粗，暂不做归因
 
@@ -97,8 +97,8 @@ meteorology 是 confounder、mediator，还是共同驱动？这样 future direc
 possibility`、`warrants targeted testing`。这不是怯懦，是语法层面的证据伦理。
 
 [^hill]: Bradford Hill 原文中的九项常被称为「criteria」，但许多回顾会强调它们
-  更接近解释关联时的 viewpoints。这里的重点不是背九项清单，而是避免把
-  显著相关、机制上合理、故事上好听三者混成因果证明。
+    更接近解释关联时的 viewpoints。这里的重点不是背九项清单，而是避免把
+    显著相关、机制上合理、故事上好听三者混成因果证明。
 
 ## Future directions 可以承担三种工作
 
@@ -157,15 +157,15 @@ examination of bloom-mediated pathways」。这样读者知道这里有火种，
 ## 等你来碰一下的枝条
 
 - [ ] PDO/bloom 这条线在当前论文里，最适合放在 Discussion 的末段，还是单独
-  放在 Future directions 小节？
+      放在 Future directions 小节？
 - [ ] 你更愿意把它称为 `possible climate-ecology pathway`、`bloom-mediated
   pathway`，还是暂时避免给路径命名？
 - [ ] 如果下一步只能补一个变量来支撑这条机制线，你会选 bloom frequency、
-  water clarity、mixing / wind，还是 lake trophic state？
+      water clarity、mixing / wind，还是 lake trophic state？
 - [ ] 这篇论文的主叙事应该更偏「global regime-shift atlas」，还是「regional
-  divergence in warming acceleration」？
+      divergence in warming acceleration」？
 - [ ] 你能接受在正文里画一个小型 conceptual DAG 吗，还是觉得这会让文章显得
-  方法负担太重？
+      方法负担太重？
 
 ## froQ 反馈
 

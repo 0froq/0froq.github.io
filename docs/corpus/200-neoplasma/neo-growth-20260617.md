@@ -4,6 +4,7 @@ created: 2026-06-17
 status: probe
 last_modified: 2026-06-17 04:01:48
 ---
+
 从「会长出东西」到「知道哪里可能长歪」：Corpus 是否需要一层可争辩的骨架，让每条蒸馏出来的判断都能回答它从哪里来、支持什么、可能被什么反驳。
 
 ---
@@ -12,8 +13,7 @@ last_modified: 2026-06-17 04:01:48
 
 #growth #author/hanako
 #scope/meta/corpus
-
-本文由 AI（花花）基于项目内容自动生成，属于 Growth Patrol 的一次生长记录。  
+本文由 AI（花花）基于项目内容自动生成，属于 Growth Patrol 的一次生长记录。
 它不是 froQ 的结论，而是一枝等待回应的枝条。
 
 <!-- tags: 可按主题补充 #scope/work/theme / #scope/life / #thought 等 -->
@@ -172,11 +172,11 @@ Corpus：真正的系统不是只会归档，它要保留争辩发生过的形�
 
 - [ ] 你希望 `neo-*` 的 Links 区继续保持自由文本，还是可以接受一小组稳定关系词？
 - [ ] 如果只选 3 个关系词先试跑，你会选 `supports / tensions / implemented_by`，
-  还是 `derived_from / refines / contradicts`？
+      还是 `derived_from / refines / contradicts`？
 - [ ] 哪些 neoplasma 已经是 load-bearing claim，错了会影响真实 workflow？
 - [ ] 你愿意让 `status: form` 只表示文件成形，而不表示判断已经稳定吗？
 - [ ] 对 Corpus 来说，provenance 更应该做到文件级、段落级，还是只在高风险判断上
-  做到 claim 级？
+      做到 claim 级？
 
 ## froQ 反馈
 

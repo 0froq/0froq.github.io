@@ -4,6 +4,7 @@ created: 2026-06-15
 status: probe
 last_modified: 2026-06-16 05:07:13
 ---
+
 日历矩阵提供的是社会时间格子，而真正需要的是事件逼近感的可视化——timeline 是画法，horizon 是认知契约。
 
 ---
@@ -12,8 +13,7 @@ last_modified: 2026-06-16 05:07:13
 
 #growth #author/hanako
 #scope/work/coding/indie
-
-本文由 AI（花花）基于项目内容自动生成，属于 Growth Patrol 的一次生长记录。  
+本文由 AI（花花）基于项目内容自动生成，属于 Growth Patrol 的一次生长记录。
 它不是 froQ 的结论，而是一枝等待回应的枝条。
 
 ## 这次不是在看 Swift，而是在看「快了」这件事
@@ -240,11 +240,11 @@ Swift Testing case。它同时测试产品想法和工具链，不把两件事�
 - [ ] 你想先用 SwiftPM package 验证 timeline 绘制，还是直接起 iOS app target？
 - [ ] 对你来说，「不开 Xcode」的底线是完全不打开 GUI，还是日常编辑不依赖它即可？
 - [ ] 这个环境的第一验收标准应该是补全、跨文件跳转、simulator run、SwiftUI
-  preview，还是测试树？
+      preview，还是测试树？
 - [ ] 你愿意把 `buildServer.json`、DerivedData、toolchain 版本写成一份小型
-  troubleshooting note 吗？
+      troubleshooting note 吗？
 - [ ] 如果 xcodebuild.nvim 已经承担 build/test/debug，Neovim 里还需要单独设计
-  哪些快捷键，才不会把 iOS 开发变成命令记忆负担？
+      哪些快捷键，才不会把 iOS 开发变成命令记忆负担？
 
 ## froQ 反馈
 
