@@ -9,3 +9,4 @@
 - [2026-06-25] Notion → corpus: aut:0 ing:0 neo:0 put:0 del:0 vig:0 (共 0 条)
 - [2026-06-26] Notion → corpus: aut:0 ing:0 neo:0 put:0 del:0 vig:0 (共 0 条)
 - [2026-06-27] Notion → corpus: aut:0 ing:0 neo:1 put:14 del:0 vig:0 (共 15 条)
+- [2026-06-28] Notion → corpus: aut:0 ing:0 neo:0 put:0 del:0 vig:0 (共 0 条)
