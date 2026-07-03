@@ -10,13 +10,19 @@ active:
     notes:
       - text: 导师称「比较平淡，没有什么特别吸引人的地方」「还得重新琢磨一下，凝练出有新意的点来吸引读者」(06-07)
       - text: 策略：输出原子化结果，让他自己看 (06-12)
-  - title: 结课考试整理
-    dod: 做好 PDF 供打印
-    priority: high
-    due: 2026-06-15
-    status: blocked
+      - text: 现在需要逐渐开始写正式稿，或「正式草稿」(07-03)
+  - title: 整理歌单
+    dod: Apple Music 歌单良好结构
+    priority: low
+    status: notStarted
+
+backlog:
+  - title: PDO/bloom 叙事 → discussion future directions
     notes:
-      - text: '助教说还没出完卷子，等待 (06-13: mark as `blocked`)'
+      - text: 从论证必须降级为 future directions；bloom 数据湖泊数少（~4500 vs 92000），时间尺度粗，暂不做归因
+  - title: 新的 theme
+    notes:
+      - text: 风格：人文、低饱和，可以参考 OpenHahako
   - title: 一个 iOS app
     dod: timeline 式日程管理 app 完成
     priority: low
@@ -46,14 +52,6 @@ active:
     notes:
       - text: 颜色、间距、线段风格
 
-backlog:
-  - title: PDO/bloom 叙事 → discussion future directions
-    notes:
-      - text: 从论证必须降级为 future directions；bloom 数据湖泊数少（~4500 vs 92000），时间尺度粗，暂不做归因
-  - title: 新的 theme
-    notes:
-      - text: 风格：人文、低饱和，可以参考 OpenHahako
-
 archive:
   - title: 扩展数据验证 1994 边界效应
     completed: 2026-06-03
@@ -73,4 +71,6 @@ archive:
     completed: 2026-05-29
   - title: 规划系统简化
     completed: 2026-05-28
+  - title: 结课考试整理
+    completed: 2026-06-15
 # AI-BOARD-END
