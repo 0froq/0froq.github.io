@@ -15,6 +15,12 @@ active:
     dod: Apple Music 歌单良好结构
     priority: low
     status: notStarted
+  - title: 部分迁移至 Quarto Site
+    dod: Corpus 中没有关于科研工作的任何记录
+    priority: medium
+    status: inProgress
+    notes:
+      - text: 想把科研工作和个人站点的东西分开，而且用 Quarto 方便出图；缺点是即时预览每次需要编译，慢
 
 backlog:
   - title: PDO/bloom 叙事 → discussion future directions
