@@ -2,6 +2,7 @@
 title: Growth Patrol：Capture 不是入口，而是隔离舱
 created: 2026-06-18
 status: probe
+aigc: true
 last_modified: 2026-06-18 04:03:52
 ---
 

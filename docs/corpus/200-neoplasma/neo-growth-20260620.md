@@ -2,6 +2,7 @@
 title: Growth Patrol：把论文新意做成信息坡
 created: 2026-06-20
 status: probe
+aigc: true
 last_modified: 2026-06-20 04:03:40
 ---
 

@@ -2,6 +2,7 @@
 title: Growth Patrol：蒸馏的断裂面
 created: 2026-06-25
 status: probe
+aigc: true
 last_modified: 2026-06-25 04:03:55
 ---
 

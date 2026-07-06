@@ -2,6 +2,7 @@
 title: Growth Patrol：上下文不是仓库，而是工作台
 created: 2026-06-23
 status: probe
+aigc: true
 last_modified: 2026-06-23 04:03:12
 ---
 

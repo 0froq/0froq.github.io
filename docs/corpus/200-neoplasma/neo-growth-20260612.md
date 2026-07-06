@@ -2,6 +2,7 @@
 title: Growth Patrol：感知期不是停滞
 created: 2026-06-12
 status: probe
+aigc: true
 last_modified: 2026-06-16 05:07:02
 ---
 

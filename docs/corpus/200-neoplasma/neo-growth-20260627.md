@@ -2,6 +2,7 @@
 title: Growth Patrol：扰动不是意外，而是实验的一部分
 created: 2026-06-27
 status: probe
+aigc: true
 last_modified: 2026-06-27 04:07:18
 ---
 

@@ -2,6 +2,7 @@
 title: Growth Patrol：古法编程是一种长期维护伦理
 created: 2026-06-29
 status: probe
+aigc: true
 last_modified: 2026-06-29 04:03:53
 ---
 

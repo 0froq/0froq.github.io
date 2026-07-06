@@ -2,6 +2,7 @@
 title: Growth Patrol：实验的可靠性长在维护层里
 created: 2026-06-22
 status: probe
+aigc: true
 last_modified: 2026-06-22 04:04:04
 ---
 

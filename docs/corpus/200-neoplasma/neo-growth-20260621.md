@@ -2,6 +2,7 @@
 title: Growth Patrol：知识图谱不是风景，而是仪表
 created: 2026-06-21
 status: probe
+aigc: true
 last_modified: 2026-06-21 04:03:27
 ---
 

@@ -2,6 +2,7 @@
 title: Growth Patrol：正文色是阅读摩擦的设计变量
 created: 2026-07-05
 status: probe
+aigc: true
 last_modified: 2026-07-05 04:03:47
 ---
 

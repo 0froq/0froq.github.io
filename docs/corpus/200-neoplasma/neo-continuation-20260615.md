@@ -2,6 +2,7 @@
 title: Growth Continuation：把值责映射做成主题骨架
 created: 2026-06-15
 status: probe
+aigc: true
 last_modified: 2026-06-16 05:06:40
 ---
 

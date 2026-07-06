@@ -2,6 +2,7 @@
 title: Growth Patrol：本子不是收纳箱，而是认知器官
 created: 2026-06-13
 status: probe
+aigc: true
 last_modified: 2026-06-16 05:07:07
 ---
 

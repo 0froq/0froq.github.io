@@ -2,6 +2,7 @@
 title: Growth Patrol：字形的呼吸——当排版成为注意力的语法
 created: 2026-06-10
 status: probe
+aigc: true
 last_modified: 2026-06-16 05:06:50
 ---
 

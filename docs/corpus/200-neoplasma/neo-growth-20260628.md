@@ -2,6 +2,7 @@
 title: Growth Patrol：等待不是空白，而是系统余量
 created: 2026-06-28
 status: probe
+aigc: true
 last_modified: 2026-06-28 00:20:00
 ---
 

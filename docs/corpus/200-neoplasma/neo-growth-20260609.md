@@ -2,6 +2,7 @@
 title: Growth Patrol：低饱和人文主义主题
 created: 2026-06-09
 status: probe
+aigc: true
 last_modified: 2026-06-16 05:06:45
 ---
 

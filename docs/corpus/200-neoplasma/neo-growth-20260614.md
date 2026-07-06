@@ -2,6 +2,7 @@
 title: Growth Patrol：把 future directions 做成因果谦逊的容器
 created: 2026-06-14
 status: probe
+aigc: true
 last_modified: 2026-06-16 05:07:10
 ---
 

@@ -2,6 +2,7 @@
 title: Growth Patrol：给 Corpus 加一层可争辩的骨架
 created: 2026-06-17
 status: probe
+aigc: true
 last_modified: 2026-06-17 04:01:48
 ---
 

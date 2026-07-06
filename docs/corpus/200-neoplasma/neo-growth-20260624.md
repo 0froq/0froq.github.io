@@ -2,6 +2,7 @@
 title: Growth Patrol：等待不是空白，而是带状态的协议
 created: 2026-06-24
 status: probe
+aigc: true
 last_modified: 2026-06-24 04:04:14
 ---
 

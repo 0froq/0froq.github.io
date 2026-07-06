@@ -2,6 +2,7 @@
 title: Growth Patrol：语义秩序与纸墨气
 created: 2026-06-11
 status: probe
+aigc: true
 last_modified: 2026-06-16 05:06:56
 ---
 

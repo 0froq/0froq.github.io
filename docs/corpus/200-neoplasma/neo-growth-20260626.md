@@ -2,6 +2,7 @@
 title: Growth Patrol：小问题的定位精度
 created: 2026-06-26
 status: probe
+aigc: true
 last_modified: 2026-06-26 04:03:41
 ---
 

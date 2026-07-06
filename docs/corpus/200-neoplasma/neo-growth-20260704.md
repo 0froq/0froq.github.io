@@ -2,6 +2,7 @@
 title: Growth Patrol：atomic finding 不是结果碎片，而是论证胚胎
 created: 2026-07-04
 status: probe
+aigc: true
 last_modified: 2026-07-04 04:00:00
 ---
 

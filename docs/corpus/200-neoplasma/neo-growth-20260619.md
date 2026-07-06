@@ -2,6 +2,7 @@
 title: Growth Patrol：把时间做成距离场
 created: 2026-06-19
 status: probe
+aigc: true
 last_modified: 2026-06-19 04:05:35
 ---
 

@@ -2,16 +2,43 @@
 import type { CorpusData } from '~/types'
 import { useEventListener, useMouse } from '@vueuse/core'
 import { useRoute } from 'vitepress'
-import { onBeforeUnmount, onMounted, onUpdated, ref, watch } from 'vue'
+import { computed, onBeforeUnmount, onMounted, onUpdated, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import TooltipArticleInfo from '@/ui/article/TooltipArticleInfo.vue'
 import LinkUnderline from '@/ui/base/LinkUnderline.vue'
 import ProgressBarHeader from '@/ui/base/ProgressBarHeader.vue'
+import QCheckbox from '@/ui/base/QCheckbox.vue'
 import QSeperator from '@/ui/base/QSeperator.vue'
 import { data as posts } from '~/src/corpus.data'
 
 const { path } = useRoute()
-const { locale } = useI18n()
+const { locale, t } = useI18n({
+  useScope: 'global',
+  messages: {
+    en: {
+      aigcToggle: {
+        prefix: 'AIGC',
+        show: 'Showing',
+        hide: 'Hiding',
+        suffix: '',
+      },
+    },
+    zh: {
+      aigcToggle: {
+        prefix: '',
+        show: '显示',
+        hide: '隐藏',
+        suffix: 'AI 生成内容',
+      },
+    },
+  },
+})
+
+const showAigc = ref(true)
+
+watch(showAigc, () => {
+  separatorOpacities.value = Array.from({ length: filteredPosts.value.length }).fill(0.08) as Array<number>
+})
 
 const layer = path.split('/')[2].split('-')[1].slice(0, 1).toUpperCase() + path.split('/')[2].split('-')[1].slice(1)
 
@@ -26,6 +53,11 @@ interface PostWithCreatedComponent extends CorpusData {
 
 const thisPosts: PostWithCreatedComponent[] = posts.filter((post) => {
   return post.layer === path.split('/')[2] && !post.frontmatter.index
+})
+
+const filteredPosts = computed(() => {
+  if (showAigc.value) return thisPosts
+  return thisPosts.filter(post => !post.frontmatter.aigc)
 })
 
 thisPosts.forEach((post, index) => {
@@ -74,7 +106,7 @@ const pointerActive = ref(false)
 let refreshRafId: number | null = null
 
 const rowRefs = ref<(HTMLElement | null)[]>([])
-const separatorOpacities = ref<number[]>(Array.from({ length: thisPosts.length }).fill(0.08) as Array<number>)
+const separatorOpacities = ref<number[]>(Array.from({ length: filteredPosts.value.length }).fill(0.08) as Array<number>)
 
 function scheduleSeparatorRefresh() {
   if (typeof window === 'undefined')
@@ -88,7 +120,7 @@ function scheduleSeparatorRefresh() {
 }
 
 function updateSeparatorOpacities() {
-  for (let i = 0; i < thisPosts.length; i++) {
+  for (let i = 0; i < filteredPosts.value.length; i++) {
     const el = rowRefs.value[i]
     if (!el || !pointerActive.value) {
       separatorOpacities.value[i] = 0.08
@@ -159,7 +191,21 @@ onBeforeUnmount(() => {
       class="markdown-rendered"
     />
     <div
-      v-for="(post, index) in thisPosts"
+      un-flex="~ row"
+      un-items-center
+      un-mb-4
+    >
+      <QCheckbox
+        id="corpus-aigc-toggle"
+        :model-value="showAigc"
+        :label-prefix="t('aigcToggle.prefix')"
+        :label-text="{ checked: t('aigcToggle.show'), unchecked: t('aigcToggle.hide') }"
+        :label-suffix="t('aigcToggle.suffix')"
+        @update:model-value="showAigc = $event"
+      />
+    </div>
+    <div
+      v-for="(post, index) in filteredPosts"
       :key="post.url"
       :ref="(el) => { rowRefs[index] = el as HTMLElement | null }"
       un-gap-2
