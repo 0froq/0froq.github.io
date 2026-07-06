@@ -2,7 +2,6 @@
 import type { CorpusData } from '~/types'
 import { useEventListener, useMouse } from '@vueuse/core'
 import { useRoute } from 'vitepress'
-import Content from 'vitepress/dist/client/app/components/Content.js'
 import { onBeforeUnmount, onMounted, onUpdated, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import TooltipArticleInfo from '@/ui/article/TooltipArticleInfo.vue'
