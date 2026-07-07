@@ -20,7 +20,6 @@ const { t } = useI18n({
 
 <template>
   <div
-    un-py-2
     un-flex="~ col"
     un-gap-2
     un-max-w-300px
