@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onClickOutside } from '@vueuse/core'
+import { onClickOutside, useDebounceFn, useEventListener, useMouse } from '@vueuse/core'
 import { computed, ref, useSlots } from 'vue'
 import FloatWindow from '@/ui/base/FloatWindow.vue'
 import { renderMdInline } from '~/utils/renderMdInline'
@@ -29,6 +29,45 @@ const floatWindowRef = ref<InstanceType<typeof FloatWindow> | null>(null)
 const linkContent = computed(() => renderMdInline(props.text))
 const hasTooltipSlot = computed(() => !!useSlots().tooltip)
 
+// Scroll-awareness: suppress tooltip during scroll to prevent flickering
+const isScrolling = ref(false)
+const { x: mouseX, y: mouseY } = useMouse({ type: 'client', touch: false })
+
+function isMouseOverTrigger(): boolean {
+  const el = triggerRef.value
+  if (!el)
+    return false
+  const rect = el.getBoundingClientRect()
+  return mouseX.value >= rect.left && mouseX.value <= rect.right
+    && mouseY.value >= rect.top && mouseY.value <= rect.bottom
+}
+
+function syncTooltipAfterScroll() {
+  if (!props.followMouse || !hasTooltipSlot.value)
+    return
+  if (isMouseOverTrigger()) {
+    // Simulate a synthetic mouse event to position the FloatWindow
+    const syntheticEvent = new MouseEvent('mousemove', {
+      clientX: mouseX.value,
+      clientY: mouseY.value,
+    })
+    floatWindowRef.value?.updateMousePosition(syntheticEvent)
+    showTooltip.value = true
+  }
+}
+
+const onScrollEnd = useDebounceFn(() => {
+  isScrolling.value = false
+  syncTooltipAfterScroll()
+}, 150)
+
+useEventListener('scroll', () => {
+  isScrolling.value = true
+  if (showTooltip.value)
+    showTooltip.value = false
+  onScrollEnd()
+}, { passive: true, capture: true })
+
 onClickOutside(triggerRef, () => {
   if (!showTooltip.value)
     return
@@ -44,7 +83,7 @@ function toggleTooltip() {
 }
 
 function handleMouseEnter() {
-  if (props.followMouse && hasTooltipSlot.value) {
+  if (props.followMouse && hasTooltipSlot.value && !isScrolling.value) {
     showTooltip.value = true
   }
 }
@@ -56,7 +95,7 @@ function handleMouseLeave() {
 }
 
 function handleMouseMove(e: MouseEvent) {
-  if (props.followMouse && hasTooltipSlot.value) {
+  if (props.followMouse && hasTooltipSlot.value && !isScrolling.value) {
     floatWindowRef.value?.updateMousePosition(e)
   }
 }
@@ -129,11 +168,11 @@ function handleMouseMove(e: MouseEvent) {
     <div
       un-bg="stone-100/60 dark:stone-900/60"
       un-text="stone-700 dark:stone-300"
-      un-rounded="~ sm"
+      un-rounded="~ xs"
       un-border="~ px stone-300 dark:stone-700"
       un-backdrop-blur-xl
       un-text-align-start
-      un-p2
+      un-p4
       un-max-w-fit
       un-w-full
       un-text-base
