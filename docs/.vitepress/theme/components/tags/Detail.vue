@@ -247,6 +247,14 @@ function getGlobalIndex(section: 'current' | 'extended', index: number) {
       </div>
 
       <div
+        v-if="post.frontmatter.aigc"
+        un-text="violet-600 dark:violet-400 xs"
+        un-font="mono italic"
+      >
+        AIGC
+      </div>
+
+      <div
         un-w-fit
         un-max-w="50%"
         un-shrink-0
@@ -364,6 +372,14 @@ function getGlobalIndex(section: 'current' | 'extended', index: number) {
         un-font="mono italic"
       >
         {{ post.frontmatter.lang || 'zh' }}
+      </div>
+
+      <div
+        v-if="post.frontmatter.aigc"
+        un-text="violet-600 dark:violet-400 xs"
+        un-font="mono italic"
+      >
+        AIGC
       </div>
 
       <div

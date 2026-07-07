@@ -19,6 +19,7 @@ const { t, d, locale } = useI18n({
       noTranslation: 'No translation available.',
       voidHint: 'This post is marked as "void", which means it might be outdated or no longer maintained. Please read with caution.',
       draftHint: 'This post is currently a "draft", which means it is still being worked on and may contain incomplete information. Please stay tuned for updates.',
+      aigcHint: 'This post contains AI-generated content. Please read with discernment.',
     },
     zh: {
       readingTime: '约 {count} 分钟',
@@ -27,6 +28,7 @@ const { t, d, locale } = useI18n({
       noTranslation: '暂无翻译稿。',
       voidHint: '此文章被标记为「void」，可能已经过时或不再维护，请谨慎阅读。',
       draftHint: '此文章目前处于「draft」状态，仍在撰写中，可能包含不完整的信息，敬请期待更新。',
+      aigcHint: '此文章包含 AI 生成内容，请注意甄别。',
     },
   },
 })
@@ -180,6 +182,13 @@ const originalPost = computed(() => {
       >
         {{ post.frontmatter.lang || 'zh' }}
       </div>
+      <div
+        v-if="post.frontmatter.aigc"
+        un-text="violet-600 dark:violet-400 xl"
+        un-font="mono italic"
+      >
+        AIGC
+      </div>
     </template>
   </ProgressBarHeader>
   <div
@@ -267,6 +276,14 @@ const originalPost = computed(() => {
     un-px-4
   >
     {{ t('draftHint') }}
+  </div>
+  <div
+    v-if="post?.frontmatter.aigc"
+    un-mt-6
+    un-border-l="~ 2px violet-600 dark:violet-400"
+    un-px-4
+  >
+    {{ t('aigcHint') }}
   </div>
 
   <Content

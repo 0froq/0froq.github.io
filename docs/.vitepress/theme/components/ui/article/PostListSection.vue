@@ -167,6 +167,13 @@ const excerptVisible = ref(false)
             {{ post.frontmatter.lang || 'zh' }}
           </div>
           <div
+            v-if="post.frontmatter.aigc"
+            un-text="violet-600 dark:violet-400"
+            un-font="mono italic"
+          >
+            AIGC
+          </div>
+          <div
             un-text="stone-500 dark:stone-400 base"
             un-whitespace-nowrap
           >
