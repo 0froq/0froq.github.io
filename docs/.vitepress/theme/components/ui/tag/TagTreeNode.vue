@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { defaultWindow, useEventListener, useMouse } from '@vueuse/core'
-import { computed, onBeforeUnmount, onMounted, onUpdated, ref, watch } from 'vue'
+import { defaultWindow } from '@vueuse/core'
+import { computed, ref, watch } from 'vue'
 import LinkUnderline from '@/ui/base/LinkUnderline.vue'
 import QSeperator from '@/ui/base/QSeperator.vue'
+import { useSeparatorOpacity } from '~/utils/useSeparatorOpacity'
 
 interface TagNode {
   name: string
@@ -159,92 +160,19 @@ watch(displayCount, (next) => {
   animateCount(next)
 })
 
-const { x: pointerX, y: pointerY } = useMouse({ type: 'client', touch: false })
-const pointerActive = ref(false)
-let refreshRafId: number | null = null
-
 const rowRef = ref<HTMLElement | null>(null)
-const separatorOpacity = ref(0.08)
+const { opacity: separatorOpacity, setRowRef } = useSeparatorOpacity({
+  refreshEvents: ['tag-tree-layout-refresh'],
+})
 
-function scheduleSeparatorRefresh() {
-  if (!defaultWindow)
-    return
-  if (refreshRafId != null)
-    defaultWindow.cancelAnimationFrame(refreshRafId)
-  refreshRafId = defaultWindow.requestAnimationFrame(() => {
-    refreshRafId = null
-    updateSeparatorOpacity()
-  })
+function setRowEl(el: HTMLElement | null) {
+  rowRef.value = el
+  setRowRef(0, el)
 }
 
 function triggerGlobalLayoutRefresh() {
   defaultWindow?.dispatchEvent(new CustomEvent('tag-tree-layout-refresh'))
 }
-
-function updateSeparatorOpacity() {
-  const el = rowRef.value
-  if (!el || !pointerActive.value) {
-    separatorOpacity.value = 0.08
-    return
-  }
-
-  const rect = el.getBoundingClientRect()
-  const horizontalPadding = 80
-  const withinX = pointerX.value >= rect.left - horizontalPadding && pointerX.value <= rect.right + horizontalPadding
-  if (!withinX) {
-    separatorOpacity.value = 0.08
-    return
-  }
-
-  const centerY = rect.top + rect.height / 2
-  const dy = pointerY.value - centerY
-  const sigma = 56
-  const influence = Math.exp(-(dy * dy) / (2 * sigma * sigma))
-  separatorOpacity.value = 0.08 + (0.72 - 0.08) * influence
-}
-
-watch([pointerX, pointerY, pointerActive], () => {
-  scheduleSeparatorRefresh()
-})
-
-useEventListener(defaultWindow, 'pointermove', () => {
-  pointerActive.value = true
-}, { passive: true })
-
-useEventListener(defaultWindow, 'pointerleave', () => {
-  pointerActive.value = false
-}, { passive: true })
-
-useEventListener(defaultWindow, 'scroll', () => {
-  scheduleSeparatorRefresh()
-}, { passive: true, capture: true })
-
-useEventListener(defaultWindow, 'resize', () => {
-  scheduleSeparatorRefresh()
-}, { passive: true })
-
-useEventListener(defaultWindow, 'tag-tree-layout-refresh', () => {
-  scheduleSeparatorRefresh()
-})
-
-onMounted(() => {
-  scheduleSeparatorRefresh()
-})
-
-onUpdated(() => {
-  scheduleSeparatorRefresh()
-})
-
-onBeforeUnmount(() => {
-  if (refreshRafId != null) {
-    cancelAnimationFrame(refreshRafId)
-    refreshRafId = null
-  }
-  if (countAnimRafId != null && defaultWindow) {
-    defaultWindow.cancelAnimationFrame(countAnimRafId)
-    countAnimRafId = null
-  }
-})
 
 function asHTMLElement(el: Element): HTMLElement | null {
   return el instanceof HTMLElement ? el : null
@@ -314,7 +242,7 @@ function toggle() {
 <template>
   <li>
     <div
-      ref="rowRef"
+      :ref="setRowEl"
       un-flex="~ row"
       un-items-center
       un-gap-2

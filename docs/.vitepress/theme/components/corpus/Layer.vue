@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import type { CorpusData } from '~/types'
-import { useEventListener, useMouse } from '@vueuse/core'
 import { useRoute } from 'vitepress'
-import { computed, onBeforeUnmount, onMounted, onUpdated, ref, watch } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import TooltipArticleInfo from '@/ui/article/TooltipArticleInfo.vue'
 import LinkUnderline from '@/ui/base/LinkUnderline.vue'
@@ -10,6 +9,7 @@ import ProgressBarHeader from '@/ui/base/ProgressBarHeader.vue'
 import QCheckbox from '@/ui/base/QCheckbox.vue'
 import QSeperator from '@/ui/base/QSeperator.vue'
 import { data as posts } from '~/src/corpus.data'
+import { useSeparatorOpacity } from '~/utils/useSeparatorOpacity'
 
 const { path } = useRoute()
 const { locale, t } = useI18n({
@@ -18,27 +18,62 @@ const { locale, t } = useI18n({
     en: {
       aigcToggle: {
         prefix: 'AIGC',
-        show: 'Showing',
-        hide: 'Hiding',
+        show: 'showing',
+        hide: 'hiding',
+        suffix: '',
+      },
+      voidToggle: {
+        prefix: 'Void',
+        show: 'showing',
+        hide: 'hiding',
+        suffix: '',
+      },
+      draftToggle: {
+        prefix: 'Draft',
+        show: 'showing',
+        hide: 'hiding',
+        suffix: '',
+      },
+      otherLangToggle: {
+        prefix: 'Other languages',
+        show: 'showing',
+        hide: 'hiding',
         suffix: '',
       },
     },
     zh: {
       aigcToggle: {
-        prefix: '',
+        prefix: '已',
         show: '显示',
         hide: '隐藏',
         suffix: 'AI 生成内容',
+      },
+      voidToggle: {
+        prefix: '已',
+        show: '显示',
+        hide: '隐藏',
+        suffix: 'void',
+      },
+      draftToggle: {
+        prefix: '已',
+        show: '显示',
+        hide: '隐藏',
+        suffix: 'draft',
+      },
+      otherLangToggle: {
+        prefix: '已',
+        show: '显示',
+        hide: '隐藏',
+        suffix: '其他语言',
       },
     },
   },
 })
 
 const showAigc = ref(true)
-
-watch(showAigc, () => {
-  separatorOpacities.value = Array.from({ length: filteredPosts.value.length }).fill(0.08) as Array<number>
-})
+const showDraft = ref(true)
+const showOtherLang = ref(true)
+const showVoid = ref(false)
 
 const layer = path.split('/')[2].split('-')[1].slice(0, 1).toUpperCase() + path.split('/')[2].split('-')[1].slice(1)
 
@@ -56,8 +91,16 @@ const thisPosts: PostWithCreatedComponent[] = posts.filter((post) => {
 })
 
 const filteredPosts = computed(() => {
-  if (showAigc.value) return thisPosts
-  return thisPosts.filter(post => !post.frontmatter.aigc)
+  let result = thisPosts
+  if (!showAigc.value)
+    result = result.filter(post => !post.frontmatter.aigc)
+  if (!showVoid.value)
+    result = result.filter(post => post.frontmatter.status !== 'void')
+  if (!showDraft.value)
+    result = result.filter(post => post.frontmatter.status !== 'draft')
+  if (!showOtherLang.value)
+    result = result.filter(post => locale.value === (post.frontmatter.lang || 'zh'))
+  return result
 })
 
 thisPosts.forEach((post, index) => {
@@ -100,82 +143,11 @@ thisPosts.forEach((post, index) => {
   }
 })
 
-// Mouse position / opacity effect (from TagTreeNode.vue)
-const { x: pointerX, y: pointerY } = useMouse({ type: 'client', touch: false })
-const pointerActive = ref(false)
-let refreshRafId: number | null = null
+// Mouse position / opacity effect
+const { setRowRef, getOpacity, refresh: refreshSeparator } = useSeparatorOpacity()
 
-const rowRefs = ref<(HTMLElement | null)[]>([])
-const separatorOpacities = ref<number[]>(Array.from({ length: filteredPosts.value.length }).fill(0.08) as Array<number>)
-
-function scheduleSeparatorRefresh() {
-  if (typeof window === 'undefined')
-    return
-  if (refreshRafId != null)
-    cancelAnimationFrame(refreshRafId)
-  refreshRafId = requestAnimationFrame(() => {
-    refreshRafId = null
-    updateSeparatorOpacities()
-  })
-}
-
-function updateSeparatorOpacities() {
-  for (let i = 0; i < filteredPosts.value.length; i++) {
-    const el = rowRefs.value[i]
-    if (!el || !pointerActive.value) {
-      separatorOpacities.value[i] = 0.08
-      continue
-    }
-
-    const rect = el.getBoundingClientRect()
-    const horizontalPadding = 80
-    const withinX = pointerX.value >= rect.left - horizontalPadding && pointerX.value <= rect.right + horizontalPadding
-    if (!withinX) {
-      separatorOpacities.value[i] = 0.08
-      continue
-    }
-
-    const centerY = rect.top + rect.height / 2
-    const dy = pointerY.value - centerY
-    const sigma = 56
-    const influence = Math.exp(-(dy * dy) / (2 * sigma * sigma))
-    separatorOpacities.value[i] = 0.08 + (0.72 - 0.08) * influence
-  }
-}
-
-watch([pointerX, pointerY, pointerActive], () => {
-  scheduleSeparatorRefresh()
-})
-
-useEventListener('pointermove', () => {
-  pointerActive.value = true
-}, { passive: true })
-
-useEventListener('pointerleave', () => {
-  pointerActive.value = false
-}, { passive: true })
-
-useEventListener('scroll', () => {
-  scheduleSeparatorRefresh()
-}, { passive: true, capture: true })
-
-useEventListener('resize', () => {
-  scheduleSeparatorRefresh()
-}, { passive: true })
-
-onMounted(() => {
-  scheduleSeparatorRefresh()
-})
-
-onUpdated(() => {
-  scheduleSeparatorRefresh()
-})
-
-onBeforeUnmount(() => {
-  if (refreshRafId != null) {
-    cancelAnimationFrame(refreshRafId)
-    refreshRafId = null
-  }
+watch([showAigc, showVoid, showDraft, showOtherLang], () => {
+  refreshSeparator()
 })
 </script>
 
@@ -191,9 +163,10 @@ onBeforeUnmount(() => {
       class="markdown-rendered"
     />
     <div
-      un-flex="~ row"
+      un-flex="~ row wrap"
       un-items-center
       un-mb-4
+      un-justify-between
     >
       <QCheckbox
         id="corpus-aigc-toggle"
@@ -203,11 +176,35 @@ onBeforeUnmount(() => {
         :label-suffix="t('aigcToggle.suffix')"
         @update:model-value="showAigc = $event"
       />
+      <QCheckbox
+        id="corpus-draft-toggle"
+        :model-value="showDraft"
+        :label-prefix="t('draftToggle.prefix')"
+        :label-text="{ checked: t('draftToggle.show'), unchecked: t('draftToggle.hide') }"
+        :label-suffix="t('draftToggle.suffix')"
+        @update:model-value="showDraft = $event"
+      />
+      <QCheckbox
+        id="corpus-other-lang-toggle"
+        :model-value="showOtherLang"
+        :label-prefix="t('otherLangToggle.prefix')"
+        :label-text="{ checked: t('otherLangToggle.show'), unchecked: t('otherLangToggle.hide') }"
+        :label-suffix="t('otherLangToggle.suffix')"
+        @update:model-value="showOtherLang = $event"
+      />
+      <QCheckbox
+        id="corpus-void-toggle"
+        :model-value="showVoid"
+        :label-prefix="t('voidToggle.prefix')"
+        :label-text="{ checked: t('voidToggle.show'), unchecked: t('voidToggle.hide') }"
+        :label-suffix="t('voidToggle.suffix')"
+        @update:model-value="showVoid = $event"
+      />
     </div>
     <div
       v-for="(post, index) in filteredPosts"
       :key="post.url"
-      :ref="(el) => { rowRefs[index] = el as HTMLElement | null }"
+      :ref="(el) => setRowRef(index, el as HTMLElement | null)"
       un-gap-2
       un-flex="~ row"
       un-items-center
@@ -239,6 +236,14 @@ onBeforeUnmount(() => {
       </div>
 
       <div
+        v-if="post.frontmatter.aigc"
+        un-text="violet-600 dark:violet-400 xs"
+        un-font="mono italic"
+      >
+        AIGC
+      </div>
+
+      <div
         un-w-fit
         un-max-w="50%"
         un-shrink-0
@@ -261,7 +266,7 @@ onBeforeUnmount(() => {
       <QSeperator
         type="dashed"
         un-shrink-1
-        :style="{ opacity: separatorOpacities[index], transition: 'opacity 140ms cubic-bezier(0.22, 1, 0.36, 1)' }"
+        :style="{ opacity: getOpacity(index), transition: 'opacity 140ms cubic-bezier(0.22, 1, 0.36, 1)' }"
       />
 
       <div
