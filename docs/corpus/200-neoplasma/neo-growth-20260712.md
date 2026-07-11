@@ -1,0 +1,222 @@
+---
+title: Growth Patrol：把行为还给平台，是把裁量权还给环境
+created: 2026-07-12
+status: probe
+last_modified: 2026-07-12 04:01:19
+aigc: true
+---
+
+从 VitePress 用 CSS 接管滚动行为出发，辨认一种更深的前端原则：声明结果，也为环境保留裁量权。
+
+---
+
+[[toc]]
+
+#growth #author/hanako
+#scope/work/coding/indie
+
+本文由 AI（花花）基于项目内容自动生成，属于 Growth Patrol 的一次生长记录。
+它不是 froQ 的结论，而是一枝等待回应的枝条。
+
+## 这次枝条从哪里长出来
+
+本轮 Continuation 轨检查了近期 `neo-growth-20260711`、
+`neo-growth-20260710` 和 `aut-growth-20260709`，没有发现
+`## froQ 反馈` 下的新回应，因此没有生成 Continuation。
+Growth 轨继续往外走。
+
+近两天 Git 变化很少。TypeScript 7 的速度和 ggplot2 的干中学
+已经各自长成前两日的枝条，继续谈工具反馈会让方向过密。
+本轮值得追问的线索来自活动目录对 VitePress 2 alpha.18 的记录：
+`scrollOffset` 和 `router.go` 的 `smoothScroll` 被移除，前者交给
+`scroll-margin` / `scroll-padding`，后者交给 `scroll-behavior`，
+并建议用 `prefers-reduced-motion` 约束平滑滚动。
+
+这几项 breaking change 看起来只是 API 搬家：原先写在框架配置或路由调用里的行为，
+改写为几行 CSS。但它们真正改变的不是语法位置，而是谁拥有最终裁量权。
+当滚动偏移由 CSS 描述，浏览器知道滚动容器、目标元素、writing mode 和视口；
+当动画由 preference media query 约束，用户的系统偏好可以进入决策。
+框架不再替所有环境预先算出一个统一答案。
+
+这次 Growth 想提出一个更一般的设计判断：
+
+> 把行为还给平台，不只是减少 JavaScript；
+> 它是在合适的层声明意图，并把最后一部分裁量权留给浏览器、设备和用户。
+
+## 搜索路径：从滚动偏移到最小权力规则
+
+我用四组种子词往外探：`scroll-margin fixed header anchor`、
+`prefers-reduced-motion smooth scrolling`、`rule of least power CSS`、
+`web platform primitives progressive enhancement`。第一轮得到的是几个熟悉名词，
+第二轮继续追问 CSS error recovery、user preference media features 和
+priority of constituencies，才看见它们其实组成了同一个结构。
+
+第一条线是 **scrollport**、**snapport** 与滚动目标。
+`scroll-padding` 描述滚动容器内部的 optimal viewing region，
+`scroll-margin` 描述目标元素进入视野时需要保留的外部余量。
+两者都不改变普通文档流，只改变浏览器计算滚动终点时所理解的空间。
+因此它们比 `window.scrollBy(0, -64)` 多知道一件事：
+这不是一次偶然的坐标修正，而是容器和目标之间持续存在的布局关系。
+
+第二条线是 W3C 的 **Rule of Least Power**。它主张在足以完成任务的语言里，
+选择表达能力较弱、可分析性更强的那一个。这里的「弱」不是贬义。
+JavaScript 可以读取坐标、监听点击、计算偏移、发起动画，也可以在任意一步改变状态；
+CSS 只能声明某类元素的滚动余量和某种偏好下的滚动方式。
+正因为它不能任意做事，浏览器、开发工具和未来维护者更容易判断它会做什么。
+
+第三条线是 CSS 的 **fault-tolerant parsing**。浏览器遇到不认识的属性值时，
+会丢弃最小的无效单元，再继续解析后续规则，而不是像一段未防护的 JavaScript
+那样让异常中断整条执行链。这使旧值和新值可以按顺序共存，
+也让新特性天然适合渐进增强。CSS 的韧性并非偶然宽松，
+而是一种面向长期演化的错误恢复协议。
+
+第四条线是 **user preference media features**。`prefers-reduced-motion`
+只是一个入口，同一族里还有 `prefers-color-scheme`、`prefers-contrast`、
+`prefers-reduced-transparency` 和 `prefers-reduced-data`。
+它们把设备或系统层的偏好带进页面，形成一种声明式协商：
+作者可以提出效果，但不再假设所有人都应该接收同样的运动、颜色和数据负荷。
+W3C 的 C39 技术还给出一个很克制的默认：先提供静态样式，
+只在 `no-preference` 时增加非必要运动。
+
+第五条线是 Web Platform Design Principles 里的
+**Priority of Constituencies**：发生冲突时，用户需求高于页面作者，
+页面作者高于实现者和规范书写者。它让 `prefers-reduced-motion`
+不再只是 accessibility checklist。平滑滚动是谁想要的？通常是作者；
+减弱运动是谁需要的？是用户。媒体查询把这套优先级直接编码进层叠。
+
+这些概念合在一起，可以给「CSS 替代配置项」一个更准确的名字：
+它是一次 **authority relocation**，把行为的解释权从框架局部逻辑，
+移向更了解布局、设备能力和用户偏好的平台层。
+
+## 一个判断：声明式的价值在于保留环境的发言权
+
+前端里常把 declarative 和 imperative 的差异解释成「描述 what，还是描述 how」。
+这个说法正确，却还不够。更值得注意的是，声明式表达通常不会独占执行过程。
+作者说「这个标题滚动到视口时，上方需要留出空间」，
+浏览器再结合实际滚动容器和布局求出终点；作者说「用户未要求减少运动时可以平滑」，
+用户代理再结合系统偏好决定规则是否匹配。
+
+命令式代码往往提前封闭问题：
+
+```ts
+router.go(url, { smoothScroll: true })
+```
+
+这行代码把 smooth 当成调用者已经决定的事实。
+如果要照顾 reduced motion，需要另一段逻辑读取 `matchMedia`，
+同步状态，并确保所有导航入口都经过同一个分支。
+一旦某个调用点绕过封装，用户偏好就失效。
+
+CSS 写法把政策放在行为真正所属的层：
+
+```css
+html {
+  scroll-padding-top: var(--header-height);
+}
+
+:where(h2, h3, h4)[id] {
+  scroll-margin-top: 1rem;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+```
+
+这里有三个不同意图：全局 chrome 占据多少视区，局部目标需要多少呼吸，
+非必要运动在什么条件下启用。它们被拆开以后，可以分别继承、覆盖、检查和退化。
+浏览器不支持其中一项时，页面仍能跳转，只是少一点增强。
+
+因此，平台原语的优势不应被压缩成「少写代码」。真正的收益至少有四层：
+
+1. **语义贴近**：规则落在最理解该问题的层，而不是落在最方便调用的 API。
+2. **环境协商**：浏览器可以结合视口、输入方式、writing mode 和用户偏好解释意图。
+3. **局部失效**：不支持的声明被忽略，基础导航仍然成立。
+4. **统一入口**：同一条 CSS 政策覆盖 hash navigation、focus scrolling 和程序化滚动，
+   不必逐个追踪调用点。
+
+## 「还给平台」也有边界
+
+不过，这条原则不能退化为 zero-JS 洁癖。Rule of Least Power 说的是
+least powerful **suitable** language。关键在 suitable，而不在 least。
+
+CSS 能表达静态或条件化的滚动政策，但它不知道某次导航是否需要先展开折叠面板，
+也不能独自完成复杂焦点管理、异步内容加载或有业务状态的转场。
+`scroll-margin-top` 也不会自动知道一个高度动态、会换行、会叠加 safe area 的 header
+究竟有多高。必要时仍要由布局变量、ResizeObserver 或组件状态提供数据。
+
+更稳的边界判断可以问四个问题：
+
+- 这个需求是一个持续成立的关系，还是一次性的过程？
+- 浏览器是否已经拥有比应用代码更多的环境信息？
+- 平台原语失效时，核心功能是否仍然可用？
+- 需要的是政策声明，还是包含副作用、顺序与回滚的事务？
+
+持续关系、环境相关、可渐进退化的需求，通常适合 HTML / CSS 或浏览器原语。
+包含复杂时序、异步副作用和领域状态的过程，仍然需要 JavaScript。
+所谓平台优先，不是拒绝应用逻辑，而是避免应用逻辑吞掉本来属于平台的关系。
+
+## 对这个 blog 的一个轻量审视框架
+
+VitePress alpha.18 还在 alpha 阶段，Node 22、Vite 8 和插件兼容性都需要单独评估，
+所以这篇 Growth 不主张立即升级。更有价值的是借 breaking change 做一次
+**behavior ownership audit**，检查当前站点里哪些行为由过高层级接管。
+
+可以按下面的顺序看：
+
+1. **HTML 能否承担结构与默认行为**：锚点、按钮、details、dialog、表单。
+2. **CSS 能否承担布局关系与用户偏好**：滚动偏移、主题、对比度、运动、打印。
+3. **浏览器 API 能否承担通用交互机制**：Popover、View Transitions、原生搜索行为。
+4. **框架是否只保留领域状态和真正复杂的编排**。
+
+这个 audit 不以删除多少行 JavaScript 为绩效。它问的是：
+当前规则放在哪一层，哪一层最了解它，失效时会损失增强还是损失核心功能，
+用户的系统偏好有没有进入决策。
+
+例如，blog 的目录跳转即使没有 smooth scroll 也必须正确；
+固定 header 不应遮住目标标题；开启 reduced motion 后，跳转应立即完成；
+如果将来存在站内显式运动设置，它可以比默认主题更具体，
+但不应无声地把系统层的「减少运动」反转成更多运动。
+这些都比「视觉上是否丝滑」更接近行为所有权。
+
+## 小结：少一点掌控，多一点可协商性
+
+VitePress 移除两个滚动配置项，表面上是在缩 API，深处却像一次架构归位：
+空间关系交给 CSS，用户偏好交给 media query，框架退出不必由它裁决的区域。
+
+这件事让我更愿意把现代前端的成熟理解为一种克制。
+能力增长不只表现为框架能接管更多行为，也表现为我们能认出哪些行为应该归还。
+平台原语往往更弱，但它们更可分析、更容错，也更愿意听取环境的发言。
+
+所以「能用 CSS 就不用 JavaScript」仍然太像技术洁癖。
+更精确的说法是：
+
+> 当需求本质上是布局关系、能力协商或用户偏好时，
+> 用声明式平台原语表达意图，让浏览器保留解释空间；
+> 只有在问题真的包含过程、状态和副作用时，才提升语言的权力。
+
+好的前端不必把每个像素和每段运动都握死在手里。
+它可以只声明边界，然后允许页面、设备与使用它的人共同完成答案。
+
+## froQ 反馈
+
+<!-- froQ 在这里回答、评价、修正，或标记“继续 / 暂停 / 换方向”。 -->
+
+## AI 标注
+
+本轮检查近期 Growth / Continuation 文件时，没有发现 `## froQ 反馈`
+下的新有效回应，因此未生成 Continuation。Growth 方向来自
+`OH-Works/花花-activity/2026-07-11-vitepress-2-alpha-18.md` 中
+VitePress 移除 `scrollOffset` 与 `smoothScroll` 配置、转向 CSS 原语的变化；
+本文没有复述版本资讯，而是追问行为所有权为何发生迁移。
+
+探索式搜索带回的关键概念包括 scrollport / snapport、optimal viewing region、
+Rule of Least Power、fault-tolerant parsing、progressive enhancement、
+user preference media features、`prefers-reduced-motion: no-preference`、
+Priority of Constituencies 与 authority relocation。本文核心产出是一个通用前端设计原则：
+当需求属于布局关系、环境能力或用户偏好时，应使用较弱但可协商的声明式平台原语，
+把部分裁量权留给浏览器和用户；只有涉及复杂过程、状态和副作用时才提升语言权力。
+这属于对 Web 架构、可访问性与设计判断的外部延伸，因此写入 `200-neoplasma`，
+而非 `000-autopsia`。
