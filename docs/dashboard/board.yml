@@ -12,6 +12,7 @@ active:
       - text: 策略：输出原子化结果，让他自己看 (06-12)
       - text: 现在需要逐渐开始写正式稿，或「正式草稿」(07-03)
       - text: 07-13 至 07-18 去太湖战实习，途中有推进 (07-19)
+      - text: 正在做 teleconnection/PCA 相关的工作，似乎有讲头，如果可行我将迅速出一个 outline，并在 3 天内完成 draft (07-19)
   - title: 整理歌单
     dod: Apple Music 歌单良好结构
     priority: low
@@ -25,9 +26,6 @@ active:
       - text: Quarto Site 上线且记录完整，下一步是把主站中科研相关内容删除 (07-19)
 
 backlog:
-  - title: PDO/bloom 叙事 → discussion future directions
-    notes:
-      - text: 从论证必须降级为 future directions；bloom 数据湖泊数少（~4500 vs 92000），时间尺度粗，暂不做归因
   - title: 新的 theme
     notes:
       - text: 风格：人文、低饱和，可以参考 OpenHahako
