@@ -1,0 +1,162 @@
+# Rune Interests
+# froQ 与 Rune 之间的追踪契约。
+# 编辑此文件后，Tracker 下次 run 自动读取最新内容。
+#
+# priority 语义：
+#   high   — 全面检查，Cast 优先解读，Briefing 必含
+#   normal — 标准追踪（默认）
+#   low    — 快速检查，无明确信号则跳过，Briefing 仅在有发现时提及
+
+# ── Inbox：快速添加 ──
+# 用最简单关键词添加你想追踪的内容。
+# Tracker 每次运行时自动研究 → 归类 → 移入下方对应 section → 清空 inbox。
+inbox:
+  - hermes
+
+# ── 追踪目标 ──
+track:
+
+  # ── 软件：GitHub Release 版本追踪 ──
+  software:
+    - name: VitePress
+      priority: high
+      source: github_release
+      repo: vuejs/vitepress
+      note: froQ 的 blog 框架。关注 alpha → beta → stable 路径
+
+    - name: Vue
+      priority: high
+      source: github_release
+      repo: vuejs/core
+      note: froQ 主栈框架。关注 3.6 RC → stable、Vapor Mode、与 Rolldown/Vite 集成
+
+    - name: TypeScript
+      priority: high
+      source: github_release
+      repo: microsoft/TypeScript
+      note: Go 原生编译器 (Corsa)。关注 7.0 稳定性、7.1 程序化 API
+
+    - name: Vite
+      priority: normal
+      source: github_release
+      repo: vitejs/vite
+      note: VitePress 底层构建工具。关注 7.x 与 Rolldown 集成
+
+    - name: Rolldown
+      priority: normal
+      source: github_release
+      repo: rolldown/rolldown
+      note: Vite 7 默认打包器，Vue 生态未来核心基础设施
+
+    - name: Node.js
+      priority: normal
+      source: github_release
+      repo: nodejs/node
+      note: 运行时基础。关注 LTS 变动
+
+  # ── 论文：arXiv 检索 ──
+  papers:
+    - name: lake thermal dynamics
+      priority: low
+      source: arxiv
+      query: lake AND (temperature OR thermal OR stratification OR heatwave OR mixing OR ice)
+      note: 湖泊热力学。热分层、热浪、冰盖、混合机制（毕业用，浅看即可）
+
+    - name: global lake surface warming trends
+      priority: low
+      source: arxiv
+      query: lake AND (surface water temperature OR warming trend OR long-term) AND (global OR satellite OR reanalysis)
+      note: 全球湖泊表层水温增温趋势（毕业方向）
+
+    - name: PCA & clustering in limnology
+      priority: low
+      source: arxiv
+      query: (principal component analysis OR cluster OR classification) AND (lake OR limnology OR water quality)
+      note: 主成分分析/聚类方法在湖泊学中的应用（毕业方向）
+
+    - name: EOF & REOF in environmental science
+      priority: low
+      source: arxiv
+      query: (EOF OR REOF OR empirical orthogonal function) AND (climate OR environmental OR spatial)
+      note: EOF/REOF 空间分析方法（毕业方向）
+
+    - name: spatial heterogeneity in lakes
+      priority: low
+      source: arxiv
+      query: spatial AND (heterogeneity OR variability OR pattern) AND (lake OR inland water OR limnology)
+      note: 湖泊空间异质性（毕业方向）
+
+    - name: compound climate extremes & inland water
+      priority: low
+      source: arxiv
+      query: compound AND (heat OR drought OR extreme) AND (lake OR inland water OR reservoir)
+      note: 复合极端事件 × 内陆水体
+
+    - name: time series analysis & environmental data
+      priority: low
+      source: arxiv
+      query: time series AND (environmental OR climate OR lake OR hydrology) AND (deep learning OR transformer OR statistical)
+      note: 环境时间序列分析方法
+
+  # ── 主题：Web 搜索 ──
+  topics:
+    - name: Vue & Vite ecosystem
+      priority: high
+      source: web_search
+      query: Vue 3.6 VitePress 2.0 Vite 7 Rolldown ecosystem update 2026
+      note: Vue 生态重大更新
+
+    - name: typography & design tools
+      priority: normal
+      source: web_search
+      query: open source typography design tools variable fonts CJK
+      note: 字体设计与设计工具。CJK 字体、可变字体、排版
+
+    - name: Cantonese Pop
+      priority: normal
+      source: web_search
+      query: Cantonese pop new releases Hong Kong music
+      note: 粤语流行乐新动态
+
+    - name: Neovim & terminal tooling
+      priority: normal
+      source: web_search
+      query: Neovim release ecosystem plugin terminal tools
+      note: 编辑器与终端工具栈
+
+    - name: knowledge management & PKM tools
+      priority: normal
+      source: web_search
+      query: personal knowledge management tools Zettelkasten digital garden
+      note: PKM 方法论与工具
+
+  # ── RSS 源 ──
+  rss:
+    - url: https://blog.vuejs.org/feed.xml
+      name: Vue Blog
+      priority: high
+    - url: https://devblogs.microsoft.com/typescript/feed/
+      name: TypeScript Blog
+      priority: high
+    - url: https://vite.dev/blog.rss
+      name: Vite Blog
+      priority: normal
+    - url: https://antfu.me/feed.xml
+      name: Anthony Fu Blog
+      priority: high
+    - url: https://innei.in/feed
+      name: Innei Blog
+      priority: normal
+
+# ── Briefing 配置 ──
+briefing:
+  schedule: '0 7 * * *'
+  delivery:
+    - origin
+    - qq
+  format:
+    sections:
+      - tracker_changes
+      - cast_judgments
+      - carve_growth
+    max_items_per_section: 5
