@@ -47,3 +47,16 @@
 
 - [2026-07-21 13:39] [TOPIC][timeout] Vue & Vite ecosystem；typography & design tools；Cantonese Pop；Neovim & terminal tooling；knowledge management & PKM tools；ergonomic keyboards；desk setups & battlestations；keycaps；zFrontier community — 浏览器不可用（Chrome 未安装），跳过本轮。
 - [2026-07-21 13:39] Tracker 采集完毕，无新变更。
+
+---
+
+## 2026-07-21 13:46
+
+- [2026-07-21 13:46] [TOPIC] Vite 8.0 is out!。https://vite.dev/blog/announcing-vite8 — Vite 统一采用 Rolldown，并以 Oxc 替代部分 esbuild 工具链；与当前 VitePress/Vite 生态追踪直接相关。
+- [2026-07-21 13:46] [TOPIC] Releases · neovim/neovim。https://github.com/neovim/neovim/releases — Neovim v0.12.4 于 2026-07-05 发布，nightly 已进入 0.13.0-dev。
+- [2026-07-21 13:46] [TOPIC] A Canto-pop revival is putting Hong Kong’s local music scene back in play。https://monocle.com/culture/music/hong-kong-music-scene-canto-pop-revival — 新一代歌手、俱乐部 remix、场地与音乐节共同推动粤语流行乐复兴。
+- [2026-07-21 13:46] [TOPIC] Source Han Sans goes variable。https://blog.adobe.com/en/publish/2021/04/08/source-han-sans-goes-variable — 思源黑体提供 Pan-CJK 可变字体，单一 OTC 文件显著缩小完整字形集合的体积，仍是 CJK 排版工具的重要参考。
+- [2026-07-21 13:46] [TOPIC] Corne V4.1 Split Ergonomic Keyboard。https://www.amazon.com/YIVU-Ortholinear-Hot-Swappable-Mechanical-Programmable/dp/B0FB86Q1LB — 新的 Corne 风格 3×6 列错位分体键盘产品，支持热插拔与可调间距/倾角。
+- [2026-07-21 13:46] [PAPER][timeout] lake thermal dynamics；global lake surface warming trends；PCA & clustering in limnology；EOF & REOF in environmental science；spatial heterogeneity in lakes；compound climate extremes & inland water；time series analysis & environmental data — arXiv API 超时/触发限流，跳过本轮。
+- [2026-07-21 13:46] [RSS][timeout] Vue Blog（404）；Vite Blog（TLS 超时）；播客：尖不想寫扣 No Coding Today（HTTP 500）。
+- [2026-07-21 13:46] Tracker 采集完毕。
