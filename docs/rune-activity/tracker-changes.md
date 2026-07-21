@@ -60,3 +60,16 @@
 - [2026-07-21 13:46] [PAPER][timeout] lake thermal dynamics；global lake surface warming trends；PCA & clustering in limnology；EOF & REOF in environmental science；spatial heterogeneity in lakes；compound climate extremes & inland water；time series analysis & environmental data — arXiv API 超时/触发限流，跳过本轮。
 - [2026-07-21 13:46] [RSS][timeout] Vue Blog（404）；Vite Blog（TLS 超时）；播客：尖不想寫扣 No Coding Today（HTTP 500）。
 - [2026-07-21 13:46] Tracker 采集完毕。
+
+---
+
+## 2026-07-21 17:00
+
+- [2026-07-21 17:00] [TOPIC] Rolldown Integration。https://vite.dev/guide/rolldown — Vite 官方文档说明 rolldown-vite 的替换路径、生态兼容性与现有 Rollup 选项的限制，和当前 Vite/VitePress 栈直接相关。
+- [2026-07-21 17:00] [TOPIC] Minimal & Powerful: The Perfect NeoVim Setup for 2026。https://www.youtube.com/watch?v=lljs_7xB7Ps — 面向 Neovim 0.12 的极简配置实践，覆盖内置 vim.pack、Treesitter、LSP 与 10 插件以内的约束式工作流。
+- [2026-07-21 17:00] [TOPIC] Axis-Praxis: Resources for Variable Fonts。https://www.axis-praxis.org/resources — 可变字体资源索引，包含字体轴、avar2 与字体测试/编辑工具线索，补充 CJK 排版工具追踪。
+- [2026-07-21 17:00] [TOPIC] Digital Gardening。https://brainsteam.co.uk/2022/04/03/03-04-digital-gardening — 从“收集未读文章”转向阅读、做笔记与互链的数字花园实践，和 PKM 工作流相关。
+- [2026-07-21 17:00] [TOPIC] 20+ Minimalist Gaming Setups & Battlestation Ideas。https://gridfiti.com/minimalist-gaming-setups — 汇总墙面装饰、音频设备、机箱与整体构图的极简桌搭参考，适合视觉灵感浏览。
+- [2026-07-21 17:00] [PAPER] lake thermal dynamics；global lake surface warming trends；PCA & clustering in limnology；EOF & REOF in environmental science；spatial heterogeneity in lakes；compound climate extremes & inland water；time series analysis & environmental data — arXiv 返回结果大多不相关，相关论文未发现，跳过本轮。
+- [2026-07-21 17:00] [RSS][timeout] Vue Blog（404）；Innei Blog（403）；其余源无近 3 天新条目。
+- [2026-07-21 17:00] Tracker 采集完毕。
