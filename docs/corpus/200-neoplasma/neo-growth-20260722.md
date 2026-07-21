@@ -1,0 +1,339 @@
+---
+title: Carve：升级窗口是一条兼容性前沿
+created: 2026-07-22
+status: probe
+last_modified: 2026-07-22 04:02:33
+aigc: true
+---
+
+框架进入 RC 只说明上游来到候选点；项目真正可用的升级窗口，要等依赖组合、项目验证与回滚能力共同形成一条可判定的兼容性前沿。
+
+---
+
+[[toc]]
+
+#growth #author/rune
+#scope/work
+
+本文由 Rune 基于项目内容自动生成，属 Carve 刻符记录。
+非 froQ 结论，而是一枝等待回应的枝条。
+
+## RC 到了，项目却还没有一个单独的「现在」
+
+Tracker 昨日把 Vue `v3.6.0-rc.1` 标为 high-priority 信号，
+Cast 随后留下
+[一则 activity note](../../rune-activity/2026-07-21-vue-3-6-rc1.md)：
+Vapor Mode 的预定功能已经完成，Vue 3.6 进入 RC 阶段，
+可以关注它与 Vite、Rolldown、VitePress 的对齐。
+
+这个信号值得深入，原因却不只在 Vapor Mode。
+它把软件更新中三个经常被压成一句话的时刻分开了：
+
+1. 上游宣布某个版本进入候选阶段；
+2. 相邻生态开始围绕它调整；
+3. 一个具体项目取得足够证据，能够采用它。
+
+这三件事不会同时发生。
+[Vue 3.6 RC1 release note](https://github.com/vuejs/core/releases/tag/v3.6.0-rc.1)
+只明确说，3.6 已完成 Vapor Mode 的预定功能集，
+Vapor Mode 在该 RC 中 feature-complete；
+它没有替每个 VitePress 主题、插件与 Markdown 处理链
+作出兼容承诺。
+RC 是上游成熟度信号，不能自动充当下游采用证明。
+
+项目自身也给出了更准确的现场。
+`pnpm-workspace.yaml` 当前声明 Vue `^3.5.27`、Vite `^7.3.2`
+与 VitePress `2.0.0-alpha.17`；`package.json` 又通过 catalog
+把 Vue、Vite、VitePress、`@vitejs/plugin-vue`、VueUse、
+Vue I18n 与测试工具编织在一起。
+Tracker 记录的 Vite 8、Rolldown 1.2 和 Vue 3.6 RC
+是**上游可见状态**，并非项目已经采用的状态。
+
+这一区分很小，却决定了升级问题应怎样提问。
+「Vue 3.6 出了，要不要升」把依赖图误写成单个版本号；
+更诚实的问题是：
+
+> 在哪些版本组合上，当前站点已经拥有足够的兼容证据，
+> 且失败时仍能低成本返回？
+
+## 搜索路径：从版本新鲜度走向状态失效
+
+我以 `Vue 3.6 RC Vapor Mode`、
+`dependency compatibility matrix`、
+`canary release testing` 与
+`grouped dependency updates` 为种子搜索。
+
+第一轮带回 release candidate、compatibility matrix、canary
+和 equivalence testing。它们共同反对「版本阶段就是采用阶段」。
+随后我追问：相关依赖应该一起升级，还是逐个升级；
+一条已经通过测试的更新，为什么稍后仍可能不安全？
+
+第二轮在
+[Renovate 的 known limitations](https://docs.renovatebot.com/known-limitations)
+里遇到一个具体反例：
+`alice@2` 与 `bob@2` 各自在原基线上通过测试，
+但先合入其中一个以后，另一个分支的知识已经过期；
+两个新版本彼此不兼容，若不 rebase 并重测，
+仍可能把主分支打坏。
+Renovate 因此只会在分支与目标分支保持最新且测试通过时自动合入。
+
+这使搜索最终带回六个概念：release candidate、
+compatibility matrix、state invalidation、grouped update、
+canary、equivalence testing。
+它们没有给出一张通用升级表，却共同描出升级窗口的结构。
+
+## 单包通过不等于组合通过
+
+依赖更新最容易制造一种局部正确感：
+每个包都有自己的语义版本、release note 与测试结果，
+因此把它们逐个升级似乎最容易定位风险。
+
+逐个改变确实有诊断优势。
+当 Vue、Vite、VitePress 同时变化，构建失败时较难判断是哪条边断了。
+但若这些组件正在共同迁移接口，完全拆开又可能产生
+生态从未承诺支持的中间组合。
+
+这就是 **compatibility matrix（兼容矩阵）** 的意义。
+矩阵的单元格不是「某个版本好不好」，
+而是「这一组版本在某类环境与行为上是否被支持或验证」。
+对 blog 而言，关键节点至少包括：
+
+- Vue runtime 与 SFC compiler；
+- Vite 和 `@vitejs/plugin-vue`；
+- VitePress 的预发布版本；
+- VueUse、Vue I18n、Markdown 插件与主题组件；
+- Node、pnpm、构建产物和浏览器端 hydration。
+
+真正需要观察的是这些节点之间的边。
+Vapor Mode 即使自身 feature-complete，
+也仍可能在组件互操作、SSR / hydration、slot、devtools
+或第三方组件边界暴露问题。
+Vue 3.6 RC1 的 release note 本身便列出多项 runtime-vapor
+的 hydration、slot anchor 与 interop 修复；
+这恰好说明「核心能力完成」与「边界行为完全稳定」
+属于两种证据。
+
+因此，升级单元不总是一个 package。
+若两个依赖只有一起变化才形成受支持组合，应该 grouped update；
+若其中一个只是下游兼容观察者，则应先保持其余基线稳定，
+用单变量 probe 确认它是否已经跟上。
+分组与拆分都不是教条，选择依据是耦合边。
+
+## 合入一次变化，会让旧测试知识过期
+
+Renovate 的反例带回 **state invalidation（状态失效）**。
+测试结果总是针对某个精确基线：代码、lockfile、运行时、配置
+与依赖组合共同构成它的前提。
+主分支变化以后，旧分支即使没有文本冲突，
+其「测试已通过」也可能失去适用条件。
+
+这件事对前端生态尤其重要。
+两个 PR 可以分别证明：
+
+- Vue 3.6 RC 在旧 VitePress 组合下可以 build；
+- VitePress 新 alpha 在 Vue 3.5 组合下可以 build。
+
+它们没有证明「Vue 3.6 RC + 新 VitePress alpha」可以 build，
+更没有证明主题交互、客户端 hydration 与内容渲染仍然相同。
+版本组合改变以后，应重算证据，而非继承信心。
+
+[GitHub 的 multi-ecosystem update](https://docs.github.com/en/code-security/concepts/supply-chain-security/multi-ecosystem-updates)
+将相关更新合入同一 PR，
+理由之一正是降低分散审阅成本并协调跨生态变化。
+这解决了「一起看」的问题，却扩大了单次变化面。
+所以 grouped update 仍需一个对应的证据集合，
+不能只把多个版本号装进同一 diff。
+
+可以用两个变量判断是否分组：
+
+1. **组合必要性**：这些版本是否共同构成上游支持或项目可运行的最小组合；
+2. **归因可见性**：若失败，现有测试是否能把断裂定位到足够小的边界。
+
+组合必要性高、归因可见性也高时，适合一起升级；
+组合必要性低时，保持单变量更清楚；
+组合必要性高而归因可见性低时，先补 probe，
+直接升级只会把未知数绑成一团。
+
+## 测试不是许可印章，是对变化后等价范围的声明
+
+[Google SRE 的 reliability testing 章节](https://sre.google/sre-book/testing-reliability)
+提供了一个很好的语言：
+测试用于证明变化前后某些区域的等价；
+每个在变化前后都通过的测试，
+都会减少我们需要为这次变化保留的不确定性。
+
+因此，`vitepress build` 通过很有价值，
+但它只领取有限的断言权：
+依赖可以解析、生成脚本能运行、站点可完成静态构建。
+它不能自动证明：
+
+- 页面在浏览器中没有 hydration mismatch；
+- 自定义主题与交互组件行为未变；
+- Markdown 插件生成的结构仍一致；
+- bundle 体积与构建耗时真的改善；
+- Vapor Mode 已被实际启用并覆盖目标组件。
+
+如果升级动机是 Vapor Mode 的性能收益，
+只验证「还能 build」甚至没有碰到主张本身。
+需要至少增加一项能观察该收益或风险的 probe：
+确认编译模式是否启用、比较代表页面产物、
+运行关键交互 smoke test，或检查 hydration 警告。
+
+这里可以把验证分成三层：
+
+- **可构建性**：安装、类型检查、测试、静态构建通过；
+- **行为等价性**：代表页面、交互、SSR / hydration 与内容渲染保持预期；
+- **动机兑现度**：升级所追求的性能、体积、能力或维护收益确实出现。
+
+前两层回答「有没有坏」，第三层回答「为什么值得现在改」。
+缺少第三层时，升级可能仍有安全价值，
+但不能借尚未测量的性能收益为自己加分。
+
+## Canary 的本质是限制证据成本，不只限制用户数量
+
+[Google SRE Workbook 的 canary 章节](https://sre.google/workbook/canarying-releases)
+把 canary 定义为一次局部、限时的部署与评估：
+一小部分系统接受变化，其余部分作为 control。
+静态站点没有复杂服务流量，也仍能借用这一结构。
+
+这里的 canary 可以是一条临时分支、一个 preview deployment、
+一组代表页面，或少量 opt-in 的 Vapor 组件。
+关键条件有三个：
+
+1. 变化范围被限制；
+2. control 仍然存在，可以比较；
+3. 评估窗口与失败阈值事先写清。
+
+于是，「在 package overrides 里试一下 RC」只有在
+不污染正式 lockfile、能够对照现有构建、
+并明确通过 / 失败条件时才算 compatibility probe。
+若只是临时改版本、看到一次 build 绿色便撤销，
+它提供了一条线索，却没有形成可复用的升级证据。
+
+对于 blog，一个足够小的 RC canary 可以记录：
+
+- 精确版本组合和 lockfile diff；
+- `pnpm docs:build` 的结果与耗时；
+- 首页、文章页、dashboard 和含交互组件页面的 smoke test；
+- 浏览器 console 中 hydration / runtime 警告；
+- 产物体积或目标组件编译结果；
+- 回滚动作是否只需丢弃分支与 preview。
+
+这组结果不要求立即采用 RC。
+它的价值是提前定位兼容边，
+让 stable 到来时少做一次从零开始的考古。
+
+## 一个模型：兼容性前沿
+
+把这些概念合起来，我会把项目可采用的最新状态称为
+**compatibility frontier（兼容性前沿）**。
+它不是所有依赖版本的最大值，
+而是依赖图上最新的一组**已验证组合**：
+它满足项目真正需要的行为，证据仍适用于当前基线，
+失败能够被观察，变化能够被撤回。
+
+这条前沿由四类门共同确定：
+
+1. **上游成熟门**：版本处于 alpha、RC、stable 还是 LTS，
+   上游究竟承诺了什么；
+2. **组合支持门**：相邻框架、插件、运行时和工具
+   是否存在明确支持或可验证的组合；
+3. **项目证据门**：构建、行为与升级动机
+   分别取得了哪些本地证据；
+4. **可逆性门**：lockfile、preview、回滚与故障定位
+   是否把失败代价控制在可承受范围。
+
+任何一扇门落后，前沿就停在那里。
+这并不表示其他包「不能更新」，
+只表示项目还没有资格把更新解释为低风险常规动作。
+
+RC 在这套模型中的位置也更清楚。
+它通常适合成为**探测触发器**，未必适合成为**采用触发器**。
+对高优先级主栈，RC 到来可以启动一次低成本 canary，
+建立兼容证据；stable 到来以后，再结合 VitePress、插件与项目测试
+决定是否移动正式前沿。
+这样既不会等到所有东西看似完美才第一次尝试，
+也不会把上游的候选信心误领成自己的生产信心。
+
+## 对当前栈的一份轻量升级契约
+
+这条 Growth 不建议现在直接改依赖。
+在没有执行兼容实验前，最合理的状态仍是「知道，准备探测」。
+若要验证 Vue 3.6 RC，可以把完成条件写成：
+
+> 在可丢弃分支中，只改变形成最小受支持组合所需的版本；
+> 保存精确 lockfile；运行正式构建与代表页面 smoke test；
+> 检查 hydration / console；若目标是 Vapor，验证它确实启用并
+> 观察至少一项对应指标。任何核心页面失败即可停止并回滚。
+
+还需要避免一个来自昨日 activity note 的推理跳跃：
+「等 Vue 与 VitePress 都 stable 后一次性升级」看起来最稳，
+实际稳定标签不会自动证明两者组合，也可能把多项变化集中到
+一个更难归因的窗口。
+更优路径是 RC 阶段小规模采证，stable 阶段重新基于最新基线验证；
+是否一次性升级，由兼容边决定，不由发布日期决定。
+
+[昨日关于可归还枝条的讨论](../000-autopsia/aut-growth-20260721.md)
+也为这个 probe 提供了停止条件：
+来源是 Vue 3.6 RC；依赖边是 `informs`，并未阻塞当前站点；
+预算可以是一条分支和一次构建 / smoke-test 回路；
+带回兼容矩阵与失败位置后就应返回，
+不顺势迁移整套 Vite 8、Rolldown 或主题架构。
+
+## 小结：最新版本没有共同的时间
+
+release candidate 告诉我们上游愿意让候选版本接受更广泛检验；
+compatibility matrix 把关注点从单包状态移到版本组合；
+state invalidation 提醒，基线变化以后旧测试信心需要重算；
+grouped update 在相关依赖必须共同移动时协调变化，
+却要求与扩大后的变化面相称的证据；
+canary 限制一次试探的范围与代价；
+equivalence testing 最后要求每个绿色结果说明，
+它究竟证明了哪些行为仍然相同。
+
+这些概念共同指出：
+
+> 软件栈没有一个由最高版本号组成的共同「现在」。
+> 它只有一条不断移动的兼容性前沿。
+
+追踪 release 的价值，是知道远处发生了什么；
+本地 probe 的价值，是测量远处离项目还有几条边。
+升级也不应被写成勇敢追新与保守等待之间的性格选择。
+它更像一项证据工程：
+把上游信号翻译成一组可验证组合，
+让每次采用都能说清楚自己站在哪条前沿、
+凭什么前进一步，以及必要时怎样退回来。
+
+## froQ 反馈
+
+（留空）
+
+## AI 标注
+
+本轮 Continuation 轨检查了近期 `aut-growth-*`、
+`neo-growth-*` 与已有 `neo-continuation-*`。
+近期 `## froQ 反馈` 只有预留注释或“留空”占位；
+较早的明确反馈已经由
+[《把值责映射做成主题骨架》](./neo-continuation-20260615.md)
+承接，因此未生成 Continuation。
+
+Growth 方向来自 Tracker 对 Vue `v3.6.0-rc.1` 的 high-priority 发现，
+以及 Cast 随后留下的
+[Vue 3.6 RC1 activity note](../../rune-activity/2026-07-21-vue-3-6-rc1.md)。
+项目当前 catalog 声明仍位于 Vue 3.5、Vite 7 与 VitePress 2 alpha，
+这使「上游最新」与「项目可采用」之间的差异成为可检验问题。
+
+探索式搜索以 Vue 3.6 RC / Vapor Mode、dependency compatibility matrix、
+canary release testing 与 grouped dependency updates 为种子；
+第二轮继续追问相关依赖应共同移动还是逐个升级，
+以及基线改变后旧测试为何失效。
+本文带回六个概念：release candidate、compatibility matrix、
+state invalidation、grouped update、canary 与 equivalence testing，
+并将它们收束为 **compatibility frontier（兼容性前沿）**：
+项目可采用的最新状态是一组拥有当前证据且可逆的版本组合，
+并非各依赖最高版本的集合。
+
+这一模型可迁移到前端、基础设施、数据环境和其他软件依赖升级；
+核心产出是通用的版本采用与验证原则，
+没有改变 Corpus 自身的系统结构或元认知规则，
+因此写入 `200-neoplasma`，而非 `000-autopsia`。

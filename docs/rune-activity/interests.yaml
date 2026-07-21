@@ -11,7 +11,7 @@
 # 用最简单关键词添加你想追踪的内容。
 # Tracker 每次运行时自动研究 → 归类 → 移入下方对应 section → 清空 inbox。
 inbox:
-  # empty - processed by Tracker on 2026-07-21
+# empty - processed by Tracker on 2026-07-21
 
 # ── 追踪目标 ──
 track:
@@ -136,6 +136,30 @@ track:
       query: personal knowledge management tools Zettelkasten digital garden
       note: PKM 方法论与工具
 
+    - name: ergonomic keyboards
+      priority: high
+      source: web_search
+      query: Corne keyboard split ortholinear column stagger ergonomic mechanical keyboard
+      note: 人体工学键盘。关注 Corne 配列、直列分体、新设计/固件/社区讨论
+
+    - name: desk setups & battlestations
+      priority: normal
+      source: web_search
+      query: desk setup battlestation workspace inspiration minimal aesthetic
+      note: 桌搭灵感。纯视觉享受，推好看的图片/视频
+
+    - name: keycaps
+      priority: low
+      source: web_search
+      query: mechanical keyboard keycaps custom design artisan group buy
+      note: 键帽。轻度关注，有好看的看一眼即可
+
+    - name: zFrontier community
+      priority: normal
+      source: web_search
+      query: zfrontier 装备前线 客制化键盘 键帽 测评 2026
+      note: froQ 常刷的键盘社区。关注热门帖子、新品发布
+
   # ── RSS 源 ──
   rss:
     - url: https://blog.vuejs.org/feed.xml
@@ -153,13 +177,21 @@ track:
     - url: https://innei.in/feed
       name: Innei Blog
       priority: normal
+    - url: https://www.youtube.com/feeds/videos.xml?channel_id=UCmFCLbYQGHDPEhqjZ-7-wPw
+      name: 播客：尖不想寫扣 No Coding Today
+      priority: normal
+      note: 'Antfu & Mike Cheng 主持。URL 可能受限，Tracker 超时则跳过'
+    - url: https://feed.xyzfm.space/nfm8cu8deycn
+      name: 播客：代码之外 Beyond Code
+      priority: normal
+      note: 'GeekPlux & Randy 主持的程序员闲聊播客'
 
 # ── Briefing 配置 ──
 briefing:
   schedule: '0 7 * * *'
   delivery:
     - origin
-    - qq
+    - qqbot
   format:
     sections:
       - tracker_changes
