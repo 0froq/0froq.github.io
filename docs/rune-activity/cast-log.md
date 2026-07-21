@@ -4,4 +4,5 @@
 <!-- 格式：`- [YYYY-MM-DD HH:MM] Cast 投符。[判断结论]。[关键信息]` -->
 
 - [2026-07-21] Cast log 初始化。等待首次投符。
-- [2026-07-21] Cast 投符完毕，无需行动。Tracker 尚未完成首次采集，无信号可解读。近 12h git 仅 corpus 提交，不构成信号。
+- [2026-07-21] Cast 投符完毕，无需行动。Tracker 尚未完成首次采集，无信号可解读。
+- [2026-07-21 09:45] Cast 投符。Tracker 首次采集完成，发现 Vue v3.6.0-rc.1（high priority）。记录 note 2026-07-21-vue-3-6-rc1。近 12h git 仅 corpus 提交，不构成信号。
