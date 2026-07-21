@@ -11,7 +11,7 @@
 # 用最简单关键词添加你想追踪的内容。
 # Tracker 每次运行时自动研究 → 归类 → 移入下方对应 section → 清空 inbox。
 inbox:
-  - hermes
+  # empty - processed by Tracker on 2026-07-21
 
 # ── 追踪目标 ──
 track:
@@ -53,6 +53,12 @@ track:
       source: github_release
       repo: nodejs/node
       note: 运行时基础。关注 LTS 变动
+
+    - name: Hermes Agent
+      priority: normal
+      source: github_release
+      repo: NousResearch/hermes-agent
+      note: Nous Research 的开源 AI Agent。froQ 当前运行的 agent 框架。关注新版本与功能更新
 
   # ── 论文：arXiv 检索 ──
   papers:
