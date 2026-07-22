@@ -162,7 +162,7 @@ track:
 
   # ── RSS 源 ──
   rss:
-    - url: https://blog.vuejs.org/feed.xml
+    - url: https://blog.vuejs.org/feed.rss
       name: Vue Blog
       priority: high
     - url: https://devblogs.microsoft.com/typescript/feed/
@@ -178,9 +178,8 @@ track:
       name: Innei Blog
       priority: normal
     - url: https://www.youtube.com/feeds/videos.xml?channel_id=UCmFCLbYQGHDPEhqjZ-7-wPw
-      name: 播客：尖不想寫扣 No Coding Today
+      name: 尖不想寫扣 No Coding Today（播客）
       priority: normal
-      note: 'Antfu & Mike Cheng 主持。URL 可能受限，Tracker 超时则跳过'
     - url: https://feed.xyzfm.space/nfm8cu8deycn
       name: 播客：代码之外 Beyond Code
       priority: normal
@@ -196,5 +195,5 @@ briefing:
     sections:
       - tracker_changes
       - cast_judgments
-      - carve_growth
+      - carve
     max_items_per_section: 5

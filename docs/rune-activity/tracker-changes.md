@@ -79,3 +79,33 @@
 ## 2026-07-22 01:00
 
 - [2026-07-22 01:00] Tracker 采集完毕，无新变更。Inbox 为空；GitHub Releases、arXiv、主题搜索与近 3 天 RSS 均未发现相对既有记录的新信号。
+
+---
+
+## 2026-07-22 09:01
+
+- [2026-07-22 09:01] [TOPIC] State of Vue & Vite 2026: Amsterdam recap。https://laurentcazanove.com/blog/state-of-vue-vite-2026-amsterdam-recap — 汇总 Vue 3.6 Vapor Mode、Nuxt 4.4、Vite 8、Vite Plus 与 Void Cloud 等生态进展；与当前 Vue/Vite 生态追踪直接相关。
+- [2026-07-22 09:01] [TOPIC] My Experience Switching to a Split Keyboard (Corne V4)。https://www.youtube.com/watch?v=oalpyhdXF6c — 2026-03 的 Corne V4 实际迁移体验，涉及布局、打字适应与腕部疼痛反馈，补充现有 Corne 产品与使用经验追踪。
+- [2026-07-22 09:01] [PAPER][timeout] lake thermal dynamics；global lake surface warming trends；PCA & clustering in limnology；EOF & REOF in environmental science；spatial heterogeneity in lakes；compound climate extremes & inland water；time series analysis & environmental data — arXiv API 返回 429/超时，跳过本轮。
+- [2026-07-22 09:01] [RSS][timeout] Vue Blog（404）；Innei Blog（403）；播客：尖不想寫扣 No Coding Today（无近 3 天条目/源更新滞后）；其余源无近 3 天新条目。
+
+---
+
+## 2026-07-22 17:03
+
+- [2026-07-22 17:03] [SW] Vite v8.2.0-beta.0（2026-07-22）。https://github.com/vitejs/vite/releases/tag/v8.2.0-beta.0 — Vite 新 beta 版本，早于此前已记录的 v8.1.5。
+- [2026-07-22 17:03] [TOPIC] Vue, Nuxt & Vite Status in 2026: Risks, Priorities & Architecture Updates。https://fivejars.com/insights/vue-nuxt-vite-status-for-2026-risks-priorities-architecture-updates — 汇总 Vue/Nuxt/Vite 2026 生态状态与架构关注点，补充现有 Vue & Vite 生态追踪。
+- [2026-07-22 17:03] [PAPER][timeout] lake thermal dynamics；global lake surface warming trends；PCA & clustering in limnology；EOF & REOF in environmental science；spatial heterogeneity in lakes；compound climate extremes & inland water；time series analysis & environmental data — arXiv 本轮返回结果混杂或无明确相关新论文，按 low priority 跳过摘要阅读。
+- [2026-07-22 17:03] [RSS][error] Vue Blog XML 解析失败；TypeScript Blog、Vite Blog、Anthony Fu、Innei、两个播客源均无近 3 天新条目。
+- [2026-07-22 17:03] Tracker 采集完毕。
+
+---
+
+## 2026-07-23 01:01
+
+- [2026-07-23 01:01] [SW] Vue (core) v3.6.0-rc.2（2026-07-22）。https://github.com/vuejs/core/releases/tag/v3.6.0-rc.2 — 相对已记录的 v3.6.0-rc.1 的新 RC。
+- [2026-07-23 01:01] GitHub Releases：VitePress、TypeScript、Rolldown、Node.js、Hermes Agent 均未发现相对既有记录的新版本；Vite v8.2.0-beta.0 已在上一轮记录。
+- [2026-07-23 01:01] arXiv：各检索式返回结果多为不相关条目，未发现相对既有记录的明确相关新论文；按 low priority 跳过摘要阅读。
+- [2026-07-23 01:01] Web 主题搜索：Vue & Vite、字体/CJK、粤语流行乐、Neovim、PKM、人体工学键盘、桌搭、zFrontier 均未发现相对既有记录的明确新信号。
+- [2026-07-23 01:01] RSS：近 3 天无新条目；Vue Blog 返回 404，其他源未返回符合时间窗口的新内容（Anthony Fu 源最后更新 2025-04，Innei 最后更新 2026-07-18）。
+- [2026-07-23 01:01] Tracker 采集完毕。Inbox 为空。
