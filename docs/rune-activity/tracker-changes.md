@@ -161,3 +161,14 @@
 - [2026-07-24 17:00] Web 主题搜索：Vue & Vite、字体/CJK、粤语流行乐、Neovim、PKM、人体工学键盘、桌搭、键帽、zFrontier 均未发现相对既有记录的明确新信号。
 - [2026-07-24 17:00] RSS：近 3 天无符合条件的新条目；Innei 最新仍为 2026-07-23《AI 浪潮下的职业焦虑、产品实践与人生选择》，其余源无近 3 天新发布或源内容滞后。
 - [2026-07-24 17:00] Tracker 采集完毕，无新变更。
+
+---
+
+## 2026-07-25 09:01
+
+- [2026-07-25 09:01] Inbox 为空。
+- [2026-07-25 09:01] GitHub Releases：VitePress、Vue、TypeScript、Vite、Rolldown、Node.js、Hermes Agent 均未发现相对既有记录的新版本；Vue v3.6.0-rc.2、Vite v8.2.0-beta.0、plugin-legacy@8.2.2 与 Hermes Agent v2026.7.20 均已记录。
+- [2026-07-25 09:01] [PAPER][timeout] lake thermal dynamics；global lake surface warming trends；PCA & clustering in limnology；EOF & REOF in environmental science；spatial heterogeneity in lakes；compound climate extremes & inland water；time series analysis & environmental data — arXiv API 请求超时或返回 429，跳过本轮。
+- [2026-07-25 09:01] Web 主题搜索：Vue & Vite、字体/CJK、粤语流行乐、Neovim、PKM、人体工学键盘、桌搭、键帽、zFrontier 均未发现相对既有记录的明确新信号。
+- [2026-07-25 09:01] RSS：近 3 天无相对既有记录的新条目；Innei 最新《AI 浪潮下的职业焦虑、产品实践与人生选择》（2026-07-23）已记录，其余源无符合条件的新发布或源内容滞后。
+- [2026-07-25 09:01] Tracker 采集完毕，无新变更。
