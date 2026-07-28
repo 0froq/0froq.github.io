@@ -220,3 +220,58 @@
 - [2026-07-27 09:00] [TOPIC] Neovim for AI Development and Cybersecurity (2026)。https://petronellatech.com/blog/neovim-ai-development-cybersecurity-guide-2026 — 讨论 Neovim 原生 LSP、Treesitter、终端工作流与 AI 插件生态，补充 Neovim 工具链追踪；来源为第三方文章，暂不作正式结论。
 - [2026-07-27 09:00] [TOPIC] Vue & Vite、typography & design tools、knowledge management & PKM tools、desk setups & battlestations、keycaps、zFrontier community — 本轮结果与既有记录重复、为通用资源/商品页或缺乏明确新信号，跳过记录。
 - [2026-07-27 09:00] [RSS][timeout] 近 3 天无符合条件的新条目；Vue Blog、TypeScript Blog、Vite Blog、Anthony Fu 与两个播客源均无近 3 天新发布，Innei 返回 403。
+
+---
+
+## 2026-07-28 09:03
+
+- [2026-07-28 09:03] Inbox 为空。
+- [2026-07-28 09:03] GitHub Releases：VitePress、Vue、TypeScript、Vite、Rolldown、Node.js、Hermes Agent 均未发现相对既有记录的新版本；VitePress v2.0.0-alpha.18、Vue v3.6.0-rc.2、TypeScript v6.0.3、Vite plugin-legacy@8.2.2 / v8.2.0-beta.0、Rolldown v1.2.0、Node.js v26.5.0、Hermes Agent v2026.7.20 均已记录。
+- [2026-07-28 09:03] [PAPER][timeout] arXiv API 持续限流（Rate exceeded），所有论文检索式跳过本轮。
+- [2026-07-28 09:03] [TOPIC] Vue & Vite ecosystem：搜索结果与既有记录重复（State of Vue & Vite 2026 Amsterdam recap、Vite 8.0 is out、Rolldown Integration、VitePress Discussion #548），无明确新信号，跳过记录。
+- [2026-07-28 09:03] [TOPIC] typography & design tools：notofonts/noto-cjk-varco（Variable Components + Fontra 的 CJK 可变字体实验）、Typotheque TPTQ Sans CJK（2025-05 发布的可变 CJK 字体）为相对既有记录的新信号，但均属既有资源/产品页，非近期动态，按 low priority 跳过记录。
+- [2026-07-28 09:03] [TOPIC] Cantonese Pop：Monocle Canto-pop revival 与既有记录重复；KKBOX 榜单与 Candlelight 活动已在前轮记录；Spotify playlist 为通用资源，无明确新信号，跳过记录。
+- [2026-07-28 09:03] [TOPIC] Neovim & terminal tooling：Arch Linux neovim 0.12.4-1 为既有版本；其余结果为通用指南或社区页面，无明确新信号，跳过记录。
+- [2026-07-28 09:03] [TOPIC] knowledge management & PKM tools：Digital Gardening 与 Zettelkasten 相关文章与既有记录重复，无明确新信号，跳过记录。
+- [2026-07-28 09:03] [TOPIC] ergonomic keyboards：Amazon YIVU Corne V4.1、Etsy Corne v4.1 Choc Low Profile、Keebio Iris CE Kit 为既有产品/商品页；rugu.dev Corne 半年使用体验（2026-07）为相对既有记录的新内容，但属个人博客体验文，按 low priority 跳过记录。
+- [2026-07-28 09:03] [TOPIC] desk setups & battlestations：makerstations.io 24 Minimal Desk Setup Ideas、Colebrook Bosson Saunders 10 Minimalist Desk Setup Ideas 为通用灵感页；YouTube "My Clean and Minimal 2026 Desk Setup" 与既有记录重复，无明确新信号，跳过记录。
+- [2026-07-28 09:03] [TOPIC] zFrontier community：zfrontier.com 首页与圈子页面为通用社区入口，无具体新帖/新品信号，跳过记录。
+- [2026-07-28 09:03] [RSS] 近 3 天无符合条件的新条目。Vue Blog 最后更新 2024-09；TypeScript Blog 最新 2026-07-08（已记录）；Vite Blog 最新 2026-06-23（已记录）；Anthony Fu 最新 2025-04-28；Innei 最新 2026-07-23（已记录）；YouTube 播客源请求失败（HTTP 000）；代码之外 Beyond Code 最新 2026-07-02，无近 3 天新发布。
+- [2026-07-28 09:03] Tracker 采集完毕，无新变更。
+
+---
+
+## 2026-07-28 17:03
+
+- [2026-07-28 17:03] Inbox 为空。
+- [2026-07-28 17:03] GitHub Releases：VitePress v2.0.0-alpha.18、Vue v3.6.0-rc.2、TypeScript v6.0.3、Vite plugin-legacy@8.2.2 / v8.2.0-beta.0、Rolldown v1.2.0、Node.js v26.5.0、Hermes Agent v2026.7.20 均与既有记录一致，无新版本。
+- [2026-07-28 17:03] [PAPER] arXiv：lake thermal dynamics 最新 PIER（2607.20230）已记录；global lake surface warming 巴西小水库（2606.00675）、Global Waterbody Calculator（2605.16323）已记录；EOF & REOF 最新 Spatiotemporal Forecasting（2502.17495）已记录；spatial heterogeneity 最新 Richards' equation（2607.17358，不相关）、drought persistence（2607.06805，非湖泊方向）；compound extremes Joint Probability Method（2511.03871）已记录；time series 检索式未正确解析 OR 分组，返回不相关物理/宇宙学论文。各检索式无相对既有记录的明确相关新论文，按 low priority 跳过摘要阅读。
+- [2026-07-28 17:03] [TOPIC] zFrontier community：ZFX 2026 启动预告 — 2026 年 11 月 21-22 日，上海国家会展中心 2.2 馆，与 WePlay 联合举办，展馆面积扩大近 60%，新增 HiFi 音频、EDC、智能家居、潮流生活方式品类。https://www.zfrontier.com — 与 zFrontier 社区追踪相关。
+- [2026-07-28 17:03] [TOPIC] zFrontier community：ZFX-Meetup 2026 广州特别活动 × EDC DAY — 2026-08-01 至 08-02，中岱广场 LIC 灵感创新展馆。与 zFrontier 社区追踪相关。
+- [2026-07-28 17:03] [TOPIC] zFrontier community：近期 IC / 预售 / 现货新品汇总（截至 2026-07-27）— IC：K2 段落轴、paper60 e（WhatEver.Studio）、H60HE 7U 双灯 8K 磁轴（Suiriin）；预售：兔卷卷键帽（Mochi Lab，7.18-7.31）；现货：NV-60（GDK Lab，7.27）。https://www.zfrontier.com — 与 zFrontier 社区追踪相关。
+- [2026-07-28 17:03] [TOPIC] Vue & Vite ecosystem；typography & design tools；Cantonese Pop；Neovim & terminal tooling；knowledge management & PKM tools；ergonomic keyboards；desk setups & battlestations；keycaps — 本轮结果与既有记录重复或为通用资源/商品页，无明确新信号，跳过记录。
+- [2026-07-28 17:03] [RSS] 近 3 天无符合条件的新条目。Vue Blog 最后更新 2024-09；TypeScript Blog 最新 2026-07-08（已记录）；Vite Blog 最新 2026-06-23（已记录）；Anthony Fu 最新 2025-04-28；Innei 最新 2026-07-23（已记录）；YouTube 播客源（尖不想寫扣）请求返回空；代码之外 Beyond Code 最新 2026-07-02，无近 3 天新发布。
+- [2026-07-28 17:03] Tracker 采集完毕。
+
+---
+
+## 2026-07-28 19:01
+
+- [2026-07-28 19:01] Inbox 为空。
+- [2026-07-28 19:01] GitHub Releases：VitePress v2.0.0-alpha.18、Vue v3.6.0-rc.2、TypeScript v6.0.3、Vite plugin-legacy@8.2.2 / v8.2.0-beta.0、Rolldown v1.2.0、Node.js v26.5.0、Hermes Agent v2026.7.20 均与既有记录一致，无新版本。
+- [2026-07-28 19:01] [PAPER] arXiv 各检索式最新标题与既有记录基本一致（PIER、巴西小水库、Global Waterbody Calculator、Spatiotemporal Forecasting、Joint Probability Method、concurrent floods/droughts 等均已记录），新返回条目均为无关领域（物理/化学/医学/CV 等），无相对既有记录的明确相关新论文，按 low priority 跳过摘要阅读。
+- [2026-07-28 19:01] [TOPIC] Vue & Vite ecosystem；typography & design tools；Cantonese Pop；Neovim & terminal tooling；knowledge management & PKM tools；ergonomic keyboards；desk setups & battlestations；keycaps；zFrontier community — 本轮结果与既有记录重复（State of Vue & Vite 2026、Monocle Canto-pop revival、Source Han Sans variable、Corne V4.1 产品页、rugu.dev 半年体验、minimal desk setup ideas、Jelly Key artisan、ZFX 2026 启动预告与 ZFX-Meetup 广州等）或为通用资源/商品页，无明确新信号，跳过记录。
+- [2026-07-28 19:01] [RSS] 近 3 天（2026-07-25 → 2026-07-28）无符合条件的新条目。Vue Blog 最后更新 2024-09；TypeScript Blog 最新 2026-07-08（已记录）；Vite Blog 最新 2026-06-23（已记录）；Anthony Fu 最新 2025-04-28；Innei 最新 2026-07-23（已记录，超出近 3 天窗口）；YouTube 播客源（尖不想寫扣）返回空；代码之外 Beyond Code 最新 2026-07-02（超出窗口）。
+- [2026-07-28 19:01] Tracker 采集完毕，无新变更。
+
+---
+
+## 2026-07-29 01:00
+
+- [2026-07-29 01:00] Inbox 为空。
+- [2026-07-29 01:00] GitHub Releases：VitePress、Vue、TypeScript、Vite、Rolldown、Node.js、Hermes Agent 均未发现相对既有记录的新版本；最新可见版本均已记录。
+- [2026-07-29 01:00] [PAPER][timeout] arXiv API 返回 `Rate exceeded`，7 个检索式跳过本轮；未据此推断无新论文。
+- [2026-07-29 01:00] [TOPIC] Vue & Vite ecosystem、ergonomic keyboards：本轮搜索结果与既有记录重复或为通用资源/商品页，无明确新信号，跳过记录。
+- [2026-07-29 01:00] [TOPIC] typography & design tools、Cantonese Pop、Neovim & terminal tooling、knowledge management & PKM tools、desk setups & battlestations、keycaps、zFrontier community：未发现相对既有记录的明确新信号，跳过记录。
+- [2026-07-29 01:00] [RSS] 近 3 天无相对既有记录的新条目；Vue Blog、Anthony Fu Blog、Innei Blog、两个播客源内容滞后或无近期更新，TypeScript Blog 与 Vite Blog 最新条目已记录。
+- [2026-07-29 01:00] Tracker 采集完毕，无新变更。
