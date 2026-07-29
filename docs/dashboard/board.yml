@@ -1,29 +1,12 @@
 # AI-BOARD
-updated: '2026-06-14T01:27:00+08:00'
-weekTheme: '论文重新凝练 + 最终实验'
+updated: "2026-06-14T01:27:00+08:00"
+weekTheme: ""
 
 active:
-  - title: 推进论文分析
-    dod: 完整的论文叙事
-    priority: medium
-    status: inProgress
-    notes:
-      - text: 导师称「比较平淡，没有什么特别吸引人的地方」「还得重新琢磨一下，凝练出有新意的点来吸引读者」(06-07)
-      - text: 策略：输出原子化结果，让他自己看 (06-12)
-      - text: 现在需要逐渐开始写正式稿，或「正式草稿」(07-03)
-      - text: 07-13 至 07-18 去太湖战实习，途中有推进 (07-19)
-      - text: 正在做 teleconnection/PCA 相关的工作，似乎有讲头，如果可行我将迅速出一个 outline，并在 3 天内完成 draft (07-19)
   - title: 整理歌单
     dod: Apple Music 歌单良好结构
     priority: low
     status: inProgress
-  - title: 部分迁移至 Quarto Site
-    dod: Corpus 中没有关于科研工作的任何记录
-    priority: medium
-    status: inProgress
-    notes:
-      - text: 想把科研工作和个人站点的东西分开，而且用 Quarto 方便出图；缺点是即时预览每次需要编译，慢
-      - text: Quarto Site 上线且记录完整，下一步是把主站中科研相关内容删除 (07-19)
 
 backlog:
   - title: 新的 theme
@@ -59,22 +42,8 @@ backlog:
       - text: 颜色、间距、线段风格
 
 archive:
-  - title: 扩展数据验证 1994 边界效应
-    completed: 2026-06-03
-  - title: 导师任务：中韩合作项目申报书
-    completed: 2026-06-07
-  - title: 小组 Presentation slides
-    completed: 2026-06-07
-  - title: Results 初稿审阅优化
-    completed: 2026-05-31
   - title: 结课论文提交
     completed: 2026-05-19
-  - title: 协助合作实验（站点 05-18~24）
-    completed: 2026-05-24
-  - title: agent 配置与论文 AI 分析
-    completed: 2026-05-26
-  - title: 论文叙事方向调整（PDO/bloom 降级 + 5.5 节移位决策）
-    completed: 2026-05-29
   - title: 规划系统简化
     completed: 2026-05-28
   - title: 结课考试整理

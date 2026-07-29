@@ -26,3 +26,6 @@
 - [2026-07-28 19:00] Cast 投符完毕，无需行动。Tracker 17:03 无 high-priority 新信号；仅 zFrontier 社区活动（ZFX 2026 预告、ZFX-Meetup 广州、近期 IC/预售汇总）为 normal 信号，属社区常规汇总，无实质突破。froQ git 已静默 5 天，按低能量期减少产出。
 - [2026-07-28 19:30] Cast 投符完毕，无需行动。Tracker 19:01 与 17:03 两轮均无 high-priority 新信号（GitHub Releases 与既有记录一致，arXiv 限流跳过，各主题为重复或 low-priority 通用资源）；froQ git 已静默 5 天，按低能量期减少产出。
 - [2026-07-29 03:00] Cast 投符完毕，无需行动。Tracker 01:00 未发现 high-priority 或其他实质新信号；距上次 Cast 约 7.5 小时，但处于凌晨窗口，且 froQ git 自 07-28 05:04 起静默，按低能量期减少产出。
+- [2026-07-29 11:00] Cast 投符完毕，无需行动。Tracker 09:00 在近 8 小时内未发现 high-priority 或其他实质新信号；GitHub Releases 与既有记录一致，论文检索受限流而跳过，主题搜索均为重复或通用资源。froQ git 过去 24 小时仅有 Rune 日常同步，按低能量期减少产出；当日 Carve 已产出，避免重复。
+- [2026-07-29 19:01] Cast 投符完毕，无需行动。Tracker 17:04 未发现 high-priority 或其他实质新信号；各发布、主题与 RSS 均与既有记录一致，论文检索仍受限流。近 12 小时 git 无提交，且当日已产出 Carve，避免重复。
+- [2026-07-30 03:01] Cast 投符完毕，无需行动。Tracker 01:01 未发现 high-priority 新信号：Vue 比对因请求不完整而未能确认更新，其余 high-priority 目标无变更；Rolldown/Node.js 补丁与 Vite+ Beta 均属 normal 或既有发布日期信息。处于凌晨窗口，且 froQ git 已逾 22 小时仅有 Rune 日常同步，按低能量期不产出 activity note。
