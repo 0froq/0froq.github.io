@@ -310,3 +310,39 @@
 - [2026-07-30 01:01] [TOPIC] Vue & Vite ecosystem：VoidZero《Announcing Vite+ Beta》（2026-07-02）为相对既有记录的新信号，涉及 Vite+ 的 beta 发布；https://voidzero.dev/posts/announcing-vite-plus-beta
 - [2026-07-30 01:01] [TOPIC] typography & design tools、Cantonese Pop、Neovim & terminal tooling、knowledge management & PKM tools、ergonomic keyboards、desk setups & battlestations、keycaps、zFrontier community：已浏览 5–8 条结果；结果与既有记录重复、为旧文/通用资源/商品页或缺乏明确新信号，跳过记录。
 - [2026-07-30 01:01] [RSS] 近 3 天无新条目。Vue Blog 停留在 2024-09；TypeScript Blog 最新 2026-07-08；Vite Blog 最新 2026-06-23；Anthony Fu 最新 2025-04；No Coding Today 最新发布 2026-03-09；Beyond Code 最新 2026-07-02；Innei 返回 403。
+
+---
+
+## 2026-07-30 09:01
+
+- [2026-07-30 09:01] Inbox 为空。
+- [2026-07-30 09:01] GitHub Releases：Rolldown v1.2.1、Node.js v26.5.1 / v24.18.1 / v22.23.2 已在 01:01 轮次记录；VitePress、Vue、TypeScript、Vite、Hermes Agent 最新可见版本均与既有记录一致。
+- [2026-07-30 09:01] [PAPER][timeout] arXiv API：7 个检索式分别遭遇超时或 HTTP 429，跳过本轮；未据此推断无新论文。
+- [2026-07-30 09:01] [TOPIC] knowledge management & PKM tools：Best personal knowledge management tools in 2026（Tana）。https://tana.inc/blog/best-pkm-tools-2026 — 以“维护成本”作为 PKM 工具比较轴，讨论 Logseq database/MCP、Tana 的 typed records 与自动捕获；与 PKM 工具追踪相关。
+- [2026-07-30 09:01] [TOPIC] ergonomic keyboards：Split Keyboards & Ortholinear Split Keyboards。https://www.tryorthokeys.com/split — 2026-05 更新的分体/正交键盘比较页，覆盖 Corne、Iris、Voyager、Dygma 等 14 款布局与入门选择；补充现有 Corne 追踪。
+- [2026-07-30 09:01] [TOPIC] Vue & Vite ecosystem、typography & design tools、Cantonese Pop、Neovim & terminal tooling、desk setups & battlestations、keycaps、zFrontier community：已浏览 5–8 条结果；主要为前序已记录条目、通用资源/商品页或旧活动，未发现足以确认的独立新信号。
+- [2026-07-30 09:01] [RSS] 近 3 天无新条目。Vue Blog 最后更新 2024-09；TypeScript Blog 最新 2026-07-08；Vite Blog 最新 2026-06-23；Anthony Fu 最新 2025-04-28；Innei 最新条目仍为 2026-07-23（feed 可访问但无新条目）；No Coding Today 最新发布 2026-03-09；Beyond Code 最新 2026-07-02，均无符合窗口的新发布。
+- [2026-07-30 09:01] Tracker 采集完毕。
+
+---
+
+## 2026-07-30 17:01
+
+- [2026-07-30 17:01] Inbox 为空。
+- [2026-07-30 17:01] GitHub Releases：Rolldown v1.2.1、Node.js v26.5.1 / v24.18.1 / v22.23.2 已在本日前序轮次记录；VitePress、Vue、TypeScript、Vite、Hermes Agent 最新可见版本均与既有记录一致，无新版本。
+- [2026-07-30 17:01] arXiv：7 个检索式均成功返回；相关标题为既有记录（PIER、巴西小水库、Global Waterbody Calculator、并发洪旱等）或明显无关结果，未发现明确相关新论文，按 low priority 跳过摘要阅读。
+- [2026-07-30 17:01] Web 主题搜索：Vue & Vite、字体/CJK、粤语流行乐、Neovim、PKM、人体工学键盘、桌搭、键帽、zFrontier 均浏览 5–8 条结果；结果与既有记录重复、为通用资源/商品页/旧文，或缺乏足以确认的新信号，跳过记录。
+- [2026-07-30 17:01] RSS：近 3 天无符合条件的新条目。Innei feed 的 2026-07-30 时间为 feed 构建时间，未出现新的 item；TypeScript、Vite、Vue、Anthony Fu、两个播客源最新条目均已记录或超出窗口。
+- [2026-07-30 17:01] Tracker 采集完毕，无新变更。
+
+---
+
+## 2026-07-31 01:00
+
+- [2026-07-31 01:00] Inbox 为空。
+- [2026-07-31 01:00] [SW] Vite v8.2.0（2026-07-30）。https://github.com/vitejs/vite/releases/tag/v8.2.0 — 相对已记录的 v8.1.5 与 v8.2.0-beta.0 的新版本。
+- [2026-07-31 01:00] GitHub Releases：VitePress、Vue、TypeScript、Rolldown、Node.js、Hermes Agent 的最新可见版本均已在既有记录中；Vite 的 v8.2.0 为本轮新发现。
+- [2026-07-31 01:00] arXiv：7 个检索式均返回；相关标题为既有记录（PIER、巴西小水库、Global Waterbody Calculator、并发洪旱等）或明显无关结果，未发现明确相关新论文，按 low priority 跳过摘要阅读。
+- [2026-07-31 01:00] Web 主题搜索：Vue & Vite、字体/CJK、粤语流行乐、Neovim、PKM、人体工学键盘、桌搭、键帽、zFrontier 均未发现相对既有记录的明确新信号；结果主要为既有条目、通用资源、商品页或旧活动。
+- [2026-07-31 01:00] RSS：近 3 天无符合条件的新条目。Vue Blog、TypeScript Blog、Vite Blog、Anthony Fu 与两个播客源的最新条目均已记录或超出时间窗口；Innei 返回 403。
+- [2026-07-31 01:00] Tracker 采集完毕。

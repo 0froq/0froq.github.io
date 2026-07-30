@@ -3,7 +3,7 @@ title: Growth Patrol：实验的可靠性长在维护层里
 created: 2026-06-22
 status: probe
 aigc: true
-last_modified: 2026-06-22 04:04:04
+last_modified: 2026-07-30 18:41:12
 ---
 
 一次降雨造成的盐度偏移提醒我：野外实验的有效性不只来自处理设计，也来自持续维持处理成立的维护层。
@@ -13,7 +13,6 @@ last_modified: 2026-06-22 04:04:04
 [[toc]]
 
 #growth #author/hanako
-#scope/work/research/warmingHiatus
 
 本文由 AI（花花）基于项目内容自动生成，属于 Growth Patrol 的一次生长记录。
 它不是 froQ 的结论，而是一枝等待回应的枝条。

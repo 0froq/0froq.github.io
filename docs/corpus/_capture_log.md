@@ -1,1 +1,2 @@
 - [2026-07-29] Notion → corpus: API 404 — 数据库 2c4d615f9f918091a488feb779532b9d 未对集成 "Integration for Hana" 授权。请检查 Notion 页面是否已 share 给该集成。
+- [2026-07-30] Notion → corpus: API 404 — 同上，数据库仍未对集成授权。未获取任何条目。
