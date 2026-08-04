@@ -72,7 +72,7 @@ async function createDiscussion(
   )
   if (!catRes.ok) throw new Error('无法获取 Discussion categories')
   const categories: any[] = await catRes.json()
-  const catId = categories[0]?.node_id
+  const catId = categories[0]?.id
   if (!catId) throw new Error('没有可用的 Discussion category')
 
   const body = `${makePageMarker(pagePath)}\n\n此 Discussion 用于存储页面 [${pagePath}](https://0froq.github.io/${pagePath}) 的批注。`

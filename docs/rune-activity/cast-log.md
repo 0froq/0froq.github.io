@@ -43,3 +43,6 @@
 - [2026-08-03 11:00] Cast 投符完毕，无需行动。Tracker 09:00 未发现 high-priority 或其他实质新信号；VitePress alpha.19 已于昨日评估，不能重复解读。近 24 小时仅见 Rune Git Sync，未见该仓库可见的人工作提交；用户状态未知，按低噪声风险策略不产出 activity note。
 - [2026-08-03 19:00] Cast 投符完毕，无需行动。Tracker 17:00 未发现 high-priority 或其他实质新信号；近 8 小时无 high-priority 新信号，且 git 近 12 小时无提交。用户状态未知，按低噪声风险策略不产出 activity note。
 - [2026-08-04 03:02] Cast 投符完毕，已产出 activity note。Tracker 01:00 发现 Hermes Agent v2026.8.3（v0.20.0 Herald Release），为 normal-priority 但实质变化显著，涉及 froQ 当前运行的 agent 框架；Rolldown v1.2.2 与 Node.js v26.6.0 为常规维护更新。Git 近 24h 无 froQ 提交，但 Hermes 发布与现有工作流直接相关，故解读。
+- [2026-08-04 19:00] Cast 投符完毕，无需行动。Tracker 09:03 无 high-priority 新信号（GitHub Releases 均与既有记录一致，两篇 lake papers 为 low-priority，Innei RSS 为 normal-priority 单一项目更新）；当日已产出 Hermes Agent activity note，避免重复。Git 近 12h 有 froQ 活跃提交（obsidian config、gitignore、AGENTS.md 修复、patrol log 更新、activity note 归档），属维护/配置类工作，不构成需要 Cast 解读的信号。gh CLI 不可用，批注检查跳过。
+- [2026-08-04 19:05] Cast 投符完毕，无需行动。Tracker 17:03 无 high-priority 或其他实质新信号（GitHub Releases 与既有记录一致，arXiv 返回旧论文与无关领域，主题搜索均为重复，RSS 无新条目）；当日已产出 Hermes Agent activity note，不重复产出。gh CLI 仍不可用，批注检查跳过。
+- [2026-08-05 09:01] Cast 投符完毕，无需行动。Tracker 01:07 明确无新变更（所有 GitHub Releases 与既有记录一致，arXiv 无相关新论文，Web 主题搜索均为重复，RSS 无新条目）；froQ git 已静默 10+ 天，按低能量期减少产出。gh CLI 不可用，批注检查跳过。
