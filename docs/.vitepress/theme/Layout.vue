@@ -6,7 +6,6 @@ import { nextTick, onMounted, watch } from 'vue'
 import PageContent from './components/PageContent.vue'
 import PageFooter from './components/PageFooter.vue'
 import PageHeader from './components/PageHeader.vue'
-import AnnotationClient from './components/annotation/AnnotationClient.vue'
 import ButtonVerticalNavigation from './components/ui/nav/ButtonVerticalNavigation.vue'
 
 const route = useRoute()
@@ -45,9 +44,6 @@ watch(
       un-hidden
       un-md:flex
     />
-    <ClientOnly>
-      <AnnotationClient />
-    </ClientOnly>
     <PageFooter />
   </div>
 </template>
