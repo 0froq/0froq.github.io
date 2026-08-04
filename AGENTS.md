@@ -89,7 +89,7 @@ Format per entry: Problem → Real case → Correct practice.
   - **Journal entry** (single day, one-off reflection): `put-YYYYMMDD.md`
   - **Topic entry** (recurring or long-form reflection on a specific theme): `put-topic.md`
   - **Dated topic entry** (a session on a topic that may recur): `put-topic-YYYYMMDDHHMM.md`
-  - Examples from the corpus: `put-20260527.md` (journal), `put-research-ltmp.md` (topic), `put-lswt-hiatus-202603261356.md` (dated topic).
+  - Examples from the corpus: `put-20260527.md` (journal), `put-tooling.md` (topic), `put-cantopop-202606261356.md` (dated topic).
 
 ### 2.3 Paper entries require the @ prefix
 
