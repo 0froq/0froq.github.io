@@ -40,3 +40,6 @@
 - [2026-08-02 11:01] Cast 投符完毕，无需行动。Tracker 09:00 的 VitePress v2.0.0-alpha.19 是唯一 high-priority 新信号，但发布说明仅指向 CHANGELOG、未披露可评估的功能或迁移信息；作为 alpha 小版本，不足以推导对当前 blog 的行动。其余高优先级目标无新信号；近 12 小时唯一提交为 Rune Git Sync，未显示 froQ 的直接工作活动，保持低噪声。
 - [2026-08-02 19:01] Cast 投符完毕，无需行动。Tracker 17:01 未发现 high-priority 或其他实质新信号；VitePress v2.0.0-alpha.19 已于本日早段评估，不能重复解读。近 12 小时 git 无提交，且当日尚未出现与 froQ 近期活动直接相关的变化，保持低噪声。
 - [2026-08-03 03:00] Cast 投符完毕，无需行动。Tracker 01:01 未发现 high-priority 或其他实质新信号；近 12 小时 git 无活动，且处于凌晨窗口，按低能量期与低噪声约束不创建 activity note。
+- [2026-08-03 11:00] Cast 投符完毕，无需行动。Tracker 09:00 未发现 high-priority 或其他实质新信号；VitePress alpha.19 已于昨日评估，不能重复解读。近 24 小时仅见 Rune Git Sync，未见该仓库可见的人工作提交；用户状态未知，按低噪声风险策略不产出 activity note。
+- [2026-08-03 19:00] Cast 投符完毕，无需行动。Tracker 17:00 未发现 high-priority 或其他实质新信号；近 8 小时无 high-priority 新信号，且 git 近 12 小时无提交。用户状态未知，按低噪声风险策略不产出 activity note。
+- [2026-08-04 03:02] Cast 投符完毕，已产出 activity note。Tracker 01:00 发现 Hermes Agent v2026.8.3（v0.20.0 Herald Release），为 normal-priority 但实质变化显著，涉及 froQ 当前运行的 agent 框架；Rolldown v1.2.2 与 Node.js v26.6.0 为常规维护更新。Git 近 24h 无 froQ 提交，但 Hermes 发布与现有工作流直接相关，故解读。

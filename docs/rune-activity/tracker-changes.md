@@ -450,3 +450,56 @@
 - [2026-08-03 01:01] Web 主题搜索：Vue & Vite、字体/CJK、粤语流行乐、Neovim、PKM、人体工学键盘、桌搭、键帽、zFrontier 均浏览搜索结果；未发现相对既有记录的明确独立新信号，结果主要为既有条目、通用资源、商品页或旧文。
 - [2026-08-03 01:01] RSS：近 3 天无相对既有记录的新条目。Innei 的 Yohaku（2026-08-01）已在前序轮次记录；其余源无符合窗口的新发布或内容滞后。
 - [2026-08-03 01:01] Tracker 采集完毕，无新变更。
+
+---
+
+## 2026-08-03 09:00
+
+- [2026-08-03 09:00] Inbox 为空。
+- [2026-08-03 09:00] GitHub Releases：VitePress、Vue、TypeScript、Vite、Rolldown、Node.js、Hermes Agent 均未发现相对既有记录的新版本；VitePress v2.0.0-alpha.19 已在前序轮次记录。
+- [2026-08-03 09:00] [PAPER][timeout] arXiv：lake thermal dynamics 返回的 Forecasting Land Art（2607.28489）与 PIER（2607.20230）已记录；其余检索式遭遇超时或 HTTP 429，跳过摘要阅读，未据此推断无新论文。
+- [2026-08-03 09:00] Web 主题搜索：Vue & Vite、字体/CJK、粤语流行乐、Neovim、PKM、人体工学键盘、桌搭、键帽、zFrontier 均浏览搜索结果；未发现相对既有记录的明确独立新信号，结果主要为既有条目、通用资源、商品页或旧文。
+- [2026-08-03 09:00] RSS：近 3 天无相对既有记录的新条目。Innei feed 最新 item 仍为 2026-07-23，虽 feed 构建于 2026-08-02；其余源无符合窗口的新发布或内容滞后。
+- [2026-08-03 09:00] Tracker 采集完毕，无新变更。
+
+---
+
+## 2026-08-03 17:00
+
+- [2026-08-03 17:00] Inbox 为空。
+- [2026-08-03 17:00] GitHub Releases：VitePress、Vue、TypeScript、Vite、Rolldown、Node.js、Hermes Agent 均未发现相对既有记录的新版本；各仓库最新可见版本均已记录。
+- [2026-08-03 17:00] arXiv：7 个检索式均返回；相关标题为既有记录（Forecasting Land Art、PIER、巴西小水库、Global Waterbody Calculator、并发洪旱等）或明显无关结果，未发现相对既有记录的明确相关新论文，按 low priority 跳过摘要阅读。
+- [2026-08-03 17:00] Web 主题搜索：Vue & Vite、字体/CJK、粤语流行乐、Neovim、PKM、人体工学键盘、桌搭、键帽、zFrontier 均浏览 5–8 条结果；未发现相对既有记录的明确独立新信号，结果主要为既有条目、通用资源、商品页或旧文。
+- [2026-08-03 17:00] RSS：近 3 天（2026-07-31 17:00 → 2026-08-03 17:00）无相对既有记录的新条目；各源最新条目均已记录、超出窗口或内容滞后。
+- [2026-08-03 17:00] Tracker 采集完毕。
+
+---
+
+## 2026-08-04 01:00
+
+- [2026-08-04 01:00] Inbox 为空。
+- [2026-08-04 01:00] [SW] Hermes Agent v2026.8.3（2026-08-03）。https://github.com/NousResearch/hermes-agent/releases/tag/v2026.8.3 — 相对已记录的 v2026.7.30 / v0.19.1 的新版本。
+- [2026-08-04 01:00] [SW] Rolldown v1.2.2（2026-08-03）。https://github.com/rolldown/rolldown/releases/tag/v1.2.2 — 相对已记录的 v1.2.1 的新版本。
+- [2026-08-04 01:00] [SW] Node.js v26.6.0、v24.19.0（均 2026-08-03）。https://github.com/nodejs/node/releases — 相对已记录的 v26.5.1 / v24.18.1 的新版本，包含当前主线与维护线更新。
+- [2026-08-04 01:00] GitHub Releases：VitePress v2.0.0-alpha.19、Vue v3.6.0-rc.2、TypeScript v6.0.3、Vite v8.2.0 / create-vite@9.1.2 均与既有记录一致。
+- [2026-08-04 01:00] arXiv：7 个检索式成功返回；lake thermal dynamics 的 Forecasting Land Art（2607.28489）已记录，其余结果为既有论文、明显无关条目或相关性不足，按 low priority 跳过摘要阅读。
+- [2026-08-04 01:00] Web 主题搜索：Vue & Vite、字体/CJK、粤语流行乐、Neovim、PKM、人体工学键盘、桌搭、键帽、zFrontier 均未发现相对既有记录的明确独立新信号；结果主要为既有条目、通用资源、商品页或旧文。
+- [2026-08-04 01:00] RSS：近 3 天（2026-08-01 01:00 → 2026-08-04 01:00）无相对既有记录的新条目。TypeScript/Vite 最新条目已记录；Vue、Anthony Fu、Innei 与两个播客源无符合窗口的新发布或内容滞后。
+- [2026-08-04 01:00] Tracker 采集完毕。
+
+---
+
+## 2026-08-04 09:03
+
+- [2026-08-04 09:03] Inbox 为空。
+- [2026-08-04 09:03] GitHub Releases：VitePress v2.0.0-alpha.19、Vue v3.6.0-rc.2、TypeScript v6.0.3、Vite v8.2.0 / create-vite@9.1.2、Rolldown v1.2.2、Node.js v26.6.0 / v24.19.0、Hermes Agent v2026.8.3 均与既有记录一致，无新版本。
+- [2026-08-04 09:03] [PAPER] LakeFM: Toward a Foundation Model for Aquatic Ecosystems Using Irregular Multivariate Multi-depth Time Series Data（KDD 2026，arXiv:2606.11268）。面向湖泊多深度、多变量不规则时序数据的水生生态系统基础模型，涉及水温、溶解氧等核心水质变量，与湖泊热力学/时序分析方向相关。
+- [2026-08-04 09:03] [PAPER] Data-driven Lake Water Quality Forecasting for Time Series with Missing Data using Machine Learning（IEEE SusTech 2026，arXiv:2601.15503）。针对志愿者湖泊监测中的不规则季节性缺失数据，比较 ARIMA/SARIMA、TSMixer 与 Transformer 等模型在水质预测（Secchi 深度）上的表现，补充湖泊时序分析方法追踪。
+- [2026-08-04 09:03] [PAPER] 其余 5 个检索式：最新相关标题为既有记录（Forecasting Land Art、PIER、巴西小水库、Global Waterbody Calculator、并发洪旱等）或明显无关结果，未发现相对既有记录的明确相关新论文，按 low priority 跳过摘要阅读。
+- [2026-08-04 09:03] [TOPIC] Vue & Vite ecosystem、typography & design tools、Cantonese Pop、Neovim & terminal tooling、knowledge management & PKM tools、ergonomic keyboards、desk setups & battlestations、keycaps、zFrontier community：各浏览 5–8 条结果；结果主要与既有记录重复（State of Vue & Vite 2026、Rolldown Integration、Monocle Canto-pop revival、YIVU Corne V4.1、rugu.dev 半年体验、Source Han Sans variable、PKM Complete Guide、Jelly Key artisan、minimal desk setup ideas 等）或为通用资源/商品页/旧文，无明确独立新信号，跳过记录。
+- [2026-08-04 09:03] [RSS] Innei 新条目《复刻 macOS 红绿灯悬停菜单》（2026-08-03 19:46 UTC，feed 首项）。https://innei.in/posts/tinkering/macos-zoom-button-hover-menu
+- [2026-08-04 09:03] [RSS] 播客：代码之外 Beyond Code 新条目《在现场看世界杯，每分钟50美金的观赛体验！》（2026-07-02）。https://www.xiaoyuzhoufm.com/episode/6a45bd8b2e335a35a80caeb2 — 超出近 3 天窗口，但相对既有记录为未记录新条目。
+- [2026-08-04 09:03] [RSS] 播客：代码之外 Beyond Code 新条目《前端已死？但不是你以为的死法｜"计算机之子" 寒冬 Winter 谈 AI、程序员淘汰、新时代编程》（2026-06-24）。https://www.xiaoyuzhoufm.com/episode/6a3b03089d2f5743683cca56 — 超出近 3 天窗口，但相对既有记录为未记录新条目。
+- [2026-08-04 09:03] [RSS] 播客：代码之外 Beyond Code 新条目《尤雨溪的生活必备：羽毛球拍、机械表、一整柜高达，从穿搭到收藏 - 10 Essentials》（2026-06-08）。https://www.xiaoyuzhoufm.com/episode/6a26175ab30e1571aea24e3d — 超出近 3 天窗口，但相对既有记录为未记录新条目，且与 Vue/Vite 生态直接相关。
+- [2026-08-04 09:03] [RSS] 其余 RSS 源：Vue Blog 请求超时；TypeScript Blog 最新 2026-07-08（已记录）；Vite Blog 因安全策略跳过；Anthony Fu 最新 2025-04-28（内容滞后）；No Coding Today 请求超时。
+- [2026-08-04 09:03] Tracker 采集完毕。

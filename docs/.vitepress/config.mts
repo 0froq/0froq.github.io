@@ -40,6 +40,15 @@ export default defineConfig({
         '@/': '/.vitepress/theme/components/',
       },
     },
+    server: {
+      proxy: {
+        '/__auth': {
+          target: 'https://github.com/login',
+          changeOrigin: true,
+          rewrite: (path: string) => path.replace(/^\/__auth/, ''),
+        },
+      },
+    },
   },
   vue: {
     template: {
