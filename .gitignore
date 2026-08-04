@@ -13,3 +13,4 @@ docs/posts/_template/blog_temp.md
 *.numbers
 docs/.vitepress/generated/tags.json
 docs/corpus/_scripts/__pycache__/
+.env.local
