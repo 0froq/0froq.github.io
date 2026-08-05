@@ -27,8 +27,8 @@ export interface AnnotationData {
 
 /** 从 GitHub API 返回的 Comment 解析出的批注 */
 export interface ResolvedAnnotation {
-  /** Discussion Comment ID */
-  commentId: number
+  /** Discussion Comment ID（GraphQL node id） */
+  commentId: string
   /** Discussion Comment URL */
   commentUrl: string
   /** 批注作者 */

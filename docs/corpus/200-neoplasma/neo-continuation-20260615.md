@@ -1,5 +1,5 @@
 ---
-title: Growth Continuation：把值责映射做成主题骨架
+title: Carve Continuation：把值责映射做成主题骨架
 created: 2026-06-15
 status: probe
 aigc: true
@@ -12,13 +12,10 @@ last_modified: 2026-06-16 05:06:40
 
 [[toc]]
 
-#growth #author/hanako
+#carve #author/hanako
 #scope/work/theme
 
-本文由 AI（花花）基于 froQ 对既有 Growth 的反馈继续生成，属于 Growth Continuation 的一次增量生长。
-它不是新的独立巡游，而是沿着 froQ 已经碰过的一枝继续往下看。
-
-延续自：[Growth Patrol：低饱和人文主义主题](../200-neoplasma/neo-growth-20260609.md)
+延续自：[Carve：低饱和人文主义主题](../200-neoplasma/neo-carve-20260609.md)
 
 ## 语义秩序不是色表，是一份责任合同
 
@@ -131,7 +128,7 @@ language server 提供，能理解项目上下文；semantic highlighting 会叠
 路径组织不能替代 token 定义。对你的主题来说，真正的主题骨架也许不是色相，
 而是每个颜色愿意承担什么，又拒绝承担什么。
 
-## 等你来碰一下的枝条
+## 留给 froQ 的话
 
 - [ ] `action / struc / ref` 是否应该被正式定义成「个人认知层」，
       放在 TextMate / Tree-sitter / LSP 之上？
@@ -147,5 +144,5 @@ language server 提供，能理解项目上下文；semantic highlighting 会叠
 ## AI 标注
 
 本文件是 AI（花花）的自动化输出，不代表 froQ 已确认。
-本次 Continuation 基于 2026-06-09 Growth 中 froQ 的 blockquote 反馈继续展开。
-完成 Continuation 后，本轮仍继续执行了独立 Growth 扫描。
+本次 Continuation 基于 2026-06-09 Carve 中 froQ 的 blockquote 反馈继续展开。
+完成 Continuation 后，本轮仍继续执行了独立 Carve 扫描。

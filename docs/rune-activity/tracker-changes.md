@@ -525,3 +525,45 @@
 - [2026-08-05 01:07] Web 主题搜索：Vue & Vite、字体/CJK、粤语流行乐、Neovim、PKM、人体工学键盘、桌搭、键帽、zFrontier 均未发现相对既有记录的明确新信号。
 - [2026-08-05 01:07] RSS：近 3 天无相对既有记录的新条目。Vue Blog 停留在 2024-09；TypeScript Blog 最新 2026-07-08（已记录）；Anthony Fu 最新 2025-04-28（内容滞后）；Innei 最新 2026-08-03《复刻 macOS 红绿灯悬停菜单》（已记录）；Beyond Code 最新 2026-07-02（已记录）；Vite Blog 请求被安全策略阻止。
 - [2026-08-05 01:07] Tracker 采集完毕，无新变更。
+
+---
+
+## 2026-08-05 09:02
+
+- [2026-08-05 09:02] Inbox 为空。
+- [2026-08-05 09:02] GitHub Releases：VitePress v2.0.0-alpha.19、Vue v3.6.0-rc.2、TypeScript v6.0.3、Vite v8.2.0、Rolldown v1.2.2、Node.js v26.6.0、Hermes Agent v2026.8.3 均与既有记录一致，无新版本。
+- [2026-08-05 09:02] [PAPER][timeout] arXiv API 请求超时（HTTPS 端点 export.arxiv.org 连接超时），7 个检索式跳过本轮；未据此推断无新论文。
+- [2026-08-05 09:02] [TOPIC] Neovim vs Vim: 7 Key Differences & Why One Wins [2026]。https://tech-insider.org/neovim-vs-vim-2026 — 确认 Neovim 0.12.3（2025-08-31）为最新稳定版，1.0 里程碑正在推进中；补充现有 Neovim 版本追踪。
+- [2026-08-05 09:02] [TOPIC] Neovim in 2026: An Honest Assessment for Developers Considering the Switch。https://pristren.com/blog/neovim-for-modern-developers — 评估 Neovim 的 LSP、Treesitter、AI 插件生态（copilot.lua、avante.nvim、codecompanion.nvim）与 0.9+ 内置改进，补充 Neovim 工具链追踪。
+- [2026-08-05 09:02] [TOPIC] Knowledge Management in 2026: PKM Tools, Self-Hosted Wikis & Digital Systems。https://www.glukhov.org/knowledge-management — 比较 Obsidian、Logseq、DokuWiki、Zettelkasten 与 PARA，覆盖自托管 wiki 方案，补充 PKM 工具追踪。
+- [2026-08-05 09:02] [TOPIC] Vue & Vite ecosystem、typography & design tools、Cantonese Pop、ergonomic keyboards、desk setups & battlestations、keycaps、zFrontier community：各浏览 5–8 条结果；结果主要与既有记录重复（Monocle Canto-pop revival、YIVU Corne V4.1、Keebio split 键盘、Source Han Sans variable、homedit/makerstations 桌搭灵感等）或为通用资源/商品页/旧文，无明确独立新信号，跳过记录。
+- [2026-08-05 09:02] [RSS] Innei Blog 新条目《在人间，各自流转》（2026-08-04 18:17 GMT，feed 首项）。https://innei.in/notes/218
+- [2026-08-05 09:02] [RSS] TypeScript Blog 最新 2026-07-08《Announcing TypeScript 7.0》（已记录）；Anthony Fu 最新 2025-04-28（内容滞后）；Beyond Code 最新 2026-07-02（已记录）；Vue Blog 请求超时；Vite Blog 因安全策略（lookalike TLD .dev）跳过；No Coding Today 请求超时。
+- [2026-08-05 09:02] Tracker 采集完毕。
+
+---
+
+## 2026-08-05 17:03
+
+- [2026-08-05 17:03] Inbox 为空。
+- [2026-08-05 17:03] [SW] Vue (core) v3.5.41（2026-08-05）。https://github.com/vuejs/core/releases/tag/v3.5.41 — 3.5.x 稳定线的新补丁版本，发布于 v3.6.0-rc.2 之后；追踪重点仍在 3.6 RC → stable 路径，但 3.5.x 补丁说明维护线仍在活跃更新。
+- [2026-08-05 17:03] GitHub Releases：VitePress v2.0.0-alpha.19、TypeScript v6.0.3、Vite v8.2.0、Rolldown v1.2.2、Node.js v26.6.0、Hermes Agent v2026.8.3 均与既有记录一致，无新版本。
+- [2026-08-05 17:03] arXiv：7 个检索式均成功返回（HTTPS）；相关标题为既有记录（Data-driven Lake Water Quality Forecasting 2601.15503、Global Waterbody Calculator 2605.16323、并发洪旱 2604.21647 等）或明显无关结果（火山熔岩湖、宇宙学冻结湖模型、人脸修复、磁单极子等），未发现相对既有记录的明确相关新论文，按 low priority 跳过摘要阅读。
+- [2026-08-05 17:03] Web 主题搜索：Vue & Vite、ergonomic keyboards、Cantonese Pop、Neovim、typography & design tools、desk setups、keycaps、zFrontier community 各浏览 5–8 条结果；结果主要与既有记录重复（Rolldown and Vite 8 What Changed、MKB Guide ortholinear、Monocle Canto-pop revival、Try Ortho Keys split 比较页、Neovim 0.12.4 X 推文、Source Han Sans variable、Jelly Key World Cup artisan 等）或为通用资源/商品页/旧文，无明确独立新信号，跳过记录。
+- [2026-08-05 17:03] [TOPIC] knowledge management & PKM tools：搜索返回词典定义而非 PKM 相关结果，跳过本轮。
+- [2026-08-05 17:03] RSS：近 3 天无相对既有记录的新条目。TypeScript Blog 最新 2026-07-08（已记录）；Innei 最新 2026-08-04《在人间，各自流转》（已记录）；Beyond Code 最新 2026-07-02（已记录）；Anthony Fu feed 请求超时；Vue Blog 仍停留在 2024-09；Vite Blog 因安全策略跳过。
+- [2026-08-05 17:03] Tracker 采集完毕。
+
+---
+
+## 2026-08-06 01:03
+
+- [2026-08-06 01:03] Inbox 为空。
+- [2026-08-06 01:03] [SW] Rolldown v1.2.3（2026-08-05）。https://github.com/rolldown/rolldown/releases/tag/v1.2.3 — 相对已记录的 v1.2.2 的新版本。
+- [2026-08-06 01:03] [SW] Node.js v26.7.0（2026-08-05）。https://github.com/nodejs/node/releases/tag/v26.7.0 — 相对已记录的 v26.6.0 的新版本。
+- [2026-08-06 01:03] GitHub Releases：VitePress v2.0.0-alpha.19、Vue v3.5.41 / v3.6.0-rc.2、TypeScript v6.0.3、Vite v8.2.0、Hermes Agent v2026.8.3 均与既有记录一致，无新版本。
+- [2026-08-06 01:03] arXiv：7 个检索式均成功返回；相关标题为既有记录（Forecasting Land Art 2607.28489、PIER 2607.20230、巴西小水库 2606.00675、Global Waterbody Calculator 2605.16323、并发洪旱 2604.21647 等）或明显无关结果（物理/宇宙学/CV/医学等）；spatial heterogeneity 检索式新返回 Probabilistic Deep Learning for Drought Forecasting（2608.01864）聚焦干旱预测而非湖泊空间异质性，相关性不足，跳过记录。未发现相对既有记录的明确相关新论文，按 low priority 跳过摘要阅读。
+- [2026-08-06 01:03] [TOPIC] Neovim GSoC 2026: VSCode remote-ssh like feature in neovim。https://github.com/neovim/neovim/discussions/38564 — GSoC 2026 提案，讨论原生 remote-ssh 开发体验，涉及 `vim.remote` 基础设施、remote-ssh.nvim 插件后端集成、跨平台自动部署与 SSH 隧道生命周期；与 Neovim 工具链追踪直接相关。
+- [2026-08-06 01:03] [TOPIC] Vue & Vite ecosystem、typography & design tools、Cantonese Pop、knowledge management & PKM tools、ergonomic keyboards、desk setups & battlestations、keycaps、zFrontier community：各浏览 5–8 条结果；结果主要与既有记录重复（State of Vue & Vite 2026、Monocle Canto-pop revival、Storyflow PKM Guide、YIVU Corne V4.1、rugu.dev 半年体验、homedit/makerstations 桌搭灵感、Jelly Key artisan 等）或为通用资源/商品页/旧文，无明确独立新信号，跳过记录。
+- [2026-08-06 01:03] RSS：近 3 天无相对既有记录的新条目。TypeScript Blog 最新 2026-07-08（已记录）；Vite Blog 最新 2026-06-23（已记录）；Vue Blog 仍停留在 2024-09；Innei 最新 2026-08-04《在人间，各自流转》（已记录）；Beyond Code 最新 2026-07-02（已记录）；Anthony Fu feed 请求超时；No Coding Today YouTube feed 请求超时。
+- [2026-08-06 01:03] Tracker 采集完毕。

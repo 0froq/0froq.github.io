@@ -3,6 +3,7 @@ import { defaultDocument } from '@vueuse/core'
 import mediumZoom from 'medium-zoom'
 import { useRoute } from 'vitepress'
 import { nextTick, onMounted, watch } from 'vue'
+import AnnotationClient from './components/annotation/AnnotationClient.vue'
 import PageContent from './components/PageContent.vue'
 import PageFooter from './components/PageFooter.vue'
 import PageHeader from './components/PageHeader.vue'
@@ -45,6 +46,9 @@ watch(
       un-md:flex
     />
     <PageFooter />
+    <ClientOnly>
+      <AnnotationClient />
+    </ClientOnly>
   </div>
 </template>
 

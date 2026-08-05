@@ -2,17 +2,10 @@ import type { AnnotationData, ResolvedAnnotation } from '../types/annotation'
 
 const REPO_OWNER = '0froq'
 const REPO_NAME = '0froq.github.io'
-const API_BASE = 'https://api.github.com'
+const GRAPHQL_URL = 'https://api.github.com/graphql'
 const PAGE_MARKER_PREFIX = '<!-- annotation-page: '
 
 // ---- 内部 helpers ----
-
-function headers(token: string): Record<string, string> {
-  return {
-    Authorization: `Bearer ${token}`,
-    Accept: 'application/vnd.github+json',
-  }
-}
 
 function makePageMarker(pagePath: string): string {
   return `${PAGE_MARKER_PREFIX}${pagePath} -->`
@@ -21,85 +14,172 @@ function makePageMarker(pagePath: string): string {
 function parseDiscussionBody(body: string): string | null {
   const prefix = PAGE_MARKER_PREFIX
   const idx = body.indexOf(prefix)
-  if (idx === -1) return null
+  if (idx === -1)
+    return null
   const start = idx + prefix.length
   const end = body.indexOf(' -->', start)
-  if (end === -1) return null
+  if (end === -1)
+    return null
   return body.slice(start, end)
 }
 
 function tryParseAnnotation(body: string): AnnotationData | null {
   try {
     const parsed = JSON.parse(body)
-    if (parsed && parsed.version === 1 && parsed.pagePath && parsed.anchor && parsed.text) {
+    if (parsed && parsed.version === 1 && parsed.pagePath && parsed.anchor && parsed.text)
       return parsed as AnnotationData
-    }
   }
   catch { /* not JSON */ }
   return null
 }
 
+/** 统一 GraphQL 请求 */
+async function graphql<T>(
+  query: string,
+  token: string,
+  variables?: Record<string, unknown>,
+): Promise<T> {
+  const url = GRAPHQL_URL
+  const method = 'POST'
+  let res: Response
+  try {
+    res = await fetch(url, {
+      method,
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ query, variables }),
+    })
+  }
+  catch (e) {
+    console.error('[annotation] GraphQL 网络请求失败:', e)
+    throw e
+  }
+
+  let data: any
+  try {
+    data = await res.json()
+  }
+  catch (e) {
+    console.error(`[annotation] GraphQL 响应解析失败 (HTTP ${res.status}):`, e)
+    throw new Error(`GraphQL 响应解析失败 (HTTP ${res.status})`)
+  }
+
+  if (!res.ok) {
+    console.error(`[annotation] GraphQL HTTP ${res.status}:`, JSON.stringify(data).slice(0, 300))
+  }
+
+  if (data.errors?.length) {
+    console.error('[annotation] GraphQL 错误:', data.errors)
+    throw new Error(data.errors[0].message || 'GraphQL 请求失败')
+  }
+  return data.data as T
+}
+
 // ---- Discussion 管理 ----
 
+/** 按页面 marker 查找 Discussion（GraphQL），返回 {number, id} */
 async function findDiscussionByPage(
   pagePath: string,
   token: string,
-): Promise<number | null> {
-  const res = await fetch(
-    `${API_BASE}/repos/${REPO_OWNER}/${REPO_NAME}/discussions?per_page=100`,
-    { headers: headers(token) },
-  )
-  if (!res.ok) return null
-
-  const discussions: any[] = await res.json()
-  for (const d of discussions) {
-    if (d.body && parseDiscussionBody(d.body) === pagePath) {
-      return d.number
+): Promise<{ number: number, id: string } | null> {
+  const query = `query($owner: String!, $name: String!, $cursor: String) {
+    repository(owner: $owner, name: $name) {
+      discussions(first: 100, after: $cursor) {
+        nodes {
+          number
+          id
+          body
+        }
+        pageInfo { hasNextPage endCursor }
+      }
     }
+  }`
+
+  let cursor: string | null = null
+  for (;;) {
+    const data = await graphql<{
+      repository: {
+        discussions: {
+          nodes: Array<{ number: number, id: string, body: string }>
+          pageInfo: { hasNextPage: boolean, endCursor: string | null }
+        }
+      }
+    }>(query, token, { owner: REPO_OWNER, name: REPO_NAME, cursor })
+
+    const { nodes, pageInfo } = data.repository.discussions
+    for (const d of nodes) {
+      if (parseDiscussionBody(d.body) === pagePath)
+        return { number: d.number, id: d.id }
+    }
+    if (!pageInfo.hasNextPage || !pageInfo.endCursor)
+      return null
+    cursor = pageInfo.endCursor
   }
-  return null
+}
+
+/** 获取仓库 repositoryId 与默认 categoryId（GraphQL，仅创建时调用） */
+async function fetchRepoIds(token: string): Promise<{ repositoryId: string, categoryId: string }> {
+  const query = `query($owner: String!, $name: String!) {
+    repository(owner: $owner, name: $name) {
+      id
+      discussionCategories(first: 10) {
+        nodes { id name }
+      }
+    }
+  }`
+  const data = await graphql<{
+    repository: {
+      id: string
+      discussionCategories: { nodes: Array<{ id: string, name: string }> }
+    }
+  }>(query, token, { owner: REPO_OWNER, name: REPO_NAME })
+
+  const categories = data.repository.discussionCategories.nodes
+  // 优先 General，回退第一个
+  const cat = categories.find(c => c.name === 'General') || categories[0]
+  if (!cat)
+    throw new Error('仓库没有可用的 Discussion category')
+  return { repositoryId: data.repository.id, categoryId: cat.id }
 }
 
 async function createDiscussion(
   pagePath: string,
   title: string,
   token: string,
-): Promise<number> {
-  // 先获取 category ID
-  const catRes = await fetch(
-    `${API_BASE}/repos/${REPO_OWNER}/${REPO_NAME}/discussions/categories`,
-    { headers: headers(token) },
-  )
-  if (!catRes.ok) throw new Error('无法获取 Discussion categories')
-  const categories: any[] = await catRes.json()
-  const catId = categories[0]?.id
-  if (!catId) throw new Error('没有可用的 Discussion category')
+): Promise<{ number: number, id: string }> {
+  const { repositoryId, categoryId } = await fetchRepoIds(token)
 
   const body = `${makePageMarker(pagePath)}\n\n此 Discussion 用于存储页面 [${pagePath}](https://0froq.github.io/${pagePath}) 的批注。`
-
-  const res = await fetch(
-    `${API_BASE}/repos/${REPO_OWNER}/${REPO_NAME}/discussions`,
+  const query = `mutation($input: CreateDiscussionInput!) {
+    createDiscussion(input: $input) {
+      discussion { id number }
+    }
+  }`
+  const data = await graphql<{ createDiscussion: { discussion: { id: string, number: number } } }>(
+    query,
+    token,
     {
-      method: 'POST',
-      headers: { ...headers(token), 'Content-Type': 'application/json' },
-      body: JSON.stringify({ title, body, category_id: catId }),
+      input: {
+        repositoryId,
+        categoryId,
+        title,
+        body,
+      },
     },
   )
-  if (!res.ok) {
-    const err = await res.json().catch(() => ({}))
-    throw new Error(`创建 Discussion 失败: ${res.status} ${JSON.stringify(err)}`)
-  }
-  const data = await res.json()
-  return data.number
+  return data.createDiscussion.discussion
 }
 
 async function findOrCreateDiscussion(
   pagePath: string,
   title: string,
   token: string,
-): Promise<number> {
+): Promise<{ number: number, id: string }> {
   const existing = await findDiscussionByPage(pagePath, token)
-  if (existing !== null) return existing
+  if (existing !== null)
+    return existing
   return createDiscussion(pagePath, title, token)
 }
 
@@ -109,66 +189,97 @@ async function getAnnotations(
   discussionNumber: number,
   token: string,
 ): Promise<ResolvedAnnotation[]> {
-  const res = await fetch(
-    `${API_BASE}/repos/${REPO_OWNER}/${REPO_NAME}/discussions/${discussionNumber}/comments?per_page=100`,
-    { headers: headers(token) },
-  )
-  if (!res.ok) return []
+  const query = `query($owner: String!, $name: String!, $number: Int!) {
+    repository(owner: $owner, name: $name) {
+      discussion(number: $number) {
+        comments(first: 100) {
+          nodes {
+            id
+            url
+            body
+            author { login avatarUrl }
+            createdAt
+          }
+        }
+      }
+    }
+  }`
+  const data = await graphql<{
+    repository: {
+      discussion: {
+        comments: {
+          nodes: Array<{
+            id: string
+            url: string
+            body: string
+            author: { login: string, avatarUrl: string } | null
+            createdAt: string
+          }>
+        }
+      }
+    }
+  }>(query, token, { owner: REPO_OWNER, name: REPO_NAME, number: discussionNumber })
 
-  const comments: any[] = await res.json()
   const annotations: ResolvedAnnotation[] = []
-
-  for (const c of comments) {
-    const data = tryParseAnnotation(c.body)
-    if (!data) continue
-
+  for (const c of data.repository.discussion.comments.nodes) {
+    const ann = tryParseAnnotation(c.body)
+    if (!ann)
+      continue
     annotations.push({
       commentId: c.id,
-      commentUrl: c.html_url,
+      commentUrl: c.url,
       author: {
-        login: c.user?.login ?? 'unknown',
-        avatarUrl: c.user?.avatar_url ?? '',
+        login: c.author?.login ?? 'unknown',
+        avatarUrl: c.author?.avatarUrl ?? '',
       },
-      data,
+      data: ann,
       domRange: null, // 后续由 highlight 填充
     })
   }
-
   return annotations
 }
 
 async function createAnnotation(
-  discussionNumber: number,
+  discussionId: string,
   data: AnnotationData,
   token: string,
-): Promise<number> {
-  const res = await fetch(
-    `${API_BASE}/repos/${REPO_OWNER}/${REPO_NAME}/discussions/${discussionNumber}/comments`,
+): Promise<string> {
+  const query = `mutation($input: AddDiscussionCommentInput!) {
+    addDiscussionComment(input: $input) {
+      comment { id }
+    }
+  }`
+  const result = await graphql<{ addDiscussionComment: { comment: { id: string } } }>(
+    query,
+    token,
     {
-      method: 'POST',
-      headers: { ...headers(token), 'Content-Type': 'application/json' },
-      body: JSON.stringify({ body: JSON.stringify(data, null, 2) }),
+      input: {
+        discussionId,
+        body: JSON.stringify(data),
+      },
     },
   )
-  if (!res.ok) {
-    const err = await res.json().catch(() => ({}))
-    throw new Error(`创建批注失败: ${res.status} ${JSON.stringify(err)}`)
-  }
-  const result = await res.json()
-  return result.id
+  return result.addDiscussionComment.comment.id
 }
 
 async function updateAnnotation(
-  commentId: number,
+  commentId: string,
   data: Partial<AnnotationData>,
   token: string,
 ): Promise<void> {
-  await fetch(
-    `${API_BASE}/repos/${REPO_OWNER}/${REPO_NAME}/discussions/comments/${commentId}`,
+  const query = `mutation($input: UpdateDiscussionCommentInput!) {
+    updateDiscussionComment(input: $input) {
+      comment { id }
+    }
+  }`
+  await graphql(
+    query,
+    token,
     {
-      method: 'PATCH',
-      headers: { ...headers(token), 'Content-Type': 'application/json' },
-      body: JSON.stringify({ body: JSON.stringify(data, null, 2) }),
+      input: {
+        commentId,
+        body: JSON.stringify(data),
+      },
     },
   )
 }

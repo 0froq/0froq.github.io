@@ -22,4 +22,4 @@ last_modified: {{date}}
 
 ## Raw Takeaways
 
-## Possible 200 Growth
+## Possible 200 Carve

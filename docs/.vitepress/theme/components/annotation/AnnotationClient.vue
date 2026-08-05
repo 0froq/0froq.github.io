@@ -1,39 +1,47 @@
 <script setup lang="ts">
-import { computed, nextTick, onMounted, onBeforeUnmount, ref, watch } from 'vue'
-import { useRoute } from 'vitepress'
-import type { ResolvedAnnotation } from '../../types/annotation'
+import type { AnnotationAnchor, ResolvedAnnotation } from '../../types/annotation'
+import { useData, useRoute } from 'vitepress'
+import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
+import { useAnnotationHighlight } from '../../composables/useAnnotationHighlight'
 import { useGitHubAuth } from '../../composables/useGitHubAuth'
 import { useGitHubDiscussions } from '../../composables/useGitHubDiscussions'
-import { useAnnotationHighlight } from '../../composables/useAnnotationHighlight'
 import { computeAnchor } from '../../utils/annotationFingerprint'
 import AnnotationPopover from './AnnotationPopover.vue'
 import AnnotationSidebar from './AnnotationSidebar.vue'
 
+const SLASHES_RE = /^\/+|\/+$/g
+
 const route = useRoute()
-const { isAuthenticated, token, user, isAuthenticating } = useGitHubAuth()
+const { page } = useData()
+const { isAuthenticated, token, isAuthenticating } = useGitHubAuth()
 const { findOrCreateDiscussion, getAnnotations, createAnnotation } = useGitHubDiscussions()
 const { highlightAnnotations, clearAllHighlights, scrollToAnnotation } = useAnnotationHighlight()
 
 // ---- 状态 ----
 const annotations = ref<ResolvedAnnotation[]>([])
 const showSidebar = ref(false)
-const activeCommentId = ref<number | null>(null)
+const activeCommentId = ref<string | null>(null)
 const selectionRect = ref<DOMRect | null>(null)
 const showPopover = ref(false) // 独立于 selectionRect，认证期间保持打开
 const submitting = ref(false)
 const loading = ref(false)
 const error = ref<string | null>(null)
+// 弹出 popover 时保存的选区锚点（用户点击 textarea 会清除文档选区，必须提前计算）
+const pendingAnchor = ref<AnnotationAnchor | null>(null)
+const pendingRange = ref<Range | null>(null)
 
 // ---- 计算页面标识 ----
 const pagePath = computed(() => {
   // 去掉前导 / 和尾部 /
-  let p = route.path.replace(/^\/+|\/+$/g, '')
-  if (!p) p = 'index'
+  let p = route.path.replace(SLASHES_RE, '')
+  if (!p)
+    p = 'index'
   return p
 })
 
 const pageTitle = computed(() => {
-  return document.title || route.path
+  // 优先用 VitePress 当前页 frontmatter title（SPA 切换时 document.title 会滞后）
+  return page.value.title || document.title || route.path
 })
 
 // ---- 加载批注 ----
@@ -48,20 +56,20 @@ async function loadAnnotations() {
 
   try {
     // 查找 Discussion
-    const discussionNumber = await findOrCreateDiscussion(
+    const discussion = await findOrCreateDiscussion(
       pagePath.value,
       `批注: ${pageTitle.value}`,
       token.value,
     )
 
     // 如果没有 Discussion（可能 find 失败但 create 也没触发），跳过
-    if (!discussionNumber) {
+    if (!discussion) {
       annotations.value = []
       return
     }
 
     // 获取批注
-    const result = await getAnnotations(discussionNumber, token.value)
+    const result = await getAnnotations(discussion.number, token.value)
     annotations.value = result
 
     // 渲染高亮
@@ -70,6 +78,7 @@ async function loadAnnotations() {
     highlightAnnotations(annotations.value, content)
   }
   catch (e: any) {
+    console.error('[annotation] 加载批注失败:', e)
     error.value = e.message || '加载批注失败'
     annotations.value = []
   }
@@ -82,10 +91,12 @@ async function loadAnnotations() {
 function handleMouseUp(e: MouseEvent) {
   // 点在了批注 popover 内部 → 不关闭
   const target = e.target as HTMLElement
-  if (target.closest('.annotation-popover')) return
+  if (target.closest('.annotation-popover'))
+    return
 
   // 认证进行中时不关闭 popover
-  if (isAuthenticating.value) return
+  if (isAuthenticating.value)
+    return
 
   setTimeout(() => {
     const sel = window.getSelection()
@@ -93,6 +104,8 @@ function handleMouseUp(e: MouseEvent) {
       if (!isAuthenticating.value) {
         showPopover.value = false
         selectionRect.value = null
+        pendingAnchor.value = null
+        pendingRange.value = null
       }
       return
     }
@@ -101,12 +114,17 @@ function handleMouseUp(e: MouseEvent) {
     if (!selected) {
       showPopover.value = false
       selectionRect.value = null
+      pendingAnchor.value = null
+      pendingRange.value = null
       return
     }
 
+    // 选区仍有效：立即计算锚点并保存（用户点进 textarea 后选区会丢失）
     const range = sel.getRangeAt(0)
     const rect = range.getBoundingClientRect()
     if (rect.width > 0 && rect.height > 0) {
+      pendingAnchor.value = computeAnchor(sel)
+      pendingRange.value = range.cloneRange()
       selectionRect.value = rect
       showPopover.value = true
     }
@@ -115,26 +133,31 @@ function handleMouseUp(e: MouseEvent) {
 
 // ---- 提交批注 ----
 async function handleSubmit(text: string) {
-  if (!token.value) return
+  if (!token.value) {
+    console.error('[annotation] 未登录，无法提交批注')
+    error.value = '未登录，请先使用 GitHub 登录'
+    return
+  }
 
   submitting.value = true
   showPopover.value = false
   selectionRect.value = null
 
   try {
-    const sel = window.getSelection()
-    if (!sel) return
+    const anchor = pendingAnchor.value
+    if (!anchor) {
+      console.error('[annotation] 无可用锚点（选区在弹出批注框时已丢失）')
+      error.value = '请重新选择文本后再批注'
+      return
+    }
 
-    const anchor = computeAnchor(sel)
-    if (!anchor) return
-
-    const discussionNumber = await findOrCreateDiscussion(
+    const discussion = await findOrCreateDiscussion(
       pagePath.value,
       `批注: ${pageTitle.value}`,
       token.value,
     )
 
-    await createAnnotation(discussionNumber, {
+    await createAnnotation(discussion.id, {
       version: 1,
       pagePath: pagePath.value,
       anchor,
@@ -147,10 +170,15 @@ async function handleSubmit(text: string) {
     clearAllHighlights()
     await loadAnnotations()
 
-    // 清除选区
-    sel.removeAllRanges()
+    // 清除文档选区与暂存（anchor 已持久化到 GitHub，不再需要）
+    const sel = window.getSelection()
+    if (sel)
+      sel.removeAllRanges()
+    pendingAnchor.value = null
+    pendingRange.value = null
   }
   catch (e: any) {
+    console.error('[annotation] 提交批注失败:', e)
     error.value = e.message || '提交批注失败'
   }
   finally {
@@ -216,6 +244,8 @@ function handleKeyDown(e: KeyboardEvent) {
   if (e.key === 'Escape') {
     showPopover.value = false
     selectionRect.value = null
+    pendingAnchor.value = null
+    pendingRange.value = null
   }
 }
 </script>
@@ -225,27 +255,38 @@ function handleKeyDown(e: KeyboardEvent) {
   <button
     v-if="isAuthenticated && annotations.length > 0"
     class="annotation-toggle-btn"
-    fixed right-4 bottom-20 z-50
-    w-10 h-10
-    rounded-full
-    bg="white dark:stone-800"
-    border="~ stone-300 dark:stone-600"
-    shadow-lg
-    flex items-center justify-center
-    text-lg
-    cursor-pointer
+    un-fixed
+    un-right-4
+    un-bottom-20
+    un-z-50
+    un-w-10
+    un-h-10
+    un-rounded-full
+    un-bg="white dark:stone-800"
+    un-border="~ stone-300 dark:stone-600"
+    un-shadow-lg
+    un-flex
+    un-items-center
+    un-justify-center
+    un-text-lg
+    un-cursor-pointer
     :title="showSidebar ? '收起批注' : '查看批注'"
     @click="toggleSidebar"
   >
     💬
     <span
       v-if="annotations.length > 0"
-      absolute -top-1 -right-1
-      w-5 h-5
-      rounded-full
-      bg="blue-500"
-      text="white xs"
-      flex items-center justify-center
+      un-absolute
+      un--top-1
+      un--right-1
+      un-w-5
+      un-h-5
+      un-rounded-full
+      un-bg="blue-500"
+      un-text="white xs"
+      un-flex
+      un-items-center
+      un-justify-center
     >
       {{ annotations.length }}
     </span>
@@ -272,10 +313,16 @@ function handleKeyDown(e: KeyboardEvent) {
   <!-- 加载状态 -->
   <div
     v-if="loading"
-    fixed top-4 right-4 z-50
-    text-xs text="stone-400 dark:stone-500"
-    bg="white/80 dark:stone-800/80"
-    rounded px-3 py-1
+    un-fixed
+    un-top-4
+    un-right-4
+    un-z-50
+    un-text-xs
+    text="stone-400 dark:stone-500"
+    un-bg="white/80 dark:stone-800/80"
+    un-rounded
+    un-px-3
+    un-py-1
   >
     加载批注中…
   </div>
@@ -283,14 +330,26 @@ function handleKeyDown(e: KeyboardEvent) {
   <!-- 错误 -->
   <div
     v-if="error"
-    fixed top-4 right-4 z-50
-    text-xs text="red-500"
-    bg="white dark:stone-800"
-    rounded px-3 py-1
-    border="~ red-300 dark:red-700"
+    un-fixed
+    un-top-4
+    un-right-4
+    un-z-50
+    un-text-xs
+    text="red-500"
+    un-bg="white dark:stone-800"
+    un-rounded
+    un-px-3
+    un-py-1
+    un-border="~ red-300 dark:red-700"
   >
     {{ error }}
-    <button ml-2 underline @click="error = null">×</button>
+    <button
+      un-ml-2
+      un-underline
+      @click="error = null"
+    >
+      ×
+    </button>
   </div>
 </template>
 

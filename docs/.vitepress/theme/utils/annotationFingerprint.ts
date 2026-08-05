@@ -2,6 +2,7 @@ import type { AnnotationAnchor } from '../types/annotation'
 
 const PREFIX_LEN = 30
 const SUFFIX_LEN = 30
+const REGEX_SPECIAL_RE = /[.*+?^${}()|[\]\\]/g
 
 /**
  * 收集容器内所有文本节点及其拼接文本
@@ -69,7 +70,7 @@ function resolveOffset(
     pos += len
   }
   // 降级：返回最后一个节点末尾
-  const last = textNodes[textNodes.length - 1]
+  const last = textNodes.at(-1)
   return { node: last, offset: (last.textContent ?? '').length }
 }
 
@@ -94,11 +95,13 @@ function createRange(
  * @returns AnnotationAnchor 或 null（无有效选区）
  */
 export function computeAnchor(selection: Selection): AnnotationAnchor | null {
-  if (!selection.rangeCount || selection.isCollapsed) return null
+  if (!selection.rangeCount || selection.isCollapsed)
+    return null
 
   const range = selection.getRangeAt(0)
   const selected = range.toString().trim()
-  if (!selected) return null
+  if (!selected)
+    return null
 
   const container = document.getElementById('content') || document.body
   const { textNodes, combined } = walkTextNodes(container)
@@ -116,43 +119,66 @@ export function computeAnchor(selection: Selection): AnnotationAnchor | null {
   const searchStr = escapeRegex(prefix + selected + suffix)
   const regex = new RegExp(searchStr, 'gm')
   let occurrence = 0
-  let match: RegExpExecArray | null
-  while ((match = regex.exec(combined)) !== null) {
+  let match = regex.exec(combined)
+  while (match !== null) {
     occurrence++
-    if (match.index === prefixStart) break
+    if (match.index === prefixStart)
+      break
+    match = regex.exec(combined)
   }
 
   return { selected, prefix, suffix, occurrence }
 }
 
 /**
+ * 锚定结果
+ * - exact: 完整串匹配且 selected 内容验证一致
+ * - selected-missing: 完整串与 selected 都找不到（核心文本已变）
+ * - context-mismatch: selected 还在但 prefix/suffix 窗口对不上（原文被改动）
+ */
+export interface AnchorMatch {
+  range: Range | null
+  reason: 'exact' | 'selected-missing' | 'context-mismatch'
+}
+
+/**
  * 在 DOM 中查找锚定位置
- * @returns Range 或 null（stale——原文已变更无法锚定）
+ * @returns AnchorMatch——range 非 null 时 reason 为 exact；null 时 reason 说明失败原因
  */
 export function findAnchorInDOM(
   container: HTMLElement,
   anchor: AnnotationAnchor,
-): Range | null {
+): AnchorMatch {
   const { textNodes, combined } = walkTextNodes(container)
 
-  // 构建搜索串
-  const searchStr = escapeRegex(anchor.prefix + anchor.selected + anchor.suffix)
-  const regex = new RegExp(searchStr, 'gm')
+  // 主路径：完整串匹配（保持 occurrence 语义）
+  const fullStr = escapeRegex(anchor.prefix + anchor.selected + anchor.suffix)
+  const fullRe = new RegExp(fullStr, 'gm')
 
-  let match: RegExpExecArray | null
   let count = 0
-  while ((match = regex.exec(combined)) !== null) {
+  let match = fullRe.exec(combined)
+  while (match !== null) {
     count++
     if (count === anchor.occurrence) {
       const prefixEnd = match.index + anchor.prefix.length
       const selectedEnd = prefixEnd + anchor.selected.length
-      return createRange(textNodes, prefixEnd, selectedEnd)
+      const range = createRange(textNodes, prefixEnd, selectedEnd)
+      // 显式验证 selected 内容（防零宽字符/异常 whitespace 导致的偏移误差）
+      if (range.toString() === anchor.selected) {
+        return { range, reason: 'exact' }
+      }
+      return { range: null, reason: 'selected-missing' }
     }
+    match = fullRe.exec(combined)
   }
 
-  return null
+  // 降级诊断：单独搜 selected，区分失败原因
+  const selRe = new RegExp(escapeRegex(anchor.selected), 'gm')
+  if (selRe.test(combined))
+    return { range: null, reason: 'context-mismatch' }
+  return { range: null, reason: 'selected-missing' }
 }
 
 function escapeRegex(s: string): string {
-  return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+  return s.replace(REGEX_SPECIAL_RE, '\\$&')
 }

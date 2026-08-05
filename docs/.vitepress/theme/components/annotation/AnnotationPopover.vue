@@ -22,7 +22,8 @@ const popoverRef = ref<HTMLElement | null>(null)
 
 // 定位
 const popoverStyle = computed(() => {
-  if (!props.rect) return { display: 'none' }
+  if (!props.rect)
+    return { display: 'none' }
   const top = props.rect.bottom + 8 + window.scrollY
   const left = Math.max(8, Math.min(
     props.rect.left + (props.rect.width / 2) - 150,
@@ -39,7 +40,8 @@ const popoverStyle = computed(() => {
 
 function handleSubmit() {
   const text = annotationText.value.trim()
-  if (!text) return
+  if (!text)
+    return
   emit('submit', text)
   annotationText.value = ''
 }
@@ -57,7 +59,8 @@ function handleKeydown(e: KeyboardEvent) {
 // 点击外部关闭
 function handleClickOutside(e: MouseEvent) {
   // 认证进行中不关闭
-  if (isAuthenticating.value) return
+  if (isAuthenticating.value)
+    return
   if (popoverRef.value && !popoverRef.value.contains(e.target as Node)) {
     emit('close')
   }
@@ -85,15 +88,20 @@ watch(() => props.rect, () => {
       ref="popoverRef"
       :style="popoverStyle"
       class="annotation-popover"
-      bg="white dark:stone-800"
-      border="~ stone-300 dark:stone-600"
-      rounded-lg
-      shadow-xl
-      p-4
+      un-bg="white dark:stone-800"
+      un-border="~ stone-300 dark:stone-600"
+      un-rounded-lg
+      un-shadow-xl
+      un-p-4
     >
       <!-- 未登录 -->
       <template v-if="!isAuthenticated">
-        <div v-if="!isAuthenticating" text-sm text="stone-600 dark:stone-400" mb-3>
+        <div
+          v-if="!isAuthenticating"
+          text-sm
+          text="stone-600 dark:stone-400"
+          mb-3
+        >
           登录 GitHub 以添加批注
         </div>
         <button
@@ -105,58 +113,90 @@ watch(() => props.rect, () => {
         </button>
 
         <!-- 连接中 -->
-        <div v-if="isAuthenticating && !deviceInfo && !authError" text-sm text="stone-500 dark:stone-400" py-4 text-center>
+        <div
+          v-if="isAuthenticating && !deviceInfo && !authError"
+          text-sm
+          text="stone-500 dark:stone-400"
+          py-4
+          text-center
+        >
           正在连接 GitHub…
         </div>
 
         <!-- Device Flow 进行中 -->
-        <div v-if="isAuthenticating && deviceInfo" text-sm>
-          <div text="stone-600 dark:stone-400" mb-2>
+        <div
+          v-if="isAuthenticating && deviceInfo"
+          text-sm
+        >
+          <div
+            text="stone-600 dark:stone-400"
+            mb-2
+          >
             请打开以下链接并输入验证码：
           </div>
           <div mb-2>
             <a
               :href="deviceInfo.verification_uri"
               target="_blank"
-              text="blue-500 dark:blue-400"
-              underline
-              font-mono
+              un-text="blue-500 dark:blue-400"
+              un-underline
+              un-font-mono
             >
               {{ deviceInfo.verification_uri }}
             </a>
           </div>
           <div
-            text="2xl"
-            font-bold
-            tracking-widest
-            text-center
-            py-2
-            bg="stone-100 dark:stone-700"
-            rounded
-            select-all
-            cursor-pointer
+            un-text="2xl"
+            un-font-bold
+            un-tracking-widest
+            un-text-center
+            un-py-2
+            un-bg="stone-100 dark:stone-700"
+            un-rounded
+            un-select-all
+            un-cursor-pointer
           >
             {{ deviceInfo.user_code }}
           </div>
         </div>
 
         <!-- 错误提示（独立于 deviceInfo） -->
-        <div v-if="authError" text="red-500" text-xs mt-3>
+        <div
+          v-if="authError"
+          text="red-500"
+          text-xs
+          mt-3
+        >
           {{ authError }}
-          <button ml-2 underline @click="clearError">重试</button>
+          <button
+            ml-2
+            underline
+            @click="clearError"
+          >
+            重试
+          </button>
         </div>
       </template>
 
       <!-- 已登录 -->
       <template v-else>
-        <div flex items-center gap-2 mb-3>
+        <div
+          mb-3
+          flex
+          gap-2
+          items-center
+        >
           <img
             v-if="user?.avatar_url"
             :src="user.avatar_url"
-            w-5 h-5
-            rounded-full
+            un-w-5
+            un-h-5
+            un-rounded-full
           >
-          <span text-sm text="stone-600 dark:stone-400">
+          <span
+            text-sm
+            text="stone-600 dark:stone-400"
+          >
             {{ user?.login }}
           </span>
         </div>
@@ -167,17 +207,23 @@ watch(() => props.rect, () => {
           rows="3"
           class="annotation-textarea"
           placeholder="写下批注…"
-          bg="stone-50 dark:stone-900"
-          border="~ stone-300 dark:stone-600"
-          rounded
-          p-2
-          w-full
-          text-sm
-          resize-none
+          un-bg="stone-50 dark:stone-900"
+          un-border="~ stone-300 dark:stone-600"
+          un-rounded
+          un-p-2
+          un-w-full
+          un-text-sm
+          un-resize-none
           @keydown="handleKeydown"
         />
 
-        <div flex justify-end items-center gap-2 mt-2>
+        <div
+          mt-2
+          flex
+          gap-2
+          items-center
+          justify-end
+        >
           <button
             class="annotation-btn-ghost"
             @click="emit('close')"

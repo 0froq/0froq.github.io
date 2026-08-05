@@ -21,7 +21,7 @@ locale: zh
 
 - <ruby><rb>[Autopsia](/corpus/000-autopsia/){.font-stylish}</rb><rt>dissection</rt></ruby>：系统自省、元认知、结构调整
 - <ruby><rb>[Ingesta](/corpus/100-ingesta/){.font-stylish}</rb><rt>intake</rt></ruby>：稳定外部资料的登记簿
-- <ruby><rb>[Neoplasma](/corpus/200-neoplasma/){.font-stylish}</rb><rt>new growth</rt></ruby>：概念、判断、问题、模型和设计构思
+- <ruby><rb>[Neoplasma](/corpus/200-neoplasma/){.font-stylish}</rb><rt>new carve</rt></ruby>：概念、判断、问题、模型和设计构思
 - <ruby><rb>[Putredo](/corpus/300-putredo/){.font-stylish}</rb><rt>decay</rt></ruby>：实践、执行、失败与现实摩擦后的残渣
 - [Delirium](/corpus/400-delirium/){.font-stylish}：审美刺激、非理性材料、风格直觉
 - [Vigil](/corpus/500-vigil/){.font-stylish}：存在证据、身份锚点、生活片段

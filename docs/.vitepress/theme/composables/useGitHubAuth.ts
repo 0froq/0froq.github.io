@@ -5,7 +5,7 @@ const CLIENT_ID = import.meta.env.VITE_GITHUB_CLIENT_ID ?? ''
 
 // 开发环境通过 Vite proxy 绕开 CORS，生产环境需要配置 Cloudflare Worker 或类似
 const AUTH_BASE = typeof window !== 'undefined' && window.location.hostname === 'localhost'
-  ? '/__auth'     // Vite proxy
+  ? '/__auth' // Vite proxy
   : 'https://github.com/login'
 
 interface GitHubUser {
@@ -52,7 +52,7 @@ async function startDeviceFlow(): Promise<void> {
   try {
     res = await fetch(`${AUTH_BASE}/device/code`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
       body: JSON.stringify({ client_id: CLIENT_ID, scope: 'public_repo' }),
     })
   }
@@ -94,7 +94,7 @@ async function pollForToken(
     try {
       res = await fetch(`${AUTH_BASE}/oauth/access_token`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
         body: JSON.stringify({
           client_id: CLIENT_ID,
           device_code,
@@ -140,7 +140,8 @@ async function pollForToken(
 }
 
 async function fetchUser(): Promise<void> {
-  if (!token.value) return
+  if (!token.value)
+    return
   const res = await fetch('https://api.github.com/user', {
     headers: { Authorization: `Bearer ${token.value}` },
   })

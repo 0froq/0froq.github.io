@@ -49,7 +49,7 @@ tag 的价值在于筛选。
 那这一层就不需要这个 tag——目录已经做了这个筛选。
 在 100-ingesta 里搜 `#outer` 等于在 100-ingesta 目录里搜所有文件。
 
-这项移除同时让 capture 自动化和 growth 自动化的 tag 行更短了，模板也更干净了。
+这项移除同时让 capture 自动化和 carve 自动化的 tag 行更短了，模板也更干净了。
 
 ## Decision / Mutation
 
@@ -62,7 +62,7 @@ tag 的价值在于筛选。
 ```txt
 跨层：#capture
 来源：#paper #book #article #podcast #video
-概念：#claim #model #design #question #fragment #response #growth
+概念：#claim #model #design #question #fragment #response #carve
 领域：#scope/...
 作者：#author/...
 ```

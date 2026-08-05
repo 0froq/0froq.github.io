@@ -15,6 +15,9 @@ import markdownItMark from 'markdown-it-mark'
 import markdownItRuby from 'markdown-it-ruby'
 import UnoCSS from 'unocss/vite'
 import { defineConfig } from 'vitepress'
+
+const AUTH_PREFIX_RE = /^\/__auth/
+
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
   ignoreDeadLinks: true,
@@ -45,7 +48,7 @@ export default defineConfig({
         '/__auth': {
           target: 'https://github.com/login',
           changeOrigin: true,
-          rewrite: (path: string) => path.replace(/^\/__auth/, ''),
+          rewrite: (path: string) => path.replace(AUTH_PREFIX_RE, ''),
         },
       },
     },

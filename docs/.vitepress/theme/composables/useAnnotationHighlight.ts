@@ -1,6 +1,6 @@
 import type { ResolvedAnnotation } from '../types/annotation'
-import { findAnchorInDOM } from '../utils/annotationFingerprint'
 import { onBeforeUnmount } from 'vue'
+import { findAnchorInDOM } from '../utils/annotationFingerprint'
 
 interface HighlightState {
   annotation: ResolvedAnnotation
@@ -22,11 +22,14 @@ export function highlightAnnotations(
   container = contentEl || document.getElementById('content') || document.body
 
   for (const ann of annotations) {
-    const range = findAnchorInDOM(container, ann.data.anchor)
-    ann.domRange = range
+    const result = findAnchorInDOM(container, ann.data.anchor)
+    ann.domRange = result.range
 
-    if (!range) {
+    if (!result.range) {
       ann.data.status = 'outdated'
+      // 阶段 A：失败原因落日志，区分「核心文本没了」与「窗口被改动」
+      // 阶段 B 将把 context-mismatch 升级为 approximate（近似锚定）状态
+      console.warn(`[annotation] 锚定失败 (${result.reason}):`, ann.data.anchor.selected.slice(0, 50))
       continue
     }
 
@@ -80,7 +83,7 @@ export function clearAllHighlights(): void {
 /**
  * 滚动到指定批注
  */
-export function scrollToAnnotation(commentId: number): void {
+export function scrollToAnnotation(commentId: string): void {
   const highlight = activeHighlights.find(h => h.annotation.commentId === commentId)
   if (highlight) {
     highlight.mark.scrollIntoView({ behavior: 'smooth', block: 'center' })
@@ -96,7 +99,7 @@ export function scrollToAnnotation(commentId: number): void {
 /**
  * 查找指定 commentId 的高亮是否仍然活跃
  */
-export function isHighlightActive(commentId: number): boolean {
+export function isHighlightActive(commentId: string): boolean {
   return activeHighlights.some(h => h.annotation.commentId === commentId && h.mark.isConnected)
 }
 
