@@ -3,6 +3,7 @@ import TwoslashFloatingVue from '@shikijs/vitepress-twoslash/client'
 import { GesturePlugin } from '@vueuse/gesture'
 import { MotionPlugin } from '@vueuse/motion'
 import { createI18n } from 'vue-i18n'
+import { installKeyboardShortcuts } from './composables/useKeyboardShortcuts'
 // https://vitepress.dev/guide/custom-theme
 import Layout from './Layout.vue'
 import '@unocss/reset/tailwind.css'
@@ -80,11 +81,13 @@ const i18n = createI18n({
 export default {
   Layout,
   enhanceApp({ app }) {
-    // ...
     app
       .use(TwoslashFloatingVue)
       .use(GesturePlugin)
       .use(MotionPlugin)
       .use(i18n)
+
+    // 全局快捷键系统（批注 / 打开弹窗等，后续导航/命令面板复用）
+    installKeyboardShortcuts(app)
   },
 } satisfies Theme

@@ -1,10 +1,15 @@
 <script setup lang="ts">
+import type { ResolvedAnnotation } from '~/types/annotation'
 import { useData, useRoute } from 'vitepress'
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import ArticleNavigation from '@/ui/article/ArticleNavigation.vue'
 import LinkUnderline from '@/ui/base/LinkUnderline.vue'
 import ProgressBarHeader from '@/ui/base/ProgressBarHeader.vue'
+import AnnotationList from '~/components/annotation/AnnotationList.vue'
+import AnnotationRail from '~/components/annotation/AnnotationRail.vue'
+import { scrollToAnnotation } from '~/composables/useAnnotationHighlight'
+import { activeCommentId, annotations } from '~/composables/useAnnotationStore'
 import { data as corpus } from '~/src/corpus.data'
 import { data as posts } from '~/src/posts.data'
 import { renderMdInline } from '~/utils/renderMdInline'
@@ -108,6 +113,12 @@ const prevPost = computed(() => {
     return null
   return currentIndex > 0 ? postPool.value[currentIndex - 1] : null
 })
+
+/** 批注列表点击：定位到正文高亮（只滚动，不闪烁） */
+function handleAnnotationSelect(ann: ResolvedAnnotation) {
+  if (ann.domRange)
+    scrollToAnnotation(ann.commentId)
+}
 
 const translatedPosts = computed(() => {
   if (!post.value || post.value.frontmatter.translated)
@@ -286,10 +297,25 @@ const originalPost = computed(() => {
     {{ t('aigcHint') }}
   </div>
 
-  <Content
-    id="content"
-    data-allow-mismatch
-    :class="frontmatter.unstyled ? 'unstyled' : ''"
+  <div
+    un-relative
+  >
+    <Content
+      id="content"
+      data-allow-mismatch
+      :class="frontmatter.unstyled ? 'unstyled' : ''"
+    />
+
+    <!-- 右侧批注列（宽屏，紧贴 content 右侧；自包含，从 store 取数据） -->
+    <AnnotationRail v-if="annotations.length > 0" />
+  </div>
+
+  <!-- 文章尾部批注列表（窄屏；数据来自共享 store） -->
+  <AnnotationList
+    v-if="annotations.length > 0"
+    :annotations="annotations"
+    :active-comment-id="activeCommentId"
+    @select="handleAnnotationSelect"
   />
 
   <!-- Post navigation links (previous and next post) -->

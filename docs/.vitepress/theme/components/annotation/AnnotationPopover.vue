@@ -5,6 +5,8 @@ import { useGitHubAuth } from '../../composables/useGitHubAuth'
 const props = defineProps<{
   /** 选区的 bounding rect，用于定位弹出位置 */
   rect: DOMRect | null
+  /** 选中的文本预览（引用） */
+  selectedPreview?: string
   /** 是否正在提交 */
   submitting?: boolean
 }>()
@@ -14,28 +16,50 @@ const emit = defineEmits<{
   close: []
 }>()
 
-const { isAuthenticated, isAuthenticating, deviceInfo, startDeviceFlow, user, authError, clearError } = useGitHubAuth()
+const { isAuthenticated, isAuthenticating, deviceInfo, startDeviceFlow, authError, clearError } = useGitHubAuth()
 
 const annotationText = ref('')
 const textareaRef = ref<HTMLTextAreaElement | null>(null)
 const popoverRef = ref<HTMLElement | null>(null)
 
-// 定位
+// 定位（340px 宽；fixed 基于视口坐标，rect 已含滚动偏移，不能加 scrollY）
+const POPOVER_WIDTH = 340
+const POPOVER_GAP = 8
+
 const popoverStyle = computed(() => {
   if (!props.rect)
     return { display: 'none' }
-  const top = props.rect.bottom + 8 + window.scrollY
+
+  const vw = window.innerWidth
+  const vh = window.innerHeight
+
+  // 水平：居中于选区，钳制在视口内
   const left = Math.max(8, Math.min(
-    props.rect.left + (props.rect.width / 2) - 150,
-    window.innerWidth - 316,
+    props.rect.left + (props.rect.width / 2) - POPOVER_WIDTH / 2,
+    vw - POPOVER_WIDTH - 8,
   ))
+
+  // 垂直：优先选区下方；放不下则翻转至上方
+  let top = props.rect.bottom + POPOVER_GAP
+  if (top + 200 > vh) {
+    top = Math.max(8, props.rect.top - 200 - POPOVER_GAP)
+  }
+
   return {
     position: 'fixed' as const,
     top: `${top}px`,
     left: `${left}px`,
-    width: '300px',
+    width: `${POPOVER_WIDTH}px`,
     zIndex: 9999,
   }
+})
+
+// 引用预览：前 2 行截断
+const previewText = computed(() => {
+  const t = props.selectedPreview?.trim() ?? ''
+  if (!t)
+    return ''
+  return t.length > 60 ? `${t.slice(0, 60)}…` : t
 })
 
 function handleSubmit() {
@@ -58,7 +82,6 @@ function handleKeydown(e: KeyboardEvent) {
 
 // 点击外部关闭
 function handleClickOutside(e: MouseEvent) {
-  // 认证进行中不关闭
   if (isAuthenticating.value)
     return
   if (popoverRef.value && !popoverRef.value.contains(e.target as Node)) {
@@ -90,35 +113,92 @@ watch(() => props.rect, () => {
       class="annotation-popover"
       un-bg="white dark:stone-800"
       un-border="~ stone-300 dark:stone-600"
-      un-rounded-lg
-      un-shadow-xl
-      un-p-4
+      un-rounded
+      un-shadow-lg
+      un-p-3
     >
-      <!-- 未登录 -->
-      <template v-if="!isAuthenticated">
+      <!-- 引用预览 -->
+      <div
+        v-if="previewText"
+        un-text-xs
+        un-text="stone-400 dark:stone-500"
+        un-italic
+        un-border="l-2 stone-300 dark:stone-600"
+        un-pl-2
+        un-mb-2
+        un-leading-relaxed
+      >
+        {{ previewText }}
+      </div>
+
+      <!-- 已登录：输入框 -->
+      <template v-if="isAuthenticated">
+        <textarea
+          ref="textareaRef"
+          v-model="annotationText"
+          rows="2"
+          placeholder="写下批注…"
+          un-w-full
+          un-resize-none
+          un-text-sm
+          un-bg="transparent"
+          un-border-none
+          un-outline-none
+          un-text="stone-800 dark:stone-200"
+          un-placeholder="stone-400 dark:stone-500"
+          un-leading-relaxed
+          @keydown="handleKeydown"
+        />
         <div
-          v-if="!isAuthenticating"
-          text-sm
-          text="stone-600 dark:stone-400"
-          mb-3
+          un-flex
+          un-items-center
+          un-justify-between
+          un-mt-2
         >
-          登录 GitHub 以添加批注
+          <span
+            un-text="xs stone-400 dark:stone-500"
+          >
+            ⌘⏎ 提交 · Esc 取消
+          </span>
+          <button
+            class="annotation-btn-primary"
+            :disabled="submitting || !annotationText.trim()"
+            @click="handleSubmit"
+          >
+            {{ submitting ? '提交中…' : '批注' }}
+          </button>
         </div>
-        <button
-          v-if="!isAuthenticating"
-          class="annotation-btn-primary"
-          @click="startDeviceFlow"
+      </template>
+
+      <!-- 未登录：紧凑登录 -->
+      <template v-else>
+        <div
+          v-if="!isAuthenticating && !authError"
+          un-flex
+          un-items-center
+          un-justify-between
         >
-          使用 GitHub 登录
-        </button>
+          <span
+            un-text-sm
+            un-text="stone-600 dark:stone-400"
+          >
+            登录以添加批注
+          </span>
+          <button
+            class="annotation-btn-primary"
+            @click="startDeviceFlow"
+          >
+            使用 GitHub 登录
+          </button>
+        </div>
 
         <!-- 连接中 -->
         <div
           v-if="isAuthenticating && !deviceInfo && !authError"
-          text-sm
-          text="stone-500 dark:stone-400"
-          py-4
-          text-center
+          un-text-sm
+          un-text="stone-500 dark:stone-400"
+          un-py-4
+          un-text-center
         >
           正在连接 GitHub…
         </div>
@@ -126,117 +206,58 @@ watch(() => props.rect, () => {
         <!-- Device Flow 进行中 -->
         <div
           v-if="isAuthenticating && deviceInfo"
-          text-sm
+          un-text-sm
         >
           <div
-            text="stone-600 dark:stone-400"
-            mb-2
+            un-text="stone-600 dark:stone-400"
+            un-mb-2
           >
-            请打开以下链接并输入验证码：
+            打开链接并输入验证码：
           </div>
-          <div mb-2>
+          <div
+            un-flex
+            un-items-center
+            un-gap-2
+            un-mb-2
+          >
             <a
               :href="deviceInfo.verification_uri"
               target="_blank"
-              un-text="blue-500 dark:blue-400"
+              un-text="blue-600 dark:blue-400"
               un-underline
-              un-font-mono
+              un-text-sm
             >
               {{ deviceInfo.verification_uri }}
             </a>
-          </div>
-          <div
-            un-text="2xl"
-            un-font-bold
-            un-tracking-widest
-            un-text-center
-            un-py-2
-            un-bg="stone-100 dark:stone-700"
-            un-rounded
-            un-select-all
-            un-cursor-pointer
-          >
-            {{ deviceInfo.user_code }}
+            <code
+              un-text-xs
+              un-bg="stone-100 dark:stone-700"
+              un-rounded
+              un-px-1
+              un-py-0.5
+              un-font-mono
+            >
+              {{ deviceInfo.user_code }}
+            </code>
           </div>
         </div>
 
-        <!-- 错误提示（独立于 deviceInfo） -->
+        <!-- 认证错误 -->
         <div
           v-if="authError"
-          text="red-500"
-          text-xs
-          mt-3
+          un-text-sm
+          un-text="red-500"
+          un-flex
+          un-items-center
+          un-justify-between
         >
-          {{ authError }}
+          <span>{{ authError }}</span>
           <button
-            ml-2
-            underline
+            un-text-xs
+            un-underline
             @click="clearError"
           >
             重试
-          </button>
-        </div>
-      </template>
-
-      <!-- 已登录 -->
-      <template v-else>
-        <div
-          mb-3
-          flex
-          gap-2
-          items-center
-        >
-          <img
-            v-if="user?.avatar_url"
-            :src="user.avatar_url"
-            un-w-5
-            un-h-5
-            un-rounded-full
-          >
-          <span
-            text-sm
-            text="stone-600 dark:stone-400"
-          >
-            {{ user?.login }}
-          </span>
-        </div>
-
-        <textarea
-          ref="textareaRef"
-          v-model="annotationText"
-          rows="3"
-          class="annotation-textarea"
-          placeholder="写下批注…"
-          un-bg="stone-50 dark:stone-900"
-          un-border="~ stone-300 dark:stone-600"
-          un-rounded
-          un-p-2
-          un-w-full
-          un-text-sm
-          un-resize-none
-          @keydown="handleKeydown"
-        />
-
-        <div
-          mt-2
-          flex
-          gap-2
-          items-center
-          justify-end
-        >
-          <button
-            class="annotation-btn-ghost"
-            @click="emit('close')"
-          >
-            取消
-          </button>
-          <button
-            class="annotation-btn-primary"
-            :disabled="!annotationText.trim() || submitting"
-            @click="handleSubmit"
-          >
-            <span v-if="submitting">提交中…</span>
-            <span v-else>批注 ⌘⏎</span>
           </button>
         </div>
       </template>
@@ -246,48 +267,12 @@ watch(() => props.rect, () => {
 
 <style scoped>
 .annotation-btn-primary {
-  padding: 4px 12px;
-  border-radius: 6px;
-  font-size: 13px;
-  background: #0969da;
-  color: #fff;
-  border: none;
-  cursor: pointer;
-  transition: opacity 0.15s;
-}
-.annotation-btn-primary:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
+  @apply un-px-3 un-py-1 un-text-xs un-rounded un-bg-stone-900 dark:un-bg-stone-100 un-text-white dark:un-text-stone-900 un-transition un-duration-300;
 }
 .annotation-btn-primary:hover:not(:disabled) {
-  background: #0860c0;
+  @apply un-opacity-80;
 }
-.annotation-btn-ghost {
-  padding: 4px 12px;
-  border-radius: 6px;
-  font-size: 13px;
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  color: var(--vp-c-text-2);
-}
-.annotation-btn-ghost:hover {
-  background: var(--vp-c-bg-soft);
-}
-.annotation-textarea {
-  outline: none;
-  font-family: inherit;
-  line-height: 1.5;
-}
-.annotation-textarea:focus {
-  border-color: #0969da;
-}
-
-/* dark mode */
-html.dark .annotation-btn-primary {
-  background: #1f6feb;
-}
-html.dark .annotation-btn-primary:hover:not(:disabled) {
-  background: #388bfd;
+.annotation-btn-primary:disabled {
+  @apply un-opacity-40 un-cursor-not-allowed;
 }
 </style>

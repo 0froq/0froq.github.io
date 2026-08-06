@@ -92,6 +92,12 @@ function createRange(
 
 /**
  * 从 Selection 对象计算锚定指纹
+ *
+ * 关键设计：selected/prefix/suffix 全部从 walkTextNodes 的 combined 精确切片，
+ * 与 findAnchorInDOM 完全同源——只要 DOM 文本未变，匹配必然成功。
+ * 不用 range.toString()（它在块级元素边界插入 \n，与 combined 拼接不一致）。
+ * trim 只发生在 UI 显示层，存储层保持原始切片。
+ *
  * @returns AnnotationAnchor 或 null（无有效选区）
  */
 export function computeAnchor(selection: Selection): AnnotationAnchor | null {
@@ -99,15 +105,20 @@ export function computeAnchor(selection: Selection): AnnotationAnchor | null {
     return null
 
   const range = selection.getRangeAt(0)
-  const selected = range.toString().trim()
-  if (!selected)
-    return null
 
   const container = document.getElementById('content') || document.body
   const { textNodes, combined } = walkTextNodes(container)
 
   const startOffset = getAbsoluteOffset(textNodes, range.startContainer, range.startOffset)
   const endOffset = getAbsoluteOffset(textNodes, range.endContainer, range.endOffset)
+
+  // 空选区保护
+  if (endOffset <= startOffset)
+    return null
+
+  const selected = combined.slice(startOffset, endOffset)
+  if (!selected.trim())
+    return null
 
   const prefixStart = Math.max(0, startOffset - PREFIX_LEN)
   const suffixEnd = Math.min(combined.length, endOffset + SUFFIX_LEN)
@@ -133,17 +144,37 @@ export function computeAnchor(selection: Selection): AnnotationAnchor | null {
 /**
  * 锚定结果
  * - exact: 完整串匹配且 selected 内容验证一致
- * - selected-missing: 完整串与 selected 都找不到（核心文本已变）
- * - context-mismatch: selected 还在但 prefix/suffix 窗口对不上（原文被改动）
+ * - approximate: 完整串失败，但 selected 可定位（按 occurrence），窗口相似度可接受——原文可能被改动，仍锚定
+ * - ambiguous: selected 可定位但窗口相似度不足或 occurrence 超界——无法确认是哪一个，不锚定
+ * - selected-missing: selected 本身找不到——核心文本已变
  */
 export interface AnchorMatch {
   range: Range | null
-  reason: 'exact' | 'selected-missing' | 'context-mismatch'
+  reason: 'exact' | 'approximate' | 'ambiguous' | 'selected-missing'
+}
+
+/** 窗口相似度阈值：字符重叠率 ≥ 此值视为「原文可能被小幅改动，仍可锚定」 */
+const WINDOW_SIM_THRESHOLD = 0.6
+
+/**
+ * 计算两段文本的字符重叠率（对插入/删除免疫，比逐位对比鲁棒）
+ * 例：'abcde' vs 'abxde' → 4/5 = 0.8
+ */
+function charOverlap(expected: string, actual: string): number {
+  if (!expected || !actual)
+    return 0
+  const expectedChars = new Set(expected)
+  let hit = 0
+  for (const c of expectedChars) {
+    if (actual.includes(c))
+      hit++
+  }
+  return hit / expectedChars.size
 }
 
 /**
  * 在 DOM 中查找锚定位置
- * @returns AnchorMatch——range 非 null 时 reason 为 exact；null 时 reason 说明失败原因
+ * @returns AnchorMatch——range 非 null 时 reason 为 exact/approximate；null 时说明失败原因
  */
 export function findAnchorInDOM(
   container: HTMLElement,
@@ -163,8 +194,10 @@ export function findAnchorInDOM(
       const prefixEnd = match.index + anchor.prefix.length
       const selectedEnd = prefixEnd + anchor.selected.length
       const range = createRange(textNodes, prefixEnd, selectedEnd)
-      // 显式验证 selected 内容（防零宽字符/异常 whitespace 导致的偏移误差）
-      if (range.toString() === anchor.selected) {
+      // 用 combined 切片验证（与 computeAnchor 同源；range.toString() 在跨块级
+      // 元素时会插入 \n，与 combined 拼接不一致，不能用它验证）
+      const actualSelected = combined.slice(prefixEnd, selectedEnd)
+      if (actualSelected === anchor.selected) {
         return { range, reason: 'exact' }
       }
       return { range: null, reason: 'selected-missing' }
@@ -172,11 +205,38 @@ export function findAnchorInDOM(
     match = fullRe.exec(combined)
   }
 
-  // 降级诊断：单独搜 selected，区分失败原因
+  // 降级路径：完整串失败 → 枚举 selected 的所有出现位置
   const selRe = new RegExp(escapeRegex(anchor.selected), 'gm')
-  if (selRe.test(combined))
-    return { range: null, reason: 'context-mismatch' }
-  return { range: null, reason: 'selected-missing' }
+  const candidates: number[] = []
+  let sm = selRe.exec(combined)
+  while (sm !== null) {
+    candidates.push(sm.index)
+    sm = selRe.exec(combined)
+  }
+
+  if (candidates.length === 0)
+    return { range: null, reason: 'selected-missing' }
+
+  // occurrence 超界 → 匹配集变了，无法确认是哪一个
+  if (anchor.occurrence > candidates.length)
+    return { range: null, reason: 'ambiguous' }
+
+  // 按 occurrence 定位候选
+  const pos = candidates[anchor.occurrence - 1]
+  const actualPrefix = combined.slice(Math.max(0, pos - PREFIX_LEN), pos)
+  const actualSuffix = combined.slice(
+    pos + anchor.selected.length,
+    pos + anchor.selected.length + SUFFIX_LEN,
+  )
+  const sim = (charOverlap(anchor.prefix, actualPrefix)
+    + charOverlap(anchor.suffix, actualSuffix)) / 2
+
+  // 窗口相似度可接受 → approximate 锚定；否则 ambiguous
+  if (sim >= WINDOW_SIM_THRESHOLD) {
+    const range = createRange(textNodes, pos, pos + anchor.selected.length)
+    return { range, reason: 'approximate' }
+  }
+  return { range: null, reason: 'ambiguous' }
 }
 
 function escapeRegex(s: string): string {

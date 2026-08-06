@@ -26,7 +26,8 @@ function parseDiscussionBody(body: string): string | null {
 function tryParseAnnotation(body: string): AnnotationData | null {
   try {
     const parsed = JSON.parse(body)
-    if (parsed && parsed.version === 1 && parsed.pagePath && parsed.anchor && parsed.text)
+    // anchor 可空：文本批注有 anchor，文章级评论 anchor 为 null（'anchor' in 判断存在性）
+    if (parsed && parsed.version === 1 && parsed.pagePath && 'anchor' in parsed && parsed.text)
       return parsed as AnnotationData
   }
   catch { /* not JSON */ }
@@ -199,6 +200,15 @@ async function getAnnotations(
             body
             author { login avatarUrl }
             createdAt
+            replies(first: 100) {
+              nodes {
+                id
+                url
+                body
+                author { login avatarUrl }
+                createdAt
+              }
+            }
           }
         }
       }
@@ -214,6 +224,15 @@ async function getAnnotations(
             body: string
             author: { login: string, avatarUrl: string } | null
             createdAt: string
+            replies: {
+              nodes: Array<{
+                id: string
+                url: string
+                body: string
+                author: { login: string, avatarUrl: string } | null
+                createdAt: string
+              }>
+            }
           }>
         }
       }
@@ -221,12 +240,19 @@ async function getAnnotations(
   }>(query, token, { owner: REPO_OWNER, name: REPO_NAME, number: discussionNumber })
 
   const annotations: ResolvedAnnotation[] = []
-  for (const c of data.repository.discussion.comments.nodes) {
+  const toAnn = (c: {
+    id: string
+    url: string
+    body: string
+    author: { login: string, avatarUrl: string } | null
+    createdAt: string
+  }, parentCommentId: string | null): ResolvedAnnotation | null => {
     const ann = tryParseAnnotation(c.body)
     if (!ann)
-      continue
-    annotations.push({
+      return null
+    return {
       commentId: c.id,
+      parentCommentId,
       commentUrl: c.url,
       author: {
         login: c.author?.login ?? 'unknown',
@@ -234,7 +260,18 @@ async function getAnnotations(
       },
       data: ann,
       domRange: null, // 后续由 highlight 填充
-    })
+      matchState: 'stale', // 后续由 highlight 计算
+    }
+  }
+  for (const c of data.repository.discussion.comments.nodes) {
+    const top = toAnn(c, null)
+    if (top)
+      annotations.push(top)
+    for (const r of c.replies.nodes) {
+      const reply = toAnn(r, c.id)
+      if (reply)
+        annotations.push(reply)
+    }
   }
   return annotations
 }
@@ -243,6 +280,7 @@ async function createAnnotation(
   discussionId: string,
   data: AnnotationData,
   token: string,
+  replyToId?: string,
 ): Promise<string> {
   const query = `mutation($input: AddDiscussionCommentInput!) {
     addDiscussionComment(input: $input) {
@@ -256,6 +294,7 @@ async function createAnnotation(
       input: {
         discussionId,
         body: JSON.stringify(data),
+        ...(replyToId ? { replyToId } : {}),
       },
     },
   )

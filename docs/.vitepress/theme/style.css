@@ -684,3 +684,33 @@ mjx-container.MathJax svg {
 .backdrop-blur {
   backdrop-filter: blur(10px);
 }
+
+/* ---- 批注高亮（CSS Custom Highlight API）----
+ * exact：淡黄底；approximate：淡橙底；
+ * 带批注的高亮追加 2px 实色下划线（Notion 风格）
+ */
+::highlight(annotation-exact),
+::highlight(annotation-pending) {
+  background-color: rgba(250, 204, 21, 0.18);
+  text-decoration: underline 2px rgba(224, 169, 59, 0.85);
+  text-underline-offset: 2px;
+}
+
+::highlight(annotation-approximate) {
+  background-color: rgba(251, 146, 60, 0.18);
+  text-decoration: underline 2px rgba(234, 88, 12, 0.85);
+  text-underline-offset: 2px;
+}
+
+::highlight(annotation-flash) {
+  background-color: rgba(250, 204, 21, 0.7);
+  text-decoration: underline 2px rgba(224, 169, 59, 0.95);
+  text-underline-offset: 2px;
+  transition: background-color 0.3s;
+}
+
+::highlight(annotation-hover) {
+  background-color: rgba(250, 204, 21, 0.45);
+  text-decoration: underline 2px rgba(224, 169, 59, 0.9);
+  text-underline-offset: 2px;
+}
