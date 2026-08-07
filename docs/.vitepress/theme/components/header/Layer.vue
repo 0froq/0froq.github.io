@@ -83,7 +83,7 @@ const hoveringLayer = ref<string | null>(null)
 [data-layer] {
   --uno: 'opacity-50';
   --uno: 'transition duration-200';
-  --uno: 'hover:opacity-80 hover:translate-y--0.5 hover:scale-105';
+  --uno: 'hover:opacity-80';
 }
 
 [data-layer='corpus'] {

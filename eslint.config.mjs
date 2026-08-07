@@ -2,7 +2,7 @@ import antfu from '@antfu/eslint-config'
 
 export default antfu(
   {
-    ignores: ['OH-Works/**'],
+    ignores: ['OH-Works/**', '.hermes/plans/**'],
     unocss: true,
     vue: true,
     typescript: true,

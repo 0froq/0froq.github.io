@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
+import { useI18n } from 'vue-i18n'
+import { resolveAuthError } from '~/i18n/annotation'
 import { useGitHubAuth } from '../../composables/useGitHubAuth'
 
 const props = defineProps<{
@@ -16,13 +18,15 @@ const emit = defineEmits<{
   close: []
 }>()
 
+const { t } = useI18n({ useScope: 'global' })
+
 const { isAuthenticated, isAuthenticating, deviceInfo, startDeviceFlow, authError, clearError } = useGitHubAuth()
 
 const annotationText = ref('')
 const textareaRef = ref<HTMLTextAreaElement | null>(null)
 const popoverRef = ref<HTMLElement | null>(null)
 
-// 定位（340px 宽；fixed 基于视口坐标，rect 已含滚动偏移，不能加 scrollY）
+// 定位（340px 宽；absolute 文档坐标——视口坐标 + scroll，滚动跟随）
 const POPOVER_WIDTH = 340
 const POPOVER_GAP = 8
 
@@ -46,21 +50,22 @@ const popoverStyle = computed(() => {
   }
 
   return {
-    position: 'fixed' as const,
-    top: `${top}px`,
-    left: `${left}px`,
+    position: 'absolute' as const,
+    top: `${top + window.scrollY}px`,
+    left: `${left + window.scrollX}px`,
     width: `${POPOVER_WIDTH}px`,
-    zIndex: 9999,
   }
 })
 
 // 引用预览：前 2 行截断
 const previewText = computed(() => {
-  const t = props.selectedPreview?.trim() ?? ''
-  if (!t)
+  const text = props.selectedPreview?.trim() ?? ''
+  if (!text)
     return ''
-  return t.length > 60 ? `${t.slice(0, 60)}…` : t
+  return text.length > 60 ? `${text.slice(0, 60)}…` : text
 })
+
+const authErrorMessage = computed(() => resolveAuthError(t, authError.value))
 
 function handleSubmit() {
   const text = annotationText.value.trim()
@@ -111,10 +116,12 @@ watch(() => props.rect, () => {
       ref="popoverRef"
       :style="popoverStyle"
       class="annotation-popover"
-      un-bg="white dark:stone-800"
-      un-border="~ stone-300 dark:stone-600"
-      un-rounded
+      un-bg="stone-50/50 dark:stone-950/50"
+      un-backdrop-blur-lg
+      un-border="~ stone-200 dark:stone-800"
+      un-rounded-xs
       un-shadow-lg
+      un-z-50
       un-p-3
     >
       <!-- 引用预览 -->
@@ -137,15 +144,19 @@ watch(() => props.rect, () => {
           ref="textareaRef"
           v-model="annotationText"
           rows="2"
-          placeholder="写下批注…"
+          :placeholder="t('popover.placeholder')"
           un-w-full
           un-resize-none
           un-text-sm
-          un-bg="transparent"
-          un-border-none
+          un-bg="stone-200/20 dark:stone-800/20"
+          un-border="~ stone-200 dark:stone-800"
+          un-rounded
+          un-px-3
+          un-py-1.5
           un-outline-none
           un-text="stone-800 dark:stone-200"
-          un-placeholder="stone-400 dark:stone-500"
+          un-placeholder="stone-400 dark:stone-600"
+          un-focus="border-stone-600 dark:border-stone-400 rounded-lg"
           un-leading-relaxed
           @keydown="handleKeydown"
         />
@@ -158,14 +169,14 @@ watch(() => props.rect, () => {
           <span
             un-text="xs stone-400 dark:stone-500"
           >
-            ⌘⏎ 提交 · Esc 取消
+            {{ t('popover.hint') }}
           </span>
           <button
             class="annotation-btn-primary"
             :disabled="submitting || !annotationText.trim()"
             @click="handleSubmit"
           >
-            {{ submitting ? '提交中…' : '批注' }}
+            {{ submitting ? t('submitting') : t('submit') }}
           </button>
         </div>
       </template>
@@ -182,13 +193,13 @@ watch(() => props.rect, () => {
             un-text-sm
             un-text="stone-600 dark:stone-400"
           >
-            登录以添加批注
+            {{ t('popover.loginPrompt') }}
           </span>
           <button
             class="annotation-btn-primary"
             @click="startDeviceFlow"
           >
-            使用 GitHub 登录
+            {{ t('popover.loginButton') }}
           </button>
         </div>
 
@@ -200,7 +211,7 @@ watch(() => props.rect, () => {
           un-py-4
           un-text-center
         >
-          正在连接 GitHub…
+          {{ t('popover.connecting') }}
         </div>
 
         <!-- Device Flow 进行中 -->
@@ -212,7 +223,7 @@ watch(() => props.rect, () => {
             un-text="stone-600 dark:stone-400"
             un-mb-2
           >
-            打开链接并输入验证码：
+            {{ t('popover.deviceFlowHint') }}
           </div>
           <div
             un-flex
@@ -251,28 +262,16 @@ watch(() => props.rect, () => {
           un-items-center
           un-justify-between
         >
-          <span>{{ authError }}</span>
+          <span>{{ authErrorMessage }}</span>
           <button
             un-text-xs
             un-underline
             @click="clearError"
           >
-            重试
+            {{ t('popover.retry') }}
           </button>
         </div>
       </template>
     </div>
   </Teleport>
 </template>
-
-<style scoped>
-.annotation-btn-primary {
-  @apply un-px-3 un-py-1 un-text-xs un-rounded un-bg-stone-900 dark:un-bg-stone-100 un-text-white dark:un-text-stone-900 un-transition un-duration-300;
-}
-.annotation-btn-primary:hover:not(:disabled) {
-  @apply un-opacity-80;
-}
-.annotation-btn-primary:disabled {
-  @apply un-opacity-40 un-cursor-not-allowed;
-}
-</style>

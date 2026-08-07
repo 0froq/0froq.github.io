@@ -4,39 +4,7 @@ import { fileURLToPath } from 'node:url'
 import MarkdownIt from 'markdown-it'
 import MarkdownItHashtag from 'markdown-it-hashtag'
 import YAML from 'yaml'
-
-// Minimal tag extraction logic (mirrors docs/.vitepress/utils/usePostUtils.ts)
-function dealTagHierarchy(tag) {
-  const tags = new Set()
-  const levels = tag.split('/')
-  levels.forEach((_, i) => {
-    tags.add(levels.slice(0, i + 1).join('/'))
-  })
-  return tags
-}
-
-const TAG_REG
-  = /<a href="[./tags][^"]*">\s*<span class="tag">(.*?)<\/span>\s*<\/a>/g
-
-function getTags(html, frontmatter = {}) {
-  let tagsExtended = new Set()
-  const tags = new Set()
-  if (html) {
-    let match = TAG_REG.exec(html)
-    while (match) {
-      tags.add(match[1])
-      tagsExtended = new Set([...tagsExtended, ...dealTagHierarchy(match[1])])
-      match = TAG_REG.exec(html)
-    }
-  }
-  if (frontmatter.tags) {
-    frontmatter.tags.forEach((tag) => {
-      tags.add(tag)
-      tagsExtended = new Set([...tagsExtended, ...dealTagHierarchy(tag)])
-    })
-  }
-  return { tags, tagsExtended }
-}
+import { getTags } from './lib/tagHierarchy.mjs'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const docsRoot = path.resolve(__dirname, '../docs')

@@ -1,10 +1,10 @@
+import { getTags } from '../../../../scripts/lib/tagHierarchy.mjs'
+
 const FRONTMATTER_RE = /---[\s\S]*?---/
 const HTML_TAG_RE = /<[\s\S]*?>/g
 const ZH_RE = /[\u4E00-\u9FA5]/g
 const EN_RE = /[a-z]/gi
 const CODE_BLOCK_RE = /```[\s\S]*?```/g
-const TAG_REG
-  = /<a href="[./tags][^"]*">\s*<span class="tag">(.*?)<\/span>\s*<\/a>/g
 
 function calculateReadingTime(text?: string): number {
   if (!text) {
@@ -30,54 +30,6 @@ function calculateReadingTime(text?: string): number {
   )
 
   return minutes
-}
-
-function dealTagHierarchy(tag: string): Set<string> {
-  const tags = new Set<string>()
-  const levels = tag.split('/')
-  levels.forEach((_: string, i: number) => {
-    tags.add(levels.slice(0, i + 1).join('/'))
-  })
-
-  return tags
-}
-
-function getTags(
-  html: string | undefined,
-  frontmatter: Record<string, any>,
-): {
-  tags: Set<string>
-  tagsExtended: Set<string>
-} {
-  let tagsExtended: Set<string> = new Set()
-  const tags: Set<string> = new Set()
-
-  if (!html) {
-    return {
-      tags,
-      tagsExtended,
-    }
-  }
-
-  let match: RegExpExecArray | null = TAG_REG.exec(html)
-
-  while (match) {
-    tags.add(match[1])
-    tagsExtended = new Set([...tagsExtended, ...dealTagHierarchy(match[1])])
-    match = TAG_REG.exec(html)
-  }
-
-  if (frontmatter.tags) {
-    frontmatter.tags.forEach((tag: string) => {
-      tags.add(tag)
-      tagsExtended = new Set([...tagsExtended, ...dealTagHierarchy(tag)])
-    })
-  }
-
-  return {
-    tags,
-    tagsExtended,
-  }
 }
 
 function normalizeCategory(category: string | undefined): string {

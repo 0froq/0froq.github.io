@@ -1,4 +1,5 @@
 node_modules/
+.pnpm-store/
 docs/.vitepress/cache/
 docs/.vitepress/dist/
 docs/posts/.obsidian/

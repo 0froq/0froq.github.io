@@ -1,18 +1,32 @@
 <script setup lang="ts">
 import type { ResolvedAnnotation } from '~/types/annotation'
+import { storeToRefs } from 'pinia'
 import { useData, useRoute } from 'vitepress'
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import ArticleNavigation from '@/ui/article/ArticleNavigation.vue'
 import LinkUnderline from '@/ui/base/LinkUnderline.vue'
 import ProgressBarHeader from '@/ui/base/ProgressBarHeader.vue'
+import QCheckbox from '@/ui/base/QCheckbox.vue'
 import AnnotationList from '~/components/annotation/AnnotationList.vue'
 import AnnotationRail from '~/components/annotation/AnnotationRail.vue'
+import AnnotationReplyFloat from '~/components/annotation/AnnotationReplyFloat.vue'
 import { scrollToAnnotation } from '~/composables/useAnnotationHighlight'
-import { activeCommentId, annotations } from '~/composables/useAnnotationStore'
 import { data as corpus } from '~/src/corpus.data'
 import { data as posts } from '~/src/posts.data'
+import { useAnnotationStore } from '~/stores/annotation'
 import { renderMdInline } from '~/utils/renderMdInline'
+
+// 侧栏显隐（默认展开；偏好持久化 localStorage）
+const showRail = ref(localStorage.getItem('annotation-show-rail') !== 'false')
+
+function toggleRail(v: boolean | undefined) {
+  showRail.value = !!v
+  localStorage.setItem('annotation-show-rail', showRail.value ? 'true' : 'false')
+}
+
+const store = useAnnotationStore()
+const { annotations } = storeToRefs(store)
 
 const { t, d, locale } = useI18n({
   useScope: 'global',
@@ -201,6 +215,19 @@ const originalPost = computed(() => {
         AIGC
       </div>
     </template>
+    <!-- 侧栏显隐开关 + 回复浮层（sticky 在标题栏右侧） -->
+    <template #actions>
+      <QCheckbox
+        v-if="annotations.length > 0"
+        id="annotation-rail-toggle"
+        :model-value="showRail"
+        :label-prefix="t('rail.prefix')"
+        :label-text="{ checked: t('rail.checked'), unchecked: t('rail.unchecked') }"
+        @update:model-value="toggleRail"
+      />
+      <!-- 回复浮层（Pinia replyTarget；Rail/List 通过 openReplyFloat 打开） -->
+      <AnnotationReplyFloat />
+    </template>
   </ProgressBarHeader>
   <div
     un-flex="~ row"
@@ -307,14 +334,12 @@ const originalPost = computed(() => {
     />
 
     <!-- 右侧批注列（宽屏，紧贴 content 右侧；自包含，从 store 取数据） -->
-    <AnnotationRail v-if="annotations.length > 0" />
+    <AnnotationRail v-if="showRail && annotations.length > 0" />
   </div>
 
-  <!-- 文章尾部批注列表（窄屏；数据来自共享 store） -->
+  <!-- 文章尾部批注列表（窄屏；数据来自 Pinia store） -->
   <AnnotationList
     v-if="annotations.length > 0"
-    :annotations="annotations"
-    :active-comment-id="activeCommentId"
     @select="handleAnnotationSelect"
   />
 

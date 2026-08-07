@@ -16,6 +16,7 @@
 
 html {
   font-variant-settings: 'calt', 'ss01', 'ss03', 'ss04', 'ss06', 'ss07', 'ss08', 'ss10', 'liga';
+  color-scheme: light dark;
 
   --uno: 'font-sans';
   /* font-size: 20px; */
@@ -28,21 +29,14 @@ html {
     --uno: 'w-1px';
   }
 
-  /* &::-webkit-scrollbar-track { */
-  /*   --uno: 'bg-stone-500'; */
-  /* } */
-  /**/
-  /* &::-webkit-scrollbar-thumb { */
-  /*   --uno: 'bg-stone-950 dark:bg-stone-50'; */
-  /* } */
-
   /* background color for medium-zoom */
-  --image-mask-bg: #fafafa;
-  background-color: white;
+  --image-mask-bg: #f5f5f4;
+  background-color: #f5f5f4;
 
   &.dark {
-    --image-mask-bg: #0a0a0a;
-    background-color: black;
+    color-scheme: dark;
+    --image-mask-bg: #0c0a09;
+    background-color: #0c0a09;
   }
 }
 
@@ -686,31 +680,95 @@ mjx-container.MathJax svg {
 }
 
 /* ---- 批注高亮（CSS Custom Highlight API）----
- * exact：淡黄底；approximate：淡橙底；
  * 带批注的高亮追加 2px 实色下划线（Notion 风格）
  */
 ::highlight(annotation-exact),
 ::highlight(annotation-pending) {
-  background-color: rgba(250, 204, 21, 0.18);
-  text-decoration: underline 2px rgba(224, 169, 59, 0.85);
-  text-underline-offset: 2px;
+  --uno: 'transition duration-200';
+  --uno: 'bg-green-500/20';
+  --uno: 'decoration-underline underline-(2px solid green-500 offset-2)';
 }
 
 ::highlight(annotation-approximate) {
-  background-color: rgba(251, 146, 60, 0.18);
-  text-decoration: underline 2px rgba(234, 88, 12, 0.85);
-  text-underline-offset: 2px;
+  --uno: 'transition';
+  --uno: 'bg-orange-500/20';
+  --uno: 'decoration-underline underline-(2px solid orange-500 offset-2)';
 }
 
 ::highlight(annotation-flash) {
-  background-color: rgba(250, 204, 21, 0.7);
-  text-decoration: underline 2px rgba(224, 169, 59, 0.95);
-  text-underline-offset: 2px;
-  transition: background-color 0.3s;
+  --uno: 'transition';
+  --uno: 'bg-green-500/20';
+  --uno: 'decoration-underline underline-(2px solid green-500 offset-2)';
 }
 
 ::highlight(annotation-hover) {
-  background-color: rgba(250, 204, 21, 0.45);
-  text-decoration: underline 2px rgba(224, 169, 59, 0.9);
+  --uno: 'bg-green-500/20';
+  --uno: 'decoration-underline underline-(2px solid green-500 offset-2)';
+  /* ::highlight 不支持 transition，用 animation 实现淡入 */
+  animation: annotation-hover-fade 0.2s ease-out;
+}
+
+@keyframes annotation-hover-fade {
+  from {
+    background-color: transparent;
+  }
+  to {
+    background-color: rgba(34, 197, 94, 0.2);
+  }
+}
+
+/* ---- Dark mode: View Transition API (antfu.me) ---- */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+::view-transition-old(root) {
+  z-index: 1;
+}
+
+::view-transition-new(root) {
+  z-index: 9999;
+}
+
+.dark::view-transition-old(root) {
+  z-index: 9999;
+}
+
+.dark::view-transition-new(root) {
+  z-index: 1;
+}
+
+.dark [img-light] {
+  display: none;
+}
+
+html:not(.dark) [img-dark] {
+  display: none;
+}
+
+/* ---- Annotation shared UI ---- */
+.annotation-btn-primary {
+  --uno: 'px-3 py-1 text-xs rounded bg-stone-900 dark:bg-stone-100 text-white dark:text-stone-900 transition duration-300';
+}
+.annotation-btn-primary:hover:not(:disabled) {
+  --uno: 'opacity-80';
+}
+.annotation-btn-primary:disabled {
+  --uno: 'opacity-40 cursor-not-allowed';
+}
+.annotation-reply-body blockquote {
+  margin: 0 0 4px;
+  padding-left: 8px;
+  color: rgba(120, 113, 108, 0.6);
+  border-left: 2px solid rgba(120, 113, 108, 0.35);
+}
+.annotation-reply-body a {
+  color: var(--annotation-link, rgba(120, 113, 108, 0.9));
+  text-decoration: underline;
   text-underline-offset: 2px;
+}
+.annotation-reply-body p {
+  margin: 0;
 }

@@ -1,0 +1,170 @@
+import type { AnnotationAnchor } from '../types/annotation'
+import { useData, useRoute } from 'vitepress'
+import { computed, nextTick, ref, watch } from 'vue'
+import { useI18n } from 'vue-i18n'
+import { useAnnotationStore } from '../stores/annotation'
+import { useAnnotationHighlight } from './useAnnotationHighlight'
+import { useGitHubAuth } from './useGitHubAuth'
+import { useGitHubDiscussions } from './useGitHubDiscussions'
+
+const SLASHES_RE = /^\/+|\/+$/g
+
+/**
+ * Page-scoped load/submit for annotations.
+ * Load only looks up an existing Discussion (lazy create on first submit).
+ */
+export function useAnnotationPage() {
+  const route = useRoute()
+  const { page } = useData()
+  const { t } = useI18n({ useScope: 'global' })
+  const store = useAnnotationStore()
+  const { isAuthenticated, token } = useGitHubAuth()
+  const { findDiscussion, findOrCreateDiscussion, getAnnotations, createAnnotation } = useGitHubDiscussions()
+  const { highlightAnnotations, clearAllHighlights } = useAnnotationHighlight()
+
+  const submitting = ref(false)
+  const loading = ref(false)
+  const error = ref<string | null>(null)
+  const pendingAnchor = ref<AnnotationAnchor | null>(null)
+
+  const pagePath = computed(() => {
+    let p = route.path.replace(SLASHES_RE, '')
+    if (!p)
+      p = 'index'
+    return p
+  })
+
+  const pageTitle = computed(() => page.value.title || (typeof document !== 'undefined' ? document.title : '') || route.path)
+
+  async function loadAnnotations() {
+    if (!isAuthenticated.value || !token.value) {
+      store.setAnnotations([])
+      return
+    }
+
+    loading.value = true
+    error.value = null
+
+    try {
+      // Lazy: look up only — do not create empty Discussions on visit
+      const discussion = await findDiscussion(pagePath.value, token.value)
+
+      if (!discussion) {
+        store.setAnnotations([])
+        return
+      }
+
+      const result = await getAnnotations(discussion.number, token.value)
+
+      await nextTick()
+      const content = document.getElementById('content') || document.body
+      highlightAnnotations(result, content)
+      store.setAnnotations(result)
+    }
+    catch (e: any) {
+      console.error('[annotation] 加载批注失败:', e)
+      error.value = e.message || 'error.load'
+      store.setAnnotations([])
+    }
+    finally {
+      loading.value = false
+    }
+  }
+
+  /**
+   * anchorOverride:
+   *   - undefined → text annotation from pendingAnchor
+   *   - null → article-level comment
+   *   - anchor → reuse (e.g. reply)
+   */
+  async function handleSubmit(
+    text: string,
+    anchorOverride?: AnnotationAnchor | null,
+    replyToId?: string,
+    replyToSnapshot?: { commentId: string, author: string, text: string },
+  ) {
+    if (!token.value) {
+      console.error('[annotation] 未登录，无法提交批注')
+      error.value = 'error.notLoggedIn'
+      return
+    }
+
+    submitting.value = true
+
+    try {
+      const anchor = anchorOverride === undefined ? pendingAnchor.value : anchorOverride
+      if (anchorOverride === undefined && !pendingAnchor.value) {
+        console.error('[annotation] 无可用锚点（选区已丢失）')
+        error.value = 'error.noAnchor'
+        return
+      }
+
+      const discussion = await findOrCreateDiscussion(
+        pagePath.value,
+        t('discussionTitle', { title: pageTitle.value }),
+        token.value,
+      )
+
+      await createAnnotation(discussion.id, {
+        version: 1,
+        pagePath: pagePath.value,
+        anchor: anchor ?? null,
+        text,
+        ...(replyToSnapshot ? { replyTo: replyToSnapshot } : {}),
+        status: 'active',
+        createdAt: new Date().toISOString(),
+      }, token.value, replyToId)
+
+      clearAllHighlights()
+      await loadAnnotations()
+
+      const sel = window.getSelection()
+      if (sel)
+        sel.removeAllRanges()
+      pendingAnchor.value = null
+    }
+    catch (e: any) {
+      console.error('[annotation] 提交批注失败:', e)
+      error.value = e.message || 'error.submit'
+    }
+    finally {
+      submitting.value = false
+    }
+  }
+
+  function bindRouteAndAuthWatchers() {
+    watch(() => route.path, () => {
+      clearAllHighlights()
+      store.setAnnotations([])
+      store.setActiveCommentId(null)
+      pendingAnchor.value = null
+      nextTick(() => {
+        if (isAuthenticated.value)
+          loadAnnotations()
+      })
+    })
+
+    watch(isAuthenticated, (val) => {
+      if (val) {
+        loadAnnotations()
+      }
+      else {
+        store.setAnnotations([])
+        clearAllHighlights()
+      }
+    })
+  }
+
+  return {
+    pagePath,
+    pageTitle,
+    submitting,
+    loading,
+    error,
+    pendingAnchor,
+    loadAnnotations,
+    handleSubmit,
+    bindRouteAndAuthWatchers,
+    isAuthenticated,
+  }
+}

@@ -1,9 +1,11 @@
 # Agent Operational Notes (Draft)
 
-This file collects operational edge cases and pitfalls not covered by skill definitions.
+This file collects operational edge cases and pitfalls for agents working in this repo.
 Format per entry: Problem → Real case → Correct practice.
 
 > ⚠️ **Draft — under review by froQ**
+
+Day/week planning skills (`start-my-day`, `end-my-day`, `start-my-week`, `end-my-week`) are **retired**. Do not invoke them. Board and advisor files remain the source of truth for dashboard state.
 
 ---
 
@@ -21,7 +23,8 @@ Format per entry: Problem → Real case → Correct practice.
       url: 'https://optional.url'
   ```
 
-  This applies to `board.yml` (active/backlog/archive), visions, hints, and any other dashboard YAML.
+  This applies to `board.yml` (active/backlog/archive) and visions.
+  Hints use their own shape (`title` / `description` / `category`) — do not force a `notes` array there.
   Top-level prose fields named `notes` outside dashboard YAML (e.g. in free-form context blocks) may still be scalar strings.
 
 ### 1.2 Board column semantics
@@ -39,15 +42,15 @@ Format per entry: Problem → Real case → Correct practice.
 - **Case A — Trivial update**: User says "mark the blog-post task as done". Agent responds with "Here's the change, please confirm:" instead of just doing it.
 - **Case B — Correction**: User says "actually I made a mistake, task X is NOT done, change it back". Agent re-applies the full confirm gate instead of just reverting.
 - **Correct**:
-  - ✅ Full confirm flow (skill-defined): multi-task planning, weekly themes, context changes — anything that meaningfully changes the plan.
-  - ✅ Brief acknowledgment: single-task status updates within `active`, flagging, priority tweaks — do it and say "done" or ask "anything else?".
-  - ✅ Direct execute (no gate): error corrections the user explicitly flags as corrections, reverts, and "never mind" rollbacks.
+  - Full confirm flow: multi-task planning, weekly themes, context changes — anything that meaningfully changes the plan.
+  - Brief acknowledgment: single-task status updates within `active`, flagging, priority tweaks — do it and say "done" or ask "anything else?".
+  - Direct execute (no gate): error corrections the user explicitly flags as corrections, reverts, and "never mind" rollbacks.
 
 ### 1.4 Reading vs planning: trigger discrimination
 
-- **Problem**: A read-only query triggers the full start-my-day / end-my-day skill flow, which feels overwhelming.
-- **Case**: User asks "what's on my board today?" Agent launches into "Good morning! Let me help you plan your day..."
-- **Correct**: Read-only queries (status check, "show me X", "what's active") → read board.yml and serve the data plainly. Only enter planning/review conversation flow when user signals intent with phrases like "let's plan", "帮我规划", "复盘一下", or equivalent.
+- **Problem**: A read-only query triggers a heavy planning conversation, which feels overwhelming.
+- **Case**: User asks "what's on my board today?" Agent launches into a full day-planning ritual.
+- **Correct**: Read-only queries (status check, "show me X", "what's active") → read `board.yml` and serve the data plainly. Only enter planning/review conversation when user signals intent with phrases like "let's plan", "帮我规划", "复盘一下", or equivalent.
 
 ### 1.5 Malformed board.yml handling
 
@@ -58,6 +61,14 @@ Format per entry: Problem → Real case → Correct practice.
   2. Attempt to identify and fix the syntax issue manually (the agent can reason about YAML structure).
   3. Present the fix as a diff and ask the user to verify.
   4. Do not proceed with planning/review on an empty parse.
+
+### 1.6 Advisor files
+
+- **Paths**:
+  - `docs/dashboard/advisor/hard.md` — low-frequency hard constraints (identity, schedule, standing rules).
+  - `docs/dashboard/advisor/context.md` — rolling notes (current focus, handoff).
+  - `docs/dashboard/advisor/state/` — optional machine-readable snapshots; not required for conversational flows.
+- **Correct**: Before planning or review conversations, read `board.yml` + `hard.md` + `context.md` (+ relevant hints). Do not invent a day/week skill ritual.
 
 ---
 
@@ -146,6 +157,25 @@ Format per entry: Problem → Real case → Correct practice.
 
 ---
 
+## 3. Agent Behavior & Tool Use
+
+### 3.1 Confirm gate vs direct instructions
+
+- **Problem**: Applying a strict confirm sequence (preview → ask → write) to every agent action, even when the user's instruction is unambiguous and standalone.
+- **Case**: User says "add this task to backlog: 'read paper X'". Agent responds with "Here's the preview, please confirm:" instead of just adding it and saying "done".
+- **Correct**:
+  - **Unambiguous, single-step instructions**: execute and report. The execution itself is the confirmation — if there's an error, the user will correct it.
+  - **Multi-step or consequential changes**: preview → ask confirm → write. When in doubt, preview briefly.
+  - Use judgment: "change status of active task X to done" → execute. "Move X to archive" → execute if explicit. "Let's plan the week" → full confirm flow (no retired skill required).
+
+### 3.2 read-then-ask-then-write
+
+- **Problem**: Agents start planning/review talk without reading board/advisor state.
+- **Case**: User says "let's review my week" and the agent asks "so how was your week?" without having read the board.
+- **Correct**: Always read `docs/dashboard/board.yml` + `docs/dashboard/advisor/hard.md` + `docs/dashboard/advisor/context.md` (+ relevant hints) before entering a planning or review conversation.
+
+---
+
 ## 4. Git Conventions
 
 ### 4.1 Prohibited commit type: chore
@@ -173,33 +203,12 @@ Format per entry: Problem → Real case → Correct practice.
 ### 4.2 Commit scope
 
 - **Problem**: Omitting scope makes commit history harder to navigate.
-- **Correct**: Include a scope when the change is contained to a specific module or directory. Common scopes: `dashboard`, `board`, `advisor`, `corpus`, `posts`, `skills`, `docs`, `vitepress`, `scripts`, `config`.
+- **Correct**: Include a scope when the change is contained to a specific module or directory. Common scopes: `dashboard`, `board`, `advisor`, `corpus`, `posts`, `docs`, `vitepress`, `scripts`, `config`.
 - **Examples**:
 
   ```
-  docs(corpus): add growth patrol entries 2026-06-19
+  docs(corpus): add carve entries 2026-06-19
   content(posts): update lake warming draft notes
   data(board): mark exam review task as done
   config(scripts): remove unused BibTeX parser
   ```
-
----
-
-## 3. Agent Behavior & Tool Use
-
-### 3.1 Confirm gate for skills vs direct instructions
-
-(Related to 1.2 above, but from the tool-use perspective rather than board structural perspective.)
-
-- **Problem**: Applying the skill's strict confirm sequence (preview → ask → write) to every agent action, even when the user's instruction is unambiguous and standalone.
-- **Case**: User says "add this task to backlog: 'read paper X'". Agent responds with "Here's the preview, please confirm:" instead of just adding it and saying "done".
-- **Correct**:
-  - **Unambiguous, single-step instructions**: execute and report. The execution itself is the confirmation — if there's an error, the user will correct it.
-  - **Multi-step or consequential changes**: preview → ask confirm → write. When in doubt, preview briefly.
-  - Use judgment: "change status of active task X to done" → execute. "Move X to archive" → execute if explicit. "Let's plan the week" → full confirm flow.
-
-### 3.2 read-then-ask-then-write: the one exception
-
-- **Problem**: Reading `board.yml` + `context.md` is mandatory before any planning/review conversation, but some agents skip this in the name of "natural conversation".
-- **Case**: User says "let's review my week" and the agent starts asking "so how was your week?" without having read the board — leading to uninformed questions like "what did you work on?"
-- **Correct**: Always read `board.yml` + `advisor/context.md` + relevant hints before entering a planning or review conversation. The skill flow explicitly calls this out as step 1 in all four skills.

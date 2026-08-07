@@ -1,35 +1,4 @@
 {
   "version": 1,
-  "skills": {
-    "end-my-day": {
-      "source": "0froq/skills",
-      "sourceType": "github",
-      "computedHash": "a7c9657927e8022d40140480410438ba3e2becb57370202857229449074f7804"
-    },
-    "end-my-week": {
-      "source": "0froq/skills",
-      "sourceType": "github",
-      "computedHash": "6f595aabe0a14e0452ea3b0e1784a61f768558ea7bf1b1b57c4681dc6ef70487"
-    },
-    "start-my-day": {
-      "source": "0froq/skills",
-      "sourceType": "github",
-      "computedHash": "ca2a0286ffac2cfeb4bd6c843a20d66bb3f58cfc77d73c62b41cf668a2da06b7"
-    },
-    "start-my-week": {
-      "source": "0froq/skills",
-      "sourceType": "github",
-      "computedHash": "96eb6ce3929f72bc76dc92ccb47a6926f64f7de225d0eb38e6974cc946c3a094"
-    },
-    "update-hard-context": {
-      "source": "0froq/skills",
-      "sourceType": "github",
-      "computedHash": "d8eeb0d33a3712c25a282ebdd0fc533811eea1a1d98427b977f0314d4a517705"
-    },
-    "verify-task-doc": {
-      "source": "0froq/skills",
-      "sourceType": "github",
-      "computedHash": "719cd227dbecf79ac0c7e2a2932cd37619d502046f43c9f7d9c0207b76bb76b8"
-    }
-  }
+  "skills": {}
 }

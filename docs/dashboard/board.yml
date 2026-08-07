@@ -15,29 +15,24 @@ backlog:
   - title: 一个 iOS app
     dod: timeline 式日程管理 app 完成
     priority: low
-    status: inProgress
     notes:
       - text: 技术选型：Swift + SwiftUI。否决 Flutter（iOS only + Widget 核心，混搭成本高）(06-14)
       - text: 设计：单轴时间线，线段=schedule，点=due，极简主义，Widget 核心
       - text: 下一步：搭 Neovim Swift 环境 → 静态 timeline 原型 → TimelineView
   - title: 搭 Neovim Swift 开发环境
     priority: low
-    status: notStarted
     notes:
       - text: sourcekit-lsp + xcodebuild.nvim + preview 插件，不开 Xcode
   - title: 静态 timeline 原型
     priority: low
-    status: notStarted
     notes:
       - text: Canvas + Shape，一条竖线，几个点，几根线段
   - title: TimelineView 动态化
     priority: low
-    status: notStarted
     notes:
       - text: 让静态原型动起来
   - title: 设计 tokens
     priority: low
-    status: notStarted
     notes:
       - text: 颜色、间距、线段风格
 

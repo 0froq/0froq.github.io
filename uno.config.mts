@@ -17,9 +17,10 @@ const safeIcons = [
 ]
 export default defineConfig({
   theme: {
-    breakpoints: {
+    breakpoint: {
       sm: '600px',
       md: '900px',
+      lg: '1440px',
     },
   },
   rules: [

@@ -1,3 +1,4 @@
+import type { AnnotationAuthError } from '../i18n/annotation'
 import { computed, readonly, ref, shallowRef } from 'vue'
 
 // ---- 内部 helpers ----
@@ -30,7 +31,7 @@ const token = ref<string | null>(
 )
 const user = shallowRef<GitHubUser | null>(null)
 const isAuthenticating = ref(false)
-const authError = ref<string | null>(null)
+const authError = ref<AnnotationAuthError | null>(null)
 
 // Device Flow 进行中时展示的信息
 const deviceInfo = ref<{ user_code: string, verification_uri: string } | null>(null)
@@ -57,13 +58,13 @@ async function startDeviceFlow(): Promise<void> {
     })
   }
   catch {
-    authError.value = '无法连接 GitHub，请检查网络'
+    authError.value = { code: 'network' }
     isAuthenticating.value = false
     return
   }
 
   if (!res.ok) {
-    authError.value = `GitHub 返回错误 (${res.status})，请检查 Client ID 配置`
+    authError.value = { code: 'httpError', status: res.status }
     isAuthenticating.value = false
     return
   }
@@ -127,14 +128,17 @@ async function pollForToken(
     }
 
     // expired_token / access_denied / 其他
-    authError.value = data.error_description || `验证失败: ${data.error}`
+    authError.value = {
+      code: 'verifyFailed',
+      detail: data.error_description || data.error || 'unknown',
+    }
     isAuthenticating.value = false
     deviceInfo.value = null
     return
   }
 
   // 超时
-  authError.value = '验证超时，请重新登录'
+  authError.value = { code: 'timeout' }
   isAuthenticating.value = false
   deviceInfo.value = null
 }

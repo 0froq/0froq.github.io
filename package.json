@@ -5,7 +5,8 @@
     "docs:dev": "node scripts/generate-tags.mjs && vitepress dev docs",
     "docs:build": "node scripts/generate-tags.mjs && vitepress build docs",
     "docs:preview": "node scripts/generate-tags.mjs && vitepress preview docs",
-    "lint": "eslint . --fix"
+    "lint": "eslint . --fix",
+    "test": "vitest run"
   },
   "dependencies": {
     "@comark/markdown-it": "catalog:markdown",
@@ -19,18 +20,16 @@
     "@fontsource/source-serif-pro": "catalog:fonts",
     "@intlify/unplugin-vue-i18n": "catalog:build",
     "@types/markdown-it": "catalog:types",
-    "@types/plotly.js": "catalog:types",
     "@unocss/reset": "catalog:styling",
     "@vue/devtools-api": "catalog:runtime",
     "@vue/test-utils": "catalog:test",
     "@vueuse/core": "catalog:runtime",
     "@vueuse/gesture": "catalog:runtime",
     "@vueuse/motion": "catalog:runtime",
-    "csv-parse": "catalog:runtime",
     "eslint": "catalog:lint",
     "happy-dom": "catalog:test",
     "medium-zoom": "catalog:runtime",
-    "plotly.js-dist-min": "catalog:runtime",
+    "pinia": "catalog:runtime",
     "vitest": "catalog:test",
     "vue": "catalog:runtime",
     "vue-i18n": "catalog:runtime"

@@ -2,8 +2,10 @@ import type { Theme } from 'vitepress'
 import TwoslashFloatingVue from '@shikijs/vitepress-twoslash/client'
 import { GesturePlugin } from '@vueuse/gesture'
 import { MotionPlugin } from '@vueuse/motion'
+import { createPinia } from 'pinia'
 import { createI18n } from 'vue-i18n'
 import { installKeyboardShortcuts } from './composables/useKeyboardShortcuts'
+import { annotationMessages } from './i18n/annotation'
 // https://vitepress.dev/guide/custom-theme
 import Layout from './Layout.vue'
 import '@unocss/reset/tailwind.css'
@@ -35,11 +37,13 @@ const i18n = createI18n({
       localeUrlSuffix: 'en/',
       localeUrl: '{url}@:localeUrlSuffix',
       localeName: 'English',
+      ...annotationMessages.en,
     },
     zh: {
       localeUrlSuffix: '',
       localeUrl: '{url}@:localeUrlSuffix',
       localeName: '中文',
+      ...annotationMessages.zh,
     },
   },
   datetimeFormats: {
@@ -82,6 +86,7 @@ export default {
   Layout,
   enhanceApp({ app }) {
     app
+      .use(createPinia())
       .use(TwoslashFloatingVue)
       .use(GesturePlugin)
       .use(MotionPlugin)

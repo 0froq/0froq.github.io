@@ -9,6 +9,7 @@ defineProps<{
 }>()
 
 const titleWrapper = useTemplateRef('titleWrapper')
+const progressTrack = useTemplateRef('progressTrack')
 const titleWrapperVisible = useElementVisibility(titleWrapper)
 
 const progressBarWidth = useCssVar('--progress-bar-width', titleWrapper)
@@ -16,18 +17,15 @@ const progressBarWidth = useCssVar('--progress-bar-width', titleWrapper)
 function handleScroll() {
   if (typeof window === 'undefined')
     return
-  // const categoryWrapper = titleWrapper.value!.parentElement
-  if (!titleWrapper.value)
+  if (!titleWrapper.value || !progressTrack.value)
     return
   const categoryWrapper = titleWrapper.value.parentElement
   if (categoryWrapper) {
     const scrollY = window.scrollY
     const wrapperOffsetY = categoryWrapper.offsetTop
-    const fullWidth = titleWrapper.value!.offsetWidth
+    const fullWidth = progressTrack.value.offsetWidth
     const windowHeight = window.innerHeight
 
-    // if the height of the category wrapper is less than the height of the window,
-    // then the progress bar should be 100%
     if (categoryWrapper.offsetHeight <= windowHeight) {
       progressBarWidth.value = `${fullWidth}px`
       return
@@ -37,6 +35,7 @@ function handleScroll() {
     progressBarWidth.value = `${percentage * fullWidth}px`
   }
 }
+
 watchEffect(() => {
   if (typeof window === 'undefined')
     return
@@ -54,63 +53,89 @@ watchEffect(() => {
   <div
     :id="id || 'title-wrapper'"
     ref="titleWrapper"
+    class="title-wrapper"
     un-sticky
     un-top-0
-    un-py-5
     un-z-10
-    un-bg="stone-100 dark:stone-950"
-    class="title-wrapper"
   >
-    <div class="progress-bar">
-      <div
-        class="progress-bar-inner"
-        un-bg="stone-600 dark:stone-400"
-        :style="{ width: 'var(--progress-bar-width, 0)' }"
-        un-h-2px
-        un-absolute
-        un-bottom-0
-        un-z-1
-      />
-      <div
-        class="progress-bar-bg"
-        un-bg="stone-200 dark:stone-800"
-        un-w-full
-        un-h-2px
-        un-absolute
-        un-z-0
-        un-bottom-0
-      />
-    </div>
     <div
-      un-flex="~ col"
-      un-items-start
-      un-gap-2
+      un-w-screen
+      un-ml="[calc(50%-50vw)]"
+      un-pt-5
+      un-backdrop-blur-md
+      un-backdrop-saturate-150
+      un-bg="stone-100/72 dark:stone-950/72"
     >
-      <h2
-        un-mt-4
-        un-text-3xl
-        un-w-fit
-        un-font-serif
-        un-text="neutral-900 dark:neutral-100"
-        v-html="title !== '-' ? title : ''"
-      />
       <div
-        un-place-self-end
-        un-flex="~ row"
-        un-gap-4
+        class="page-content"
+        un-relative
+        un-pb-5
       >
-        <slot
-          name="titleAddon"
+        <div
+          un-flex="~ col"
+          un-items-start
+          un-gap-2
+        >
+          <h2
+            un-mt-4
+            un-text-3xl
+            un-w-fit
+            un-font-serif
+            un-text="neutral-900 dark:neutral-100"
+            v-html="title !== '-' ? title : ''"
+          />
+          <div
+            un-place-self-end
+            un-flex="~ row"
+            un-gap-4
+          >
+            <slot name="titleAddon" />
+          </div>
+          <div
+            un-place-self-end
+            un-flex="~ row"
+            un-items-center
+            un-gap-3
+          >
+            <slot name="actions" />
+          </div>
+        </div>
+        <div
+          v-if="intro"
+          un-text="stone-600 dark:stone-400"
+          un-mb-4
+          un-pl-8
+          v-html="intro"
         />
+        <slot />
+
+        <div
+          ref="progressTrack"
+          class="progress-bar"
+          un-relative
+          un-h-2px
+          un-mt-4
+        >
+          <div
+            class="progress-bar-inner"
+            un-bg="stone-600 dark:stone-400"
+            :style="{ width: 'var(--progress-bar-width, 0)' }"
+            un-h-2px
+            un-absolute
+            un-bottom-0
+            un-z-1
+          />
+          <div
+            class="progress-bar-bg"
+            un-bg="stone-200 dark:stone-800"
+            un-w-full
+            un-h-2px
+            un-absolute
+            un-z-0
+            un-bottom-0
+          />
+        </div>
       </div>
     </div>
-    <div
-      v-if="intro"
-      un-text="stone-600 dark:stone-400"
-      un-mb-4
-      un-pl-8
-      v-html="intro"
-    />
-    <slot />
   </div>
 </template>

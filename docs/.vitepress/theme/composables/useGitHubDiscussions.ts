@@ -327,6 +327,8 @@ async function updateAnnotation(
 
 export function useGitHubDiscussions() {
   return {
+    /** Lookup only — does not create a Discussion. */
+    findDiscussion: findDiscussionByPage,
     findOrCreateDiscussion,
     getAnnotations,
     createAnnotation,

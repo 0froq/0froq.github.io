@@ -1,13 +1,11 @@
 <script setup lang="ts">
-import { useDark, useToggle } from '@vueuse/core'
 import { useData, useRoute, useRouter } from 'vitepress'
 import { useI18n } from 'vue-i18n'
+import { isDark, toggleDark } from '~/composables/useDarkMode'
 import Doing from './header/Doing.vue'
 import Layer from './header/Layer.vue'
 import Logo from './header/Logo.vue'
 
-const isDark = useDark()
-const toggleDark = useToggle(isDark)
 const router = useRouter()
 const { frontmatter } = useData()
 const { locale } = useI18n({
@@ -120,7 +118,7 @@ function handleChangeLocale(newVal: string) {
           un-flex="~ row"
           un-md="flex"
           un-op-50
-          un-hover="op-80 translate-y--0.5 scale-105"
+          un-hover="op-80"
           un-transition
           un-items-center
           un-justify-center
@@ -139,10 +137,9 @@ function handleChangeLocale(newVal: string) {
           un-items-center
           un-justify-center
           un-text="stone-700 dark:stone-300"
-          un-hover="translate-y--0.5 scale-105"
           un-transition
           un-duration-200
-          @click="toggleDark()"
+          @click="toggleDark($event)"
         >
           <ClientOnly>
             <un-i-ph-moon-duotone v-if="isDark" />

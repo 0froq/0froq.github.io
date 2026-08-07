@@ -17,8 +17,14 @@ export interface AnnotationData {
   pagePath: string
   /** 锚定指纹——文本批注必填；文章级评论为 null */
   anchor: AnnotationAnchor | null
-  /** 批注文本 */
+  /** 批注文本（用户输入的纯正文；自动生成的引用/@ 不存此处） */
   text: string
+  /** 被回复对象快照（回复时记录；渲染上下文用，避免递归叠加） */
+  replyTo?: {
+    commentId: string
+    author: string
+    text: string
+  }
   /** 批注状态 */
   status: 'active' | 'resolved' | 'outdated'
   /** 创建时间 (ISO 8601) */
