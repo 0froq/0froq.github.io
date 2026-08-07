@@ -5,8 +5,8 @@ import { useData, useRoute } from 'vitepress'
 import { computed, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import ArticleNavigation from '@/ui/article/ArticleNavigation.vue'
+import ScrollTopHeader from '@/ui/article/ScrollTopHeader.vue'
 import LinkUnderline from '@/ui/base/LinkUnderline.vue'
-import ProgressBarHeader from '@/ui/base/ProgressBarHeader.vue'
 import QCheckbox from '@/ui/base/QCheckbox.vue'
 import AnnotationList from '~/components/annotation/AnnotationList.vue'
 import AnnotationRail from '~/components/annotation/AnnotationRail.vue'
@@ -180,55 +180,87 @@ const originalPost = computed(() => {
 </script>
 
 <template>
-  <ProgressBarHeader
+  <!-- Floating minimal header shown after scrolling past the title -->
+  <ScrollTopHeader
     v-if="post?.frontmatter.title"
-    :id="post?.frontmatter.title"
     :title="renderMdInline(frontmatter.title) || ''"
+    :status="post.frontmatter.status || ''"
+    :lang="post.frontmatter.lang || 'zh'"
+    :aigc="!!post.frontmatter.aigc"
+  />
+
+  <!-- In-flow article title block (replaces ProgressBarHeader on article pages) -->
+  <div
+    v-if="post?.frontmatter.title"
+    un-pt-5
   >
-    <template #titleAddon>
-      <div
-        v-if="post.frontmatter.status === 'void'"
-        un-text="rose-600 dark:rose-400 xl"
-        un-font="mono italic"
-      >
-        {{ post.frontmatter.status }}
-      </div>
-      <div
-        v-if="post.frontmatter.status === 'draft'"
-        un-text="sky-600 dark:sky-400 xl"
-        un-font="mono italic"
-      >
-        {{ post.frontmatter.status }}
-      </div>
-      <div
-        v-if="locale !== (post.frontmatter.lang || 'zh') && (post.frontmatter.lang || 'zh')"
-        un-text="amber-600 dark:amber-400 xl"
-        un-font="mono italic"
-      >
-        {{ post.frontmatter.lang || 'zh' }}
-      </div>
-      <div
-        v-if="post.frontmatter.aigc"
-        un-text="violet-600 dark:violet-400 xl"
-        un-font="mono italic"
-      >
-        AIGC
-      </div>
-    </template>
-    <!-- 侧栏显隐开关 + 回复浮层（sticky 在标题栏右侧） -->
-    <template #actions>
-      <QCheckbox
-        v-if="annotations.length > 0"
-        id="annotation-rail-toggle"
-        :model-value="showRail"
-        :label-prefix="t('rail.prefix')"
-        :label-text="{ checked: t('rail.checked'), unchecked: t('rail.unchecked') }"
-        @update:model-value="toggleRail"
+    <div
+      un-flex="~ col"
+      un-items-start
+      un-gap-2
+    >
+      <h2
+        un-mt-4
+        un-text-3xl
+        un-w-fit
+        un-font-serif
+        un-text="neutral-900 dark:neutral-100"
+        v-html="renderMdInline(frontmatter.title) || ''"
       />
-      <!-- 回复浮层（Pinia replyTarget；Rail/List 通过 openReplyFloat 打开） -->
-      <AnnotationReplyFloat />
-    </template>
-  </ProgressBarHeader>
+      <div
+        un-place-self-end
+        un-flex="~ row"
+        un-gap-4
+      >
+        <div
+          v-if="post.frontmatter.status === 'void'"
+          un-text="rose-600 dark:rose-400 text-xl"
+          un-font="mono italic"
+        >
+          {{ post.frontmatter.status }}
+        </div>
+        <div
+          v-if="post.frontmatter.status === 'draft'"
+          un-text="sky-600 dark:sky-400 text-xl"
+          un-font="mono italic"
+        >
+          {{ post.frontmatter.status }}
+        </div>
+        <div
+          v-if="locale !== (post.frontmatter.lang || 'zh') && (post.frontmatter.lang || 'zh')"
+          un-text="amber-600 dark:amber-400 text-xl"
+          un-font="mono italic"
+        >
+          {{ post.frontmatter.lang || 'zh' }}
+        </div>
+        <div
+          v-if="post.frontmatter.aigc"
+          un-text="violet-600 dark:violet-400 text-xl"
+          un-font="mono italic"
+        >
+          AIGC
+        </div>
+      </div>
+      <!-- 侧栏显隐开关 + 回复浮层（位于标题区右下） -->
+      <div
+        un-place-self-end
+        un-flex="~ row"
+        un-items-center
+        un-gap-3
+      >
+        <QCheckbox
+          v-if="annotations.length > 0"
+          id="annotation-rail-toggle"
+          :model-value="showRail"
+          :label-prefix="t('rail.prefix')"
+          :label-text="{ checked: t('rail.checked'), unchecked: t('rail.unchecked') }"
+          @update:model-value="toggleRail"
+        />
+        <!-- 回复浮层（Pinia replyTarget；Rail/List 通过 openReplyFloat 打开） -->
+        <AnnotationReplyFloat />
+      </div>
+    </div>
+  </div>
   <div
     un-flex="~ row"
     un-justify-end

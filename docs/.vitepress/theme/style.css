@@ -40,6 +40,48 @@ html {
   }
 }
 
+/*
+ * Site shell fill + static hand-drawn ruled lines (SVG mask tile).
+ * Solid color (::before) + lines (::after) at z-index: -1.
+ */
+.site-shell {
+  isolation: isolate;
+}
+
+.site-shell::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-color: #e5e5e5; /* neutral-200 */
+}
+
+.site-shell::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-color: #57534e; /* stone-600 */
+  opacity: 0.07;
+  -webkit-mask-image: url('/bg-lined-paper.svg');
+  mask-image: url('/bg-lined-paper.svg');
+  -webkit-mask-repeat: repeat;
+  mask-repeat: repeat;
+  -webkit-mask-size: 280px 168px;
+  mask-size: 280px 168px;
+}
+
+html.dark .site-shell::before {
+  background-color: #171717; /* neutral-900 */
+}
+
+html.dark .site-shell::after {
+  background-color: #a8a29e; /* stone-400 */
+  opacity: 0.09;
+}
+
 #content:not(.unstyled) {
   /* font size and line height */
   --uno: 'text-base/10';
@@ -346,7 +388,7 @@ html {
     --uno: 'border-(l stone-500)';
     /* blockquote icon */
     --uno: 'z-0';
-    --uno: 'before:(content-[""] i-solar-chat-line-bold-duotone block w-8 h-8 absolute right-1 top-1 text-stone-500 z--1 opacity-50)';
+    --uno: 'before:(content-[""] i-solar-chat-line-bold-duotone block w-8 h-8 absolute right-1 top-1 text-stone-500 z--1 opacity-20)';
 
     & p {
       /* --uno: 'mx-4'; */
@@ -374,7 +416,7 @@ html {
 
     &.note,
     &.info {
-      --uno: 'bg-stone-100/50 dark:bg-stone-900/20';
+      --uno: 'bg-stone-200/50 dark:bg-stone-900/20';
       --uno: 'border-stone-500/50';
 
       --uno: 'before:(text-stone-500)';

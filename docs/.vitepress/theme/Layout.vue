@@ -31,9 +31,9 @@ watch(
 
 <template>
   <div
+    class="site-shell"
     un-min-h-100vh
     un-text="stone-600 dark:stone-400"
-    un-bg="stone-100 dark:stone-950"
     un-relative
     un-font-sans
   >

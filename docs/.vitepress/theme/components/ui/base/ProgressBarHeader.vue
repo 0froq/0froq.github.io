@@ -58,12 +58,15 @@ watchEffect(() => {
     un-top-0
     un-z-10
   >
+    <!--
+      Full-bleed opaque band: covers site-shell lined paper in the header
+      zone; title/progress stay in page-content column.
+    -->
     <div
       un-w-screen
       un-ml="[calc(50%-50vw)]"
       un-pt-5
-      un-backdrop-blur-lg
-      un-bg="stone-50/20 dark:stone-950/20"
+      un-bg="neutral-200 dark:neutral-900"
     >
       <div
         class="page-content"
