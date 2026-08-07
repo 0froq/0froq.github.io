@@ -3,7 +3,6 @@
     "target": "ESNext",
     "jsx": "preserve",
     "lib": ["DOM", "ESNext"],
-    "baseUrl": "docs/",
     "module": "ESNext",
     "moduleResolution": "Bundler",
     "resolveJsonModule": true,
