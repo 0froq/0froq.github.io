@@ -62,14 +62,12 @@ watchEffect(() => {
       un-w-screen
       un-ml="[calc(50%-50vw)]"
       un-pt-5
-      un-backdrop-blur-md
-      un-backdrop-saturate-150
-      un-bg="stone-100/72 dark:stone-950/72"
+      un-backdrop-blur-lg
+      un-bg="stone-50/20 dark:stone-950/20"
     >
       <div
         class="page-content"
         un-relative
-        un-pb-5
       >
         <div
           un-flex="~ col"
