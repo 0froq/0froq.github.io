@@ -9,8 +9,6 @@ last_modified: 2026-06-20 14:36:45
 
 ---
 
-[[toc]]
-
 # scope/life #scope/work/theme #scope/work/nvim
 
 ## ！

@@ -7,8 +7,6 @@ last_modified: {{date}}
 
 ---
 
-[[toc]]
-
 <!-- add kind when clear: #claim / #model / #design / #question / #fragment / #response -->
 
 ## Core

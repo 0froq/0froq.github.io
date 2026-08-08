@@ -53,14 +53,14 @@ props.items.forEach((group) => {
           :data-current="item.current"
           :un-font="item.current ? '400' : '100'"
           un-italic
-          un-font-italicSerif
+          un-font-serif
         >
           <LinkUnderline
             :href="getLocaledPath(item.url)"
             :text="item.label"
             :follow-mouse="!item.children"
             :un-text="`${item.current ? 'stone-950 dark:stone-50' : ''}`"
-            :un-before="`bg-stone-300 dark:bg-stone-700${item.current ? ' w-full text-stone-950 dark:text-stone-50' : ''}`"
+            :un-before="`bg-stone-700 dark:bg-stone-300${item.current ? ' w-full text-stone-950 dark:text-stone-50' : ''}`"
           >
             <template
               v-if="item.tooltip || item.children"
@@ -76,7 +76,7 @@ props.items.forEach((group) => {
                 v-for="child in item.children"
                 :key="child.url"
                 un-italic
-                un-font-italicSerif
+                un-font-serif
               >
                 <LinkUnderline
                   :href="child.url"

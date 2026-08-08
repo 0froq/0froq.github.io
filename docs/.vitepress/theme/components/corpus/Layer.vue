@@ -5,7 +5,7 @@ import { computed, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import TooltipArticleInfo from '@/ui/article/TooltipArticleInfo.vue'
 import LinkUnderline from '@/ui/base/LinkUnderline.vue'
-import ProgressBarHeader from '@/ui/base/ProgressBarHeader.vue'
+import PageTitle from '@/ui/base/PageTitle.vue'
 import QCheckbox from '@/ui/base/QCheckbox.vue'
 import QSeperator from '@/ui/base/QSeperator.vue'
 import { data as posts } from '~/src/corpus.data'
@@ -153,7 +153,7 @@ watch([showAigc, showVoid, showDraft, showOtherLang], () => {
 
 <template>
   <div>
-    <ProgressBarHeader
+    <PageTitle
       :key="layer"
       un-mb-4
       un-font="stylish"

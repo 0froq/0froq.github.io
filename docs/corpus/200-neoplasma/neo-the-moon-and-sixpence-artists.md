@@ -9,8 +9,6 @@ last_modified: 2026-06-16 04:20:17
 
 ---
 
-[[toc]]
-
 [source](../100-ingesta/ing-the-moon-and-sixpence.md)
 
 #response #scope/thought #book #author/maugham

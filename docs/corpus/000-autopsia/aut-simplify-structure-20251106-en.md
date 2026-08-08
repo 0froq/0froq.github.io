@@ -11,8 +11,6 @@ I simplified the structure of Corpus.
 
 ---
 
-[[toc]]
-
 #scope/meta/corpus
 
 ## Overhaul

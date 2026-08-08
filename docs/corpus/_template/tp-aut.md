@@ -7,8 +7,6 @@ last_modified: {{date}}
 
 ---
 
-[[toc]]
-
 #scope/meta/corpus
 
 ## Observation

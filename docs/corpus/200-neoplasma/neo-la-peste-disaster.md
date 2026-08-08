@@ -12,8 +12,6 @@ last_modified: 2026-06-16 04:17:57
 
 ---
 
-[[toc]]
-
 [source](../100-ingesta/ing-la-peste.md)
 
 #response #scope/thought #book #author/camus

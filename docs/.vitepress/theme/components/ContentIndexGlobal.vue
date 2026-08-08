@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useRoute } from 'vitepress'
 import { useI18n } from 'vue-i18n'
-import ProgressBarHeader from '@/ui/base/ProgressBarHeader.vue'
+import PageTitle from '@/ui/base/PageTitle.vue'
 import ContentNav from '@/ui/nav/ContentNav.vue'
 
 const route = useRoute()
@@ -46,7 +46,7 @@ const navItems = [
   <ContentNav
     :items="navItems"
   />
-  <ProgressBarHeader
+  <PageTitle
     :key="$i18n.locale"
     :title="$t('greeting')"
     un-mb-8

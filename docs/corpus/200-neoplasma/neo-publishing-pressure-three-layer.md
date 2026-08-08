@@ -7,8 +7,6 @@ last_modified: 2026-06-16 04:20:06
 
 ---
 
-[[toc]]
-
 #model #scope/work/podcast
 
 ## Core

@@ -7,8 +7,6 @@ last_modified: 2026-06-16 04:19:42
 
 ---
 
-[[toc]]
-
 #model #scope/meta/corpus #scope/meta/workflow #scope/work/podcast
 
 ## Core

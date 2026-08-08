@@ -7,8 +7,6 @@ last_modified: 2026-06-16 04:18:46
 
 ---
 
-[[toc]]
-
 #claim #scope/meta/workflow
 
 ## Core

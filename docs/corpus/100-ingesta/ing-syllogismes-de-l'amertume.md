@@ -9,8 +9,6 @@ last_modified: 2026-06-16 03:59:01
 
 ---
 
-[[toc]]
-
 #book #scope/philosophy #author/cioran
 
 ## 2024 / 10 / 06

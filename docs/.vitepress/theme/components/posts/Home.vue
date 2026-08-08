@@ -2,7 +2,7 @@
 import { useRoute } from 'vitepress'
 import { useI18n } from 'vue-i18n'
 import LinkUnderline from '@/ui/base/LinkUnderline.vue'
-import ProgressBarHeader from '@/ui/base/ProgressBarHeader.vue'
+import PageTitle from '@/ui/base/PageTitle.vue'
 
 const route = useRoute()
 const { t } = useI18n({
@@ -46,7 +46,7 @@ const categories: string[] = ['610-log', '620-roadmap', '630-collection']
 
 <template>
   <div>
-    <ProgressBarHeader
+    <PageTitle
       title="Posts"
       un-mb-8
       un-font="script"

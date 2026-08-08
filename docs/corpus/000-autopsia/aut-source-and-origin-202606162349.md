@@ -9,8 +9,6 @@ Source 和 origin 是否重合了？
 
 ---
 
-[[toc]]
-
 #scope/meta/corpus
 
 ## Observation

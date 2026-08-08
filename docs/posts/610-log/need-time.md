@@ -9,8 +9,6 @@ last_modified: 2026-03-15 14:42:19
 
 ---
 
-[[toc]]
-
 #scope/work/course
 
 ## 考试

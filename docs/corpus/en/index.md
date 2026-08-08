@@ -27,18 +27,3 @@ Feel free to browse, but be aware that some content may be:
 
 Go look.
 
----
-
-::: details What is Corpus{.font-stylish}?
-
-This isn't a gallery. It tracks how information gets ingested, digested, fermented.
-How I **read, hesitate, think, interrogate myself**.
-If you care about where ideas come from and how they connect,
-you'll probably know me better here than in [posts](/posts/en/){.font-script}.
-
-Corpus isn't a neutral "knowledge base."
-It's more like a dissection room, or a petri dish.
-What makes it to [posts](/posts/en/){.font-script} is just the occasional specimen from these dishes
-that's barely presentable enough to exhibit.
-
-:::

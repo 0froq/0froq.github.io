@@ -9,8 +9,6 @@ last_modified: 2026-06-16 04:11:49
 
 ---
 
-[[toc]]
-
 #book #scope/philosophy #author/zhouguoping
 
 ## 2022 / 03 / 22

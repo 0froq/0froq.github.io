@@ -123,16 +123,11 @@ onBeforeUnmount(() => {
   <Teleport to="body">
     <div
       v-if="target"
-      class="annotation-float-reply"
+      class="annotation-float-reply garden-float-panel"
       :style="floatStyle"
       un-absolute
       un-z-50
       un-w-72
-      un-bg="stone-50/50 dark:stone-950/50"
-      un-backdrop-blur-lg
-      un-border="~ stone-400 dark:stone-600"
-      un-rounded-xs
-      un-shadow-lg
       un-p-3
     >
       <div

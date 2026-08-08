@@ -166,11 +166,8 @@ function handleMouseMove(e: MouseEvent) {
     :offset="offset"
   >
     <div
-      un-bg="stone-100/60 dark:stone-900/60"
+      class="garden-float-panel"
       un-text="stone-700 dark:stone-300"
-      un-rounded="~ xs"
-      un-border="~ px stone-300 dark:stone-700"
-      un-backdrop-blur-xl
       un-text-align-start
       un-p4
       un-max-w-fit

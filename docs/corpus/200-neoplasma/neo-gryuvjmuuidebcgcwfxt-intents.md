@@ -13,8 +13,6 @@ last_modified: 2026-06-16 04:15:36
 
 ---
 
-[[toc]]
-
 #response #scope/thought #book #author/shitiesheng
 
 [source](../100-ingesta/ing-gryuvjmuuidebcgcwfxt.md)

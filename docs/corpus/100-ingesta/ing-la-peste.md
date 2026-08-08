@@ -9,8 +9,6 @@ last_modified: 2026-06-16 04:10:19
 
 ---
 
-[[toc]]
-
 #book #scope/literature #author/camus
 
 ## 2022 / 03 / 29

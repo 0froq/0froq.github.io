@@ -9,8 +9,6 @@ Corpus 结构进行了简化。
 
 ---
 
-[[toc]]
-
 #scope/meta/corpus
 
 ## 大修

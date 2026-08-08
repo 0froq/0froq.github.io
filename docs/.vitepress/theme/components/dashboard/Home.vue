@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import ProgressBarHeader from '@/ui/base/ProgressBarHeader.vue'
+import PageTitle from '@/ui/base/PageTitle.vue'
 import Board from './Board.vue'
 </script>
 
 <template>
-  <ProgressBarHeader
+  <PageTitle
     un-font="mono"
     title="Dashboard"
   />

@@ -9,8 +9,6 @@ last_modified: 2026-06-16 04:09:44
 
 ---
 
-[[toc]]
-
 #book #scope/literature #author/yuhua
 
 ## 2024 / 03 / 05

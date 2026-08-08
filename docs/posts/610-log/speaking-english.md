@@ -11,8 +11,6 @@ And I'm okay with that.
 
 ---
 
-[[toc]]
-
 #scope/life #consciousness
 
 ---

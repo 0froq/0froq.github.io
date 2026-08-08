@@ -7,8 +7,6 @@ last_modified: {{date}}
 
 ---
 
-[[toc]]
-
 <!-- add source type: #paper / #book / #article / #podcast / #video -->
 
 ## Raw Material

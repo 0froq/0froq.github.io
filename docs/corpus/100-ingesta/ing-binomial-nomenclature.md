@@ -12,8 +12,6 @@ uniquely identify and classify living organisms.
 
 ---
 
-[[toc]]
-
 #scope/fmi/taxonomy
 
 ## Some rules

@@ -7,6 +7,7 @@ import AnnotationClient from './components/annotation/AnnotationClient.vue'
 import PageContent from './components/PageContent.vue'
 import PageFooter from './components/PageFooter.vue'
 import PageHeader from './components/PageHeader.vue'
+import ScrollTopHeader from './components/ui/article/ScrollTopHeader.vue'
 import ButtonVerticalNavigation from './components/ui/nav/ButtonVerticalNavigation.vue'
 
 const route = useRoute()
@@ -38,6 +39,7 @@ watch(
     un-font-sans
   >
     <PageHeader />
+    <ScrollTopHeader />
     <PageContent
       :key="route.path"
     />

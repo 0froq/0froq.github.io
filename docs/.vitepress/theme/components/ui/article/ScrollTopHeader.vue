@@ -1,9 +1,11 @@
 <script setup lang="ts">
+import { useCssVar, useEventListener } from '@vueuse/core'
 import { useData, useRoute, useRouter } from 'vitepress'
-import { computed, onMounted, onUnmounted, ref } from 'vue'
+import { computed, onMounted, ref, useTemplateRef } from 'vue'
 import { useI18n } from 'vue-i18n'
 import SvgFroqLogo from '@/ui/icon/SvgFroqLogo.vue'
 import { isDark, toggleDark } from '~/composables/useDarkMode'
+import { renderMdInline } from '~/utils/renderMdInline'
 
 const props = withDefaults(defineProps<{
   title?: string
@@ -25,6 +27,12 @@ const { frontmatter } = useData()
 const route = useRoute()
 const router = useRouter()
 
+/** 未显式传参时从页面 frontmatter 兜底，便于全局挂载 */
+const displayTitle = computed(() => props.title || renderMdInline(frontmatter.value.title || '') || '')
+const displayStatus = computed(() => props.status || frontmatter.value.status || '')
+const displayLang = computed(() => props.lang || frontmatter.value.lang || '')
+const displayAigc = computed(() => props.aigc || !!frontmatter.value.aigc)
+
 const { locale } = useI18n({
   useScope: 'global',
   messages: {
@@ -39,7 +47,7 @@ const localeMap: Record<string, string> = {
 }
 
 /** Article lang tag — matches ContentArticle: frontmatter.lang || 'zh' */
-const articleLang = computed(() => props.lang || 'zh')
+const articleLang = computed(() => displayLang.value || 'zh')
 
 /** Show when UI locale ≠ article language (independent of lang toggle) */
 const showLangTag = computed(() => locale.value !== articleLang.value)
@@ -69,16 +77,38 @@ function handleChangeLocale(newVal: string) {
 
 const visible = ref(false)
 
-function onScroll() {
+const headerEl = useTemplateRef('headerEl')
+const progressTrack = useTemplateRef('progressTrack')
+const progressBarWidth = useCssVar('--progress-bar-width', headerEl)
+
+/** Same progress logic as PageTitle: scroll through the article wrapper */
+function handleScroll() {
+  if (typeof window === 'undefined')
+    return
   visible.value = window.scrollY > props.threshold
+  if (!headerEl.value || !progressTrack.value)
+    return
+  const articleWrapper = document.getElementById('content') ?? headerEl.value.parentElement
+  if (articleWrapper) {
+    const scrollY = window.scrollY
+    const wrapperOffsetY = articleWrapper.offsetTop
+    const fullWidth = progressTrack.value.offsetWidth
+    const windowHeight = window.innerHeight
+
+    if (articleWrapper.offsetHeight <= windowHeight) {
+      progressBarWidth.value = `${fullWidth}px`
+      return
+    }
+
+    const percentage = Math.min(1, Math.max(0, (scrollY - wrapperOffsetY) / Math.max(0, articleWrapper.offsetHeight - windowHeight)))
+    progressBarWidth.value = `${percentage * fullWidth}px`
+  }
 }
 
+useEventListener(window, ['scroll', 'resize'], handleScroll, { passive: true })
+
 onMounted(() => {
-  window.addEventListener('scroll', onScroll, { passive: true })
-  onScroll()
-})
-onUnmounted(() => {
-  window.removeEventListener('scroll', onScroll)
+  handleScroll()
 })
 </script>
 
@@ -86,6 +116,7 @@ onUnmounted(() => {
   <Transition name="scroll-top-header">
     <header
       v-if="visible"
+      ref="headerEl"
       un-fixed
       un-top-0
       un-left-0
@@ -93,7 +124,6 @@ onUnmounted(() => {
       un-z-100
       un-bg="neutral-200/85 dark:neutral-900/85"
       un-backdrop-blur-md
-      un-border="b stone-300/60 dark:stone-700/60"
     >
       <div
         un-flex="~ row"
@@ -133,7 +163,7 @@ onUnmounted(() => {
             un-font-serif
             un-text="lg neutral-900 dark:neutral-100"
             un-truncate
-            v-html="title || ''"
+            v-html="displayTitle"
           />
           <div
             un-flex="~ row"
@@ -142,7 +172,7 @@ onUnmounted(() => {
             un-flex-shrink-0
           >
             <span
-              v-if="status === 'void'"
+              v-if="displayStatus === 'void'"
               title="void"
               class="rounded-full"
               un-w="2.5"
@@ -150,7 +180,7 @@ onUnmounted(() => {
               un-bg="rose-600 dark:rose-400"
             />
             <span
-              v-if="status === 'draft'"
+              v-if="displayStatus === 'draft'"
               title="draft"
               class="rounded-full"
               un-w="2.5"
@@ -158,7 +188,7 @@ onUnmounted(() => {
               un-bg="sky-600 dark:sky-400"
             />
             <span
-              v-if="aigc"
+              v-if="displayAigc"
               title="AIGC"
               class="rounded-full"
               un-w="2.5"
@@ -221,6 +251,33 @@ onUnmounted(() => {
             </ClientOnly>
           </div>
         </div>
+      </div>
+
+      <!-- Reading progress — same logic as PageTitle -->
+      <div
+        ref="progressTrack"
+        class="progress-bar"
+        un-relative
+        un-h-2px
+      >
+        <div
+          class="progress-bar-inner"
+          un-bg="stone-600 dark:stone-400"
+          :style="{ width: 'var(--progress-bar-width, 0)' }"
+          un-h-px
+          un-absolute
+          un-bottom-0
+          un-z-1
+        />
+        <div
+          class="progress-bar-bg"
+          un-bg="stone-300/60 dark:stone-700/60"
+          un-w-full
+          un-h-px
+          un-absolute
+          un-z-0
+          un-bottom-0
+        />
       </div>
     </header>
   </Transition>

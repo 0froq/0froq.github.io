@@ -97,7 +97,7 @@ onBeforeUnmount(() => {
 
   <div
     v-if="hoveredCommentId && hoverPosition && isNarrowScreen"
-    class="annotation-hover-tip"
+    class="annotation-hover-tip garden-float-panel"
     :style="{
       left: `${hoverPosition.x + 12}px`,
       top: `${hoverPosition.y + 12}px`,
@@ -105,10 +105,6 @@ onBeforeUnmount(() => {
     un-fixed
     un-z-50
     un-max-w-xs
-    un-bg="white dark:stone-800"
-    un-border="~ stone-300 dark:stone-600"
-    un-rounded
-    un-shadow-lg
     un-p-3
     un-text-sm
     un-text="stone-700 dark:stone-300"

@@ -5,13 +5,14 @@ import { useData, useRoute } from 'vitepress'
 import { computed, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import ArticleNavigation from '@/ui/article/ArticleNavigation.vue'
-import ScrollTopHeader from '@/ui/article/ScrollTopHeader.vue'
+import TableOfContents from '@/ui/article/TableOfContents.vue'
 import LinkUnderline from '@/ui/base/LinkUnderline.vue'
 import QCheckbox from '@/ui/base/QCheckbox.vue'
 import AnnotationList from '~/components/annotation/AnnotationList.vue'
 import AnnotationRail from '~/components/annotation/AnnotationRail.vue'
 import AnnotationReplyFloat from '~/components/annotation/AnnotationReplyFloat.vue'
 import { scrollToAnnotation } from '~/composables/useAnnotationHighlight'
+import { useLazyContent } from '~/composables/useLazyContent'
 import { data as corpus } from '~/src/corpus.data'
 import { data as posts } from '~/src/posts.data'
 import { useAnnotationStore } from '~/stores/annotation'
@@ -59,6 +60,7 @@ const articles = [
 
 const { frontmatter } = useData()
 const { path } = useRoute()
+useLazyContent('#content')
 // const { findPostByTitle, getNextPost, getPrevPost, filterPostsByFrontmatter } = usePostFilters()
 
 /**
@@ -181,15 +183,9 @@ const originalPost = computed(() => {
 
 <template>
   <!-- Floating minimal header shown after scrolling past the title -->
-  <ScrollTopHeader
-    v-if="post?.frontmatter.title"
-    :title="renderMdInline(frontmatter.title) || ''"
-    :status="post.frontmatter.status || ''"
-    :lang="post.frontmatter.lang || 'zh'"
-    :aigc="!!post.frontmatter.aigc"
-  />
+  <!-- (mounted globally in Layout.vue) -->
 
-  <!-- In-flow article title block (replaces ProgressBarHeader on article pages) -->
+  <!-- In-flow article title block (article pages don't use PageTitle) -->
   <div
     v-if="post?.frontmatter.title"
     un-pt-5
@@ -368,6 +364,9 @@ const originalPost = computed(() => {
     <!-- 右侧批注列（宽屏，紧贴 content 右侧；自包含，从 store 取数据） -->
     <AnnotationRail v-if="showRail && annotations.length > 0" />
   </div>
+
+  <!-- 右侧目录：静止只显短横线，hover 展开标题列表 -->
+  <TableOfContents />
 
   <!-- 文章尾部批注列表（窄屏；数据来自 Pinia store） -->
   <AnnotationList

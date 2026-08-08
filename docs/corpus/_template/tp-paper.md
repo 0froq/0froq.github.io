@@ -7,8 +7,6 @@ last_modified: {{date}}
 
 ---
 
-[[toc]]
-
 #paper #scope/work/research
 
 - citation_key: {{citation_key}}

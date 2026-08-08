@@ -9,8 +9,6 @@ last_modified: 2026-06-16 04:11:27
 
 ---
 
-[[toc]]
-
 #book #scope/literature #author/shitiesheng
 
 ## 2022 / 03 / 12

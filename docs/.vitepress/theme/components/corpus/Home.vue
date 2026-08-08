@@ -1,9 +1,9 @@
 <script lang="ts" setup>
-import ProgressBarHeader from '@/ui/base/ProgressBarHeader.vue'
+import PageTitle from '@/ui/base/PageTitle.vue'
 </script>
 
 <template>
-  <ProgressBarHeader
+  <PageTitle
     title="Corpus"
     un-mb-8
     un-font="stylish"

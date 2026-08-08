@@ -1,43 +1,43 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="280" height="168" viewBox="0 0 280 168" fill="none">
+<svg xmlns="http://www.w3.org/2000/svg" width="280" height="240" viewBox="0 0 280 240" fill="none">
   <!--
     Seamless ruled-paper tile:
     - each stroke spans x=0..280 with matching start/end Y
-    - vertical period 28px (168 = 6 × 28)
+    - vertical period 40px (240 = 6 × 40)
   -->
   <path
     stroke="#000"
     stroke-width="1.1"
     stroke-linecap="butt"
-    d="M0 14 C46 11.5 92 16.5 140 14 S234 11.8 280 14"
+    d="M0 20 C46 17.5 92 22.5 140 20 S234 17.8 280 20"
   />
   <path
     stroke="#000"
     stroke-width=".9"
     stroke-linecap="butt"
-    d="M0 42 C50 44.2 98 39.5 140 42 S232 44.5 280 42"
+    d="M0 60 C50 62.2 98 57.5 140 60 S232 62.5 280 60"
   />
   <path
     stroke="#000"
     stroke-width="1.15"
     stroke-linecap="butt"
-    d="M0 70 C44 67.8 96 72.4 140 70 S236 67.6 280 70"
+    d="M0 100 C44 97.8 96 102.4 140 100 S236 97.6 280 100"
   />
   <path
     stroke="#000"
     stroke-width="1"
     stroke-linecap="butt"
-    d="M0 98 C52 100.5 100 95.8 140 98 S230 100.8 280 98"
+    d="M0 140 C52 142.5 100 137.8 140 140 S230 142.8 280 140"
   />
   <path
     stroke="#000"
     stroke-width=".95"
     stroke-linecap="butt"
-    d="M0 126 C48 123.6 94 128.2 140 126 S234 123.4 280 126"
+    d="M0 180 C48 177.6 94 182.2 140 180 S234 177.4 280 180"
   />
   <path
     stroke="#000"
     stroke-width="1.05"
     stroke-linecap="butt"
-    d="M0 154 C46 156.4 102 151.6 140 154 S236 156.2 280 154"
+    d="M0 220 C46 222.4 102 217.6 140 220 S236 222.2 280 220"
   />
 </svg>

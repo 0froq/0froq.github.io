@@ -3,7 +3,7 @@ import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import TooltipArticleInfo from '@/ui/article/TooltipArticleInfo.vue'
 import LinkUnderline from '@/ui/base/LinkUnderline.vue'
-import ProgressBarHeader from '@/ui/base/ProgressBarHeader.vue'
+import PageTitle from '@/ui/base/PageTitle.vue'
 import QCheckbox from '@/ui/base/QCheckbox.vue'
 
 // TODO: Abstract this component
@@ -65,7 +65,7 @@ const excerptVisible = ref(false)
 </script>
 
 <template>
-  <ProgressBarHeader
+  <PageTitle
     v-if="props.title"
     :id="props.title"
     :title="props.title"
@@ -93,7 +93,7 @@ const excerptVisible = ref(false)
         </div>
       </div>
     </template>
-  </ProgressBarHeader>
+  </PageTitle>
 
   <div
     un-flex="~ col"
@@ -117,7 +117,7 @@ const excerptVisible = ref(false)
         un-px-4
         un-text-3xl
         un-sticky
-        un-top-50
+        un-top-0
         un-pt-10
         un-z-2
         un-w-fit
@@ -183,6 +183,7 @@ const excerptVisible = ref(false)
             un-text="stone-700 dark:stone-300 hover:stone-950 dark:hover:stone-50 xl"
             un-text-align="right"
             un-overflow-hidden
+            un-font-serif
           >
             <LinkUnderline
               :href="post.url"

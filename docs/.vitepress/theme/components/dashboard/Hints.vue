@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n'
 import DashboardItem from '@/ui/base/DashboardItem.vue'
-import ProgressBarHeader from '@/ui/base/ProgressBarHeader.vue'
+import PageTitle from '@/ui/base/PageTitle.vue'
 import { data as hints } from '~/src/hints.data'
 
 const { t, locale } = useI18n({
@@ -22,7 +22,7 @@ const { t, locale } = useI18n({
 </script>
 
 <template>
-  <ProgressBarHeader
+  <PageTitle
     id="hints-header"
     :title="t('headerText')"
   />

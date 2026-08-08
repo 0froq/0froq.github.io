@@ -9,8 +9,6 @@ last_modified: 2026-06-20 13:57:19
 
 ---
 
-[[toc]]
-
 # scope/meta/corpus
 
 ## Observation

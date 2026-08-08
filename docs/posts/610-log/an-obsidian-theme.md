@@ -9,8 +9,6 @@ last_modified: 2026-06-20 14:26:58
 
 ---
 
-[[toc]]
-
 # scope/work/theme
 
 为什么突然想到自己做一个主题呢？

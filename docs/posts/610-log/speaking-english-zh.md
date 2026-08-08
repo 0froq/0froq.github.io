@@ -12,8 +12,6 @@ lang: zh
 
 ---
 
-[[toc]]
-
 #scope/life #consciousness
 
 ---

@@ -41,6 +41,34 @@ const isActive = computed(() =>
   props.anns.some(a => a.commentId === props.activeCommentId),
 )
 
+// ---- 便签样式：按 commentId 稳定随机倾角 ±0.5–1.2° ----
+function hashCode(input: string): number {
+  let hash = 0
+  for (let i = 0; i < input.length; i++)
+    hash = ((hash << 5) - hash + input.charCodeAt(i)) | 0
+  return Math.abs(hash)
+}
+
+const cardTilt = computed(() => {
+  const id = props.anns[0]?.commentId ?? 'x'
+  const sign = hashCode(id) % 2 === 0 ? 1 : -1
+  const magnitude = 0.5 + (hashCode(id) % 70) / 100 // 0.50–1.19
+  return `${(sign * magnitude).toFixed(2)}deg`
+})
+
+/** 胶带轻微错位，避免每张卡完全雷同 */
+const tapeOffset = computed(() => {
+  const id = props.anns[0]?.commentId ?? 'x'
+  return `${(hashCode(`${id}:tape`) % 64) - 12}px`
+})
+
+/** 胶带自身随机倾斜（-3.2° ~ 3.2°），独立于卡片倾角 */
+const tapeTilt = computed(() => {
+  const id = props.anns[0]?.commentId ?? 'x'
+  const v = (hashCode(`${id}:tape-tilt`) % 65) / 10 - 3.2
+  return `${v.toFixed(1)}deg`
+})
+
 function formatTime(iso: string): string {
   const date = new Date(iso)
   const days = Math.floor((Date.now() - date.getTime()) / 86400000)
@@ -114,12 +142,13 @@ function renderReplyBody(reply: ResolvedAnnotation): string {
   <div
     class="annotation-card"
     :class="{ 'annotation-card-active': isActive }"
-    un-border="px solid stone-200 dark:stone-800"
+    :style="{ '--card-tilt': cardTilt, '--tape-offset': tapeOffset, '--tape-tilt': tapeTilt }"
+    un-border="px solid neutral-200 dark:neutral-800"
     un-transition
     un-ease-in-out
     un-rounded-xs
     un-p-2
-    un-hover="translate-x-2 border-stone-400 dark:border-stone-600"
+    un-pt-3
     @mouseenter="emit('hover', anns[0]?.commentId ?? null)"
     @mouseleave="emit('hover', null)"
   >
@@ -158,7 +187,7 @@ function renderReplyBody(reply: ResolvedAnnotation): string {
           un-shrink-0
           un-border="1 solid stone-200 dark:stone-700"
           un-rounded-full
-          un-bg="stone-200 dark:stone-700"
+          un-bg="neutral-200 dark:neutral-700"
           un-flex
           un-items-center
           un-justify-center
@@ -293,8 +322,28 @@ function renderReplyBody(reply: ResolvedAnnotation): string {
 </template>
 
 <style scoped>
+/* ---- 便签卡：灰度纸面 + 顶部胶带 + 稳定随机倾角 ---- */
+.annotation-card {
+  --uno: 'relative bg-neutral-100/80 dark:bg-neutral-800/60 shadow-sm dark:shadow';
+  transform: rotate(var(--card-tilt, 0deg)) translateX(0);
+  transform-origin: 50% 0;
+}
+
+/* 胶带：半透磨砂条，微微歪，随卡片错位 */
+.annotation-card::before {
+  --uno: 'content-empty absolute -top-2 w-16 h-[18px] rounded-1px pointer-events-none backdrop-blur-1px bg-stone-400/30 dark:bg-stone-600/30 shadow-sm';
+  left: calc(50% + var(--tape-offset, 0px));
+  transform: translateX(-50%) rotate(var(--tape-tilt, 0deg));
+}
+
+.annotation-card:hover {
+  --uno: 'shadow-md';
+  transform: rotate(var(--card-tilt, 0deg)) translateX(0.5rem);
+}
+
 /* hover 正文/卡片联动：activeCommentId 命中本卡片时的高亮 */
 .annotation-card-active {
-  --uno: 'translate-x-2 border-stone-400 dark:border-stone-600';
+  transform: rotate(var(--card-tilt, 0deg)) translateX(0.5rem);
+  --uno: 'border-neutral-400 dark:border-neutral-600';
 }
 </style>

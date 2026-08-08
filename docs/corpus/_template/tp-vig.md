@@ -6,5 +6,3 @@ last_modified: {{date}}
 ---
 
 ---
-
-[[toc]]

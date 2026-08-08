@@ -9,8 +9,6 @@ last_modified: 2026-06-16 03:57:25
 
 ---
 
-[[toc]]
-
 #scope/work/research/cyanobacteria
 
 ## Trophic Cascade

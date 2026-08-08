@@ -9,8 +9,6 @@ last_modified: 2026-06-16 04:13:09
 
 ---
 
-[[toc]]
-
 #book #author/freud
 #scope/fmi/psychoanalysis
 

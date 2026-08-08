@@ -5,7 +5,7 @@ import { computed, onBeforeUnmount, onMounted, onUpdated, ref, watch } from 'vue
 import { useI18n } from 'vue-i18n'
 import TooltipArticleInfo from '@/ui/article/TooltipArticleInfo.vue'
 import LinkUnderline from '@/ui/base/LinkUnderline.vue'
-import ProgressBarHeader from '@/ui/base/ProgressBarHeader.vue'
+import PageTitle from '@/ui/base/PageTitle.vue'
 import QSeperator from '@/ui/base/QSeperator.vue'
 import TagDisplay from '@/ui/tag/TagDisplay.vue'
 import { data as corpus } from '~/src/corpus.data'
@@ -194,7 +194,7 @@ function getGlobalIndex(section: 'current' | 'extended', index: number) {
 
   <!-- In This section -->
   <template v-if="postsInCurrentTag.length > 0">
-    <ProgressBarHeader
+    <PageTitle
       :title="t('inThis')"
       un-mb-8
       un-mt-8
@@ -322,7 +322,7 @@ function getGlobalIndex(section: 'current' | 'extended', index: number) {
 
   <!-- In Extended section -->
   <template v-if="postsInExtendedTags.length > 0">
-    <ProgressBarHeader
+    <PageTitle
       :title="t('inExtended')"
       un-mb-8
       un-mt-8

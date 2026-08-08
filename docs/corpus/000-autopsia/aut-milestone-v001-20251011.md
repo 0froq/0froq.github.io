@@ -10,8 +10,6 @@ A milestone of Corpus.
 
 ---
 
-[[toc]]
-
 # scope/meta/corpus
 
 ## a Milestone

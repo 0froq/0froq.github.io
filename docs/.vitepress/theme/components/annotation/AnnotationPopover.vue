@@ -115,12 +115,7 @@ watch(() => props.rect, () => {
     <div
       ref="popoverRef"
       :style="popoverStyle"
-      class="annotation-popover"
-      un-bg="stone-50/50 dark:stone-950/50"
-      un-backdrop-blur-lg
-      un-border="~ stone-200 dark:stone-800"
-      un-rounded-xs
-      un-shadow-lg
+      class="annotation-popover garden-float-panel"
       un-z-50
       un-p-3
     >

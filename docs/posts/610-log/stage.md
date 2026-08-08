@@ -9,8 +9,6 @@ Forget-me-not.
 
 ---
 
-[[toc]]
-
 # scope/life #scope/work/course
 
 太久没动笔（手），有点不知道该怎么写些内容出来。

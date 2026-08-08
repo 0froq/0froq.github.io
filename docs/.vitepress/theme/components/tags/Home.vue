@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import ProgressBarHeader from '@/ui/base/ProgressBarHeader.vue'
+import PageTitle from '@/ui/base/PageTitle.vue'
 import TagTreeNode from '@/ui/tag/TagTreeNode.vue'
 import { data as corpus } from '~/src/corpus.data'
 import { data as posts } from '~/src/posts.data'
@@ -79,7 +79,7 @@ const tagTree = computed<TagNode[]>(() => {
 </script>
 
 <template>
-  <ProgressBarHeader
+  <PageTitle
     title="Tags"
     intro=""
     un-mb-8

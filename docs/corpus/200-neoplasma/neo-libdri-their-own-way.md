@@ -9,8 +9,6 @@ last_modified: 2026-06-16 04:18:14
 
 ---
 
-[[toc]]
-
 [source](../100-ingesta/ing-libdri.md)
 
 #response #scope/thought #book #author/shitiesheng

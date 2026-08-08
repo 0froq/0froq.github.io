@@ -9,8 +9,6 @@ last_modified: 2026-03-15 14:42:45
 
 ---
 
-[[toc]]
-
 #scope/life #scope/mental
 
 这几天 ipad 在酥肉那儿，

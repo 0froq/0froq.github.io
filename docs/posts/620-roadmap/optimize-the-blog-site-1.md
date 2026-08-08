@@ -10,8 +10,6 @@ last_modified: 2026-04-24 16:44:36
 
 ---
 
-[[toc]]
-
 #scope/work/site
 
 <script setup lang="ts">

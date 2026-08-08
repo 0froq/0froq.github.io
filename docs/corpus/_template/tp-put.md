@@ -7,8 +7,6 @@ last_modified: {{date}}
 
 ---
 
-[[toc]]
-
 ## Capture
 
 ## Friction

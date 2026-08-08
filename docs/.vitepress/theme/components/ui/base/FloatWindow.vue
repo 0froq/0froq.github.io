@@ -120,12 +120,12 @@ defineExpose({
     :to="teleportTo"
   >
     <Transition
-      enter-active-class="transition duration-200 ease-out"
-      enter-from-class="opacity-0 scale-95"
-      enter-to-class="opacity-100 scale-100"
-      leave-active-class="transition duration-150 ease-in"
-      leave-from-class="opacity-100 scale-100"
-      leave-to-class="opacity-0 scale-95"
+      enter-active-class="garden-float-enter-active"
+      enter-from-class="garden-float-enter-from"
+      enter-to-class="garden-float-enter-to"
+      leave-active-class="garden-float-leave-active"
+      leave-from-class="garden-float-leave-from"
+      leave-to-class="garden-float-leave-to"
     >
       <div
         v-if="visible"
