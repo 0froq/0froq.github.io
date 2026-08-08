@@ -324,7 +324,7 @@ function renderReplyBody(reply: ResolvedAnnotation): string {
 <style scoped>
 /* ---- 便签卡：灰度纸面 + 顶部胶带 + 稳定随机倾角 ---- */
 .annotation-card {
-  --uno: 'relative bg-neutral-100/80 dark:bg-neutral-800/60 shadow-sm dark:shadow';
+  --uno: 'relative bg-neutral-100/60 dark:bg-neutral-800/60 shadow-sm dark:shadow';
   transform: rotate(var(--card-tilt, 0deg)) translateX(0);
   transform-origin: 50% 0;
 }
