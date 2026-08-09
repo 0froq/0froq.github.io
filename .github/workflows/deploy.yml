@@ -42,6 +42,11 @@ jobs:
       - name: Install dependencies
         run: pnpm install
       - name: Build with VitePress
+        env:
+          # Inlined into the client bundle at build time (Vite VITE_*).
+          # CLIENT_ID: OAuth Device Flow for write; READ_TOKEN: guest annotation reads.
+          VITE_GITHUB_CLIENT_ID: ${{ secrets.VITE_GITHUB_CLIENT_ID }}
+          VITE_GITHUB_READ_TOKEN: ${{ secrets.VITE_GITHUB_READ_TOKEN }}
         run: pnpm docs:build
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3

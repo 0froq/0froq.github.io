@@ -5,13 +5,14 @@ import { useI18n } from 'vue-i18n'
 import { useAnnotationStore } from '../stores/annotation'
 import { useAnnotationHighlight } from './useAnnotationHighlight'
 import { useGitHubAuth } from './useGitHubAuth'
-import { useGitHubDiscussions } from './useGitHubDiscussions'
+import { getReadAccessToken, useGitHubDiscussions } from './useGitHubDiscussions'
 
 const SLASHES_RE = /^\/+|\/+$/g
 
 /**
  * Page-scoped load/submit for annotations.
  * Load only looks up an existing Discussion (lazy create on first submit).
+ * Reads work for guests via VITE_GITHUB_READ_TOKEN; writes require user OAuth.
  */
 export function useAnnotationPage() {
   const route = useRoute()
@@ -37,7 +38,8 @@ export function useAnnotationPage() {
   const pageTitle = computed(() => page.value.title || (typeof document !== 'undefined' ? document.title : '') || route.path)
 
   async function loadAnnotations() {
-    if (!isAuthenticated.value || !token.value) {
+    const accessToken = getReadAccessToken(token.value)
+    if (!accessToken) {
       store.setAnnotations([])
       return
     }
@@ -47,14 +49,14 @@ export function useAnnotationPage() {
 
     try {
       // Lazy: look up only — do not create empty Discussions on visit
-      const discussion = await findDiscussion(pagePath.value, token.value)
+      const discussion = await findDiscussion(pagePath.value, accessToken)
 
       if (!discussion) {
         store.setAnnotations([])
         return
       }
 
-      const result = await getAnnotations(discussion.number, token.value)
+      const result = await getAnnotations(discussion.number, accessToken)
 
       await nextTick()
       const content = document.getElementById('content') || document.body
@@ -139,19 +141,14 @@ export function useAnnotationPage() {
       store.setActiveCommentId(null)
       pendingAnchor.value = null
       nextTick(() => {
-        if (isAuthenticated.value)
-          loadAnnotations()
+        loadAnnotations()
       })
     })
 
-    watch(isAuthenticated, (val) => {
-      if (val) {
-        loadAnnotations()
-      }
-      else {
-        store.setAnnotations([])
-        clearAllHighlights()
-      }
+    // Login/logout: reload with user || read token; do not clear on logout
+    // (guests should still see annotations via the read token).
+    watch(isAuthenticated, () => {
+      loadAnnotations()
     })
   }
 

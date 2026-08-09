@@ -2,10 +2,10 @@ import { useRoute } from 'vitepress'
 import { nextTick, onBeforeUnmount, onMounted, watch } from 'vue'
 
 /**
- * 正文块级懒渲染：
- * - content-visibility: auto 让视窗外的块真正跳过渲染
+ * 正文块级懒显：
  * - IntersectionObserver 提前（rootMargin 240px）标记 is-revealed，淡入上浮现形
  * - 同帧进入的块按序错峰（--lazy-delay），形成瀑布式呼吸感
+ * - content-visibility 仅用于未揭示块；与 View Transition 并存时由 useDarkMode 规避
  */
 export function useLazyContent(selector = '#content') {
   const route = useRoute()

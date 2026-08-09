@@ -5,6 +5,17 @@ const REPO_NAME = '0froq.github.io'
 const GRAPHQL_URL = 'https://api.github.com/graphql'
 const PAGE_MARKER_PREFIX = '<!-- annotation-page: '
 
+/** Guest / fallback read PAT (public_repo or Discussions read). Prefer user OAuth when present. */
+const READ_TOKEN = (import.meta.env.VITE_GITHUB_READ_TOKEN as string | undefined)?.trim() || ''
+
+/**
+ * Resolve GraphQL access token for read operations.
+ * Prefer the signed-in user token; fall back to the public read token.
+ */
+export function getReadAccessToken(userToken: string | null | undefined): string | null {
+  return userToken || READ_TOKEN || null
+}
+
 // ---- 内部 helpers ----
 
 function makePageMarker(pagePath: string): string {
