@@ -55,7 +55,7 @@ const backlogTasks = boardData.asTaskItems.backlog
 const archiveTasks = boardData.asTaskItems.archive
 
 const activeDone = activeTasks.filter((t: TaskItem) => t.status === 'done').length
-const activeTotal = activeTasks.filter((t: TaskItem) => !['deferred', 'deffered', 'cancelled'].includes(t.status)).length
+const activeTotal = activeTasks.filter((t: TaskItem) => !['deferred', 'deffered', 'cancelled'].includes(t.status!)).length
 </script>
 
 <template>

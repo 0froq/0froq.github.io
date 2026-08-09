@@ -104,7 +104,7 @@ function formatProgress(): string {
           {{ title }}
           <span v-if="subtitle"> -
             <span
-              un-text="stone-950 dark:stone-50"
+              un-text="neutral-950 dark:neutral-50"
               un-font="bold"
             >
               {{ subtitle }}
@@ -113,7 +113,7 @@ function formatProgress(): string {
         </span>
         <span
           v-if="progress !== undefined"
-          style="font-variant-numeric: diagonal-fractions;"
+          :style="`font-variant-numeric: ${typeof props.progress !== 'number' ? 'diagonal-fractions' : ''}`"
         >
           {{ formatProgress() }}
         </span>
@@ -143,7 +143,7 @@ function formatProgress(): string {
                     un-mx-auto
                   >
                     <QSeperator
-                      un-text="stone-900 dark:stone-100"
+                      un-text="neutral-900 dark:neutral-100"
                       un-my-2
                       :title="getStatusLabel(status)"
                     />
@@ -185,7 +185,7 @@ function formatProgress(): string {
           >
             <QSeperator
               un-my-2
-              un-text="stone-400 dark:stone-600"
+              un-text="neutral-400 dark:neutral-600"
               un-italic
               :title="emptyText || t('empty')"
               type="dashed"
