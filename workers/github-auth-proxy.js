@@ -18,7 +18,7 @@
  * so the site uses same-origin `/__auth`.
  */
 
-const GITHUB_LOGIN = 'https://github.com/login'
+const GITHUB_LOGIN = 'https://github.com/login/'
 const ALLOWED_ORIGINS = new Set([
   'https://froq.me',
   'https://www.froq.me',
@@ -53,8 +53,10 @@ export default {
     let path = url.pathname
     if (path.startsWith('/__auth'))
       path = path.slice('/__auth'.length) || '/'
-    if (!path.startsWith('/'))
-      path = `/${path}`
+    // IMPORTANT: path must be relative (no leading "/") against base
+    // `https://github.com/login/`. Absolute "/device/code" would resolve to
+    // `https://github.com/device/code` (missing /login) → GitHub HTML 422.
+    path = path.replace(/^\/+/, '')
 
     const target = new URL(`${path}${url.search}`, GITHUB_LOGIN)
 
