@@ -4,10 +4,13 @@ import { computed, readonly, ref, shallowRef } from 'vue'
 // ---- 内部 helpers ----
 const CLIENT_ID = import.meta.env.VITE_GITHUB_CLIENT_ID ?? ''
 
-// 开发环境通过 Vite proxy 绕开 CORS，生产环境需要配置 Cloudflare Worker 或类似
-const AUTH_BASE = typeof window !== 'undefined' && window.location.hostname === 'localhost'
-  ? '/__auth' // Vite proxy
-  : 'https://github.com/login'
+/**
+ * GitHub Device Flow endpoints do not allow browser CORS.
+ * Dev: Vite proxies `/__auth` → `https://github.com/login` (see config.mts).
+ * Prod: same path `/__auth` must be proxied (Cloudflare Worker route), or set
+ * `VITE_GITHUB_AUTH_PROXY` to an absolute proxy base (e.g. https://auth.example.workers.dev).
+ */
+const AUTH_BASE = (import.meta.env.VITE_GITHUB_AUTH_PROXY as string | undefined)?.trim() || '/__auth'
 
 interface GitHubUser {
   login: string
@@ -47,6 +50,12 @@ function sleep(ms: number): Promise<void> {
 
 async function startDeviceFlow(): Promise<void> {
   authError.value = null
+
+  if (!CLIENT_ID) {
+    authError.value = { code: 'httpError', status: 0 }
+    return
+  }
+
   isAuthenticating.value = true
 
   let res: Response

@@ -2,7 +2,7 @@
 import type { ResolvedAnnotation } from '~/types/annotation'
 import { storeToRefs } from 'pinia'
 import { useData, useRoute } from 'vitepress'
-import { computed, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import ArticleNavigation from '@/ui/article/ArticleNavigation.vue'
 import TableOfContents from '@/ui/article/TableOfContents.vue'
@@ -18,8 +18,13 @@ import { data as posts } from '~/src/posts.data'
 import { useAnnotationStore } from '~/stores/annotation'
 import { renderMdInline } from '~/utils/renderMdInline'
 
-// 侧栏显隐（默认展开；偏好持久化 localStorage）
-const showRail = ref(localStorage.getItem('annotation-show-rail') !== 'false')
+// SSR-safe: always default open during SSR/hydrate; sync preference after mount
+// so localStorage never runs on the server (hydration mismatch / blank body).
+const showRail = ref(true)
+
+onMounted(() => {
+  showRail.value = localStorage.getItem('annotation-show-rail') !== 'false'
+})
 
 function toggleRail(v: boolean | undefined) {
   showRail.value = !!v

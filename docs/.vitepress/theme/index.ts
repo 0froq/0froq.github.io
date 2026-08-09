@@ -27,13 +27,11 @@ import '@fontsource-variable/noto-sans-sc/wght.css'
 
 declare const __VUE_PROD_DEVTOOLS__: boolean
 
-const savedLocale = typeof localStorage !== 'undefined'
-  ? localStorage.getItem('locale') ?? 'zh'
-  : 'zh'
-
+// Always start with zh on SSR + first client paint to avoid hydration mismatch.
+// Persist preference is applied after mount in Layout.
 const i18n = createI18n({
   legacy: false,
-  locale: savedLocale,
+  locale: 'zh',
   fallbackLocale: 'en',
   globalInjection: true,
   messages: {
@@ -85,6 +83,8 @@ const i18n = createI18n({
     },
   },
 })
+
+export { i18n }
 
 export default {
   Layout,

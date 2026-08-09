@@ -3,6 +3,7 @@ import { defaultDocument } from '@vueuse/core'
 import mediumZoom from 'medium-zoom'
 import { useRoute } from 'vitepress'
 import { nextTick, onMounted, watch } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { usePaperCustomBlocks } from '~/composables/usePaperCustomBlocks'
 import AnnotationClient from './components/annotation/AnnotationClient.vue'
 import PageContent from './components/PageContent.vue'
@@ -13,6 +14,7 @@ import ButtonVerticalNavigation from './components/ui/nav/ButtonVerticalNavigati
 import VisitorNotesClient from './components/visitor-notes/VisitorNotesClient.vue'
 
 const route = useRoute()
+const { locale } = useI18n({ useScope: 'global' })
 usePaperCustomBlocks()
 
 function initZoom() {
@@ -24,6 +26,11 @@ function initZoom() {
 }
 
 onMounted(() => {
+  // Restore locale after hydrate to avoid SSR/client text mismatch.
+  const saved = localStorage.getItem('locale')
+  if (saved === 'en' || saved === 'zh')
+    locale.value = saved
+
   initZoom()
 })
 

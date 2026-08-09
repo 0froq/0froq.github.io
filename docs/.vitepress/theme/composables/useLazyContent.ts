@@ -6,13 +6,23 @@ import { nextTick, onBeforeUnmount, onMounted, watch } from 'vue'
  * - IntersectionObserver 提前（rootMargin 240px）标记 is-revealed，淡入上浮现形
  * - 同帧进入的块按序错峰（--lazy-delay），形成瀑布式呼吸感
  * - content-visibility 仅用于未揭示块；与 View Transition 并存时由 useDarkMode 规避
+ * - 兜底：若 IO 因 hydration remount 未触发，短延迟后强制揭示视口内/全部块，避免正文空白
  */
 export function useLazyContent(selector = '#content') {
   const route = useRoute()
   let io: IntersectionObserver | undefined
+  let fallbackTimer: ReturnType<typeof setTimeout> | undefined
+
+  function reveal(el: HTMLElement) {
+    el.classList.add('is-revealed')
+    io?.unobserve(el)
+  }
 
   function setup() {
     io?.disconnect()
+    if (fallbackTimer)
+      clearTimeout(fallbackTimer)
+
     const root = document.querySelector(selector)
     if (!root)
       return
@@ -40,17 +50,34 @@ export function useLazyContent(selector = '#content') {
 
     io = new IntersectionObserver((entries) => {
       for (const entry of entries) {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('is-revealed')
-          io!.unobserve(entry.target)
-        }
+        if (entry.isIntersecting)
+          reveal(entry.target as HTMLElement)
       }
     }, { rootMargin: '240px 0px' })
 
-    blocks.forEach(el => io!.observe(el))
+    blocks.forEach((el) => {
+      // Already in (or near) viewport — reveal immediately without waiting for IO.
+      const rect = el.getBoundingClientRect()
+      if (rect.top < window.innerHeight + 240 && rect.bottom > -240)
+        reveal(el)
+      else
+        io!.observe(el)
+    })
+
+    // Safety net: if anything is still hidden (IO missed after remount), reveal all.
+    fallbackTimer = setTimeout(() => {
+      blocks.forEach((el) => {
+        if (!el.classList.contains('is-revealed'))
+          reveal(el)
+      })
+    }, 800)
   }
 
   onMounted(() => nextTick(() => requestAnimationFrame(setup)))
   watch(() => route.path, () => nextTick(() => requestAnimationFrame(setup)))
-  onBeforeUnmount(() => io?.disconnect())
+  onBeforeUnmount(() => {
+    io?.disconnect()
+    if (fallbackTimer)
+      clearTimeout(fallbackTimer)
+  })
 }
