@@ -49,11 +49,7 @@ async function submitArticleComment() {
 }
 
 function handleArticleKeydown(e: KeyboardEvent) {
-  if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) {
-    e.preventDefault()
-    submitArticleComment()
-  }
-  else if (e.key === 'Enter' && !e.shiftKey && !e.isComposing) {
+  if (e.key === 'Enter' && !e.shiftKey && !e.isComposing) {
     e.preventDefault()
     submitArticleComment()
   }

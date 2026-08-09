@@ -30,11 +30,11 @@ export const annotationMessages = {
     discussionTitle: 'Annotations: {title}',
     list: {
       title: 'Annotations ({count})',
-      articleCommentPlaceholder: 'Comment on this article… (⌘⏎ submit, Shift+⏎ newline)',
+      articleCommentPlaceholder: 'Comment on this article… (⏎ submit, Shift+⏎ newline)',
     },
     popover: {
       placeholder: 'Write an annotation…',
-      hint: '⌘⏎ submit · Esc cancel',
+      hint: '⏎ submit · Esc cancel',
       loginPrompt: 'Sign in to annotate',
       loginButton: 'Sign in with GitHub',
       connecting: 'Connecting to GitHub…',
@@ -98,11 +98,11 @@ export const annotationMessages = {
     discussionTitle: '批注: {title}',
     list: {
       title: '批注 ({count})',
-      articleCommentPlaceholder: '评论这篇文章…（⌘⏎ 提交，Shift+⏎ 换行）',
+      articleCommentPlaceholder: '评论这篇文章…（⏎ 提交，Shift+⏎ 换行）',
     },
     popover: {
       placeholder: '写下批注…',
-      hint: '⌘⏎ 提交 · Esc 取消',
+      hint: '⏎ 提交 · Esc 取消',
       loginPrompt: '登录以添加批注',
       loginButton: '使用 GitHub 登录',
       connecting: '正在连接 GitHub…',
