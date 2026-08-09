@@ -32,9 +32,10 @@ const { t } = useI18n({
       v-for="(post, key) in { prevPost, nextPost }"
       :key="key"
       un-flex="~ row"
+      un-font-serif
     >
       <div
-        un-text="stone-500 dark:stone-400 base"
+        un-text="neutral-400 dark:neutral-600 base"
         un-mr-2
         un-whitespace-nowrap
       >
@@ -45,15 +46,15 @@ const { t } = useI18n({
         :href="post.url"
         :text="post.frontmatter.title"
         :tooltip-text="post.frontmatter.title"
-        un-before="bg-stone-950 dark:bg-stone-50"
+        un-before="bg-neutral-900 dark:bg-neutral-100"
       >
-        <template #tooltipAddons>
+        <template #tooltip>
           <TooltipArticleInfo :post="post" />
         </template>
       </LinkUnderline>
       <div
         v-else
-        un-text-stone-500
+        un-text-neutral-500
       >
         {{ t('noPost') }}
       </div>

@@ -16,7 +16,7 @@ import PageTitle from '@/ui/base/PageTitle.vue'
 
 <style scoped>
 [data-current='true'] {
-  --uno: 'text-stone-950 dark:text-stone-50 font-semibold';
-  --uno: 'before:(w-full bg-stone-950 dark:bg-stone-50)';
+  --uno: 'text-neutral-900 dark:text-neutral-100 font-semibold';
+  --uno: 'before:(w-full bg-neutral-900 dark:bg-neutral-100)';
 }
 </style>

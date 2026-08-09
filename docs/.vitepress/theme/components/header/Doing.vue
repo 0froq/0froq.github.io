@@ -118,7 +118,7 @@ const appWithTitle = [
       un-min-w-0
       un-text-nowrap
       un-text-ellipsis
-      un-text="stone-500 dark:stone-500"
+      un-text="neutral-500 dark:neutral-500"
     >
       - {{ activity.process?.windowTitle }}
       <IconApp
@@ -142,7 +142,7 @@ const appWithTitle = [
       un-w-2
       un-h-2
       un-rounded-full
-      un-border="~ 1 stone-400 dark:stone-600"
+      un-border="~ 1 neutral-400 dark:neutral-600"
     />
     <span
       class="pulse-slow"

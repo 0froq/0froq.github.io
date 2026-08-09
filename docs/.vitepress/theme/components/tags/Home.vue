@@ -107,7 +107,7 @@ const tagTree = computed<TagNode[]>(() => {
   </div>
   <div
     v-else
-    un-text="stone-500"
+    un-text="neutral-500"
   >
     没有可用的标签。
   </div>

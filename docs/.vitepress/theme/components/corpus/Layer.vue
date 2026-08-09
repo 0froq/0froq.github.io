@@ -251,11 +251,12 @@ watch([showAigc, showVoid, showDraft, showOtherLang], () => {
           textDecorationLine: 'line-through',
           textDecorationThickness: '1px',
         } : ''"
+        un-font-serif
       >
         <LinkUnderline
           :href="post.url"
           :text="post.title"
-          un-before="bg-rose-600 dark:bg-rose-400"
+          un-before="bg-neutral-900 dark:bg-neutral-100"
         >
           <template #tooltip>
             <TooltipArticleInfo :post="post" />
@@ -275,7 +276,7 @@ watch([showAigc, showVoid, showDraft, showOtherLang], () => {
         un-font="mono"
         un-whitespace-nowrap
         un-transition="colors duration-200"
-        un-text="stone-500"
+        un-text="neutral-500"
       >
         <span
           v-if="post.createdComponent.year"
@@ -285,7 +286,7 @@ watch([showAigc, showVoid, showDraft, showOtherLang], () => {
         </span>
         <span
           v-else
-          un-text="stone-400 dark:stone-600 sm"
+          un-text="neutral-400 dark:neutral-600 sm"
         >…………</span>/<span
           v-if="post.createdComponent.month"
           un-text="sm"
@@ -294,7 +295,7 @@ watch([showAigc, showVoid, showDraft, showOtherLang], () => {
         </span>
         <span
           v-else
-          un-text="stone-400 dark:stone-600 sm"
+          un-text="neutral-400 dark:neutral-600 sm"
         >……</span>/<span
           v-if="post.createdComponent.day"
           un-text="sm"
@@ -303,7 +304,7 @@ watch([showAigc, showVoid, showDraft, showOtherLang], () => {
         </span>
         <span
           v-else
-          un-text="stone-400 dark:stone-600 sm"
+          un-text="neutral-400 dark:neutral-600 sm"
         >……</span>
       </div>
     </div>
@@ -312,13 +313,13 @@ watch([showAigc, showVoid, showDraft, showOtherLang], () => {
 
 <style scoped>
 [data-current='true'] {
-  --uno: 'text-stone-950 dark:text-stone-50 font-semibold';
-  --uno: 'before:(w-full bg-stone-950 dark:bg-stone-50)';
+  --uno: 'text-neutral-900 dark:text-neutral-100 font-semibold';
+  --uno: 'before:(w-full bg-neutral-900 dark:bg-neutral-100)';
 }
 
 .article-row:hover .date span {
-  --uno: 'text-stone-950 dark:text-stone-50';
+  --uno: 'text-neutral-900 dark:text-neutral-100';
   --uno: 'transition-colors duration-200';
-  /* --uno: 'underline-(~ px dashed stone-950 dark:stone-50)'; */
+  /* --uno: 'underline-(~ px dashed neutral-900 dark:neutral-100)'; */
 }
 </style>

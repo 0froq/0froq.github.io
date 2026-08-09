@@ -51,14 +51,13 @@ html {
   --uno: 'before:inset-0';
   --uno: 'before:-z-1';
   --uno: 'before:pointer-events-none';
-  --uno: 'before:bg-neutral-200 dark:before:bg-neutral-900';
 
   --uno: 'after:content-empty';
   --uno: 'after:absolute';
   --uno: 'after:inset-0';
   --uno: 'after:-z-1';
   --uno: 'after:pointer-events-none';
-  --uno: 'after:bg-stone-400 dark:after:bg-stone-600';
+  --uno: 'after:bg-neutral-400 dark:after:bg-neutral-600';
   --uno: 'after:opacity-20';
   --uno: 'after:mask-repeat-repeat';
   --uno: 'after:mask-size-280px-240px';
@@ -80,12 +79,12 @@ html {
 
 #content:not(.unstyled),
 .markdown-rendered {
-  /* --uno: 'prose prose-stone dark:prose-invert'; */
+  /* --uno: 'prose prose-neutral dark:prose-invert'; */
   /* --uno: 'overflow-x-hidden'; */
 
   & hr {
     --uno: 'my-8';
-    --uno: 'border-stone-500';
+    --uno: 'border-neutral-500';
     --uno: 'border-dashed';
     --uno: 'w-80% mx-auto';
   }
@@ -100,9 +99,9 @@ html {
     --uno: 'my-10 w-fit relative block font-regular';
     --uno: 'font-serif';
     /* different color for light and dark mode */
-    --uno: 'text-stone-800 dark:text-stone-200';
+    --uno: 'text-neutral-800 dark:text-neutral-200';
     --uno: 'before:(opacity-5 absolute translate-[-150%,0] text-[0.8em] transiton-opacity duration-200)';
-    --uno: 'after:(content-[""] w-0 h-2px bg-stone-700 dark:bg-stone-300 absolute left-0 bottom-0 transition-all duration-200 hover:w-full)';
+    /* --uno: 'after:(content-[""] w-0 h-2px bg-neutral-700 dark:bg-neutral-300 absolute left-0 bottom-0 transition-all duration-200 hover:w-full)'; */
     --uno: 'hover:(before:opacity-40)';
   }
 
@@ -134,7 +133,7 @@ html {
   /* strong */
   & strong {
     --uno: 'font-black';
-    --uno: 'text-stone-950 dark:text-stone-50';
+    --uno: 'text-neutral-950 dark:text-neutral-50';
   }
 
   & em {
@@ -144,9 +143,9 @@ html {
   & a:not([href^='#'], [href^='../../tags/']) {
     --uno: 'italic font-serif';
     --uno: 'relative inline text-wrap';
-    --uno: 'text-stone-900 dark:text-stone-100';
-    --uno: 'border-b border-dashed border-stone-500';
-    --uno: 'hover:(border-stone-800 dark:border-stone-200 border-solid)';
+    --uno: 'text-neutral-900 dark:text-neutral-100';
+    --uno: 'border-b border-dashed border-neutral-500';
+    --uno: 'hover:(border-neutral-800 dark:border-neutral-200 border-solid)';
     --uno: 'transition duration-200';
 
     &:not([target='_blank'], [href^='mailto']) {
@@ -161,7 +160,7 @@ html {
     --uno: 'decoration-(wavy 1)';
     /* not too close to the text */
     --uno: 'underline-offset-4';
-    --uno: 'text-stone-900 dark:text-stone-100';
+    --uno: 'text-neutral-900 dark:text-neutral-100';
   }
 
   /* inline code */
@@ -169,16 +168,16 @@ html {
   & > code {
     --uno: 'font-mono';
     --uno: 'px-1 py-0';
-    --uno: 'bg-stone-200/50 dark:bg-stone-800/50';
-    /* --uno: 'border border-stone-300 dark:border-stone-600'; */
-    --uno: 'text-stone-600 dark:text-stone-400';
+    --uno: 'bg-neutral-300/60 dark:bg-neutral-800/60';
+    /* --uno: 'border border-neutral-300 dark:border-neutral-600'; */
+    --uno: 'text-neutral-600 dark:text-neutral-400';
     --uno: 'text-0.9em';
     --uno: 'rounded-0.5';
   }
 
   /* strikethrough */
   & s {
-    --uno: 'text-stone-500';
+    --uno: 'text-neutral-500';
   }
 
   /* code block */
@@ -186,8 +185,8 @@ html {
   & [class^='language-'] {
     --uno: 'relative my-8 w-full';
     --uno: 'text-sm';
-    --uno: 'bg-stone-100 dark:bg-stone-900';
-    --uno: 'border border-stone-300 dark:border-stone-700';
+    --uno: 'bg-neutral-100 dark:bg-neutral-900';
+    --uno: 'border border-neutral-300 dark:border-neutral-700';
 
     /* pre wrapper */
     & pre {
@@ -218,7 +217,7 @@ html {
 
       /* highlighted line */
       &.highlighted {
-        --uno: 'bg-stone-200 dark:bg-stone-800';
+        --uno: 'bg-neutral-200 dark:bg-neutral-800';
         --uno: 'h-max';
 
         --uno: 'before:(absolute -translate-x-[5,0])';
@@ -278,8 +277,8 @@ html {
     & button.copy {
       --uno: 'absolute top-2 right-2';
       --uno: 'px-2 py-1';
-      --uno: 'text-(xs stone-500)';
-      --uno: 'hover:(text-stone-950 dark:text-stone-50)';
+      --uno: 'text-(xs neutral-500)';
+      --uno: 'hover:(text-neutral-950 dark:text-neutral-50)';
       --uno: 'transition duration-200';
       /* copy icon */
       --uno: 'before:(content-[""] i-ph-copy-light block w-6 h-6)';
@@ -310,9 +309,9 @@ html {
 
       & .line-numbers-wrapper {
         --uno: 'absolute bottom-0 left-0 top-0 w-10';
-        --uno: 'border-r border-stone-300 dark:border-stone-700';
+        --uno: 'border-r border-neutral-300 dark:border-neutral-700';
         --uno: 'pt-6';
-        --uno: 'text-(center stone-500)';
+        --uno: 'text-(center neutral-500)';
         --uno: 'font-mono';
 
         & .line-number {
@@ -327,11 +326,11 @@ html {
   & .vp-code-group {
     --uno: 'relative my-8 w-full';
     --uno: 'text-sm';
-    --uno: 'bg-stone-100 dark:bg-stone-900';
+    --uno: 'bg-neutral-100 dark:bg-neutral-900';
     --uno: 'rounded-md';
 
     & .tabs {
-      --uno: 'border border-stone-300 dark:border-stone-700';
+      --uno: 'border border-neutral-300 dark:border-neutral-700';
       --uno: 'rounded-t-md';
       --uno: 'flex';
       --uno: 'overflow-x-auto';
@@ -340,7 +339,7 @@ html {
         --uno: 'inline-block cursor-pointer';
         --uno: 'border-(t-2 transparent)';
         --uno: 'p-(x-4 y-2)';
-        --uno: 'font-mono text-stone-600 dark:text-stone-400';
+        --uno: 'font-mono text-neutral-600 dark:text-neutral-400';
         --uno: 'transition-colors duration-200';
       }
 
@@ -349,9 +348,9 @@ html {
         --uno: 'opacity-0';
 
         &:checked + label {
-          --uno: 'text-stone-900';
-          --uno: 'border-stone-700';
-          --uno: 'dark:(text-stone-100 border-stone-300)';
+          --uno: 'text-neutral-900';
+          --uno: 'border-neutral-700';
+          --uno: 'dark:(text-neutral-100 border-neutral-300)';
         }
       }
     }
@@ -374,119 +373,107 @@ html {
     --uno: 'font-serif';
     --uno: 'my-4 relative';
     --uno: 'pl-4';
-    --uno: 'bg-neutral-100 dark:bg-neutral-800';
-    --uno: 'border-(l stone-500)';
+    --uno: 'bg-neutral-50/60 dark:bg-neutral-800/60 shadow-sm dark:shadow';
+    --uno: 'border-(l neutral-500)';
     /* blockquote icon */
-    --uno: 'z-0';
-    --uno: 'before:(content-[""] i-solar-chat-line-bold-duotone block w-8 h-8 absolute right-1 top-1 text-stone-500 z--1 opacity-20)';
+    /* --uno: 'z-0'; */
+    /* --uno: 'before:(content-[""] i-solar-chat-line-bold-duotone block w-8 h-8 absolute right-1 top-1 text-neutral-500 z--1 opacity-20)'; */
 
     & p {
       --uno: 'm-0';
     }
   }
 
-  /* custom block (aka callout, alert) — sticky-note style */
+  /* custom block (aka callout, alert) — 灰度纸面；类型色只上胶带 */
   & .custom-block {
     --uno: 'font-serif';
-    --uno: 'my-6 relative';
-    --uno: 'pt-6 pb-3 px-4';
-    --uno: 'rounded-sm';
-    /* slight tilt and soft shadow, like a note stuck on the page */
-    --uno: 'rotate-[-0.4deg]';
-    --uno: 'shadow-(md stone-900/10 dark:black/40)';
-    --uno: 'before:content-[""]';
-    --uno: 'before:(absolute right-1 bottom-1)';
-    /* style at utilities layer to overwrite width and height set by icon below */
-    --uno: 'before:(inline-block align-middle layer-utilities:w-8 layer-utilities:h-8)';
-    --uno: 'before:opacity-20';
+    --uno: 'my-6 mx-12 relative';
+    --uno: 'w-fit min-w-300px';
+    --uno: 'pt-3 pb-3 px-4';
+    --uno: 'bg-neutral-50/60 dark:bg-neutral-800/60 shadow-sm dark:shadow';
+    transform: rotate(var(--card-tilt, -0.4deg));
+    transform-origin: 50% 0;
 
-    & p {
+    /* 正文抬到纸面之上；title/summary 保持 absolute 胶带 */
+    & > :not(svg.paper-edge-svg):not(.custom-block-title):not(summary) {
+      --uno: 'relative z-1';
+    }
+
+    & p:not(.custom-block-title) {
       --uno: 'm-0';
     }
 
-    /* container colors */
     &.details {
       --uno: 'my-6 pt-6 pb-3 px-4';
       --uno: 'font-serif';
     }
 
-    &.note,
-    &.info {
-      --uno: 'bg-stone-100 dark:bg-stone-800/40';
-
-      --uno: 'before:(text-stone-500)';
-    }
-
-    &.warning {
-      --uno: 'bg-yellow-100 dark:bg-yellow-900/30';
-
-      --uno: 'before:(text-yellow-500)';
-    }
-
-    &.tip {
-      --uno: 'bg-indigo-100 dark:bg-indigo-900/30';
-
-      --uno: 'before:(text-indigo-500)';
-    }
-
-    &.important {
-      --uno: 'bg-violet-100 dark:bg-violet-900/30';
-
-      --uno: 'before:(text-violet-500)';
-    }
-
-    &.caution,
-    &.danger {
-      --uno: 'bg-red-100 dark:bg-red-900/30';
-
-      --uno: 'before:(text-red-500)';
-    }
-
-    /* title as a piece of tape on top */
+    /*
+     * title 胶带：shrink-to-fit，居中骑在顶边。
+     * 默认中性色；各类型覆写背景 / 文字色。
+     */
     & .custom-block-title,
     & summary {
-      --uno: 'font-serif';
-      --uno: 'absolute -top-2.5 left-6';
-      --uno: 'rotate-[1.5deg]';
-      --uno: 'px-3 py-0.5';
-      --uno: 'rounded-[2px]';
-      --uno: 'bg-stone-100/80 dark:bg-stone-700/60';
-      --uno: 'backdrop-blur-sm';
-      --uno: 'shadow-sm';
-      --uno: 'my-0 text-center';
-      --uno: 'text-base';
-      --uno: 'text-stone-500 dark:text-stone-400';
+      --uno: 'font-serif absolute z-2';
+      top: -0.5rem;
+      left: 50%;
+      width: max-content;
+      max-width: calc(100% - 2.5rem);
+      transform: translateX(-50%) rotate(1.2deg);
+      --uno: 'px-2 py-0 my-0 text-center text-sm truncate shadow-sm backdrop-blur-sm';
+      border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
+      --uno: 'bg-neutral-400/30 dark:bg-neutral-600/30 text-neutral-600 dark:text-neutral-300';
     }
 
-    /* icons */
-    &.note {
-      /* icon at layer components to have the width and height overwritten */
-      --uno: 'before:layer-components:(i-solar-notebook-bold-duotone)';
+    /* —— 类型：胶带色（每类一条，避免 --uno 互相覆盖） —— */
+    &.note .custom-block-title,
+    &.note summary {
+      --uno: 'bg-neutral-600/35 dark:bg-neutral-500/70 text-neutral-700 dark:text-neutral-200';
     }
 
-    &.info {
-      --uno: 'before:layer-components:(i-solar-info-square-bold-duotone)';
+    &.info .custom-block-title,
+    &.info summary {
+      --uno: 'bg-neutral-600/35 dark:bg-neutral-500/70 text-neutral-700 dark:text-neutral-200';
     }
 
-    &.warning {
-      --uno: 'before:layer-components:(i-solar-shield-warning-bold-duotone)';
+    &.warning .custom-block-title,
+    &.warning summary {
+      --uno: 'bg-yellow-500/35 dark:bg-yellow-500/50 text-yellow-900 dark:text-yellow-100';
     }
 
-    &.tip {
-      --uno: 'before:layer-components:(i-solar-lightbulb-bolt-bold-duotone)';
+    &.tip .custom-block-title,
+    &.tip summary {
+      --uno: 'bg-emerald-500/35 dark:bg-emerald-500/50 text-emerald-900 dark:text-emerald-100';
     }
 
-    &.important {
-      --uno: 'before:layer-components:(i-solar-stars-bold-duotone)';
+    &.important .custom-block-title,
+    &.important summary {
+      --uno: 'bg-violet-500/35 dark:bg-violet-500/50 text-violet-900 dark:text-violet-100';
     }
 
-    &.caution {
-      --uno: 'before:layer-components:(i-solar-siren-rounded-bold-duotone)';
+    &.caution .custom-block-title,
+    &.danger .custom-block-title,
+    &.caution summary,
+    &.danger summary {
+      --uno: 'bg-red-500/35 dark:bg-red-500/50 text-red-900 dark:text-red-100';
     }
+  }
 
-    &.danger {
-      --uno: 'before:layer-components:(i-solar-bomb-emoji-bold-duotone)';
-    }
+  /* 注入的纸边 SVG：drop-shadow 会贴合位移后的锯齿边；box-shadow 对 SVG 无效 */
+  & .custom-block > svg.paper-edge-svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+    pointer-events: none;
+    z-index: 0;
+    --uno: 'drop-shadow dark:drop-shadow-sm';
+  }
+
+  /* 统一灰度纸；浅色描边略深，否则贴在横线纸上几乎看不出 */
+  & .custom-block > svg.paper-edge-svg .paper-edge-fill {
+    --uno: 'fill-neutral-50/60 dark:fill-neutral-800/60 stroke-neutral-400 dark:stroke-neutral-700';
   }
 
   & ol {
@@ -506,7 +493,7 @@ html {
     --uno: 'pl-8';
 
     & li {
-      --uno: 'marker:(text-stone-500)';
+      --uno: 'marker:(text-neutral-500)';
 
       & p {
         --uno: 'my-0';
@@ -522,7 +509,7 @@ html {
   & table {
     --uno: 'my-8 w-full';
     --uno: 'border-(collapse b-2 t-2)';
-    --uno: 'border-stone-800 dark:border-stone-200';
+    --uno: 'border-neutral-800 dark:border-neutral-200';
 
     & thead {
       --uno: 'border-b';
@@ -535,7 +522,7 @@ html {
 
     & tbody tr {
       --uno: 'border-b';
-      --uno: 'border-stone-300 dark:border-stone-700';
+      --uno: 'border-neutral-300 dark:border-neutral-700';
     }
 
     & th,
@@ -548,7 +535,7 @@ html {
   & mark {
     --uno: 'relative';
     --uno: 'bg-rose-500/20';
-    --uno: 'text-stone-900 dark:text-stone-100';
+    --uno: 'text-neutral-900 dark:text-neutral-100';
     --uno: 'font-black';
     --uno: 'whitespace-nowrap';
     --uno: 'before:content-[""]';
@@ -570,12 +557,12 @@ html {
   & a .tag {
     --uno: 'relative';
     --uno: 'px-1';
-    /* un-text="stone-600 dark:stone-400" */
-    /* un-underline="~ px stone-600 dark:stone-400 hover:sky-500" */
+    /* un-text="neutral-600 dark:neutral-400" */
+    /* un-underline="~ px neutral-600 dark:neutral-400 hover:sky-500" */
     --uno: 'z-0';
-    --uno: 'text-stone-600 dark:text-stone-400';
-    --uno: 'border-b border-dashed border-stone-500';
-    --uno: 'hover:(border-stone-800 dark:border-stone-200 border-solid)';
+    --uno: 'text-neutral-600 dark:text-neutral-400';
+    --uno: 'border-b border-dashed border-neutral-500';
+    --uno: 'hover:(border-neutral-800 dark:border-neutral-200 border-solid)';
     --uno: 'transition duration-200';
   }
 
@@ -584,21 +571,21 @@ html {
     --uno: 'my-8';
 
     & img {
-      --uno: 'border border-stone-300 dark:border-stone-700';
+      --uno: 'border border-neutral-300 dark:border-neutral-700';
       --uno: 'mx-auto';
     }
 
     & figcaption {
       --uno: 'font-serif';
       --uno: 'pt-4';
-      --uno: 'text-stone-600 dark:text-stone-400';
+      --uno: 'text-neutral-600 dark:text-neutral-400';
       --uno: 'text-sm/9 text-center';
     }
   }
 
   & sup.footnote-ref {
     --uno: 'transition duration-200';
-    --uno: 'text-stone-600 dark:text-stone-400';
+    --uno: 'text-neutral-600 dark:text-neutral-400';
     --uno: 'hover:(text-sky-600 dark:text-sky-400)';
   }
 
@@ -624,7 +611,7 @@ html {
             --uno: 'i-ph-arrow-bend-right-up-duotone';
 
             --uno: 'transition';
-            --uno: 'text-stone-600 dark:text-stone-400';
+            --uno: 'text-neutral-600 dark:text-neutral-400';
             --uno: 'hover:(text-sky-600 dark:text-sky-400)';
           }
         }
@@ -660,16 +647,16 @@ mjx-container.MathJax svg {
   }
 
   & a {
-    --uno: 'decoration-(underline stone-500)';
+    --uno: 'decoration-(underline neutral-500)';
     --uno: 'transition duration-200';
-    --uno: 'hover:(decoration-stone-800 dark:decoration-stone-200)';
+    --uno: 'hover:(decoration-neutral-800 dark:decoration-neutral-200)';
   }
 
   & p code {
     --uno: 'px-1';
-    --uno: 'bg-stone-200/50 dark:bg-stone-800/50';
-    --uno: 'text-stone-500';
-    --uno: 'border border-stone-300 dark:border-stone-700';
+    --uno: 'bg-neutral-100/50 dark:bg-neutral-800/50';
+    --uno: 'text-neutral-500';
+    --uno: 'border border-neutral-300 dark:border-neutral-700';
     --uno: 'rounded-sm';
   }
 }
@@ -682,6 +669,30 @@ mjx-container.MathJax svg {
 
 .backdrop-blur {
   backdrop-filter: blur(10px);
+}
+
+/* ---- 文本选区：灰度马克笔效果 ----
+ * 用轻微倾斜的灰块 + 圆角模拟高亮笔刷过的不规则感。
+ */
+::selection {
+  background: rgb(120 113 108 / 0.24);
+  color: inherit;
+  border-radius: 3px 6px 4px 7px;
+  /* 轻微不对称阴影，制造笔刷边缘的厚度 */
+  box-shadow: 0 1px 0 rgb(120 113 108 / 0.12);
+}
+::-moz-selection {
+  background: rgb(120 113 108 / 0.24);
+  color: inherit;
+  border-radius: 3px 6px 4px 7px;
+}
+.dark ::selection {
+  background: rgb(214 211 209 / 0.22);
+  color: inherit;
+}
+.dark ::-moz-selection {
+  background: rgb(214 211 209 / 0.22);
+  color: inherit;
 }
 
 /* ---- 批注高亮（CSS Custom Highlight API）----
@@ -709,25 +720,30 @@ mjx-container.MathJax svg {
 }
 
 
-/* ---- Lazy content: 视窗外块跳过渲染，滚入时错峰淡入 ---- */
+/* ---- Lazy content: 滚入时错峰淡入（不用 content-visibility，避免与 View Transition 冲突卡死） ---- */
 .lazy-block {
-  /* 视窗外的块不参与渲染（跳过 layout/paint），滚动接近时再渲染 */
+  opacity: 0;
+  transform: translateY(12px);
+  transition:
+    opacity 0.55s ease var(--lazy-delay, 0ms),
+    transform 0.55s cubic-bezier(0.22, 1, 0.36, 1) var(--lazy-delay, 0ms);
   content-visibility: auto;
   contain-intrinsic-size: auto 32px;
-
-  opacity: 0;
-  transform: translateY(16px);
-  filter: blur(4px);
-  transition:
-    opacity 0.6s ease var(--lazy-delay, 0ms),
-    transform 0.6s cubic-bezier(0.22, 1, 0.36, 1) var(--lazy-delay, 0ms),
-    filter 0.6s ease var(--lazy-delay, 0ms);
 }
 
 .lazy-block.is-revealed {
   opacity: 1;
   transform: none;
-  filter: none;
+  /* 已进入视口后关闭跳过渲染，后续主题切换/VT 不再被迫整页展开 */
+  content-visibility: visible;
+  contain-intrinsic-size: none;
+}
+
+/* View Transition 截图期间强制所有块可见，避免未揭示块触发 Chromium 卡死 */
+html.vt-active .lazy-block {
+  content-visibility: visible !important;
+  contain-intrinsic-size: none;
+  transition: none;
 }
 
 /* 块内图片在淡入完成前轻微放大，形成呼吸感 */
@@ -743,8 +759,8 @@ mjx-container.MathJax svg {
   .lazy-block {
     opacity: 1;
     transform: none;
-    filter: none;
     transition: none;
+    content-visibility: visible;
   }
   .lazy-block img {
     transform: none;
@@ -752,27 +768,96 @@ mjx-container.MathJax svg {
   }
 }
 
-/* ---- Dark mode: View Transition API (antfu.me) ---- */
+/* ---- Dark mode: View Transition API (soft circular “infection”) ---- */
+@property --vt-r {
+  syntax: '<length>';
+  inherits: true;
+  initial-value: 0px;
+}
+
 ::view-transition-old(root),
 ::view-transition-new(root) {
+  /* 关掉 UA 默认 cross-fade，改由下方 mask 动画驱动 */
   animation: none;
   mix-blend-mode: normal;
 }
 
-::view-transition-old(root) {
+/*
+ * Soft radial mask (not hard clip-path): solid core → feather → transparent.
+ * --vt-r is animated via @property so the soft edge width stays constant in px
+ * while the front spreads — reads as infection, not a hard cut.
+ */
+html[data-theme-vt] {
+  --vt-soft: 96px;
+}
+
+html[data-theme-vt='to-light']::view-transition-group(root) {
+  background-color: #0c0a09;
+}
+html[data-theme-vt='to-light']::view-transition-old(root) {
+  z-index: 1;
+}
+html[data-theme-vt='to-light']::view-transition-new(root) {
+  z-index: 9999;
+  animation: vt-infect-expand 520ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  -webkit-mask-image: radial-gradient(
+    circle at var(--vt-x) var(--vt-y),
+    #000 0%,
+    #000 max(0px, calc(var(--vt-r) - var(--vt-soft))),
+    transparent var(--vt-r)
+  );
+  mask-image: radial-gradient(
+    circle at var(--vt-x) var(--vt-y),
+    #000 0%,
+    #000 max(0px, calc(var(--vt-r) - var(--vt-soft))),
+    transparent var(--vt-r)
+  );
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+}
+
+html[data-theme-vt='to-dark']::view-transition-group(root) {
+  background-color: #f5f5f4;
+}
+html[data-theme-vt='to-dark']::view-transition-old(root) {
+  z-index: 9999;
+  animation: vt-infect-shrink 520ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  -webkit-mask-image: radial-gradient(
+    circle at var(--vt-x) var(--vt-y),
+    #000 0%,
+    #000 max(0px, calc(var(--vt-r) - var(--vt-soft))),
+    transparent var(--vt-r)
+  );
+  mask-image: radial-gradient(
+    circle at var(--vt-x) var(--vt-y),
+    #000 0%,
+    #000 max(0px, calc(var(--vt-r) - var(--vt-soft))),
+    transparent var(--vt-r)
+  );
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+}
+html[data-theme-vt='to-dark']::view-transition-new(root) {
   z-index: 1;
 }
 
-::view-transition-new(root) {
-  z-index: 9999;
+@keyframes vt-infect-expand {
+  from {
+    --vt-r: 0px;
+  }
+  to {
+    /* 多扩一段羽化宽度，避免收尾时边缘还留一圈未盖住 */
+    --vt-r: calc(var(--vt-end) + var(--vt-soft));
+  }
 }
 
-.dark::view-transition-old(root) {
-  z-index: 9999;
-}
-
-.dark::view-transition-new(root) {
-  z-index: 1;
+@keyframes vt-infect-shrink {
+  from {
+    --vt-r: calc(var(--vt-end) + var(--vt-soft));
+  }
+  to {
+    --vt-r: 0px;
+  }
 }
 
 .dark [img-light] {
@@ -785,7 +870,7 @@ html:not(.dark) [img-dark] {
 
 /* ---- Annotation shared UI ---- */
 .annotation-btn-primary {
-  --uno: 'px-3 py-1 text-xs rounded bg-stone-900 dark:bg-stone-100 text-white dark:text-stone-900 transition duration-300';
+  --uno: 'px-3 py-1 text-xs rounded bg-neutral-900 dark:bg-neutral-100 text-white dark:text-neutral-900 transition duration-300';
 }
 .annotation-btn-primary:hover:not(:disabled) {
   --uno: 'opacity-80';
@@ -813,7 +898,7 @@ html:not(.dark) [img-dark] {
    layered shadow, a slight rest tilt, quiet rise-and-settle entrance.
    Layout/color via UnoCSS; only tilt + keyframes need plain CSS. */
 .garden-float-panel {
-  --uno: 'rounded-xs border border-stone-300/80 dark:border-stone-600/70 backdrop-blur-md bg-stone-50/90 dark:bg-stone-800/85';
+  --uno: 'rounded-xs border border-neutral-300/80 dark:border-neutral-600/70 backdrop-blur-md bg-neutral-50/90 dark:bg-neutral-800/85';
   /* UnoCSS attributify 对带逗号的任意 shadow 解析不可靠，这里用原生 CSS */
   box-shadow:
     0 1px 2px rgba(28, 25, 23, 0.08),

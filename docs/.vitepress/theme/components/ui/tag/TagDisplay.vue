@@ -39,14 +39,14 @@ onClickOutside(extendedTagsTriggerRef, () => {
         :href="`/tags/${tag}`"
         :text="tag.split('/').pop() || ''"
         :un-text="index === currentTagHierarchy.length - 1
-          ? `stone-700 dark:stone-300 hover:stone-950 dark:hover:stone-50`
-          : `stone-500 hover:stone-950 dark:hover:stone-50`"
+          ? `neutral-700 dark:neutral-300 hover:neutral-950 dark:hover:neutral-50`
+          : `neutral-500 hover:neutral-950 dark:hover:neutral-50`"
         un-before="bg-sky-600 dark:bg-sky-400"
       />
       <span
         v-if="index < currentTagHierarchy.length - 1"
         un-inline-block
-        un-text="stone-500"
+        un-text="neutral-500"
       >
         /
       </span>
@@ -60,14 +60,14 @@ onClickOutside(extendedTagsTriggerRef, () => {
       <span
         un-inline-block
         un-relative
-        un-text="stone-500"
+        un-text="neutral-500"
       >
         /
       </span>
       <span
         ref="extendedTagsTriggerRef"
         un-cursor-pointer
-        un-text="stone-500 hover:stone-950 dark:hover:stone-50"
+        un-text="neutral-500 hover:neutral-950 dark:hover:neutral-50"
         @click="showExtendedTags = !showExtendedTags"
       >
         ..
@@ -82,7 +82,7 @@ onClickOutside(extendedTagsTriggerRef, () => {
       >
         <div
           class="no-scrollbar garden-float-panel"
-          un-text="stone-700 dark:stone-300"
+          un-text="neutral-700 dark:neutral-300"
           un-text-align-start
           un-py-2
           un-px-4
@@ -100,7 +100,7 @@ onClickOutside(extendedTagsTriggerRef, () => {
             un-items-center
           >
             <div
-              un-text="stone-500"
+              un-text="neutral-500"
             >
               ../
             </div>
@@ -110,8 +110,8 @@ onClickOutside(extendedTagsTriggerRef, () => {
               un-inline-block
               un-text-sm
               un-w-fit
-              un-text="stone-600 dark:stone-400"
-              un-before="h-px bg-stone-950 dark:bg-stone-50"
+              un-text="neutral-600 dark:neutral-400"
+              un-before="h-px bg-neutral-950 dark:bg-neutral-50"
             />
           </div>
         </div>

@@ -18,15 +18,13 @@ import LinkUnderline from '@/ui/base/LinkUnderline.vue'
       <LinkUnderline
         href="https://creativecommons.org/licenses/by-nc-sa/4.0/?ref=chooser-v1"
         text="CC BY-NC-SA 4.0"
-        un-text="stone-600 dark:stone-400 hover:stone-950 dark:hover:stone-50"
-        un-before="bg-stone-800 dark:bg-stone-200 h-px"
+        un-before="bg-neutral-900 dark:bg-neutral-100"
       />
       ©
       <LinkUnderline
         href="https://github.com/Fro-Q/blog"
         text="froQ"
-        un-text="stone-600 dark:stone-400 hover:stone-950 dark:hover:stone-50"
-        un-before="bg-stone-800 dark:bg-stone-200 h-px"
+        un-before="bg-neutral-900 dark:bg-neutral-100"
       />
     </div>
   </un-page-content>

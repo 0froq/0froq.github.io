@@ -110,9 +110,9 @@ function handleMouseMove(e: MouseEvent) {
   >
     <span
       ref="triggerRef"
-      un-after="content-empty bg-stone-400 dark:bg-stone-600 w-full h-1px absolute bottom-0.5 left-0 z-0"
+      un-after="content-empty bg-neutral-400 dark:bg-neutral-600 w-full h-1px absolute bottom-0.5 left-0 z-0"
       un-duration-400
-      un-text="stone-600 dark:stone-400 hover:stone-800 dark:hover:stone-200"
+      un-text="neutral-600 dark:neutral-400 hover:neutral-800 dark:hover:neutral-200"
       un-relative
       un-min-w-0
       un-mx-1
@@ -147,7 +147,7 @@ function handleMouseMove(e: MouseEvent) {
     <un-i-solar-arrow-right-down-line-duotone
       v-if="!followMouse && hasTooltipSlot"
       un-cursor-pointer
-      un-text="stone-500 hover:stone-700 dark:hover:stone-300"
+      un-text="neutral-500 hover:neutral-700 dark:hover:neutral-300"
       un-transition
       un-duration-200
       un-z-2
@@ -167,7 +167,7 @@ function handleMouseMove(e: MouseEvent) {
   >
     <div
       class="garden-float-panel"
-      un-text="stone-700 dark:stone-300"
+      un-text="neutral-700 dark:neutral-300"
       un-text-align-start
       un-p4
       un-max-w-fit

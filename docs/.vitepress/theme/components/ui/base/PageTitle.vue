@@ -45,7 +45,7 @@ defineProps<{
     </div>
     <div
       v-if="intro"
-      un-text="stone-600 dark:stone-400"
+      un-text="neutral-600 dark:neutral-400"
       un-mb-4
       un-pl-8
       v-html="intro"

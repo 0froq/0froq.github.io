@@ -36,7 +36,7 @@ const linkIndentClass = {
     <div
       v-if="item.description || item.dod"
       un-ml-4
-      un-text="stone-600 dark:stone-400"
+      un-text="neutral-600 dark:neutral-400"
     >
       {{ item.description || item.dod }}
     </div>
@@ -45,7 +45,7 @@ const linkIndentClass = {
       v-if="item.notes?.length"
       :class="linkIndentClass[linkIndent]"
       un-text-sm
-      un-text-stone-500
+      un-text-neutral-500
     >
       <li
         v-for="note in item.notes"
@@ -56,11 +56,11 @@ const linkIndentClass = {
           v-if="note.url"
           :href="note.url"
           :text="note.text"
-          un-before="bg-stone-700 dark:bg-stone-300"
+          un-before="bg-neutral-700 dark:bg-neutral-300"
         />
         <span
           v-else
-          un-text="stone-600 dark:stone-400"
+          un-text="neutral-600 dark:neutral-400"
         >
           {{ note.text }}
         </span>

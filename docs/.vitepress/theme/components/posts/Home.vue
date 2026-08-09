@@ -49,7 +49,6 @@ const categories: string[] = ['610-log', '620-roadmap', '630-collection']
     <PageTitle
       title="Posts"
       un-mb-8
-      un-font="script"
     />
     <Content
       :key="route.path"
@@ -65,7 +64,8 @@ const categories: string[] = ['610-log', '620-roadmap', '630-collection']
       un-mx-20
       un-flex
       un-gap-4
-      un-text="stone-700 dark:stone-300 hover:stone-950 dark:hover:stone-50 xl"
+      un-text="neutral-700 dark:neutral-300 hover:neutral-950 dark:hover:neutral-50 xl"
+      un-font="serif"
     >
       <LinkUnderline
         :href="`/posts/${category}/`"

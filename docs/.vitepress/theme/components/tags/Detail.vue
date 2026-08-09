@@ -286,7 +286,7 @@ function getGlobalIndex(section: 'current' | 'extended', index: number) {
         un-font="mono"
         un-whitespace-nowrap
         un-transition="colors duration-200"
-        un-text="stone-500"
+        un-text="neutral-500"
       >
         <span
           v-if="post.createdComponent.year"
@@ -296,7 +296,7 @@ function getGlobalIndex(section: 'current' | 'extended', index: number) {
         </span>
         <span
           v-else
-          un-text="stone-400 dark:stone-600 sm"
+          un-text="neutral-400 dark:neutral-600 sm"
         >…………</span>/<span
           v-if="post.createdComponent.month"
           un-text="sm"
@@ -305,7 +305,7 @@ function getGlobalIndex(section: 'current' | 'extended', index: number) {
         </span>
         <span
           v-else
-          un-text="stone-400 dark:stone-600 sm"
+          un-text="neutral-400 dark:neutral-600 sm"
         >……</span>/<span
           v-if="post.createdComponent.day"
           un-text="sm"
@@ -314,7 +314,7 @@ function getGlobalIndex(section: 'current' | 'extended', index: number) {
         </span>
         <span
           v-else
-          un-text="stone-400 dark:stone-600 sm"
+          un-text="neutral-400 dark:neutral-600 sm"
         >……</span>
       </div>
     </div>
@@ -414,7 +414,7 @@ function getGlobalIndex(section: 'current' | 'extended', index: number) {
         un-font="mono"
         un-whitespace-nowrap
         un-transition="colors duration-200"
-        un-text="stone-500"
+        un-text="neutral-500"
       >
         <span
           v-if="post.createdComponent.year"
@@ -424,7 +424,7 @@ function getGlobalIndex(section: 'current' | 'extended', index: number) {
         </span>
         <span
           v-else
-          un-text="stone-400 dark:stone-600 sm"
+          un-text="neutral-400 dark:neutral-600 sm"
         >…………</span>/<span
           v-if="post.createdComponent.month"
           un-text="sm"
@@ -433,7 +433,7 @@ function getGlobalIndex(section: 'current' | 'extended', index: number) {
         </span>
         <span
           v-else
-          un-text="stone-400 dark:stone-600 sm"
+          un-text="neutral-400 dark:neutral-600 sm"
         >……</span>/<span
           v-if="post.createdComponent.day"
           un-text="sm"
@@ -442,7 +442,7 @@ function getGlobalIndex(section: 'current' | 'extended', index: number) {
         </span>
         <span
           v-else
-          un-text="stone-400 dark:stone-600 sm"
+          un-text="neutral-400 dark:neutral-600 sm"
         >……</span>
       </div>
     </div>
@@ -451,7 +451,7 @@ function getGlobalIndex(section: 'current' | 'extended', index: number) {
 
 <style scoped>
 .article-row:hover .date span {
-  --uno: 'text-stone-950 dark:text-stone-50';
+  --uno: 'text-neutral-950 dark:text-neutral-50';
   --uno: 'transition-colors duration-200';
 }
 </style>

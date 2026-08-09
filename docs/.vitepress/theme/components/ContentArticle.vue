@@ -262,7 +262,7 @@ const originalPost = computed(() => {
     un-justify-end
     un-mt-4
     un-gap-4
-    un-text-stone-500
+    un-text-neutral-500
   >
     <div
       v-for="string, i in metaStrings"
@@ -276,6 +276,7 @@ const originalPost = computed(() => {
     un-mt-6
     un-border-l="~ 2px amber-600 dark:amber-400"
     un-px-4
+    un-font-serif
   >
     <div
       v-if="!post"
@@ -299,14 +300,14 @@ const originalPost = computed(() => {
         <LinkUnderline
           :href="translated.url"
           :text="(translated.frontmatter.title || translated.url)"
-          un-before="bg-stone-950 dark:bg-stone-50"
+          un-before="bg-neutral-900 dark:bg-neutral-100"
         />
       </div>
     </div>
     <!-- If no translated and this is original -->
     <div
       v-else-if="!post.frontmatter.translated"
-      un-text-stone-500
+      un-text-neutral-500
     >
       <div>
         {{ t('noTranslation') }}
@@ -323,7 +324,7 @@ const originalPost = computed(() => {
       <LinkUnderline
         :href="originalPost.url"
         :text="originalPost.frontmatter.title || originalPost.url"
-        un-before="bg-stone-950 dark:bg-stone-50"
+        un-before="bg-neutral-900 dark:bg-neutral-100"
       />
     </div>
   </div>
@@ -332,6 +333,7 @@ const originalPost = computed(() => {
     un-mt-6
     un-border-l="~ 2px rose-600 dark:rose-400"
     un-px-4
+    un-font-serif
   >
     {{ t('voidHint') }}
   </div>
@@ -340,6 +342,7 @@ const originalPost = computed(() => {
     un-mt-6
     un-border-l="~ 2px sky-600 dark:sky-400"
     un-px-4
+    un-font-serif
   >
     {{ t('draftHint') }}
   </div>
@@ -348,6 +351,7 @@ const originalPost = computed(() => {
     un-mt-6
     un-border-l="~ 2px violet-600 dark:violet-400"
     un-px-4
+    un-font-serif
   >
     {{ t('aigcHint') }}
   </div>

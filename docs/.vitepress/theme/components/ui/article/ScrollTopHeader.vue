@@ -122,7 +122,7 @@ onMounted(() => {
       un-left-0
       un-right-0
       un-z-100
-      un-bg="neutral-200/85 dark:neutral-900/85"
+      un-bg="neutral-50/50 dark:neutral-800/50"
       un-backdrop-blur-md
     >
       <div
@@ -228,8 +228,8 @@ onMounted(() => {
                 un-transition-colors
                 un-duration-200
                 :class="l === $i18n.locale
-                  ? 'text-stone-950 dark:text-stone-50'
-                  : 'text-stone-500 hover:text-stone-600 dark:hover:text-stone-400 disabled:hover:text-stone-500'"
+                  ? 'text-neutral-950 dark:text-neutral-50'
+                  : 'text-neutral-500 hover:text-neutral-600 dark:hover:text-neutral-400 disabled:hover:text-neutral-500'"
                 un-disabled="cursor-not-allowed"
                 @click="handleChangeLocale(l)"
               >{{ localeMap[l] }}</button>
@@ -240,7 +240,7 @@ onMounted(() => {
             un-flex="~ row"
             un-cursor-pointer
             un-items-center
-            un-text="lg stone-700 dark:stone-300"
+            un-text="lg neutral-700 dark:neutral-300"
             un-transition
             un-duration-200
             @click="toggleDark($event)"
@@ -262,7 +262,7 @@ onMounted(() => {
       >
         <div
           class="progress-bar-inner"
-          un-bg="stone-600 dark:stone-400"
+          un-bg="neutral-800 dark:neutral-100"
           :style="{ width: 'var(--progress-bar-width, 0)' }"
           un-h-px
           un-absolute
@@ -271,7 +271,7 @@ onMounted(() => {
         />
         <div
           class="progress-bar-bg"
-          un-bg="stone-300/60 dark:stone-700/60"
+          un-bg="neutral-400/60 dark:neutral-600/60"
           un-w-full
           un-h-px
           un-absolute

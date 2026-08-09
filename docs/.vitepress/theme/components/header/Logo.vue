@@ -14,7 +14,7 @@ const { locale } = useI18n()
   >
     <a
       class="group"
-      un-text="5xl stone-600 dark:stone-400"
+      un-text="5xl neutral-600 dark:neutral-400"
       :href="locale === 'zh' ? '/' : `/${locale}/`"
     >
       <SvgFroqLogo :animated="true" />

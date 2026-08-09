@@ -255,10 +255,12 @@ function toggle() {
         un-items-center
         un-gap-1
         un-shrink-0
+        un-font-serif
+        un-italic
       >
         <span
           v-if="props.depth > 0"
-          un-text="stone-500"
+          un-text="neutral-500"
         >
           ../
         </span>
@@ -269,13 +271,13 @@ function toggle() {
         />
         <template v-if="hasChildren">
           <span
-            un-text="stone-500"
+            un-text="neutral-500"
           >
             /
           </span>
           <span
             v-if="hasChildren"
-            un-text="stone-500 hover:stone-950 dark:hover:stone-50"
+            un-text="neutral-500 hover:neutral-950 dark:hover:neutral-50"
             un-cursor-pointer
             un-transition
             :aria-expanded="isOpen"

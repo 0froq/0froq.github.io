@@ -32,6 +32,7 @@ const { t, locale } = useI18n({
     un-text-3xl
     un-font-medium
     un-my-6
+    un-font-serif
   >
     {{ t('fenceTitle') }}
   </h2>
@@ -48,6 +49,7 @@ const { t, locale } = useI18n({
       un-absolute
       un-opacity-10
       un-right-0
+      un-font-serif
     >
       {{ block.category }}
     </h3>
@@ -66,6 +68,7 @@ const { t, locale } = useI18n({
     un-text-3xl
     un-font-medium
     un-my-6
+    un-font-serif
   >
     {{ t('tipTitle') }}
   </h2>
@@ -82,6 +85,7 @@ const { t, locale } = useI18n({
       un-absolute
       un-opacity-10
       un-right-0
+      un-font-serif
     >
       {{ block.category }}
     </h3>

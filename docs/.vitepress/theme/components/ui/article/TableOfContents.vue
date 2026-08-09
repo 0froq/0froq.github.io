@@ -119,6 +119,7 @@ useEventListener(window, 'scroll', onScrollFallback, { passive: true })
     un-top="1/3"
     un-z-30
     aria-label="Table of contents"
+    un-font-serif
   >
     <ul
       un-list-none
@@ -183,18 +184,18 @@ useEventListener(window, 'scroll', onScrollFallback, { passive: true })
 
 /* 静止态：只露一条短横线，缩进/长度随层级 */
 .garden-toc-dash {
-  --uno: 'block h-2px rounded-full bg-stone-400/70 dark:bg-stone-500/60 transition-all duration-300 shrink-0';
+  --uno: 'block h-2px rounded-full bg-neutral-400/70 dark:bg-neutral-500/60 transition-all duration-300 shrink-0';
   width: 16px;
   margin-left: var(--toc-indent, 0px);
 }
 .garden-toc-item.active .garden-toc-dash {
-  --uno: 'bg-stone-700 dark:bg-stone-300';
+  --uno: 'bg-neutral-700 dark:bg-neutral-300';
   width: 24px;
 }
 
 /* 标题文字默认收起：不占位、不显示 */
 .garden-toc-label {
-  --uno: 'text-xs text-stone-500 dark:text-stone-400 whitespace-nowrap overflow-hidden transition-all duration-300';
+  --uno: 'text-xs text-neutral-500 dark:text-neutral-400 whitespace-nowrap overflow-hidden transition-all duration-300';
   max-width: 0;
   opacity: 0;
   transform: translateX(-4px);
@@ -212,17 +213,17 @@ useEventListener(window, 'scroll', onScrollFallback, { passive: true })
 }
 .garden-toc:hover .garden-toc-dash,
 .garden-toc:focus-within .garden-toc-dash {
-  --uno: 'bg-stone-500/80 dark:bg-stone-400/70';
+  --uno: 'bg-neutral-500/80 dark:bg-neutral-400/70';
   width: 10px;
 }
 .garden-toc:hover .garden-toc-item.active .garden-toc-dash {
-  --uno: 'bg-stone-800 dark:bg-stone-200';
+  --uno: 'bg-neutral-800 dark:bg-neutral-200';
 }
 .garden-toc:hover .garden-toc-item.active .garden-toc-label {
-  --uno: 'text-stone-900 dark:text-stone-100 font-medium';
+  --uno: 'text-neutral-900 dark:text-neutral-100 font-medium';
 }
 .garden-toc-item button:hover .garden-toc-label {
-  --uno: 'text-stone-900 dark:text-stone-100';
+  --uno: 'text-neutral-900 dark:text-neutral-100';
 }
 
 /* 长标题 hover：横向滚动播放 */

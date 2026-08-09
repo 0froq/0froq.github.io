@@ -112,7 +112,7 @@ const excerptVisible = ref(false)
       un-w-full
     >
       <div
-        un-text="stone-600 dark:stone-400 2xl"
+        un-text="neutral-600 dark:neutral-400 2xl"
         :style="locale === 'zh' ? { writingMode: 'vertical-lr' } : {}"
         un-px-4
         un-text-3xl
@@ -121,6 +121,7 @@ const excerptVisible = ref(false)
         un-pt-10
         un-z-2
         un-w-fit
+        un-font-serif
       >
         {{ year !== '-' ? props.yearFormatter ? props.yearFormatter(year) : year : '' }}
       </div>
@@ -174,13 +175,13 @@ const excerptVisible = ref(false)
             AIGC
           </div>
           <div
-            un-text="stone-500 dark:stone-400 base"
+            un-text="neutral-500 dark:neutral-600 base"
             un-whitespace-nowrap
           >
             {{ d(new Date(post.created), 'withoutYear') }}
           </div>
           <div
-            un-text="stone-700 dark:stone-300 hover:stone-950 dark:hover:stone-50 xl"
+            un-text="neutral-700 dark:neutral-300 hover:neutral-950 dark:hover:neutral-50 xl"
             un-text-align="right"
             un-overflow-hidden
             un-font-serif
@@ -188,7 +189,7 @@ const excerptVisible = ref(false)
             <LinkUnderline
               :href="post.url"
               :text="post.title"
-              un-before="bg-emerald-600 dark:bg-emerald-400"
+              un-before="bg-neutral-900 dark:bg-neutral-100"
             >
               <template #tooltip>
                 <TooltipArticleInfo :post="post" />
@@ -199,7 +200,8 @@ const excerptVisible = ref(false)
         <!-- Post excerpt -->
         <div
           v-show="excerptVisible && post.excerpt"
-          un-text-stone-500
+          un-text="neutral-400 dark:neutral-600"
+          un-text-xs
           class="markdown-rendered"
           v-html="post.excerpt?.replace(/<p>|<\/p>/g, '')"
         />

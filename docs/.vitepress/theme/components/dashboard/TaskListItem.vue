@@ -243,7 +243,7 @@ function renderDod(dod: string): string {
           class="dod-text"
           un-ml-6
           un-mt-2
-          un-text="stone-700 dark:stone-300"
+          un-text="neutral-700 dark:neutral-300"
           un-border-l="~"
           un-pl-4
           v-html="renderDod(task.dod)"
@@ -254,7 +254,7 @@ function renderDod(dod: string): string {
           un-mt-2
           un-ml-10
           un-text-xs
-          un-text="stone-500"
+          un-text="neutral-500"
         >
           <li
             v-for="note in task.notes"
@@ -264,11 +264,11 @@ function renderDod(dod: string): string {
               v-if="note.url"
               :href="note.url"
               :text="note.text"
-              un-before="bg-stone-700 dark:bg-stone-300"
+              un-before="bg-neutral-700 dark:bg-neutral-300"
             />
             <span
               v-else
-              un-text="stone-600 dark:stone-400"
+              un-text="neutral-600 dark:neutral-400"
             >
               {{ note.text }}
             </span>

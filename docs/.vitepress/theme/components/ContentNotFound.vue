@@ -35,7 +35,7 @@ const { t } = useI18n({
   <un-page-content
     un-relative
     un-z-1
-    un-text="lg stone-800 dark:stone-200"
+    un-text="lg neutral-800 dark:neutral-200"
     un-flex="~ col"
     un-gap-6
   >

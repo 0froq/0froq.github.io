@@ -25,11 +25,10 @@ export default defineConfig({
   },
   rules: [
     ['font-mono', { 'font-family': 'LXGW Bright Code TC, Monaspace Argon' }],
-    ['font-serif', { 'font-family': 'Source Serif Pro, LXGW Neo ZhiSong Plus, SongTi SC' }],
+    ['font-serif', { 'font-family': 'EB Garamond Variable, YshiPen-ShutiTC' }],
     ['font-script', { 'font-family': 'Ephesis' }],
     ['font-stylish', { 'font-family': 'Caveat' }],
-    ['font-sans', { 'font-family': 'Alegreya Sans, YshiPen-ShutiTC' }],
-    ['font-italicSerif', { 'font-family': 'EB Garamond Variable, YshiPen-ShutiTC' }],
+    ['font-sans', { 'font-family': 'Instrument Sans Variable' }],
   ],
   safelist: [
     ...safeIcons,
@@ -45,7 +44,6 @@ export default defineConfig({
     'page-content': 'mx-auto max-w-[800px] block px-10 min-w-0',
   },
   presets: [
-    // presetMini(),
     presetWind4(),
     presetIcons({
       scale: 1.2,

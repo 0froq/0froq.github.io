@@ -41,6 +41,7 @@ const { t, locale } = useI18n({
         un-absolute
         un-opacity-10
         un-right-0
+        un-font-serif
       >
         {{ yearVision.year }}
       </h3>
@@ -68,6 +69,7 @@ const { t, locale } = useI18n({
       un-absolute
       un-opacity-10
       un-right-0
+      un-font-serif
     >
       {{ t('globalTitle') }}
     </h3>

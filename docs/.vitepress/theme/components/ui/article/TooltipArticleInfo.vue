@@ -30,7 +30,7 @@ const { t } = useI18n({
       un-gap-2
     >
       <div
-        un-text="stone-700 dark:stone-300"
+        un-text="neutral-700 dark:neutral-300"
       >
         {{ post.title }}
       </div>
@@ -52,7 +52,7 @@ const { t } = useI18n({
             : `text-red-600 dark:text-red-400`"
       />
       <div
-        un-text="stone-700 dark:stone-300"
+        un-text="neutral-700 dark:neutral-300"
       >
         {{ t('readingTime', { count: post.readingTime }) }}
       </div>
@@ -62,6 +62,8 @@ const { t } = useI18n({
       un-flex="~ row"
       un-items-start
       un-gap-2
+      un-font-serif
+      un-italic
     >
       <un-i-solar-tag-horizontal-bold-duotone
         un-w-4
@@ -74,10 +76,10 @@ const { t } = useI18n({
         <div
           v-for="tag in post.tags"
           :key="tag"
-          un-text="stone-700 dark:stone-300"
+          un-text="neutral-700 dark:neutral-300"
           un-underline="~ px sky-600 dark:sky-400"
         >
-          #{{ tag }}
+          {{ tag }}
         </div>
       </div>
     </div>
@@ -96,7 +98,7 @@ const { t } = useI18n({
         un-text="emerald-600 dark:emerald-400"
       />
       <div
-        un-text="stone-700 dark:stone-300"
+        un-text="neutral-700 dark:neutral-300"
         un-whitespace-normal
         v-html="post.excerpt"
       />
