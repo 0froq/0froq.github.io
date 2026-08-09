@@ -3,6 +3,7 @@ import { useRoute } from 'vitepress'
 import { useI18n } from 'vue-i18n'
 import PageTitle from '@/ui/base/PageTitle.vue'
 import ContentNav from '@/ui/nav/ContentNav.vue'
+import PaperEdgeSamples from '@/ui/paper/PaperEdgeSamples.vue'
 
 const route = useRoute()
 useI18n({
