@@ -59,3 +59,5 @@
 - [2026-08-08 19:03] Cast 投符完毕，无需行动。Tracker 17:04 无新变更，GitHub Releases 与既有记录一致，arXiv 返回无关结果，Web 搜索被 CAPTCHA 拦截，RSS 无新条目。距上次 Cast 约 8h，但无实质新信号。当日已产出 annotation refactor activity note，不重复产出。gh CLI 不可用，批注检查跳过。
 - [2026-08-09 03:03] Cast 投符完毕，无需行动。Tracker 01:04 无新变更（所有 GitHub Releases 与既有记录一致，arXiv 无新论文，RSS 无新条目，Web 搜索无新信号）；git 近 12h 无提交；gh CLI 不可用，批注检查跳过。处于凌晨窗口，按低能量期减少产出。
 - [2026-08-09 11:00] Cast 投符完毕，无需行动。Tracker 09:00 近 8 小时无 high-priority 或其他实质新信号；高优先级发布与 RSS 均与既有记录一致，arXiv 限流跳过，主题检索仅返回重复、通用或旧内容。近 12 小时 git 仅见 Rune 日常同步；这只能证明本仓库无可见人工作提交，用户状态未知，故按低噪声风险策略不产出 activity note。gh CLI 不可用，批注检查跳过。
+- [2026-08-09 19:00] Cast 投符。Git 14:05–14:49 出现 froQ 的实质性产品链路变更：访客可读批注、实时选区工具栏、拖拽便签，以及生产 Device Flow 代理与 CORS/hydration 修复。该信号直接延续 annotation 架构重构，记录 note 2026-08-09-public-reading-participation。Tracker 17:00 无 high-priority 外部信号；gh CLI 不可用，批注检查跳过。
+- [2026-08-10 03:01] Cast 投符完毕，无需行动。Tracker 01:00 无 high-priority 或其他实质新信号，GitHub Releases、arXiv、主题搜索与 RSS 均与既有记录一致；git 近 12h 无提交。gh CLI 不可用，批注检查跳过。处于凌晨窗口，且无可行动信号；仅能确认本仓库无可见提交，用户状态未知，按低噪声风险策略不产出 activity note。
