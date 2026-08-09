@@ -58,29 +58,40 @@ export default {
 
     const target = new URL(`${path}${url.search}`, GITHUB_LOGIN)
 
-    const headers = new Headers()
-    const contentType = request.headers.get('Content-Type')
-    const accept = request.headers.get('Accept')
-    if (contentType)
-      headers.set('Content-Type', contentType)
-    if (accept)
-      headers.set('Accept', accept)
+    // Read body as text first — streaming request.body through CF→GitHub
+    // was producing GitHub HTML 422 ("Oh no") even with a valid client_id.
+    // Re-posting an explicit string body is reliable.
+    const rawBody = request.method === 'GET' || request.method === 'HEAD'
+      ? null
+      : await request.text()
 
-    const init = {
+    const headers = new Headers({
+      'Accept': request.headers.get('Accept') || 'application/json',
+      'Content-Type': request.headers.get('Content-Type') || 'application/json',
+      'User-Agent': 'froq-github-auth-proxy',
+    })
+
+    const upstream = await fetch(target.toString(), {
       method: request.method,
       headers,
-      redirect: 'follow',
-    }
-    if (request.method !== 'GET' && request.method !== 'HEAD')
-      init.body = request.body
+      body: rawBody,
+      redirect: 'manual',
+    })
 
-    const upstream = await fetch(target, init)
-    const outHeaders = new Headers(upstream.headers)
+    // Strip Set-Cookie — browser must not store github.com session cookies
+    // from this cross-origin proxy response.
+    const outHeaders = new Headers()
+    upstream.headers.forEach((value, key) => {
+      const k = key.toLowerCase()
+      if (k === 'set-cookie' || k === 'set-cookie2')
+        return
+      outHeaders.set(key, value)
+    })
     const cors = corsHeaders(origin)
     for (const [k, v] of Object.entries(cors))
       outHeaders.set(k, v)
 
-    return new Response(upstream.body, {
+    return new Response(await upstream.text(), {
       status: upstream.status,
       statusText: upstream.statusText,
       headers: outHeaders,
