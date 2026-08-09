@@ -1,9 +1,19 @@
 <script setup lang="ts">
-import { defaultDocument, useScroll } from '@vueuse/core'
+import { defaultWindow, useScroll } from '@vueuse/core'
 import { toRefs } from 'vue'
 
-const { y, arrivedState } = useScroll()
+// useScroll(Document) writes via body.scrollTo(), which is a no-op when
+// the page scrolls on documentElement — use window instead.
+const { y, arrivedState } = useScroll(defaultWindow)
 const { top, bottom } = toRefs(arrivedState)
+
+function scrollToTop() {
+  y.value = 0
+}
+
+function scrollToBottom() {
+  y.value = defaultWindow!.document.documentElement.scrollHeight
+}
 </script>
 
 <template>
@@ -19,7 +29,7 @@ const { top, bottom } = toRefs(arrivedState)
       :un-opacity="top ? 0 : 100"
       un-items-center
       un-transition
-      un-text="stone-950 dark:stone-50"
+      un-text="neutral-950 dark:neutral-50"
       un-border-none
       un-rounded-full
       un-w-10
@@ -28,13 +38,13 @@ const { top, bottom } = toRefs(arrivedState)
       un-justify-center
       un-cursor-pointer
       un-duration-300
-      @click="y = 0"
+      @click="scrollToTop"
     >
       <un-i-ph-arrow-up-duotone />
     </button>
     <button
       :un-opacity="bottom ? 0 : 100"
-      un-text="stone-950 dark:stone-50"
+      un-text="neutral-950 dark:neutral-50"
       un-border-none
       un-rounded-full
       un-w-10
@@ -45,7 +55,7 @@ const { top, bottom } = toRefs(arrivedState)
       un-cursor-pointer
       un-transition
       un-duration-300
-      @click="y = defaultDocument!.documentElement.scrollHeight"
+      @click="scrollToBottom"
     >
       <un-i-ph-arrow-down-duotone />
     </button>
