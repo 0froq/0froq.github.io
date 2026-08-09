@@ -184,7 +184,7 @@ onBeforeUnmount(() => {
       un-w-full
     >
       <div
-        un-text="xs stone-400 dark:stone-500"
+        un-text="xs neutral-400 dark:neutral-500"
         un-font-semibold
         un-uppercase
         un-tracking-wider
@@ -220,8 +220,5 @@ onBeforeUnmount(() => {
 }
 .annotation-card.no-anim {
   transition: none;
-}
-.annotation-card:hover {
-  border-color: var(--annotation-card-hover-border, rgba(120, 113, 108, 0.5));
 }
 </style>

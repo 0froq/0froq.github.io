@@ -123,9 +123,9 @@ watch(() => props.rect, () => {
       <div
         v-if="previewText"
         un-text-xs
-        un-text="stone-400 dark:stone-500"
+        un-text="neutral-400 dark:neutral-500"
         un-italic
-        un-border="l-2 stone-300 dark:stone-600"
+        un-border="l-2 neutral-300 dark:neutral-600"
         un-pl-2
         un-mb-2
         un-leading-relaxed
@@ -143,37 +143,18 @@ watch(() => props.rect, () => {
           un-w-full
           un-resize-none
           un-text-sm
-          un-bg="stone-200/20 dark:stone-800/20"
-          un-border="~ stone-200 dark:stone-800"
+          un-bg="neutral-200/20 dark:neutral-800/20"
+          un-border="~ neutral-200 dark:neutral-800"
           un-rounded
           un-px-3
           un-py-1.5
           un-outline-none
-          un-text="stone-800 dark:stone-200"
-          un-placeholder="stone-400 dark:stone-600"
-          un-focus="border-stone-600 dark:border-stone-400 rounded-lg"
+          un-text="neutral-800 dark:neutral-200"
+          un-placeholder="neutral-400 dark:neutral-600"
+          un-focus="border-neutral-600 dark:border-neutral-400 rounded-lg"
           un-leading-relaxed
           @keydown="handleKeydown"
         />
-        <div
-          un-flex
-          un-items-center
-          un-justify-between
-          un-mt-2
-        >
-          <span
-            un-text="xs stone-400 dark:stone-500"
-          >
-            {{ t('popover.hint') }}
-          </span>
-          <button
-            class="annotation-btn-primary"
-            :disabled="submitting || !annotationText.trim()"
-            @click="handleSubmit"
-          >
-            {{ submitting ? t('submitting') : t('submit') }}
-          </button>
-        </div>
       </template>
 
       <!-- 未登录：紧凑登录 -->
@@ -186,7 +167,7 @@ watch(() => props.rect, () => {
         >
           <span
             un-text-sm
-            un-text="stone-600 dark:stone-400"
+            un-text="neutral-600 dark:neutral-400"
           >
             {{ t('popover.loginPrompt') }}
           </span>
@@ -202,7 +183,7 @@ watch(() => props.rect, () => {
         <div
           v-if="isAuthenticating && !deviceInfo && !authError"
           un-text-sm
-          un-text="stone-500 dark:stone-400"
+          un-text="neutral-500 dark:neutral-400"
           un-py-4
           un-text-center
         >
@@ -215,7 +196,7 @@ watch(() => props.rect, () => {
           un-text-sm
         >
           <div
-            un-text="stone-600 dark:stone-400"
+            un-text="neutral-600 dark:neutral-400"
             un-mb-2
           >
             {{ t('popover.deviceFlowHint') }}
@@ -237,7 +218,7 @@ watch(() => props.rect, () => {
             </a>
             <code
               un-text-xs
-              un-bg="stone-100 dark:stone-700"
+              un-bg="neutral-100 dark:neutral-700"
               un-rounded
               un-px-1
               un-py-0.5

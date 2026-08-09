@@ -36,8 +36,8 @@ function close() {
   error.value = null
 }
 
-const WIDTH = 288
-const GAP = 12
+const WIDTH = 340
+const GAP = 8
 const FLOAT_HEIGHT = 280
 
 const floatStyle = computed(() => {
@@ -93,7 +93,7 @@ async function submit() {
 }
 
 function onKeydown(e: KeyboardEvent) {
-  if (e.key === 'Enter') {
+  if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) {
     e.preventDefault()
     submit()
   }
@@ -124,67 +124,62 @@ onBeforeUnmount(() => {
     <div
       v-if="target"
       class="annotation-float-reply garden-float-panel"
-      :style="floatStyle"
+      :style="{ ...floatStyle, width: `${WIDTH}px` }"
       un-absolute
       un-z-50
-      un-w-72
       un-p-3
     >
+      <!-- 回复目标引用（与 AnnotationPopover 的 selected-preview 同款样式） -->
       <div
-        un-text="xs stone-400 dark:stone-500"
+        un-text-xs
+        un-text="neutral-400 dark:neutral-500"
+        un-border="l-2 neutral-300 dark:neutral-600"
+        un-pl-2
         un-mb-2
         un-leading-relaxed
       >
         {{ t('reply.replyTo') }}
         <span
           un-font-semibold
-          un-text="stone-600 dark:stone-300"
+          un-text="neutral-600 dark:neutral-300"
         >
           {{ target.author.login }}
         </span>
         <div
-          un-text-xs
-          un-text="stone-400 dark:stone-500"
-          un-border="l-2 stone-300 dark:stone-600"
-          un-pl-2
+          un-italic
           un-mt-1
-          un-leading-relaxed
           un-whitespace-pre-wrap
         >
-          {{ target.data.text.slice(0, 80) }}{{ target.data.text.length > 80 ? '…' : '' }}
+          {{ target.data.text.slice(0, 60) }}{{ target.data.text.length > 60 ? '…' : '' }}
         </div>
       </div>
-      <input
+
+      <textarea
         v-model="text"
-        type="text"
+        rows="2"
         :placeholder="replyPlaceholder"
         autofocus
         un-w-full
+        un-resize-none
         un-text-sm
-        un-bg="stone-200/20 dark:stone-800/20"
-        un-border="~ stone-200 dark:stone-800"
-        un-transition-all
+        un-bg="neutral-200/20 dark:neutral-800/20"
+        un-border="~ neutral-200 dark:neutral-800"
         un-rounded
         un-px-3
         un-py-1.5
         un-outline-none
-        un-text="stone-800 dark:stone-200"
-        un-placeholder="stone-400 dark:stone-600"
-        un-focus="border-stone-600 dark:border-stone-400 rounded-lg"
+        un-text="neutral-800 dark:neutral-200"
+        un-placeholder="neutral-400 dark:neutral-600"
+        un-focus="border-neutral-600 dark:border-neutral-400 rounded-lg"
+        un-leading-relaxed
         @keydown="onKeydown"
-      >
+      />
       <div
-        un-flex
-        un-items-center
-        un-justify-between
+        v-if="error"
+        un-text="xs red-500"
         un-mt-2
       >
-        <span
-          v-if="error"
-          un-text="xs red-500"
-        >
-          {{ resolveAnnotationMessage(t, te, error) }}
-        </span>
+        {{ resolveAnnotationMessage(t, te, error) }}
       </div>
     </div>
   </Teleport>

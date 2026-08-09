@@ -41,6 +41,11 @@ export const annotationMessages = {
       deviceFlowHint: 'Open the link and enter the verification code:',
       retry: 'Retry',
     },
+    selection: {
+      copy: 'Copy',
+      copied: 'Copied',
+      comment: 'Comment',
+    },
     reply: {
       replyTo: 'Reply to',
       placeholderGeneric: 'Reply… (⏎ send, Esc close)',
@@ -102,6 +107,11 @@ export const annotationMessages = {
       connecting: '正在连接 GitHub…',
       deviceFlowHint: '打开链接并输入验证码：',
       retry: '重试',
+    },
+    selection: {
+      copy: '复制',
+      copied: '已复制',
+      comment: '评论',
     },
     reply: {
       replyTo: '回复',

@@ -71,7 +71,6 @@ function handleArticleKeydown(e: KeyboardEvent) {
   >
     <h2
       un-text-lg
-      un-font-semibold
       un-mb-4
     >
       {{ t('list.title', { count: annotations.length }) }}
@@ -89,16 +88,16 @@ function handleArticleKeydown(e: KeyboardEvent) {
         un-resize-none
         un-transition-all
         un-text-sm
-        un-bg="stone-200/20 dark:stone-800/20"
-        un-border="~ stone-200 dark:stone-800"
+        un-bg="neutral-100 dark:neutral-800"
+        un-border="~ neutral-200 dark:neutral-900"
         un-rounded-xs
         un-px-3
         un-py-2
         un-outline-none
-        un-text="stone-800 dark:stone-200"
-        un-placeholder="stone-400 dark:stone-600"
+        un-text="neutral-800 dark:neutral-200"
+        un-placeholder="neutral-400 dark:neutral-600"
         un-leading-relaxed
-        un-focus="border-stone-600 dark:border-stone-400 rounded-lg"
+        un-focus="border-neutral-600 dark:border-neutral-400 rounded-lg"
         @keydown="handleArticleKeydown"
       />
       <div

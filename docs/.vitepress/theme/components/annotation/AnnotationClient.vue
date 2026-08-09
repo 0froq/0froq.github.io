@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { AnnotationAnchor } from '../../types/annotation'
 import { useRoute } from 'vitepress'
-import { onBeforeUnmount, onMounted, watch } from 'vue'
+import { onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { resolveAnnotationMessage } from '~/i18n/annotation'
 import { useAnnotationHighlight } from '../../composables/useAnnotationHighlight'
@@ -10,6 +10,7 @@ import { useAnnotationPage } from '../../composables/useAnnotationPage'
 import { useAnnotationSelection } from '../../composables/useAnnotationSelection'
 import { useAnnotationStore } from '../../stores/annotation'
 import AnnotationPopover from './AnnotationPopover.vue'
+import SelectionToolbar from './SelectionToolbar.vue'
 
 const { t, te } = useI18n({ useScope: 'global' })
 const route = useRoute()
@@ -24,13 +25,13 @@ const {
   loadAnnotations,
   handleSubmit,
   bindRouteAndAuthWatchers,
-  isAuthenticated,
 } = useAnnotationPage()
 
 const {
   selectionRect,
   showPopover,
   pendingText,
+  openPopover,
   prepareFromRange,
   closePopoverUi,
   bindSelectionLifecycle,
@@ -40,6 +41,28 @@ const {
   onOpenPopover: () => {},
   onClearPopover: () => {},
 })
+
+// Selection toolbar: show on any in-content selection (popover stays hidden
+// until the user picks "comment").
+const showToolbar = ref(false)
+const toolbarRect = ref<DOMRect | null>(null)
+const toolbarText = ref('')
+
+watch([selectionRect, showPopover], () => {
+  // toolbar visible when there's a live selection and the popover is not open
+  if (selectionRect.value && !showPopover.value) {
+    toolbarRect.value = selectionRect.value
+    toolbarText.value = pendingText.value
+    showToolbar.value = true
+  }
+  else {
+    showToolbar.value = false
+  }
+})
+
+function onToolbarComment() {
+  openPopover()
+}
 
 const {
   hoveredCommentId,
@@ -73,8 +96,7 @@ onMounted(() => {
   store.setSubmitHandler((text, anchor, replyToId, replyToSnapshot) =>
     handleSubmit(text, anchor, replyToId, replyToSnapshot))
 
-  if (isAuthenticated.value)
-    loadAnnotations()
+  loadAnnotations()
 })
 
 onBeforeUnmount(() => {
@@ -86,6 +108,14 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
+  <SelectionToolbar
+    v-if="showToolbar"
+    :rect="toolbarRect"
+    :text="toolbarText"
+    :can-comment="true"
+    @comment="onToolbarComment"
+  />
+
   <AnnotationPopover
     v-if="showPopover"
     :rect="selectionRect"
@@ -107,7 +137,7 @@ onBeforeUnmount(() => {
     un-max-w-xs
     un-p-3
     un-text-sm
-    un-text="stone-700 dark:stone-300"
+    un-text="neutral-700 dark:neutral-300"
     un-leading-relaxed
     un-pointer-events-none
   >
@@ -129,7 +159,7 @@ onBeforeUnmount(() => {
       >
       <div>
         <div
-          un-text="xs stone-400 dark:stone-500"
+          un-text="xs neutral-400 dark:neutral-500"
           un-mb-0.5
         >
           {{ ann.author.login }}
@@ -148,8 +178,8 @@ onBeforeUnmount(() => {
     un-right-4
     un-z-50
     un-text-xs
-    un-text="stone-400 dark:stone-500"
-    un-bg="white/80 dark:stone-800/80"
+    un-text="neutral-400 dark:neutral-500"
+    un-bg="white/80 dark:neutral-800/80"
     un-rounded
     un-px-3
     un-py-1
@@ -165,7 +195,7 @@ onBeforeUnmount(() => {
     un-z-50
     un-text-xs
     un-text="red-500"
-    un-bg="white dark:stone-800"
+    un-bg="white dark:neutral-800"
     un-rounded
     un-px-3
     un-py-1

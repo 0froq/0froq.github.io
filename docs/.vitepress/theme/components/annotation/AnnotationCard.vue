@@ -2,6 +2,8 @@
 import type { ResolvedAnnotation } from '../../types/annotation'
 import { computed, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
+import PaperEdgeSurface from '@/ui/paper/PaperEdgeSurface.vue'
+import { paperEdgeFromId } from '~/composables/usePaperEdge'
 import { renderMdBlock } from '~/utils/renderMdBlock'
 
 const props = withDefaults(defineProps<{
@@ -26,8 +28,8 @@ const props = withDefaults(defineProps<{
 })
 
 const emit = defineEmits<{
-  /** 点击某条批注/回复 → 打开回复浮层（ev = 点击事件，含光标位置） */
-  reply: [ann: ResolvedAnnotation, ev: MouseEvent]
+  /** 点击某条批注/回复 → 打开回复浮层（el = 点击目标，用于定位浮层） */
+  reply: [ann: ResolvedAnnotation, el: HTMLElement]
   /** 回到原文（箭头图标点击） */
   select: [ann: ResolvedAnnotation]
   /** 卡片 hover 状态（Rail 联动正文高亮） */
@@ -41,33 +43,8 @@ const isActive = computed(() =>
   props.anns.some(a => a.commentId === props.activeCommentId),
 )
 
-// ---- 便签样式：按 commentId 稳定随机倾角 ±0.5–1.2° ----
-function hashCode(input: string): number {
-  let hash = 0
-  for (let i = 0; i < input.length; i++)
-    hash = ((hash << 5) - hash + input.charCodeAt(i)) | 0
-  return Math.abs(hash)
-}
-
-const cardTilt = computed(() => {
-  const id = props.anns[0]?.commentId ?? 'x'
-  const sign = hashCode(id) % 2 === 0 ? 1 : -1
-  const magnitude = 0.5 + (hashCode(id) % 70) / 100 // 0.50–1.19
-  return `${(sign * magnitude).toFixed(2)}deg`
-})
-
-/** 胶带轻微错位，避免每张卡完全雷同 */
-const tapeOffset = computed(() => {
-  const id = props.anns[0]?.commentId ?? 'x'
-  return `${(hashCode(`${id}:tape`) % 64) - 12}px`
-})
-
-/** 胶带自身随机倾斜（-3.2° ~ 3.2°），独立于卡片倾角 */
-const tapeTilt = computed(() => {
-  const id = props.anns[0]?.commentId ?? 'x'
-  const v = (hashCode(`${id}:tape-tilt`) % 65) / 10 - 3.2
-  return `${v.toFixed(1)}deg`
-})
+const edgeId = computed(() => props.anns[0]?.commentId ?? 'annotation-card')
+const edge = computed(() => paperEdgeFromId(edgeId.value))
 
 function formatTime(iso: string): string {
   const date = new Date(iso)
@@ -142,208 +119,214 @@ function renderReplyBody(reply: ResolvedAnnotation): string {
   <div
     class="annotation-card"
     :class="{ 'annotation-card-active': isActive }"
-    :style="{ '--card-tilt': cardTilt, '--tape-offset': tapeOffset, '--tape-tilt': tapeTilt }"
-    un-border="px solid neutral-200 dark:neutral-800"
+    :style="{ '--card-tilt': edge.tilt }"
+    un-relative
+    un-isolation-isolate
     un-transition
     un-ease-in-out
-    un-rounded-xs
     un-p-2
-    un-pt-3
+    un-pt-4
     @mouseenter="emit('hover', anns[0]?.commentId ?? null)"
     @mouseleave="emit('hover', null)"
   >
-    <!-- 批注列表：同一卡片内全部批注，相同样式遍历渲染 -->
+    <PaperEdgeSurface
+      :edge-id="edgeId"
+      un-fill="neutral-50/60 dark:neutral-800/60"
+      un-stroke="neutral-400 dark:neutral-700"
+    />
+
+    <!-- 内容直接叠在纸面上；回复不单独包纸边 -->
     <div
-      v-for="item in anns"
-      :key="item.commentId"
-      un-p-2
-      un-rounded-xs
-      un-transition
-      un-ease-in-out
-      un-hover="translate-x-2"
-      un-cursor-pointer
-      @click.stop="emit('reply', item, $event.currentTarget as HTMLElement)"
+      un-relative
+      un-z-1
     >
-      <!-- 作者行 -->
+      <!-- 批注列表：同一卡片内全部批注，相同样式遍历渲染 -->
       <div
-        un-flex
-        un-items-center
-        un-gap-2
-        un-mb-1
+        v-for="item in anns"
+        :key="item.commentId"
+        un-p-2
+        un-rounded-xs
+        un-transition
+        un-ease-in-out
+        un-hover="translate-x-2"
+        un-cursor-pointer
+        @click.stop="emit('reply', item, $event.currentTarget as HTMLElement)"
       >
-        <img
-          v-if="item.author.avatarUrl"
-          :src="item.author.avatarUrl"
-          un-w-6
-          un-h-6
-          un-shrink-0
-          un-border="1 solid stone-200 dark:stone-700"
-          un-rounded-full
-        >
-        <span
-          v-else
-          un-w-6
-          un-h-6
-          un-shrink-0
-          un-border="1 solid stone-200 dark:stone-700"
-          un-rounded-full
-          un-bg="neutral-200 dark:neutral-700"
+        <!-- 作者行 -->
+        <div
           un-flex
           un-items-center
-          un-justify-center
-          un-text="stone-500"
+          un-gap-2
+          un-mb-1
         >
-          {{ item.author.login.slice(0, 1).toUpperCase() }}
-        </span>
-        <span
+          <img
+            v-if="item.author.avatarUrl"
+            :src="item.author.avatarUrl"
+            un-w-6
+            un-h-6
+            un-shrink-0
+            un-border="1 solid neutral-200 dark:neutral-700"
+            un-rounded-full
+          >
+          <span
+            v-else
+            un-w-6
+            un-h-6
+            un-shrink-0
+            un-border="1 solid neutral-200 dark:neutral-700"
+            un-rounded-full
+            un-bg="neutral-200 dark:neutral-700"
+            un-flex
+            un-items-center
+            un-justify-center
+            un-text="neutral-500"
+          >
+            {{ item.author.login.slice(0, 1).toUpperCase() }}
+          </span>
+          <span
+            un-text-xs
+            un-font-semibold
+            un-text="neutral-700 dark:neutral-300"
+          >
+            {{ item.author.login }}
+          </span>
+          <span
+            un-text="xs neutral-400 dark:neutral-500"
+          >
+            · {{ formatTime(item.data.createdAt) }}
+          </span>
+          <span
+            v-if="item.matchState !== 'article' && statusLabel(item.matchState)"
+            un-text="xs amber-600 dark:amber-400"
+            un-ml-auto
+          >
+            {{ statusLabel(item.matchState) }}
+          </span>
+        </div>
+
+        <!-- 引用快照（List 模式）+ 回到原文箭头 -->
+        <div
+          v-if="showAnchor && item.data.anchor"
           un-text-xs
-          un-font-semibold
-          un-text="stone-700 dark:stone-300"
+          un-text="neutral-400 dark:neutral-600"
+          un-border="l-2 neutral-400 dark:neutral-600"
+          un-pl-2
+          un-mb-1
+          un-ml-8
+          un-leading-relaxed
+          un-flex
+          un-items-center
+          un-justify-between
+          un-gap-4
         >
-          {{ item.author.login }}
-        </span>
-        <span
-          un-text="xs stone-400 dark:stone-500"
+          <span>
+            {{ item.data.anchor.selected.slice(0, 80) }}{{ item.data.anchor.selected.length > 80 ? '…' : '' }}
+          </span>
+          <un-i-solar-arrow-to-top-left-line-duotone
+            v-if="item.domRange"
+            un-cursor-pointer
+            un-transition
+            un-text="xs neutral-400 hover:neutral-600 dark:neutral-600 dark:hover:neutral-400"
+            @click.stop="emit('select', item)"
+          />
+        </div>
+
+        <!-- 批注正文：truncate 模式 3 行截断 + 行内展开，否则全文 -->
+        <p
+          un-ml-8
+          un-text-sm
+          un-text="neutral-700 dark:neutral-300"
+          un-leading-relaxed
+          un-whitespace-pre-wrap
         >
-          · {{ formatTime(item.data.createdAt) }}
-        </span>
-        <span
-          v-if="item.matchState !== 'article' && statusLabel(item.matchState)"
-          un-text="xs amber-600 dark:amber-400"
-          un-ml-auto
-        >
-          {{ statusLabel(item.matchState) }}
-        </span>
+          <template v-if="truncate">
+            {{ isExpanded(item.commentId) ? item.data.text : bodyPreview(item) }}
+            <button
+              v-if="needsTruncate(item)"
+              un-text="xs neutral-400 hover:neutral-600 dark:neutral-500 dark:hover:neutral-300"
+              un-ml-1
+              @click.stop="toggleExpand(item.commentId)"
+            >
+              {{ isExpanded(item.commentId) ? t('expand.collapse') : t('expand.more') }}
+            </button>
+          </template>
+          <template v-else>
+            {{ item.data.text }}
+          </template>
+        </p>
       </div>
 
-      <!-- 引用快照（List 模式）+ 回到原文箭头 -->
+      <!-- 回复列表（缩进 + 竖线；点击回复该回复） -->
       <div
-        v-if="showAnchor && item.data.anchor"
-        un-text-xs
-        un-text="stone-400 dark:stone-600"
-        un-border="l-2 stone-400 dark:stone-600"
-        un-pl-2
-        un-mb-1
-        un-ml-8
-        un-leading-relaxed
-        un-flex
-        un-items-center
-        un-justify-between
-        un-gap-4
+        v-for="reply in sortedReplies"
+        :key="reply.commentId"
+        un-ml-10
+        un-p-1
+        un-rounded-xs
+        un-cursor-pointer
+        un-transition
+        un-ease-in-out
+        un-hover="translate-x-2"
+        @mouseenter="hoverReply(reply)"
+        @mouseleave="clearReplyHover"
+        @click.stop="emit('reply', reply, $event.currentTarget as HTMLElement)"
       >
-        <span>
-          {{ item.data.anchor.selected.slice(0, 80) }}{{ item.data.anchor.selected.length > 80 ? '…' : '' }}
-        </span>
-        <un-i-solar-arrow-to-top-left-line-duotone
-          v-if="item.domRange"
-          un-cursor-pointer
-          un-transition
-          un-text="xs stone-400 hover:stone-600 dark:stone-600 dark:hover:stone-400"
-          @click.stop="emit('select', item)"
+        <div
+          un-flex
+          un-items-center
+          un-gap-1.5
+          un-mb-0.5
+        >
+          <img
+            v-if="reply.author.avatarUrl"
+            :src="reply.author.avatarUrl"
+            un-w-4
+            un-h-4
+            un-shrink-0
+            un-border="1 solid neutral-200 dark:neutral-700"
+            un-rounded-full
+          >
+          <span
+            un-text="xs neutral-600 dark:neutral-300"
+            un-font-medium
+          >
+            {{ reply.author.login }}
+          </span>
+          <span
+            un-text="xs neutral-400 dark:neutral-500"
+          >
+            · {{ formatTime(reply.data.createdAt) }}
+          </span>
+        </div>
+        <div
+          class="annotation-reply-body"
+          un-ml-6
+          un-text="xs neutral-700 dark:neutral-300"
+          un-leading-relaxed
+          v-html="renderReplyBody(reply)"
         />
       </div>
-
-      <!-- 批注正文：truncate 模式 3 行截断 + 行内展开，否则全文 -->
-      <p
-        un-ml-8
-        un-text-sm
-        un-text="stone-700 dark:stone-300"
-        un-leading-relaxed
-        un-whitespace-pre-wrap
-      >
-        <template v-if="truncate">
-          {{ isExpanded(item.commentId) ? item.data.text : bodyPreview(item) }}
-          <button
-            v-if="needsTruncate(item)"
-            un-text="xs stone-400 hover:stone-600 dark:stone-500 dark:hover:stone-300"
-            un-ml-1
-            @click.stop="toggleExpand(item.commentId)"
-          >
-            {{ isExpanded(item.commentId) ? t('expand.collapse') : t('expand.more') }}
-          </button>
-        </template>
-        <template v-else>
-          {{ item.data.text }}
-        </template>
-      </p>
-    </div>
-
-    <!-- 回复列表（缩进 + 竖线；点击回复该回复） -->
-    <div
-      v-for="reply in sortedReplies"
-      :key="reply.commentId"
-      un-ml-10
-      un-p-1
-      un-rounded-xs
-      un-cursor-pointer
-      un-transition
-      un-ease-in-out
-      un-hover="translate-x-2"
-      @mouseenter="hoverReply(reply)"
-      @mouseleave="clearReplyHover"
-      @click.stop="emit('reply', reply, $event.currentTarget as HTMLElement)"
-    >
-      <div
-        un-flex
-        un-items-center
-        un-gap-1.5
-        un-mb-0.5
-      >
-        <img
-          v-if="reply.author.avatarUrl"
-          :src="reply.author.avatarUrl"
-          un-w-4
-          un-h-4
-          un-shrink-0
-          un-border="1 solid stone-200 dark:stone-700"
-          un-rounded-full
-        >
-        <span
-          un-text="xs stone-600 dark:stone-300"
-          un-font-medium
-        >
-          {{ reply.author.login }}
-        </span>
-        <span
-          un-text="xs stone-400 dark:stone-500"
-        >
-          · {{ formatTime(reply.data.createdAt) }}
-        </span>
-      </div>
-      <div
-        class="annotation-reply-body"
-        un-ml-6
-        un-text="xs stone-700 dark:stone-300"
-        un-leading-relaxed
-        v-html="renderReplyBody(reply)"
-      />
     </div>
   </div>
 </template>
 
 <style scoped>
-/* ---- 便签卡：灰度纸面 + 顶部胶带 + 稳定随机倾角 ---- */
+/* ---- 便签卡：SVG 纸边 + 稳定随机倾角 ---- */
 .annotation-card {
-  --uno: 'relative bg-neutral-100/60 dark:bg-neutral-800/60 shadow-sm dark:shadow';
+  --uno: 'relative bg-transparent';
   transform: rotate(var(--card-tilt, 0deg)) translateX(0);
   transform-origin: 50% 0;
 }
 
-/* 胶带：半透磨砂条，微微歪，随卡片错位 */
-.annotation-card::before {
-  --uno: 'content-empty absolute -top-2 w-16 h-[18px] rounded-1px pointer-events-none backdrop-blur-1px bg-stone-400/30 dark:bg-stone-600/30 shadow-sm';
-  left: calc(50% + var(--tape-offset, 0px));
-  transform: translateX(-50%) rotate(var(--tape-tilt, 0deg));
-}
-
-.annotation-card:hover {
-  --uno: 'shadow-md';
-  transform: rotate(var(--card-tilt, 0deg)) translateX(0.5rem);
-}
-
-/* hover 正文/卡片联动：activeCommentId 命中本卡片时的高亮 */
+.annotation-card:hover,
 .annotation-card-active {
   transform: rotate(var(--card-tilt, 0deg)) translateX(0.5rem);
-  --uno: 'border-neutral-400 dark:border-neutral-600';
+}
+
+/* 描边跟纸边走（同一 displacement）；hover 加深 */
+.annotation-card:hover :deep(.paper-edge-fill),
+.annotation-card-active :deep(.paper-edge-fill) {
+  --uno: 'stroke-neutral-700';
+  --uno: 'dark:stroke-neutral-400';
 }
 </style>
