@@ -11,6 +11,8 @@
   "dependencies": {
     "@comark/markdown-it": "catalog:markdown",
     "@fontsource-variable/eb-garamond": "catalog:fonts",
+    "@fontsource-variable/instrument-sans": "catalog:fonts",
+    "@fontsource-variable/noto-sans-sc": "catalog:fonts",
     "@fontsource/alegreya-sans": "catalog:fonts",
     "@fontsource/caveat": "catalog:fonts",
     "@fontsource/eb-garamond": "catalog:fonts",

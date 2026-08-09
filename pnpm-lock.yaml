@@ -25,6 +25,12 @@ catalogs:
     '@fontsource-variable/eb-garamond':
       specifier: ^5.2.7
       version: 5.2.7
+    '@fontsource-variable/instrument-sans':
+      specifier: ^5.3.0
+      version: 5.3.0
+    '@fontsource-variable/noto-sans-sc':
+      specifier: ^5.3.0
+      version: 5.3.0
     '@fontsource/alegreya-sans':
       specifier: ^5.2.8
       version: 5.2.8
@@ -192,6 +198,12 @@ importers:
       '@fontsource-variable/eb-garamond':
         specifier: catalog:fonts
         version: 5.2.7
+      '@fontsource-variable/instrument-sans':
+        specifier: catalog:fonts
+        version: 5.3.0
+      '@fontsource-variable/noto-sans-sc':
+        specifier: catalog:fonts
+        version: 5.3.0
       '@fontsource/alegreya-sans':
         specifier: catalog:fonts
         version: 5.2.8
@@ -892,6 +904,12 @@ packages:
 
   '@fontsource-variable/eb-garamond@5.2.7':
     resolution: {integrity: sha512-TbR+Pun4k5g85lgdxRNSbWka5vJgi9pzdFzFswgf7/7NRhKssvoumft1+ZGz3n91YYet96JcnjWrgPGGj6JTzg==}
+
+  '@fontsource-variable/instrument-sans@5.3.0':
+    resolution: {integrity: sha512-u4gKbDBTNFGkg997tfQn3eHOhHuquWUFTRT/rwzuKtrxX5P2ekfs2x+LgBPP4P32+cC+vUwF1Cr+IdRoPQbrGw==}
+
+  '@fontsource-variable/noto-sans-sc@5.3.0':
+    resolution: {integrity: sha512-lNar1dF7Ik/lHNPo/7JWG0TolXY29LtsqYgMvEysooZ5bsO9uH4shJmRrwyJ3PjyTPljhpMJEK0jDuLSU4vJ1w==}
 
   '@fontsource/alegreya-sans@5.2.8':
     resolution: {integrity: sha512-kXUTR1S6dsWa7rBxaDJ3P05HodmYmxfY20aQtQ4SYVmrEYrWtaw5A1n+h+wcCF0nAMwf+CQ4M435dNuWD1YfMg==}
@@ -4292,6 +4310,10 @@ snapshots:
   '@floating-ui/utils@0.2.11': {}
 
   '@fontsource-variable/eb-garamond@5.2.7': {}
+
+  '@fontsource-variable/instrument-sans@5.3.0': {}
+
+  '@fontsource-variable/noto-sans-sc@5.3.0': {}
 
   '@fontsource/alegreya-sans@5.2.8': {}
 
