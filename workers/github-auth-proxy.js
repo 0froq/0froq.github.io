@@ -1,30 +1,41 @@
 /**
- * Cloudflare Worker: proxy GitHub OAuth Device Flow for froq.me
+ * Cloudflare Worker: proxy GitHub OAuth Device Flow
  *
- * Why: `https://github.com/login/device/code` and `/oauth/access_token` do not
- * allow browser CORS. Locally Vite proxies `/__auth` → github.com/login.
- * On GitHub Pages we need the same path proxied at the edge.
+ * Why: browser cannot call github.com/login/* (no CORS). Locally Vite proxies
+ * `/__auth`. GitHub Pages cannot proxy POST → 405. Use this Worker instead.
  *
- * Setup (Cloudflare dashboard, DNS must be proxied orange-cloud on froq.me):
- * 1. Workers & Pages → Create Worker → paste this file as the module worker.
- * 2. Settings → Triggers → Add route:
- *      froq.me/__auth*
- *      www.froq.me/__auth*   (if used)
- * 3. Deploy. Browser calls same-origin `/__auth/device/code` — no CORS needed.
+ * === Recommended when domain is on NameSilo (or any non-CF DNS) ===
+ * 1. Create a free Cloudflare account (no need to move froq.me DNS).
+ * 2. Workers & Pages → Create → paste this file → Deploy.
+ * 3. Copy the workers.dev URL, e.g. https://github-auth-proxy.YOUR_SUBDOMAIN.workers.dev
+ * 4. GitHub repo → Settings → Secrets → Actions:
+ *      VITE_GITHUB_AUTH_PROXY = https://github-auth-proxy.YOUR_SUBDOMAIN.workers.dev
+ *    (no trailing slash)
+ * 5. Re-run the Pages deploy workflow (or push) so the secret is baked into the build.
  *
- * Optional: deploy to *.workers.dev and set build secret
- *   VITE_GITHUB_AUTH_PROXY=https://your-worker.workers.dev
- * then AUTH_BASE becomes that absolute URL (see useGitHubAuth.ts).
+ * === Optional: custom domain on Cloudflare (orange-cloud DNS) ===
+ * Add route `froq.me/__auth*` to this Worker and leave VITE_GITHUB_AUTH_PROXY empty
+ * so the site uses same-origin `/__auth`.
  */
 
 const GITHUB_LOGIN = 'https://github.com/login'
+const ALLOWED_ORIGINS = new Set([
+  'https://froq.me',
+  'https://www.froq.me',
+  'http://localhost:5173',
+  'http://localhost:5174',
+  'http://127.0.0.1:5173',
+  'http://127.0.0.1:5174',
+])
 
 function corsHeaders(origin) {
+  const allow = origin && ALLOWED_ORIGINS.has(origin) ? origin : 'https://froq.me'
   return {
-    'Access-Control-Allow-Origin': origin || '*',
+    'Access-Control-Allow-Origin': allow,
     'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
     'Access-Control-Allow-Headers': 'Content-Type, Accept',
     'Access-Control-Max-Age': '86400',
+    'Vary': 'Origin',
   }
 }
 

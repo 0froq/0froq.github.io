@@ -45,8 +45,11 @@ jobs:
         env:
           # Inlined into the client bundle at build time (Vite VITE_*).
           # CLIENT_ID: OAuth Device Flow for write; READ_TOKEN: guest annotation reads.
+          # AUTH_PROXY: absolute base for GitHub login proxy (e.g. https://xxx.workers.dev).
+          # Required on GitHub Pages — Pages cannot POST /__auth (returns 405).
           VITE_GITHUB_CLIENT_ID: ${{ secrets.VITE_GITHUB_CLIENT_ID }}
           VITE_GITHUB_READ_TOKEN: ${{ secrets.VITE_GITHUB_READ_TOKEN }}
+          VITE_GITHUB_AUTH_PROXY: ${{ secrets.VITE_GITHUB_AUTH_PROXY }}
         run: pnpm docs:build
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3

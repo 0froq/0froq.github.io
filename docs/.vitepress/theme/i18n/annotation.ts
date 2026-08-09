@@ -60,6 +60,7 @@ export const annotationMessages = {
     auth: {
       network: 'Cannot reach GitHub. Check your network.',
       httpError: 'GitHub returned an error ({status}). Check Client ID configuration.',
+      httpError405: 'Auth proxy missing (405). Set VITE_GITHUB_AUTH_PROXY to a Cloudflare Worker URL.',
       verifyFailed: 'Verification failed: {detail}',
       timeout: 'Verification timed out. Please sign in again.',
     },
@@ -127,6 +128,7 @@ export const annotationMessages = {
     auth: {
       network: '无法连接 GitHub，请检查网络',
       httpError: 'GitHub 返回错误 ({status})，请检查 Client ID 配置',
+      httpError405: '缺少登录代理（405）。请配置 VITE_GITHUB_AUTH_PROXY 指向 Cloudflare Worker。',
       verifyFailed: '验证失败: {detail}',
       timeout: '验证超时，请重新登录',
     },
@@ -153,6 +155,9 @@ export function resolveAuthError(
     case 'network':
       return t('auth.network')
     case 'httpError':
+      if (error.status === 405) {
+        return t('auth.httpError405')
+      }
       return t('auth.httpError', { status: error.status })
     case 'verifyFailed':
       return t('auth.verifyFailed', { detail: error.detail })
