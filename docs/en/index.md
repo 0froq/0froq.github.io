@@ -6,6 +6,8 @@ locale: en
 
 I am <ruby> :rb[froQ] :rt[frog (probably] </ruby>.
 
+::reveal{label="About me"}
+
 I'm doing a graduate degree, which is not the point.
 What matters is the code—building for the web (Vue, Nuxt, TypeScript),
 crafting tools ([headup.nvim](https://github.com/Fro-Q/headup.nvim),
@@ -25,14 +27,14 @@ I have ==bipolar type I disorder==.
 My thoughts swing between order and chaos.
 That tension fuels whatever creativity I have.
 
----
+- - -
 
 [Observer / Builder / Thinker]{.flex.flex-col.items-center.italic.font-serif}
 
 The goal: :u[become a full-time open source developer]{.underline-amber-500}.
 Seeing this sentence simply means I'm still on the road.
 
----
+- - -
 
 This isn't just a blog.
 
@@ -41,3 +43,4 @@ is some writing I want you to read,
 [Corpus](/corpus/en){.font-stylish} tracks how knowledge grows and decays,
 [Dashboard](/dashboard/en/){.font-mono} is what I look at all day
 (feel free to peek).
+::

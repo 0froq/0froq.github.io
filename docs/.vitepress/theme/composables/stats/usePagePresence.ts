@@ -6,26 +6,39 @@ import { HEARTBEAT_MS } from './constants'
 import { froqApiConfigured, froqFetch } from './froqApi'
 import { getAnonId } from './useAnonId'
 
+export interface PageOnlineRow {
+  pagePath: string
+  viewing: number
+}
+
 export interface SessionStats {
   viewing: number | null
+  online: number | null
   uniqueVisitors: number | null
   totalVisits: number | null
+  pages: PageOnlineRow[]
 }
 
 const viewing = ref<number | null>(null)
+const online = ref<number | null>(null)
 const uniqueVisitors = ref<number | null>(null)
 const totalVisits = ref<number | null>(null)
+const pages = ref<PageOnlineRow[]>([])
 
 let timer: ReturnType<typeof setInterval> | null = null
 let activePath = ''
 
-function applyStats(data: Partial<SessionStats>) {
+function applyStats(data: Partial<SessionStats> & { pages?: PageOnlineRow[] }) {
   if (typeof data.viewing === 'number')
     viewing.value = data.viewing
+  if (typeof data.online === 'number')
+    online.value = data.online
   if (typeof data.uniqueVisitors === 'number')
     uniqueVisitors.value = data.uniqueVisitors
   if (typeof data.totalVisits === 'number')
     totalVisits.value = data.totalVisits
+  if (Array.isArray(data.pages))
+    pages.value = data.pages
 }
 
 async function ping(countVisit: boolean, ghLogin?: string): Promise<void> {
@@ -61,7 +74,7 @@ async function ping(countVisit: boolean, ghLogin?: string): Promise<void> {
 async function leave(path = activePath, ghLogin?: string): Promise<void> {
   if (!froqApiConfigured() || !path)
     return
-  await froqFetch('/session/leave', {
+  const res = await froqFetch('/session/leave', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
     body: JSON.stringify({
@@ -71,6 +84,14 @@ async function leave(path = activePath, ghLogin?: string): Promise<void> {
     }),
     keepalive: true,
   })
+  if (!res || !res.ok)
+    return
+  try {
+    applyStats(await res.json())
+  }
+  catch {
+    // ignore
+  }
 }
 
 function stopTimer() {
@@ -99,8 +120,10 @@ async function enterPath(path: string, getGhLogin: () => string | undefined) {
 export function usePagePresenceState() {
   return {
     viewing: readonly(viewing),
+    online: readonly(online),
     uniqueVisitors: readonly(uniqueVisitors),
     totalVisits: readonly(totalVisits),
+    pages: readonly(pages),
   }
 }
 

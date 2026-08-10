@@ -4,6 +4,7 @@ import { GesturePlugin } from '@vueuse/gesture'
 import { MotionPlugin } from '@vueuse/motion'
 import { createPinia } from 'pinia'
 import { createI18n } from 'vue-i18n'
+import Reveal from './components/ui/base/Reveal.vue'
 import { installKeyboardShortcuts } from './composables/useKeyboardShortcuts'
 import { annotationMessages } from './i18n/annotation'
 import { statsMessages } from './i18n/stats'
@@ -98,6 +99,8 @@ export default {
       .use(GesturePlugin)
       .use(MotionPlugin)
       .use(i18n)
+
+    app.component('Reveal', Reveal)
 
     // 全局快捷键系统（批注 / 打开弹窗等，后续导航/命令面板复用）
     installKeyboardShortcuts(app)

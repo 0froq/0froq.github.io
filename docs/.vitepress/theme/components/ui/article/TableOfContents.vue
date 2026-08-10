@@ -107,7 +107,8 @@ function onItemLeave(item: TocItem, ev: MouseEvent) {
 
 onMounted(() => nextTick(collect))
 watch(() => route.path, () => nextTick(collect))
-useEventListener(window, 'scroll', onScrollFallback, { passive: true })
+if (typeof window !== 'undefined')
+  useEventListener(window, 'scroll', onScrollFallback, { passive: true })
 </script>
 
 <template>

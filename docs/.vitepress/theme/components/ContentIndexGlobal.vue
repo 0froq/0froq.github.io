@@ -3,17 +3,29 @@ import { useRoute } from 'vitepress'
 import { useI18n } from 'vue-i18n'
 import PageTitle from '@/ui/base/PageTitle.vue'
 import ContentNav from '@/ui/nav/ContentNav.vue'
-import PaperEdgeSamples from '@/ui/paper/PaperEdgeSamples.vue'
+import CommitHeatmap from '~/components/home/CommitHeatmap.vue'
+import NowHappening from '~/components/home/NowHappening.vue'
+import ProjectCard from '~/components/home/ProjectCard.vue'
+import RecentPosts from '~/components/home/RecentPosts.vue'
+import QSeperator from './ui/base/QSeperator.vue'
 
 const route = useRoute()
-useI18n({
+const { t } = useI18n({
   useScope: 'global',
   messages: {
     en: {
       greeting: 'Greetings!',
+      secIntro: 'Welcome',
+      secRecentPosts: 'Recent Writes',
+      secHappening: 'Happening',
+      secProjects: 'Projects',
     },
     zh: {
       greeting: '您好！',
+      secIntro: '欢迎',
+      secRecentPosts: '最近落笔',
+      secHappening: '正在发生',
+      secProjects: '项目',
     },
   },
 })
@@ -47,14 +59,82 @@ const navItems = [
   <ContentNav
     :items="navItems"
   />
+  <div un-my-8>
+    <QSeperator
+      :title="t('secIntro')"
+      position="right"
+      type="dashed"
+      un-font-mono
+    />
+  </div>
   <PageTitle
     :key="$i18n.locale"
     :title="$t('greeting')"
-    un-mb-8
   />
   <Content
     :key="route.path"
     un-text="base/10"
     class="markdown-rendered"
   />
+  <div
+    un-mt-16
+    un-flex="~ col"
+    un-gap-10
+  >
+    <!-- <QSeperator
+      :title="t('secProjects')"
+      position="right"
+      type="dashed"
+      un-font-mono
+    /> -->
+    <!-- <div
+      un-grid
+      un-gap-4
+      un-grid-cols-1
+      un-md:grid-cols-3
+    >
+      <ProjectCard
+        name="headup.nvim"
+        repo="0froq/headup.nvim"
+      />
+      <ProjectCard
+        name="vscode-theme-LiG"
+        repo="0froq/vscode-theme-LiG"
+      />
+      <ProjectCard
+        name="bibr"
+        repo="0froq/bibr"
+      />
+    </div> -->
+    <QSeperator
+      :title="t('secRecentPosts')"
+      position="right"
+      type="dashed"
+      un-font-mono
+    />
+    <ClientOnly>
+      <RecentPosts />
+    </ClientOnly>
+    <!-- <ClientOnly>
+      <div un-mt-16>
+        <PageTitle
+          title="Commit Heatmap"
+        />
+        <CommitHeatmap login="0froq" />
+      </div>
+    </ClientOnly> -->
+    <ClientOnly>
+      <div un-mt-16>
+        <QSeperator
+          :title="t('secHappening')"
+          position="right"
+          type="dashed"
+          un-font-mono
+        />
+        <div>
+          <NowHappening />
+        </div>
+      </div>
+    </ClientOnly>
+  </div>
 </template>

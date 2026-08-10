@@ -422,7 +422,7 @@ html {
       transform: translateX(-50%) rotate(1.2deg);
       --uno: 'px-2 py-0 my-0 text-center text-sm truncate shadow-sm backdrop-blur-sm';
       border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
-      --uno: 'bg-neutral-400/30 dark:bg-neutral-600/30 text-neutral-600 dark:text-neutral-300';
+      --uno: 'bg-neutral-600/35 dark:bg-neutral-500/70 text-neutral-700 dark:text-neutral-200';
     }
 
     /* —— 类型：胶带色（每类一条，避免 --uno 互相覆盖） —— */
@@ -719,30 +719,25 @@ mjx-container.MathJax svg {
   --uno: 'decoration-underline underline-(2px solid green-800/50 offset-2)';
 }
 
-/* ---- Lazy content: 滚入时错峰淡入（不用 content-visibility，避免与 View Transition 冲突卡死） ---- */
+/* ---- Lazy content: 滚入时错峰淡入（不用 content-visibility，避免与 View Transition / IO 尺寸冲突） ---- */
 .lazy-block {
   opacity: 0;
   transform: translateY(12px);
   transition:
     opacity 0.55s ease var(--lazy-delay, 0ms),
     transform 0.55s cubic-bezier(0.22, 1, 0.36, 1) var(--lazy-delay, 0ms);
-  content-visibility: auto;
-  contain-intrinsic-size: auto 32px;
 }
 
 .lazy-block.is-revealed {
   opacity: 1;
   transform: none;
-  /* 已进入视口后关闭跳过渲染，后续主题切换/VT 不再被迫整页展开 */
-  content-visibility: visible;
-  contain-intrinsic-size: none;
 }
 
-/* View Transition 截图期间强制所有块可见，避免未揭示块触发 Chromium 卡死 */
+/* View Transition 截图期间强制所有块可见，避免未揭示块截空 */
 html.vt-active .lazy-block {
-  content-visibility: visible !important;
-  contain-intrinsic-size: none;
-  transition: none;
+  opacity: 1 !important;
+  transform: none !important;
+  transition: none !important;
 }
 
 /* 块内图片在淡入完成前轻微放大，形成呼吸感 */
@@ -759,7 +754,6 @@ html.vt-active .lazy-block {
     opacity: 1;
     transform: none;
     transition: none;
-    content-visibility: visible;
   }
   .lazy-block img {
     transform: none;

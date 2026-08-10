@@ -19,12 +19,15 @@ const props = withDefaults(defineProps<{
   showAnchor?: boolean
   /** 紧凑模式（List 小头像） */
   compact?: boolean
+  /** 纸面胶带 backdrop blur；叠卡场景可关 */
+  backdropBlur?: boolean
 }>(), {
   replies: () => [],
   activeCommentId: null,
   truncate: true,
   showAnchor: false,
   compact: false,
+  backdropBlur: true,
 })
 
 const emit = defineEmits<{
@@ -131,6 +134,7 @@ function renderReplyBody(reply: ResolvedAnnotation): string {
   >
     <PaperEdgeSurface
       :edge-id="edgeId"
+      :backdrop-blur="backdropBlur"
       un-fill="neutral-50/60 dark:neutral-800/60"
       un-stroke="neutral-400 dark:neutral-700"
     />

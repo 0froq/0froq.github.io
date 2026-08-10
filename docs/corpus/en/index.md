@@ -3,7 +3,7 @@ index: true
 locale: en
 ---
 
-:u[A place to watch knowledge grow, decay, and recombine]{.underline-red-500}.
+A place to watch knowledge grow, decay, and recombine.
 
 :::warning Disclaimer
 Feel free to browse, but be aware that some content may be:

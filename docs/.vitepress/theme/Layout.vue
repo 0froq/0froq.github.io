@@ -55,11 +55,11 @@ watch(
     <PageContent
       :key="route.path"
     />
+    <PageFooter />
     <ButtonVerticalNavigation
       un-hidden
       un-md:flex
     />
-    <PageFooter />
     <ClientOnly>
       <AnnotationClient />
       <VisitorNotesClient />

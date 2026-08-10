@@ -17,6 +17,9 @@ const uniqueVisitors = computed(
 const totalVisits = computed(
   () => presence.totalVisits.value ?? fetched.totalVisits.value,
 )
+const onlineCount = computed(
+  () => presence.online.value ?? fetched.online.value,
+)
 
 const now = ref(Date.now())
 let tick: ReturnType<typeof setInterval> | null = null
@@ -52,6 +55,16 @@ const wordLabel = computed(() => {
   })
 })
 
+const onlineLabel = computed(() => {
+  if (onlineCount.value == null || onlineCount.value <= 0)
+    return null
+  if (onlineCount.value === 1)
+    return t('stats.onlineOne')
+  return t('stats.online', {
+    n: formatCompactNumber(onlineCount.value, locale.value),
+  })
+})
+
 const uniqueLabel = computed(() => {
   if (uniqueVisitors.value == null)
     return null
@@ -69,8 +82,13 @@ const visitsLabel = computed(() => {
 })
 
 const parts = computed(() => {
-  return [uniqueLabel.value, visitsLabel.value, uptimeLabel.value, wordLabel.value]
-    .filter(Boolean) as string[]
+  return [
+    onlineLabel.value,
+    uniqueLabel.value,
+    visitsLabel.value,
+    uptimeLabel.value,
+    wordLabel.value,
+  ].filter(Boolean) as string[]
 })
 </script>
 

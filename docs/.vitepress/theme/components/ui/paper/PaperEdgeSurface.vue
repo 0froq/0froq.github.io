@@ -10,8 +10,11 @@ defineOptions({
 const props = withDefaults(defineProps<{
   edgeId: string
   showTape?: boolean
+  /** Tape (and surface) frosted glass. Default on. */
+  backdropBlur?: boolean
 }>(), {
   showTape: true,
+  backdropBlur: true,
 })
 
 const attrs = useAttrs()
@@ -96,6 +99,7 @@ onBeforeUnmount(() => stopObserve?.())
   <span
     v-if="showTape"
     class="paper-edge-tape"
+    :class="{ 'paper-edge-tape--blur': backdropBlur }"
     :style="{
       '--tape-offset': edge.tapeOffset,
       '--tape-tilt': edge.tapeTilt,
@@ -130,6 +134,9 @@ onBeforeUnmount(() => stopObserve?.())
   pointer-events: none;
   --uno: 'bg-neutral-600/35 dark:bg-neutral-500/70';
   transform: translateX(-50%) rotate(var(--tape-tilt, 0deg));
+}
+
+.paper-edge-tape--blur {
   --uno: 'backdrop-blur-sm dark:backdrop-blur';
 }
 </style>

@@ -1,12 +1,19 @@
 import { useRoute } from 'vitepress'
 import { nextTick, onBeforeUnmount, onMounted, watch } from 'vue'
 
+const NEAR_PX = 240
+
+function isNearViewport(el: HTMLElement): boolean {
+  const rect = el.getBoundingClientRect()
+  return rect.top < window.innerHeight + NEAR_PX && rect.bottom > -NEAR_PX
+}
+
 /**
  * 正文块级懒显：
- * - IntersectionObserver 提前（rootMargin 240px）标记 is-revealed，淡入上浮现形
+ * - IntersectionObserver 提前（rootMargin）标记 is-revealed，淡入上浮现形
  * - 同帧进入的块按序错峰（--lazy-delay），形成瀑布式呼吸感
- * - content-visibility 仅用于未揭示块；与 View Transition 并存时由 useDarkMode 规避
- * - 兜底：若 IO 因 hydration remount 未触发，短延迟后强制揭示视口内/全部块，避免正文空白
+ * - 兜底：仅强制揭示「近视口但仍未揭示」的块，避免 hydration 空白；
+ *   不提前揭开屏外块，以免毁掉滚入动画
  */
 export function useLazyContent(selector = '#content') {
   const route = useRoute()
@@ -33,7 +40,9 @@ export function useLazyContent(selector = '#content') {
       : root as HTMLElement
 
     const reduced = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
-    const blocks = Array.from(container.children) as HTMLElement[]
+    const blocks = Array.from(container.children).filter(
+      (el): el is HTMLElement => el instanceof HTMLElement,
+    )
 
     blocks.forEach((el, i) => {
       el.classList.add('lazy-block')
@@ -53,24 +62,24 @@ export function useLazyContent(selector = '#content') {
         if (entry.isIntersecting)
           reveal(entry.target as HTMLElement)
       }
-    }, { rootMargin: '240px 0px' })
+    }, { rootMargin: `${NEAR_PX}px 0px` })
 
     blocks.forEach((el) => {
       // Already in (or near) viewport — reveal immediately without waiting for IO.
-      const rect = el.getBoundingClientRect()
-      if (rect.top < window.innerHeight + 240 && rect.bottom > -240)
+      if (isNearViewport(el))
         reveal(el)
       else
         io!.observe(el)
     })
 
-    // Safety net: if anything is still hidden (IO missed after remount), reveal all.
+    // Safety net: only near-viewport blocks that IO missed (e.g. after remount).
+    // Do NOT reveal below-fold content — that kills the scroll-in animation.
     fallbackTimer = setTimeout(() => {
       blocks.forEach((el) => {
-        if (!el.classList.contains('is-revealed'))
+        if (!el.classList.contains('is-revealed') && isNearViewport(el))
           reveal(el)
       })
-    }, 800)
+    }, 600)
   }
 
   onMounted(() => nextTick(() => requestAnimationFrame(setup)))

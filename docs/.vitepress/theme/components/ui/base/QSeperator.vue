@@ -6,6 +6,7 @@ defineOptions({
 const props = defineProps<{
   type?: 'dashed' | 'solid'
   title?: string
+  position?: 'left' | 'right' | 'center'
 }>()
 </script>
 
@@ -17,14 +18,23 @@ const props = defineProps<{
     v-bind="$attrs"
     aria-hidden
   >
+    <span
+      v-if="props.position === 'left'"
+      un-text="neutral-700 dark:neutral-300"
+      v-bind="$attrs"
+      class="separator-title"
+      un-px-2
+    >{{ props.title }}</span>
     <div
+      v-if="props.position === 'center'"
       :class="`${props.type || 'solid'}-separator left-separator`"
       un-flex-grow
       un-h-px
       un-text="neutral-400 dark:neutral-600"
     />
     <span
-      un-text="neutral-700 dark:neutral-300"
+      v-if="props.position !== 'left' && props.position !== 'right'"
+      un-text="neutral-600 dark:neutral-400"
       v-bind="$attrs"
       class="separator-title"
       un-px-2
@@ -33,8 +43,15 @@ const props = defineProps<{
       :class="`${props.type || 'solid'}-separator right-separator`"
       un-flex-grow
       un-h-px
-      un-text="neutral-400 dark:neutral-700"
+      un-text="neutral-400 dark:neutral-600"
     />
+    <span
+      v-if="props.position === 'right'"
+      un-text="neutral-600 dark:neutral-400"
+      v-bind="$attrs"
+      class="separator-title"
+      un-px-2
+    >{{ props.title }}</span>
   </div>
 
   <div

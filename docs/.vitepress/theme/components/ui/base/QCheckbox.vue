@@ -32,16 +32,16 @@ const isChecked = computed({
       un-relative
       un-transition
       un-appearance-none
-      un-w-4
-      un-h-4
+      un-w-3
+      un-h-3
       un-border="px neutral-600"
-      un-before="transition duration-200 content-empty bg-neutral-800 dark:bg-neutral-200 w-2 h-2 scale-0 absolute top-50% left-50% translate--50%"
+      un-before="transition duration-200 content-empty bg-neutral-800 dark:bg-neutral-200 w-1.6 h-1.6 scale-0 absolute top-50% left-50% translate--50%"
       un-checked="border-neutral-600 dark:border-neutral-400 before:scale-100"
       un-hover="border-neutral-800 dark:border-neutral-200 before:scale-20 checked:before:scale-100"
     >
     <label
       :for="id"
-      un-text="neutral-600 dark:neutral-400 base"
+      un-text="neutral-600 dark:neutral-400 sm"
       un-flex="~ row"
       un-w-fit
       un-gap-1

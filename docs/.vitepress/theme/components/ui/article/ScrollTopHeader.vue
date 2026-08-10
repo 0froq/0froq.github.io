@@ -105,7 +105,8 @@ function handleScroll() {
   }
 }
 
-useEventListener(window, ['scroll', 'resize'], handleScroll, { passive: true })
+if (typeof window !== 'undefined')
+  useEventListener(window, ['scroll', 'resize'], handleScroll, { passive: true })
 
 onMounted(() => {
   handleScroll()

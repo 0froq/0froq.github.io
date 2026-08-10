@@ -6,6 +6,12 @@ locale: zh
 
 我是 <ruby> :rb[froQ] :rt[青蛙（可能]</ruby>。
 
+:::info
+timestamp
+:::
+
+::reveal{label="关于我"}
+
 我在读研究生，但这不重要。
 真正在做的事是写代码——Web 开发（Vue、Nuxt、TypeScript），
 造轮子（[headup.nvim](https://github.com/Fro-Q/headup.nvim)、
@@ -25,17 +31,18 @@ locale: zh
 思维在秩序与混沌之间徘徊，
 这种张力是我创造力的来源。
 
----
+- - -
 
 [观察者 / 构建者 / 思考者]{.flex.flex-col.items-center.italic.font-serif}
 
 我最大的人生目标之一是 :u[做全职开源]{.underline-amber-500}。
 如果你看到这段话，说明我还在路上。
 
----
+- - -
 
 这不只是个博客。
 
 [Post](/posts/){.font-script} 是我想给你看的一些文字，
 [Corpus](/corpus/){.font-stylish} 是知识如何生长和衰败的记录，
 [Dashboard](/dashboard/){.font-mono} 是我每天盯着的工作界面（你也能盯着）。
+::

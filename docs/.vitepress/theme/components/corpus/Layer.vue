@@ -1,15 +1,12 @@
 <script setup lang="ts">
 import type { CorpusData } from '~/types'
 import { useRoute } from 'vitepress'
-import { computed, ref, watch } from 'vue'
+import { computed, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
-import TooltipArticleInfo from '@/ui/article/TooltipArticleInfo.vue'
-import LinkUnderline from '@/ui/base/LinkUnderline.vue'
+import ArticleList from '@/ui/article/ArticleList.vue'
 import PageTitle from '@/ui/base/PageTitle.vue'
 import QCheckbox from '@/ui/base/QCheckbox.vue'
-import QSeperator from '@/ui/base/QSeperator.vue'
 import { data as posts } from '~/src/corpus.data'
-import { useSeparatorOpacity } from '~/utils/useSeparatorOpacity'
 
 const { path } = useRoute()
 const { locale, t } = useI18n({
@@ -77,16 +74,7 @@ const showVoid = ref(false)
 
 const layer = path.split('/')[2].split('-')[1].slice(0, 1).toUpperCase() + path.split('/')[2].split('-')[1].slice(1)
 
-// Extend Data type to include createdComponent
-interface PostWithCreatedComponent extends CorpusData {
-  createdComponent?: {
-    year: string | number
-    month?: string | number
-    day?: string | number
-  }
-}
-
-const thisPosts: PostWithCreatedComponent[] = posts.filter((post) => {
+const thisPosts: CorpusData[] = posts.filter((post) => {
   return post.layer === path.split('/')[2] && !post.frontmatter.index
 })
 
@@ -103,52 +91,15 @@ const filteredPosts = computed(() => {
   return result
 })
 
-thisPosts.forEach((post, index) => {
-  const year = new Date(post.created).getFullYear().toString()
-  const month = (new Date(post.created).getMonth() + 1).toString().padStart(2, '0')
-  const day = new Date(post.created).getDate().toString().padStart(2, '0')
-
-  let yearFormatted: string | undefined,
-    monthFormatted: string | undefined,
-    dayFormatted: string | undefined
-
-  const prevPost = thisPosts[index - 1]
-  if (!prevPost) {
-    post.createdComponent = {
-      year,
-      month,
-      day,
-    }
-    return
-  }
-
-  const prevYear = new Date(prevPost.created).getFullYear().toString()
-  if (year === prevYear) {
-    yearFormatted = ''
-  }
-
-  const prevMonth = (new Date(prevPost.created).getMonth() + 1).toString().padStart(2, '0')
-  if (month === prevMonth && year === prevYear) {
-    monthFormatted = ''
-  }
-  const prevDay = new Date(prevPost.created).getDate().toString().padStart(2, '0')
-  if (day === prevDay && month === prevMonth && year === prevYear) {
-    dayFormatted = ''
-  }
-
-  post.createdComponent = {
-    year: yearFormatted === '' ? '' : year,
-    month: monthFormatted === '' ? '' : month,
-    day: dayFormatted === '' ? '' : day,
-  }
-})
-
-// Mouse position / opacity effect
-const { setRowRef, getOpacity, refresh: refreshSeparator } = useSeparatorOpacity()
-
-watch([showAigc, showVoid, showDraft, showOtherLang], () => {
-  refreshSeparator()
-})
+const listItems = computed(() =>
+  filteredPosts.value.map(post => ({
+    url: post.url,
+    title: post.title,
+    created: post.created,
+    frontmatter: post.frontmatter,
+    post,
+  })),
+)
 </script>
 
 <template>
@@ -201,125 +152,9 @@ watch([showAigc, showVoid, showDraft, showOtherLang], () => {
         @update:model-value="showVoid = $event"
       />
     </div>
-    <div
-      v-for="(post, index) in filteredPosts"
-      :key="post.url"
-      :ref="(el) => setRowRef(index, el as HTMLElement | null)"
-      un-gap-2
-      un-flex="~ row"
-      un-items-center
-      un-text-ellipsis
-      class="article-row"
-    >
-      <div
-        v-if="post.frontmatter.status === 'void'"
-        un-text="rose-600 dark:rose-400 xs"
-        un-font="mono italic"
-      >
-        {{ post.frontmatter.status }}
-      </div>
-
-      <div
-        v-if="post.frontmatter.status === 'draft'"
-        un-text="sky-600 dark:sky-400 xs"
-        un-font="mono italic"
-      >
-        {{ post.frontmatter.status }}
-      </div>
-
-      <div
-        v-if="locale !== (post.frontmatter.lang || 'zh') && (post.frontmatter.lang || 'zh')"
-        un-text="amber-600 dark:amber-400 xs"
-        un-font="mono italic"
-      >
-        {{ post.frontmatter.lang || 'zh' }}
-      </div>
-
-      <div
-        v-if="post.frontmatter.aigc"
-        un-text="violet-600 dark:violet-400 xs"
-        un-font="mono italic"
-      >
-        AIGC
-      </div>
-
-      <div
-        un-w-fit
-        un-max-w="50%"
-        un-shrink-0
-        :style="post.frontmatter.status === 'void' ? {
-          textDecorationLine: 'line-through',
-          textDecorationThickness: '1px',
-        } : ''"
-        un-font-serif
-      >
-        <LinkUnderline
-          :href="post.url"
-          :text="post.title"
-          un-before="bg-neutral-900 dark:bg-neutral-100"
-        >
-          <template #tooltip>
-            <TooltipArticleInfo :post="post" />
-          </template>
-        </LinkUnderline>
-      </div>
-
-      <QSeperator
-        type="dashed"
-        un-shrink-1
-        :style="{ opacity: getOpacity(index), transition: 'opacity 140ms cubic-bezier(0.22, 1, 0.36, 1)' }"
-      />
-
-      <div
-        v-if="post.createdComponent"
-        class="date"
-        un-font="mono"
-        un-whitespace-nowrap
-        un-transition="colors duration-200"
-        un-text="neutral-500"
-      >
-        <span
-          v-if="post.createdComponent.year"
-          un-text="sm"
-        >
-          {{ post.createdComponent.year }}
-        </span>
-        <span
-          v-else
-          un-text="neutral-400 dark:neutral-600 sm"
-        >…………</span>/<span
-          v-if="post.createdComponent.month"
-          un-text="sm"
-        >
-          {{ post.createdComponent.month }}
-        </span>
-        <span
-          v-else
-          un-text="neutral-400 dark:neutral-600 sm"
-        >……</span>/<span
-          v-if="post.createdComponent.day"
-          un-text="sm"
-        >
-          {{ post.createdComponent.day }}
-        </span>
-        <span
-          v-else
-          un-text="neutral-400 dark:neutral-600 sm"
-        >……</span>
-      </div>
-    </div>
+    <ArticleList
+      :items="listItems"
+      title-serif
+    />
   </div>
 </template>
-
-<style scoped>
-[data-current='true'] {
-  --uno: 'text-neutral-900 dark:text-neutral-100 font-semibold';
-  --uno: 'before:(w-full bg-neutral-900 dark:bg-neutral-100)';
-}
-
-.article-row:hover .date span {
-  --uno: 'text-neutral-900 dark:text-neutral-100';
-  --uno: 'transition-colors duration-200';
-  /* --uno: 'underline-(~ px dashed neutral-900 dark:neutral-100)'; */
-}
-</style>

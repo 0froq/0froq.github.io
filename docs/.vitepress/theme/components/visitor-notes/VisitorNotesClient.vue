@@ -72,9 +72,10 @@ useResizeObserver(shellEl, () => {
   relayout()
 })
 
-useEventListener(window, 'resize', () => {
-  relayout()
-})
+if (typeof window !== 'undefined')
+  useEventListener(window, 'resize', () => {
+    relayout()
+  })
 
 watch(() => route.path, async () => {
   focusNoteId.value = null
@@ -87,18 +88,20 @@ watch(() => route.path, async () => {
 
 // Clear-all is a two-step confirm: first click arms (red), second executes.
 // Clicking elsewhere or pressing Escape disarms.
-useEventListener(document, 'pointerdown', (e) => {
-  if (!confirmClear.value)
-    return
-  if (dockRef.value?.contains(e.target as Node))
-    return
-  confirmClear.value = false
-})
-
-useEventListener(window, 'keydown', (e) => {
-  if (e.key === 'Escape')
+if (typeof document !== 'undefined')
+  useEventListener(document, 'pointerdown', (e) => {
+    if (!confirmClear.value)
+      return
+    if (dockRef.value?.contains(e.target as Node))
+      return
     confirmClear.value = false
-})
+  })
+
+if (typeof window !== 'undefined')
+  useEventListener(window, 'keydown', (e) => {
+    if (e.key === 'Escape')
+      confirmClear.value = false
+  })
 
 function onClearClick() {
   if (!confirmClear.value) {
