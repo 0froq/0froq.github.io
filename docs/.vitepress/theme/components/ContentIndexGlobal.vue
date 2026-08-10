@@ -72,6 +72,7 @@ const navItems = [
     :title="$t('greeting')"
   />
   <Content
+    id="content"
     :key="route.path"
     un-text="base/10"
     class="markdown-rendered"

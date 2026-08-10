@@ -85,6 +85,7 @@ const tagTree = computed<TagNode[]>(() => {
     un-mb-8
   />
   <Content
+    id="content"
     class="markdown-rendered"
     un-text="base/10"
   />

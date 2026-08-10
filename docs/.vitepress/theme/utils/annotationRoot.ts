@@ -1,8 +1,7 @@
 /**
- * Resolve the DOM root used for text selection + highlight anchoring.
- * Articles keep `#content`; other pages use `[data-annotation-root]` on PageContent.
+ * Annotation selection / highlight root is always `#content`.
+ * Index / layer pages must put `id="content"` on their main markdown Content.
  */
-const ROOT_ATTR = '[data-annotation-root]'
 
 const EXCLUDE_CLOSEST = [
   '.annotation-popover',
@@ -21,14 +20,10 @@ const EXCLUDE_CLOSEST = [
 export function getAnnotationContentRoot(): HTMLElement | null {
   if (typeof document === 'undefined')
     return null
-  return (
-    document.getElementById('content')
-    || document.querySelector<HTMLElement>(ROOT_ATTR)
-    || null
-  )
+  return document.getElementById('content')
 }
 
-/** Whether a Selection node is inside an annotatable region. */
+/** Whether a Selection node is inside `#content` (and not annotation chrome). */
 export function isAnnotatableNode(node: Node | null): boolean {
   if (!node)
     return false

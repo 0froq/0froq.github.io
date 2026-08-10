@@ -51,6 +51,7 @@ const categories: string[] = ['610-log', '620-roadmap', '630-collection']
       un-mb-8
     />
     <Content
+      id="content"
       :key="route.path"
       un-text="base/10"
       class="markdown-rendered"

@@ -26,7 +26,6 @@ function handleAnnotationSelect(ann: ResolvedAnnotation) {
 
 <template>
   <un-page-content
-    data-annotation-root
     un-min-h="[calc(100vh-15rem)]"
   >
     <ContentNotFound v-if="page.isNotFound" />

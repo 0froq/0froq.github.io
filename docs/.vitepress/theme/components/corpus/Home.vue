@@ -9,6 +9,7 @@ import PageTitle from '@/ui/base/PageTitle.vue'
     un-font="stylish"
   />
   <Content
+    id="content"
     class="markdown-rendered"
     un-text="base/10"
   />
