@@ -27,4 +27,3 @@ locale: zh
 - [Vigil](/corpus/500-vigil/){.font-stylish}：存在证据、身份锚点、生活片段
 
 去看看。
-

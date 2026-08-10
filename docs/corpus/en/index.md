@@ -26,4 +26,3 @@ Feel free to browse, but be aware that some content may be:
 - [Vigil](/corpus/500-vigil/en/){.font-stylish}: Proof of existence
 
 Go look.
-

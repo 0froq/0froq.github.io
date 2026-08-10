@@ -31,8 +31,7 @@ opening a headless nvim instance for editing.
 
 ### Template
 
-Template system has been modified
-[here](aut-template-change-20251105212955.md),
+Template system has been modified,
 changing the English and Latin prompts to Traditional Chinese
 to enhance (for my) readability (embarrassed).
 However, after the hierarchy merge, a single template is inevitably
