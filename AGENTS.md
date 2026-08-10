@@ -143,7 +143,18 @@ Day/week planning skills (`start-my-day`, `end-my-day`, `start-my-week`, `end-my
   - If no existing tag covers the concept, propose the new tag to the user in conversation and wait for approval.
   - Do not add unapproved tags to the file.
 
-### 2.6 Markdown source line width
+### 2.6 Rune hashtag syntax
+
+- **Problem**: A hyphen or underscore inside a multi-word hashtag fragments
+  the tag namespace and conflicts with the Rune output convention.
+- **Correct**: Write newly generated multi-word standalone hashtags in
+  PascalCase: `#activityNote`, `#carveLog`, `#highPriority`. Never write
+  `#activity-note` or `#activity_note`.
+- Existing slash taxonomy such as `#author/rune` and `#scope/meta/cognition`
+  is outside this rule; do not rename it without an explicit taxonomy
+  migration task.
+
+### 2.7 Markdown source line width
 
 - **Problem**: Writing long Markdown source lines makes corpus/posts hard to edit in terminal editors and produces noisy diffs.
 - **Case**: A prose paragraph is written as one 200+ character line; it renders fine, but exceeds the editor's comfortable width and is hard to review.
