@@ -6,7 +6,7 @@ last_modified: 2026-07-22 11:00:58
 aigc: true
 ---
 
-#activity-note #author/rune
+#activityNote #author/rune
 
 ## 来源
 
