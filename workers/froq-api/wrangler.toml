@@ -1,0 +1,37 @@
+# froq-api — GitHub auth proxy + presence / stats / reading progress
+#
+# Deploy:
+#   1. cd workers/froq-api && pnpm install
+#   2. pnpm exec wrangler login   # once
+#   3. pnpm deploy
+#   4. Set GitHub Actions secret VITE_GITHUB_AUTH_PROXY (and optionally
+#      VITE_FROQ_API) to https://froq-api.<subdomain>.workers.dev (no trailing slash)
+#
+# Local:
+#   pnpm dev   # http://127.0.0.1:8787
+#   In the site root, set VITE_FROQ_API=http://127.0.0.1:8787 (or use Vite proxy)
+
+name = "froq-api"
+main = "src/index.ts"
+compatibility_date = "2025-08-01"
+compatibility_flags = [ "nodejs_compat" ]
+
+[[durable_objects.bindings]]
+name = "PAGE_PRESENCE"
+class_name = "PagePresence"
+
+[[durable_objects.bindings]]
+name = "SITE_STATS"
+class_name = "SiteStats"
+
+[[migrations]]
+tag = "v1"
+new_sqlite_classes = [
+  "PagePresence",
+  "SiteStats"
+]
+
+[[kv_namespaces]]
+binding = "PROGRESS"
+id = "697d3875d2304a619e419519e4cc918b"
+preview_id = "697d3875d2304a619e419519e4cc918b"

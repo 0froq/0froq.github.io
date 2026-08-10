@@ -6,6 +6,7 @@ shellEmulator: true
 trustPolicy: no-downgrade
 packages:
   - .
+  - workers/froq-api
 
 catalogs:
   # ============================================
@@ -109,3 +110,4 @@ catalogs:
 allowBuilds:
   esbuild: true
   vue-demi: true
+  workerd: true

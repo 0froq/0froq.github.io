@@ -1,21 +1,11 @@
 /**
- * Cloudflare Worker: proxy GitHub OAuth Device Flow
+ * @deprecated Prefer the Wrangler project at `workers/froq-api/`.
  *
- * Why: browser cannot call github.com/login/* (no CORS). Locally Vite proxies
- * `/__auth`. GitHub Pages cannot proxy POST → 405. Use this Worker instead.
+ * This file is kept as a historical paste-deploy reference for the GitHub
+ * OAuth Device Flow proxy only. New deploys should use froq-api (auth +
+ * presence + stats + reading progress).
  *
- * === Recommended when domain is on NameSilo (or any non-CF DNS) ===
- * 1. Create a free Cloudflare account (no need to move froq.me DNS).
- * 2. Workers & Pages → Create → paste this file → Deploy.
- * 3. Copy the workers.dev URL, e.g. https://github-auth-proxy.YOUR_SUBDOMAIN.workers.dev
- * 4. GitHub repo → Settings → Secrets → Actions:
- *      VITE_GITHUB_AUTH_PROXY = https://github-auth-proxy.YOUR_SUBDOMAIN.workers.dev
- *    (no trailing slash)
- * 5. Re-run the Pages deploy workflow (or push) so the secret is baked into the build.
- *
- * === Optional: custom domain on Cloudflare (orange-cloud DNS) ===
- * Add route `froq.me/__auth*` to this Worker and leave VITE_GITHUB_AUTH_PROXY empty
- * so the site uses same-origin `/__auth`.
+ * See workers/froq-api/wrangler.toml and its header comments.
  */
 
 const GITHUB_LOGIN = 'https://github.com/login/'
@@ -48,21 +38,13 @@ export default {
       return new Response(null, { status: 204, headers: corsHeaders(origin) })
     }
 
-    // /__auth/device/code → https://github.com/login/device/code
-    // Also supports bare /device/code when worker is on its own hostname.
     let path = url.pathname
     if (path.startsWith('/__auth'))
       path = path.slice('/__auth'.length) || '/'
-    // IMPORTANT: path must be relative (no leading "/") against base
-    // `https://github.com/login/`. Absolute "/device/code" would resolve to
-    // `https://github.com/device/code` (missing /login) → GitHub HTML 422.
     path = path.replace(/^\/+/, '')
 
     const target = new URL(`${path}${url.search}`, GITHUB_LOGIN)
 
-    // Read body as text first — streaming request.body through CF→GitHub
-    // was producing GitHub HTML 422 ("Oh no") even with a valid client_id.
-    // Re-posting an explicit string body is reliable.
     const rawBody = request.method === 'GET' || request.method === 'HEAD'
       ? null
       : await request.text()
@@ -80,8 +62,6 @@ export default {
       redirect: 'manual',
     })
 
-    // Strip Set-Cookie — browser must not store github.com session cookies
-    // from this cross-origin proxy response.
     const outHeaders = new Headers()
     upstream.headers.forEach((value, key) => {
       const k = key.toLowerCase()

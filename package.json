@@ -5,6 +5,8 @@
     "docs:dev": "node scripts/generate-tags.mjs && vitepress dev docs",
     "docs:build": "node scripts/generate-tags.mjs && vitepress build docs",
     "docs:preview": "node scripts/generate-tags.mjs && vitepress preview docs",
+    "worker:dev": "pnpm --dir workers/froq-api dev",
+    "worker:deploy": "pnpm --dir workers/froq-api deploy",
     "lint": "eslint . --fix",
     "test": "vitest run"
   },
