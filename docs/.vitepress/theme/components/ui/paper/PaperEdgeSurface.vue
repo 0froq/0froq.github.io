@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, onBeforeUnmount, onMounted, useAttrs, useTemplateRef } from 'vue'
-import { paperEdgeFromId } from '~/composables/usePaperEdge'
 import { observePaperEdgeSvgSize } from '~/composables/syncPaperEdgeSvgSize'
+import { paperEdgeFromId } from '~/composables/usePaperEdge'
 
 defineOptions({
   inheritAttrs: false,

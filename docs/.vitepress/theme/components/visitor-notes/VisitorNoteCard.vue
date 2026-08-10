@@ -391,7 +391,7 @@ function colorStyle(c: VisitorNoteColor) {
 .visitor-note-card:hover {
   box-shadow:
     0 1px 2px rgb(0 0 0 / 0.05),
-    0 4px 12px -3px rgb(0 0 0 / 0.10),
+    0 4px 12px -3px rgb(0 0 0 / 0.1),
     0 10px 24px -8px rgb(0 0 0 / 0.12);
 }
 

@@ -20,7 +20,7 @@ export function hashCode(input: string): number {
 }
 
 function safeId(input: string): string {
-  return input.replace(/[^a-zA-Z0-9_-]/g, '').slice(0, 48) || 'x'
+  return input.replace(/[^\w-]/g, '').slice(0, 48) || 'x'
 }
 
 export function paperEdgeFromId(id: string): PaperEdgeParams {

@@ -99,17 +99,21 @@ export function useAnnotationSelection(options: {
     isMouseDown.value = true
   }
 
-  /** 选区变化（拖动选择过程中持续触发）→ 实时更新工具条位置/内容。
+  /**
+   * 选区变化（拖动选择过程中持续触发）→ 实时更新工具条位置/内容。
    *  工具栏在选区进行中带 user-select:none + pointer-events:none，
-   *  不会被选区延伸或鼠标命中，因此可以安全地实时跟随。 */
+   *  不会被选区延伸或鼠标命中，因此可以安全地实时跟随。
+   */
   function handleSelectionChange() {
     if (isAuthenticating.value || showPopover.value)
       return
     syncFromSelection()
   }
 
-  /** 滚动/缩放时选区的 viewport 坐标变化，需用 pendingRange 重算 rect，
-   *  否则 fixed 定位的工具条会固定在屏幕上不跟随内容滚动。 */
+  /**
+   * 滚动/缩放时选区的 viewport 坐标变化，需用 pendingRange 重算 rect，
+   *  否则 fixed 定位的工具条会固定在屏幕上不跟随内容滚动。
+   */
   function refreshRectFromRange() {
     if (!pendingRange.value)
       return

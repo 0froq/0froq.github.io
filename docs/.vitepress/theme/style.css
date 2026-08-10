@@ -64,7 +64,7 @@ html {
   --uno: 'after:-webkit-mask-image-url(/bg-lined-paper.svg)';
   --uno: 'after:mask-image-url(/bg-lined-paper.svg)';
 
-  &::after{
+  &::after {
     -webkit-mask-image: url('/bg-lined-paper.svg');
     mask-image: url('/bg-lined-paper.svg');
   }
@@ -718,7 +718,6 @@ mjx-container.MathJax svg {
   --uno: 'bg-green-800/20';
   --uno: 'decoration-underline underline-(2px solid green-800/50 offset-2)';
 }
-
 
 /* ---- Lazy content: 滚入时错峰淡入（不用 content-visibility，避免与 View Transition 冲突卡死） ---- */
 .lazy-block {

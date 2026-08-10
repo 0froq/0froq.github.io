@@ -3,14 +3,14 @@ import { useDebounceFn } from '@vueuse/core'
 import { useRoute } from 'vitepress'
 import { computed, ref, shallowRef, watch } from 'vue'
 import {
+  normalizeNoteColor,
+  randomNoteColor,
   VISITOR_NOTE_DEFAULT_HEIGHT,
   VISITOR_NOTE_DEFAULT_WIDTH,
   VISITOR_NOTE_MIN_HEIGHT,
   VISITOR_NOTE_MIN_WIDTH,
   VISITOR_NOTES_MAX_PER_PATH,
   VISITOR_NOTES_STORAGE_PREFIX,
-  normalizeNoteColor,
-  randomNoteColor,
 } from '../types/visitorNote'
 
 const SLASHES_RE = /^\/+|\/+$/g
@@ -98,8 +98,9 @@ function normalizeNote(value: unknown): VisitorNote | null {
   if (typeof n.id !== 'string'
     || typeof n.x !== 'number'
     || typeof n.y !== 'number'
-    || typeof n.text !== 'string')
+    || typeof n.text !== 'string') {
     return null
+  }
   const w = typeof n.w === 'number' ? n.w : VISITOR_NOTE_DEFAULT_WIDTH
   const h = typeof n.h === 'number' ? n.h : VISITOR_NOTE_DEFAULT_HEIGHT
   // Legacy notes only have pixels — ratios filled in on first shell layout.

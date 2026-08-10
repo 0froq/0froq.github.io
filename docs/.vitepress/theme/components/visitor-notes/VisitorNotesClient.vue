@@ -112,7 +112,7 @@ function onClearClick() {
 watch(limitReached, (v) => {
   if (!v)
     return
-  window.setTimeout(() => clearLimitHint(), 2400)
+  window.setTimeout(clearLimitHint, 2400)
 })
 
 async function addNote() {
@@ -261,11 +261,15 @@ function onSize(id: string, noteW: number, noteH: number) {
 
 <style scoped>
 .visitor-notes-dock {
-  box-shadow: 0 1px 3px rgb(0 0 0 / 0.08), 0 4px 12px -4px rgb(0 0 0 / 0.10);
+  box-shadow:
+    0 1px 3px rgb(0 0 0 / 0.08),
+    0 4px 12px -4px rgb(0 0 0 / 0.1);
 }
 
 .dark .visitor-notes-dock {
-  box-shadow: 0 1px 3px rgb(0 0 0 / 0.4), 0 4px 12px -4px rgb(0 0 0 / 0.5);
+  box-shadow:
+    0 1px 3px rgb(0 0 0 / 0.4),
+    0 4px 12px -4px rgb(0 0 0 / 0.5);
 }
 
 .visitor-notes-dock-btn {
@@ -280,7 +284,9 @@ function onSize(id: string, noteW: number, noteH: number) {
   font-size: 0.95rem;
   color: var(--vp-c-text-2, #525252);
   background: transparent;
-  transition: background 0.15s ease, color 0.15s ease;
+  transition:
+    background 0.15s ease,
+    color 0.15s ease;
 }
 
 .dark .visitor-notes-dock-btn {

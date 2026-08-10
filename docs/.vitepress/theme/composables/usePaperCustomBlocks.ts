@@ -1,7 +1,7 @@
 import { useRoute } from 'vitepress'
 import { nextTick, onBeforeUnmount, onMounted, watch } from 'vue'
-import { paperEdgeFromId } from '~/composables/usePaperEdge'
 import { observePaperEdgeSvgSize } from '~/composables/syncPaperEdgeSvgSize'
+import { paperEdgeFromId } from '~/composables/usePaperEdge'
 
 /**
  * 给 `.custom-block` 注入纸边 SVG（仅一层背景，不包内容）。
