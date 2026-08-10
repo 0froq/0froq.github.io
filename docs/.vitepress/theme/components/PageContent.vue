@@ -1,5 +1,11 @@
 <script setup lang="ts">
+import type { ResolvedAnnotation } from '~/types/annotation'
+import { storeToRefs } from 'pinia'
 import { useData, useRoute } from 'vitepress'
+import { scrollToAnnotation } from '~/composables/useAnnotationHighlight'
+import { useAnnotationStore } from '~/stores/annotation'
+import AnnotationList from './annotation/AnnotationList.vue'
+import AnnotationReplyFloat from './annotation/AnnotationReplyFloat.vue'
 import ContentArticle from './ContentArticle.vue'
 import ContentIndexGlobal from './ContentIndexGlobal.vue'
 import ContentNotFound from './ContentNotFound.vue'
@@ -10,10 +16,17 @@ import Tags from './tags/Layout.vue'
 
 const { page } = useData()
 const route = useRoute()
+const { annotations } = storeToRefs(useAnnotationStore())
+
+function handleAnnotationSelect(ann: ResolvedAnnotation) {
+  if (ann.domRange)
+    scrollToAnnotation(ann.commentId)
+}
 </script>
 
 <template>
   <un-page-content
+    data-annotation-root
     un-min-h="[calc(100vh-15rem)]"
   >
     <ContentNotFound v-if="page.isNotFound" />
@@ -38,5 +51,14 @@ const route = useRoute()
     <ContentArticle
       v-else-if="!page.isNotFound"
     />
+
+    <!-- Site-wide annotation list + reply float (articles keep rail only) -->
+    <ClientOnly>
+      <AnnotationList
+        v-if="annotations.length > 0"
+        @select="handleAnnotationSelect"
+      />
+      <AnnotationReplyFloat />
+    </ClientOnly>
   </un-page-content>
 </template>

@@ -4,6 +4,7 @@ import type { ShortcutContext } from './useKeyboardShortcuts'
 import { onBeforeUnmount, onMounted, ref } from 'vue'
 import { useAnnotationStore } from '../stores/annotation'
 import { computeAnchor } from '../utils/annotationFingerprint'
+import { isAnnotatableNode } from '../utils/annotationRoot'
 import { useAnnotationHighlight } from './useAnnotationHighlight'
 import { useGitHubAuth } from './useGitHubAuth'
 import { useKeyboardShortcuts } from './useKeyboardShortcuts'
@@ -61,12 +62,7 @@ export function useAnnotationSelection(options: {
       return
     }
 
-    const content = document.getElementById('content')
-    if (!content)
-      return
-    const anchorInContent = sel.anchorNode && content.contains(sel.anchorNode)
-    const focusInContent = sel.focusNode && content.contains(sel.focusNode)
-    if (!anchorInContent || !focusInContent) {
+    if (!isAnnotatableNode(sel.anchorNode) || !isAnnotatableNode(sel.focusNode)) {
       clearSelectionState()
       return
     }

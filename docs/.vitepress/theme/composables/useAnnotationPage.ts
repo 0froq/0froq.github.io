@@ -3,6 +3,7 @@ import { useData, useRoute } from 'vitepress'
 import { computed, nextTick, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useAnnotationStore } from '../stores/annotation'
+import { getAnnotationContentRoot } from '../utils/annotationRoot'
 import { useAnnotationHighlight } from './useAnnotationHighlight'
 import { useGitHubAuth } from './useGitHubAuth'
 import { getReadAccessToken, useGitHubDiscussions } from './useGitHubDiscussions'
@@ -59,7 +60,7 @@ export function useAnnotationPage() {
       const result = await getAnnotations(discussion.number, accessToken)
 
       await nextTick()
-      const content = document.getElementById('content') || document.body
+      const content = getAnnotationContentRoot() || document.body
       highlightAnnotations(result, content)
       store.setAnnotations(result)
     }

@@ -1,6 +1,7 @@
 import type { ResolvedAnnotation } from '../types/annotation'
 import { onBeforeUnmount } from 'vue'
 import { findAnchorInDOM } from '../utils/annotationFingerprint'
+import { getAnnotationContentRoot } from '../utils/annotationRoot'
 
 /**
  * 高亮管理——基于 CSS Custom Highlight API（CSS.highlights）
@@ -62,7 +63,7 @@ export function highlightAnnotations(
   contentEl?: HTMLElement | null,
 ): void {
   clearAllHighlights()
-  container = contentEl || document.getElementById('content') || document.body
+  container = contentEl || getAnnotationContentRoot() || document.body
 
   exactRanges.length = 0
   approxRanges.length = 0

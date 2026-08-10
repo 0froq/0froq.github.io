@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import type { ResolvedAnnotation } from '~/types/annotation'
 import { storeToRefs } from 'pinia'
 import { useData, useRoute } from 'vitepress'
 import { computed, onMounted, ref } from 'vue'
@@ -8,11 +7,8 @@ import ArticleNavigation from '@/ui/article/ArticleNavigation.vue'
 import TableOfContents from '@/ui/article/TableOfContents.vue'
 import LinkUnderline from '@/ui/base/LinkUnderline.vue'
 import QCheckbox from '@/ui/base/QCheckbox.vue'
-import AnnotationList from '~/components/annotation/AnnotationList.vue'
 import AnnotationRail from '~/components/annotation/AnnotationRail.vue'
-import AnnotationReplyFloat from '~/components/annotation/AnnotationReplyFloat.vue'
 import PagePresenceHint from '~/components/stats/PagePresenceHint.vue'
-import { scrollToAnnotation } from '~/composables/useAnnotationHighlight'
 import { useLazyContent } from '~/composables/useLazyContent'
 import { data as corpus } from '~/src/corpus.data'
 import { data as posts } from '~/src/posts.data'
@@ -136,12 +132,6 @@ const prevPost = computed(() => {
   return currentIndex > 0 ? postPool.value[currentIndex - 1] : null
 })
 
-/** 批注列表点击：定位到正文高亮（只滚动，不闪烁） */
-function handleAnnotationSelect(ann: ResolvedAnnotation) {
-  if (ann.domRange)
-    scrollToAnnotation(ann.commentId)
-}
-
 const translatedPosts = computed(() => {
   if (!post.value || post.value.frontmatter.translated)
     return []
@@ -258,8 +248,6 @@ const originalPost = computed(() => {
           :label-text="{ checked: t('rail.checked'), unchecked: t('rail.unchecked') }"
           @update:model-value="toggleRail"
         />
-        <!-- 回复浮层（Pinia replyTarget；Rail/List 通过 openReplyFloat 打开） -->
-        <AnnotationReplyFloat />
       </div>
     </div>
   </div>
@@ -381,12 +369,6 @@ const originalPost = computed(() => {
 
   <!-- 右侧目录：静止只显短横线，hover 展开标题列表 -->
   <TableOfContents />
-
-  <!-- 文章尾部批注列表（窄屏；数据来自 Pinia store） -->
-  <AnnotationList
-    v-if="annotations.length > 0"
-    @select="handleAnnotationSelect"
-  />
 
   <!-- Post navigation links (previous and next post) -->
   <ArticleNavigation
