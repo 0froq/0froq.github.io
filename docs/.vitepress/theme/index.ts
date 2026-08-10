@@ -6,6 +6,7 @@ import { createPinia } from 'pinia'
 import { createI18n } from 'vue-i18n'
 import { installKeyboardShortcuts } from './composables/useKeyboardShortcuts'
 import { annotationMessages } from './i18n/annotation'
+import { statsMessages } from './i18n/stats'
 // https://vitepress.dev/guide/custom-theme
 import Layout from './Layout.vue'
 import '@unocss/reset/tailwind.css'
@@ -40,12 +41,14 @@ const i18n = createI18n({
       localeUrl: '{url}@:localeUrlSuffix',
       localeName: 'English',
       ...annotationMessages.en,
+      ...statsMessages.en,
     },
     zh: {
       localeUrlSuffix: '',
       localeUrl: '{url}@:localeUrlSuffix',
       localeName: '中文',
       ...annotationMessages.zh,
+      ...statsMessages.zh,
     },
   },
   datetimeFormats: {

@@ -17,6 +17,7 @@ import UnoCSS from 'unocss/vite'
 import { defineConfig } from 'vitepress'
 
 const AUTH_PREFIX_RE = /^\/__auth/
+const FROQ_PREFIX_RE = /^\/__froq/
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
@@ -51,10 +52,17 @@ export default defineConfig({
     },
     server: {
       proxy: {
+        // Dev fallback: GitHub login Device Flow (when VITE_GITHUB_AUTH_PROXY unset).
         '/__auth': {
           target: 'https://github.com/login',
           changeOrigin: true,
           rewrite: (path: string) => path.replace(AUTH_PREFIX_RE, ''),
+        },
+        // Optional local froq-api: set VITE_FROQ_API=/__froq and run wrangler on :8787.
+        '/__froq': {
+          target: 'http://127.0.0.1:8787',
+          changeOrigin: true,
+          rewrite: (path: string) => path.replace(FROQ_PREFIX_RE, ''),
         },
       },
     },

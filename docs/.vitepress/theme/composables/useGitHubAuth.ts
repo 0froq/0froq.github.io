@@ -7,8 +7,9 @@ const CLIENT_ID = import.meta.env.VITE_GITHUB_CLIENT_ID ?? ''
 /**
  * GitHub Device Flow endpoints do not allow browser CORS.
  * Dev: Vite proxies `/__auth` → `https://github.com/login` (see config.mts).
- * Prod: same path `/__auth` must be proxied (Cloudflare Worker route), or set
- * `VITE_GITHUB_AUTH_PROXY` to an absolute proxy base (e.g. https://auth.example.workers.dev).
+ * Prod: set `VITE_GITHUB_AUTH_PROXY` to the froq-api Worker base
+ * (e.g. https://froq-api.YOUR_SUBDOMAIN.workers.dev) — same Worker also serves
+ * presence/stats/progress. Optionally set `VITE_FROQ_API` to override.
  */
 const AUTH_BASE = (import.meta.env.VITE_GITHUB_AUTH_PROXY as string | undefined)?.trim() || '/__auth'
 

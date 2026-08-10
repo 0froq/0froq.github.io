@@ -9,6 +9,7 @@ import AnnotationClient from './components/annotation/AnnotationClient.vue'
 import PageContent from './components/PageContent.vue'
 import PageFooter from './components/PageFooter.vue'
 import PageHeader from './components/PageHeader.vue'
+import StatsSessionClient from './components/stats/StatsSessionClient.vue'
 import ScrollTopHeader from './components/ui/article/ScrollTopHeader.vue'
 import ButtonVerticalNavigation from './components/ui/nav/ButtonVerticalNavigation.vue'
 import VisitorNotesClient from './components/visitor-notes/VisitorNotesClient.vue'
@@ -62,6 +63,7 @@ watch(
     <ClientOnly>
       <AnnotationClient />
       <VisitorNotesClient />
+      <StatsSessionClient />
     </ClientOnly>
   </div>
 </template>

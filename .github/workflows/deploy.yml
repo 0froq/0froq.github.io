@@ -50,6 +50,8 @@ jobs:
           VITE_GITHUB_CLIENT_ID: ${{ secrets.VITE_GITHUB_CLIENT_ID }}
           VITE_GITHUB_READ_TOKEN: ${{ secrets.VITE_GITHUB_READ_TOKEN }}
           VITE_GITHUB_AUTH_PROXY: ${{ secrets.VITE_GITHUB_AUTH_PROXY }}
+          # Same Worker as AUTH_PROXY after froq-api deploy; optional override.
+          VITE_FROQ_API: ${{ secrets.VITE_FROQ_API }}
         run: pnpm docs:build
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3

@@ -11,6 +11,7 @@ import QCheckbox from '@/ui/base/QCheckbox.vue'
 import AnnotationList from '~/components/annotation/AnnotationList.vue'
 import AnnotationRail from '~/components/annotation/AnnotationRail.vue'
 import AnnotationReplyFloat from '~/components/annotation/AnnotationReplyFloat.vue'
+import PagePresenceHint from '~/components/stats/PagePresenceHint.vue'
 import { scrollToAnnotation } from '~/composables/useAnnotationHighlight'
 import { useLazyContent } from '~/composables/useLazyContent'
 import { data as corpus } from '~/src/corpus.data'
@@ -276,6 +277,10 @@ const originalPost = computed(() => {
       {{ string }}
     </div>
   </div>
+
+  <ClientOnly>
+    <PagePresenceHint un-mt-2 />
+  </ClientOnly>
 
   <div
     un-mt-6

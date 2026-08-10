@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import LinkUnderline from '@/ui/base/LinkUnderline.vue'
+import SiteStatsLine from '~/components/stats/SiteStatsLine.vue'
 </script>
 
 <template>
@@ -27,5 +28,8 @@ import LinkUnderline from '@/ui/base/LinkUnderline.vue'
         un-before="bg-neutral-900 dark:bg-neutral-100"
       />
     </div>
+    <ClientOnly>
+      <SiteStatsLine />
+    </ClientOnly>
   </un-page-content>
 </template>

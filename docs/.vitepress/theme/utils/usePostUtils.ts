@@ -6,6 +6,21 @@ const ZH_RE = /[\u4E00-\u9FA5]/g
 const EN_RE = /[a-z]/gi
 const CODE_BLOCK_RE = /```[\s\S]*?```/g
 
+/** Strip markdown noise then count Chinese characters + English letter-runs. */
+function countWords(text?: string): number {
+  if (!text)
+    return 0
+
+  const content = text
+    .replace(FRONTMATTER_RE, '')
+    .replace(HTML_TAG_RE, '')
+    .replace(CODE_BLOCK_RE, '')
+
+  const countZh = content.match(ZH_RE)?.length || 0
+  const countEn = content.match(EN_RE)?.length || 0
+  return countZh + countEn
+}
+
 function calculateReadingTime(text?: string): number {
   if (!text) {
     return 0
@@ -44,4 +59,4 @@ function normalizeCategory(category: string | undefined): string {
   return categoryMap[category] || category
 }
 
-export { calculateReadingTime, getTags, normalizeCategory }
+export { calculateReadingTime, countWords, getTags, normalizeCategory }
