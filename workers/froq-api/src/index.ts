@@ -1,6 +1,6 @@
 import type { Env, ProgressRecord } from './types'
 import { handleAuthProxy, isAuthProxyPath } from './authProxy'
-import { ALLOWED_ORIGINS, corsHeaders, emptyCors, jsonResponse } from './cors'
+import { corsHeaders, emptyCors, isAllowedOrigin, jsonResponse } from './cors'
 import { PagePresence } from './PagePresence'
 import { SiteStats } from './SiteStats'
 import {
@@ -133,7 +133,7 @@ async function handleSessionWs(
   }
 
   // Browser WS handshake sends Origin; reject unknown sites.
-  if (origin && !ALLOWED_ORIGINS.has(origin)) {
+  if (origin && !isAllowedOrigin(origin)) {
     return jsonResponse({ error: 'origin_not_allowed' }, origin, { status: 403 })
   }
 
