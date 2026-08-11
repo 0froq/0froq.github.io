@@ -31,7 +31,7 @@ const route = useRoute()
 const router = useRouter()
 
 /** 未显式传参时从页面 frontmatter 兜底，便于全局挂载 */
-const displayTitle = computed(() => props.title || renderMdInline(frontmatter.value.title || '') || '')
+const displayTitle = computed(() => props.title || renderMdInline(frontmatter.value.title) || '')
 const displayStatus = computed(() => props.status || frontmatter.value.status || '')
 const displayLang = computed(() => props.lang || frontmatter.value.lang || '')
 const displayAigc = computed(() => props.aigc || !!frontmatter.value.aigc)
