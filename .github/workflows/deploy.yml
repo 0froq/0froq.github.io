@@ -1,72 +1,73 @@
-# Sample workflow for building and deploying a VitePress site to GitHub Pages
+# Deploy VitePress site to Cloudflare Pages (direct upload via Wrangler).
 #
-name: Deploy VitePress site to Pages
+# Required GitHub secrets:
+#   CLOUDFLARE_API_TOKEN   — Account Cloudflare Pages Edit (+ Account Read)
+#   CLOUDFLARE_ACCOUNT_ID  — see `wrangler whoami` (Sayhola account)
+#   VITE_GITHUB_CLIENT_ID
+#   VITE_GITHUB_READ_TOKEN
+#   VITE_GITHUB_AUTH_PROXY — e.g. https://froq-api.sayhola.workers.dev
+#   VITE_FROQ_API          — optional; defaults to AUTH_PROXY
+#
+# Project: `froq` → https://froq.pages.dev
+# Custom domain: Dashboard → Pages → froq → Custom domains → froq.me
+#
+# Create token: https://dash.cloudflare.com/profile/api-tokens
+#   (Workers template + Cloudflare Pages:Edit is enough)
+
+name: Deploy VitePress to Cloudflare Pages
 
 on:
-  # Runs on pushes targeting the `main` branch.
   push:
     branches: [main]
-
-  # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
-# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
   contents: read
-  pages: write
-  id-token: write
+  deployments: write
 
-# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
-# However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
 concurrency:
   group: pages
   cancel-in-progress: false
 
 jobs:
-  # Build job
-  build:
+  deploy:
     runs-on: ubuntu-latest
+    name: Build & Deploy
     steps:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0 # Not needed if lastUpdated is not enabled
+          fetch-depth: 0
+
       - uses: pnpm/action-setup@v4
+
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: pnpm
-      - name: Setup Pages
-        uses: actions/configure-pages@v4
+
       - name: Install dependencies
         run: pnpm install
+
       - name: Build with VitePress
         env:
-          # Inlined into the client bundle at build time (Vite VITE_*).
-          # CLIENT_ID: OAuth Device Flow for write; READ_TOKEN: guest annotation reads.
-          # AUTH_PROXY: absolute base for GitHub login proxy (e.g. https://xxx.workers.dev).
-          # Required on GitHub Pages — Pages cannot POST /__auth (returns 405).
           VITE_GITHUB_CLIENT_ID: ${{ secrets.VITE_GITHUB_CLIENT_ID }}
           VITE_GITHUB_READ_TOKEN: ${{ secrets.VITE_GITHUB_READ_TOKEN }}
           VITE_GITHUB_AUTH_PROXY: ${{ secrets.VITE_GITHUB_AUTH_PROXY }}
-          # Same Worker as AUTH_PROXY after froq-api deploy; optional override.
           VITE_FROQ_API: ${{ secrets.VITE_FROQ_API }}
         run: pnpm docs:build
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: docs/.vitepress/dist
 
-  # Deployment job
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    needs: build
-    runs-on: ubuntu-latest
-    name: Deploy
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+      - name: Deploy to Cloudflare Pages
+        id: deploy
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+          command: pages deploy docs/.vitepress/dist --project-name=froq --branch=main --commit-dirty=true
+
+      - name: Deployment URL
+        run: |
+          echo "url: ${{ steps.deploy.outputs.deployment-url }}"
+          echo "alias: ${{ steps.deploy.outputs.pages-deployment-alias-url }}"
