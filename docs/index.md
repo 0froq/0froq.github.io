@@ -6,10 +6,6 @@ locale: zh
 
 我是 <ruby> :rb[froQ] :rt[青蛙（可能]</ruby>。
 
-:::info
-timestamp
-:::
-
 ::reveal{label="关于我"}
 
 我在读研究生，但这不重要。
