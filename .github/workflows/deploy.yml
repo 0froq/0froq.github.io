@@ -5,7 +5,7 @@
 #   CLOUDFLARE_ACCOUNT_ID  — see `wrangler whoami` (Sayhola account)
 #   VITE_GITHUB_CLIENT_ID
 #   VITE_GITHUB_READ_TOKEN
-#   VITE_GITHUB_AUTH_PROXY — e.g. https://froq-api.sayhola.workers.dev
+#   VITE_GITHUB_AUTH_PROXY — e.g. https://api.froq.me
 #   VITE_FROQ_API          — optional; defaults to AUTH_PROXY
 #
 # Project: `froq` → https://froq.pages.dev

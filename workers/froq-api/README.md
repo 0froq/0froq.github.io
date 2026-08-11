@@ -6,7 +6,8 @@ Cloudflare Worker for froq.me:
 - Page presence + site visit counters (`/session/ping`, `/session/leave`, `/stats`)
 - Logged-in reading progress sync (`GET|PUT /progress`)
 
-**Production:** `https://froq-api.sayhola.workers.dev`
+**Production:** `https://api.froq.me`  
+(fallback workers.dev URL still works: `https://froq-api.sayhola.workers.dev`)
 
 ## Setup
 
@@ -30,7 +31,7 @@ GitHub secrets for `.github/workflows/deploy.yml`:
 | `CLOUDFLARE_ACCOUNT_ID` | from `wrangler whoami` |
 | `VITE_GITHUB_CLIENT_ID` | OAuth Device Flow |
 | `VITE_GITHUB_READ_TOKEN` | Guest annotation reads |
-| `VITE_GITHUB_AUTH_PROXY` | `https://froq-api.sayhola.workers.dev` |
+| `VITE_GITHUB_AUTH_PROXY` | `https://api.froq.me` |
 | `VITE_FROQ_API` | same URL (optional; falls back to AUTH_PROXY) |
 
 Create an API token at

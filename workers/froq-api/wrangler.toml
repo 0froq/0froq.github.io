@@ -5,7 +5,7 @@
 #   2. pnpm exec wrangler login   # once
 #   3. pnpm deploy
 #   4. Set GitHub Actions secret VITE_GITHUB_AUTH_PROXY (and optionally
-#      VITE_FROQ_API) to https://froq-api.<subdomain>.workers.dev (no trailing slash)
+#      VITE_FROQ_API) to https://api.froq.me (no trailing slash)
 #
 # Local:
 #   pnpm dev   # http://127.0.0.1:8787
@@ -15,6 +15,12 @@ name = "froq-api"
 main = "src/index.ts"
 compatibility_date = "2025-08-01"
 compatibility_flags = [ "nodejs_compat" ]
+workers_dev = true
+
+# Prefer custom domain over *.workers.dev (better reachability / same-zone as froq.me).
+[[routes]]
+pattern = "api.froq.me"
+custom_domain = true
 
 [[durable_objects.bindings]]
 name = "PAGE_PRESENCE"

@@ -2,7 +2,7 @@
 
 export const READ_THRESHOLD = 0.9
 /** Count a site/page visit once reading progress reaches this ratio. */
-export const VISIT_THRESHOLD = 0.8
+export const VISIT_THRESHOLD = 0.3
 export const HEARTBEAT_MS = 25_000
 export const PROGRESS_LOCAL_THROTTLE_MS = 1_000
 export const PROGRESS_SYNC_DEBOUNCE_MS = 5_000
