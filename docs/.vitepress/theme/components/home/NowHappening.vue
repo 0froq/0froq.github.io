@@ -4,6 +4,7 @@ import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import ArticleList from '@/ui/article/ArticleList.vue'
 import { froqApiConfigured } from '~/composables/stats/froqApi'
+import { resolvePresenceRouteLabel } from '~/composables/stats/presenceRouteLabels'
 import { usePagePresenceState } from '~/composables/stats/usePagePresence'
 import { useSiteStats } from '~/composables/stats/useSiteStats'
 import { data as corpus } from '~/src/corpus.data'
@@ -74,9 +75,12 @@ const listItems = computed(() => {
       const meta = r.viewing === 1
         ? t('stats.viewingOne')
         : t('stats.viewing', { n: formatCompactNumber(r.viewing, locale.value) })
+      const title = entry?.title
+        ?? resolvePresenceRouteLabel(r.pagePath, t)
+        ?? r.pagePath
       return {
         url: entry?.url ?? r.pagePath,
-        title: entry?.title ?? r.pagePath,
+        title,
         created: entry?.created ?? Date.now(),
         frontmatter: entry?.frontmatter,
         post: entry,
@@ -94,8 +98,6 @@ const statsReady = computed(() => {
 const alone = computed(() => statsReady.value && listItems.value.length === 0)
 
 const show = computed(() => alone.value || listItems.value.length > 0 || !!onlineLabel.value)
-
-const showTooltip = computed(() => listItems.value.some(i => !!i.post))
 </script>
 
 <template>
@@ -126,7 +128,7 @@ const showTooltip = computed(() => listItems.value.some(i => !!i.post))
         :items="listItems"
         title-serif
         :show-badges="false"
-        :show-tooltip="showTooltip"
+        :show-tooltip="true"
       />
     </div>
   </div>

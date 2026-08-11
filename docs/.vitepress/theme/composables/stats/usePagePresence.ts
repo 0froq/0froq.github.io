@@ -5,10 +5,16 @@ import { useGitHubAuth } from '~/composables/useGitHubAuth'
 import { HEARTBEAT_MS } from './constants'
 import { froqApiConfigured, froqFetch } from './froqApi'
 import { getAnonId } from './useAnonId'
+import { usePresenceAsAnon } from './useAnonPersona'
 
 export interface PageOnlineRow {
   pagePath: string
   viewing: number
+}
+
+export interface PageVisitRow {
+  pagePath: string
+  visits: number
 }
 
 export interface SessionStats {
@@ -17,6 +23,7 @@ export interface SessionStats {
   uniqueVisitors: number | null
   totalVisits: number | null
   pages: PageOnlineRow[]
+  pageVisits: PageVisitRow[]
 }
 
 const viewing = ref<number | null>(null)
@@ -24,11 +31,18 @@ const online = ref<number | null>(null)
 const uniqueVisitors = ref<number | null>(null)
 const totalVisits = ref<number | null>(null)
 const pages = ref<PageOnlineRow[]>([])
+const pageVisits = ref<PageVisitRow[]>([])
+
+/** Paths already sent countVisit=true this session (server debounce is backup). */
+const visitRecorded = new Set<string>()
 
 let timer: ReturnType<typeof setInterval> | null = null
 let activePath = ''
 
-function applyStats(data: Partial<SessionStats> & { pages?: PageOnlineRow[] }) {
+function applyStats(data: Partial<SessionStats> & {
+  pages?: PageOnlineRow[]
+  pageVisits?: PageVisitRow[]
+}) {
   if (typeof data.viewing === 'number')
     viewing.value = data.viewing
   if (typeof data.online === 'number')
@@ -39,6 +53,8 @@ function applyStats(data: Partial<SessionStats> & { pages?: PageOnlineRow[] }) {
     totalVisits.value = data.totalVisits
   if (Array.isArray(data.pages))
     pages.value = data.pages
+  if (Array.isArray(data.pageVisits))
+    pageVisits.value = data.pageVisits
 }
 
 async function ping(countVisit: boolean, ghLogin?: string): Promise<void> {
@@ -112,8 +128,26 @@ async function enterPath(path: string, getGhLogin: () => string | undefined) {
   if (activePath && activePath !== path)
     await leave(activePath, getGhLogin())
   activePath = path
-  await ping(true, getGhLogin())
+  // Presence only — visits count when reading progress crosses VISIT_THRESHOLD.
+  await ping(false, getGhLogin())
   startTimer(getGhLogin)
+}
+
+/**
+ * Count one visit for the active (or given) page after progress ≥ VISIT_THRESHOLD.
+ * Idempotent per path for this browser session.
+ */
+export async function recordVisit(pagePath?: string): Promise<void> {
+  const path = pagePath || activePath
+  if (!path || visitRecorded.has(path))
+    return
+  // Avoid attributing a visit to a path the session is not on.
+  if (activePath && path !== activePath)
+    return
+  if (!activePath)
+    activePath = path
+  visitRecorded.add(path)
+  await ping(true)
 }
 
 /** Read-only shared presence stats (no lifecycle). */
@@ -124,15 +158,23 @@ export function usePagePresenceState() {
     uniqueVisitors: readonly(uniqueVisitors),
     totalVisits: readonly(totalVisits),
     pages: readonly(pages),
+    pageVisits: readonly(pageVisits),
   }
 }
 
 /**
  * Bind heartbeat lifecycle once (call from StatsSessionClient only).
+ * When presenceAsAnon is on (default), omit ghLogin so the visitor key is anon:{id}.
  */
 export function usePagePresenceSession(pagePath: Ref<string>) {
   const { user } = useGitHubAuth()
-  const getGhLogin = () => user.value?.login || undefined
+  const { presenceAsAnon } = usePresenceAsAnon()
+
+  const getGhLogin = () => {
+    if (presenceAsAnon.value)
+      return undefined
+    return user.value?.login || undefined
+  }
 
   if (typeof window === 'undefined') {
     return usePagePresenceState()
@@ -156,6 +198,17 @@ export function usePagePresenceSession(pagePath: Ref<string>) {
       void enterPath(activePath, getGhLogin)
     },
   )
+
+  // Switching anon/identified presence: leave old visitorKey, enter as new.
+  watch(presenceAsAnon, async (asAnon, wasAnon) => {
+    if (asAnon === wasAnon || !activePath)
+      return
+    const prevLogin = wasAnon ? undefined : (user.value?.login || undefined)
+    const nextLogin = asAnon ? undefined : (user.value?.login || undefined)
+    await leave(activePath, prevLogin)
+    await ping(false, nextLogin)
+    startTimer(getGhLogin)
+  })
 
   useEventListener(document, 'visibilitychange', () => {
     if (document.visibilityState === 'visible')

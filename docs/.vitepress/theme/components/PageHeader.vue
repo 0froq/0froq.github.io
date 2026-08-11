@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import { useData, useRoute, useRouter } from 'vitepress'
+import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
+import HeaderPresenceControls from '~/components/stats/HeaderPresenceControls.vue'
+import { isGhostPresencePath } from '~/composables/stats/useGhostPresence'
 import { isDark, toggleDark } from '~/composables/useDarkMode'
 import Doing from './header/Doing.vue'
-import Layer from './header/Layer.vue'
 import Logo from './header/Logo.vue'
 
 const router = useRouter()
@@ -16,6 +18,8 @@ const { locale } = useI18n({
   },
 })
 const route = useRoute()
+
+const showPresenceControls = computed(() => isGhostPresencePath(route.path))
 
 const localeMap: Record<string, string> = {
   en: 'English',
@@ -63,6 +67,8 @@ function handleChangeLocale(newVal: string) {
     >
       <Logo />
       <Doing
+        un-hidden
+        un-sm="block"
         un-text-ellipsis
       />
     </div>
@@ -72,6 +78,9 @@ function handleChangeLocale(newVal: string) {
       un-py-1
       un-text-xl
     >
+      <ClientOnly v-if="showPresenceControls">
+        <HeaderPresenceControls />
+      </ClientOnly>
       <div
         un-flex="~ col"
         un-m-1
@@ -98,18 +107,11 @@ function handleChangeLocale(newVal: string) {
       >
         /
       </span>
-      <Layer
-        :key="`${route.path}-${$i18n.locale}`"
-        :path-suffix="$i18n.locale === 'zh' ? '' : `${$i18n.locale}/`"
-      />
-      <span
-        un-text-neutral-500
-      >
-        /
-      </span>
       <div
         un-flex="~ row"
+        un-items-center
         un-m1
+        un-gap-1
       >
         <a
           un-hidden

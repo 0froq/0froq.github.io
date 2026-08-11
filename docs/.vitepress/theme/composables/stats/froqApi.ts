@@ -31,3 +31,15 @@ export async function froqFetch(
     return null
   }
 }
+
+/** Build a WebSocket URL for froq-api (http→ws / https→wss). */
+export function froqWsUrl(path: string, query: Record<string, string>): string | null {
+  const base = getFroqApiBase()
+  if (!base)
+    return null
+  const wsBase = base.replace(/^http/i, 'ws')
+  const url = new URL(`${wsBase}${path.startsWith('/') ? path : `/${path}`}`)
+  for (const [k, v] of Object.entries(query))
+    url.searchParams.set(k, v)
+  return url.toString()
+}

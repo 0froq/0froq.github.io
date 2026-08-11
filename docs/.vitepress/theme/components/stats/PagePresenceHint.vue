@@ -8,7 +8,8 @@ import { formatCompactNumber } from '~/utils/formatStats'
 
 /**
  * Article-only UI for viewing count + personal progress.
- * Presence heartbeat is owned by StatsSessionClient.
+ * Persona chip lives in the footer (SiteStatsLine).
+ * Ghost toggle lives in ScrollTopHeader; WS owned by GhostPresenceRail.
  */
 const route = useRoute()
 const pagePath = computed(() => route.path)
@@ -37,12 +38,12 @@ const progressLabel = computed(() => {
   return t('stats.yourProgress', { pct: progressPercent.value })
 })
 
-const show = computed(() => Boolean(viewingLabel.value || progressLabel.value))
+const showMeta = computed(() => Boolean(viewingLabel.value || progressLabel.value))
 </script>
 
 <template>
   <div
-    v-if="show"
+    v-if="showMeta"
     un-flex="~ row wrap"
     un-items-center
     un-justify-end

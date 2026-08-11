@@ -1,6 +1,7 @@
 <script setup lang="ts">
 /**
- * Global session client: heartbeats + visit counting on every route.
+ * Global session client: heartbeats on every route.
+ * Visits count when article reading progress crosses VISIT_THRESHOLD.
  * Reading progress UI lives on article pages (PagePresenceHint).
  */
 import { useRoute } from 'vitepress'

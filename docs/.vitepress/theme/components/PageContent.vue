@@ -1,9 +1,8 @@
 <script setup lang="ts">
 import type { ResolvedAnnotation } from '~/types/annotation'
-import { storeToRefs } from 'pinia'
 import { useData, useRoute } from 'vitepress'
+import AnnotationRail from '~/components/annotation/AnnotationRail.vue'
 import { scrollToAnnotation } from '~/composables/useAnnotationHighlight'
-import { useAnnotationStore } from '~/stores/annotation'
 import AnnotationList from './annotation/AnnotationList.vue'
 import AnnotationReplyFloat from './annotation/AnnotationReplyFloat.vue'
 import ContentArticle from './ContentArticle.vue'
@@ -16,7 +15,6 @@ import Tags from './tags/Layout.vue'
 
 const { page } = useData()
 const route = useRoute()
-const { annotations } = storeToRefs(useAnnotationStore())
 
 function handleAnnotationSelect(ann: ResolvedAnnotation) {
   if (ann.domRange)
@@ -26,6 +24,7 @@ function handleAnnotationSelect(ann: ResolvedAnnotation) {
 
 <template>
   <un-page-content
+    id="ghost-pointer-root"
     un-min-h="[calc(100vh-15rem)]"
   >
     <ContentNotFound v-if="page.isNotFound" />
@@ -54,7 +53,6 @@ function handleAnnotationSelect(ann: ResolvedAnnotation) {
     <!-- Site-wide annotation list + reply float (articles keep rail only) -->
     <ClientOnly>
       <AnnotationList
-        v-if="annotations.length > 0"
         @select="handleAnnotationSelect"
       />
       <AnnotationReplyFloat />
