@@ -153,6 +153,9 @@ Day/week planning skills (`start-my-day`, `end-my-day`, `start-my-week`, `end-my
 - Existing slash taxonomy such as `#author/rune` and `#scope/meta/cognition`
   is outside this rule; do not rename it without an explicit taxonomy
   migration task.
+- Outside the tag line, every literal `#` in prose, headings, or lists must be
+  escaped as `\#` to prevent accidental tag parsing. Tags are the only
+  permitted bare `#`.
 
 ### 2.7 Markdown source line width
 
