@@ -146,6 +146,9 @@ catalogs:
     '@iconify-json/ph':
       specifier: ^1.2.2
       version: 1.2.2
+    '@iconify-json/selfhst':
+      specifier: ^1.2.15
+      version: 1.2.15
     '@iconify-json/simple-icons':
       specifier: ^1.2.68
       version: 1.2.74
@@ -286,6 +289,9 @@ importers:
       '@iconify-json/ph':
         specifier: catalog:styling
         version: 1.2.2
+      '@iconify-json/selfhst':
+        specifier: catalog:styling
+        version: 1.2.15
       '@iconify-json/simple-icons':
         specifier: catalog:styling
         version: 1.2.74
@@ -1180,6 +1186,9 @@ packages:
 
   '@iconify-json/ph@1.2.2':
     resolution: {integrity: sha512-PgkEZNtqa8hBGjHXQa4pMwZa93hmfu8FUSjs/nv4oUU6yLsgv+gh9nu28Kqi8Fz9CCVu4hj1MZs9/60J57IzFw==}
+
+  '@iconify-json/selfhst@1.2.15':
+    resolution: {integrity: sha512-ogkXqWPmy6Pp0vrebUKG96Ntd2mmBX/mz9TpCWsXspRTCUrYt6PYQpsrOqBxKwUgklbRZ0wW6lL561aDs/oB3g==}
 
   '@iconify-json/simple-icons@1.2.74':
     resolution: {integrity: sha512-yqaohfY6jnYjTVpuTkaBQHrWbdUrQyWXhau0r/0EZiNWYXPX/P8WWwl1DoLH5CbvDjjcWQw5J0zADhgCUklOqA==}
@@ -4953,6 +4962,10 @@ snapshots:
     dependencies:
       '@iconify/types': 2.0.0
 
+  '@iconify-json/selfhst@1.2.15':
+    dependencies:
+      '@iconify/types': 2.0.0
+
   '@iconify-json/simple-icons@1.2.74':
     dependencies:
       '@iconify/types': 2.0.0
@@ -5658,7 +5671,7 @@ snapshots:
       eslint: 9.39.4(jiti@2.6.1)
       json-stable-stringify-without-jsonify: 1.0.1
       lodash.merge: 4.6.2
-      semver: 7.7.4
+      semver: 7.8.5
     transitivePeerDependencies:
       - supports-color
       - typescript

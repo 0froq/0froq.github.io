@@ -56,6 +56,7 @@ export default defineConfig({
         skill: () => import('@iconify-json/skill-icons/icons.json', { with: { type: 'json' } }).then(i => i.default as any),
         twe: () => import('@iconify-json/twemoji/icons.json', { with: { type: 'json' } }).then(i => i.default as any),
         openmj: () => import('@iconify-json/openmoji/icons.json', { with: { type: 'json' } }).then(i => i.default as any),
+        selfhst: () => import('@iconify-json/selfhst/icons.json', { with: { type: 'json' } }).then(i => i.default as any),
       },
     }),
     presetAttributify({
