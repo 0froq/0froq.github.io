@@ -59,6 +59,14 @@ const show = computed(() =>
           v-if="peer.edge"
           class="ghost-pointer-arrow"
         />
+        <img
+          v-else-if="peer.avatarUrl"
+          class="ghost-pointer-icon ghost-pointer-avatar"
+          :src="peer.avatarUrl"
+          :alt="peer.label"
+          width="16"
+          height="16"
+        >
         <PersonaEmojiBadge
           v-else
           class="ghost-pointer-icon"
@@ -102,6 +110,11 @@ const show = computed(() =>
   opacity: 0.85;
   transition: transform 0.15s ease, opacity 0.15s ease;
   box-shadow: 0 0 8px color-mix(in srgb, currentColor 45%, transparent);
+}
+
+.ghost-pointer-avatar {
+  border-radius: 9999px;
+  display: block;
 }
 
 .ghost-pointer-arrow {

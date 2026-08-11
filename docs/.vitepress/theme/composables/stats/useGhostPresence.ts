@@ -8,9 +8,12 @@ import {
   GHOST_VIEWPORT_MISMATCH,
 } from './constants'
 import { froqApiConfigured, froqWsUrl } from './froqApi'
+import { githubAvatarUrl } from './presenceIdentity'
 import { anonIdRef, getAnonId } from './useAnonId'
+import { usePresenceAsAnon } from './useAnonPersona'
 import { pushGhostPeekNotice } from './useGhostPeekNotices'
 import { measureArticleProgress } from './useReadingProgress'
+import { useGitHubAuth } from '~/composables/useGitHubAuth'
 
 /** Mobile / touch-primary: no cursor → progress marks only. */
 function useGhostProgressOnlyDevice() {
@@ -21,6 +24,8 @@ export interface GhostPeer {
   /** Per-tab socket id. */
   id: string
   anonId: string
+  /** Presenting as GitHub login, if any. */
+  ghLogin?: string | null
   /** Reading progress 0–1. */
   p: number
   /**
@@ -36,6 +41,8 @@ export interface GhostPeer {
   colorHex: string
   emoji: string
   label: string
+  /** GitHub avatar URL when presenting as GH. */
+  avatarUrl?: string
 }
 
 export interface GhostPointerProjection {
@@ -44,6 +51,7 @@ export interface GhostPointerProjection {
   label: string
   colorHex: string
   emoji: string
+  avatarUrl?: string
   /** CSS px, position:fixed */
   left: number
   top: number
@@ -204,6 +212,7 @@ function mapPeers(
   raw: {
     id: string
     anonId?: string
+    ghLogin?: string | null
     p: number
     x?: number
     y?: number
@@ -236,9 +245,13 @@ function mapPeers(
         x = prev.x
         y = prev.y
       }
+      const ghLogin = typeof r.ghLogin === 'string' && r.ghLogin.trim()
+        ? r.ghLogin.trim()
+        : null
       return {
         id: r.id,
         anonId,
+        ghLogin,
         p: clamp01(Number(r.p) || 0),
         x,
         y,
@@ -246,7 +259,8 @@ function mapPeers(
         vh: typeof r.vh === 'number' ? r.vh : 0,
         colorHex: persona.colorHex,
         emoji: persona.emoji,
-        label: persona.label(locale),
+        label: ghLogin || persona.label(locale),
+        avatarUrl: ghLogin ? githubAvatarUrl(ghLogin) : undefined,
       }
     })
 }
@@ -394,7 +408,7 @@ function scheduleScrollPresenceSend() {
   })
 }
 
-function connect(pagePath: string, locale: string) {
+function connect(pagePath: string, locale: string, ghLogin?: string) {
   if (!froqApiConfigured() || typeof window === 'undefined')
     return
   if (!ghostEnabled.value)
@@ -411,11 +425,14 @@ function connect(pagePath: string, locale: string) {
   syncSelfViewport()
 
   const anonId = getAnonId()
-  const url = froqWsUrl('/session/ws', {
+  const query: Record<string, string> = {
     pagePath: path,
     anonId,
     tabId: selfTabId,
-  })
+  }
+  if (ghLogin)
+    query.ghLogin = ghLogin
+  const url = froqWsUrl('/session/ws', query)
   if (!url)
     return
 
@@ -447,6 +464,7 @@ function connect(pagePath: string, locale: string) {
         peers?: {
           id: string
           anonId?: string
+          ghLogin?: string | null
           p: number
           x?: number
           y?: number
@@ -454,18 +472,24 @@ function connect(pagePath: string, locale: string) {
           vh?: number
         }[]
         fromAnonId?: string
+        fromGhLogin?: string
       }
       if (data.type === 'peers' && Array.isArray(data.peers)) {
         peers.value = mapPeers(data.peers, selfTabId, locale)
       }
       else if (data.type === 'peek' && typeof data.fromAnonId === 'string' && data.fromAnonId) {
         const from = data.fromAnonId
+        const fromGh = typeof data.fromGhLogin === 'string' && data.fromGhLogin.trim()
+          ? data.fromGhLogin.trim()
+          : null
         const persona = personaFromAnonId(from)
         pushGhostPeekNotice({
           fromAnonId: from,
-          label: persona.label(locale),
+          fromGhLogin: fromGh || undefined,
+          label: fromGh || persona.label(locale),
           emoji: persona.emoji,
           colorHex: persona.colorHex,
+          avatarUrl: fromGh ? githubAvatarUrl(fromGh) : undefined,
         })
       }
     }
@@ -483,7 +507,7 @@ function connect(pagePath: string, locale: string) {
     clearReconnect()
     reconnectTimer = setTimeout(() => {
       if (activePath === path && ghostEnabled.value)
-        connect(path, locale)
+        connect(path, locale, ghLogin)
     }, 2_000)
   })
 }
@@ -584,6 +608,7 @@ export function useGhostPresenceState() {
         label: p.label,
         colorHex: p.colorHex,
         emoji: p.emoji,
+        avatarUrl: p.avatarUrl,
         left: pos.left,
         top: pos.top,
         edge: pos.edge,
@@ -629,8 +654,22 @@ export function useGhostPresenceSession(pagePath: Ref<string>, locale: Ref<strin
     return useGhostPresenceState()
   }
 
+  const { user } = useGitHubAuth()
+  const { presenceAsAnon } = usePresenceAsAnon()
   const progressOnlyDevice = useGhostProgressOnlyDevice()
   const throttledPointer = useThrottleFn(() => sendPresence(false), GHOST_POINTER_THROTTLE_MS)
+
+  const ghLogin = computed(() => {
+    if (presenceAsAnon.value)
+      return undefined
+    return user.value?.login?.trim() || undefined
+  })
+
+  function reconnect() {
+    if (!ghostEnabled.value || !pagePath.value)
+      return
+    connect(pagePath.value, locale.value, ghLogin.value)
+  }
 
   function clearLocalPointer() {
     if (localX < 0 && localY < 0)
@@ -655,20 +694,23 @@ export function useGhostPresenceSession(pagePath: Ref<string>, locale: Ref<strin
         activePath = ''
         return
       }
-      connect(path, locale.value)
+      connect(path, locale.value, ghLogin.value)
     },
     { immediate: true },
   )
 
-  // Persona reshuffle changes anonId — reconnect so peers see the new identity.
-  watch(anonIdRef, () => {
-    if (!ghostEnabled.value || !pagePath.value)
+  // Persona reshuffle / GitHub↔anon switch — reconnect so peers see new identity.
+  watch(anonIdRef, () => reconnect())
+  watch(ghLogin, (next, prev) => {
+    if (next === prev)
       return
-    connect(pagePath.value, locale.value)
+    reconnect()
   })
 
   watch(locale, (loc) => {
     peers.value = peers.value.map((p) => {
+      if (p.ghLogin)
+        return { ...p, label: p.ghLogin }
       const persona = personaFromAnonId(p.anonId)
       return { ...p, label: persona.label(loc), colorHex: persona.colorHex, emoji: persona.emoji }
     })

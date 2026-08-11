@@ -41,7 +41,16 @@ function onMarkClick(peer: { id: string }) {
       @click="onMarkClick(peer)"
       @keydown.enter.prevent="onMarkClick(peer)"
     >
+      <img
+        v-if="peer.avatarUrl"
+        class="ghost-progress-mark__icon ghost-progress-mark__avatar"
+        :src="peer.avatarUrl"
+        :alt="peer.label"
+        width="14"
+        height="14"
+      >
       <PersonaEmojiBadge
+        v-else
         class="ghost-progress-mark__icon"
         :emoji="peer.emoji"
         :color-hex="peer.colorHex"
@@ -77,6 +86,11 @@ function onMarkClick(peer: { id: string }) {
 .ghost-progress-mark__icon {
   transition: transform 0.15s ease;
   box-shadow: 0 0 0 1.5px rgb(255 255 255 / 0.55);
+}
+
+.ghost-progress-mark__avatar {
+  border-radius: 9999px;
+  display: block;
 }
 
 :global(.dark) .ghost-progress-mark__icon {

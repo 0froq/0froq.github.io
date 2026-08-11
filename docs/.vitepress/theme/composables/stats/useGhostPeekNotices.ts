@@ -3,9 +3,11 @@ import { ref } from 'vue'
 export interface GhostPeekNotice {
   id: number
   fromAnonId: string
+  fromGhLogin?: string
   label: string
   emoji: string
   colorHex: string
+  avatarUrl?: string
   /** Epoch ms — auto-expire. */
   at: number
 }

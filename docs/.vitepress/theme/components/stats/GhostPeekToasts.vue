@@ -55,7 +55,16 @@ onUnmounted(() => {
           @click="dismiss(n.id)"
         >
           <div class="ghost-peek-toast__bar">
+            <img
+              v-if="n.avatarUrl"
+              class="ghost-peek-toast__avatar"
+              :src="n.avatarUrl"
+              :alt="n.label"
+              width="22"
+              height="22"
+            >
             <PersonaEmojiBadge
+              v-else
               :emoji="n.emoji"
               :color-hex="n.colorHex"
               :size="22"
@@ -112,6 +121,10 @@ onUnmounted(() => {
   box-shadow:
     0 4px 16px -4px rgb(0 0 0 / 0.6),
     0 14px 40px -10px rgb(0 0 0 / 0.7);
+}
+
+.ghost-peek-toast__avatar {
+  --uno: 'rounded-full shrink-0 opacity-90';
 }
 
 .ghost-peek-toast__text {
