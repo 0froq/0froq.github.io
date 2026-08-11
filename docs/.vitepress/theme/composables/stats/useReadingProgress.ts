@@ -7,8 +7,10 @@ import {
   PROGRESS_STORAGE_PREFIX,
   PROGRESS_SYNC_DEBOUNCE_MS,
   READ_THRESHOLD,
+  VISIT_THRESHOLD,
 } from './constants'
 import { froqApiConfigured, froqFetch } from './froqApi'
+import { recordVisit } from './usePagePresence'
 
 export interface LocalProgress {
   maxProgress: number
@@ -54,11 +56,17 @@ export function measureArticleProgress(): number {
   if (!articleWrapper)
     return 0
 
+  const rect = articleWrapper.getBoundingClientRect()
+  const height = rect.height || articleWrapper.offsetHeight
+  if (height <= 0)
+    return 0
+
   const scrollY = window.scrollY
-  const wrapperOffsetY = articleWrapper.offsetTop
+  // Document Y of content top — avoid offsetTop (relative to offsetParent).
+  const wrapperOffsetY = rect.top + scrollY
   const windowHeight = window.innerHeight
 
-  if (articleWrapper.offsetHeight <= windowHeight)
+  if (height <= windowHeight)
     return 1
 
   return Math.min(
@@ -66,7 +74,7 @@ export function measureArticleProgress(): number {
     Math.max(
       0,
       (scrollY - wrapperOffsetY)
-      / Math.max(0, articleWrapper.offsetHeight - windowHeight),
+      / Math.max(0, height - windowHeight),
     ),
   )
 }
@@ -93,6 +101,11 @@ export function useReadingProgress(pagePath: Ref<string>) {
   function apply(p: LocalProgress) {
     maxProgress.value = p.maxProgress
     read.value = p.read || p.maxProgress >= READ_THRESHOLD
+  }
+
+  function maybeRecordVisit(path: string, progress: number) {
+    if (progress >= VISIT_THRESHOLD)
+      void recordVisit(path)
   }
 
   function persistLocal(path: string) {
@@ -164,6 +177,7 @@ export function useReadingProgress(pagePath: Ref<string>) {
   async function hydrate(path: string) {
     const local = readLocal(path)
     apply(local)
+    maybeRecordVisit(path, maxProgress.value)
 
     if (isAuthenticated.value) {
       const remote = await fetchRemote(path)
@@ -171,6 +185,7 @@ export function useReadingProgress(pagePath: Ref<string>) {
         const merged = mergeProgress(local, remote)
         apply(merged)
         writeLocal(path, merged)
+        maybeRecordVisit(path, maxProgress.value)
         if (
           merged.maxProgress > (remote.maxProgress || 0)
           || merged.read !== remote.read
@@ -192,6 +207,7 @@ export function useReadingProgress(pagePath: Ref<string>) {
         read.value = true
       persistLocal(path)
       scheduleSync(path)
+      maybeRecordVisit(path, current)
     }
   }, PROGRESS_LOCAL_THROTTLE_MS)
 

@@ -4,8 +4,37 @@ import { useI18n } from 'vue-i18n'
 import TooltipArticleInfo from '@/ui/article/TooltipArticleInfo.vue'
 import LinkUnderline from '@/ui/base/LinkUnderline.vue'
 import QSeperator from '@/ui/base/QSeperator.vue'
+import { useArticleListMeta } from '~/composables/stats/useArticleListMeta'
 import { buildCreatedComponents } from '~/utils/articleListDate'
 import { useSeparatorOpacity } from '~/utils/useSeparatorOpacity'
+
+const props = withDefaults(defineProps<{
+  items: ArticleListItem[]
+  /** Show C/P source badge (tags pages). */
+  showSource?: boolean
+  /** Show void/draft/lang/aigc badges. */
+  showBadges?: boolean
+  /** Title uses serif (corpus layers). */
+  titleSerif?: boolean
+  /** Show article info tooltip on hover. */
+  showTooltip?: boolean
+  /** Show per-item excerpt under the row. */
+  showExcerpts?: boolean
+  /** Show annotation comment counts (default on). */
+  showCommentCount?: boolean
+  /** Show cumulative visit counts (default on). */
+  showVisitCount?: boolean
+}>(), {
+  showSource: false,
+  showBadges: true,
+  titleSerif: false,
+  showTooltip: true,
+  showExcerpts: false,
+  showCommentCount: true,
+  showVisitCount: true,
+})
+
+const EXCERPT_P_RE = /<p>|<\/p>/g
 
 export interface ArticleListItem {
   url: string
@@ -23,30 +52,18 @@ export interface ArticleListItem {
   meta?: string
   /** Optional excerpt HTML (shown when showExcerpts). */
   excerpt?: string
+  /** Override fetched comment count. */
+  commentCount?: number | null
+  /** Override fetched visit count. */
+  visitCount?: number | null
 }
 
-const props = withDefaults(defineProps<{
-  items: ArticleListItem[]
-  /** Show C/P source badge (tags pages). */
-  showSource?: boolean
-  /** Show void/draft/lang/aigc badges. */
-  showBadges?: boolean
-  /** Title uses serif (corpus layers). */
-  titleSerif?: boolean
-  /** Show article info tooltip on hover. */
-  showTooltip?: boolean
-  /** Show per-item excerpt under the row. */
-  showExcerpts?: boolean
-}>(), {
-  showSource: false,
-  showBadges: true,
-  titleSerif: false,
-  showTooltip: true,
-  showExcerpts: false,
-})
-
-const { locale } = useI18n({ useScope: 'global' })
+const { locale, t } = useI18n({ useScope: 'global' })
 const { setRowRef, getOpacity, refresh } = useSeparatorOpacity()
+const meta = useArticleListMeta({
+  comments: props.showCommentCount,
+  visits: props.showVisitCount,
+})
 
 const createdParts = computed(() =>
   buildCreatedComponents(props.items.map(i => i.created)),
@@ -67,7 +84,34 @@ function tooltipPost(item: ArticleListItem) {
 }
 
 function excerptHtml(excerpt?: string): string {
-  return excerpt?.replace(/<p>|<\/p>/g, '') ?? ''
+  return excerpt?.replace(EXCERPT_P_RE, '') ?? ''
+}
+
+function resolvedCommentCount(item: ArticleListItem): number | null {
+  if (!props.showCommentCount)
+    return null
+  if (item.commentCount != null)
+    return item.commentCount
+  return meta.commentCountFor(item.url)
+}
+
+function resolvedVisitCount(item: ArticleListItem): number | null {
+  if (!props.showVisitCount)
+    return null
+  if (item.visitCount != null)
+    return item.visitCount
+  return meta.visitCountFor(item.url)
+}
+
+function statsLabel(item: ArticleListItem): string {
+  const parts: string[] = []
+  const comments = resolvedCommentCount(item)
+  const visits = resolvedVisitCount(item)
+  if (comments != null && comments > 0)
+    parts.push(t('stats.commentCount', { n: comments }))
+  if (visits != null && visits > 0)
+    parts.push(t('stats.visitCount', { n: visits }))
+  return parts.join(t('stats.metaSep'))
 }
 </script>
 
@@ -116,7 +160,7 @@ function excerptHtml(excerpt?: string): string {
             :un-before="underlineClass(item)"
           >
             <template
-              v-if="showTooltip"
+              v-if="showTooltip && item.post"
               #tooltip
             >
               <TooltipArticleInfo :post="tooltipPost(item)" />
@@ -164,6 +208,18 @@ function excerptHtml(excerpt?: string): string {
             AIGC
           </div>
         </template>
+
+        <div
+          v-if="statsLabel(item)"
+          class="date"
+          un-font="mono"
+          un-whitespace-nowrap
+          un-text="xs neutral-500"
+          un-transition="colors duration-200"
+          un-shrink-0
+        >
+          {{ statsLabel(item) }}
+        </div>
 
         <div
           v-if="item.meta != null"
