@@ -51,6 +51,16 @@ export const annotationMessages = {
       placeholderGeneric: 'Reply… (⏎ send, Esc close)',
       placeholderToUser: 'Reply to {user}… (⏎ send, Esc close)',
     },
+    reaction: {
+      THUMBS_UP: 'Thumbs up',
+      THUMBS_DOWN: 'Thumbs down',
+      LAUGH: 'Laugh',
+      HOORAY: 'Hooray',
+      CONFUSED: 'Confused',
+      HEART: 'Heart',
+      ROCKET: 'Rocket',
+      EYES: 'Eyes',
+    },
     rail: {
       prefix: 'Rail',
       checked: 'Show',
@@ -118,6 +128,16 @@ export const annotationMessages = {
       replyTo: '回复',
       placeholderGeneric: '回复…（⏎ 发送，Esc 关闭）',
       placeholderToUser: '回复 {user}…（⏎ 发送，Esc 关闭）',
+    },
+    reaction: {
+      THUMBS_UP: '赞',
+      THUMBS_DOWN: '踩',
+      LAUGH: '笑',
+      HOORAY: '庆祝',
+      CONFUSED: '困惑',
+      HEART: '心',
+      ROCKET: '火箭',
+      EYES: '眼睛',
     },
     rail: {
       prefix: '侧栏',

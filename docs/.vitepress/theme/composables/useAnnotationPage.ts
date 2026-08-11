@@ -42,6 +42,7 @@ export function useAnnotationPage() {
     const accessToken = getReadAccessToken(token.value)
     if (!accessToken) {
       store.setAnnotations([])
+      store.setDiscussion(null, [])
       return
     }
 
@@ -54,9 +55,11 @@ export function useAnnotationPage() {
 
       if (!discussion) {
         store.setAnnotations([])
+        store.setDiscussion(null, [])
         return
       }
 
+      store.setDiscussion(discussion.id, discussion.reactions)
       const result = await getAnnotations(discussion.number, accessToken)
 
       await nextTick()
@@ -68,6 +71,7 @@ export function useAnnotationPage() {
       console.error('[annotation] 加载批注失败:', e)
       error.value = e.message || 'error.load'
       store.setAnnotations([])
+      store.setDiscussion(null, [])
     }
     finally {
       loading.value = false
@@ -139,6 +143,7 @@ export function useAnnotationPage() {
     watch(() => route.path, () => {
       clearAllHighlights()
       store.setAnnotations([])
+      store.setDiscussion(null, [])
       store.setActiveCommentId(null)
       pendingAnchor.value = null
       nextTick(() => {

@@ -1,9 +1,22 @@
-import type { AnnotationData, ResolvedAnnotation } from '../types/annotation'
+import type {
+  AnnotationData,
+  AnnotationReactionContent,
+  AnnotationReactionGroup,
+  ResolvedAnnotation,
+} from '../types/annotation'
 
 const REPO_OWNER = '0froq'
 const REPO_NAME = '0froq.github.io'
 const GRAPHQL_URL = 'https://api.github.com/graphql'
 const PAGE_MARKER_PREFIX = '<!-- annotation-page: '
+
+const REACTION_FRAGMENT = `
+  reactionGroups {
+    content
+    viewerHasReacted
+    reactors { totalCount }
+  }
+`
 
 /** Guest / fallback read PAT (public_repo or Discussions read). Prefer user OAuth when present. */
 const READ_TOKEN = (import.meta.env.VITE_GITHUB_READ_TOKEN as string | undefined)?.trim() || ''
@@ -91,11 +104,11 @@ async function graphql<T>(
 
 // ---- Discussion 管理 ----
 
-/** 按页面 marker 查找 Discussion（GraphQL），返回 {number, id} */
+/** 按页面 marker 查找 Discussion（GraphQL），返回 {number, id, reactions} */
 async function findDiscussionByPage(
   pagePath: string,
   token: string,
-): Promise<{ number: number, id: string } | null> {
+): Promise<{ number: number, id: string, reactions: AnnotationReactionGroup[] } | null> {
   const query = `query($owner: String!, $name: String!, $cursor: String) {
     repository(owner: $owner, name: $name) {
       discussions(first: 100, after: $cursor) {
@@ -103,6 +116,7 @@ async function findDiscussionByPage(
           number
           id
           body
+          ${REACTION_FRAGMENT}
         }
         pageInfo { hasNextPage endCursor }
       }
@@ -114,7 +128,16 @@ async function findDiscussionByPage(
     const data = await graphql<{
       repository: {
         discussions: {
-          nodes: Array<{ number: number, id: string, body: string }>
+          nodes: Array<{
+            number: number
+            id: string
+            body: string
+            reactionGroups: Array<{
+              content: string
+              viewerHasReacted: boolean
+              reactors: { totalCount: number }
+            }>
+          }>
           pageInfo: { hasNextPage: boolean, endCursor: string | null }
         }
       }
@@ -122,8 +145,13 @@ async function findDiscussionByPage(
 
     const { nodes, pageInfo } = data.repository.discussions
     for (const d of nodes) {
-      if (parseDiscussionBody(d.body) === pagePath)
-        return { number: d.number, id: d.id }
+      if (parseDiscussionBody(d.body) === pagePath) {
+        return {
+          number: d.number,
+          id: d.id,
+          reactions: parseReactionGroups(d.reactionGroups),
+        }
+      }
     }
     if (!pageInfo.hasNextPage || !pageInfo.endCursor)
       return null
@@ -160,7 +188,7 @@ async function createDiscussion(
   pagePath: string,
   title: string,
   token: string,
-): Promise<{ number: number, id: string }> {
+): Promise<{ number: number, id: string, reactions: AnnotationReactionGroup[] }> {
   const { repositoryId, categoryId } = await fetchRepoIds(token)
 
   const body = `${makePageMarker(pagePath)}\n\n此 Discussion 用于存储页面 [${pagePath}](https://0froq.github.io/${pagePath}) 的批注。`
@@ -181,18 +209,72 @@ async function createDiscussion(
       },
     },
   )
-  return data.createDiscussion.discussion
+  return {
+    ...data.createDiscussion.discussion,
+    reactions: [],
+  }
 }
 
 async function findOrCreateDiscussion(
   pagePath: string,
   title: string,
   token: string,
-): Promise<{ number: number, id: string }> {
+): Promise<{ number: number, id: string, reactions: AnnotationReactionGroup[] }> {
   const existing = await findDiscussionByPage(pagePath, token)
   if (existing !== null)
     return existing
   return createDiscussion(pagePath, title, token)
+}
+
+function parseReactionGroups(
+  groups: Array<{
+    content: string
+    viewerHasReacted: boolean
+    reactors: { totalCount: number }
+  }> | null | undefined,
+): AnnotationReactionGroup[] {
+  if (!groups?.length)
+    return []
+  return groups
+    .filter(g => g.reactors.totalCount > 0 || g.viewerHasReacted)
+    .map(g => ({
+      content: g.content as AnnotationReactionContent,
+      count: g.reactors.totalCount,
+      viewerHasReacted: g.viewerHasReacted,
+    }))
+}
+
+function mapCommentNode(
+  c: {
+    id: string
+    url: string
+    body: string
+    author: { login: string, avatarUrl: string } | null
+    createdAt: string
+    reactionGroups?: Array<{
+      content: string
+      viewerHasReacted: boolean
+      reactors: { totalCount: number }
+    }>
+  },
+  parentCommentId: string | null,
+): ResolvedAnnotation | null {
+  const ann = tryParseAnnotation(c.body)
+  if (!ann)
+    return null
+  return {
+    commentId: c.id,
+    parentCommentId,
+    commentUrl: c.url,
+    author: {
+      login: c.author?.login ?? 'unknown',
+      avatarUrl: c.author?.avatarUrl ?? '',
+    },
+    data: ann,
+    domRange: null,
+    matchState: 'stale',
+    reactions: parseReactionGroups(c.reactionGroups),
+  }
 }
 
 // ---- Annotation CRUD ----
@@ -211,6 +293,7 @@ async function getAnnotations(
             body
             author { login avatarUrl }
             createdAt
+            ${REACTION_FRAGMENT}
             replies(first: 100) {
               nodes {
                 id
@@ -218,6 +301,7 @@ async function getAnnotations(
                 body
                 author { login avatarUrl }
                 createdAt
+                ${REACTION_FRAGMENT}
               }
             }
           }
@@ -235,6 +319,11 @@ async function getAnnotations(
             body: string
             author: { login: string, avatarUrl: string } | null
             createdAt: string
+            reactionGroups: Array<{
+              content: string
+              viewerHasReacted: boolean
+              reactors: { totalCount: number }
+            }>
             replies: {
               nodes: Array<{
                 id: string
@@ -242,6 +331,11 @@ async function getAnnotations(
                 body: string
                 author: { login: string, avatarUrl: string } | null
                 createdAt: string
+                reactionGroups: Array<{
+                  content: string
+                  viewerHasReacted: boolean
+                  reactors: { totalCount: number }
+                }>
               }>
             }
           }>
@@ -251,40 +345,78 @@ async function getAnnotations(
   }>(query, token, { owner: REPO_OWNER, name: REPO_NAME, number: discussionNumber })
 
   const annotations: ResolvedAnnotation[] = []
-  const toAnn = (c: {
-    id: string
-    url: string
-    body: string
-    author: { login: string, avatarUrl: string } | null
-    createdAt: string
-  }, parentCommentId: string | null): ResolvedAnnotation | null => {
-    const ann = tryParseAnnotation(c.body)
-    if (!ann)
-      return null
-    return {
-      commentId: c.id,
-      parentCommentId,
-      commentUrl: c.url,
-      author: {
-        login: c.author?.login ?? 'unknown',
-        avatarUrl: c.author?.avatarUrl ?? '',
-      },
-      data: ann,
-      domRange: null, // 后续由 highlight 填充
-      matchState: 'stale', // 后续由 highlight 计算
-    }
-  }
   for (const c of data.repository.discussion.comments.nodes) {
-    const top = toAnn(c, null)
+    const top = mapCommentNode(c, null)
     if (top)
       annotations.push(top)
     for (const r of c.replies.nodes) {
-      const reply = toAnn(r, c.id)
+      const reply = mapCommentNode(r, c.id)
       if (reply)
         annotations.push(reply)
     }
   }
   return annotations
+}
+
+async function toggleReaction(
+  subjectId: string,
+  content: AnnotationReactionContent,
+  remove: boolean,
+  token: string,
+): Promise<AnnotationReactionGroup[]> {
+  const mutation = remove
+    ? `mutation($input: RemoveReactionInput!) {
+        removeReaction(input: $input) {
+          subject {
+            ... on Reactable {
+              reactionGroups {
+                content
+                viewerHasReacted
+                reactors { totalCount }
+              }
+            }
+          }
+        }
+      }`
+    : `mutation($input: AddReactionInput!) {
+        addReaction(input: $input) {
+          subject {
+            ... on Reactable {
+              reactionGroups {
+                content
+                viewerHasReacted
+                reactors { totalCount }
+              }
+            }
+          }
+        }
+      }`
+
+  const data = await graphql<{
+    addReaction?: {
+      subject: {
+        reactionGroups: Array<{
+          content: string
+          viewerHasReacted: boolean
+          reactors: { totalCount: number }
+        }>
+      }
+    }
+    removeReaction?: {
+      subject: {
+        reactionGroups: Array<{
+          content: string
+          viewerHasReacted: boolean
+          reactors: { totalCount: number }
+        }>
+      }
+    }
+  }>(mutation, token, {
+    input: { subjectId, content },
+  })
+
+  const groups = (remove ? data.removeReaction : data.addReaction)?.subject.reactionGroups
+  return parseReactionGroups(groups)
 }
 
 async function createAnnotation(
@@ -344,5 +476,6 @@ export function useGitHubDiscussions() {
     getAnnotations,
     createAnnotation,
     updateAnnotation,
+    toggleReaction,
   }
 }

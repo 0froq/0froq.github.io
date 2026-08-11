@@ -5,10 +5,12 @@ import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { setHoverHighlight } from '~/composables/useAnnotationHighlight'
 import { groupReplies, repliesOf } from '~/composables/useAnnotationThreads'
+import { useCanHover } from '~/composables/useCanHover'
 import { useAnnotationStore } from '~/stores/annotation'
 import AnnotationCard from './AnnotationCard.vue'
 
 const { t } = useI18n({ useScope: 'global' })
+const { canHover } = useCanHover()
 const store = useAnnotationStore()
 const { annotations, activeCommentId } = storeToRefs(store)
 const { openReplyFloat, setActiveCommentId } = store
@@ -21,6 +23,20 @@ const cardHeights = ref<Record<string, number>>({})
 
 function openReply(ann: ResolvedAnnotation, el?: HTMLElement | null) {
   openReplyFloat(ann, el)
+}
+
+function onRailCardEnter(commentId: string) {
+  if (!canHover.value)
+    return
+  setHoverHighlight(commentId)
+  setActiveCommentId(commentId)
+}
+
+function onRailCardLeave() {
+  if (!canHover.value)
+    return
+  setHoverHighlight(null)
+  setActiveCommentId(null)
 }
 
 let cardObserver: ResizeObserver | null = null
@@ -164,8 +180,8 @@ onBeforeUnmount(() => {
       :style="{ position: 'absolute', right: '0', top: `${cardPositions[group.key]?.top ?? 0}px` }"
       un-w-full
       un-cursor-pointer
-      @mouseenter="setHoverHighlight(group.anns[0].commentId); setActiveCommentId(group.anns[0].commentId)"
-      @mouseleave="setHoverHighlight(null); setActiveCommentId(null)"
+      @mouseenter="onRailCardEnter(group.anns[0].commentId)"
+      @mouseleave="onRailCardLeave"
     >
       <AnnotationCard
         :anns="group.anns"

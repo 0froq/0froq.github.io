@@ -4,7 +4,9 @@ import { computed, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import PaperEdgeSurface from '@/ui/paper/PaperEdgeSurface.vue'
 import { paperEdgeFromId } from '~/composables/usePaperEdge'
+import { useCanHover } from '~/composables/useCanHover'
 import { renderMdBlock } from '~/utils/renderMdBlock'
+import AnnotationReactions from './AnnotationReactions.vue'
 
 const props = withDefaults(defineProps<{
   /** 批注列表（同一卡片内渲染全部；单条传 [ann]） */
@@ -40,6 +42,7 @@ const emit = defineEmits<{
 }>()
 
 const { t } = useI18n({ useScope: 'global' })
+const { canHover } = useCanHover()
 
 /** activeCommentId 是否属于本卡片（hover 正文/卡片联动高亮） */
 const isActive = computed(() =>
@@ -91,6 +94,8 @@ function toggleExpand(id: string) {
 
 // ---- 回复条目 hover（粒度视觉反馈）----
 const hoveredReplyId = ref<string | null>(null)
+const hoveredAnnId = ref<string | null>(null)
+const cardHovered = ref(false)
 
 const sortedReplies = computed(() =>
   [...props.replies].sort((a, b) =>
@@ -104,6 +109,52 @@ function hoverReply(reply: ResolvedAnnotation) {
 
 function clearReplyHover() {
   hoveredReplyId.value = null
+}
+
+function reactionsExpanded(commentId: string): boolean {
+  // Touch: no hover — always expose the reaction picker.
+  if (!canHover.value)
+    return true
+  return cardHovered.value || hoveredAnnId.value === commentId || hoveredReplyId.value === commentId
+}
+
+function onCardEnter() {
+  if (!canHover.value)
+    return
+  cardHovered.value = true
+  emit('hover', props.anns[0]?.commentId ?? null)
+}
+
+function onCardLeave() {
+  if (!canHover.value)
+    return
+  cardHovered.value = false
+  hoveredAnnId.value = null
+  emit('hover', null)
+}
+
+function onAnnEnter(commentId: string) {
+  if (!canHover.value)
+    return
+  hoveredAnnId.value = commentId
+}
+
+function onAnnLeave() {
+  if (!canHover.value)
+    return
+  hoveredAnnId.value = null
+}
+
+function onReplyEnter(reply: ResolvedAnnotation) {
+  if (!canHover.value)
+    return
+  hoverReply(reply)
+}
+
+function onReplyLeave() {
+  if (!canHover.value)
+    return
+  clearReplyHover()
 }
 
 /** 渲染回复正文：
@@ -129,8 +180,8 @@ function renderReplyBody(reply: ResolvedAnnotation): string {
     un-ease-in-out
     un-p-2
     un-pt-4
-    @mouseenter="emit('hover', anns[0]?.commentId ?? null)"
-    @mouseleave="emit('hover', null)"
+    @mouseenter="onCardEnter"
+    @mouseleave="onCardLeave"
   >
     <PaperEdgeSurface
       :edge-id="edgeId"
@@ -154,6 +205,8 @@ function renderReplyBody(reply: ResolvedAnnotation): string {
         un-ease-in-out
         un-hover="translate-x-2"
         un-cursor-pointer
+        @mouseenter="onAnnEnter(item.commentId)"
+        @mouseleave="onAnnLeave"
         @click.stop="emit('reply', item, $event.currentTarget as HTMLElement)"
       >
         <!-- 作者行 -->
@@ -258,6 +311,12 @@ function renderReplyBody(reply: ResolvedAnnotation): string {
             {{ item.data.text }}
           </template>
         </p>
+
+        <AnnotationReactions
+          :comment-id="item.commentId"
+          :reactions="item.reactions ?? []"
+          :expanded="reactionsExpanded(item.commentId)"
+        />
       </div>
 
       <!-- 回复列表（缩进 + 竖线；点击回复该回复） -->
@@ -271,8 +330,8 @@ function renderReplyBody(reply: ResolvedAnnotation): string {
         un-transition
         un-ease-in-out
         un-hover="translate-x-2"
-        @mouseenter="hoverReply(reply)"
-        @mouseleave="clearReplyHover"
+        @mouseenter="onReplyEnter(reply)"
+        @mouseleave="onReplyLeave"
         @click.stop="emit('reply', reply, $event.currentTarget as HTMLElement)"
       >
         <div
@@ -309,6 +368,12 @@ function renderReplyBody(reply: ResolvedAnnotation): string {
           un-leading-relaxed
           v-html="renderReplyBody(reply)"
         />
+        <AnnotationReactions
+          :comment-id="reply.commentId"
+          :reactions="reply.reactions ?? []"
+          :expanded="reactionsExpanded(reply.commentId)"
+          compact
+        />
       </div>
     </div>
   </div>
@@ -322,15 +387,24 @@ function renderReplyBody(reply: ResolvedAnnotation): string {
   transform-origin: 50% 0;
 }
 
-.annotation-card:hover,
 .annotation-card-active {
   transform: rotate(var(--card-tilt, 0deg)) translateX(0.5rem);
 }
 
-/* 描边跟纸边走（同一 displacement）；hover 加深 */
-.annotation-card:hover :deep(.paper-edge-fill),
 .annotation-card-active :deep(.paper-edge-fill) {
   --uno: 'stroke-neutral-700';
   --uno: 'dark:stroke-neutral-400';
+}
+
+/* Hover lift only when a real hover pointer exists (avoid sticky tap :hover). */
+@media (hover: hover) and (pointer: fine) {
+  .annotation-card:hover {
+    transform: rotate(var(--card-tilt, 0deg)) translateX(0.5rem);
+  }
+
+  .annotation-card:hover :deep(.paper-edge-fill) {
+    --uno: 'stroke-neutral-700';
+    --uno: 'dark:stroke-neutral-400';
+  }
 }
 </style>

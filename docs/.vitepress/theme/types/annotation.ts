@@ -34,6 +34,23 @@ export interface AnnotationData {
 /** 渲染期锚定状态（loadAnnotations 时计算，不持久化） */
 export type AnchorMatchState = 'exact' | 'approximate' | 'ambiguous' | 'stale' | 'article'
 
+/** GitHub ReactionContent enum values we surface in the UI. */
+export type AnnotationReactionContent
+  = 'THUMBS_UP'
+    | 'THUMBS_DOWN'
+    | 'LAUGH'
+    | 'HOORAY'
+    | 'CONFUSED'
+    | 'HEART'
+    | 'ROCKET'
+    | 'EYES'
+
+export interface AnnotationReactionGroup {
+  content: AnnotationReactionContent
+  count: number
+  viewerHasReacted: boolean
+}
+
 /** 从 GitHub API 返回的 Comment 解析出的批注 */
 export interface ResolvedAnnotation {
   /** Discussion Comment ID（GraphQL node id） */
@@ -53,4 +70,6 @@ export interface ResolvedAnnotation {
   domRange: Range | null
   /** 锚定状态（加载时计算；exact/approximate 有高亮，article 是文章级评论） */
   matchState: AnchorMatchState
+  /** GitHub emoji reactions on this comment */
+  reactions: AnnotationReactionGroup[]
 }
