@@ -5,20 +5,34 @@ import PersonaEmojiBadge from '~/components/stats/PersonaEmojiBadge.vue'
 import { useGhostPeekNotices } from '~/composables/stats/useGhostPeekNotices'
 
 const { t } = useI18n({ useScope: 'global' })
-const { notices, dismiss, ttlMs } = useGhostPeekNotices()
+const { notices, dismiss, noticeTtlMs } = useGhostPeekNotices()
 
 const visible = computed(() => [...notices.value].sort((a, b) => a.at - b.at))
 
 const timers = new Map<number, ReturnType<typeof setTimeout>>()
 
-function schedule(id: number) {
+function schedule(id: number, ttl: number) {
   if (timers.has(id))
     return
   const t0 = setTimeout(() => {
     timers.delete(id)
     dismiss(id)
-  }, ttlMs)
+  }, ttl)
   timers.set(id, t0)
+}
+
+function githubUrl(login: string): string {
+  return `https://github.com/${encodeURIComponent(login)}`
+}
+
+function messageKey(kind: string): string {
+  if (kind === 'poke')
+    return 'stats.ghostPokeThem'
+  if (kind === 'disturb')
+    return 'stats.ghostDisturbYou'
+  if (kind === 'annoy')
+    return 'stats.ghostAnnoyThem'
+  return 'stats.ghostPeekYou'
 }
 
 watch(visible, (list) => {
@@ -30,7 +44,7 @@ watch(visible, (list) => {
     }
   }
   for (const n of list)
-    schedule(n.id)
+    schedule(n.id, noticeTtlMs(n))
 }, { immediate: true, deep: false })
 
 onUnmounted(() => {
@@ -52,6 +66,9 @@ onUnmounted(() => {
           v-for="n in visible"
           :key="n.id"
           class="ghost-peek-toast"
+          :class="{
+            'ghost-peek-toast--disturb': n.kind === 'disturb' || n.kind === 'annoy',
+          }"
           @click="dismiss(n.id)"
         >
           <div class="ghost-peek-toast__bar">
@@ -70,7 +87,22 @@ onUnmounted(() => {
               :size="22"
             />
             <span class="ghost-peek-toast__text">
-              {{ t('stats.ghostPeekYou', { name: n.label }) }}
+              <i18n-t
+                :keypath="messageKey(n.kind)"
+                tag="span"
+              >
+                <template #name>
+                  <a
+                    v-if="n.fromGhLogin"
+                    class="ghost-peek-toast__link"
+                    :href="githubUrl(n.fromGhLogin)"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    @click.stop
+                  >{{ n.label }}</a>
+                  <span v-else>{{ n.label }}</span>
+                </template>
+              </i18n-t>
             </span>
             <button
               type="button"
@@ -115,6 +147,20 @@ onUnmounted(() => {
   box-shadow:
     0 4px 14px -4px rgb(0 0 0 / 0.12),
     0 12px 32px -12px rgb(0 0 0 / 0.2);
+  transition:
+    transform 0.28s ease,
+    font-size 0.28s ease,
+    padding 0.28s ease;
+}
+
+.ghost-peek-toast--disturb .ghost-peek-toast__bar {
+  font-size: 0.95rem;
+  padding: 0.7rem 1rem;
+  max-width: min(94vw, 26rem);
+  --uno: 'border-neutral-400/40 dark:border-neutral-500/40 text-neutral-800 dark:text-neutral-200';
+  box-shadow:
+    0 6px 18px -4px rgb(0 0 0 / 0.16),
+    0 16px 40px -12px rgb(0 0 0 / 0.28);
 }
 
 :global(.dark) .ghost-peek-toast__bar {
@@ -123,8 +169,19 @@ onUnmounted(() => {
     0 14px 40px -10px rgb(0 0 0 / 0.7);
 }
 
+:global(.dark) .ghost-peek-toast--disturb .ghost-peek-toast__bar {
+  box-shadow:
+    0 6px 20px -4px rgb(0 0 0 / 0.7),
+    0 18px 48px -10px rgb(0 0 0 / 0.8);
+}
+
 .ghost-peek-toast__avatar {
   --uno: 'rounded-full shrink-0 opacity-90';
+}
+
+.ghost-peek-toast--disturb .ghost-peek-toast__avatar {
+  width: 28px;
+  height: 28px;
 }
 
 .ghost-peek-toast__text {
@@ -132,6 +189,10 @@ onUnmounted(() => {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.ghost-peek-toast__link {
+  --uno: 'underline underline-offset-2 text-neutral-800 dark:text-neutral-100 hover:text-neutral-950 dark:hover:text-white';
 }
 
 .ghost-peek-toast__close {
@@ -158,8 +219,45 @@ onUnmounted(() => {
 @media (prefers-reduced-motion: reduce) {
   .ghost-peek-enter-active,
   .ghost-peek-leave-active,
-  .ghost-peek-move {
+  .ghost-peek-move,
+  .ghost-peek-toast__bar {
     transition: none;
+  }
+}
+</style>
+
+<style>
+/* Gentle full-page nudge when someone spam-pokes. */
+html.ghost-peek-shake {
+  animation: ghost-peek-shake 0.6s ease-in-out;
+  transform-origin: center;
+}
+
+@keyframes ghost-peek-shake {
+  0%,
+  100% {
+    transform: rotate(0deg) translate3d(0, 0, 0);
+  }
+  15% {
+    transform: rotate(0.6deg) translate3d(1px, 0, 0);
+  }
+  30% {
+    transform: rotate(-0.8deg) translate3d(-1px, 0, 0);
+  }
+  50% {
+    transform: rotate(0.5deg) translate3d(1px, 0, 0);
+  }
+  70% {
+    transform: rotate(-0.3deg) translate3d(-1px, 0, 0);
+  }
+  85% {
+    transform: rotate(0.15deg) translate3d(0, 0, 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.ghost-peek-shake {
+    animation: none;
   }
 }
 </style>

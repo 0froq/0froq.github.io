@@ -17,6 +17,11 @@ import { pushGhostPeekNotice } from './useGhostPeekNotices'
 import { measureArticleProgress } from './useReadingProgress'
 import { useGitHubAuth } from '~/composables/useGitHubAuth'
 
+/** Must match server PagePresence poke cooldown. */
+const POKE_COOLDOWN_MS = 1_000
+/** tabId → last successful poke time. */
+const lastPokeAt = new Map<string, number>()
+
 /** Mobile / touch-primary: no cursor → progress marks only. */
 function useGhostProgressOnlyDevice() {
   return useMediaQuery('(hover: none), (pointer: coarse)')
@@ -546,13 +551,31 @@ export function sendGhostPeek(targetTabId: string): boolean {
     return false
   if (!targetTabId || targetTabId === selfTabId)
     return false
+  const now = Date.now()
+  const prev = lastPokeAt.get(targetTabId) ?? 0
+  // Cooldown: no toast, no WS — stays in sync with the recipient.
+  if (now - prev < POKE_COOLDOWN_MS)
+    return false
+  const peer = peers.value.find(p => p.id === targetTabId)
   try {
     socket.send(JSON.stringify({ type: 'peek', target: targetTabId }))
-    return true
   }
   catch {
     return false
   }
+  lastPokeAt.set(targetTabId, now)
+  if (peer) {
+    pushGhostPeekNotice({
+      kind: 'poke',
+      fromAnonId: peer.anonId,
+      fromGhLogin: peer.ghLogin || undefined,
+      label: peer.label,
+      emoji: peer.emoji,
+      colorHex: peer.colorHex,
+      avatarUrl: peer.avatarUrl,
+    })
+  }
+  return true
 }
 
 /** Update gh identity on the open socket (avoids dual-tab flicker). */

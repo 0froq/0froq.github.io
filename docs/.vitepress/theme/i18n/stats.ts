@@ -43,6 +43,9 @@ export const statsMessages = {
       ghostWaiting: 'Waiting for guys',
       ghostPeers: '{n} co-reading',
       ghostPeekYou: '{name} is peeking at you',
+      ghostPokeThem: 'You poked {name}',
+      ghostDisturbYou: '{name} is bothering you',
+      ghostAnnoyThem: '{name} might find you annoying',
       dismissNotice: 'Dismiss',
 
       presenceRouteHome: 'drifting',
@@ -97,6 +100,9 @@ export const statsMessages = {
       ghostWaiting: '等待大家伙',
       ghostPeers: '{n} 人共读',
       ghostPeekYou: '{name} 正在偷窥你',
+      ghostPokeThem: '你戳了 {name}',
+      ghostDisturbYou: '{name} 在打扰你',
+      ghostAnnoyThem: '{name} 可能觉得你很烦',
       dismissNotice: '关闭',
 
       presenceRouteHome: '正在神游',

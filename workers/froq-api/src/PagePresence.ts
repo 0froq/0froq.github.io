@@ -41,7 +41,7 @@ interface PeerRow {
 }
 
 /** Rate limit: min gap between pokes from one tab to the same target. */
-const POKE_COOLDOWN_MS = 2_500
+const POKE_COOLDOWN_MS = 1_000
 
 const lastPokeAt = new Map<string, number>()
 
