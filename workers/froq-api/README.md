@@ -17,12 +17,30 @@ pnpm exec wrangler login
 pnpm deploy
 ```
 
-Point GitHub Actions secrets (no trailing slash):
+## Site hosting (Cloudflare Pages)
 
-- `VITE_GITHUB_AUTH_PROXY` = `https://froq-api.sayhola.workers.dev` (auth + stats)
-- `VITE_FROQ_API` = same URL (optional; falls back to AUTH_PROXY)
+Static VitePress site deploys via GitHub Actions → Cloudflare Pages project
+`froq` (`https://froq.pages.dev`, custom domain `froq.me`).
 
-Then re-run the Pages deploy workflow so the client bundle picks up the env.
+GitHub secrets for `.github/workflows/deploy.yml`:
+
+| Secret | Purpose |
+| --- | --- |
+| `CLOUDFLARE_API_TOKEN` | Pages Edit (+ Account Read) |
+| `CLOUDFLARE_ACCOUNT_ID` | from `wrangler whoami` |
+| `VITE_GITHUB_CLIENT_ID` | OAuth Device Flow |
+| `VITE_GITHUB_READ_TOKEN` | Guest annotation reads |
+| `VITE_GITHUB_AUTH_PROXY` | `https://froq-api.sayhola.workers.dev` |
+| `VITE_FROQ_API` | same URL (optional; falls back to AUTH_PROXY) |
+
+Create an API token at
+https://developers.cloudflare.com/fundamentals/api/get-started/create-token/
+(template **Edit Cloudflare Workers** is fine; ensure **Account → Cloudflare Pages → Edit**).
+
+Custom domain: Dashboard → Workers & Pages → **froq** → Custom domains → add
+`froq.me` / `www.froq.me` (DNS must be on Cloudflare for that zone).
+
+After CORS changes, redeploy this Worker (`pnpm deploy`).
 
 ## Local
 
