@@ -11,6 +11,8 @@ interface WsAttachment {
   tabId: string
   /** Stable browser persona seed. */
   anonId: string
+  /** When presenting as GitHub (optional). */
+  ghLogin: string | null
   /** Reading progress 0–1, quantized. */
   p: number
   /** Viewport-normalized pointer 0–1, or -1 if unknown. */
@@ -24,6 +26,7 @@ interface WsAttachment {
 interface PeerRow {
   id: string
   anonId: string
+  ghLogin?: string | null
   p: number
   x: number
   y: number
@@ -117,6 +120,8 @@ export class PagePresence extends DurableObject<Env> {
     const url = new URL(request.url)
     const anonId = url.searchParams.get('anonId')?.trim() || ''
     const tabId = url.searchParams.get('tabId')?.trim() || ''
+    const rawGh = url.searchParams.get('ghLogin')?.trim() || ''
+    const ghLogin = rawGh && rawGh.length <= 64 ? rawGh.toLowerCase() : null
     if (!anonId || anonId.length > 128) {
       return new Response('anonId required', { status: 400 })
     }
@@ -128,7 +133,16 @@ export class PagePresence extends DurableObject<Env> {
     const [client, server] = Object.values(pair)
 
     this.ctx.acceptWebSocket(server)
-    const attachment: WsAttachment = { tabId, anonId, p: 0, x: -1, y: -1, vw: 0, vh: 0 }
+    const attachment: WsAttachment = {
+      tabId,
+      anonId,
+      ghLogin,
+      p: 0,
+      x: -1,
+      y: -1,
+      vw: 0,
+      vh: 0,
+    }
     server.serializeAttachment(attachment)
 
     // Snapshot to the newcomer; broadcast so others see them.
@@ -178,7 +192,14 @@ export class PagePresence extends DurableObject<Env> {
         if (other?.tabId !== target)
           continue
         try {
-          socket.send(JSON.stringify({ type: 'peek', fromAnonId: att.anonId }))
+          const peek: {
+            type: 'peek'
+            fromAnonId: string
+            fromGhLogin?: string
+          } = { type: 'peek', fromAnonId: att.anonId }
+          if (att.ghLogin)
+            peek.fromGhLogin = att.ghLogin
+          socket.send(JSON.stringify(peek))
         }
         catch {
           // ignore
@@ -252,6 +273,7 @@ export class PagePresence extends DurableObject<Env> {
       peers.push({
         id: att.tabId,
         anonId: att.anonId,
+        ghLogin: att.ghLogin || null,
         p: att.p,
         x: att.x,
         y: att.y,
