@@ -1,7 +1,7 @@
 {
   "name": "froq-api",
-  "private": true,
   "type": "module",
+  "private": true,
   "scripts": {
     "dev": "wrangler dev",
     "deploy": "wrangler deploy",

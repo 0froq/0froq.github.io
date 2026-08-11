@@ -1,13 +1,14 @@
-import { corsHeaders, emptyCors, jsonResponse } from './cors'
+import type { Env, ProgressRecord } from './types'
 import { handleAuthProxy, isAuthProxyPath } from './authProxy'
+import { ALLOWED_ORIGINS, corsHeaders, emptyCors, jsonResponse } from './cors'
 import { PagePresence } from './PagePresence'
 import { SiteStats } from './SiteStats'
 import {
+
   progressKey,
+
   resolveGitHubLogin,
   visitorKey,
-  type Env,
-  type ProgressRecord,
 } from './types'
 
 export { PagePresence, SiteStats }
@@ -65,18 +66,23 @@ async function handleSessionPing(
   }
 
   const ghLogin = typeof body.ghLogin === 'string' ? body.ghLogin.trim() : ''
-  const countVisit = body.countVisit !== false
+  // Opt-in only: visits count when reading progress crosses the client threshold.
+  const countVisit = body.countVisit === true
   const key = visitorKey(anonId, ghLogin || null)
 
-  const [viewing, stats] = await Promise.all([
+  const [viewing, siteOnline, stats] = await Promise.all([
     pageStub(env, pagePath).heartbeat(key),
+    siteStub(env).heartbeat(key, pagePath),
     siteStub(env).visit(anonId, pagePath, countVisit),
   ])
 
   return jsonResponse({
     viewing,
+    online: siteOnline.online,
+    pages: siteOnline.pages,
     uniqueVisitors: stats.uniqueVisitors,
     totalVisits: stats.totalVisits,
+    pageVisits: stats.pageVisits,
   }, origin)
 }
 
@@ -104,10 +110,59 @@ async function handleSessionLeave(
   }
 
   const ghLogin = typeof body.ghLogin === 'string' ? body.ghLogin.trim() : ''
-  const viewing = await pageStub(env, pagePath).leave(
-    visitorKey(anonId, ghLogin || null),
-  )
-  return jsonResponse({ viewing }, origin)
+  const key = visitorKey(anonId, ghLogin || null)
+  const [viewing, siteOnline] = await Promise.all([
+    pageStub(env, pagePath).leave(key),
+    siteStub(env).leaveOnline(key),
+  ])
+  return jsonResponse({
+    viewing,
+    online: siteOnline.online,
+    pages: siteOnline.pages,
+  }, origin)
+}
+
+/** Proxy WebSocket upgrade to the per-page PagePresence DO. */
+async function handleSessionWs(
+  request: Request,
+  env: Env,
+  origin: string | null,
+): Promise<Response> {
+  if (request.headers.get('Upgrade') !== 'websocket') {
+    return jsonResponse({ error: 'expected_websocket' }, origin, { status: 426 })
+  }
+
+  // Browser WS handshake sends Origin; reject unknown sites.
+  if (origin && !ALLOWED_ORIGINS.has(origin)) {
+    return jsonResponse({ error: 'origin_not_allowed' }, origin, { status: 403 })
+  }
+
+  const url = new URL(request.url)
+  const pagePath = normalizePresencePath(url.searchParams.get('pagePath') || '')
+  const anonId = url.searchParams.get('anonId')?.trim() || ''
+  const tabId = url.searchParams.get('tabId')?.trim() || ''
+  if (!pagePath || !anonId || !tabId) {
+    return jsonResponse(
+      { error: 'pagePath_anonId_tabId_required' },
+      origin,
+      { status: 400 },
+    )
+  }
+
+  // Forward normalized pagePath to the DO.
+  url.searchParams.set('pagePath', pagePath)
+  return pageStub(env, pagePath).fetch(new Request(url.toString(), request))
+}
+
+function normalizePresencePath(raw: string): string {
+  let p = raw.trim().split('?')[0]?.split('#')[0] || ''
+  if (!p)
+    return ''
+  if (!p.startsWith('/'))
+    p = `/${p}`
+  if (p.length > 1 && p.endsWith('/'))
+    p = p.slice(0, -1)
+  return p
 }
 
 async function handleStatsGet(
@@ -125,6 +180,37 @@ async function handleStatsGet(
 
   const viewing = await pageStub(env, pagePath).viewing()
   return jsonResponse({ ...stats, viewing }, origin)
+}
+
+async function handleSiteLike(
+  request: Request,
+  env: Env,
+  origin: string | null,
+): Promise<Response> {
+  let body: { anonId?: string, pagePath?: string }
+  try {
+    body = await request.json() as { anonId?: string, pagePath?: string }
+  }
+  catch {
+    return jsonResponse({ error: 'invalid_json' }, origin, { status: 400 })
+  }
+
+  const anonId = typeof body.anonId === 'string' ? body.anonId.trim() : ''
+  if (!anonId) {
+    return jsonResponse({ error: 'anonId_required' }, origin, { status: 400 })
+  }
+  const pagePath = typeof body.pagePath === 'string' ? body.pagePath.trim() : ''
+
+  try {
+    const result = await siteStub(env).like(anonId, pagePath || undefined)
+    return jsonResponse(result, origin, {
+      status: result.ok ? 200 : 429,
+    })
+  }
+  catch (e) {
+    console.error('[froq-api] like failed:', e)
+    return jsonResponse({ error: 'like_failed' }, origin, { status: 500 })
+  }
 }
 
 async function handleProgressGet(
@@ -242,8 +328,14 @@ export default {
     if (pathname === '/session/leave' && request.method === 'POST')
       return handleSessionLeave(request, env, origin)
 
+    if (pathname === '/session/ws')
+      return handleSessionWs(request, env, origin)
+
     if (pathname === '/stats' && request.method === 'GET')
       return handleStatsGet(request, env, origin)
+
+    if (pathname === '/likes' && request.method === 'POST')
+      return handleSiteLike(request, env, origin)
 
     if (pathname === '/progress' && request.method === 'GET')
       return handleProgressGet(request, env, origin)
