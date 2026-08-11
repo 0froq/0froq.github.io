@@ -4,6 +4,8 @@ import { computed, onUnmounted, readonly, ref, watch } from 'vue'
 import { personaFromAnonId } from './anonPersona'
 import {
   GHOST_ENABLED_KEY,
+  GHOST_IDLE_MS,
+  GHOST_OWNER_GH,
   GHOST_POINTER_THROTTLE_MS,
   GHOST_VIEWPORT_MISMATCH,
 } from './constants'
@@ -82,6 +84,8 @@ let lastSentY = -1
 let lastSentVw = -1
 let lastSentVh = -1
 let selfTabId = ''
+/** Last ghLogin passed to connect / identity (for reconnect). */
+let selfGhLogin: string | undefined
 /** Last known content-space pointer (0–1), or -1. */
 let localX = -1
 let localY = -1
@@ -89,6 +93,22 @@ let localY = -1
 let lastClientX = -1
 let lastClientY = -1
 let scrollSendRaf = 0
+/** Local idle clock — no pointer/scroll for GHOST_IDLE_MS → disconnect. */
+let lastLocalActivity = 0
+let idleOffline = false
+let idleCheckTimer: ReturnType<typeof setInterval> | null = null
+
+function isOwnerGh(login?: string | null): boolean {
+  return (login || '').trim().toLowerCase() === GHOST_OWNER_GH
+}
+
+function bumpLocalActivity(): void {
+  lastLocalActivity = Date.now()
+  if (!idleOffline)
+    return
+  idleOffline = false
+  // Caller reconnects via ensureGhostSession when appropriate.
+}
 
 /** Collapse trailing slash so `/a` and `/a/` share one presence room. */
 export function normalizePresencePath(raw: string): string {
@@ -224,45 +244,50 @@ function mapPeers(
 ): GhostPeer[] {
   const prevById = new Map(peers.value.map(p => [p.id, p]))
   const now = Date.now()
-  return raw
-    .filter(r => r.id && r.id !== myTabId)
-    .map((r) => {
-      const anonId = r.anonId || r.id
-      const persona = personaFromAnonId(anonId)
-      const prev = prevById.get(r.id)
-      let x = typeof r.x === 'number' ? r.x : -1
-      let y = typeof r.y === 'number' ? r.y : -1
-      if (x >= 0 && y >= 0) {
-        lastPointerAt.set(r.id, now)
-      }
-      else if (
-        prev
-        && prev.x >= 0
-        && prev.y >= 0
-        && now - (lastPointerAt.get(r.id) ?? 0) < POINTER_STALE_MS
-      ) {
-        // Transient clear (e.g. scroll resync rounding) — avoid pointer↔progress flicker.
-        x = prev.x
-        y = prev.y
-      }
-      const ghLogin = typeof r.ghLogin === 'string' && r.ghLogin.trim()
-        ? r.ghLogin.trim()
-        : null
-      return {
-        id: r.id,
-        anonId,
-        ghLogin,
-        p: clamp01(Number(r.p) || 0),
-        x,
-        y,
-        vw: typeof r.vw === 'number' ? r.vw : 0,
-        vh: typeof r.vh === 'number' ? r.vh : 0,
-        colorHex: persona.colorHex,
-        emoji: persona.emoji,
-        label: ghLogin || persona.label(locale),
-        avatarUrl: ghLogin ? githubAvatarUrl(ghLogin) : undefined,
-      }
+  // Dedupe by tab id — identity-switch races can briefly double-list.
+  const seen = new Set<string>()
+  const out: GhostPeer[] = []
+  for (const r of raw) {
+    if (!r.id || r.id === myTabId || seen.has(r.id))
+      continue
+    seen.add(r.id)
+    const anonId = r.anonId || r.id
+    const persona = personaFromAnonId(anonId)
+    const prev = prevById.get(r.id)
+    let x = typeof r.x === 'number' ? r.x : -1
+    let y = typeof r.y === 'number' ? r.y : -1
+    if (x >= 0 && y >= 0) {
+      lastPointerAt.set(r.id, now)
+    }
+    else if (
+      prev
+      && prev.x >= 0
+      && prev.y >= 0
+      && now - (lastPointerAt.get(r.id) ?? 0) < POINTER_STALE_MS
+    ) {
+      // Transient clear (e.g. scroll resync rounding) — avoid pointer↔progress flicker.
+      x = prev.x
+      y = prev.y
+    }
+    const ghLogin = typeof r.ghLogin === 'string' && r.ghLogin.trim()
+      ? r.ghLogin.trim()
+      : null
+    out.push({
+      id: r.id,
+      anonId,
+      ghLogin,
+      p: clamp01(Number(r.p) || 0),
+      x,
+      y,
+      vw: typeof r.vw === 'number' ? r.vw : 0,
+      vh: typeof r.vh === 'number' ? r.vh : 0,
+      colorHex: persona.colorHex,
+      emoji: persona.emoji,
+      label: ghLogin || persona.label(locale),
+      avatarUrl: ghLogin ? githubAvatarUrl(ghLogin) : undefined,
     })
+  }
+  return out
 }
 
 function clamp01(v: number): number {
@@ -413,6 +438,8 @@ function connect(pagePath: string, locale: string, ghLogin?: string) {
     return
   if (!ghostEnabled.value)
     return
+  if (idleOffline && !isOwnerGh(ghLogin))
+    return
 
   const path = normalizePresencePath(pagePath)
   if (!path)
@@ -422,6 +449,7 @@ function connect(pagePath: string, locale: string, ghLogin?: string) {
   skipReconnect = false
   activePath = path
   selfTabId = getTabId()
+  selfGhLogin = ghLogin
   syncSelfViewport()
 
   const anonId = getAnonId()
@@ -507,7 +535,7 @@ function connect(pagePath: string, locale: string, ghLogin?: string) {
     clearReconnect()
     reconnectTimer = setTimeout(() => {
       if (activePath === path && ghostEnabled.value)
-        connect(path, locale, ghLogin)
+        connect(path, locale, selfGhLogin)
     }, 2_000)
   })
 }
@@ -527,7 +555,26 @@ export function sendGhostPeek(targetTabId: string): boolean {
   }
 }
 
+/** Update gh identity on the open socket (avoids dual-tab flicker). */
+function sendIdentity(ghLogin?: string): boolean {
+  if (!socket || socket.readyState !== WebSocket.OPEN)
+    return false
+  try {
+    socket.send(JSON.stringify({
+      type: 'identity',
+      ghLogin: ghLogin || null,
+    }))
+    selfGhLogin = ghLogin
+    return true
+  }
+  catch {
+    return false
+  }
+}
+
 function sendPresence(force = false) {
+  if (idleOffline)
+    return
   if (!socket || socket.readyState !== WebSocket.OPEN)
     return
   syncSelfViewport()
@@ -668,6 +715,8 @@ export function useGhostPresenceSession(pagePath: Ref<string>, locale: Ref<strin
   function reconnect() {
     if (!ghostEnabled.value || !pagePath.value)
       return
+    if (idleOffline && !isOwnerGh(ghLogin.value))
+      return
     connect(pagePath.value, locale.value, ghLogin.value)
   }
 
@@ -679,6 +728,39 @@ export function useGhostPresenceSession(pagePath: Ref<string>, locale: Ref<strin
     lastClientX = -1
     lastClientY = -1
     throttledPointer()
+  }
+
+  function noteActivityAndMaybeWake() {
+    const wasIdle = idleOffline
+    bumpLocalActivity()
+    if (wasIdle && ghostEnabled.value && pagePath.value)
+      reconnect()
+  }
+
+  function checkLocalIdle() {
+    if (isOwnerGh(ghLogin.value)) {
+      if (idleOffline) {
+        idleOffline = false
+        reconnect()
+      }
+      return
+    }
+    if (!ghostEnabled.value || !pagePath.value)
+      return
+    if (!lastLocalActivity)
+      lastLocalActivity = Date.now()
+    if (Date.now() - lastLocalActivity < GHOST_IDLE_MS)
+      return
+    if (idleOffline)
+      return
+    idleOffline = true
+    teardownSocket()
+    activePath = pagePath.value
+  }
+
+  if (!idleCheckTimer) {
+    lastLocalActivity = Date.now()
+    idleCheckTimer = setInterval(checkLocalIdle, 30_000)
   }
 
   watch(progressOnlyDevice, (only) => {
@@ -694,16 +776,29 @@ export function useGhostPresenceSession(pagePath: Ref<string>, locale: Ref<strin
         activePath = ''
         return
       }
+      if (idleOffline && !isOwnerGh(ghLogin.value))
+        return
       connect(path, locale.value, ghLogin.value)
     },
     { immediate: true },
   )
 
-  // Persona reshuffle / GitHub↔anon switch — reconnect so peers see new identity.
-  watch(anonIdRef, () => reconnect())
+  // Persona reshuffle — reconnect so peers see new anon seed.
+  watch(anonIdRef, () => {
+    noteActivityAndMaybeWake()
+    reconnect()
+  })
+
+  // GitHub↔anon: prefer in-place identity (no dual-socket flicker).
+  // Reconnect if the socket is down; server also closes stale tab sockets.
   watch(ghLogin, (next, prev) => {
     if (next === prev)
       return
+    noteActivityAndMaybeWake()
+    if (socket && socket.readyState === WebSocket.OPEN && activePath) {
+      if (sendIdentity(next))
+        return
+    }
     reconnect()
   })
 
@@ -717,6 +812,7 @@ export function useGhostPresenceSession(pagePath: Ref<string>, locale: Ref<strin
   })
 
   useEventListener(window, 'scroll', () => {
+    noteActivityAndMaybeWake()
     // Local projections update immediately; also resync + broadcast our
     // content-space pointer so peers track while we scroll (mouse still).
     bumpLayout()
@@ -734,6 +830,7 @@ export function useGhostPresenceSession(pagePath: Ref<string>, locale: Ref<strin
   }, { passive: true })
 
   useEventListener(window, 'mousemove', (ev: MouseEvent) => {
+    noteActivityAndMaybeWake()
     // Touch-primary devices have no cursor — never publish pointer coords.
     if (progressOnlyDevice.value)
       return
@@ -754,10 +851,20 @@ export function useGhostPresenceSession(pagePath: Ref<string>, locale: Ref<strin
     throttledPointer()
   }, { passive: true })
 
+  useEventListener(window, 'touchstart', () => {
+    noteActivityAndMaybeWake()
+  }, { passive: true })
+
+  useEventListener(window, 'keydown', () => {
+    noteActivityAndMaybeWake()
+  }, { passive: true })
+
   useEventListener(document, 'visibilitychange', () => {
     if (document.visibilityState === 'visible' && activePath && ghostEnabled.value) {
+      if (idleOffline && !isOwnerGh(ghLogin.value))
+        return
       if (!socket || socket.readyState !== WebSocket.OPEN)
-        connect(pagePath.value, locale.value)
+        connect(pagePath.value, locale.value, ghLogin.value)
       else
         sendPresence(true)
     }
@@ -767,6 +874,10 @@ export function useGhostPresenceSession(pagePath: Ref<string>, locale: Ref<strin
     if (scrollSendRaf && typeof window !== 'undefined') {
       window.cancelAnimationFrame(scrollSendRaf)
       scrollSendRaf = 0
+    }
+    if (idleCheckTimer) {
+      clearInterval(idleCheckTimer)
+      idleCheckTimer = null
     }
     teardownSocket()
     activePath = ''
