@@ -44,7 +44,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version: 24
           cache: pnpm
 
       - name: Install dependencies
@@ -58,14 +58,18 @@ jobs:
           VITE_FROQ_API: ${{ secrets.VITE_FROQ_API }}
         run: pnpm docs:build
 
+      # Use workspace wrangler (workers/froq-api) so the action does not
+      # `pnpm add wrangler` under pnpm 11 (ERR_PNPM_IGNORED_BUILDS).
       - name: Deploy to Cloudflare Pages
         id: deploy
-        uses: cloudflare/wrangler-action@v3
+        uses: cloudflare/wrangler-action@v4
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
-          command: pages deploy docs/.vitepress/dist --project-name=froq --branch=main --commit-dirty=true
+          workingDirectory: workers/froq-api
+          packageManager: pnpm
+          command: pages deploy ../../docs/.vitepress/dist --project-name=froq --branch=main --commit-dirty=true
 
       - name: Deployment URL
         run: |
