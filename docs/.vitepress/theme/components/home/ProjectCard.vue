@@ -36,7 +36,12 @@ const stars = computed(() => {
     un-transition="colors duration-200"
     un-hover="border-neutral-300 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-900"
   >
-    <div un-flex un-items-baseline un-justify-between un-gap-3>
+    <div
+      un-flex
+      un-items-baseline
+      un-justify-between
+      un-gap-3
+    >
       <span
         un-text="base neutral-800 dark:neutral-200"
         un-font="serif medium"

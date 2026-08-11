@@ -69,7 +69,7 @@ export function useCommitHeatmap(login: string) {
     const res = await fetch(GRAPHQL_URL, {
       method: 'POST',
       headers: {
-        Authorization: `Bearer ${token}`,
+        'Authorization': `Bearer ${token}`,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({ query, variables: { login } }),

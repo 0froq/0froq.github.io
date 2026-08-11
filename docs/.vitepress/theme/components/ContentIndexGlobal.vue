@@ -3,6 +3,7 @@ import { useRoute } from 'vitepress'
 import { useI18n } from 'vue-i18n'
 import PageTitle from '@/ui/base/PageTitle.vue'
 import ContentNav from '@/ui/nav/ContentNav.vue'
+import AnnotationRail from '~/components/annotation/AnnotationRail.vue'
 import CommitHeatmap from '~/components/home/CommitHeatmap.vue'
 import NowHappening from '~/components/home/NowHappening.vue'
 import ProjectCard from '~/components/home/ProjectCard.vue'
@@ -71,42 +72,22 @@ const navItems = [
     :key="$i18n.locale"
     :title="$t('greeting')"
   />
-  <Content
-    id="content"
-    :key="route.path"
-    un-text="base/10"
-    class="markdown-rendered"
-  />
+  <div
+    un-relative
+  >
+    <Content
+      id="content"
+      :key="route.path"
+      un-text="base/10"
+      class="markdown-rendered"
+    />
+    <AnnotationRail />
+  </div>
   <div
     un-mt-16
     un-flex="~ col"
     un-gap-10
   >
-    <!-- <QSeperator
-      :title="t('secProjects')"
-      position="right"
-      type="dashed"
-      un-font-mono
-    /> -->
-    <!-- <div
-      un-grid
-      un-gap-4
-      un-grid-cols-1
-      un-md:grid-cols-3
-    >
-      <ProjectCard
-        name="headup.nvim"
-        repo="0froq/headup.nvim"
-      />
-      <ProjectCard
-        name="vscode-theme-LiG"
-        repo="0froq/vscode-theme-LiG"
-      />
-      <ProjectCard
-        name="bibr"
-        repo="0froq/bibr"
-      />
-    </div> -->
     <QSeperator
       :title="t('secRecentPosts')"
       position="right"
@@ -116,14 +97,6 @@ const navItems = [
     <ClientOnly>
       <RecentPosts />
     </ClientOnly>
-    <!-- <ClientOnly>
-      <div un-mt-16>
-        <PageTitle
-          title="Commit Heatmap"
-        />
-        <CommitHeatmap login="0froq" />
-      </div>
-    </ClientOnly> -->
     <ClientOnly>
       <div un-mt-16>
         <QSeperator
