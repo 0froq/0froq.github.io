@@ -4,6 +4,7 @@ import { useDraggable } from '@vueuse/core'
 import { computed, nextTick, ref, useTemplateRef, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import PaperEdgeSurface from '@/ui/paper/PaperEdgeSurface.vue'
+import { useCanHover } from '~/composables/useCanHover'
 import { clampNotePosition } from '~/composables/useVisitorNotes'
 import {
   VISITOR_NOTE_COLOR_LABELS,
@@ -54,6 +55,32 @@ const textareaRef = useTemplateRef<HTMLTextAreaElement>('textareaRef')
 
 const palette = computed(() => VISITOR_NOTE_COLOR_STYLES[props.note.color])
 const hovered = ref(false)
+const { canHover } = useCanHover()
+
+function onCardEnter() {
+  if (canHover.value)
+    hovered.value = true
+}
+
+function onCardLeave() {
+  if (canHover.value)
+    hovered.value = false
+}
+
+function onCardFocusIn() {
+  if (!canHover.value)
+    hovered.value = true
+}
+
+function onCardFocusOut(e: FocusEvent) {
+  if (canHover.value)
+    return
+  const next = e.relatedTarget as Node | null
+  if (next && rootRef.value?.contains(next))
+    return
+  if (!isDragging.value && !resizing.value)
+    hovered.value = false
+}
 
 const draft = ref(props.note.text)
 watch(() => props.note.text, (v) => {
@@ -76,6 +103,8 @@ function onInput(e: Event) {
 
 function onActivate() {
   emit('bring-to-front', props.note.id)
+  if (!canHover.value)
+    hovered.value = true
 }
 
 // ---- drag: VueUse useDraggable, clamped to .site-shell ----
@@ -209,8 +238,10 @@ function colorStyle(c: VisitorNoteColor) {
     un-pointer-events-auto
     un-backdrop-blur-md
     @pointerdown="onActivate"
-    @mouseenter="hovered = true"
-    @mouseleave="hovered = false"
+    @mouseenter="onCardEnter"
+    @mouseleave="onCardLeave"
+    @focusin="onCardFocusIn"
+    @focusout="onCardFocusOut"
   >
     <!--
       UnoCSS scan anchors: static attributify so utilities enter the CSS build.
@@ -381,25 +412,36 @@ function colorStyle(c: VisitorNoteColor) {
 </template>
 
 <style scoped>
-/* Idle: flat. Hover: lift + brighter stroke (same width). */
+/* Idle: flat. Hover (fine pointer) / active: lift + brighter stroke. */
 .visitor-note-card {
   transform: none;
   transition: box-shadow 0.25s ease;
   border-radius: 3px;
 }
 
-.visitor-note-card:hover {
-  box-shadow:
-    0 1px 2px rgb(0 0 0 / 0.05),
-    0 4px 12px -3px rgb(0 0 0 / 0.1),
-    0 10px 24px -8px rgb(0 0 0 / 0.12);
-}
+@media (hover: hover) and (pointer: fine) {
+  .visitor-note-card:hover {
+    box-shadow:
+      0 1px 2px rgb(0 0 0 / 0.05),
+      0 4px 12px -3px rgb(0 0 0 / 0.1),
+      0 10px 24px -8px rgb(0 0 0 / 0.12);
+  }
 
-.dark .visitor-note-card:hover {
-  box-shadow:
-    0 1px 2px rgb(0 0 0 / 0.3),
-    0 5px 14px -3px rgb(0 0 0 / 0.4),
-    0 12px 28px -8px rgb(0 0 0 / 0.45);
+  .dark .visitor-note-card:hover {
+    box-shadow:
+      0 1px 2px rgb(0 0 0 / 0.3),
+      0 5px 14px -3px rgb(0 0 0 / 0.4),
+      0 12px 28px -8px rgb(0 0 0 / 0.45);
+  }
+
+  .visitor-note-card:hover .visitor-note-resize {
+    opacity: 1;
+  }
+
+  .visitor-note-dot:hover {
+    opacity: 1;
+    transform: scale(1.15);
+  }
 }
 
 .visitor-note-active {
@@ -443,11 +485,6 @@ function colorStyle(c: VisitorNoteColor) {
   border-color: rgb(255 255 255 / 0.25);
 }
 
-.visitor-note-dot:hover {
-  opacity: 1;
-  transform: scale(1.15);
-}
-
 .visitor-note-dot-active {
   opacity: 1;
   box-shadow:
@@ -479,9 +516,15 @@ function colorStyle(c: VisitorNoteColor) {
   color: rgb(168 162 158 / 0.45);
 }
 
-.visitor-note-card:hover .visitor-note-resize,
 .visitor-note-resize-active {
   opacity: 1;
+}
+
+/* Touch: resize grip stays reachable without hover. */
+@media (hover: none), (pointer: coarse) {
+  .visitor-note-resize {
+    opacity: 0.9;
+  }
 }
 
 .visitor-note-card textarea {

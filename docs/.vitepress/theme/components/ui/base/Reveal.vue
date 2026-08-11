@@ -124,9 +124,9 @@ onMounted(() => {
   isolation: isolate;
 }
 
-.reveal-note.is-clickable {
+/* .reveal-note.is-clickable {
   cursor: pointer;
-}
+} */
 
 .reveal-note.is-clickable:hover {
   transform: rotate(calc(var(--card-tilt, -0.4deg) * 0.6));
@@ -140,8 +140,9 @@ onMounted(() => {
   display: flex;
   align-items: center;
   justify-content: center;
-  min-width: 72px;
-  min-height: 72px;
+  /* min-width: 72px;
+  min-height: 72px; */
+  --uno: 'min-w-12 min-h-12';
   padding: 8px 12px;
   --uno: 'border-(px dashed) border-neutral-700 dark:border-neutral-300';
   border-radius: 52% 68% 46% 74% / 68% 44% 72% 52%;
