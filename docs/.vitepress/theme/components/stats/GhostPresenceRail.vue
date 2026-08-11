@@ -133,14 +133,17 @@ const show = computed(() =>
 
 .ghost-pointer-name {
   position: absolute;
-  top: calc(100% + 2px);
+  bottom: calc(100% + 4px);
   left: 50%;
   transform: translateX(-50%);
   white-space: nowrap;
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
   font-size: 10px;
   line-height: 1.2;
-  color: rgb(115 115 115);
+  padding: 1px 5px;
+  border-radius: 4px;
+  color: rgb(82 82 82);
+  background: rgb(250 250 250 / 0.92);
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.15s ease;
@@ -148,6 +151,7 @@ const show = computed(() =>
 
 :global(.dark) .ghost-pointer-name {
   color: rgb(212 212 212);
+  background: rgb(23 23 23 / 0.92);
 }
 
 .ghost-pointer-marker:hover .ghost-pointer-icon {

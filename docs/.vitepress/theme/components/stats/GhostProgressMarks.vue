@@ -11,6 +11,14 @@ const { progressPeers, ghostEnabled, otherCount, sendPeek } = useGhostPresenceSt
 
 const show = computed(() => ghostEnabled.value && otherCount.value >= 1 && progressPeers.value.length > 0)
 
+function markStyle(peer: { p: number }) {
+  // Keep the 14px mark fully inside the track (7px half-width inset).
+  const pct = Math.min(100, Math.max(0, peer.p * 100))
+  return {
+    left: `clamp(7px, ${pct}%, calc(100% - 7px))`,
+  }
+}
+
 function markClass(peer: { p: number }) {
   return {
     'ghost-progress-mark--edge-left': peer.p < 0.06,
@@ -34,7 +42,7 @@ function onMarkClick(peer: { id: string }) {
       :key="peer.id"
       class="ghost-progress-mark"
       :class="markClass(peer)"
-      :style="{ left: `${peer.p * 100}%` }"
+      :style="markStyle(peer)"
       role="button"
       tabindex="0"
       :aria-label="peer.label"
@@ -67,6 +75,7 @@ function onMarkClick(peer: { id: string }) {
   inset: 0;
   pointer-events: none;
   z-index: 2;
+  overflow: visible;
 }
 
 .ghost-progress-mark {
@@ -76,8 +85,7 @@ function onMarkClick(peer: { id: string }) {
   flex-direction: column;
   align-items: center;
   gap: 2px;
-  margin-left: -7px;
-  margin-top: -7px;
+  transform: translate(-50%, -50%);
   pointer-events: auto;
   cursor: pointer;
   transition: left 0.35s ease-out;
@@ -85,31 +93,28 @@ function onMarkClick(peer: { id: string }) {
 
 .ghost-progress-mark__icon {
   transition: transform 0.15s ease;
-  box-shadow: 0 0 0 1.5px rgb(255 255 255 / 0.55);
+  display: block;
+  --uno: 'border-1 border-neutral-700 dark:border-neutral-400';
 }
 
 .ghost-progress-mark__avatar {
   border-radius: 9999px;
-  display: block;
-}
-
-:global(.dark) .ghost-progress-mark__icon {
-  box-shadow: 0 0 0 1.5px rgb(0 0 0 / 0.45);
 }
 
 .ghost-progress-mark__name {
   position: absolute;
-  bottom: calc(100% + 2px);
+  bottom: calc(100% + 4px);
   left: 50%;
   transform: translateX(-50%);
   white-space: nowrap;
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
   font-size: 10px;
   line-height: 1.2;
-  color: rgb(115 115 115);
+  padding: 1px 5px;
+  border-radius: 4px;
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.15s ease;
+  --uno: 'text-neutral-600 dark:text-neutral-300 bg-neutral-50/90 dark:bg-neutral-900/90';
 }
 
 .ghost-progress-mark--edge-left .ghost-progress-mark__name {
@@ -121,10 +126,6 @@ function onMarkClick(peer: { id: string }) {
   left: auto;
   right: 0;
   transform: none;
-}
-
-:global(.dark) .ghost-progress-mark__name {
-  color: rgb(163 163 163);
 }
 
 .ghost-progress-mark:hover .ghost-progress-mark__icon {
