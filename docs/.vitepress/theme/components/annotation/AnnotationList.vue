@@ -1,24 +1,39 @@
 <script setup lang="ts">
 import type { ResolvedAnnotation } from '../../types/annotation'
 import { storeToRefs } from 'pinia'
+import { useRoute } from 'vitepress'
 import { computed, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
+import DiscussionReactions from '~/components/annotation/DiscussionReactions.vue'
+import SiteLikeButton from '~/components/home/SiteLikeButton.vue'
 import { setHoverHighlight } from '~/composables/useAnnotationHighlight'
 import { repliesOf, topLevelNewestFirst } from '~/composables/useAnnotationThreads'
 import { resolveAnnotationMessage } from '~/i18n/annotation'
 import { useAnnotationStore } from '~/stores/annotation'
+import { useRouteI18n } from '~/utils/useRouteI18n'
 import AnnotationCard from './AnnotationCard.vue'
 
 const emit = defineEmits<{
   select: [annotation: ResolvedAnnotation]
 }>()
 
+const route = useRoute()
 const { t, te } = useI18n({ useScope: 'global' })
 const store = useAnnotationStore()
 const { annotations, activeCommentId } = storeToRefs(store)
 const { openReplyFloat, submitAnnotation } = store
 
+const pagePath = computed(() => route.path)
 const sorted = computed(() => topLevelNewestFirst(annotations.value))
+
+const INDEX_PATH_RE = /^\/(corpus|posts)\/(\d{3}-[a-z]+\/)?$/
+const { currentBasePath } = useRouteI18n()
+const isArticlePage = computed(() => {
+  const p = currentBasePath.value
+  if (p === '/' || p.startsWith('/dashboard/') || p.startsWith('/tags/'))
+    return false
+  return !INDEX_PATH_RE.test(p)
+})
 
 const articleCommentText = ref('')
 const submitting = ref(false)
@@ -65,13 +80,27 @@ function handleArticleKeydown(e: KeyboardEvent) {
     un-mt-8
     un-pt-6
   >
+    <div
+      un-flex="~ row wrap"
+      un-items-start
+      un-justify-between
+      un-gap-6
+      un-mb-4
+    >
+      <SiteLikeButton
+        v-if="isArticlePage"
+        :page-path="pagePath"
+        format="people"
+      />
+      <DiscussionReactions />
+    </div>
+
     <h2
       un-text-lg
       un-mb-4
     >
       {{ t('list.title', { count: annotations.length }) }}
     </h2>
-
     <div
       un-pb-4
       un-mb-4
@@ -93,7 +122,7 @@ function handleArticleKeydown(e: KeyboardEvent) {
         un-text="neutral-800 dark:neutral-200"
         un-placeholder="neutral-400 dark:neutral-600"
         un-leading-relaxed
-        un-focus="border-neutral-600 dark:border-neutral-400 rounded-lg"
+        un-focus="border-neutral-600 dark:neutral-400 rounded-lg"
         @keydown="handleArticleKeydown"
       />
       <div

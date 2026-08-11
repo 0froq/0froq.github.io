@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, onMounted, onUnmounted, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
+import SiteLikeButton from '~/components/home/SiteLikeButton.vue'
 import { SITE_LAUNCH_AT } from '~/composables/stats/constants'
 import { usePagePresenceState } from '~/composables/stats/usePagePresence'
 import { useSiteStats } from '~/composables/stats/useSiteStats'
@@ -94,7 +95,6 @@ const parts = computed(() => {
 
 <template>
   <div
-    v-if="parts.length"
     un-flex="~ row wrap"
     un-items-center
     un-gap-x-2
@@ -103,16 +103,23 @@ const parts = computed(() => {
     un-font-mono
     un-mt-3
   >
-    <template
-      v-for="(part, i) in parts"
-      :key="part"
-    >
+    <template v-if="parts.length">
+      <template
+        v-for="(part, i) in parts"
+        :key="part"
+      >
+        <span
+          v-if="i > 0"
+          un-opacity-40
+          aria-hidden="true"
+        >·</span>
+        <span>{{ part }}</span>
+      </template>
       <span
-        v-if="i > 0"
         un-opacity-40
         aria-hidden="true"
       >·</span>
-      <span>{{ part }}</span>
+      <SiteLikeButton />
     </template>
   </div>
 </template>

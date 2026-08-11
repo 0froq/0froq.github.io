@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import LinkUnderline from '@/ui/base/LinkUnderline.vue'
+import SiteLikeButton from '~/components/home/SiteLikeButton.vue'
 import SiteStatsLine from '~/components/stats/SiteStatsLine.vue'
 </script>
 
