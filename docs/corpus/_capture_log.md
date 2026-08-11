@@ -3,3 +3,4 @@
 - [2026-08-07] Notion → corpus: aut:0 ing:0 neo:0 put:0 del:0 vig:0 (共 0 条 — 模板日，无随手记录)
 - [2026-08-08] Notion → corpus: API 404 — 数据库 2c4d615f9f918091a488feb779532b9d 仍未对集成 "Integration for Hana" 授权。集成当前仅可访问 Manuscript 数据库 (3a8d615f)。
 - [2026-08-09] Notion → corpus: aut:0 ing:0 neo:0 put:0 del:0 vig:0 (共 0 条 — 空白日，无随手记录)
+- [2026-08-11] Notion → corpus: API 404 — 数据库 2c4d615f9f918091a488feb779532b9d 未对集成 "Integration for Hana" 授权。集成仅可访问 Manuscript 数据库 (3a8d615f)。
