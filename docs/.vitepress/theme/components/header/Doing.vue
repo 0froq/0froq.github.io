@@ -1,9 +1,14 @@
 <script setup lang="ts">
+import type { DoingPhrasePick } from '~/composables/doing/appPhrases'
 import type { Activity } from '~/types'
-import { onMounted, onUnmounted, ref } from 'vue'
+import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import IconApp from '@/ui/icon/IconApp.vue'
 import IconLoading from '@/ui/icon/IconLoading.vue'
+import {
+  pickDoingPhrase,
+  splitDoingPhrase,
+} from '~/composables/doing/appPhrases'
 
 // Sync what I am doing
 const R2_PUBLIC_URL = 'https://pub-d05ff6ec0ecf448ca7cc6c2f0c0a5bcc.r2.dev/activity.json'
@@ -12,7 +17,35 @@ const activity = ref<Activity>({ active: false })
 const loading = ref(true)
 const error = ref<string | null>(null)
 const sleeping = ref(false)
+const phrase = ref<DoingPhrasePick>({ text: '{app}' })
 let timer: number
+
+const { locale } = useI18n({ useScope: 'global' })
+
+const appName = computed(() => activity.value.process?.name || '')
+const mode = computed(() => (sleeping.value ? 'sleeping' : 'working') as const)
+const phraseParts = computed(() => splitDoingPhrase(phrase.value.text))
+
+function reshufflePhrase(opts?: { avoidCurrent?: boolean }) {
+  if (!appName.value) {
+    phrase.value = { text: '{app}' }
+    return
+  }
+  const current = phrase.value.text
+  let next = pickDoingPhrase(appName.value, mode.value, locale.value)
+  if (opts?.avoidCurrent && next.text === current) {
+    for (let i = 0; i < 8; i++) {
+      next = pickDoingPhrase(appName.value, mode.value, locale.value)
+      if (next.text !== current)
+        break
+    }
+  }
+  phrase.value = next
+}
+
+function onPhraseClick() {
+  reshufflePhrase({ avoidCurrent: true })
+}
 
 async function fetchActivity() {
   try {
@@ -46,6 +79,13 @@ async function fetchActivity() {
   }
 }
 
+// Re-roll only when app / active↔sleep / locale changes — not every 5s poll.
+watch(
+  [appName, mode, locale],
+  () => reshufflePhrase(),
+  { immediate: true },
+)
+
 onMounted(() => {
   fetchActivity()
   timer = setInterval(fetchActivity, 5000) as unknown as number
@@ -54,25 +94,6 @@ onMounted(() => {
 onUnmounted(() => {
   clearInterval(timer)
 })
-
-useI18n({
-  useScope: 'global',
-  messages: {
-    en: {
-      sleeping: 'Sleeping in {app}',
-    },
-    zh: {
-      sleeping: '在 {app} 中眠了',
-    },
-  },
-})
-
-const appWithTitle = [
-  'Zen',
-  'Vivaldi',
-  'Code',
-  'Ghostty',
-]
 </script>
 
 <template>
@@ -92,7 +113,7 @@ const appWithTitle = [
       un-h-2
       un-rounded-full
       un-shrink-0
-      un-bg="emerald-600 dark:emerald-400"
+      un-bg="neutral-800 dark:neutral-100"
     />
     <span
       un-flex="~ row"
@@ -100,33 +121,97 @@ const appWithTitle = [
       un-gap-1
       un-px-2
       un-py-0
-      un-text="emerald-600 dark:emerald-400"
+      un-text="neutral-800 dark:neutral-100"
+      un-font-mono
     >
-      {{ activity.process?.name }}
-      <IconApp
-        v-if="activity.active"
-        un-inline-block
-        :app="activity.process?.name || ''"
-        :alt="`${activity.process?.name} icon`"
-      />
-    </span>
-    <span
-      v-if="activity.process?.windowTitle && appWithTitle.includes(activity.process?.name || '')"
-      un-flex="~ row"
-      un-items-center
-      un-gap-1
-      un-min-w-0
-      un-text-nowrap
-      un-text-ellipsis
-      un-text="neutral-500 dark:neutral-500"
-    >
-      - {{ activity.process?.windowTitle }}
-      <IconApp
-        v-if="activity.active"
-        un-inline-block
-        :app="activity.process?.windowTitle || ''"
-        :alt="`${activity.process?.windowTitle} icon`"
-      />
+      <span
+        un-cursor-pointer
+        role="button"
+        tabindex="0"
+        title="reshuffle"
+        @click="onPhraseClick"
+        @keydown.enter.prevent="onPhraseClick"
+      >{{ phraseParts.before }}</span>
+      <template v-if="phraseParts.hasApp && appName">
+        <a
+          v-if="phrase.url"
+          :href="phrase.url"
+          target="_blank"
+          rel="noopener noreferrer"
+          un-inline-flex
+          un-items-center
+          un-gap-1
+          un-text="neutral-800 dark:neutral-100"
+          un-underline
+          un-underline-offset-2
+          un-decoration-neutral-400
+        >
+          {{ appName }}
+          <IconApp
+            un-inline-block
+            :app="appName"
+            :alt="`${appName} icon`"
+          />
+        </a>
+        <span
+          v-else
+          un-inline-flex
+          un-items-center
+          un-gap-1
+        >
+          {{ appName }}
+          <IconApp
+            un-inline-block
+            :app="appName"
+            :alt="`${appName} icon`"
+          />
+        </span>
+        <span
+          v-if="phraseParts.after"
+          un-cursor-pointer
+          role="button"
+          tabindex="0"
+          title="reshuffle"
+          @click="onPhraseClick"
+          @keydown.enter.prevent="onPhraseClick"
+        >{{ phraseParts.after }}</span>
+      </template>
+      <template v-else-if="appName">
+        <span>-</span>
+        <a
+          v-if="phrase.url"
+          :href="phrase.url"
+          target="_blank"
+          rel="noopener noreferrer"
+          un-inline-flex
+          un-items-center
+          un-gap-1
+          un-text="neutral-800 dark:neutral-100"
+          un-underline
+          un-underline-offset-2
+          un-decoration-neutral-400
+        >
+          {{ appName }}
+          <IconApp
+            un-inline-block
+            :app="appName"
+            :alt="`${appName} icon`"
+          />
+        </a>
+        <span
+          v-else
+          un-inline-flex
+          un-items-center
+          un-gap-1
+        >
+          {{ appName }}
+          <IconApp
+            un-inline-block
+            :app="appName"
+            :alt="`${appName} icon`"
+          />
+        </span>
+      </template>
     </span>
   </div>
 
@@ -151,18 +236,94 @@ const appWithTitle = [
       un-gap-1
       un-px-2
       un-py-0
+      un-font-mono
     >
-      <i18n-t keypath="sleeping">
-        <template #app>
-          {{ activity.process?.name }}
+      <span
+        un-cursor-pointer
+        role="button"
+        tabindex="0"
+        title="reshuffle"
+        @click="onPhraseClick"
+        @keydown.enter.prevent="onPhraseClick"
+      >{{ phraseParts.before }}</span>
+      <template v-if="phraseParts.hasApp && appName">
+        <a
+          v-if="phrase.url"
+          :href="phrase.url"
+          target="_blank"
+          rel="noopener noreferrer"
+          un-inline-flex
+          un-items-center
+          un-gap-1
+          un-underline
+          un-underline-offset-2
+          un-decoration-neutral-400
+        >
+          {{ appName }}
           <IconApp
-            v-if="activity.process?.name"
             un-inline-block
-            :app="activity.process?.name || ''"
-            :alt="`${activity.process?.name} icon`"
+            :app="appName"
+            :alt="`${appName} icon`"
           />
-        </template>
-      </i18n-t>
+        </a>
+        <span
+          v-else
+          un-inline-flex
+          un-items-center
+          un-gap-1
+        >
+          {{ appName }}
+          <IconApp
+            un-inline-block
+            :app="appName"
+            :alt="`${appName} icon`"
+          />
+        </span>
+        <span
+          v-if="phraseParts.after"
+          un-cursor-pointer
+          role="button"
+          tabindex="0"
+          title="reshuffle"
+          @click="onPhraseClick"
+          @keydown.enter.prevent="onPhraseClick"
+        >{{ phraseParts.after }}</span>
+      </template>
+      <template v-else-if="appName">
+        <span>-</span>
+        <a
+          v-if="phrase.url"
+          :href="phrase.url"
+          target="_blank"
+          rel="noopener noreferrer"
+          un-inline-flex
+          un-items-center
+          un-gap-1
+          un-underline
+          un-underline-offset-2
+          un-decoration-neutral-400
+        >
+          {{ appName }}
+          <IconApp
+            un-inline-block
+            :app="appName"
+            :alt="`${appName} icon`"
+          />
+        </a>
+        <span
+          v-else
+          un-inline-flex
+          un-items-center
+          un-gap-1
+        >
+          {{ appName }}
+          <IconApp
+            un-inline-block
+            :app="appName"
+            :alt="`${appName} icon`"
+          />
+        </span>
+      </template>
       <un-i-solar-sleeping-circle-bold-duotone />
     </span>
   </div>
