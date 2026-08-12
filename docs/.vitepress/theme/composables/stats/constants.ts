@@ -19,8 +19,8 @@ export const GHOST_POINTER_THROTTLE_MS = 80
 /** Max relative viewport size gap before pointer ghosts fall back to progress. */
 export const GHOST_VIEWPORT_MISMATCH = 0.2
 /**
- * Ghost presence idle timeout: no pointer/scroll → appear offline.
- * Owner GitHub login is exempt (always stays visible).
+ * Shared presence idle timeout: no pointer/scroll/key → leave HTTP session
+ * and disconnect ghost WS. Owner GitHub login is exempt.
  */
 export const GHOST_IDLE_MS = 5 * 60_000
 export const GHOST_OWNER_GH = '0froq'

@@ -4,8 +4,6 @@ import { computed, onUnmounted, readonly, ref, watch } from 'vue'
 import { personaFromAnonId } from './anonPersona'
 import {
   GHOST_ENABLED_KEY,
-  GHOST_IDLE_MS,
-  GHOST_OWNER_GH,
   GHOST_POINTER_THROTTLE_MS,
   GHOST_VIEWPORT_MISMATCH,
 } from './constants'
@@ -14,6 +12,10 @@ import { githubAvatarUrl } from './presenceIdentity'
 import { anonIdRef, getAnonId } from './useAnonId'
 import { usePresenceAsAnon } from './useAnonPersona'
 import { pushGhostPeekNotice } from './useGhostPeekNotices'
+import {
+  isPresenceIdleOffline,
+  subscribePresenceIdle,
+} from './usePresenceIdle'
 import { measureArticleProgress } from './useReadingProgress'
 import { useGitHubAuth } from '~/composables/useGitHubAuth'
 
@@ -98,22 +100,6 @@ let localY = -1
 let lastClientX = -1
 let lastClientY = -1
 let scrollSendRaf = 0
-/** Local idle clock — no pointer/scroll for GHOST_IDLE_MS → disconnect. */
-let lastLocalActivity = 0
-let idleOffline = false
-let idleCheckTimer: ReturnType<typeof setInterval> | null = null
-
-function isOwnerGh(login?: string | null): boolean {
-  return (login || '').trim().toLowerCase() === GHOST_OWNER_GH
-}
-
-function bumpLocalActivity(): void {
-  lastLocalActivity = Date.now()
-  if (!idleOffline)
-    return
-  idleOffline = false
-  // Caller reconnects via ensureGhostSession when appropriate.
-}
 
 /** Collapse trailing slash so `/a` and `/a/` share one presence room. */
 export function normalizePresencePath(raw: string): string {
@@ -443,7 +429,7 @@ function connect(pagePath: string, locale: string, ghLogin?: string) {
     return
   if (!ghostEnabled.value)
     return
-  if (idleOffline && !isOwnerGh(ghLogin))
+  if (isPresenceIdleOffline())
     return
 
   const path = normalizePresencePath(pagePath)
@@ -596,7 +582,7 @@ function sendIdentity(ghLogin?: string): boolean {
 }
 
 function sendPresence(force = false) {
-  if (idleOffline)
+  if (isPresenceIdleOffline())
     return
   if (!socket || socket.readyState !== WebSocket.OPEN)
     return
@@ -738,7 +724,7 @@ export function useGhostPresenceSession(pagePath: Ref<string>, locale: Ref<strin
   function reconnect() {
     if (!ghostEnabled.value || !pagePath.value)
       return
-    if (idleOffline && !isOwnerGh(ghLogin.value))
+    if (isPresenceIdleOffline())
       return
     connect(pagePath.value, locale.value, ghLogin.value)
   }
@@ -753,38 +739,18 @@ export function useGhostPresenceSession(pagePath: Ref<string>, locale: Ref<strin
     throttledPointer()
   }
 
-  function noteActivityAndMaybeWake() {
-    const wasIdle = idleOffline
-    bumpLocalActivity()
-    if (wasIdle && ghostEnabled.value && pagePath.value)
-      reconnect()
-  }
-
-  function checkLocalIdle() {
-    if (isOwnerGh(ghLogin.value)) {
-      if (idleOffline) {
-        idleOffline = false
+  const unsubIdle = subscribePresenceIdle({
+    onIdle() {
+      teardownSocket()
+      // Keep activePath so wake can reconnect on the same article.
+      if (pagePath.value)
+        activePath = normalizePresencePath(pagePath.value) || pagePath.value
+    },
+    onWake() {
+      if (ghostEnabled.value && pagePath.value)
         reconnect()
-      }
-      return
-    }
-    if (!ghostEnabled.value || !pagePath.value)
-      return
-    if (!lastLocalActivity)
-      lastLocalActivity = Date.now()
-    if (Date.now() - lastLocalActivity < GHOST_IDLE_MS)
-      return
-    if (idleOffline)
-      return
-    idleOffline = true
-    teardownSocket()
-    activePath = pagePath.value
-  }
-
-  if (!idleCheckTimer) {
-    lastLocalActivity = Date.now()
-    idleCheckTimer = setInterval(checkLocalIdle, 30_000)
-  }
+    },
+  })
 
   watch(progressOnlyDevice, (only) => {
     if (only)
@@ -799,7 +765,7 @@ export function useGhostPresenceSession(pagePath: Ref<string>, locale: Ref<strin
         activePath = ''
         return
       }
-      if (idleOffline && !isOwnerGh(ghLogin.value))
+      if (isPresenceIdleOffline())
         return
       connect(path, locale.value, ghLogin.value)
     },
@@ -808,7 +774,6 @@ export function useGhostPresenceSession(pagePath: Ref<string>, locale: Ref<strin
 
   // Persona reshuffle — reconnect so peers see new anon seed.
   watch(anonIdRef, () => {
-    noteActivityAndMaybeWake()
     reconnect()
   })
 
@@ -817,7 +782,6 @@ export function useGhostPresenceSession(pagePath: Ref<string>, locale: Ref<strin
   watch(ghLogin, (next, prev) => {
     if (next === prev)
       return
-    noteActivityAndMaybeWake()
     if (socket && socket.readyState === WebSocket.OPEN && activePath) {
       if (sendIdentity(next))
         return
@@ -835,7 +799,6 @@ export function useGhostPresenceSession(pagePath: Ref<string>, locale: Ref<strin
   })
 
   useEventListener(window, 'scroll', () => {
-    noteActivityAndMaybeWake()
     // Local projections update immediately; also resync + broadcast our
     // content-space pointer so peers track while we scroll (mouse still).
     bumpLayout()
@@ -853,7 +816,6 @@ export function useGhostPresenceSession(pagePath: Ref<string>, locale: Ref<strin
   }, { passive: true })
 
   useEventListener(window, 'mousemove', (ev: MouseEvent) => {
-    noteActivityAndMaybeWake()
     // Touch-primary devices have no cursor — never publish pointer coords.
     if (progressOnlyDevice.value)
       return
@@ -874,17 +836,9 @@ export function useGhostPresenceSession(pagePath: Ref<string>, locale: Ref<strin
     throttledPointer()
   }, { passive: true })
 
-  useEventListener(window, 'touchstart', () => {
-    noteActivityAndMaybeWake()
-  }, { passive: true })
-
-  useEventListener(window, 'keydown', () => {
-    noteActivityAndMaybeWake()
-  }, { passive: true })
-
   useEventListener(document, 'visibilitychange', () => {
     if (document.visibilityState === 'visible' && activePath && ghostEnabled.value) {
-      if (idleOffline && !isOwnerGh(ghLogin.value))
+      if (isPresenceIdleOffline())
         return
       if (!socket || socket.readyState !== WebSocket.OPEN)
         connect(pagePath.value, locale.value, ghLogin.value)
@@ -898,10 +852,7 @@ export function useGhostPresenceSession(pagePath: Ref<string>, locale: Ref<strin
       window.cancelAnimationFrame(scrollSendRaf)
       scrollSendRaf = 0
     }
-    if (idleCheckTimer) {
-      clearInterval(idleCheckTimer)
-      idleCheckTimer = null
-    }
+    unsubIdle()
     teardownSocket()
     activePath = ''
   })

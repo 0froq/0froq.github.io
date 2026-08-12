@@ -9,6 +9,10 @@ import {
   usePresenceGhLogin,
 } from './presenceIdentity'
 import { getAnonId } from './useAnonId'
+import {
+  isPresenceIdleOffline,
+  subscribePresenceIdle,
+} from './usePresenceIdle'
 
 export interface PageOnlineRow {
   pagePath: string
@@ -74,6 +78,8 @@ async function ping(countVisit: boolean, ghLogin?: string): Promise<void> {
     return
   if (document.visibilityState === 'hidden')
     return
+  if (isPresenceIdleOffline())
+    return
 
   const path = activePath
   if (!path)
@@ -132,6 +138,8 @@ function stopTimer() {
 
 function startTimer(getGhLogin: () => string | undefined) {
   stopTimer()
+  if (isPresenceIdleOffline())
+    return
   timer = setInterval(() => {
     void ping(false, getGhLogin())
   }, HEARTBEAT_MS)
@@ -143,6 +151,8 @@ async function enterPath(path: string, getGhLogin: () => string | undefined) {
     await leave(activePath, activeGhLogin)
   }
   activePath = path
+  if (isPresenceIdleOffline())
+    return
   await ping(false, nextLogin)
   startTimer(getGhLogin)
 }
@@ -158,6 +168,8 @@ async function switchIdentity(
   if ((prevLogin || '') === (nextLogin || ''))
     return
   await leave(activePath, prevLogin)
+  if (isPresenceIdleOffline())
+    return
   await ping(false, nextLogin)
   startTimer(getGhLogin)
 }
@@ -204,6 +216,18 @@ export function usePagePresenceSession(pagePath: Ref<string>) {
     return usePagePresenceState()
   }
 
+  const unsubIdle = subscribePresenceIdle({
+    onIdle() {
+      stopTimer()
+      void leave(activePath, activeGhLogin ?? getGhLogin())
+    },
+    onWake() {
+      if (!activePath || document.visibilityState === 'hidden')
+        return
+      void ping(false, getGhLogin()).then(() => startTimer(getGhLogin))
+    },
+  })
+
   watch(
     pagePath,
     (path, prev) => {
@@ -238,10 +262,14 @@ export function usePagePresenceSession(pagePath: Ref<string>) {
   })
 
   useEventListener(document, 'visibilitychange', () => {
-    if (document.visibilityState === 'visible')
+    if (document.visibilityState === 'visible') {
+      if (isPresenceIdleOffline())
+        return
       void ping(false, getGhLogin())
-    else
+    }
+    else {
       void leave(activePath, activeGhLogin ?? getGhLogin())
+    }
   })
 
   useEventListener(window, 'pagehide', () => {
@@ -249,6 +277,7 @@ export function usePagePresenceSession(pagePath: Ref<string>) {
   })
 
   onUnmounted(() => {
+    unsubIdle()
     stopTimer()
     void leave(activePath, activeGhLogin ?? getGhLogin())
     activePath = ''
