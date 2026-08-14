@@ -15,3 +15,6 @@ docs/posts/_template/blog_temp.md
 docs/.vitepress/generated/tags.json
 docs/corpus/_scripts/__pycache__/
 .env.local
+
+# Rune private State Ledger / outbox runtime. Never publish with GitHub Pages.
+.rune/
