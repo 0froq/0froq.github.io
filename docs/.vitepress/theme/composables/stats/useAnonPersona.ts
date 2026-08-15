@@ -1,5 +1,5 @@
-import { computed, ref, watch } from 'vue'
 import type { AnonPersona } from './anonPersona'
+import { computed, ref, watch } from 'vue'
 import { personaFromAnonId } from './anonPersona'
 import { PRESENCE_AS_ANON_KEY } from './constants'
 import { anonIdRef, getAnonId, rerollAnonId } from './useAnonId'

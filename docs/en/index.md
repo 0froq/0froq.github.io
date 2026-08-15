@@ -27,14 +27,14 @@ I have ==bipolar type I disorder==.
 My thoughts swing between order and chaos.
 That tension fuels whatever creativity I have.
 
-- - -
+---
 
 [Observer / Builder / Thinker]{.flex.flex-col.items-center.italic.font-serif}
 
 The goal: :u[become a full-time open source developer]{.underline-amber-500}.
 Seeing this sentence simply means I'm still on the road.
 
-- - -
+---
 
 This isn't just a blog.
 

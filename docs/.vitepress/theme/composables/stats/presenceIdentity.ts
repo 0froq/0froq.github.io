@@ -1,6 +1,6 @@
 import { useGitHubAuth } from '~/composables/useGitHubAuth'
-import { usePresenceAsAnon } from './useAnonPersona'
 import { getAnonId } from './useAnonId'
+import { usePresenceAsAnon } from './useAnonPersona'
 
 /** GitHub avatar by login (no API). */
 export function githubAvatarUrl(login: string): string {

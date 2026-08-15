@@ -44,9 +44,9 @@ const show = computed(() =>
         class="ghost-pointer-marker"
         :class="{ 'ghost-pointer-marker--edge': peer.edge }"
         :style="{
-          left: `${peer.left}px`,
-          top: `${peer.top}px`,
-          color: peer.colorHex,
+          'left': `${peer.left}px`,
+          'top': `${peer.top}px`,
+          'color': peer.colorHex,
           '--ghost-angle': `${peer.angle}deg`,
         }"
         role="button"
@@ -98,7 +98,10 @@ const show = computed(() =>
   margin-top: -8px;
   pointer-events: auto;
   cursor: pointer;
-  transition: top 0.08s linear, left 0.08s linear, opacity 0.2s ease;
+  transition:
+    top 0.08s linear,
+    left 0.08s linear,
+    opacity 0.2s ease;
 }
 
 .ghost-pointer-marker--edge {
@@ -108,7 +111,9 @@ const show = computed(() =>
 
 .ghost-pointer-icon {
   opacity: 0.85;
-  transition: transform 0.15s ease, opacity 0.15s ease;
+  transition:
+    transform 0.15s ease,
+    opacity 0.15s ease;
   box-shadow: 0 0 8px color-mix(in srgb, currentColor 45%, transparent);
 }
 
@@ -128,7 +133,9 @@ const show = computed(() =>
   filter: drop-shadow(0 0 4px color-mix(in srgb, currentColor 45%, transparent));
   transform: rotate(var(--ghost-angle, 0deg));
   transform-origin: center;
-  transition: transform 0.15s ease, opacity 0.15s ease;
+  transition:
+    transform 0.15s ease,
+    opacity 0.15s ease;
 }
 
 .ghost-pointer-name {

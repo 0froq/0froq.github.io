@@ -1,6 +1,7 @@
 import type { Ref } from 'vue'
 import { useEventListener, useMediaQuery, useThrottleFn } from '@vueuse/core'
 import { computed, onUnmounted, readonly, ref, watch } from 'vue'
+import { useGitHubAuth } from '~/composables/useGitHubAuth'
 import { personaFromAnonId } from './anonPersona'
 import {
   GHOST_ENABLED_KEY,
@@ -17,7 +18,6 @@ import {
   subscribePresenceIdle,
 } from './usePresenceIdle'
 import { measureArticleProgress } from './useReadingProgress'
-import { useGitHubAuth } from '~/composables/useGitHubAuth'
 
 /** Must match server PagePresence poke cooldown. */
 const POKE_COOLDOWN_MS = 1_000
