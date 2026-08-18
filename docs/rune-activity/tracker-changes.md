@@ -983,3 +983,29 @@
 - [2026-08-18 01:10] [TOPIC][timeout] desk setups & battlestations、keycaps、zFrontier community — Brave 查询配额用尽后持续返回反爬页（Tor Project 拦截），DuckDuckGo 202 challenge、Bing 连接失败、Mojeek/Startpage/Ecosia/SearXNG 均验证码或反爬；改用 Google News RSS 交叉核验：keycaps 见 Awekeys 金属键帽报道（TechPowerUp，2026-05-15）、桌搭见 Tom's Hardware "18 accessories I swear by for my desk setup"（2026-02-09），两者 direct URL 未能解析（Google News 重定向无法还原），相关性一般，不记录；zFrontier 首页为 JS 渲染，直接抓取仅得页面标题与 meta，无新品信号可核验。
 - [2026-08-18 01:10] RSS：近 3 天（2026-08-15 → 2026-08-18）无相对既有记录的新条目。Vue Blog 仍停留在 2024-09；TypeScript Blog 最新 2026-07-08（已记录）；Vite Blog 最新 2026-06-23（已记录）；Anthony Fu 最新 2025-04-28（内容滞后）；Innei 最新 2026-08-16《AI 时代我的开发工作流：从踩坑复盘到多项目并行验证》（已记录）；Beyond Code 最新 2026-07-02（已记录，超出窗口）；No Coding Today feed 本轮可解析，最新 item 为 S1E20（2026-07-20，超出窗口；与既往记录"最新 2026-03-09"不同，为 feed 可解析状态变化所致）。
 - [2026-08-18 01:10] Tracker 采集完毕。
+
+---
+
+## 2026-08-18 09:00
+
+- [2026-08-18 09:00] Inbox 为空。
+- [2026-08-18 09:00] [SW] Hermes Agent v2026.8.16.2 / v0.20.3（2026-08-17T18:43Z）。https://github.com/NousResearch/hermes-agent/releases/tag/v2026.8.16.2 — 相对已记录 v2026.8.16 / v0.20.2 的 patch release；~125 PRs / ~250 commits（+42,613/−1,641），含 MCP 2.x SDK 迁移与 2026-07-28 stateless protocol 支持。
+- [2026-08-18 09:00] GitHub Releases：VitePress v2.0.0-alpha.19、Vue v3.6.0-rc.4 / v3.5.41、TypeScript v6.0.3、Vite v8.2.1 / plugin-legacy@8.2.3、Rolldown v1.2.4、Node.js v26.7.0 均与既有记录一致，无新版本。
+- [2026-08-18 09:00] [PAPER][timeout] arXiv API 本轮 HTTP/HTTPS 端点均返回 429 Rate exceeded 或连接超时，7 个检索式跳过本轮；未据此推断无新论文。
+- [2026-08-18 09:00] [TOPIC] Cantonese Pop：香港著名填词人/演员黎彼得（Peter Lai，"Lyrical Maverick"）于 2026-08 初离世，享年 76 岁（SCMP/CNA/Straits Times 等，2026-08-05~08 报道）。曾为许冠杰等写过大量粤语经典歌词，属粤语流行乐重要人物新闻。
+- [2026-08-18 09:00] [TOPIC] Vue & Vite ecosystem、ergonomic keyboards：Brave 检索结果与既有记录重复（Announcing Rolldown-Vite、State of Vue & Vite 2026、Vite 8.0、Certificates.dev 迁移指南、Vue School 2025 回顾、YIVU Corne V4/V4.1、MKB Guide、Try Ortho Keys、rugu.dev 半年体验、Engadget 2026 人体工学键盘榜单等）或为通用资源/商品页，无明确独立新信号，跳过记录。
+- [2026-08-18 09:00] [TOPIC][timeout] typography & design tools、Neovim & terminal tooling、knowledge management & PKM tools、desk setups & battlestations、keycaps、zFrontier community — Brave 查询配额用尽后返回 CAPTCHA 拦截，DuckDuckGo 202 challenge、Bing 连接超时、Mojeek/Ecosia 验证码；改用 Google News RSS 交叉核验：Neovim 5 天内无新闻、PKM 见 androidauthority 弃用 second-brain 应用随笔（相关性一般跳过）、桌搭/键帽为通用数码产品测评（Epomaker RT75、Corsair、XVX L75 等，非 artisan/灵感信号）、zFrontier 为 JS 渲染页无新品信号可核验；MIRROR 英文单曲《Rumours》报道为 2023-03 旧闻，跳过。
+- [2026-08-18 09:00] RSS：近 3 天（2026-08-15 → 2026-08-18）无相对既有记录的新条目。Vue Blog 仍停留在 2024-09；TypeScript Blog 最新 2026-07-08《Announcing TypeScript 7.0》（已记录）；Vite Blog 最新 2026-06-23（已记录）；Anthony Fu 最新 2025-04-28（内容滞后）；Innei 最新 2026-08-16《AI 时代我的开发工作流：从踩坑复盘到多项目并行验证》（已记录）；Beyond Code 最新 2026-07-02（已记录，超出窗口）；No Coding Today 最新可见 S1E20（2026-03-09/feed 可解析状态波动，无近 3 天新发布）。
+- [2026-08-18 09:00] Tracker 采集完毕。
+
+---
+
+## 2026-08-18 17:00
+
+- [2026-08-18 17:00] Inbox 为空。
+- [2026-08-18 17:00] [SW] Hermes Agent v2026.8.18 / v0.20.4（2026-08-18T07:26:46Z）。https://github.com/NousResearch/hermes-agent/releases/tag/v2026.8.18 — 相对已记录 v2026.8.16.2 / v0.20.3 的 patch release；约 74 PR / 146 commits（265 files，+21,697/−2,217），含桌面端玻璃/半透明表面工作（matte glass、frost picker、macOS pre-select）、SESSIONS|BOTS 标签式侧栏（per-bot hide/unhide）、Bot Mode 群聊修复（长任务成员轮次、Markdown 渲染、跨机器路由）、NVIDIA SkillEvaluator Tier 1 技能安装 advisory 扫描（license + 安全）、cron 媒体发送加固（可配置超时、手动运行附件、missed-fire 提示）、SessionDB 事件循环线程与竞争修复、`hermes update` parked-branch 诚实提示、kanban 原生 OS 通知。完整 curated release notes 随 v0.21.0 发布。
+- [2026-08-18 17:00] GitHub Releases：VitePress v2.0.0-alpha.19、Vue v3.6.0-rc.4 / v3.5.41、TypeScript v6.0.3、Vite v8.2.1 / plugin-legacy@8.2.3、Rolldown v1.2.4、Node.js v26.7.0 均与既有记录一致，无新版本。
+- [2026-08-18 17:00] arXiv：7 个检索式均成功返回（HTTPS）；最新相关标题为既有记录（Forecasting Land Art、PIER、巴西小水库、Global Waterbody Calculator、并发洪旱等）或明显无关领域（机器人操作、扩散模型、ISAC、AGN 金属丰度、纳米光子逆向设计、KAN 土地分类等）；spatial heterogeneity 新返回 Earth Observation Foundation Models for Terrestrial Ecohydrology（2608.15282，2026-08-15）——陆地生态水文学基础模型，非湖泊空间异质性方向，相关性不足；未发现明确相关新论文，按 low priority 跳过摘要阅读。
+- [2026-08-18 17:00] Web 主题搜索（DuckDuckGo HTML / Brave 本轮可用）：Vue & Vite ecosystem、typography & design tools、Cantonese Pop、Neovim & terminal tooling、knowledge management & PKM tools、ergonomic keyboards、desk setups & battlestations、keycaps、zFrontier community 各浏览 5–8 条结果；结果与既有记录重复（fivejars 2026 状态文、Vite 8/Rolldown、noto-cjk-varco、KKBOX 榜单、Neovim LazyVim 指南、Glukhov/Storyflow PKM、YIVU Corne V4/V4.1 产品页、rugu.dev、homedit/makerstations 桌搭、KeebFinder/Switchyard 键帽、zFrontier 通用页等）或为通用资源/内容农场/JS 渲染页（zettelgarden.com、zfrontier.com/app），无明确独立新信号，跳过记录。
+- [2026-08-18 17:00] RSS：近 3 天（2026-08-15 → 2026-08-18）无相对既有记录的新条目（本轮全部源 HTTP 200 可解析）。Vue Blog 仍停留在 2024-09；TypeScript Blog 最新 2026-07-08（已记录）；Vite Blog 最新 2026-06-23（已记录，feed 构建 2026-08-10 无新 item）；Anthony Fu 最新 2025-04-28（内容滞后）；Innei 最新 2026-08-17 00:32 CST《AI 时代我的开发工作流：从踩坑复盘到多项目并行验证》（已记录，与 08-16 16:32 UTC 一致）；Beyond Code 最新 2026-07-02（已记录，超出窗口）；No Coding Today 最新 S1E20（2026-03-09/10，内容滞后）。
+- [2026-08-18 17:00] Tracker 采集完毕。
