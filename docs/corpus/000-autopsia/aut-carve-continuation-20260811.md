@@ -13,7 +13,7 @@ froQ 直接指出 Carve 正在变成任务驱动而非内容驱动的系统，
 
 [[toc]]
 
-#carve #author/rune
+#carve #author/cairn
 #scope/meta/corpus
 
 ## 来源
