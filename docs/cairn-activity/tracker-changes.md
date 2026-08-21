@@ -1056,3 +1056,45 @@
 - [2026-08-20 17:02] [TOPIC] Vue & Vite ecosystem、ergonomic keyboards、typography & design tools、Cantonese Pop、Neovim & terminal tooling、knowledge management & PKM tools、desk setups & battlestations、zFrontier community：各浏览 5–8 条结果；与既有记录重复（Vite 8 / VoidZero recap、Cuttles YIVU Corne 实测、Source Han / noto-cjk-varco、Neovim v0.12.4 / 0.13.0-dev nightly、Zettelgarden、Seal 80 预售页）或为通用资源/内容农场/旧文（gamingpcguru 桌搭、四月粤语 MV、RoboCJK/Samsa、Key Boy 40 2026-02 帖），无明确独立新信号，跳过记录。keycaps 为 low priority，无明确新信号，跳过。
 - [2026-08-20 17:02] RSS：近 3 天（2026-08-17 → 2026-08-20）无相对既有记录的新条目。Vue Blog 仍停留在 2024-09；TypeScript Blog 最新 2026-07-08（已记录）；Vite Blog 最新 2026-06-23（已记录）；Anthony Fu 最新 2025-04-28（内容滞后）；Innei 最新 2026-08-16《AI 时代我的开发工作流：从踩坑复盘到多项目并行验证》（已记录，超出窗口；feed 频道 pubDate 2026-08-20 04:00 GMT 为生成时间，非新文）；Beyond Code 最新 2026-07-02（已记录，超出窗口）；No Coding Today 最新 S1E20（2026-07-20，超出窗口）。
 - [2026-08-20 17:02] Tracker 采集完毕。
+
+---
+
+## 2026-08-21 09:00
+
+- [2026-08-21 09:00] Inbox 为空。
+- [2026-08-21 09:00] [SW] TypeScript v7.0.2（2026-08-20T18:09:49Z）。https://github.com/microsoft/TypeScript/releases/tag/v7.0.2 — microsoft/TypeScript 仓库出现 7.0.2 GitHub tag（镜像自 typescript-go `typescript/v7.0.2`）；相对已记录的 v6.0.3 为新版本。npm 7.0.2 与《Announcing TypeScript 7.0》博客已于 2026-07-08 发布，本轮新信号是主仓库正式打上 7.0 稳定线 tag。
+- [2026-08-21 09:00] GitHub Releases：VitePress v2.0.0-alpha.19、Vue v3.6.0-rc.4 / v3.5.41、Vite v8.2.2 / plugin-legacy@8.2.3、Rolldown v1.2.5、Node.js v26.7.0、Hermes Agent v2026.8.18 / v0.20.4 均与既有记录一致，无新版本。
+- [2026-08-21 09:00] [PAPER][timeout] arXiv API 返回 HTTP 429 Rate exceeded / 读取超时，7 个检索式跳过本轮；未据此推断无新论文。
+- [2026-08-21 09:00] [TOPIC] Cantonese Pop：刘浩龙加盟 Sony Music 后首支新歌〈绽放〉于 2026-08-13（生日）上架。https://www.stars-hk.com/2026/08/13/%E5%8A%89%E6%B5%A9%E9%BE%8D/
+- [2026-08-21 09:00] [TOPIC] Cantonese Pop：ARA Music 新人林煊谕 Yumiko 出道单曲《All I Need Is You》（feat. Heyo）于 2026-08 上架。https://www.stars-hk.com/2026/08/14/yumiko-all-i-need-is-you/
+- [2026-08-21 09:00] [TOPIC] Cantonese Pop：连诗雅新歌《残忍告别式》宣传访谈（2026-08-10）。https://www.stars-hk.com/2026/08/10/%E8%AA%AC%E6%95%85%E4%BA%8B%E7%9A%84%E4%BA%BA/
+- [2026-08-21 09:00] [TOPIC] Vue & Vite ecosystem、ergonomic keyboards、typography & design tools、Neovim & terminal tooling、knowledge management & PKM tools、desk setups & battlestations、zFrontier community：各浏览 5–8 条结果；与既有记录重复（Vite 8 / VoidZero recap / VitePress alpha.19、Cuttles YIVU Corne 实测、Source Han / noto-cjk-varco、Neovim v0.12.4、Zettelgarden、homedit 桌搭、Key Boy 40 / Seal 80）或为通用资源/商品页/内容农场，无明确独立新信号，跳过记录。keycaps 为 low priority，无明确新信号，跳过。
+- [2026-08-21 09:00] RSS：近 3 天（2026-08-18 → 2026-08-21）无相对既有记录的新条目。Vue Blog 仍停留在 2024-09；TypeScript Blog 最新 2026-07-08《Announcing TypeScript 7.0》（已记录）；Vite Blog 最新 2026-06-23（已记录）；Anthony Fu 最新 2025-04-28（内容滞后）；Innei 最新 2026-08-16《AI 时代我的开发工作流：从踩坑复盘到多项目并行验证》（已记录，超出窗口）；Beyond Code 最新 2026-07-02（已记录，超出窗口）；No Coding Today 最新 S1E20（2026-03-09，内容滞后）。
+- [2026-08-21 09:00] Tracker 采集完毕。
+
+---
+
+## 2026-08-21 17:00
+
+- [2026-08-21 17:00] Inbox 为空。
+- [2026-08-21 17:00] GitHub Releases：VitePress v2.0.0-alpha.19、Vue v3.6.0-rc.4 / v3.5.41、TypeScript v7.0.2、Vite v8.2.2 / plugin-legacy@8.2.3、Rolldown v1.2.5、Node.js v26.7.0、Hermes Agent v2026.8.18 / v0.20.4 均与既有记录一致，无新版本。
+- [2026-08-21 17:00] arXiv：lake thermal dynamics 标题扫描 5 条（HTTPS 可用）；最新为无关领域（物理敏感度分析 2608.17248、三层水流数学 2608.06314）或既有记录（Forecasting Land Art 2607.28489、PIER 2607.20230）。其余检索式返回过短 feed。未发现明确相关新论文，按 low priority 跳过摘要阅读。
+- [2026-08-21 17:00] [TOPIC] Cantonese Pop：MC 张天赋新单曲《至少相擁沒錯》于 2026-08-19 上架（Warner Music Hong Kong）。https://music.apple.com/us/album/%E8%87%B3%E5%B0%91%E7%9B%B8%E6%93%81%E6%B2%92%E9%8C%AF-single/6800595230
+- [2026-08-21 17:00] [TOPIC] ergonomic keyboards：Apos 发布 Preonic Rev 4（2026-08-14）——Jack Humbert 正交键盘平台的现代化改款（RP2040、热插拔、旋钮/RGB/USB daughterboard）。https://www.prnewswire.com/news-releases/apos-launches-preonic-rev-4-bringing-massive-updates-to-a-cornerstone-of-the-custom-keyboard-movement-302851363.html
+- [2026-08-21 17:00] [TOPIC] typography & design tools：Justif（2026-08-14）——浏览器端 Knuth–Plass 两端对齐库，含断字、悬挂标点、可变字体 wdth 轴与日文禁则；相对既有 CJK/排版工具为新项目信号。https://www.cssscript.com/justif-text-justification/
+- [2026-08-21 17:00] [TOPIC] Vue & Vite ecosystem、Neovim & terminal tooling、knowledge management & PKM tools、desk setups & battlestations、zFrontier community：各浏览 5–8 条结果；与既有记录重复（Vite 8 / Rolldown v1.2.5 / Vite+ recap、Neovim v0.12.4、Zettelkasten 通稿、Seal 80 / 内容农场测评）或为通用资源/商品页，无明确独立新信号，跳过记录。keycaps 为 low priority，无明确新信号，跳过。
+- [2026-08-21 17:00] RSS：近 3 天（2026-08-18 → 2026-08-21）无相对既有记录的新条目。Vue Blog 仍停留在 2024-09；TypeScript Blog 最新 2026-07-08《Announcing TypeScript 7.0》（已记录）；Vite Blog 最新 2026-06-23（已记录）；Anthony Fu 最新 2025-04-28（内容滞后）；Innei 最新 2026-08-16《AI 时代我的开发工作流：从踩坑复盘到多项目并行验证》（已记录，超出窗口）；Beyond Code 最新 2026-07-02（已记录，超出窗口）；No Coding Today 最新 S1E20（2026-03-09，内容滞后）。
+- [2026-08-21 17:00] Tracker 采集完毕。
+
+---
+
+## 2026-08-22 01:08
+
+- [2026-08-22 01:08] Inbox 为空。
+- [2026-08-22 01:08] [SW] Vue (core) v3.6.0-rc.5（2026-08-21T09:21:06Z）。https://github.com/vuejs/core/releases/tag/v3.6.0-rc.5 — 相对已记录的 v3.6.0-rc.4 的新 RC；预发布说明指向 `minor` 分支 CHANGELOG。
+- [2026-08-22 01:08] [SW] Hermes Agent v2026.8.19 / v0.20.5（2026-08-21T12:16:39Z）。https://github.com/NousResearch/hermes-agent/releases/tag/v2026.8.19 — 相对已记录的 v2026.8.18 / v0.20.4 的补丁 tag；官方说明为自 0.20.4 起约 323 个 merged PR 的稳定打包（Bot Mode 群聊线程、无 key web 层、CLI palette、worktree list/prune 等），完整 curated notes 推迟到 v0.21.0。
+- [2026-08-22 01:08] GitHub Releases：VitePress v2.0.0-alpha.19、TypeScript v7.0.2、Vite v8.2.2 / plugin-legacy@8.2.3、Rolldown v1.2.5、Node.js v26.7.0 均与既有记录一致，无新版本。
+- [2026-08-22 01:08] arXiv：7 个检索式均成功返回（HTTPS）；最新标题为无关领域（物理敏感度分析 2608.17248、喜马拉雅冰湖溃决遥感 2608.12422、分子云 2608.20238、水下图像增强 2608.18662 等）或既有记录（PIER、Forecasting Land Art、巴西小水库、并发洪旱 2604.21647），未发现明确相关新论文，按 low priority 跳过摘要阅读。
+- [2026-08-22 01:08] [TOPIC] Vue & Vite ecosystem、ergonomic keyboards、typography & design tools、Cantonese Pop、Neovim & terminal tooling、knowledge management & PKM tools、desk setups & battlestations、zFrontier community：各浏览 5–8 条结果；与既有记录重复（Vite 8 / Rolldown 1.0 / VitePress alpha.19、YIVU Corne / Preonic Rev 4、Justif / Source Han / noto-cjk-varco、MC《至少相擁沒錯》/ Yumiko、《Announcing TypeScript 7.0》、Neovim 0.12、Storyflow/Atlas PKM 通稿、homedit 桌搭、Seal 80）或为通用资源/商品页/非粤语条目，无明确独立新信号，跳过记录。keycaps 为 low priority，无明确新信号，跳过。
+- [2026-08-22 01:08] RSS：近 3 天（2026-08-19 → 2026-08-22）无相对既有记录的新条目。Vue Blog 仍停留在 2024-09；TypeScript Blog 最新 2026-07-08《Announcing TypeScript 7.0》（已记录）；Vite Blog 最新 2026-06-23（已记录）；Anthony Fu 最新 2025-04-28（内容滞后）；Innei 最新 2026-08-16《AI 时代我的开发工作流：从踩坑复盘到多项目并行验证》（已记录，超出窗口）；Beyond Code 最新 2026-07-02（已记录，超出窗口）；No Coding Today 最新 S1E20（2026-07-20，超出窗口）。
+- [2026-08-22 01:08] Tracker 采集完毕。
