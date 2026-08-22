@@ -1098,3 +1098,46 @@
 - [2026-08-22 01:08] [TOPIC] Vue & Vite ecosystem、ergonomic keyboards、typography & design tools、Cantonese Pop、Neovim & terminal tooling、knowledge management & PKM tools、desk setups & battlestations、zFrontier community：各浏览 5–8 条结果；与既有记录重复（Vite 8 / Rolldown 1.0 / VitePress alpha.19、YIVU Corne / Preonic Rev 4、Justif / Source Han / noto-cjk-varco、MC《至少相擁沒錯》/ Yumiko、《Announcing TypeScript 7.0》、Neovim 0.12、Storyflow/Atlas PKM 通稿、homedit 桌搭、Seal 80）或为通用资源/商品页/非粤语条目，无明确独立新信号，跳过记录。keycaps 为 low priority，无明确新信号，跳过。
 - [2026-08-22 01:08] RSS：近 3 天（2026-08-19 → 2026-08-22）无相对既有记录的新条目。Vue Blog 仍停留在 2024-09；TypeScript Blog 最新 2026-07-08《Announcing TypeScript 7.0》（已记录）；Vite Blog 最新 2026-06-23（已记录）；Anthony Fu 最新 2025-04-28（内容滞后）；Innei 最新 2026-08-16《AI 时代我的开发工作流：从踩坑复盘到多项目并行验证》（已记录，超出窗口）；Beyond Code 最新 2026-07-02（已记录，超出窗口）；No Coding Today 最新 S1E20（2026-07-20，超出窗口）。
 - [2026-08-22 01:08] Tracker 采集完毕。
+
+---
+
+## 2026-08-22 09:00
+
+- [2026-08-22 09:00] Inbox 为空。
+- [2026-08-22 09:00] GitHub Releases：VitePress v2.0.0-alpha.19、Vue v3.6.0-rc.5、TypeScript v7.0.2、Vite v8.2.2 / plugin-legacy@8.2.3、Rolldown v1.2.5、Node.js v26.7.0、Hermes Agent v2026.8.19 / v0.20.5 均与既有记录一致，无新版本。
+- [2026-08-22 09:00] [PAPER][timeout] arXiv API 返回 HTTP 429 / 读取超时，7 个检索式跳过本轮；未据此推断无新论文。
+- [2026-08-22 09:00] [TOPIC] Vue & Vite ecosystem：Vite 8 `manualChunks` 需迁到 Rolldown `codeSplitting.groups`（2026-08-08）。对象形式不再支持，函数形式已弃用；`build.rollupOptions` 同步改为 `build.rolldownOptions`。https://laplusda.com/en/posts/vite-8-manualchunks-rolldown/
+- [2026-08-22 09:00] [TOPIC] ergonomic keyboards：Dygma 发布 Sonsei —— 56 键列错位一体机（非分体）、低剖面 Gateron KS-33 2.0、8 枚拇指键、最长约 40 天续航，面向差旅/窄桌面。https://dygma.com/blogs/product-development/we-broke-the-golden-rule-of-ergonomic-keyboards
+- [2026-08-22 09:00] [TOPIC] ergonomic keyboards：Wireless Corne 七家对比（2026）—— foostan 官方 Corne V4 仍是有线；市售 “Corne V4 Wireless” 均为第三方。首选预装 Keebart Corne Choc Pro BT（nRF52840 / ZMK）。https://thegadgetverse.com/wireless-corne-keyboard/
+- [2026-08-22 09:00] [TOPIC] typography & design tools：CSS Fonts Module Level 4 于 2026-08-18 发布新 Working Draft（可变字体、彩色字体与 feature 控制）。https://www.w3.org/TR/2026/WD-css-fonts-4-20260818/
+- [2026-08-22 09:00] [TOPIC] Neovim & terminal tooling：pack.nvim（2026-08-10）—— 叠在 Neovim 0.12 原生 `vim.pack` 上的浮动 UI / lazy-load 层，lockfile 仍由核心持有。https://dev.to/igmrrf/introducing-packnvim-the-modern-ui-for-neovims-native-package-manager-eii
+- [2026-08-22 09:00] [TOPIC] knowledge management & PKM tools：SilverBullet Docker 自托管指南（2026-08-03）—— 以 Markdown Space + 类 SQL Live Query 做可查询数字花园。https://itnotes.dev/build-a-queryable-digital-garden-self-hosting-silverbullet-on-docker/
+- [2026-08-22 09:00] [TOPIC] desk setups & battlestations：Custom PC 记录一套 cassette-futurism / Nostromo 风桌搭（暖琥珀光、自制终端外壳，刻意去掉 RGB）。https://www.custompc.com/retro-gaming-pc-build-nvidia-geforce-rtx
+- [2026-08-22 09:00] [TOPIC] Cantonese Pop、zFrontier community：本轮结果与既有记录重复（MC《至少相擁沒錯》、刘浩龙〈绽放〉、Yumiko、连诗雅）或为应用商店镜像/内容农场，无明确独立新信号，跳过记录。keycaps 为 low priority，无明确新信号，跳过。
+- [2026-08-22 09:00] RSS：近 3 天（2026-08-19 → 2026-08-22）无相对既有记录的新条目。Vue Blog 仍停留在 2024-09；TypeScript Blog 最新 2026-07-08《Announcing TypeScript 7.0》（已记录）；Vite Blog 最新 2026-06-23（已记录）；Anthony Fu 最新 2025-04-28（内容滞后）；Innei 最新 2026-08-16《AI 时代我的开发工作流：从踩坑复盘到多项目并行验证》（已记录，超出窗口）；Beyond Code 最新 2026-07-02（已记录，超出窗口）；No Coding Today 最新 S1E20（2026-03-09，内容滞后）。
+- [2026-08-22 09:00] Tracker 采集完毕。
+
+---
+
+## 2026-08-22 17:00
+
+- [2026-08-22 17:00] Inbox 为空。
+- [2026-08-22 17:00] GitHub Releases：VitePress v2.0.0-alpha.19、Vue v3.6.0-rc.5、TypeScript v7.0.2、Vite v8.2.2 / plugin-legacy@8.2.3、Rolldown v1.2.5、Node.js v26.7.0、Hermes Agent v2026.8.19 / v0.20.5 均与既有记录一致，无新版本。
+- [2026-08-22 17:00] arXiv：7 个检索式均成功返回（HTTPS）；最新标题为无关领域（物理敏感度分析 2608.17248、喜马拉雅冰湖溃决 2608.12422、分子云 2608.20238、水下图像增强 2608.18662、轨迹 martingale 2608.20337 等）或既有记录（PIER、巴西小水库、并发洪旱 2604.21647），未发现明确相关新论文，按 low priority 跳过摘要阅读。
+- [2026-08-22 17:00] [TOPIC] Cantonese Pop：侧田 Justin Lo 新单曲《尚能独舞》于 2026-08-08 上架（鲸鱼向海）。https://music.apple.com/us/album/%E5%B0%9A%E8%83%BD%E7%8B%AC%E8%88%9E-single/6797843896
+- [2026-08-22 17:00] [TOPIC] Vue & Vite ecosystem、ergonomic keyboards、typography & design tools、Neovim & terminal tooling、knowledge management & PKM tools、desk setups & battlestations、zFrontier community：各浏览 5–8 条结果；与既有记录重复（Amsterdam recap / Vite 8 / Rolldown 1.0 / VitePress alpha.19、Cuttles YIVU Corne / Dygma Sonsei / Preonic Rev 4、Source Han / noto-cjk-varco / Justif / CSS Fonts L4、Neovim v0.12.4 / pack.nvim、Zettelgarden / SilverBullet、homedit 桌搭、Seal 80）或为通用资源/商品页/内容农场，无明确独立新信号，跳过记录。keycaps 为 low priority，无明确新信号，跳过。
+- [2026-08-22 17:00] RSS：近 3 天（2026-08-19 → 2026-08-22）无相对既有记录的新条目。Vue Blog 仍停留在 2024-09；TypeScript Blog 最新 2026-07-08《Announcing TypeScript 7.0》（已记录）；Vite Blog 最新 2026-06-23（已记录）；Anthony Fu 最新 2025-04-28（内容滞后）；Innei 最新 2026-08-16《AI 时代我的开发工作流：从踩坑复盘到多项目并行验证》（已记录，超出窗口）；Beyond Code 最新 2026-07-02（已记录，超出窗口）；No Coding Today 最新 S1E20（2026-03-09，内容滞后）。
+- [2026-08-22 17:00] Tracker 采集完毕。
+
+---
+
+## 2026-08-23 01:00
+
+- [2026-08-23 01:00] Inbox 为空。
+- [2026-08-23 01:00] GitHub Releases：VitePress v2.0.0-alpha.19、Vue v3.6.0-rc.5、TypeScript v7.0.2、Vite v8.2.2 / plugin-legacy@8.2.3、Rolldown v1.2.5、Node.js v26.7.0、Hermes Agent v2026.8.19 / v0.20.5 均与既有记录一致，无新版本。
+- [2026-08-23 01:00] arXiv：7 个检索式均成功返回（HTTPS）；最新标题为无关领域（物理敏感度分析 2608.17248、喜马拉雅冰湖溃决 2608.12422、分子云 2608.20238、水下图像增强 2608.18662、轨迹 martingale 2608.20337 等）或既有记录（Forecasting Land Art、PIER、巴西小水库、并发洪旱 2604.21647、Earth Observation Foundation Models 2608.15282），未发现明确相关新论文，按 low priority 跳过摘要阅读。
+- [2026-08-23 01:00] [TOPIC] Cantonese Pop：FYP 新单曲《天下也一樣》于 2026-08-05 上架（Universal Music Ltd.）。https://music.apple.com/gb/album/tian-xia-ye-yi-yang-single/6795833613
+
+- [2026-08-23 01:00] [TOPIC] Vue & Vite ecosystem、ergonomic keyboards、typography & design tools、Neovim & terminal tooling、knowledge management & PKM tools、desk setups & battlestations、zFrontier community：各浏览 5–8 条结果；与既有记录重复（Amsterdam recap / Vite 8 / Rolldown 1.0 / VitePress alpha.19、Cuttles YIVU Corne / Dygma Sonsei / Preonic Rev 4、Source Han / noto-cjk-varco / Justif / CSS Fonts L4、Neovim v0.12.4 / nightly 0.13.0-dev、Zettelgarden / SilverBullet、gamingpcguru 桌搭通稿、evo80/KOHAKU/Pixelator 旧帖）或为通用资源/商品页/内容农场，无明确独立新信号，跳过记录。keycaps 为 low priority，无明确新信号，跳过。
+- [2026-08-23 01:00] RSS：近 3 天（2026-08-20 → 2026-08-23）无相对既有记录的新条目。Vue Blog 仍停留在 2024-09；TypeScript Blog 最新 2026-07-08《Announcing TypeScript 7.0》（已记录）；Vite Blog 最新 2026-06-23（已记录）；Anthony Fu 最新 2025-04-28（内容滞后）；Innei 最新 2026-08-16《AI 时代我的开发工作流：从踩坑复盘到多项目并行验证》（已记录，超出窗口）；Beyond Code 最新 2026-07-02（已记录，超出窗口）；No Coding Today 最新 S1E20（2026-03-09，内容滞后）。
+- [2026-08-23 01:00] Tracker 采集完毕。
