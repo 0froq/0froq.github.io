@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>页边 · Digital Space 原型</title>
+  <style>
+    :root {
+      --paper: #f3eee4;
+      --ink: #2b241c;
+      --ink-soft: #5d5348;
+      --rule: #c9bba6;
+      --rule-strong: #8d7b63;
+      --margin-bg: #efe8d9;
+      --note: #6e4b28;
+      --link: #2b241c;
+      --accent: #7a4e2a;
+      --ok: #3d5a3a;
+      --warn: #8a5a22;
+      --chip: #e4d8c4;
+      --focus: #7a4e2a;
+      --serif: "Iowan Old Style", "Songti SC", "STSong", "Noto Serif CJK SC", Georgia, serif;
+      --sans: "PingFang SC", "Hiragino Sans GB", "Noto Sans SC", system-ui, sans-serif;
+      --mono: "SF Mono", Menlo, "Sarasa Term SC", ui-monospace, monospace;
+      --body: 21px;
+      --measure: 38rem;
+      --margin-w: 16rem;
+      --gutter: 2.2rem;
+    }
+    html[data-theme="dark"] {
+      --paper: #161310;
+      --ink: #ebe4d6;
+      --ink-soft: #b7ad9e;
+      --rule: #3c342c;
+      --rule-strong: #8a7a66;
+      --margin-bg: #1c1814;
+      --note: #d7b48a;
+      --link: #ebe4d6;
+      --accent: #d7b48a;
+      --ok: #9cbc96;
+      --warn: #e0b57a;
+      --chip: #2a241e;
+      --focus: #d7b48a;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; min-height: 100%; }
+    body {
+      background: var(--paper);
+      color: var(--ink);
+      font-family: var(--serif);
+      font-size: var(--body);
+      line-height: 1.85;
+      text-rendering: optimizeLegibility;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      * { transition: none !important; animation: none !important; }
+    }
+    a { color: var(--link); text-decoration-thickness: 1px; text-underline-offset: 0.22em; text-decoration-style: dashed; }
+    a:hover { text-decoration-style: solid; }
+    :focus-visible { outline: 2px solid var(--focus); outline-offset: 3px; }
+    .skip {
+      position: absolute; left: 0.8rem; top: -3rem; background: var(--ink); color: var(--paper);
+      padding: 0.4rem 0.7rem; z-index: 9;
+    }
+    .skip:focus { top: 0.8rem; }
+    .proto-bar {
+      display: flex; justify-content: space-between; align-items: center; gap: 1rem;
+      padding: 0.55rem 1.2rem; border-bottom: 1px dashed var(--rule);
+      font-family: var(--sans); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--ink-soft);
+    }
+    .proto-bar b { color: var(--ink); font-weight: 600; letter-spacing: 0.04em; text-transform: none; }
+    .nav {
+      display: flex; flex-wrap: wrap; gap: 0.4rem;
+      padding: 0.7rem 1.2rem 0.5rem;
+      font-family: var(--sans); font-size: 14px;
+    }
+    .nav button {
+      background: none; border: 0; border-bottom: 1px solid transparent;
+      color: var(--ink-soft); cursor: pointer; font: inherit; padding: 0.2rem 0.15rem;
+    }
+    .nav button[aria-current="page"] { color: var(--ink); border-bottom-color: var(--ink); }
+    .tools { display: flex; gap: 0.6rem; align-items: center; }
+    .tools button {
+      background: none; border: 1px solid var(--rule); color: var(--ink); cursor: pointer;
+      font-family: var(--mono); font-size: 11px; padding: 0.15rem 0.45rem;
+    }
+    .shell {
+      display: grid;
+      grid-template-columns: minmax(0, var(--measure)) var(--margin-w);
+      gap: var(--gutter);
+      max-width: calc(var(--measure) + var(--margin-w) + var(--gutter) + 4rem);
+      margin: 0 auto;
+      padding: 1.6rem 1.5rem 5rem;
+      align-items: start;
+    }
+    .ident {
+      grid-column: 1 / -1;
+      display: flex; justify-content: space-between; align-items: baseline;
+      border-bottom: 1px solid var(--rule-strong);
+      padding-bottom: 0.5rem; margin-bottom: 1.6rem;
+      font-family: var(--sans); font-size: 13px;
+    }
+    .ident .mark { font-family: var(--serif); font-style: italic; font-size: 22px; }
+    .body p { margin: 0 0 1.15em; }
+    .body p + p { text-indent: 2em; }
+    .body h1, .body h2, .body h3 { font-weight: 500; line-height: 1.3; margin: 1.6em 0 0.6em; }
+    .body h1 { font-size: 2.05rem; margin-top: 0; }
+    .body h2 { font-size: 1.35rem; }
+    .lede { font-size: 1.08em; color: var(--ink-soft); font-style: italic; text-indent: 0 !important; }
+    .kicker { font-family: var(--mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); }
+    .meta { font-family: var(--sans); font-size: 13px; color: var(--ink-soft); }
+    .code {
+      font-family: var(--mono); font-size: 13px; line-height: 1.55;
+      background: color-mix(in srgb, var(--chip) 80%, var(--paper));
+      border: 1px solid var(--rule); padding: 0.9rem 1rem; overflow: auto; text-indent: 0;
+    }
+    .warn {
+      border-left: 3px solid var(--warn); padding: 0.4rem 0.9rem; font-size: 0.92em;
+      background: color-mix(in srgb, var(--warn) 8%, var(--paper));
+    }
+    .margin {
+      position: sticky; top: 0.8rem;
+      background: var(--margin-bg);
+      border-left: 1px solid var(--rule);
+      padding: 0.9rem 1rem 1.2rem;
+      font-family: var(--sans); font-size: 13px; line-height: 1.55; color: var(--ink-soft);
+      min-height: 70vh;
+    }
+    .margin h3 { font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); margin: 0 0 0.6rem; font-weight: 600; }
+    .note { margin: 0 0 0.9rem; padding-bottom: 0.8rem; border-bottom: 1px dotted var(--rule); color: var(--note); }
+    .note b { display: block; color: var(--ink); font-weight: 600; margin-bottom: 0.15rem; }
+    .tag { display: inline-block; margin: 0 0.3rem 0.3rem 0; font-family: var(--mono); font-size: 11px; background: var(--chip); padding: 0.05rem 0.35rem; }
+    .list { list-style: none; padding: 0; margin: 0; }
+    .list li { display: flex; justify-content: space-between; gap: 1rem; padding: 0.45rem 0; border-bottom: 1px dotted var(--rule); }
+    .list small { font-family: var(--mono); font-size: 11px; color: var(--ink-soft); }
+    .roles { font-style: italic; letter-spacing: 0.08em; text-align: center; margin: 2rem 0; }
+    .board-item { padding: 0.55rem 0; border-bottom: 1px solid var(--rule); }
+    .board-item .st { font-family: var(--mono); font-size: 11px; color: var(--accent); }
+    .ghost { font-family: var(--mono); font-size: 11px; }
+    .ruby rt { font-size: 0.55em; color: var(--ink-soft); }
+    footer.proto {
+      max-width: calc(var(--measure) + var(--margin-w) + var(--gutter) + 4rem);
+      margin: 0 auto; padding: 0 1.5rem 2rem;
+      font-family: var(--sans); font-size: 12px; color: var(--ink-soft);
+    }
+    @media (max-width: 900px) {
+      body { font-size: 18px; }
+      .shell { grid-template-columns: 1fr; padding: 1rem 1rem 4rem; }
+      .margin { position: static; min-height: 0; border-left: 0; border-top: 1px solid var(--rule); }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip" href="#main">跳到正文</a>
+  <div class="proto-bar">
+    <span>Digital Space 提案 01 · <b>页边 Marginalia</b> · 阅读发生在页心，思考停在页边</span>
+    <div class="tools">
+      <button type="button" id="themeBtn" aria-pressed="false">浅色 / 深色</button>
+    </div>
+  </div>
+  <nav class="nav" aria-label="原型页面">
+    <button type="button" data-go="home" aria-current="page">首页</button>
+    <button type="button" data-go="article">文章阅读</button>
+    <button type="button" data-go="corpus">Corpus</button>
+    <button type="button" data-go="dashboard">Dashboard</button>
+  </nav>
+  <main id="main" tabindex="-1">
+    <section class="shell" data-view="home">
+      <div class="ident">
+        <span class="mark">froQ</span>
+        <span>于此 · 2026-08-21</span>
+      </div>
+      <div class="body">
+        <p class="kicker">Home</p>
+        <h1>我是 <ruby>froQ<rt>青蛙（可能</rt></ruby>。</h1>
+        <p class="lede">这不只是个博客。Post 是想给人看的文字，Corpus 是知识如何生长和衰败的记录，Dashboard 是每天盯着的工作界面——你也能盯着。</p>
+        <p>我在读研究生，但这不重要。真正在做的事是写代码——Web 开发（Vue、Nuxt、TypeScript），造轮子（headup.nvim、VSCode theme LiG），工作流设计。我读荒诞主义（加缪、萨特），读虚无主义（齐奥朗），读精神分析学（弗洛伊德、拉康）。我试图在理性与感性之间保持观察的距离。</p>
+        <p>我是双相障碍者（Ⅰ 型）。思维在秩序与混沌之间徘徊，这种张力是创造力的来源。最大的人生目标之一是做全职开源。如果你看到这段话，说明我还在路上。</p>
+        <p class="roles">观察者 / 构建者 / 思考者</p>
+        <h2>最近落笔</h2>
+        <ul class="list">
+          <li><a href="#article" data-go="article">从零开始搭建博客网站（一）</a><small>posts · 2025-01-09</small></li>
+          <li><a href="#corpus" data-go="corpus">A Syntax Lightlight Design</a><small>neoplasma · 2025-12-10</small></li>
+          <li>aut-carve-20260821<small>autopsia · 2026-08-21</small></li>
+          <li>低摩擦输入优先<small>neoplasma · 2026-06</small></li>
+        </ul>
+      </div>
+      <aside class="margin" aria-label="页边">
+        <h3>此刻</h3>
+        <p class="ghost">ghost · 2 人在读首页</p>
+        <div class="note"><b>进行中</b>整理歌单 · Apple Music 结构</div>
+        <h3>路径</h3>
+        <p>Posts 代序 / 成言 / 前脩<br />Corpus 六个切片<br />Dashboard 进行中 / 待办池 / 归档</p>
+        <h3>材料</h3>
+        <p>页心承担长文。页边承担标签、批注、在场与任务——它们不是装饰，是第二种阅读。</p>
+      </aside>
+    </section>
+
+    <section class="shell" data-view="article" hidden>
+      <div class="ident">
+        <span>成言 · 系列 blog_site</span>
+        <span>status: form</span>
+      </div>
+      <article class="body">
+        <p class="kicker">#scope/work/site</p>
+        <h1>从零开始搭建博客网站（一）</h1>
+        <p class="meta">created 2025-01-09 · last_modified 2026-04-24 · 中英术语混排样本</p>
+        <p class="lede">预备知识与安装。没有啥好引的，看详细操作。本站使用 VitePress——基于 Vue 3 与 Vite 的静态站点生成器，UnoCSS 管样式，托管在 GitHub Pages。</p>
+        <h2>选择们</h2>
+        <p>做一个博客网站的选择有很多。如果只是想简简单单写点东西，现成平台最方便：CSDN、博客园、掘金，以及 Medium、Tumblr。不足之处在于定制性有限，对想整花活的人可能不太过瘾。</p>
+        <p>也可以基于博客框架建站。WordPress 几乎是全球最流行的 CMS。如果追求极致 DIY，建议自己搭建静态站点：VitePress、Hugo、Jekyll。正文中统一使用 TypeScript 行文。</p>
+        <div class="warn">由于本站开发使用 macOS，文中操作可能与 Windows 以及 Linux 不同。</div>
+        <h2>本站栈</h2>
+        <pre class="code">pnpm docs:dev
+# VitePress + UnoCSS + vue-i18n
+# 主题阅读列宽约 800px，注解走页边而非弹层</pre>
+        <p>要达成这个系列的基本目标，需要对 Markdown、git、GitHub、Vue.js、CSS、UnoCSS、JavaScript 有一定了解。安装 Node.js 18+ 之后再初始化主题——主题才是这个站点真正的房间。</p>
+      </article>
+      <aside class="margin">
+        <h3>批注</h3>
+        <div class="note"><b>行 1</b>「花活」不是贬义。定制性是这座花园的第一约束。</div>
+        <div class="note"><b>术语</b>VitePress / UnoCSS 保持英文原形，不译成「维快捷」之类。</div>
+        <h3>标签</h3>
+        <span class="tag">#scope/work/site</span>
+        <span class="tag">#log/building</span>
+        <h3>在场</h3>
+        <p class="ghost">ghost · 1 人停在「选择们」</p>
+      </aside>
+    </section>
+
+    <section class="shell" data-view="corpus" hidden>
+      <div class="ident">
+        <span>Corpus</span>
+        <span>六个切片 · 生长 / 腐烂 / 重组</span>
+      </div>
+      <div class="body">
+        <p class="kicker">Index</p>
+        <h1>一个观察知识如何生长、腐烂、重组的地方。</h1>
+        <div class="warn">内容可能过于个人化、碎片化、晦涩，甚至主动冒犯。你可以随意浏览，但要知情。</div>
+        <h2>层，而不是文件夹</h2>
+        <ul class="list">
+          <li><a href="#corpus">Autopsia · 解剖</a><small>000 · 元认知 22</small></li>
+          <li>Ingesta · 摄入<small>100 · 外部资料 18</small></li>
+          <li>Neoplasma · 新生物<small>200 · 判断与模型 26</small></li>
+          <li>Putredo · 腐败<small>300 · 实践残渣 14</small></li>
+          <li>Delirium · 谵妄<small>400 · 审美刺激 3</small></li>
+          <li>Vigil · 守夜<small>500 · 存在证据 20</small></li>
+        </ul>
+        <h2>近处的条目</h2>
+        <ul class="list">
+          <li>neo-a-syntax-lightlight-design<small>form · 2025-12-10</small></li>
+          <li>ing-l'etranger<small>加缪 · 外部登记</small></li>
+          <li>put-tooling<small>主题 · 工具摩擦</small></li>
+          <li>aut-carve-20260821<small>journal · 今日解剖</small></li>
+        </ul>
+      </div>
+      <aside class="margin">
+        <h3>检索</h3>
+        <p>页边列出层深、前缀（aut- / ing- / neo- / put- / del- / vig-）与标签树。点层名，页心换成该层目录；点条目，页心换成阅读，页边换成元数据。</p>
+        <h3>密度</h3>
+        <p>真实语料不是卡片墙。一条 neoplasma 可能只有三段未完成的定义，却必须和一篇成言长文共用同一阅读列宽。</p>
+      </aside>
+    </section>
+
+    <section class="shell" data-view="dashboard" hidden>
+      <div class="ident">
+        <span>Dashboard</span>
+        <span>weekTheme · （空）</span>
+      </div>
+      <div class="body">
+        <p class="kicker">Board</p>
+        <h1>进行中</h1>
+        <div class="board-item">
+          <div class="st">途中 · low</div>
+          <strong>整理歌单</strong>
+          <div class="meta">DoD: Apple Music 歌单良好结构</div>
+        </div>
+        <h2>待办池</h2>
+        <div class="board-item">
+          <strong>新的 theme</strong>
+          <div class="meta">风格：人文、低饱和，可以参考 OpenHanako</div>
+        </div>
+        <div class="board-item">
+          <strong>一个 iOS app</strong>
+          <div class="meta">timeline 式日程 · Swift + SwiftUI · Widget 核心</div>
+        </div>
+        <div class="board-item">
+          <strong>设计 tokens</strong>
+          <div class="meta">颜色、间距、线段风格</div>
+        </div>
+        <h2>归档</h2>
+        <div class="board-item"><span class="st">2026-06-15</span> 结课考试整理</div>
+        <div class="board-item"><span class="st">2026-05-28</span> 规划系统简化</div>
+      </div>
+      <aside class="margin">
+        <h3>读板，不是看板</h3>
+        <p>Dashboard 仍是一篇被盯着的文本。状态写在页边：active 可有 status；backlog / archive 没有 status 列。</p>
+        <p class="ghost">今日没有 weekTheme。空，也是一种周的形状。</p>
+      </aside>
+    </section>
+  </main>
+  <footer class="proto">离线单文件原型 · 无外部依赖 · 页边方案把批注、标签、在场做成空间，而不是浮层。</footer>
+  <script>
+    (function () {
+      var root = document.documentElement
+      var btn = document.getElementById('themeBtn')
+      function applyTheme(mode) {
+        if (mode === 'dark') root.setAttribute('data-theme', 'dark')
+        else root.removeAttribute('data-theme')
+        btn.setAttribute('aria-pressed', mode === 'dark' ? 'true' : 'false')
+      }
+      var start = localStorage.getItem('ds-theme-01')
+      if (start) applyTheme(start)
+      else if (window.matchMedia('(prefers-color-scheme: dark)').matches) applyTheme('dark')
+      btn.addEventListener('click', function () {
+        var next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'
+        localStorage.setItem('ds-theme-01', next)
+        applyTheme(next)
+      })
+      function show(view) {
+        document.querySelectorAll('[data-view]').forEach(function (el) {
+          el.hidden = el.getAttribute('data-view') !== view
+        })
+        document.querySelectorAll('[data-go]').forEach(function (el) {
+          var on = el.getAttribute('data-go') === view
+          if (el.tagName === 'BUTTON') el.setAttribute('aria-current', on ? 'page' : 'false')
+        })
+        if (location.hash !== '#' + view) location.hash = view
+        document.getElementById('main').focus()
+      }
+      document.addEventListener('click', function (e) {
+        var t = e.target.closest('[data-go]')
+        if (!t) return
+        e.preventDefault()
+        show(t.getAttribute('data-go'))
+      })
+      var initial = (location.hash || '#home').slice(1)
+      if (!document.querySelector('[data-view="' + initial + '"]')) initial = 'home'
+      show(initial)
+      window.addEventListener('hashchange', function () {
+        var v = location.hash.slice(1) || 'home'
+        if (document.querySelector('[data-view="' + v + '"]')) show(v)
+      })
+    })()
+  </script>
+</body>
+</html>

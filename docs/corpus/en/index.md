@@ -5,7 +5,7 @@ locale: en
 
 A place to watch knowledge grow, decay, and recombine.
 
-:::warning Disclaimer
+::warning{title="Disclaimer"}
 Feel free to browse, but be aware that some content may be:
 
 1. Overly personal;
@@ -14,7 +14,7 @@ Feel free to browse, but be aware that some content may be:
 4. Subjective, extreme, or paranoid;
 5. Attempting to challenge certain social taboos;
 6. Attempting to deliberately offend some people.
-   :::
+::
 
 ## Six Slices
 

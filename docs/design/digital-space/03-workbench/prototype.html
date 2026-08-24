@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="zh-Hans" data-theme="dark">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>分屏 · Digital Space 原型</title>
+  <style>
+    :root {
+      --bg: #121212;
+      --pane: #1a1a1a;
+      --pane-2: #202020;
+      --ink: #e8e6e1;
+      --mute: #9c9890;
+      --line: #2e2e2c;
+      --accent: #d9a441;
+      --ok: #8fb37a;
+      --warn: #d39b55;
+      --sel: #2a271f;
+      --sans: "PingFang SC", "Hiragino Sans GB", system-ui, sans-serif;
+      --serif: "Iowan Old Style", "Songti SC", serif;
+      --mono: "SF Mono", Menlo, ui-monospace, monospace;
+    }
+    html:not([data-theme="dark"]) {
+      --bg: #eceae4;
+      --pane: #f7f6f2;
+      --pane-2: #fff;
+      --ink: #1c1b18;
+      --mute: #6d6960;
+      --line: #d4d0c6;
+      --accent: #9a6b12;
+      --ok: #3f6b32;
+      --warn: #8a5a16;
+      --sel: #f0ead8;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; height: 100%; }
+    body {
+      background: var(--bg); color: var(--ink);
+      font-family: var(--sans); font-size: 14px; height: 100%;
+      display: flex; flex-direction: column;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      * { transition: none !important; }
+    }
+    :focus-visible { outline: 1px solid var(--accent); outline-offset: 1px; }
+    button, input { font: inherit; color: inherit; }
+    a { color: var(--ink); }
+    .skip { position: absolute; left: 8px; top: -40px; background: var(--accent); color: #111; padding: 4px 8px; }
+    .skip:focus { top: 8px; }
+    .menu {
+      display: flex; justify-content: space-between; align-items: center;
+      height: 36px; padding: 0 10px; border-bottom: 1px solid var(--line);
+      font-family: var(--mono); font-size: 11px; color: var(--mute); gap: 12px;
+    }
+    .menu b { color: var(--ink); font-weight: 600; }
+    .menu .acts { display: flex; gap: 6px; }
+    .menu button {
+      background: none; border: 1px solid var(--line); padding: 2px 7px; cursor: pointer; font-size: 11px;
+    }
+    .work {
+      flex: 1; display: grid; grid-template-columns: 220px minmax(0, 1fr) 280px; min-height: 0;
+    }
+    .pane { background: var(--pane); border-right: 1px solid var(--line); overflow: auto; min-width: 0; }
+    .pane:last-child { border-right: 0; border-left: 1px solid var(--line); background: var(--pane-2); }
+    .pane h2 {
+      margin: 0; padding: 8px 10px; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--mute); border-bottom: 1px solid var(--line); font-weight: 500; font-family: var(--mono);
+    }
+    .tree { list-style: none; margin: 0; padding: 8px 0 24px; }
+    .tree button, .tree summary {
+      display: block; width: 100%; text-align: left; background: none; border: 0;
+      padding: 4px 12px; cursor: pointer; color: var(--ink);
+    }
+    .tree button[aria-current="true"], .tree .on { background: var(--sel); color: var(--accent); }
+    .tree details { padding-left: 0; }
+    .tree details > *:not(summary) { padding-left: 14px; }
+    .editor { padding: 18px 22px 48px; font-size: 16px; line-height: 1.75; }
+    .editor h1 { font-family: var(--serif); font-weight: 500; font-size: 28px; margin: 0 0 12px; }
+    .editor h2 { font-family: var(--serif); font-size: 18px; text-transform: none; letter-spacing: 0; color: var(--ink); border: 0; padding: 0; margin: 1.4em 0 0.4em; }
+    .crumb { font-family: var(--mono); font-size: 11px; color: var(--mute); margin-bottom: 10px; }
+    .editor p { margin: 0 0 1em; max-width: 62ch; }
+    pre { font-family: var(--mono); font-size: 12px; background: var(--bg); padding: 10px; overflow: auto; border: 1px solid var(--line); }
+    .warn { border-left: 2px solid var(--warn); padding: 6px 10px; color: var(--mute); }
+    .inspect { padding: 10px 12px 24px; font-size: 13px; line-height: 1.5; color: var(--mute); }
+    .inspect dt { font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); margin-top: 12px; }
+    .inspect dd { margin: 3px 0 0; color: var(--ink); }
+    .tag { font-family: var(--mono); font-size: 11px; margin-right: 6px; }
+    .task { padding: 8px 0; border-bottom: 1px solid var(--line); color: var(--ink); }
+    .st { color: var(--accent); font-family: var(--mono); font-size: 11px; }
+    .status {
+      height: 26px; border-top: 1px solid var(--line); display: flex; justify-content: space-between; align-items: center;
+      padding: 0 10px; font-family: var(--mono); font-size: 11px; color: var(--mute); background: var(--bg);
+    }
+    dialog {
+      background: var(--pane); color: var(--ink); border: 1px solid var(--line);
+      width: min(560px, 92vw); padding: 0;
+    }
+    dialog::backdrop { background: rgb(0 0 0 / 0.45); }
+    dialog input {
+      width: 100%; background: transparent; border: 0; border-bottom: 1px solid var(--line);
+      padding: 12px 14px; outline: none;
+    }
+    dialog ul { list-style: none; margin: 0; padding: 6px 0 10px; }
+    dialog li { padding: 6px 14px; cursor: pointer; }
+    dialog li:hover, dialog li:focus { background: var(--sel); }
+    .home-empty { color: var(--mute); }
+    .home-empty kbd { font-family: var(--mono); border: 1px solid var(--line); padding: 0 5px; }
+    @media (max-width: 900px) {
+      .work { grid-template-columns: 1fr; }
+      .pane { border: 0; max-height: none; }
+      .pane.tree-pane, .pane.insp { display: none; }
+      body[data-mobile-pane="tree"] .tree-pane { display: block; }
+      body[data-mobile-pane="insp"] .insp { display: block; }
+      body[data-mobile-pane="tree"] .editor-pane,
+      body[data-mobile-pane="insp"] .editor-pane { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip" href="#editor">跳到编辑区</a>
+  <div class="menu">
+    <span>提案 03 · <b>分屏 Workbench</b> · 站点即工作台 · <span id="fileHint">~/froq/index</span></span>
+    <div class="acts">
+      <button type="button" data-go="home">首页缓冲</button>
+      <button type="button" data-go="article">打开成言</button>
+      <button type="button" data-go="corpus">层树</button>
+      <button type="button" data-go="dashboard">看板检查器</button>
+      <button type="button" id="cmdBtn" title="命令面板">命令 ⌘K</button>
+      <button type="button" id="themeBtn">浅色 / 深色</button>
+    </div>
+  </div>
+  <div class="work">
+    <aside class="pane tree-pane">
+      <h2>Workspace</h2>
+      <ul class="tree">
+        <li><button type="button" data-go="home" data-node="index">index.md</button></li>
+        <li>
+          <details open>
+            <summary>posts/</summary>
+            <button type="button" data-go="article" data-node="post">620-roadmap/build-a-blog-site-1.md</button>
+            <button type="button">610-log/</button>
+            <button type="button">630-collection/</button>
+          </details>
+        </li>
+        <li>
+          <details open>
+            <summary>corpus/</summary>
+            <button type="button" data-go="corpus" data-node="aut">000-autopsia/</button>
+            <button type="button" data-go="corpus" data-node="ing">100-ingesta/</button>
+            <button type="button" data-go="corpus" data-node="neo">200-neoplasma/</button>
+            <button type="button">300-putredo/</button>
+            <button type="button">400-delirium/</button>
+            <button type="button">500-vigil/</button>
+          </details>
+        </li>
+        <li>
+          <details>
+            <summary>dashboard/</summary>
+            <button type="button" data-go="dashboard" data-node="board">board.yml</button>
+            <button type="button">advisor/hard.md</button>
+            <button type="button">advisor/context.md</button>
+          </details>
+        </li>
+      </ul>
+    </aside>
+    <section class="pane editor-pane" id="editor" tabindex="-1">
+      <div class="editor" data-view="home">
+        <p class="crumb">buffer · untitled · 按 ⌘K 跳转</p>
+        <h1>froQ</h1>
+        <p class="home-empty">工作台没有营销首页。打开一个文件，或按 <kbd>/</kbd> / <kbd>⌘K</kbd> 搜索。最近：build-a-blog-site-1.md、neo-a-syntax-lightlight-design.md、board.yml。</p>
+        <p>我是双相障碍者（Ⅰ 型）。真正在做的事是写代码——Vue、Nuxt、TypeScript——和维持这座数字花园。Dashboard 不是一个去「访问」的页面，它是右侧检查器。</p>
+      </div>
+      <article class="editor" data-view="article" hidden>
+        <p class="crumb">posts/620-roadmap/build-a-blog-site-1.md · form · 中英混排</p>
+        <h1>从零开始搭建博客网站（一）</h1>
+        <p>预备知识与安装。本站使用 VitePress——基于 Vue 3 和 Vite 的静态站点生成器，使用 UnoCSS 进行样式设计，托管在 GitHub Pages 上。正文中统一使用 TypeScript 行文。</p>
+        <div class="warn">由于本站开发使用 macOS，操作可能与 Windows 以及 Linux 不同。</div>
+        <h2>选择们</h2>
+        <p>现成平台（CSDN、博客园、Medium）定制性有限。WordPress 几乎是全球最流行的 CMS。追求 DIY 则用静态站点：VitePress、Hugo、Jekyll。</p>
+        <pre>pnpm docs:dev
+# 工作台映射：左树 = 路由，中列 = Markdown 渲染，右栏 = frontmatter + 在场</pre>
+      </article>
+      <div class="editor" data-view="corpus" hidden>
+        <p class="crumb">corpus/ · 六层前缀必须对齐目录</p>
+        <h1>Corpus</h1>
+        <p>一个观察知识如何生长、腐烂、重组的地方。层不是标签：aut- 只存在于 000-autopsia/，ing-@ 才是论文。</p>
+        <h2>000 Autopsia · dissection</h2>
+        <p>aut-carve-20260821 · aut-simplify-structure-20251106</p>
+        <h2>100 Ingesta · intake</h2>
+        <p>ing-l'etranger · ing-le-mythe-de-sisyphe · ing-@dai2018</p>
+        <h2>200 Neoplasma · new carve</h2>
+        <p>neo-a-syntax-lightlight-design · 结构（struc）和参考（ref）还没有切开。</p>
+      </div>
+      <div class="editor" data-view="dashboard" hidden>
+        <p class="crumb">dashboard/board.yml · 源文件即界面</p>
+        <h1>board.yml</h1>
+        <pre>weekTheme: ''
+active:
+  - title: 整理歌单
+    dod: Apple Music 歌单良好结构
+    priority: low
+    status: inProgress
+backlog:
+  - title: 新的 theme
+    notes: [{ text: 人文、低饱和，参考 OpenHanako }]</pre>
+        <p>看板是 YAML 的投影，不是另一套数据库。改右侧字段，等于改文件。</p>
+      </div>
+    </section>
+    <aside class="pane insp">
+      <h2>Inspector</h2>
+      <dl class="inspect" id="inspectHome">
+        <dt>Kind</dt><dd>home buffer</dd>
+        <dt>Locale</dt><dd>zh / en</dd>
+        <dt>Ghost</dt><dd>2 人在工作台</dd>
+        <dt>Doing</dt><dd>整理歌单</dd>
+      </dl>
+      <dl class="inspect" id="inspectArticle" hidden>
+        <dt>Frontmatter</dt><dd>status: form<br />series: blog_site<br />created: 2025-01-09</dd>
+        <dt>Tags</dt><dd><span class="tag">#scope/work/site</span></dd>
+        <dt>Outline</dt><dd>引 · 选择们 · 本站 · 安装</dd>
+        <dt>Ghost</dt><dd>1 人停在 42%</dd>
+      </dl>
+      <dl class="inspect" id="inspectCorpus" hidden>
+        <dt>Layer rule</dt><dd>prefix 必须匹配目录</dd>
+        <dt>Counts</dt><dd>aut 22 · ing 18 · neo 26 · put 14 · del 3 · vig 20</dd>
+        <dt>Hashtag</dt><dd>复用 #scope/ #source/ #log/，禁止自造碎片</dd>
+      </dl>
+      <div class="inspect" id="inspectDash" hidden>
+        <div class="task"><span class="st">途中 · low</span><br /><strong>整理歌单</strong></div>
+        <div class="task"><strong>新的 theme</strong><br />人文低饱和</div>
+        <div class="task"><strong>iOS app</strong><br />Swift + Widget</div>
+        <p>active 可有 status；backlog / archive 无 status。</p>
+      </div>
+    </aside>
+  </div>
+  <div class="status">
+    <span>utf-8 · zh-Hans · VitePress worktree · 不提交</span>
+    <span id="statusView">HOME</span>
+  </div>
+  <dialog id="cmd" aria-label="命令面板">
+    <input id="cmdInput" placeholder="打开文件、层、或看板…" />
+    <ul>
+      <li data-go="home">index.md · 首页缓冲</li>
+      <li data-go="article">posts/620-roadmap/build-a-blog-site-1.md</li>
+      <li data-go="corpus">corpus/ 六层</li>
+      <li data-go="dashboard">dashboard/board.yml</li>
+    </ul>
+  </dialog>
+  <script>
+    (function () {
+      var root = document.documentElement
+      var themeBtn = document.getElementById('themeBtn')
+      var cmd = document.getElementById('cmd')
+      var inspect = {
+        home: document.getElementById('inspectHome'),
+        article: document.getElementById('inspectArticle'),
+        corpus: document.getElementById('inspectCorpus'),
+        dashboard: document.getElementById('inspectDash')
+      }
+      var hints = {
+        home: '~/froq/index',
+        article: '~/froq/posts/build-a-blog-site-1.md',
+        corpus: '~/froq/corpus/',
+        dashboard: '~/froq/dashboard/board.yml'
+      }
+      function applyTheme(mode) {
+        if (mode === 'light') root.removeAttribute('data-theme')
+        else root.setAttribute('data-theme', 'dark')
+      }
+      var saved = localStorage.getItem('ds-theme-03')
+      if (saved === 'light') applyTheme('light')
+      themeBtn.addEventListener('click', function () {
+        var next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'
+        localStorage.setItem('ds-theme-03', next === 'dark' ? 'dark' : 'light')
+        applyTheme(next)
+      })
+      function show(view) {
+        document.querySelectorAll('.editor-pane [data-view]').forEach(function (el) {
+          el.hidden = el.getAttribute('data-view') !== view
+        })
+        Object.keys(inspect).forEach(function (k) { inspect[k].hidden = k !== view })
+        document.getElementById('fileHint').textContent = hints[view]
+        document.getElementById('statusView').textContent = view.toUpperCase()
+        document.querySelectorAll('.tree [data-go]').forEach(function (el) {
+          el.setAttribute('aria-current', el.getAttribute('data-go') === view ? 'true' : 'false')
+        })
+        if (location.hash !== '#' + view) location.hash = view
+      }
+      document.addEventListener('click', function (e) {
+        var t = e.target.closest('[data-go]')
+        if (!t) return
+        e.preventDefault()
+        show(t.getAttribute('data-go'))
+        cmd.close()
+      })
+      document.getElementById('cmdBtn').addEventListener('click', function () {
+        cmd.showModal()
+        document.getElementById('cmdInput').focus()
+      })
+      document.addEventListener('keydown', function (e) {
+        if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+          e.preventDefault()
+          cmd.showModal()
+          document.getElementById('cmdInput').focus()
+        }
+        if (e.key === '/' && document.activeElement === document.body) {
+          e.preventDefault()
+          cmd.showModal()
+          document.getElementById('cmdInput').focus()
+        }
+        if (e.key === 'Escape' && cmd.open) cmd.close()
+      })
+      var initial = (location.hash || '#home').slice(1)
+      if (!inspect[initial]) initial = 'home'
+      show(initial)
+      window.addEventListener('hashchange', function () {
+        var v = location.hash.slice(1) || 'home'
+        if (inspect[v]) show(v)
+      })
+    })()
+  </script>
+</body>
+</html>

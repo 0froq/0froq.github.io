@@ -76,7 +76,7 @@ $\varrho$ 被认为是 Greek rho symbol，也称 tailed rho，
 $\sigma$ 则是中规中矩的 Greek small letter sigma，
 即 sigma 的普通字型，也可用作表示数字 200。
 
-:::warning
+::warning
 注意，不要把 $\varsigma$ 和 $ϛ$
 ^[由于 `\stigma` 无法通过 Markdown 中的 MathJax 输入，这里直接使用了 Unicode 字符。]
 (stigma) 混淆。后者是 $\sigma\tau$ (sigma-tau) 连字，也可用作表示数字 6。
@@ -86,7 +86,7 @@ $\sigma$ 则是中规中矩的 Greek small letter sigma，
 而 final sigma 也不会出现在词内部，且不会用作表示数字，
 故二者通常可以通过上下文较为轻易地区分开。
 ^[[Wikipedia, Stigma (ligature)](https://en.wikipedia.org/wiki/Stigma_(ligature))]
-:::
+::
 
 ### `\phi` 与 `\varphi`
 

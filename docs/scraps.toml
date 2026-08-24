@@ -1,0 +1,19 @@
+# homepage scrapboard
+# Each [[scraps]] is a fold row: text in the list, detail when open.
+# Links live in markdown: [label](/internal) or [label](https://...).
+# Put links in `detail` (or in `text` when there is no detail).
+# Fold titles stay plain — they sit inside a button.
+# Optional pinned = true to keep a row at the top.
+
+[[scraps]]
+id = "hyalina"
+text = "[透明溞不是老鼠](/posts/610-log/d-hyalina-is-not-rat)"
+# detail = "代序里那篇短的。[去读](/posts/610-log/d-hyalina-is-not-rat)。"
+detail = "A recent prose."
+date = "2024-08-04"
+pinned = true
+
+[[scraps]]
+id = "building-this-site"
+text = "no clue why i'm so into refactoring everything"
+date = "2026-08-25"

@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>岩芯 · Digital Space 原型</title>
+  <style>
+    :root {
+      --bg: #e7e2d6;
+      --ink: #1e2422;
+      --mute: #5b635f;
+      --line: #8d9184;
+      --tick: #4d5552;
+      --surf: #c5d0b8;
+      --aut: #cfc8bc;
+      --ing: #b7b3a6;
+      --neo: #cbb89a;
+      --put: #a89478;
+      --del: #b08a7a;
+      --vig: #6d7573;
+      --water: #6e8b8a;
+      --paper: #f4f0e6;
+      --focus: #2f5d57;
+      --sans: "PingFang SC", "Hiragino Sans GB", system-ui, sans-serif;
+      --serif: "Songti SC", "Iowan Old Style", serif;
+      --mono: "SF Mono", Menlo, ui-monospace, monospace;
+    }
+    html[data-theme="dark"] {
+      --bg: #101614;
+      --ink: #e4e6dc;
+      --mute: #9aa39c;
+      --line: #3a4440;
+      --tick: #c5cec6;
+      --surf: #243028;
+      --aut: #2a2a26;
+      --ing: #262822;
+      --neo: #32281c;
+      --put: #2a2218;
+      --del: #2c1e1a;
+      --vig: #151c1c;
+      --water: #1c3334;
+      --paper: #171d1b;
+      --focus: #8fcdc4;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; }
+    body {
+      background: var(--bg); color: var(--ink);
+      font-family: var(--sans); font-size: 16px; line-height: 1.6;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      * { scroll-behavior: auto !important; transition: none !important; }
+    }
+    :focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+    a { color: inherit; }
+    .skip { position: absolute; left: 8px; top: -40px; background: var(--ink); color: var(--bg); padding: 6px 10px; }
+    .skip:focus { top: 8px; }
+    .bar {
+      display: flex; justify-content: space-between; gap: 12px; align-items: center;
+      padding: 8px 14px; border-bottom: 1px solid var(--line);
+      font-family: var(--mono); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--mute);
+    }
+    .bar b { color: var(--ink); text-transform: none; letter-spacing: 0; }
+    .bar button { font-family: var(--mono); font-size: 11px; background: none; color: var(--ink); border: 1px solid var(--line); cursor: pointer; }
+    .tabs { display: flex; gap: 6px; padding: 8px 14px; font-family: var(--mono); font-size: 12px; }
+    .tabs button { background: none; border: 0; color: var(--mute); cursor: pointer; padding: 4px 2px; font: inherit; }
+    .tabs button[aria-current="page"] { color: var(--ink); box-shadow: inset 0 -2px 0 var(--ink); }
+    .core {
+      display: grid;
+      grid-template-columns: 72px 1fr;
+      min-height: calc(100vh - 90px);
+    }
+    .ruler {
+      background: linear-gradient(#d7d3c8, #cfcabe);
+      border-right: 1px solid var(--line);
+      font-family: var(--mono); font-size: 10px; color: var(--tick);
+      padding: 12px 6px; position: sticky; top: 0; height: 100vh;
+    }
+    html[data-theme="dark"] .ruler { background: #0c100f; }
+    .tick { height: 16.6%; border-top: 1px solid var(--tick); padding-top: 2px; }
+    .stack { display: flex; flex-direction: column; }
+    .stratum {
+      padding: 22px 28px 26px; border-bottom: 1px solid color-mix(in srgb, var(--ink) 18%, transparent);
+      cursor: pointer; min-height: 18vh;
+    }
+    .stratum:hover { filter: brightness(0.98); }
+    .stratum[data-layer="surf"] { background: var(--surf); min-height: 14vh; }
+    .stratum[data-layer="aut"] { background: var(--aut); }
+    .stratum[data-layer="ing"] { background: var(--ing); }
+    .stratum[data-layer="neo"] { background: var(--neo); }
+    .stratum[data-layer="put"] { background: var(--put); color: #1a1712; }
+    .stratum[data-layer="del"] { background: var(--del); color: #1c120e; }
+    .stratum[data-layer="vig"] { background: var(--vig); color: #e8ece9; min-height: 22vh; }
+    html[data-theme="dark"] .stratum[data-layer="put"],
+    html[data-theme="dark"] .stratum[data-layer="del"] { color: var(--ink); }
+    .depth { font-family: var(--mono); font-size: 11px; letter-spacing: 0.16em; }
+    .stratum h2 { font-family: var(--serif); font-weight: 500; margin: 4px 0 8px; font-size: 28px; }
+    .stratum p { margin: 0; max-width: 62ch; color: inherit; opacity: 0.9; }
+    .chips { margin-top: 10px; font-family: var(--mono); font-size: 12px; opacity: 0.85; }
+    .page {
+      max-width: 46rem; margin: 0 auto; padding: 32px 20px 80px;
+      background: var(--paper); min-height: calc(100vh - 90px);
+    }
+    .page h1 { font-family: var(--serif); font-weight: 500; font-size: 34px; line-height: 1.25; }
+    .page h2 { font-family: var(--serif); font-weight: 500; }
+    .meta { font-family: var(--mono); font-size: 12px; color: var(--mute); }
+    .climate {
+      display: grid; grid-template-columns: 140px 1fr; gap: 16px;
+      background: var(--water); color: #f4f7f6; padding: 16px 20px; font-size: 14px;
+    }
+    .climate b { font-family: var(--mono); font-size: 11px; letter-spacing: 0.12em; }
+    .task { padding: 12px 0; border-bottom: 1px dashed var(--line); }
+    .st { font-family: var(--mono); font-size: 11px; }
+    pre {
+      font-family: var(--mono); font-size: 13px; background: color-mix(in srgb, var(--ing) 50%, var(--paper));
+      padding: 12px; overflow: auto; border-left: 3px solid var(--water);
+    }
+    .warn { border: 1px solid var(--line); padding: 8px 12px; font-size: 14px; }
+    @media (max-width: 800px) {
+      .core { grid-template-columns: 28px 1fr; }
+      .ruler { font-size: 0; padding: 0; }
+      .tick { border-left: 2px solid var(--tick); height: 16.6%; }
+      .stratum { padding: 16px; min-height: 0; }
+      .stratum h2 { font-size: 22px; }
+      .climate { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip" href="#main">跳到剖面</a>
+  <div class="bar">
+    <span>Digital Space 提案 02 · <b>岩芯 Strata</b> · 知识是沉积，站点是剖面</span>
+    <button type="button" id="themeBtn">浅色 / 深色</button>
+  </div>
+  <nav class="tabs" aria-label="原型页面">
+    <button type="button" data-go="home" aria-current="page">剖面首页</button>
+    <button type="button" data-go="article">取出的样芯</button>
+    <button type="button" data-go="corpus">层位目录</button>
+    <button type="button" data-go="dashboard">气候条</button>
+  </nav>
+  <main id="main" tabindex="-1">
+    <section data-view="home">
+      <div class="core">
+        <aside class="ruler" aria-hidden="true">
+          <div class="tick">000 表</div>
+          <div class="tick">000</div>
+          <div class="tick">100</div>
+          <div class="tick">200</div>
+          <div class="tick">300</div>
+          <div class="tick">400</div>
+          <div class="tick">500</div>
+        </aside>
+        <div class="stack">
+          <div class="stratum" data-layer="surf" data-go="dashboard">
+            <div class="depth">SURFACE · POSTS / DASHBOARD</div>
+            <h2>froQ · 于此</h2>
+            <p>表层是给人看的文字和工作界面。向下，才是花园真正的堆积：解剖、摄入、增生、腐烂、谵妄、守夜。</p>
+            <div class="chips">整理歌单 · 途中 · weekTheme 空</div>
+          </div>
+          <div class="stratum" data-layer="aut" data-go="corpus">
+            <div class="depth">000 AUTOPSIA · dissection</div>
+            <h2>解剖</h2>
+            <p>系统自省、元认知、结构调整。今天的 carve 记在这一层，而不是日记的表面。</p>
+            <div class="chips">22 条 · aut-carve-20260821</div>
+          </div>
+          <div class="stratum" data-layer="ing" data-go="corpus">
+            <div class="depth">100 INGESTA · intake</div>
+            <h2>摄入</h2>
+            <p>稳定外部资料的登记簿。加缪、齐奥朗、论文 @dai2018，先登记，再决定是否增生。</p>
+            <div class="chips">18 条 · ing-l'etranger</div>
+          </div>
+          <div class="stratum" data-layer="neo" data-go="article">
+            <div class="depth">200 NEOPLASMA · new carve</div>
+            <h2>新生物</h2>
+            <p>概念、判断、问题、模型。A Syntax Lightlight Design 停在「struc / ref」尚未切开的地方。</p>
+            <div class="chips">26 条 · #design #scope/work/theme</div>
+          </div>
+          <div class="stratum" data-layer="put" data-go="corpus">
+            <div class="depth">300 PUTREDO · decay</div>
+            <h2>腐败</h2>
+            <p>实践、执行、失败与现实摩擦后的残渣。工具笔记在这里发暗，而不是被擦亮。</p>
+            <div class="chips">14 条 · put-tooling</div>
+          </div>
+          <div class="stratum" data-layer="del">
+            <div class="depth">400 DELIRIUM</div>
+            <h2>谵妄</h2>
+            <p>审美刺激、非理性材料、风格直觉。薄，而且必须薄——这一层不允许被工作填满。</p>
+            <div class="chips">3 条</div>
+          </div>
+          <div class="stratum" data-layer="vig">
+            <div class="depth">500 VIGIL</div>
+            <h2>守夜</h2>
+            <p>存在证据、身份锚点、生活片段。站点的最深处不是秘密，是还在的证明。</p>
+            <div class="chips">20 条 · 双相 · 开源</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section data-view="article" hidden>
+      <article class="page">
+        <p class="meta">样芯 · 200-neoplasma / neo-a-syntax-lightlight-design · depth 200.4</p>
+        <h1>A Syntax Lightlight Design</h1>
+        <p>设计语法高亮，完全乱掉。行为（action）没得说，语法上的函数（function），语义上的调用（call）。结构（struc）和参考（ref）需要再详细定义。</p>
+        <h2>理念</h2>
+        <p>只有不影响具体逻辑的才是 ref。类型（type）的本质是加以约束，（字面）量（number、boolean）也只是特定的「参量」，不干涉逻辑。所以变量（variable）属于 struc 还是 ref？如果在函数的参数（param）中，应为结构；但后续使用时呢？</p>
+        <pre>action  → call
+struc   → param, definition
+ref     → type, literal, later use?</pre>
+        <p>很难做出语义的区分，各个 treesitter parser 实现得天差地别，而且和 textmate 差别过大。这条样芯没有被抛光——剖面保留它的孔隙。</p>
+      </article>
+    </section>
+
+    <section data-view="corpus" hidden>
+      <div class="page">
+        <p class="meta">层位目录 · 垂直索引，不是卡片墙</p>
+        <h1>六个切片，按深度排列</h1>
+        <div class="warn">你当然可以随意浏览。一些内容可能过于个人化、碎片化、晦涩，甚至试图主动冒犯。</div>
+        <h2>000 Autopsia</h2>
+        <p class="meta">aut-carve-20260821 · aut-simplify-structure-20251106 · aut-inbox-2026-08-15</p>
+        <h2>100 Ingesta</h2>
+        <p class="meta">ing-l'etranger · ing-le-mythe-de-sisyphe · ing-@dai2018 · ing-yak-shaving</p>
+        <h2>200 Neoplasma</h2>
+        <p class="meta">neo-a-syntax-lightlight-design · neo-low-friction-input-first · neo-publishing-pressure-three-layer</p>
+        <h2>300–500</h2>
+        <p class="meta">put-tooling · del-20251023 · vigil 作为最深的存在层，不与任务混排</p>
+      </div>
+    </section>
+
+    <section data-view="dashboard" hidden>
+      <div class="climate">
+        <div>
+          <b>CLIMATE</b>
+          <div>表层天气</div>
+        </div>
+        <div>weekTheme 空 · 2 ghost 在读岩芯 · 进行中 1 / 待办池 5 / 归档 3。Dashboard 不是另一座建筑，是剖面露出地面的那一层。</div>
+      </div>
+      <div class="page">
+        <h1>进行中</h1>
+        <div class="task"><span class="st">途中 · low</span><br /><strong>整理歌单</strong><br />DoD: Apple Music 歌单良好结构</div>
+        <h2>待办池 · 未固结沉积</h2>
+        <div class="task"><strong>新的 theme</strong><br />人文、低饱和，参考 OpenHanako</div>
+        <div class="task"><strong>一个 iOS app</strong><br />单轴时间线，线段=schedule，点=due</div>
+        <div class="task"><strong>设计 tokens</strong><br />颜色、间距、线段风格</div>
+        <h2>归档 · 已成岩</h2>
+        <div class="task">2026-06-15 结课考试整理</div>
+        <div class="task">2026-05-19 结课论文提交</div>
+      </div>
+    </section>
+  </main>
+  <script>
+    (function () {
+      var root = document.documentElement
+      var btn = document.getElementById('themeBtn')
+      function apply(mode) {
+        if (mode === 'dark') root.setAttribute('data-theme', 'dark')
+        else root.removeAttribute('data-theme')
+      }
+      var saved = localStorage.getItem('ds-theme-02')
+      if (saved) apply(saved)
+      else if (matchMedia('(prefers-color-scheme: dark)').matches) apply('dark')
+      btn.addEventListener('click', function () {
+        var next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'
+        localStorage.setItem('ds-theme-02', next)
+        apply(next)
+      })
+      function show(view) {
+        document.querySelectorAll('[data-view]').forEach(function (el) {
+          el.hidden = el.getAttribute('data-view') !== view
+        })
+        document.querySelectorAll('.tabs [data-go]').forEach(function (el) {
+          el.setAttribute('aria-current', el.getAttribute('data-go') === view ? 'page' : 'false')
+        })
+        if (location.hash !== '#' + view) location.hash = view
+        document.getElementById('main').focus()
+        if (view === 'home') window.scrollTo(0, 0)
+      }
+      document.addEventListener('click', function (e) {
+        var t = e.target.closest('[data-go]')
+        if (!t) return
+        e.preventDefault()
+        show(t.getAttribute('data-go'))
+      })
+      var initial = (location.hash || '#home').slice(1)
+      if (!document.querySelector('[data-view="' + initial + '"]')) initial = 'home'
+      show(initial)
+      window.addEventListener('hashchange', function () {
+        var v = location.hash.slice(1) || 'home'
+        if (document.querySelector('[data-view="' + v + '"]')) show(v)
+      })
+    })()
+  </script>
+</body>
+</html>

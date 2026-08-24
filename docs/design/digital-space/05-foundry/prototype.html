@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>字谷 · Digital Space 原型</title>
+  <style>
+    :root {
+      --bg: #f7f4ee;
+      --ink: #12110f;
+      --mute: #5c5850;
+      --rule: #12110f;
+      --red: #9c2b1d;
+      --soft: #e7e1d6;
+      --serif: "Songti SC", "Iowan Old Style", "Noto Serif CJK SC", "Times New Roman", serif;
+      --sans: "PingFang SC", "Hiragino Sans GB", system-ui, sans-serif;
+      --mono: "SF Mono", Menlo, ui-monospace, monospace;
+    }
+    html[data-theme="dark"] {
+      --bg: #0e0d0b;
+      --ink: #f3efe6;
+      --mute: #b5b0a6;
+      --rule: #f3efe6;
+      --red: #e06a58;
+      --soft: #1a1916;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; }
+    body {
+      background: var(--bg); color: var(--ink);
+      font-family: var(--serif); font-size: 20px; line-height: 1.7;
+    }
+    @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+    :focus-visible { outline: 2px solid var(--red); outline-offset: 3px; }
+    a { color: var(--ink); text-decoration-thickness: 1px; text-underline-offset: 0.18em; }
+    a:hover { color: var(--red); }
+    .skip { position: absolute; left: 10px; top: -40px; background: var(--red); color: #fff; padding: 6px 10px; font-family: var(--sans); font-size: 14px; }
+    .skip:focus { top: 10px; }
+    .top {
+      display: flex; justify-content: space-between; align-items: baseline;
+      padding: 14px 22px 10px; font-family: var(--sans); font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase;
+      color: var(--mute);
+    }
+    .top b { color: var(--ink); letter-spacing: 0.04em; text-transform: none; font-size: 14px; }
+    .top button { background: none; border: 0; border-bottom: 1px solid var(--rule); color: var(--ink); cursor: pointer; font: inherit; letter-spacing: 0.12em; }
+    nav.site {
+      display: flex; flex-wrap: wrap; gap: 1.2rem; padding: 0 22px 16px;
+      font-family: var(--sans); font-size: 14px; border-bottom: 1px solid var(--rule);
+    }
+    nav.site button {
+      background: none; border: 0; padding: 0; cursor: pointer; font: inherit; color: var(--mute);
+    }
+    nav.site button[aria-current="page"] { color: var(--ink); }
+    .spread { max-width: 52rem; margin: 0 auto; padding: 3rem 1.4rem 6rem; }
+    .display {
+      font-size: clamp(4.2rem, 14vw, 9.5rem); line-height: 0.88; letter-spacing: -0.04em;
+      font-weight: 500; margin: 0 0 1.2rem;
+    }
+    .colophon { font-family: var(--sans); font-size: 14px; color: var(--mute); letter-spacing: 0.08em; }
+    .red { color: var(--red); }
+    .roles { margin: 2.5rem 0 3rem; font-style: italic; }
+    .index {
+      display: grid; grid-template-columns: 8rem 1fr; gap: 0.4rem 1.2rem;
+      font-size: 1.05rem; border-top: 1px solid var(--rule); padding-top: 1.4rem;
+    }
+    .index dt { font-family: var(--sans); font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--mute); padding-top: 0.35rem; }
+    .index dd { margin: 0; padding: 0.15rem 0 0.7rem; border-bottom: 1px solid color-mix(in srgb, var(--rule) 25%, transparent); }
+    .measure p { max-width: 38rem; }
+    .measure h1 { font-size: clamp(2rem, 5vw, 3.2rem); line-height: 1.15; font-weight: 500; margin: 0 0 0.6rem; }
+    .measure h2 { font-size: 1.25rem; font-weight: 500; margin: 1.8rem 0 0.5rem; }
+    .kicker { font-family: var(--sans); font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--red); }
+    .drop::first-letter { float: left; font-size: 3.4rem; line-height: 0.85; padding: 0.08em 0.12em 0 0; }
+    pre {
+      font-family: var(--mono); font-size: 13px; line-height: 1.5;
+      border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule);
+      padding: 1rem 0; overflow: auto;
+    }
+    .catalog { display: grid; gap: 0; }
+    .row {
+      display: grid; grid-template-columns: 5.5rem 1fr auto; gap: 1rem;
+      padding: 0.85rem 0; border-bottom: 1px solid var(--rule); align-items: baseline;
+    }
+    .row .no { font-family: var(--mono); font-size: 12px; color: var(--mute); }
+    .row .nm { font-size: 1.35rem; }
+    .row .ct { font-family: var(--sans); font-size: 12px; letter-spacing: 0.08em; }
+    .sked { width: 100%; border-collapse: collapse; font-size: 1rem; }
+    .sked th { text-align: left; font-family: var(--sans); font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 500; color: var(--mute); border-bottom: 1px solid var(--rule); padding: 0.4rem 0.6rem 0.4rem 0; }
+    .sked td { border-bottom: 1px solid color-mix(in srgb, var(--rule) 30%, transparent); padding: 0.7rem 0.6rem 0.7rem 0; vertical-align: top; }
+    .sked .now { color: var(--red); }
+    footer.run {
+      position: sticky; bottom: 0; background: var(--bg);
+      border-top: 1px solid var(--rule); display: flex; justify-content: space-between;
+      padding: 8px 22px; font-family: var(--sans); font-size: 12px; letter-spacing: 0.1em;
+    }
+    @media (max-width: 700px) {
+      body { font-size: 18px; }
+      .display { font-size: 3.4rem; }
+      .index, .row { grid-template-columns: 1fr; }
+      .row .ct { justify-self: start; }
+      .sked { font-size: 15px; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip" href="#main">跳到正文</a>
+  <div class="top">
+    <span>提案 05 · <b>字谷 Foundry</b> · 先排字，再排空间</span>
+    <button type="button" id="themeBtn">浅色 / 深色</button>
+  </div>
+  <nav class="site" aria-label="原型页面">
+    <button type="button" data-go="home" aria-current="page">字样</button>
+    <button type="button" data-go="article">成言</button>
+    <button type="button" data-go="corpus">目录</button>
+    <button type="button" data-go="dashboard">工单</button>
+  </nav>
+  <main id="main" tabindex="-1">
+    <section class="spread" data-view="home">
+      <p class="colophon">froQ · Nanjing · Digital garden specimen</p>
+      <h1 class="display">于此<span class="red">。</span></h1>
+      <p class="roles">观察者 / 构建者 / 思考者</p>
+      <p>我是 <ruby>froQ<rt>青蛙（可能</rt></ruby>。真正在做的是写代码——Vue、Nuxt、TypeScript——和维持一座会腐烂的知识花园。我读加缪、萨特、齐奥朗、弗洛伊德、拉康。我是双相障碍者（Ⅰ 型）。最大的目标之一是做全职开源。</p>
+      <dl class="index">
+        <dt>Post</dt>
+        <dd><a href="#article" data-go="article">从零开始搭建博客网站（一）</a> · 成言系列</dd>
+        <dt>Corpus</dt>
+        <dd><a href="#corpus" data-go="corpus">六个切片</a>：解剖、摄入、增生、腐败、谵妄、守夜</dd>
+        <dt>Board</dt>
+        <dd><a href="#dashboard" data-go="dashboard">整理歌单</a> · 途中 · weekTheme 空</dd>
+        <dt>Type</dt>
+        <dd>宋体正文 · 黑体导航 · 等宽元数据。没有第三种装饰字体。</dd>
+      </dl>
+    </section>
+
+    <section class="spread measure" data-view="article" hidden>
+      <p class="kicker">成言 · blog_site · #scope/work/site</p>
+      <h1>从零开始搭建博客网站（一）</h1>
+      <p class="colophon">2025-01-09 · form · last_modified 2026-04-24</p>
+      <p class="drop">没 有啥好引的，看详细操作。本站使用 VitePress——基于 Vue 3 与 Vite 的静态站点生成器，UnoCSS 管样式，托管在 GitHub Pages。正文统一 TypeScript。</p>
+      <h2>选择们</h2>
+      <p>现成平台（CSDN、博客园、掘金、Medium、Tumblr）定制性有限。WordPress 几乎是全球最流行的 CMS。追求 DIY，用静态站点：VitePress、Hugo、Jekyll。主题才是房间；框架只是梁。</p>
+      <pre>pnpm docs:dev
+# 字号阶：显示 9.5rem / 标题 3.2rem / 正文 20px / 元数据 12px
+# 强调只用朱色一处，不用渐变，不用玻璃。</pre>
+      <p>长篇中文靠的是字距、行长和标点停顿，不是卡片摘要。英文术语保持原形：VitePress、UnoCSS、TypeScript。</p>
+    </section>
+
+    <section class="spread" data-view="corpus" hidden>
+      <p class="kicker">Corpus · 字谷目录</p>
+      <h1 class="display" style="font-size: clamp(2.4rem, 7vw, 4.5rem);">六个切片</h1>
+      <p>一个观察知识如何生长、腐烂、重组的地方。知情：个人化、碎片、晦涩、主观、可能冒犯。</p>
+      <div class="catalog">
+        <div class="row"><span class="no">000</span><span class="nm">Autopsia 解剖</span><span class="ct">22 · dissection</span></div>
+        <div class="row"><span class="no">100</span><span class="nm">Ingesta 摄入</span><span class="ct">18 · intake</span></div>
+        <div class="row"><span class="no">200</span><span class="nm">Neoplasma 增生</span><span class="ct">26 · new carve</span></div>
+        <div class="row"><span class="no">300</span><span class="nm">Putredo 腐败</span><span class="ct">14 · decay</span></div>
+        <div class="row"><span class="no">400</span><span class="nm">Delirium 谵妄</span><span class="ct">3 · aesthetic</span></div>
+        <div class="row"><span class="no">500</span><span class="nm">Vigil 守夜</span><span class="ct">20 · evidence</span></div>
+      </div>
+      <p class="colophon" style="margin-top:2rem;">近条 · neo-a-syntax-lightlight-design · ing-l'etranger · aut-carve-20260821</p>
+    </section>
+
+    <section class="spread" data-view="dashboard" hidden>
+      <p class="kicker">Dashboard · 排字工单</p>
+      <h1>进行中</h1>
+      <table class="sked">
+        <thead>
+          <tr><th>状态</th><th>工作</th><th>说明</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="now">途中</td>
+            <td>整理歌单</td>
+            <td>Apple Music 歌单良好结构 · low</td>
+          </tr>
+          <tr>
+            <td>待办</td>
+            <td>新的 theme</td>
+            <td>人文、低饱和，参考 OpenHanako</td>
+          </tr>
+          <tr>
+            <td>待办</td>
+            <td>一个 iOS app</td>
+            <td>单轴时间线 · Swift + SwiftUI · Widget</td>
+          </tr>
+          <tr>
+            <td>待办</td>
+            <td>设计 tokens</td>
+            <td>颜色、间距、线段风格</td>
+          </tr>
+          <tr>
+            <td>归档</td>
+            <td>结课考试整理</td>
+            <td>2026-06-15</td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="colophon">weekTheme 空。空也是一种排版。</p>
+    </section>
+  </main>
+  <footer class="run">
+    <span>GHOST 2</span>
+    <span>ZH · EN</span>
+    <span>NO COMMIT</span>
+  </footer>
+  <script>
+    (function () {
+      var root = document.documentElement
+      var btn = document.getElementById('themeBtn')
+      function apply(mode) {
+        if (mode === 'dark') root.setAttribute('data-theme', 'dark')
+        else root.removeAttribute('data-theme')
+      }
+      var saved = localStorage.getItem('ds-theme-05')
+      if (saved) apply(saved)
+      else if (matchMedia('(prefers-color-scheme: dark)').matches) apply('dark')
+      btn.addEventListener('click', function () {
+        var next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'
+        localStorage.setItem('ds-theme-05', next)
+        apply(next)
+      })
+      function show(view) {
+        document.querySelectorAll('[data-view]').forEach(function (el) {
+          el.hidden = el.getAttribute('data-view') !== view
+        })
+        document.querySelectorAll('nav.site [data-go]').forEach(function (el) {
+          el.setAttribute('aria-current', el.getAttribute('data-go') === view ? 'page' : 'false')
+        })
+        if (location.hash !== '#' + view) location.hash = view
+        document.getElementById('main').focus()
+      }
+      document.addEventListener('click', function (e) {
+        var t = e.target.closest('[data-go]')
+        if (!t) return
+        e.preventDefault()
+        show(t.getAttribute('data-go'))
+      })
+      var initial = (location.hash || '#home').slice(1)
+      if (!document.querySelector('[data-view="' + initial + '"]')) initial = 'home'
+      show(initial)
+      window.addEventListener('hashchange', function () {
+        var v = location.hash.slice(1) || 'home'
+        if (document.querySelector('[data-view="' + v + '"]')) show(v)
+      })
+    })()
+  </script>
+</body>
+</html>

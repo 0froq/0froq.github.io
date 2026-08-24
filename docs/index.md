@@ -1,44 +1,29 @@
 ---
 home: true
 index: true
-locale: zh
+locale: en
 ---
 
-我是 <ruby> :rb[froQ] :rt[青蛙（可能]</ruby>。
+Hola! I'm <ruby> :rb[froQ] :rt[frog (maybe)]</ruby>.
 
-::reveal{label="关于我"}
+I'm doing a master's degree, which is not the point at all.
 
-我在读研究生，但这不重要。
-真正在做的事是写代码——Web 开发（Vue、Nuxt、TypeScript），
-造轮子（[headup.nvim](https://github.com/Fro-Q/headup.nvim)、
-[VSCode theme LiG](https://github.com/Fro-Q/vscode-theme-LiG)），
-工作流设计（macOS + sketchybar + yabai + Hammerspoon + ……）。
-我维护着 [我的个人博客](https://froq.me)
-和 [ToQ 播客](https://www.xiaoyuzhoufm.com/podcast/68fb1be73ffa38fac58d6bf2)。
+I code, build, read, write, and plenty of other stuff.
 
-我读荒诞主义（<ruby> :rb[加缪] :rt[Albert Camus]</ruby>、
-<ruby> :rb[萨特] :rt[Jean-Paul Sartre]</ruby>)，
-读虚无主义（<ruby> :rb[齐奥朗] :rt[Emil Cioran]</ruby>），
-读精神分析学（<ruby> :rb[弗洛伊德] :rt[Sigmund Freud]</ruby>、
-<ruby> :rb[拉康] :rt[Jacques Lacan]</ruby>）。
-我试图在理性与感性之间保持观察的距离。
+Most of the time I have a thing for aesthetics—and how things feel to use.
 
-我是 ==<ruby> :rb[双相障碍] :rt[bipolar disorder]</ruby>者（Ⅰ 型）==。
-思维在秩序与混沌之间徘徊，
-这种张力是我创造力的来源。
+My dream job is to work on the intersection of design and development. 
+If possible, I want to be a full-time open source contributor.
 
----
+Feel free to contact me out of nowhere.
 
-[观察者 / 构建者 / 思考者]{.flex.flex-col.items-center.italic.font-serif}
+<!--
+我维护着这个站和
+[ToQ 播客](https://www.xiaoyuzhoufm.com/podcast/68fb1be73ffa38fac58d6bf2)。
+平时写 Vue / Nuxt / TypeScript，
+也会做一点像
+[headup.nvim](https://github.com/Fro-Q/headup.nvim)
+这样的小工具。
 
-我最大的人生目标之一是 :u[做全职开源]{.underline-amber-500}。
-如果你看到这段话，说明我还在路上。
-
----
-
-这不只是个博客。
-
-[Post](/posts/){.font-script} 是我想给你看的一些文字，
-[Corpus](/corpus/){.font-stylish} 是知识如何生长和衰败的记录，
-[Dashboard](/dashboard/){.font-mono} 是我每天盯着的工作界面（你也能盯着）。
-::
+目前在南京。如果你想聊聊，不必带着项目来——
+也可以先去 [GitHub](https://github.com/Fro-Q) 看看。 -->
