@@ -3,7 +3,10 @@ index: true
 locale: en
 ---
 
-<!-- 所谓 [Posts]{.font-script} 大概分为了三个部分。
-<u>代序</u> 主要是记录日常与心境的随笔；
-<u>成言</u> 是技术与项目的系列文章；
-<u>前脩</u> 则是收藏与注记的语录。 -->
+Not a blog, and not something you have to catch up on.
+Just the attempts I was willing to leave in public —
+enough to tell what I am thinking, even if you skip most of it.
+
+Log keeps the days.
+Roadmap keeps the work.
+Collection keeps what I would still put on a desk.

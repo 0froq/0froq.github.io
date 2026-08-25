@@ -15,7 +15,8 @@ Most of the time I have a thing for aesthetics—and how things feel to use.
 My dream job is to work on the intersection of design and development. 
 If possible, I want to be a full-time open source contributor.
 
-Feel free to contact me out of nowhere.
+Feel free to [contact](/contact) me out of nowhere.
+Here's the [stack](/stack).
 
 <!--
 我维护着这个站和
