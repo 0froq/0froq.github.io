@@ -106,6 +106,18 @@ export default defineNuxtConfig({
   },
 
   nitro: {
+    prerender: {
+      autoSubfolderIndex: false,
+      // Corpus markdown links include broken/escaped apostrophe URLs and
+      // private activity paths; do not block the public site deploy on those.
+      failOnError: false,
+    },
+    serverAssets: [
+      {
+        baseName: 'dashboard',
+        dir: fileURLToPath(new URL('./docs/dashboard', import.meta.url)),
+      },
+    ],
     publicAssets: [
       {
         dir: docsPublic,
