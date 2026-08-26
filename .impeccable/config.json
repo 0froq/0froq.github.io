@@ -1,0 +1,26 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "overused-font",
+        "value": "instrument serif",
+        "createdAt": "2026-08-21T07:41:39.707Z",
+        "reason": "user-pinned dense-index brief specifies Instrument Serif for mast dates and italic display"
+      },
+      {
+        "rule": "overused-font",
+        "value": "eb garamond",
+        "createdAt": "2026-08-21T08:25:42.452Z",
+        "reason": "user requested same EB Garamond as main branch site fonts"
+      },
+      {
+        "rule": "overused-font",
+        "value": "eb garamond variable",
+        "createdAt": "2026-08-21T08:25:42.483Z",
+        "reason": "user requested same EB Garamond Variable as main branch"
+      }
+    ]
+  }
+}

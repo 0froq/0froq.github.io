@@ -1,20 +1,16 @@
 node_modules/
 .pnpm-store/
-docs/.vitepress/cache/
-docs/.vitepress/dist/
-docs/posts/.obsidian/
-docs/posts/_template/*
-docs/posts/_config/*
+.nuxt/
+.output/
+.data/
+docs/.vitepress/
 .DS_Store
-docs/.DS_Store
-docs/posts/_template/blog_temp.md
-docs/posts/_template/blog_temp.md
-.session.vim
-.sisyphus/
-*.numbers
-docs/.vitepress/generated/tags.json
-docs/corpus/_scripts/__pycache__/
 .env.local
+docs/posts/.obsidian/
+docs/corpus/_scripts/__pycache__/
 
 # Rune private State Ledger / outbox runtime. Never publish with GitHub Pages.
 .rune/
+
+# Cairn private runtime (cron, gateway, vue-tui board). Never publish.
+.cairn/

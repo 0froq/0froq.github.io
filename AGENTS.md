@@ -143,16 +143,15 @@ Day/week planning skills (`start-my-day`, `end-my-day`, `start-my-week`, `end-my
   - If no existing tag covers the concept, propose the new tag to the user in conversation and wait for approval.
   - Do not add unapproved tags to the file.
 
-### 2.6 Rune hashtag syntax
+### 2.6 Cairn hashtag syntax
 
 - **Problem**: A hyphen or underscore inside a multi-word hashtag fragments
-  the tag namespace and conflicts with the Rune output convention.
+  the tag namespace and conflicts with the Cairn output convention.
 - **Correct**: Write newly generated multi-word standalone hashtags in
   PascalCase: `#activityNote`, `#carveLog`, `#highPriority`. Never write
   `#activity-note` or `#activity_note`.
-- Existing slash taxonomy such as `#author/rune` and `#scope/meta/cognition`
-  is outside this rule; do not rename it without an explicit taxonomy
-  migration task.
+- Existing slash taxonomy such as `#author/cairn` and `#scope/meta/cognition`
+  is outside this rule.
 - Outside the tag line, every literal `#` in prose, headings, or lists must be
   escaped as `\#` to prevent accidental tag parsing. Tags are the only
   permitted bare `#`.
@@ -226,3 +225,41 @@ Day/week planning skills (`start-my-day`, `end-my-day`, `start-my-week`, `end-my
   data(board): mark exam review task as done
   config(scripts): remove unused BibTeX parser
   ```
+
+---
+
+## 5. Site visual language
+
+### 5.1 Three systems
+
+- **Markdown rendering** lives in `app/components/content/`, named `Prose*`.
+  These map HTML tags (`ProseA`, `ProseImg`) and MDC blocks
+  (`ProseCallout`, `ProseWarning`, `ProseNote`) for ContentRenderer.
+  Write `::warning` / `::note` in markdown; `content.renderer.alias`
+  points those tags at the Prose* components.
+- **Hand-drawn chrome** lives in `app/components/ink/`, named `Ink*`.
+  Seeded SVG for UI chrome only. Do not import Ink* into Prose*
+  components, and do not put markdown element renderers under `ink/`.
+- **Text marks** (underline, marker highlight, strike, circle) are painted
+  by `app/utils/roughInk.ts` onto hosts with `data-ink` /
+  `data-hover-ink`. Do not call this pencil; a mark is a marker.
+
+### 5.2 手绘 means functional seeded SVG
+
+- **Problem**: Treating 手绘 as raster illustration, CSS `border-radius`, icon fonts, or a fixed SVG asset.
+- **Case**: User says "加一个手绘箭头". Agent drops a Lucide icon, a PNG, or a perfectly geometric `<circle>`.
+- **Correct**: In this site, 手绘 always means **functional seeded random SVG**:
+  - Geometry is generated from a seed (hash → rng → jittered path) in `app/utils/inkDraw.ts`.
+  - UI chrome: `Ink*` in `app/components/ink/`.
+  - Text on paper: `data-ink` / `data-hover-ink`, painted by `roughInk.ts`.
+  - Paths stay irregular and seed-stable. Do not substitute icon sets, Lottie, or hand-traced bitmaps.
+  - Later mentions of 手绘 follow this rule without restating it.
+
+### 5.3 Style intent: printed page with pencil marginalia
+
+- **Goal** (froQ, 2026-08-26): the site reads as a **well-typeset reading page in a classical serif**; hand-drawn work is **restrained**, like pencil doodles and marks in the margin of a printed book.
+- **Correct**:
+  - Body and headings stay clean, classical serif, careful measure / leading / hierarchy. No jitter on text itself.
+  - Ink marks live at the edges: margin notes, underlines on key phrases, small arrows, circles around a word, rules under headings. Not scattered through the whole composition.
+  - Ink is annotation, not decoration density. A page carries a few deliberate marks, not a texture of marks.
+- **Anti-pattern**: weaving icons, arrows, and scribbles into every line of running text until the page reads as a sketchbook instead of a printed page with notes.

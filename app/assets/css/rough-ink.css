@@ -1,0 +1,114 @@
+:is(.prose, [un-prose], .scrap-md) :is(a, u, mark, s, del),
+[data-ink],
+[data-hover-ink] {
+  position: relative;
+  isolation: isolate;
+  text-decoration: none;
+  background: none;
+}
+
+a[data-ink='underline'] {
+  color: var(--ink);
+}
+
+.rough-ink {
+  position: absolute;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.rough-ink[data-kind='underline'] {
+  z-index: -1;
+  --ink-draw: 960ms;
+}
+
+.rough-ink[data-kind='circle'] {
+  --ink-draw: 640ms;
+}
+
+.rough-ink[data-kind='mark'] {
+  z-index: -1;
+  opacity: 0.42;
+}
+
+a[data-external] > .rough-ink[data-kind='mark'] {
+  opacity: 0.52;
+}
+
+html.dark .rough-ink[data-kind='mark'] {
+  opacity: 0.54;
+}
+
+html.dark a[data-external] > .rough-ink[data-kind='mark'] {
+  opacity: 0.54;
+}
+
+.selection-ink {
+  position: absolute;
+  z-index: -1;
+  overflow: visible;
+  pointer-events: none;
+  opacity: 1;
+}
+
+.rough-ink[data-kind='circle'] path,
+.rough-ink[data-kind='mark'] path,
+.rough-ink[data-kind='underline'] path {
+  stroke-linecap: butt;
+  stroke-linejoin: miter;
+}
+
+.ink-reveal {
+  stroke-dasharray: var(--ink-len);
+  stroke-dashoffset: 0;
+}
+
+.rough-ink[data-reveal='hover'] {
+  visibility: hidden;
+  transition: visibility 0s linear var(--ink-draw, 640ms);
+}
+
+.rough-ink[data-reveal='hover'] .ink-reveal {
+  stroke-dashoffset: var(--ink-len);
+  transition: stroke-dashoffset var(--ink-draw, 640ms) var(--ease-out);
+}
+
+.rough-ink[data-reveal='exit'],
+.rough-ink[data-reveal='enter'] {
+  visibility: visible;
+  --ink-draw: 720ms;
+}
+
+.rough-ink[data-reveal='exit'] .ink-reveal {
+  stroke-dashoffset: var(--ink-len);
+  transition: stroke-dashoffset var(--ink-draw, 720ms) var(--ease-out);
+}
+
+.rough-ink[data-reveal='enter'] .ink-reveal {
+  stroke-dashoffset: 0;
+  transition: stroke-dashoffset var(--ink-draw, 720ms) var(--ease-out);
+}
+
+.rough-ink.ink-boot .ink-reveal {
+  transition: none;
+}
+
+:is([data-hover-ink], [data-ink]):is(:hover, :focus-visible) > .rough-ink[data-reveal='hover'],
+.ink-host:is(:hover, :focus-visible) [data-hover-ink] > .rough-ink[data-reveal='hover'] {
+  visibility: visible;
+  transition: visibility 0s;
+}
+
+:is([data-hover-ink], [data-ink]):is(:hover, :focus-visible) > .rough-ink[data-reveal='hover'] .ink-reveal,
+.ink-host:is(:hover, :focus-visible) [data-hover-ink] > .rough-ink[data-reveal='hover'] .ink-reveal {
+  stroke-dashoffset: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rough-ink[data-reveal='hover'],
+  .rough-ink[data-reveal='hover'] .ink-reveal,
+  .rough-ink[data-reveal='exit'] .ink-reveal,
+  .rough-ink[data-reveal='enter'] .ink-reveal {
+    transition: none;
+  }
+}

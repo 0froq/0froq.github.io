@@ -2,19 +2,20 @@ export const ALLOWED_ORIGINS = new Set([
   'https://froq.me',
   'https://www.froq.me',
   'https://froq.pages.dev',
-  'http://localhost:5173',
-  'http://localhost:5174',
-  'http://127.0.0.1:5173',
-  'http://127.0.0.1:5174',
 ])
 
 /** Preview deployments: https://<hash>.froq.pages.dev */
 const PAGES_PREVIEW_RE = /^https:\/\/[a-z0-9-]+\.froq\.pages\.dev$/i
 
+/** Nuxt/Vite pick whatever free port is available. */
+const LOCAL_ORIGIN_RE = /^https?:\/\/(localhost|127\.0\.0\.1|\[::1\])(:\d+)?$/i
+
 export function isAllowedOrigin(origin: string | null): boolean {
   if (!origin)
     return false
   if (ALLOWED_ORIGINS.has(origin))
+    return true
+  if (LOCAL_ORIGIN_RE.test(origin))
     return true
   return PAGES_PREVIEW_RE.test(origin)
 }

@@ -1,20 +1,12 @@
-# Deploy VitePress site to Cloudflare Pages (direct upload via Wrangler).
+# Deploy Nuxt site to Cloudflare Pages (direct upload via Wrangler).
 #
 # Required GitHub secrets:
 #   CLOUDFLARE_API_TOKEN   — Account Cloudflare Pages Edit (+ Account Read)
-#   CLOUDFLARE_ACCOUNT_ID  — see `wrangler whoami` (Sayhola account)
-#   VITE_GITHUB_CLIENT_ID
-#   VITE_GITHUB_READ_TOKEN
-#   VITE_GITHUB_AUTH_PROXY — e.g. https://api.froq.me
-#   VITE_FROQ_API          — optional; defaults to AUTH_PROXY
+#   CLOUDFLARE_ACCOUNT_ID  — see `wrangler whoami`
 #
 # Project: `froq` → https://froq.pages.dev
-# Custom domain: Dashboard → Pages → froq → Custom domains → froq.me
-#
-# Create token: https://dash.cloudflare.com/profile/api-tokens
-#   (Workers template + Cloudflare Pages:Edit is enough)
 
-name: Deploy VitePress to Cloudflare Pages
+name: Deploy to Cloudflare Pages
 
 on:
   push:
@@ -50,16 +42,9 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      - name: Build with VitePress
-        env:
-          VITE_GITHUB_CLIENT_ID: ${{ secrets.VITE_GITHUB_CLIENT_ID }}
-          VITE_GITHUB_READ_TOKEN: ${{ secrets.VITE_GITHUB_READ_TOKEN }}
-          VITE_GITHUB_AUTH_PROXY: ${{ secrets.VITE_GITHUB_AUTH_PROXY }}
-          VITE_FROQ_API: ${{ secrets.VITE_FROQ_API }}
-        run: pnpm docs:build
+      - name: Generate
+        run: pnpm generate
 
-      # Use workspace wrangler (workers/froq-api) so the action does not
-      # `pnpm add wrangler` under pnpm 11 (ERR_PNPM_IGNORED_BUILDS).
       - name: Deploy to Cloudflare Pages
         id: deploy
         uses: cloudflare/wrangler-action@v4
@@ -69,7 +54,7 @@ jobs:
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
           workingDirectory: workers/froq-api
           packageManager: pnpm
-          command: pages deploy ../../docs/.vitepress/dist --project-name=froq --branch=main --commit-dirty=true
+          command: pages deploy ../../.output/public --project-name=froq --branch=main --commit-dirty=true
 
       - name: Deployment URL
         run: |

@@ -281,7 +281,6 @@ export class PagePresence extends DurableObject<Env> {
       att.lastActive = Date.now()
       ws.serializeAttachment(att)
       this.broadcastPeers()
-      return
     }
   }
 
@@ -339,7 +338,7 @@ export class PagePresence extends DurableObject<Env> {
       if (!prev || lastActive >= prev.lastActive)
         byTab.set(att.tabId, { row, lastActive })
     }
-    return [...byTab.values()].map(v => v.row)
+    return Array.from(byTab.values(), v => v.row)
   }
 
   private sendPeers(ws: WebSocket): void {
