@@ -12,6 +12,13 @@ const LIKE_LIMIT = 10
 /** Site-like rate limit window. */
 const LIKE_WINDOW_MS = 20 * 60 * 1000
 
+export const SCRAP_EMOJIS = new Set(['👍', '❤️', '😮', '✨', '📌'])
+
+export interface ScrapReactionState {
+  counts: Record<string, number>
+  mine: string | null
+}
+
 export interface PageOnlineRow {
   pagePath: string
   viewing: number
@@ -118,6 +125,22 @@ export class SiteStats extends DurableObject<Env> {
         CREATE TABLE IF NOT EXISTS page_like_rate (
           rate_key TEXT PRIMARY KEY,
           timestamps TEXT NOT NULL
+        )
+      `)
+      this.ctx.storage.sql.exec(`
+        CREATE TABLE IF NOT EXISTS scrap_reactions (
+          scrap_id TEXT NOT NULL,
+          emoji TEXT NOT NULL,
+          count INTEGER NOT NULL,
+          PRIMARY KEY (scrap_id, emoji)
+        )
+      `)
+      this.ctx.storage.sql.exec(`
+        CREATE TABLE IF NOT EXISTS scrap_votes (
+          scrap_id TEXT NOT NULL,
+          anon_id TEXT NOT NULL,
+          emoji TEXT NOT NULL,
+          PRIMARY KEY (scrap_id, anon_id)
         )
       `)
     })
@@ -295,7 +318,7 @@ export class SiteStats extends DurableObject<Env> {
 
     if (pagePath) {
       const rateKey = `${anonId}\0${pagePath}`
-      let stamps = this.readRateStamps('page_like_rate', rateKey, 'rate_key')
+      const stamps = this.readRateStamps('page_like_rate', rateKey, 'rate_key')
         .filter(t => now - t < LIKE_WINDOW_MS)
 
       const pageRow = this.ctx.storage.sql.exec(
@@ -334,7 +357,7 @@ export class SiteStats extends DurableObject<Env> {
       }
     }
 
-    let stamps = this.readRateStamps('like_rate', anonId, 'anon_id')
+    const stamps = this.readRateStamps('like_rate', anonId, 'anon_id')
       .filter(t => now - t < LIKE_WINDOW_MS)
 
     if (stamps.length >= LIKE_LIMIT) {
@@ -422,5 +445,122 @@ export class SiteStats extends DurableObject<Env> {
     this.pruneOnline(now)
     if (this.countOnline() > 0)
       await this.ctx.storage.setAlarm(now + ALARM_MS)
+  }
+
+  async scrapReactions(
+    scrapIds: string[],
+    anonId?: string,
+  ): Promise<Record<string, ScrapReactionState>> {
+    const out: Record<string, ScrapReactionState> = {}
+    for (const id of scrapIds) {
+      out[id] = { counts: {}, mine: null }
+    }
+    if (!scrapIds.length)
+      return out
+
+    const placeholders = scrapIds.map(() => '?').join(', ')
+    const rows = this.ctx.storage.sql.exec(
+      `SELECT scrap_id AS scrapId, emoji, count
+       FROM scrap_reactions
+       WHERE scrap_id IN (${placeholders})`,
+      ...scrapIds,
+    ).toArray()
+
+    for (const row of rows) {
+      const id = String(row.scrapId)
+      if (!out[id])
+        out[id] = { counts: {}, mine: null }
+      out[id].counts[String(row.emoji)] = Number(row.count) || 0
+    }
+
+    if (anonId) {
+      const votes = this.ctx.storage.sql.exec(
+        `SELECT scrap_id AS scrapId, emoji
+         FROM scrap_votes
+         WHERE anon_id = ? AND scrap_id IN (${placeholders})`,
+        anonId,
+        ...scrapIds,
+      ).toArray()
+      for (const vote of votes) {
+        const id = String(vote.scrapId)
+        if (out[id])
+          out[id].mine = String(vote.emoji)
+      }
+    }
+
+    return out
+  }
+
+  async scrapReact(
+    scrapId: string,
+    emoji: string,
+    anonId: string,
+  ): Promise<{ ok: boolean, state: ScrapReactionState, error?: string }> {
+    if (!SCRAP_EMOJIS.has(emoji)) {
+      return {
+        ok: false,
+        state: { counts: {}, mine: null },
+        error: 'emoji_not_allowed',
+      }
+    }
+
+    const existing = this.ctx.storage.sql.exec(
+      `SELECT emoji FROM scrap_votes WHERE scrap_id = ? AND anon_id = ?`,
+      scrapId,
+      anonId,
+    ).toArray()
+    const prev = existing.length ? String(existing[0].emoji) : null
+
+    if (prev === emoji) {
+      // Toggle off
+      this.ctx.storage.sql.exec(
+        `DELETE FROM scrap_votes WHERE scrap_id = ? AND anon_id = ?`,
+        scrapId,
+        anonId,
+      )
+      this.ctx.storage.sql.exec(
+        `UPDATE scrap_reactions SET count = count - 1
+         WHERE scrap_id = ? AND emoji = ? AND count > 0`,
+        scrapId,
+        emoji,
+      )
+      this.ctx.storage.sql.exec(
+        `DELETE FROM scrap_reactions WHERE scrap_id = ? AND emoji = ? AND count <= 0`,
+        scrapId,
+        emoji,
+      )
+    }
+    else {
+      if (prev) {
+        this.ctx.storage.sql.exec(
+          `UPDATE scrap_reactions SET count = count - 1
+           WHERE scrap_id = ? AND emoji = ? AND count > 0`,
+          scrapId,
+          prev,
+        )
+        this.ctx.storage.sql.exec(
+          `DELETE FROM scrap_reactions WHERE scrap_id = ? AND emoji = ? AND count <= 0`,
+          scrapId,
+          prev,
+        )
+      }
+      this.ctx.storage.sql.exec(
+        `INSERT INTO scrap_votes (scrap_id, anon_id, emoji) VALUES (?, ?, ?)
+         ON CONFLICT(scrap_id, anon_id) DO UPDATE SET emoji = excluded.emoji`,
+        scrapId,
+        anonId,
+        emoji,
+      )
+      this.ctx.storage.sql.exec(
+        `INSERT INTO scrap_reactions (scrap_id, emoji, count) VALUES (?, ?, 1)
+         ON CONFLICT(scrap_id, emoji) DO UPDATE SET count = count + 1`,
+        scrapId,
+        emoji,
+      )
+    }
+
+    const state = (await this.scrapReactions([scrapId], anonId))[scrapId]
+      ?? { counts: {}, mine: null }
+    return { ok: true, state }
   }
 }

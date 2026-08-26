@@ -2,18 +2,14 @@ import antfu from '@antfu/eslint-config'
 
 export default antfu(
   {
-    ignores: ['OH-Works/**', '.hermes/plans/**'],
+    ignores: ['.nuxt/**', '.output/**', '.data/**'],
+    nuxt: true,
     unocss: true,
     vue: true,
     typescript: true,
-    formatters: {
-      css: true,
-      html: true,
-      markdown: 'dprint',
-    },
   },
   {
-    files: ['**/*.{vue,ts,tsx,css}'],
+    files: ['**/*.{vue,ts,tsx}'],
     rules: {
       'vue/max-attributes-per-line': [
         'error',
@@ -22,13 +18,6 @@ export default antfu(
           multiline: { max: 1 },
         },
       ],
-      'unused-imports/no-unused-imports': 'off',
-    },
-  },
-  {
-    files: ['**/*.md'],
-    rules: {
-      'markdown/no-missing-atx-heading-space': 'off',
     },
   },
 )

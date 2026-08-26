@@ -1,0 +1,101 @@
+html {
+  scroll-behavior: smooth;
+  font-feature-settings: 'calt', 'ss01', 'ss03', 'ss04', 'ss06', 'ss07', 'ss08', 'ss10', 'liga';
+}
+
+body {
+  --uno: 'm-0';
+  background-color: var(--paper);
+  color: var(--ink);
+  caret-color: var(--colored-ink);
+  --uno: 'font-serif';
+}
+
+*::selection {
+  background-color: transparent;
+  color: var(--paper);
+}
+
+input::selection,
+textarea::selection,
+[contenteditable]::selection {
+  --uno: 'bg-colored-ink text-paper';
+}
+
+:focus-visible {
+  --uno: 'outline-(px colored-ink)';
+  --uno: 'outline-offset-3';
+}
+
+* {
+  scrollbar-color: var(--colored-ink) var(--paper);
+  scrollbar-width: thin;
+}
+
+a {
+  color: inherit;
+  --uno: 'decoration-none';
+}
+
+[un-prose] {
+  overflow-wrap: break-word;
+}
+
+[un-prose] table {
+  display: block;
+  overflow-x: auto;
+}
+
+[un-prose] pre {
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+[un-prose] :is(h2, h3, h4) {
+  font-family: var(--font-serif);
+  letter-spacing: -0.03em;
+}
+
+[un-prose] h2 {
+  margin-top: 2.1em;
+  font-size: 1.42em;
+  font-weight: 600;
+}
+
+[un-prose] h3 {
+  margin-top: 1.7em;
+  font-size: 1.18em;
+  font-style: italic;
+  font-weight: 500;
+}
+
+ruby {
+  ruby-position: over;
+}
+
+rt {
+  font-size: 0.62em;
+  line-height: 1;
+}
+
+.prose-figure {
+  margin: 1.4em 0;
+}
+
+.prose-caption {
+  margin-top: 0.45em;
+  font-family: var(--font-serif);
+  font-size: 0.88em;
+  font-style: italic;
+  color: var(--muted);
+}
+
+.prose-table-wrap {
+  overflow-x: auto;
+}
+
+[un-prose] mjx-container,
+[un-prose] .katex,
+[un-prose] .math-inline {
+  font-size: 1.05em;
+}

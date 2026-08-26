@@ -213,6 +213,67 @@ async function handleSiteLike(
   }
 }
 
+async function handleScrapReactionsGet(
+  request: Request,
+  env: Env,
+  origin: string | null,
+): Promise<Response> {
+  const url = new URL(request.url)
+  const ids = (url.searchParams.get('ids') || '')
+    .split(',')
+    .map(s => s.trim())
+    .filter(Boolean)
+    .slice(0, 80)
+  const anonId = url.searchParams.get('anonId')?.trim() || undefined
+  if (!ids.length) {
+    return jsonResponse({ scraps: {} }, origin)
+  }
+  try {
+    const scraps = await siteStub(env).scrapReactions(ids, anonId)
+    return jsonResponse({ scraps }, origin)
+  }
+  catch (e) {
+    console.error('[froq-api] scrap reactions get failed:', e)
+    return jsonResponse({ error: 'scrap_reactions_failed' }, origin, { status: 500 })
+  }
+}
+
+async function handleScrapReact(
+  request: Request,
+  env: Env,
+  origin: string | null,
+): Promise<Response> {
+  let body: { scrapId?: string, emoji?: string, anonId?: string }
+  try {
+    body = await request.json() as { scrapId?: string, emoji?: string, anonId?: string }
+  }
+  catch {
+    return jsonResponse({ error: 'invalid_json' }, origin, { status: 400 })
+  }
+
+  const scrapId = typeof body.scrapId === 'string' ? body.scrapId.trim() : ''
+  const emoji = typeof body.emoji === 'string' ? body.emoji.trim() : ''
+  const anonId = typeof body.anonId === 'string' ? body.anonId.trim() : ''
+  if (!scrapId || !emoji || !anonId) {
+    return jsonResponse(
+      { error: 'scrapId_emoji_anonId_required' },
+      origin,
+      { status: 400 },
+    )
+  }
+
+  try {
+    const result = await siteStub(env).scrapReact(scrapId, emoji, anonId)
+    return jsonResponse(result, origin, {
+      status: result.ok ? 200 : 400,
+    })
+  }
+  catch (e) {
+    console.error('[froq-api] scrap react failed:', e)
+    return jsonResponse({ error: 'scrap_react_failed' }, origin, { status: 500 })
+  }
+}
+
 async function handleProgressGet(
   request: Request,
   env: Env,
@@ -336,6 +397,12 @@ export default {
 
     if (pathname === '/likes' && request.method === 'POST')
       return handleSiteLike(request, env, origin)
+
+    if (pathname === '/scraps/reactions' && request.method === 'GET')
+      return handleScrapReactionsGet(request, env, origin)
+
+    if (pathname === '/scraps/reactions' && request.method === 'POST')
+      return handleScrapReact(request, env, origin)
 
     if (pathname === '/progress' && request.method === 'GET')
       return handleProgressGet(request, env, origin)

@@ -1,0 +1,55 @@
+@font-face {
+  font-family: 'LXGW Bright Code TC';
+  src: url('../fonts/LXGWBrightCodeTC-ExtraLight.ttf') format('truetype');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'YshiPen-ShutiTC';
+  src: url('../fonts/YshiPenShutiTC-Regular.ttf') format('truetype');
+  font-display: swap;
+}
+
+/*
+  Semantic color tokens. Hex lives here only.
+  Each color is light-dark(light, dark). Switching is html { color-scheme }.
+  Do not add scheme-specific utilities in Vue — use paper / ink / colored-ink / muted / line / mark / cream / logo / float / float-shadow.
+  colored-ink is the single accent: red in light, blue in dark.
+  float is the translucent slip under Reply, copy, and other lifted chrome.
+*/
+:root {
+  color-scheme: light;
+  --paper: light-dark(#FFF8E8, #1e1d19);
+  /* --paper2: light-dark(#fffcee, #111111); */
+  --paper2: light-dark(color-mix(in srgb, var(--paper) 70%, transparent),
+      color-mix(in srgb,var(--paper) 80%,transparent));
+  --ink: light-dark(#1D1D1A, #ece7dc);
+  --muted: light-dark(#5c5a54, #9c968c);
+  --colored-ink: light-dark(#a83429, #7ea3d9);
+  --line: light-dark(#c9c4b8, #3f3a33);
+  --mark: light-dark(#ebd8d8, #4e302c);
+  --float: light-dark(color-mix(in srgb, var(--paper) 78%, transparent),
+      color-mix(in srgb, var(--paper) 82%, transparent));
+  --float-shadow: light-dark(#1d1d1a24, #00000055);
+  --shadow: light-dark(#0000001a, #00000033);
+  --cream: light-dark(#faf8f3, #1c1914);
+  --logo: light-dark(#1D1D1A, #ece7dc);
+  --callout-warning: light-dark(#9a7100, #e3bd5c);
+  --callout-tip: light-dark(#3f744d, #87c697);
+  --callout-note: var(--muted);
+  --font-serif: 'EB Garamond', 'YshiPen-ShutiTC', 'Songti SC', 'STSong', serif;
+  --font-mono: 'LXGW Bright Code TC', ui-monospace, monospace;
+  --font-sans: 'Instrument Sans Variable', system-ui, sans-serif;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --gutter: clamp(24px, 8vw, 120px);
+  --site-chrome: 3.05rem;
+  --site-home-inset: 3.5rem;
+}
+
+html.dark {
+  color-scheme: dark;
+}
+
+html.light {
+  color-scheme: light;
+}
