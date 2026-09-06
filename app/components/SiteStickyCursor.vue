@@ -1,9 +1,10 @@
 <script setup lang="ts">
 const RING = 0.18
-const LEAVE_MS = 120
+const LEAVE_MS = 160
 
 const capable = shallowRef(false)
 const visible = shallowRef(false)
+const lag = shallowRef(true)
 const aim = shallowRef<'idle' | 'hot' | 'native'>('idle')
 const dotX = shallowRef(0)
 const dotY = shallowRef(0)
@@ -18,11 +19,9 @@ let rx = 0
 let ry = 0
 let primed = false
 
-const html = computed(() => {
-  if (!import.meta.client)
-    return null
-  return document.documentElement
-})
+function root() {
+  return import.meta.client ? document.documentElement : null
+}
 
 function stopLoop() {
   if (raf) {
@@ -32,8 +31,9 @@ function stopLoop() {
 }
 
 function loop() {
-  rx += (mx - rx) * RING
-  ry += (my - ry) * RING
+  const k = lag.value ? RING : 1
+  rx += (mx - rx) * k
+  ry += (my - ry) * k
   ringX.value = rx
   ringY.value = ry
   raf = requestAnimationFrame(loop)
@@ -41,13 +41,17 @@ function loop() {
 
 function setCapable(next: boolean) {
   capable.value = next
-  const root = html.value
-  if (!root)
+  const el = root()
+  if (!el)
     return
-  if (next)
-    root.setAttribute('data-sticky-cursor', '')
-  else
-    root.removeAttribute('data-sticky-cursor')
+  if (next) {
+    el.setAttribute('data-sticky-cursor', '')
+    paintStickyCursorCss(true)
+  }
+  else {
+    el.removeAttribute('data-sticky-cursor')
+    paintStickyCursorCss(false)
+  }
   if (!next) {
     visible.value = false
     aim.value = 'idle'
@@ -56,13 +60,14 @@ function setCapable(next: boolean) {
   }
 }
 
-function syncCapable() {
+function syncPrefs() {
+  lag.value = stickyCursorLag()
   setCapable(stickyCursorCapable())
 }
 
 function onPointerMove(event: PointerEvent) {
   if (!capable.value) {
-    if (event.pointerType === 'mouse' && stickyCursorCapable('mouse'))
+    if (stickyCursorCapable(event.pointerType))
       setCapable(true)
     else
       return
@@ -99,40 +104,43 @@ function onPointerOut(event: PointerEvent) {
 }
 
 onMounted(() => {
-  syncCapable()
+  syncPrefs()
   const fine = window.matchMedia(STICKY_CURSOR_MQ)
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)')
-  fine.addEventListener('change', syncCapable)
-  reduce.addEventListener('change', syncCapable)
+  fine.addEventListener('change', syncPrefs)
+  reduce.addEventListener('change', syncPrefs)
   window.addEventListener('pointermove', onPointerMove, { passive: true })
   document.addEventListener('pointerout', onPointerOut)
   onUnmounted(() => {
-    fine.removeEventListener('change', syncCapable)
-    reduce.removeEventListener('change', syncCapable)
+    fine.removeEventListener('change', syncPrefs)
+    reduce.removeEventListener('change', syncPrefs)
     window.removeEventListener('pointermove', onPointerMove)
     document.removeEventListener('pointerout', onPointerOut)
     if (leaveTimer)
       window.clearTimeout(leaveTimer)
     stopLoop()
-    html.value?.removeAttribute('data-sticky-cursor')
+    root()?.removeAttribute('data-sticky-cursor')
+    paintStickyCursorCss(false)
   })
 })
 </script>
 
 <template>
-  <span
-    v-show="capable && visible && aim !== 'native'"
-    class="sticky-cursor-dot"
-    aria-hidden="true"
-    :style="{ transform: `translate3d(${dotX}px, ${dotY}px, 0)` }"
-  />
-  <span
-    v-show="capable && visible && aim !== 'native'"
-    class="sticky-cursor-ring"
-    aria-hidden="true"
-    :data-hot="aim === 'hot' ? '' : undefined"
-    :style="{ transform: `translate3d(${ringX}px, ${ringY}px, 0)` }"
-  />
+  <Teleport to="body">
+    <span
+      v-show="capable && visible && aim !== 'native'"
+      class="sticky-cursor-dot"
+      aria-hidden="true"
+      :style="{ transform: `translate3d(${dotX}px, ${dotY}px, 0)` }"
+    />
+    <span
+      v-show="capable && visible && aim !== 'native'"
+      class="sticky-cursor-ring"
+      aria-hidden="true"
+      :data-hot="aim === 'hot' ? '' : undefined"
+      :style="{ transform: `translate3d(${ringX}px, ${ringY}px, 0)` }"
+    />
+  </Teleport>
 </template>
 
 <style scoped>
@@ -141,34 +149,42 @@ onMounted(() => {
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 200;
+  z-index: 400;
   pointer-events: none;
   border-radius: 50%;
-  mix-blend-mode: difference;
-  will-change: transform;
 }
 
 .sticky-cursor-dot {
-  width: 8px;
-  height: 8px;
-  margin: -4px 0 0 -4px;
-  background: #fff;
+  width: 7px;
+  height: 7px;
+  margin: -3.5px 0 0 -3.5px;
+  background: var(--ink);
 }
 
 .sticky-cursor-ring {
-  width: 36px;
-  height: 36px;
-  margin: -18px 0 0 -18px;
-  border: 1px solid #fff;
+  width: 28px;
+  height: 28px;
+  margin: -14px 0 0 -14px;
+  border: 1.5px solid var(--ink);
+  background: color-mix(in srgb, var(--ink) 10%, transparent);
   transition:
-    width 0.35s var(--ease-out),
-    height 0.35s var(--ease-out),
-    margin 0.35s var(--ease-out);
+    width 0.28s var(--ease-out),
+    height 0.28s var(--ease-out),
+    margin 0.28s var(--ease-out),
+    background 0.28s var(--ease-out);
 }
 
 .sticky-cursor-ring[data-hot] {
-  width: 72px;
-  height: 72px;
-  margin: -36px 0 0 -36px;
+  width: 52px;
+  height: 52px;
+  margin: -26px 0 0 -26px;
+  background: color-mix(in srgb, var(--colored-ink) 16%, transparent);
+  border-color: var(--colored-ink);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sticky-cursor-ring {
+    transition: none;
+  }
 }
 </style>
