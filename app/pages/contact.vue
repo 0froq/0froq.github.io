@@ -1,13 +1,99 @@
 <script setup lang="ts">
 useHead({ title: 'Contact' })
 
+interface ReachItem {
+  id: string
+  kind: InkGlyphKind
+  label: string
+  /** Visible handle / address in body copy. */
+  handle: string
+  /** External or mailto link. Empty = pending (glyph only). */
+  href?: string
+  /** If set, click copies this string instead of navigating. */
+  copy?: string
+  /** Optional margin-rail label (contact only). */
+  margin?: string
+}
+
+/** Direct reach — fill href / copy / handle as needed. */
+const contact: ReachItem[] = [
+  {
+    id: 'mail',
+    kind: 'mail',
+    label: 'Email',
+    handle: 'sayhola@froq.me',
+    href: 'mailto:sayhola@froq.me',
+    margin: 'inbox',
+  },
+  {
+    id: 'wechat',
+    kind: 'wechat',
+    label: 'WeChat',
+    handle: '@_froq_',
+    copy: '_froq_',
+    margin: 'short ping',
+  },
+  {
+    id: 'x',
+    kind: 'x',
+    label: 'X',
+    handle: '@0froQ',
+    href: 'https://x.com/0froq?s=11',
+    margin: 'everything',
+  },
+]
+
+/** Public find-me — add href when ready; leave empty for pending. */
+const findme: ReachItem[] = [
+  {
+    id: 'github',
+    kind: 'github',
+    label: 'GitHub',
+    handle: '@0froq',
+    href: 'https://github.com/0froq',
+  },
+  {
+    id: 'podcast',
+    kind: 'podcast',
+    label: 'Podcast (Xiaoyuzhou, 小宇宙, Chinese only for now) ',
+    handle: '@ToQ',
+    href: 'https://www.xiaoyuzhoufm.com/podcast/68fb1be73ffa38fac58d6bf2',
+  },
+  {
+    id: 'instagram',
+    kind: 'instagram',
+    label: 'Instagram',
+    handle: '@00froq',
+    href: 'https://www.instagram.com/00froq',
+  },
+  {
+    id: 'xiaohongshu',
+    kind: 'xiaohongshu',
+    label: 'Xiaohongshu (小红书, Chinese only for now)',
+    handle: '@_froq_',
+    href: 'https://www.xiaohongshu.com/user/profile/614428a8000000000201f216',
+  },
+  {
+    id: 'bluesky',
+    kind: 'bluesky',
+    label: 'Bluesky',
+    handle: '@fro-q.bsky.social',
+    href: 'https://bsky.app/profile/fro-q.bsky.social',
+  },
+]
+
+const liveFindme = computed(() => findme.filter(i => i.href && i.handle))
+const pendingFindme = computed(() => findme.filter(i => !i.href))
+
 const copied = ref('')
 let copyTimer: ReturnType<typeof setTimeout> | undefined
 
-async function copyWechat() {
+async function copyText(item: ReachItem) {
+  if (!item.copy)
+    return
   try {
-    await navigator.clipboard.writeText('_froq_')
-    copied.value = 'WeChat'
+    await navigator.clipboard.writeText(item.copy)
+    copied.value = item.label
     clearTimeout(copyTimer)
     copyTimer = setTimeout(() => {
       copied.value = ''
@@ -24,153 +110,305 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <section class="reach">
-    <header class="reach-head">
-      <h1 class="reach-title">
+  <section
+    un-box-border
+    un-mx-auto
+    un-w="[calc(100%-3rem)] max-md:[calc(100%-2rem)]"
+    un-max-w-6xl
+    un-pt="[clamp(2.25rem,8vh,4.5rem)]"
+    un-pb-20
+  >
+    <header>
+      <h1
+        un-m-0
+        un-font-serif
+        un-text="[clamp(2rem,4.2vw,2.7rem)]"
+        un-font-medium
+        un-tracking-tighter
+        un-leading-tight
+        class="text-balance"
+      >
         Contact
       </h1>
       <InkRule
         seed="reach-contact"
-        class="reach-rule"
+        un-block
+        un-max-w-20
+        un-mt-2.5
       />
     </header>
 
-    <div class="reach-page">
-      <div class="reach-body">
-        <p>
+    <div
+      un-mt-7
+      un-grid
+      un-items-start
+      un-gap="[clamp(2rem,5vw,3.75rem)] max-md:7"
+      un-grid-cols="[minmax(0,1fr)_minmax(14rem,17rem)] max-md:1"
+      un-max-md:flex
+      un-max-md:flex-col
+    >
+      <div
+        class="reach-body"
+        un-max-w-3xl
+      >
+        <p
+          un-m-0
+          un-font-serif
+          un-text="[clamp(1.25rem,2.2vw,1.5rem)]"
+          un-leading-relaxed
+          un-tracking-tight
+          un-text-pretty
+        >
           Email for anything that needs a thread:
-          <a
-            class="reach-link"
-            href="mailto:hi@froq.me"
-            data-ink="underline"
-            data-hover-ink="mark"
-            aria-label="Email hi@froq.me"
+          <template
+            v-for="(item, i) in contact"
+            :key="item.id"
           >
-            <span aria-hidden="true">
-              <InkGlyph
-                seed="body-mail"
-                kind="mail"
-                label="Email"
-              />
-            </span>
-            <span translate="no">hi@froq.me</span>
-          </a>.
-          A few lines:
-          <button
-            type="button"
-            class="reach-link"
-            data-ink="underline"
-            data-hover-ink="mark"
-            aria-label="Copy WeChat @_froq_"
-            @click="copyWechat"
-          >
-            <span aria-hidden="true">
-              <InkGlyph
-                seed="body-wechat"
-                kind="wechat"
-                label="WeChat"
-              />
-            </span>
-            <span translate="no">@_froq_</span>
-          </button>.
+            <a
+              v-if="item.href"
+              class="reach-link reach-hit"
+              :href="item.href"
+              data-ink="underline"
+              data-hover-ink="mark"
+              un-inline
+              un-m-0
+              un-cursor-pointer
+              un-border-0
+              un-bg-transparent
+              un-p-0
+              un-font-inherit
+              un-italic
+              un-whitespace-nowrap
+              un-text-colored-ink
+              un-decoration-none
+              un-touch-manipulation
+              :aria-label="`${item.label} ${item.handle}`"
+            >
+              <span aria-hidden="true">
+                <InkGlyph
+                  :seed="`body-${item.id}`"
+                  :kind="item.kind"
+                  :label="item.label"
+                />
+              </span>
+              <span translate="no">{{ item.handle }}</span>
+            </a>
+            <button
+              v-else-if="item.copy"
+              type="button"
+              class="reach-link reach-hit"
+              data-ink="underline"
+              data-hover-ink="mark"
+              un-inline
+              un-m-0
+              un-cursor-pointer
+              un-border-0
+              un-bg-transparent
+              un-p-0
+              un-font-inherit
+              un-italic
+              un-whitespace-nowrap
+              un-text-colored-ink
+              un-decoration-none
+              un-touch-manipulation
+              :aria-label="`Copy ${item.label} ${item.handle}`"
+              @click="copyText(item)"
+            >
+              <span aria-hidden="true">
+                <InkGlyph
+                  :seed="`body-${item.id}`"
+                  :kind="item.kind"
+                  :label="item.label"
+                />
+              </span>
+              <span translate="no">{{ item.handle }}</span>
+            </button>
+            <template v-if="i === 0">
+              . A few lines:
+            </template>
+            <template v-else>
+              .
+            </template>
+          </template>
           I keep UTC+8. English or Chinese is fine.
           Replies usually land within a day; weekends are slower.
         </p>
-        <p class="reach-soft">
+        <p
+          un-mt-5
+          un-font-serif
+          un-text="[clamp(1.05rem,1.9vw,1.22rem)] ink/80"
+          un-italic
+          un-leading-relaxed
+          un-tracking-tight
+          un-text-pretty
+        >
           Public posts live on
-          <a
-            class="reach-link"
-            href="https://github.com/Fro-Q"
-            rel="noreferrer"
-            target="_blank"
-            data-ink="underline"
-            data-hover-ink="mark"
-            aria-label="GitHub @Fro-Q"
+          <template
+            v-for="(item, i) in liveFindme"
+            :key="item.id"
           >
-            <span aria-hidden="true">
-              <InkGlyph
-                seed="body-github"
-                kind="github"
-                label="GitHub"
-              />
-            </span>
-            <span translate="no">@Fro-Q</span>
-          </a>
-          and the podcast
-          <a
-            class="reach-link"
-            href="https://www.xiaoyuzhoufm.com/podcast/68fb1be73ffa38fac58d6bf2"
-            rel="noreferrer"
-            target="_blank"
-            data-ink="underline"
-            data-hover-ink="mark"
-            aria-label="Podcast @ToQ"
-          >
-            <span aria-hidden="true">
-              <InkGlyph
-                seed="body-podcast"
-                kind="podcast"
-                label="Podcast"
-              />
-            </span>
-            <span translate="no">@ToQ</span>
-          </a>.
-          The other accounts are for looking, not for DMs.
+            <template v-if="i > 0">
+              {{ i === liveFindme.length - 1 ? ' and ' : ', ' }}
+            </template>
+            <a
+              class="reach-link reach-hit"
+              :href="item.href"
+              rel="noreferrer"
+              target="_blank"
+              data-ink="underline"
+              data-hover-ink="mark"
+              un-inline
+              un-m-0
+              un-cursor-pointer
+              un-border-0
+              un-bg-transparent
+              un-p-0
+              un-font-inherit
+              un-italic
+              un-whitespace-nowrap
+              un-text-colored-ink
+              un-decoration-none
+              un-touch-manipulation
+              :aria-label="`${item.label} ${item.handle}`"
+            >
+              <span aria-hidden="true">
+                <InkGlyph
+                  :seed="`body-${item.id}`"
+                  :kind="item.kind"
+                  :label="item.label"
+                />
+              </span>
+              <span translate="no">{{ item.label }}</span>
+            </a>
+          </template>.
+          If not necessary, avoid DMs on these.
         </p>
         <p
           v-if="copied"
-          class="reach-hint"
+          un-mt-5
+          un-font-mono
+          un-text="xs muted"
+          un-tracking-wide
           aria-live="polite"
         >
           {{ copied }} copied.
         </p>
       </div>
 
-      <aside class="reach-margin">
-        <a
-          class="reach-margin-link"
-          href="mailto:hi@froq.me"
-          data-ink="underline"
-          data-hover-ink="mark"
-          aria-label="Email hi@froq.me"
+      <aside
+        un-flex
+        un-flex-col
+        un-items-start
+        un-gap-4.5
+        un-pt-1
+        un-font-serif
+        un-text="lg colored-ink"
+        un-italic
+        un-leading-snug
+      >
+        <template
+          v-for="item in contact"
+          :key="`m-${item.id}`"
+        >
+          <a
+            v-if="item.href"
+            class="reach-fill reach-hit"
+            :href="item.href"
+            data-ink="underline"
+            data-hover-ink="mark"
+            un-inline-flex
+            un-w-fit
+            un-max-w-full
+            un-items-center
+            un-gap="[0.45em]"
+            un-m-0
+            un-cursor-pointer
+            un-border-0
+            un-bg-transparent
+            un-px="[0.1em]"
+            un-py="[0.15em]"
+            un-font-inherit
+            un-italic
+            un-text-colored-ink
+            un-decoration-none
+            un-touch-manipulation
+            :aria-label="`${item.label} ${item.handle}`"
+          >
+            <span
+              un-inline-flex
+              un-h="[1.25em]"
+              un-w="[1.25em]"
+              un-shrink-0
+              un-leading-none
+              aria-hidden="true"
+            >
+              <InkGlyph
+                :seed="`margin-${item.id}`"
+                :kind="item.kind"
+                :label="item.label"
+              />
+            </span>
+            <span>{{ item.margin || item.label }}</span>
+          </a>
+          <button
+            v-else-if="item.copy"
+            type="button"
+            class="reach-fill reach-hit"
+            data-ink="underline"
+            data-hover-ink="mark"
+            un-inline-flex
+            un-w-fit
+            un-max-w-full
+            un-items-center
+            un-gap="[0.45em]"
+            un-m-0
+            un-cursor-pointer
+            un-border-0
+            un-bg-transparent
+            un-px="[0.1em]"
+            un-py="[0.15em]"
+            un-font-inherit
+            un-italic
+            un-text-colored-ink
+            un-decoration-none
+            un-touch-manipulation
+            :aria-label="`Copy ${item.label} ${item.handle}`"
+            @click="copyText(item)"
+          >
+            <span
+              un-inline-flex
+              un-h="[1.25em]"
+              un-w="[1.25em]"
+              un-shrink-0
+              un-leading-none
+              aria-hidden="true"
+            >
+              <InkGlyph
+                :seed="`margin-${item.id}`"
+                :kind="item.kind"
+                :label="item.label"
+              />
+            </span>
+            <span>{{ item.margin || item.label }}</span>
+          </button>
+        </template>
+
+        <p
+          class="reach-fill"
+          un-m-0
+          un-mt-1
+          un-inline-flex
+          un-items-center
+          un-gap="[0.45em]"
+          un-text-colored-ink
+          un-opacity-85
         >
           <span
-            class="reach-margin-glyph"
-            aria-hidden="true"
-          >
-            <InkGlyph
-              seed="margin-mail"
-              kind="mail"
-              label="Email"
-            />
-          </span>
-          <span>inbox</span>
-        </a>
-
-        <button
-          type="button"
-          class="reach-margin-link"
-          data-ink="underline"
-          data-hover-ink="mark"
-          aria-label="Copy WeChat @_froq_"
-          @click="copyWechat"
-        >
-          <span
-            class="reach-margin-glyph"
-            aria-hidden="true"
-          >
-            <InkGlyph
-              seed="margin-wechat"
-              kind="wechat"
-              label="WeChat"
-            />
-          </span>
-          <span>short ping</span>
-        </button>
-
-        <p class="reach-margin-meta">
-          <span
-            class="reach-margin-glyph"
+            un-inline-flex
+            un-h="[1.25em]"
+            un-w="[1.25em]"
+            un-shrink-0
+            un-leading-none
             aria-hidden="true"
           >
             <InkGlyph
@@ -182,75 +420,52 @@ onBeforeUnmount(() => {
           <span>UTC+8</span>
         </p>
 
-        <div class="reach-glyphs">
+        <div
+          un-mt-5
+          un-flex
+          un-max-w-52
+          un-flex-wrap
+          un-gap-x-4
+          un-gap-y-3.5
+        >
           <a
-            class="reach-glyph-link"
-            href="https://github.com/Fro-Q"
+            v-for="item in liveFindme"
+            :key="`g-${item.id}`"
+            class="reach-fill reach-hit"
+            :href="item.href"
             rel="noreferrer"
             target="_blank"
             data-ink="underline"
             data-hover-ink="mark"
-            aria-label="GitHub @Fro-Q"
+            un-inline-flex
+            un-h="[1.35em]"
+            un-w="[1.35em]"
+            un-text-colored-ink
+            un-decoration-none
+            :aria-label="`${item.label} ${item.handle}`"
           >
             <InkGlyph
-              seed="margin-github"
-              kind="github"
-              label="GitHub"
-            />
-          </a>
-          <a
-            class="reach-glyph-link"
-            href="https://www.xiaoyuzhoufm.com/podcast/68fb1be73ffa38fac58d6bf2"
-            rel="noreferrer"
-            target="_blank"
-            data-ink="underline"
-            data-hover-ink="mark"
-            aria-label="Podcast @ToQ"
-          >
-            <InkGlyph
-              seed="margin-podcast"
-              kind="podcast"
-              label="Podcast"
+              :seed="`margin-${item.id}`"
+              :kind="item.kind"
+              :label="item.label"
             />
           </a>
           <span
-            class="reach-glyph-pending"
-            aria-label="X handle pending"
+            v-for="item in pendingFindme"
+            :key="`p-${item.id}`"
+            class="reach-fill reach-hit"
+            un-inline-flex
+            un-h="[1.35em]"
+            un-w="[1.35em]"
+            un-pointer-events-none
+            un-text-colored-ink
+            un-opacity-45
+            :aria-label="`${item.label} handle pending`"
           >
             <InkGlyph
-              seed="margin-x"
-              kind="x"
-              label="X"
-            />
-          </span>
-          <span
-            class="reach-glyph-pending"
-            aria-label="Instagram handle pending"
-          >
-            <InkGlyph
-              seed="margin-instagram"
-              kind="instagram"
-              label="Instagram"
-            />
-          </span>
-          <span
-            class="reach-glyph-pending"
-            aria-label="Xiaohongshu handle pending"
-          >
-            <InkGlyph
-              seed="margin-xiaohongshu"
-              kind="xiaohongshu"
-              label="Xiaohongshu"
-            />
-          </span>
-          <span
-            class="reach-glyph-pending"
-            aria-label="Bluesky handle pending"
-          >
-            <InkGlyph
-              seed="margin-bluesky"
-              kind="bluesky"
-              label="Bluesky"
+              :seed="`margin-${item.id}`"
+              :kind="item.kind"
+              :label="item.label"
             />
           </span>
         </div>
@@ -260,255 +475,36 @@ onBeforeUnmount(() => {
 </template>
 
 <style scoped>
-.reach {
-  box-sizing: border-box;
-  width: min(68rem, calc(100% - 48px));
-  margin: 0 auto;
-  padding: clamp(2.25rem, 8vh, 4.5rem) 0 5rem;
-}
-
-.reach-title {
-  margin: 0;
-  font-family: var(--font-serif);
-  font-size: clamp(2rem, 4.2vw, 2.7rem);
-  font-weight: 500;
-  letter-spacing: -0.04em;
-  line-height: 1.12;
-  text-wrap: balance;
-}
-
-.reach-rule {
-  display: block;
-  max-width: 5.25rem;
-  margin: 0.65rem 0 0;
-}
-
-.reach-page {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(14rem, 17rem);
-  gap: clamp(2rem, 5vw, 3.75rem);
-  margin-top: 1.75rem;
-  align-items: start;
-}
-
-.reach-body {
-  max-width: 46rem;
-}
-
-.reach-body p {
-  margin: 0;
-  font-family: var(--font-serif);
-  font-size: clamp(1.22rem, 2.2vw, 1.48rem);
-  line-height: 1.72;
-  letter-spacing: -0.012em;
-  text-wrap: pretty;
-}
-
-.reach-body p + p {
-  margin-top: 1.35rem;
-}
-
-.reach-soft {
-  font-size: clamp(1.05rem, 1.9vw, 1.22rem);
-  font-style: italic;
-  color: color-mix(in oklab, currentColor 78%, transparent);
-}
-
-.reach-link {
-  display: inline;
-  margin: 0;
-  padding: 0;
-  border: 0;
-  background: transparent;
-  color: var(--colored-ink);
-  font: inherit;
-  font-style: italic;
-  text-decoration: none;
-  white-space: nowrap;
-  cursor: pointer;
-  touch-action: manipulation;
-  -webkit-tap-highlight-color: transparent;
-}
-
-/* Size a touch over cap-height; sit on the text baseline.
-   Negative align offsets SVG viewBox padding so glyph strokes
-   (esp. github chin) land on the baseline of mixed-case handles. */
 .reach-link > [aria-hidden='true'] {
   display: inline-block;
   width: 0.78em;
   height: 0.78em;
-  width: 1.15cap;
-  height: 1.15cap;
   margin-right: 0.28em;
   vertical-align: -0.18em;
-  vertical-align: -0.26cap;
   line-height: 0;
   overflow: visible;
 }
 
-.reach-link :deep(.ink-glyph) {
-  display: block;
-  width: 100%;
-  height: 100%;
-  color: var(--colored-ink);
+@supports (width: 1cap) {
+  .reach-link > [aria-hidden='true'] {
+    width: 1.15cap;
+    height: 1.15cap;
+    vertical-align: -0.26cap;
+  }
 }
 
-.reach-link :deep(.ink-glyph svg) {
-  display: block;
-  width: 100%;
-  height: 100%;
-}
-
-.reach-link:focus-visible {
-  outline: 1px solid var(--colored-ink);
-  outline-offset: 3px;
-}
-
-.reach-link:active {
-  transform: translateY(1px);
-}
-
-.reach-hint {
-  margin-top: 1.15rem;
-  font-family: var(--font-mono);
-  font-size: 11px;
-  font-style: normal;
-  letter-spacing: 0.03em;
-  color: var(--muted);
-}
-
-.reach-margin {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 1.15rem;
-  padding-top: 0.2rem;
-  color: var(--colored-ink);
-  font-family: var(--font-serif);
-  font-size: 1.12rem;
-  font-style: italic;
-  line-height: 1.35;
-}
-
-.reach-margin-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.45em;
-  width: fit-content;
-  max-width: 100%;
-  margin: 0;
-  padding: 0.15em 0.1em;
-  border: 0;
-  background: transparent;
-  color: var(--colored-ink);
+.reach-link,
+.reach-fill {
   font: inherit;
-  font-style: italic;
-  text-decoration: none;
-  cursor: pointer;
-  touch-action: manipulation;
   -webkit-tap-highlight-color: transparent;
 }
 
-.reach-margin-link:focus-visible {
-  outline: 1px solid var(--colored-ink);
-  outline-offset: 3px;
-}
-
-.reach-margin-link:active {
-  transform: translateY(1px);
-}
-
-.reach-margin-glyph {
-  display: inline-flex;
-  flex: none;
-  width: 1.25em;
-  height: 1.25em;
-  line-height: 0;
-}
-
-.reach-margin-link :deep(.ink-glyph) {
+.reach-link :deep(.ink-glyph),
+.reach-link :deep(.ink-glyph svg),
+.reach-fill :deep(.ink-glyph),
+.reach-fill :deep(.ink-glyph svg) {
   display: block;
   width: 100%;
   height: 100%;
-}
-
-.reach-margin-link :deep(.ink-glyph svg) {
-  display: block;
-  width: 100%;
-  height: 100%;
-}
-
-.reach-margin-meta {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.45em;
-  margin: 0.2rem 0 0;
-  color: var(--colored-ink);
-  opacity: 0.85;
-}
-
-.reach-margin-meta :deep(.ink-glyph) {
-  display: block;
-  width: 100%;
-  height: 100%;
-}
-
-.reach-margin-meta :deep(.ink-glyph svg) {
-  display: block;
-  width: 100%;
-  height: 100%;
-}
-
-.reach-glyphs {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.85em 1.05em;
-  margin-top: 0.15rem;
-  max-width: 13rem;
-}
-
-.reach-glyph-link,
-.reach-glyph-pending {
-  display: inline-flex;
-  width: 1.35em;
-  height: 1.35em;
-  color: var(--colored-ink);
-  text-decoration: none;
-}
-
-.reach-glyph-link:focus-visible {
-  outline: 1px solid var(--colored-ink);
-  outline-offset: 3px;
-}
-
-.reach-glyph-pending {
-  opacity: 0.45;
-  pointer-events: none;
-}
-
-.reach-glyph-link :deep(.ink-glyph),
-.reach-glyph-pending :deep(.ink-glyph) {
-  display: block;
-  width: 100%;
-  height: 100%;
-}
-
-.reach-glyph-link :deep(.ink-glyph svg),
-.reach-glyph-pending :deep(.ink-glyph svg) {
-  display: block;
-  width: 100%;
-  height: 100%;
-}
-
-@media (max-width: 759px) {
-  .reach {
-    width: calc(100% - 32px);
-  }
-
-  .reach-page {
-    display: flex;
-    flex-direction: column;
-    gap: 1.75rem;
-  }
 }
 </style>

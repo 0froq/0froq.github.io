@@ -45,7 +45,7 @@ const label = computed(() => {
     un-flex-wrap
     un-gap-x-2
     un-font-mono
-    un-text="11px muted"
+    un-text="xs muted"
   >
     <template
       v-for="(part, i) in label"

@@ -166,7 +166,10 @@ onUnmounted(() => {
 <template>
   <svg
     ref="hostRef"
-    class="rail-mark"
+    un-absolute
+    un-overflow-visible
+    un-pointer-events-none
+    un-text-colored-ink
     aria-hidden="true"
     :viewBox="`0 0 ${metrics.width} ${metrics.height}`"
     :width="metrics.width"
@@ -196,12 +199,3 @@ onUnmounted(() => {
     />
   </svg>
 </template>
-
-<style scoped>
-.rail-mark {
-  position: absolute;
-  overflow: visible;
-  pointer-events: none;
-  color: var(--colored-ink);
-}
-</style>

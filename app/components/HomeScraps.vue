@@ -16,16 +16,16 @@ const { scraps, reactions, onReact } = useScrapsBoard()
     un-box-border
     un-pt="[clamp(1.25rem,4vh,2.5rem)]"
     un-pb-16
-    un-px="4 md:[clamp(24px,6vw,96px)]"
+    un-px="4 md:[clamp(1.5rem,6vw,6rem)]"
     aria-label="Scraps"
     :style="{ minHeight: `calc(100svh - ${props.chromeHeight}px)` }"
   >
     <p
       v-if="!scraps.length"
       un-mx-auto
-      un-max-w-36rem
+      un-max-w-xl
       un-m-0
-      un-text="15px muted"
+      un-text="sm muted"
     >
       No scraps yet.
     </p>
@@ -34,7 +34,7 @@ const { scraps, reactions, onReact } = useScrapsBoard()
       v-else
       un-mx-auto
       un-w-full
-      un-max-w="[36rem]"
+      un-max-w-xl
     >
       <HomeScrapFold
         :scraps="scraps"

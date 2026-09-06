@@ -1,5 +1,7 @@
 <script setup lang="ts">
 const { isHome, isHub } = useIssueFrame()
+
+const hideChromeMast = computed(() => isHome.value || isHub.value)
 </script>
 
 <template>
@@ -10,7 +12,7 @@ const { isHome, isHub } = useIssueFrame()
     un-flex-col
   >
     <SiteHomeLink />
-    <AppHeader v-if="!isHome && !isHub" />
+    <AppHeader v-if="!hideChromeMast" />
     <main
       data-sheet
       class="[view-transition-name:issue-sheet] motion-reduce:[view-transition-name:none]"

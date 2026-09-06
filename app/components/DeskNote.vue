@@ -24,7 +24,7 @@ function persist() {
       un-items-center
       un-gap-2
       un-font-mono
-      un-text="11px muted"
+      un-text="xs muted"
     >
       <InkArrow
         seed="desk-note"
@@ -47,7 +47,7 @@ function persist() {
       un-p-0
       un-font-serif
       un-text="[1.05em] ink"
-      un-leading="[1.55]"
+      un-leading-normal
       un-outline-none
       @blur="persist"
     />

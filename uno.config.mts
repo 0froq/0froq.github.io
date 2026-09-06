@@ -9,13 +9,14 @@ import {
   transformerDirectives,
   transformerVariantGroup,
 } from 'unocss'
+import { breakpoints } from './app/utils/breakpoints'
 
 export default defineConfig({
   theme: {
     breakpoint: {
-      sm: '600px',
-      md: '760px',
-      lg: '1440px',
+      sm: `${breakpoints.sm}px`,
+      md: `${breakpoints.md}px`,
+      lg: `${breakpoints.lg}px`,
     },
     colors: {
       paper: 'var(--paper)',
@@ -28,17 +29,31 @@ export default defineConfig({
       cream: 'var(--cream)',
       logo: 'var(--logo)',
       ink: 'var(--ink)',
+      wry: 'var(--wry)',
       colored: {
         ink: 'var(--colored-ink)',
       },
     },
+    ease: {
+      paper: 'var(--ease-out)',
+    },
+  },
+  shortcuts: {
+    'chrome-blur': 'bg-[color-mix(in_srgb,var(--paper)_92%,transparent)] backdrop-blur-[10px]',
+    'reach-hit': 'focus-visible:outline focus-visible:outline-1 focus-visible:outline-colored-ink focus-visible:outline-offset-[3px] active:translate-y-px',
+    'filter-hit': 'focus-within:outline focus-within:outline-1 focus-within:outline-colored-ink focus-within:outline-offset-4',
   },
   rules: [
     ['font-mono', { 'font-family': 'var(--font-mono)' }],
     ['font-serif', { 'font-family': 'var(--font-serif)' }],
     ['font-sans', { 'font-family': 'var(--font-sans)' }],
+    ['font-inherit', { font: 'inherit' }],
+    ['ease-paper', { 'transition-timing-function': 'var(--ease-out)' }],
   ],
   content: {
+    filesystem: [
+      'app/assets/css/**/*.css',
+    ],
     pipeline: {
       include: [
         /\.(vue|svelte|[jt]sx|mdx?|astro|elm|php|phtml|html|css)($|\?)/,
@@ -127,8 +142,16 @@ export default defineConfig({
         'ul': {
           'list-style-type': 'disc',
         },
+        'ul > li::marker': {
+          color: 'var(--colored-ink)',
+        },
         'ol': {
           'list-style-type': 'decimal',
+        },
+        'ol > li::marker': {
+          'color': 'var(--muted)',
+          'font-family': 'var(--font-mono)',
+          'font-size': '0.85em',
         },
         'blockquote': {
           'margin': '1.4em 0',
@@ -308,6 +331,14 @@ export default defineConfig({
   safelist: [
     // 'prose',
     'un-opacity-100',
+    'h-17',
+    'w-9',
+    'h-9',
+    'w-17',
+    'h-6',
+    'w-3.5',
+    'h-3.5',
+    'w-7',
     'i-openmj-thumbs-up?bg',
     'i-openmj-red-heart?bg',
     'i-openmj-face-with-open-mouth?bg',

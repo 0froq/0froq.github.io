@@ -55,6 +55,10 @@ function parseTagLine(text: string): string[] | null {
   return tags
 }
 
+export function isIssueTagLine(text: string): boolean {
+  return parseTagLine(text) != null
+}
+
 /** First real paragraph, stopping at a thematic break. */
 export function issueExcerpt(body: unknown, fallback?: string): string {
   const fromMeta = fallback?.trim()
@@ -131,6 +135,18 @@ export function toLayerEntry(entry: {
     words: issueWords(entry.body),
     tags: issueTags(entry.body),
   }
+}
+
+/** List/peek flags shared across hub surfaces. */
+export function issueMetaFlags(entry: Pick<LayerEntry, 'aigc' | 'status'>): string[] {
+  const flags: string[] = []
+  if (entry.aigc)
+    flags.push('aigc')
+  if (entry.status === 'draft')
+    flags.push('draft')
+  if (entry.status === 'void')
+    flags.push('void')
+  return flags
 }
 
 /** Show only non-English locales as list flags. */

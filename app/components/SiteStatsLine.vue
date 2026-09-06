@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { SITE_LAUNCH_AT } from '~/utils/siteConstants'
 import { formatCompact, formatUptime } from '~/utils/formatStats'
+import { SITE_LAUNCH_AT } from '~/utils/siteConstants'
 
 const props = withDefaults(defineProps<{
   /** Full counters. Footer stays compact (now + likes). */
@@ -60,7 +60,7 @@ const parts = computed(() => {
     un-gap-x-2
     un-gap-y-1
     un-font-mono
-    un-text="11px muted"
+    un-text="sm muted"
   >
     <template
       v-for="(part, i) in parts"

@@ -6,16 +6,16 @@ locale: en
 A place to watch knowledge grow, decay, and recombine.
 
 ::warning{title="Disclaimer"}
-Feel free to browse, but be aware that some content may be:
+Browse if you want. Some of this is:
 
-1. Overly personal;
-2. Fragmented to the point of being meaningless;
-3. Obscure, even to myself;
-4. Subjective, extreme, or paranoid;
-5. Attempting to challenge certain social taboos;
-6. Attempting to deliberately offend some people.
+1. Too personal
+2. Fragmented until it means nothing
+3. Opaque to me too
+4. Subjective, extreme, or paranoid
+5. Aimed at a taboo on purpose
+6. Written to piss someone off
 
-So I suggest you don't expect anything here.
+Expect nothing.
 
-And, don't complain if you don't like it.
+Don't complain if you hate it.
 ::

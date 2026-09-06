@@ -82,7 +82,7 @@ onUnmounted(() => {
     >
       <span
         un-absolute
-        un-left="[-1.55rem]"
+        un-left="[-1.5rem]"
         un-top="[0.3em]"
         un-inline-flex
         un-items-center
@@ -92,7 +92,7 @@ onUnmounted(() => {
       >
         <span
           un-absolute
-          un-inset="[-0.55em_-0.42em]"
+          un-inset="-0.5em"
         />
         <InkDots
           :seed="seed"
@@ -109,8 +109,8 @@ onUnmounted(() => {
       un-grid
       un-grid-rows="[0fr] data-[open]:[1fr]"
       un-transition="[grid-template-rows] motion-reduce:none"
-      un-duration="[280ms] data-[open]:[380ms]"
-      un-ease="[var(--ease-out)]"
+      un-duration="300ms data-[open]:400ms"
+      un-ease-paper
       :data-open="open ? '' : undefined"
       @transitionend="onSlotTransitionEnd"
     >
@@ -120,8 +120,8 @@ onUnmounted(() => {
         un-opacity="0 data-[open]:100 motion-reduce:100"
         un-blur="[2px] data-[open]:none motion-reduce:none"
         un-transition="[opacity,filter] motion-reduce:none"
-        un-duration="[220ms]"
-        un-ease="[var(--ease-out)]"
+        un-duration-200
+        un-ease-paper
         :data-open="open ? '' : undefined"
       >
         <div

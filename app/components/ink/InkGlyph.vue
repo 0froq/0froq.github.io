@@ -25,6 +25,8 @@ const d = computed(() => inkGlyphPath(props.seed, props.kind))
       aria-hidden="true"
       un-block
       un-overflow-visible
+      un-h="[1.5em]"
+      un-w="[1.5em]"
     >
       <path
         :d="d"
@@ -37,10 +39,3 @@ const d = computed(() => inkGlyphPath(props.seed, props.kind))
     </svg>
   </span>
 </template>
-
-<style scoped>
-.ink-glyph svg {
-  width: 1.5em;
-  height: 1.5em;
-}
-</style>

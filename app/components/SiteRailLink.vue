@@ -37,7 +37,7 @@ watch(() => props.active, async (_active, prev) => {
     exact-active-class=""
     un-flex
     un-flex-col
-    un-gap="[0.35rem]"
+    un-gap-1
     un-decoration-none
     un-outline-none
     un-transition-transform
@@ -46,13 +46,15 @@ watch(() => props.active, async (_active, prev) => {
   >
     <span
       ref="labelRef"
-      class="label"
+      class="label data-[voice=italic]:tracking-tight data-[voice=roman]:tracking-wide data-[voice=italic]:italic data-[voice=roman]:not-italic"
       :data-ink="active ? liveKind : undefined"
       :data-hover-ink="active ? undefined : hoverKind"
       :data-current="active ? '' : undefined"
+      un-relative
       un-font-serif
       un-leading-none
-      un-text="[clamp(26px,2.4vw,34px)] ink data-[current]:colored-ink max-md:22px"
+      un-text="[clamp(1.15rem,1.7vw,1.45rem)] ink/80 data-[current]:ink max-md:lg"
+      un-transition-colors
       :data-voice="voice"
     >
       {{ label }}
@@ -61,28 +63,12 @@ watch(() => props.active, async (_active, prev) => {
       v-if="note"
       class="note"
       un-font-sans
-      un-text="10px muted"
-      un-tracking="[0.03em]"
-      un-leading="[1.45]"
+      un-text="xs muted"
+      un-tracking-wide
+      un-leading-snug
       un-max-md:hidden
     >
       {{ note }}
     </span>
   </NuxtLink>
 </template>
-
-<style scoped>
-.label {
-  position: relative;
-}
-
-.label[data-voice='italic'] {
-  font-style: italic;
-  letter-spacing: -0.03em;
-}
-
-.label[data-voice='roman'] {
-  font-style: normal;
-  letter-spacing: 0.02em;
-}
-</style>

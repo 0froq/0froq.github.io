@@ -7,7 +7,6 @@ const mastEl = ref<HTMLElement | null>(null)
 const mastH = shallowRef(44)
 const stuck = shallowRef(false)
 const scrolled = shallowRef(false)
-const toLanding = shallowRef(false)
 let mastRo: ResizeObserver | undefined
 
 function syncMast() {
@@ -18,22 +17,6 @@ function syncMast() {
   const top = el.getBoundingClientRect().top
   stuck.value = top <= 0.5
   scrolled.value = window.scrollY > 8
-  toLanding.value = scrolled.value && top < window.innerHeight * 0.55
-}
-
-function scrollToScraps() {
-  mastEl.value?.scrollIntoView({ behavior: 'smooth', block: 'start' })
-}
-
-function scrollToLanding() {
-  window.scrollTo({ top: 0, behavior: 'smooth' })
-}
-
-function onMastNav() {
-  if (toLanding.value)
-    scrollToLanding()
-  else
-    scrollToScraps()
 }
 
 onMounted(() => {
@@ -98,18 +81,18 @@ const routes = [
     >
       <div
         un-box-border
-        un-mx-0
+        un-mx-auto
         un-flex
         un-min-h-0
         un-w-full
-        un-max-w="[1400px]"
+        un-max-w-7xl
         un-flex-1
         un-flex-col
         un-items-stretch
         un-justify-start
         un-gap="[clamp(1.25rem,3.5vh,2.75rem)] max-md:6"
-        un-pl="[clamp(24px,8vw,120px)] max-md:4"
-        un-pr="[clamp(24px,6vw,96px)] max-md:4"
+        un-pl="[clamp(1.5rem,8vw,7.5rem)] max-md:4"
+        un-pr="[clamp(1.5rem,6vw,6rem)] max-md:4"
       >
         <h1
           un-m-0
@@ -149,7 +132,7 @@ const routes = [
             un-flex-1
             un-overflow-x-clip
             un-text="lg"
-            un-leading="[1.6]"
+            un-leading-relaxed
           >
             <TextStream>
               <ContentRenderer :value="page" />
@@ -159,7 +142,7 @@ const routes = [
           <aside
             un-m-0
             un-flex
-            un-w="[15rem]"
+            un-w-60
             un-shrink-0
             un-flex-col
             un-gap="[clamp(1rem,2.5vh,1.5rem)] max-md:5"
@@ -207,47 +190,17 @@ const routes = [
         un-flex-nowrap
         un-items-baseline
         un-border-t="~ transparent data-[scrolled]:muted/35 data-[stuck]:transparent"
-        un-border-b="~ transparent data-[scrolled]:muted/35 data-[stuck]:muted"
+        un-border-b="~ transparent data-[scrolled]:muted/35 data-[stuck]:transparent"
         un-bg-paper
-        un-px="[clamp(24px,8vw,120px)] max-md:4"
-        un-py="[0.65rem] data-[stuck]:[0.75rem]"
+        un-px="[clamp(1.5rem,8vw,7.5rem)] max-md:4"
+        un-py="2.5 data-[stuck]:3"
         un-transition="colors,border-color,padding"
         un-duration-200
-        un-ease="[var(--ease-out)]"
+        un-ease-paper
         :data-scrolled="scrolled && !stuck ? '' : undefined"
         :data-stuck="stuck ? '' : undefined"
       >
-        <AppFooter flush>
-          <button
-            type="button"
-            un-m-0
-            un-inline-flex
-            un-cursor-pointer
-            un-items-baseline
-            un-gap-1
-            un-border-0
-            un-bg-transparent
-            un-p-0
-            un-font-mono
-            un-text="sm muted hover:colored-ink focus-visible:colored-ink"
-            un-tracking="[0.08em]"
-            un-uppercase
-            :aria-label="toLanding ? 'Back to landing' : 'Scroll to scraps'"
-            @click="onMastNav"
-          >
-            <span
-              aria-hidden="true"
-              un-inline-block
-              un-origin-center
-              un-transition-transform
-              un-duration-200
-              un-ease="[var(--ease-out)]"
-              un-rotate="data-[up]:180"
-              :data-up="toLanding ? '' : undefined"
-            >↓</span>
-            {{ toLanding ? 'landing' : 'scraps' }}
-          </button>
-        </AppFooter>
+        <AppFooter flush />
       </div>
       <div un-pointer-events-auto>
         <HomeScraps :chrome-height="mastH" />

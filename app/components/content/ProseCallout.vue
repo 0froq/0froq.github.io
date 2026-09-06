@@ -52,7 +52,7 @@ const kindColor = computed(() => `var(--callout-${props.kind})`)
       </template>
       <div
         un-text-ink
-        un-leading="[1.75]"
+        un-leading-relaxed
       >
         <slot />
       </div>

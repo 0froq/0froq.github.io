@@ -2,9 +2,24 @@ export function useIssueArticleTitle() {
   return useState<string | null>('issue-article-title', () => null)
 }
 
+function isIssueArticlePath(path: string) {
+  const parts = path.split('/').filter(Boolean)
+  return parts.length >= 3 && (parts[0] === 'posts' || parts[0] === 'corpus')
+}
+
 /** Bind the current page title into the shared masthead. Clears on leave. */
 export function useIssueArticleMast(title: MaybeRefOrGetter<string | undefined>) {
   const articleTitle = useIssueArticleTitle()
+  const route = useRoute()
+  const { clear } = useIssueArticleReturn()
+
+  watch(
+    () => route.path,
+    (next, prev) => {
+      if (prev && isIssueArticlePath(prev) && isIssueArticlePath(next))
+        clear()
+    },
+  )
 
   watch(
     () => toValue(title),
@@ -15,7 +30,8 @@ export function useIssueArticleMast(title: MaybeRefOrGetter<string | undefined>)
   )
 
   onBeforeUnmount(() => {
-    articleTitle.value = null
+    if (!isIssueArticlePath(route.path))
+      articleTitle.value = null
   })
 }
 
@@ -35,7 +51,7 @@ export function useIssueFrame() {
     return 'home'
   })
 
-  const isArticle = computed(() => Boolean(articleTitle.value))
+  const isArticle = computed(() => isIssueArticlePath(route.path))
 
   const isHub = computed(() => {
     const parts = route.path.split('/').filter(Boolean)

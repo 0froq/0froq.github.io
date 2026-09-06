@@ -1,4 +1,4 @@
-import { INK_SELECTOR, paintRoughInk } from '~/utils/roughInk'
+import { INK_SELECTOR, morphRoughInk, paintRoughInk } from '~/utils/roughInk'
 
 export default defineNuxtPlugin((nuxtApp) => {
   let ro: ResizeObserver | undefined
@@ -46,8 +46,25 @@ export default defineNuxtPlugin((nuxtApp) => {
     scan()
     document.fonts?.ready.then(schedule)
 
-    mo = new MutationObserver(() => {
-      schedule()
+    mo = new MutationObserver((records) => {
+      const morphHosts = new Set<HTMLElement>()
+      let structural = false
+
+      for (const record of records) {
+        if (record.type === 'attributes' && record.target instanceof HTMLElement) {
+          const name = record.attributeName
+          if (name === 'data-ink' || name === 'data-hover-ink')
+            morphHosts.add(record.target)
+        }
+        else {
+          structural = true
+        }
+      }
+
+      for (const el of morphHosts)
+        morphRoughInk(el)
+      if (structural)
+        schedule()
     })
     mo.observe(document.body, {
       childList: true,

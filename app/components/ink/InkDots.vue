@@ -60,8 +60,8 @@ const strokeW = computed(() => 0.95 + fill.value * 0.4)
     un-align-middle
     un-overflow-visible
     un-ml="data-[row]:[0.4em]"
-    un-h="[0.78rem] data-[row]:[0.56em]"
-    un-w="[0.78rem] data-[row]:[2.15em]"
+    un-h="[0.78em] data-[row]:[0.56em]"
+    un-w="[0.78em] data-[row]:[2.15em]"
     :data-row="single ? undefined : ''"
   >
     <path

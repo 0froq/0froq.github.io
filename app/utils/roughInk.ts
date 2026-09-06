@@ -123,28 +123,6 @@ function catmullRomClosed(pts: Array<[number, number]>): string {
   return `${d}Z`
 }
 
-function sampleCap(
-  origin: [number, number],
-  out: [number, number],
-  normal: [number, number],
-  half: number,
-  rx: number,
-): Array<[number, number]> {
-  const pts: Array<[number, number]> = []
-  const steps = 4
-  for (let i = 0; i <= steps; i++) {
-    const t = i / steps
-    const a = Math.PI / 2 - t * Math.PI
-    const ox = Math.max(0, Math.cos(a))
-    const oy = Math.sin(a)
-    pts.push([
-      origin[0] + out[0] * rx * ox + normal[0] * half * oy,
-      origin[1] + out[1] * rx * ox + normal[1] * half * oy,
-    ])
-  }
-  return pts
-}
-
 function tangentAt(pts: Array<[number, number]>, i: number): [number, number] {
   const a = pts[Math.max(0, i - 1)]!
   const b = pts[Math.min(pts.length - 1, i + 1)]!
@@ -209,14 +187,15 @@ function markerSwipe(
 ): Array<[number, number]> {
   const rng = inkRng(seed)
   const skew = italic ? em * 0.12 : 0
-  const x0 = x + skew - em * 0.04
-  const x1 = x + w + skew + em * 0.14
+  const x0 = x + skew
+  const x1 = x + w + skew
+  const span = Math.max(2, x1 - x0)
   const bow = em * (0.012 + rng() * 0.01)
-  const n = Math.max(6, Math.round(w / 22))
+  const n = Math.max(6, Math.round(span / 22))
   const pts: Array<[number, number]> = []
   for (let i = 0; i <= n; i++) {
     const t = i / n
-    const xx = x0 + (x1 - x0) * t
+    const xx = x0 + span * t
     const yy = yMid + Math.sin(t * Math.PI) * bow
     pts.push([xx, yy])
   }
@@ -232,9 +211,12 @@ function underlineScribble(
   italic: boolean,
 ): Array<[number, number]> {
   const rng = inkRng(seed)
-  const skew = italic ? em * 0.12 : 0
-  const x0 = x + skew - em * 0.05
-  const x1 = x0 + w + em * 0.16
+  const skew = italic ? em * 0.08 : 0
+  // Keep the stroke inside the text box. Large end overshoot drew under
+  // adjacent punctuation (e.g. 、) after prose links.
+  const pad = em * 0.02
+  const x0 = x + skew + pad
+  const x1 = x + skew + Math.max(pad * 2, w - pad)
   const p1 = rng() * Math.PI * 2
   const p2 = rng() * Math.PI * 2
   const n = Math.max(10, Math.round(w / 14))
@@ -262,61 +244,18 @@ function underlineScribble(
       pts.push(at(u, yOff, phase))
     }
     if (pass < 3) {
-      const dir = forward ? 1 : -1
       const edgeX = forward ? x1 : x0
-      const extra = em * (0.06 + rng() * 0.05)
+      const tuck = em * (0.012 + rng() * 0.01)
       const yA = pts.at(-1)![1]
       const yB = y + passY[pass + 1]!
-      pts.push([edgeX + dir * extra * 0.4, yA + (yB - yA) * 0.22])
-      pts.push([edgeX + dir * extra, (yA + yB) / 2])
-      pts.push([edgeX + dir * extra * 0.4, yA + (yB - yA) * 0.78])
+      const midX = forward ? edgeX - tuck : edgeX + tuck
+      pts.push([midX, yA + (yB - yA) * 0.22])
+      pts.push([edgeX, (yA + yB) / 2])
+      pts.push([midX, yA + (yB - yA) * 0.78])
     }
   }
 
   return pts
-}
-
-function ribbonPath(
-  pts: Array<[number, number]>,
-  width: number,
-  seed: number,
-): string {
-  if (pts.length < 2)
-    return ''
-
-  const rng = inkRng(seed ^ 17)
-  const last = pts.length - 1
-  const half = width / 2
-  const wobAmp = Math.min(0.45, half * 0.03)
-  const wobPhase = rng() * Math.PI * 2
-  const top: Array<[number, number]> = []
-  const bot: Array<[number, number]> = []
-  for (let i = 0; i <= last; i++) {
-    const t = i / last
-    const [nx, ny] = normalAt(pts, i)
-    const taper = 0.985 + 0.015 * Math.sin(t * Math.PI)
-    const h = half * taper + wobAmp * Math.sin(t * Math.PI + wobPhase)
-    const p = pts[i]!
-    top.push([p[0] + nx * h, p[1] + ny * h])
-    bot.push([p[0] - nx * h, p[1] - ny * h])
-  }
-
-  const rx = Math.min(3.2, width * 0.14)
-  const t0 = tangentAt(pts, 0)
-  const t1 = tangentAt(pts, last)
-  const n0 = normalAt(pts, 0)
-  const n1 = normalAt(pts, last)
-  const h0 = Math.hypot(top[0]![0] - pts[0]![0], top[0]![1] - pts[0]![1])
-  const h1 = Math.hypot(top[last]![0] - pts[last]![0], top[last]![1] - pts[last]![1])
-  const startCap = sampleCap(pts[0]!, [-t0[0], -t0[1]], n0, h0, rx)
-  const endCap = sampleCap(pts[last]!, t1, n1, h1, rx)
-  const outline = [
-    ...top,
-    ...endCap.slice(1, -1),
-    ...bot.slice().reverse(),
-    ...startCap.slice(1, -1).reverse(),
-  ]
-  return catmullRomClosed(outline)
 }
 
 let inkMaskSeq = 0
@@ -326,6 +265,7 @@ function appendMaskedFill(
   fillD: string,
   pts: Array<[number, number]>,
   width: number,
+  lineCap: 'butt' | 'round' = 'butt',
 ): void {
   if (!fillD || pts.length < 2)
     return
@@ -357,8 +297,8 @@ function appendMaskedFill(
   reveal.setAttribute('fill', 'none')
   reveal.setAttribute('stroke', '#fff')
   reveal.setAttribute('stroke-width', String(width * 1.55))
-  reveal.setAttribute('stroke-linecap', 'butt')
-  reveal.setAttribute('stroke-linejoin', 'miter')
+  reveal.setAttribute('stroke-linecap', lineCap)
+  reveal.setAttribute('stroke-linejoin', lineCap === 'round' ? 'round' : 'miter')
   mask.appendChild(reveal)
   defs.appendChild(mask)
   const hide = Math.ceil(reveal.getTotalLength()) + 16
@@ -478,13 +418,30 @@ function pruneSvgs(el: HTMLElement, keep: readonly InkKind[]) {
   }
 }
 
-function appendFillPath(svg: SVGSVGElement, d: string): void {
+function appendMarkStroke(
+  svg: SVGSVGElement,
+  pts: Array<[number, number]>,
+  width: number,
+  animate: boolean,
+): void {
+  if (pts.length < 2)
+    return
+  const d = catmullRom(pts)
   if (!d)
     return
   const path = document.createElementNS(NS, 'path')
+  path.setAttribute('class', 'mark-ink')
   path.setAttribute('d', d)
-  path.setAttribute('fill', 'var(--colored-ink)')
-  path.setAttribute('stroke', 'none')
+  path.setAttribute('fill', 'none')
+  path.setAttribute('stroke', 'var(--colored-ink)')
+  path.setAttribute('stroke-width', String(width))
+  path.setAttribute('stroke-linecap', 'butt')
+  path.setAttribute('stroke-linejoin', 'miter')
+  if (animate) {
+    const hide = Math.ceil(polylineLen(pts)) + 16
+    path.style.setProperty('--ink-len', `${hide}`)
+    path.classList.add('ink-reveal')
+  }
   svg.appendChild(path)
 }
 
@@ -662,20 +619,19 @@ export function paintSelectionInk(range: Range): boolean {
 
   lines.forEach((line, i) => {
     const seed = seed0 + i * 97
-    appendFillPath(
+    const width = inkBoxHeight(line.h, boxes, em)
+    appendMarkStroke(
       svg,
-      ribbonPath(
-        markerSwipe(
-          line.x - box.left,
-          inkBoxMidY(line.y - box.top, line.h, boxes),
-          line.w,
-          em,
-          seed,
-          italic,
-        ),
-        inkBoxHeight(line.h, boxes, em),
+      markerSwipe(
+        line.x - box.left,
+        inkBoxMidY(line.y - box.top, line.h, boxes),
+        line.w,
+        em,
         seed,
+        italic,
       ),
+      width,
+      false,
     )
   })
 
@@ -702,8 +658,8 @@ export function paintRoughInk(el: HTMLElement): void {
   const lines = textLineBoxes(el)
   const boxW = Math.round(el.offsetWidth || host.width)
   const boxH = Math.round(el.offsetHeight || host.height)
-  const sig = `v18:${boxW}x${boxH}:${lines.length}:${kinds.join('+')}`
   const revealOf = (kind: InkKind) => (hover === kind && live !== kind ? 'hover' : 'live')
+  const sig = `v25:${boxW}x${boxH}:${lines.length}:${kinds.map(kind => `${kind}@${revealOf(kind)}`).join('+')}`
   if (el.dataset.inkSig === sig && kinds.every(kind => el.querySelector(`:scope > .${SVG_CLASS}[data-kind="${kind}"]`))) {
     for (const kind of kinds) {
       const svg = el.querySelector<SVGSVGElement>(`:scope > .${SVG_CLASS}[data-kind="${kind}"]`)
@@ -775,31 +731,66 @@ export function morphRoughInk(el: HTMLElement): void {
   for (const kind of kinds) {
     const existed = el.querySelector<SVGSVGElement>(`:scope > .${SVG_CLASS}[data-kind="${kind}"]`)
     const next = revealOf(kind)
-    if (existed) {
-      existed.dataset.reveal = next
+    const prev = existed?.dataset.reveal
+
+    if (next === 'live' && existed && prev === 'hover') {
+      // Hover (unhovered) already holds the stroke at full dashoffset.
+      // Flip to enter so dashoffset eases to 0 — no repaint, no lost frame.
+      existed.dataset.reveal = 'enter'
+      const settle = () => {
+        existed.dataset.reveal = 'live'
+      }
+      existed.querySelector('.ink-reveal')?.addEventListener('transitionend', settle, { once: true })
+      trackTimer(el, window.setTimeout(settle, 800))
       continue
     }
-    if (next === 'live') {
+
+    if (next === 'live' && prev !== 'live' && prev !== 'enter') {
       paintKind(el, kind, host, em, lines, 'exit')
       const svg = el.querySelector<SVGSVGElement>(`:scope > .${SVG_CLASS}[data-kind="${kind}"]`)
       if (!svg)
         continue
       svg.classList.add('ink-boot')
       requestAnimationFrame(() => {
-        svg.classList.remove('ink-boot')
-        svg.dataset.reveal = 'enter'
-        const settle = () => {
-          svg.dataset.reveal = 'live'
-        }
-        svg.querySelector('.ink-reveal')?.addEventListener('transitionend', settle, { once: true })
-        trackTimer(el, window.setTimeout(settle, 800))
+        void svg.getBoundingClientRect()
+        requestAnimationFrame(() => {
+          svg.classList.remove('ink-boot')
+          svg.dataset.reveal = 'enter'
+          const settle = () => {
+            svg.dataset.reveal = 'live'
+          }
+          svg.querySelector('.ink-reveal')?.addEventListener('transitionend', settle, { once: true })
+          trackTimer(el, window.setTimeout(settle, 800))
+        })
       })
+      continue
+    }
+
+    if (next === 'hover' && existed && (prev === 'live' || prev === 'enter')) {
+      // Live strokes may lack .ink-reveal; rebuild visible then wipe to hover.
+      paintKind(el, kind, host, em, lines, 'enter')
+      const svg = el.querySelector<SVGSVGElement>(`:scope > .${SVG_CLASS}[data-kind="${kind}"]`)
+      if (!svg)
+        continue
+      svg.classList.add('ink-boot')
+      requestAnimationFrame(() => {
+        void svg.getBoundingClientRect()
+        requestAnimationFrame(() => {
+          svg.classList.remove('ink-boot')
+          svg.dataset.reveal = 'hover'
+        })
+      })
+      continue
+    }
+
+    if (existed) {
+      existed.dataset.reveal = next
       continue
     }
     paintKind(el, kind, host, em, lines, next)
   }
 
-  el.dataset.inkSig = `v18:${boxW}x${boxH}:${lines.length}:${kinds.join('+')}`
+  el.dataset.inkSig = `v25:${boxW}x${boxH}:${lines.length}:${kinds.map(kind => `${kind}@${revealOf(kind)}`).join('+')}`
 }
 
 function paintKind(
@@ -818,14 +809,32 @@ function paintKind(
   const [px, py] = PAD[kind]
   const padX = em * px
   const padY = em * py
+  let ox = 0
+  let oy = 0
+  const display = getComputedStyle(el).display
+  if (
+    display === 'inline'
+    || (
+      display.startsWith('inline')
+      && display !== 'inline-block'
+      && display !== 'inline-flex'
+      && display !== 'inline-grid'
+    )
+  ) {
+    const first = el.getClientRects()[0]
+    if (first) {
+      ox = first.left - host.left
+      oy = first.top - host.top
+    }
+  }
   const svgW = host.width + padX * 2
   const svgH = host.height + padY * 2
   svg.setAttribute('width', String(svgW))
   svg.setAttribute('height', String(svgH))
   svg.setAttribute('viewBox', `0 0 ${svgW} ${svgH}`)
   svg.setAttribute('preserveAspectRatio', 'none')
-  svg.style.left = `${-padX}px`
-  svg.style.top = `${-padY}px`
+  svg.style.left = `${-ox - padX}px`
+  svg.style.top = `${-oy - padY}px`
   svg.style.width = `${svgW}px`
   svg.style.height = `${svgH}px`
 
@@ -857,6 +866,7 @@ function paintKind(
       return
     }
     if (kind === 'mark' && boxes) {
+      const width = Math.max(8, em * 0.52)
       const pts = markerSwipe(
         x,
         inkMidY(y, line.h, boxes, 0.42),
@@ -865,8 +875,7 @@ function paintKind(
         seed,
         italic,
       )
-      const width = Math.max(8, em * 0.52)
-      appendMaskedFill(svg, ribbonPath(pts, width, seed), pts, width)
+      appendMarkStroke(svg, pts, width, reveal !== 'live')
       return
     }
     if (kind === 'underline') {

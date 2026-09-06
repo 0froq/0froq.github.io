@@ -109,12 +109,13 @@ onUnmounted(() => {
       :data-on="copied ? '' : undefined"
       un-select-none
       un-fixed
-      un-z-60
+      un-z-50
       un-m-0
       un-cursor-pointer
       un-border-0
       un-bg-transparent
       un-p-0
+      un-text="muted hover:ink focus-visible:ink data-[on]:colored-ink"
       :aria-label="copied ? 'Copied' : 'Copy'"
       :style="{
         left: `${x}px`,
@@ -140,18 +141,3 @@ onUnmounted(() => {
     </button>
   </Teleport>
 </template>
-
-<style scoped>
-.selection-copy {
-  color: var(--muted);
-}
-
-.selection-copy:hover,
-.selection-copy:focus-visible {
-  color: var(--ink);
-}
-
-.selection-copy[data-on] {
-  color: var(--colored-ink);
-}
-</style>

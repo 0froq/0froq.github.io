@@ -79,7 +79,7 @@ async function onLike() {
     un-bg-transparent
     un-p-0
     un-font-mono
-    un-text="11px muted hover:colored-ink"
+    un-text="xs muted hover:colored-ink"
     un-leading-none
     :disabled="busy"
     :aria-label="people ? 'Like this page' : 'Like this site'"

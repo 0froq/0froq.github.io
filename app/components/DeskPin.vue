@@ -49,16 +49,17 @@ function onPointerUp() {
 <template>
   <button
     type="button"
-    class="desk-pin"
     un-absolute
+    un-left-0
+    un-top-0
+    un-touch-none
     un-z-2
-    un-m-0
-    un-cursor-grab
+    un-cursor="grab active:grabbing"
     un-border-0
     un-bg-transparent
     un-p-0
     un-font-mono
-    un-text="11px colored-ink"
+    un-text="xs colored-ink"
     :style="{ transform: `translate(${pos.x}px, ${pos.y}px)` }"
     aria-label="Drag me around the desk"
     @pointerdown="onPointerDown"
@@ -73,14 +74,3 @@ function onPointerUp() {
     <span un-ml-1>pin</span>
   </button>
 </template>
-
-<style scoped>
-.desk-pin {
-  left: 0;
-  top: 0;
-  touch-action: none;
-}
-.desk-pin:active {
-  cursor: grabbing;
-}
-</style>

@@ -3,6 +3,7 @@ import type { LayerEntry } from '~/utils/issueList'
 import { toLayerEntry } from '~/utils/issueList'
 
 const route = useRoute()
+const { visible, showExcerpt } = useIssueVisibility('corpus')
 
 const layerSlug = computed(() => String(route.params.layer || ''))
 const layer = computed(() => findCorpusLayer(layerSlug.value))
@@ -13,10 +14,6 @@ if (!layer.value) {
     statusMessage: 'Corpus layer not found',
   })
 }
-
-const showAigc = useState('corpus-show-aigc', () => true)
-const showDraft = useState('corpus-show-draft', () => true)
-const showVoid = useState('corpus-show-void', () => false)
 
 const { data: entries } = await useAsyncData(
   () => `corpus-layer:${layerSlug.value}`,
@@ -36,53 +33,15 @@ const { data: entries } = await useAsyncData(
 
 const items = computed<LayerEntry[]>(() =>
   (entries.value ?? [])
-    .filter((entry) => {
-      if (!showAigc.value && entry.aigc)
-        return false
-      if (!showVoid.value && entry.status === 'void')
-        return false
-      if (!showDraft.value && entry.status === 'draft')
-        return false
-      return true
-    })
+    .filter(entry => visible(entry))
     .map(entry => toLayerEntry(entry)),
 )
 </script>
 
 <template>
-  <div
+  <IssueList
     v-if="layer"
-    un-flex
-    un-flex-col
-    un-gap-6
-  >
-    <header
-      un-flex
-      un-flex-wrap
-      un-items-center
-      un-justify-end
-      un-gap-x-5
-      un-gap-y-2
-    >
-      <IssueFilter
-        :id="`corpus-${layer.slug}-aigc`"
-        v-model="showAigc"
-        suffix="AIGC"
-      />
-      <IssueFilter
-        :id="`corpus-${layer.slug}-draft`"
-        v-model="showDraft"
-        suffix="draft"
-      />
-      <IssueFilter
-        :id="`corpus-${layer.slug}-void`"
-        v-model="showVoid"
-        suffix="void"
-      />
-    </header>
-    <IssueList
-      tone="corpus"
-      :items="items"
-    />
-  </div>
+    :items="items"
+    :show-excerpt="showExcerpt"
+  />
 </template>

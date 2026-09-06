@@ -106,7 +106,7 @@ onUnmounted(() => {
       un-m-0
       un-flex
       un-flex-col
-      un-pl="[1.55rem]"
+      un-pl-6
       un-pr-0
       un-py-0
       un-list-none
@@ -115,18 +115,18 @@ onUnmounted(() => {
       <li
         v-for="scrap in pinned"
         :key="scrap.id"
-        un-py="[0.65rem]"
+        un-py-2.5
         @contextmenu="openMenu($event, scrap.id)"
       >
         <div
           un-relative
-          un-text="17px ink"
-          un-leading="[1.45]"
+          un-text="lg ink"
+          un-leading-snug
           un-text-pretty
         >
           <span
             un-absolute
-            un-left="[-1.55rem]"
+            un-left="[-1.5rem]"
             un-top="[0.3em]"
             un-inline-flex
             un-items-center
@@ -146,8 +146,8 @@ onUnmounted(() => {
           v-if="scrap.detail"
           un-m-0
           un-mt-2
-          un-text="15px muted"
-          un-leading="[1.55]"
+          un-text="sm muted"
+          un-leading-normal
           un-text-pretty
         >
           <ScrapText :source="scrap.detail ?? ''" />
@@ -157,7 +157,7 @@ onUnmounted(() => {
           un-mt-1
           un-block
           un-font-mono
-          un-text="10px muted"
+          un-text="xs muted"
           un-tabular-nums
           :datetime="scrap.date"
         >{{ scrap.date }}</time>
@@ -176,7 +176,7 @@ onUnmounted(() => {
       un-m-0
       un-flex
       un-flex-col
-      un-pl="[1.55rem]"
+      un-pl-6
       un-pr-0
       un-py-0
       un-list-none
@@ -185,7 +185,7 @@ onUnmounted(() => {
       <li
         v-for="scrap in rest"
         :key="scrap.id"
-        un-py="[0.65rem]"
+        un-py-2.5
         @contextmenu="openMenu($event, scrap.id)"
       >
         <InkFold
@@ -195,8 +195,8 @@ onUnmounted(() => {
           :panel-id="`scrap-fold-${scrap.id}`"
           un-m-0
           un-font-inherit
-          un-text="left 17px ink"
-          un-leading="[1.45]"
+          un-text="left lg ink"
+          un-leading-snug
           un-text-pretty
         >
           <template #trigger>
@@ -205,8 +205,8 @@ onUnmounted(() => {
           <p
             un-m-0
             un-mt-2
-            un-text="15px muted"
-            un-leading="[1.55]"
+            un-text="sm muted"
+            un-leading-normal
             un-text-pretty
           >
             <ScrapText
@@ -217,8 +217,8 @@ onUnmounted(() => {
         </InkFold>
         <div
           v-else
-          un-text="17px ink"
-          un-leading="[1.45]"
+          un-text="lg ink"
+          un-leading-snug
           un-text-pretty
         >
           <ScrapText :source="scrap.text" />
@@ -228,7 +228,7 @@ onUnmounted(() => {
           un-mt-1
           un-block
           un-font-mono
-          un-text="10px muted"
+          un-text="xs muted"
           un-tabular-nums
           :datetime="scrap.date"
         >{{ scrap.date }}</time>

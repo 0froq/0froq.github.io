@@ -7,7 +7,11 @@
   background: none;
 }
 
-a[data-ink='underline'] {
+:is(.prose, [un-prose], .scrap-md) a[data-ink] {
+  white-space: nowrap;
+}
+
+:is(.prose, [un-prose], .scrap-md) a[data-ink='underline'] {
   color: var(--ink);
 }
 
@@ -29,6 +33,7 @@ a[data-ink='underline'] {
 .rough-ink[data-kind='mark'] {
   z-index: -1;
   opacity: 0.42;
+  --ink-draw: 640ms;
 }
 
 a[data-external] > .rough-ink[data-kind='mark'] {
@@ -53,7 +58,8 @@ html.dark a[data-external] > .rough-ink[data-kind='mark'] {
 
 .rough-ink[data-kind='circle'] path,
 .rough-ink[data-kind='mark'] path,
-.rough-ink[data-kind='underline'] path {
+.rough-ink[data-kind='underline'] path,
+.selection-ink path {
   stroke-linecap: butt;
   stroke-linejoin: miter;
 }

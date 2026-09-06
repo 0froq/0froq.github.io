@@ -226,3 +226,37 @@ Day/week planning skills (`start-my-day`, `end-my-day`, `start-my-week`, `end-my
   data(board): mark exam review task as done
   config(scripts): remove unused BibTeX parser
   ```
+
+---
+
+## 5. Vue styling
+
+### 5.1 Prefer UnoCSS over `<style>` blocks
+
+- **Problem**: Layout, type, color, and simple motion written in `<style scoped>`
+  split the visual contract from the template and duplicate what attributify
+  already covers.
+- **Case**: A hub title's `font-size`, `margin`, and `color` live in CSS while
+  siblings already use `un-font-serif` / `un-text-ink`. The next edit has two
+  places to miss.
+- **Correct**:
+  - Style Vue templates with UnoCSS attributify (`un-*`). `prefixedOnly` is on
+    in `uno.config.mts`. Bare `class="flex"` is not extracted unless it is a
+    shortcut defined there.
+  - Reuse theme tokens (`ink`, `paper`, `muted`, `line`, `colored-ink`) and
+    existing shortcuts (`chrome-blur`, `reach-hit`, `filter-hit`). Those are
+    interaction chrome reused across components. Do not put page layout
+    (`sheet`, `site-hub-rail`) in `uno.config.mts`. Write structure on the
+    template with `un-*`.
+  - Keep a `<style>` block only for selectors the template cannot carry:
+    `::view-transition-*`, `@keyframes`, `paint-order`, Vue `<Transition>`
+    generated classes (`*-enter-from` / `*-leave-to`), and properties that
+    must interpolate on a persistent node (for example `color` from ink to
+    paper for hollow type).
+  - Do not add an empty `<style>` to silence PostCSS. That is not a fix.
+  - Do not `import type` in an SFC that has (or recently had) `<style>`.
+    Vite asks for `*.vue?vue&type=style&scoped=…`. When that module is stale
+    or mis-bound, PostCSS parses the script and template and reports
+    `Unknown word` on TypeScript and `{{ … }}`. Types exported from `utils/`
+    are auto-imported. After deleting a `<style>` block, restart `nuxt dev`
+    if the overlay still cites `type=style`.

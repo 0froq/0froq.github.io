@@ -18,18 +18,27 @@ const emit = defineEmits<{
 const counts = computed(() => props.reactions?.counts ?? {})
 const mine = computed(() => props.reactions?.mine ?? null)
 
+type ReactionEmoji = (typeof SCRAP_REACTION_EMOJIS)[number]
+
+function isReactionEmoji(key: string): key is ReactionEmoji {
+  return (SCRAP_REACTION_EMOJIS as readonly string[]).includes(key)
+}
+
 const emojis = computed(() => {
   if (props.picker) {
     const set = new Set<string>(SCRAP_REACTION_EMOJIS)
     for (const key of Object.keys(counts.value)) {
-      if (SCRAP_REACTION_ICONS[key])
+      if (isReactionEmoji(key))
         set.add(key)
     }
     return [...set]
   }
-  const order = new Map(SCRAP_REACTION_EMOJIS.map((emoji, i) => [emoji, i]))
+  const order = new Map<string, number>(
+    SCRAP_REACTION_EMOJIS.map((emoji, i) => [emoji, i]),
+  )
   return Object.entries(counts.value)
-    .filter(([key, n]) => n > 0 && SCRAP_REACTION_ICONS[key])
+    .filter((entry): entry is [ReactionEmoji, number] =>
+      entry[1] > 0 && isReactionEmoji(entry[0]))
     .sort((a, b) => (order.get(a[0]) ?? 99) - (order.get(b[0]) ?? 99))
     .map(([emoji]) => emoji)
 })
@@ -46,82 +55,48 @@ function label(emoji: string) {
 <template>
   <div
     v-if="emojis.length"
-    class="scrap-react"
-    :data-picker="picker ? '' : undefined"
+    un-flex="~ wrap items-center data-[picker]:nowrap"
+    un-gap-1
     role="group"
     :aria-label="`React to ${scrap.id}`"
+    :data-picker="picker ? '' : undefined"
   >
     <button
       v-for="emoji in emojis"
       :key="emoji"
       type="button"
-      class="scrap-react-btn"
-      :data-on="mine === emoji ? '' : undefined"
+      un-inline-flex
+      un-shrink-0
+      un-items-center
+      un-gap-1
+      un-m-0
+      un-cursor-pointer
+      un-border-0
+      un-border-b="transparent data-[on]:colored-ink"
+      un-bg-transparent
+      un-px-1
+      un-py-0.5
+      un-leading-none
+      un-text="muted hover:ink focus-visible:ink data-[on]:ink"
       :aria-label="label(emoji)"
       :aria-pressed="mine === emoji"
       @click.stop="emit('react', emoji)"
     >
       <span
-        class="scrap-react-icon"
         :class="iconClass(emoji)"
+        un-block
+        un-h="[1.15em]"
+        un-w="[1.15em]"
+        un-shrink-0
         aria-hidden="true"
       />
       <span
         v-if="counts[emoji]"
-        class="scrap-react-count"
+        un-font-mono
+        un-text-xs
+        un-tabular-nums
+        un-leading-none
       >{{ counts[emoji] }}</span>
     </button>
   </div>
 </template>
-
-<style scoped>
-.scrap-react {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0.25rem;
-}
-
-.scrap-react[data-picker] {
-  flex-wrap: nowrap;
-}
-
-.scrap-react-btn {
-  display: inline-flex;
-  flex-shrink: 0;
-  align-items: center;
-  gap: 0.28rem;
-  margin: 0;
-  padding: 0.2em 0.3em;
-  border: 0;
-  border-bottom: 1px solid transparent;
-  background: transparent;
-  color: var(--muted);
-  cursor: pointer;
-  line-height: 1;
-}
-
-.scrap-react-btn:hover,
-.scrap-react-btn:focus-visible,
-.scrap-react-btn[data-on] {
-  color: var(--ink);
-}
-
-.scrap-react-btn[data-on] {
-  border-bottom-color: var(--colored-ink);
-}
-
-.scrap-react-icon {
-  display: block;
-  flex: none;
-  width: 1.15em;
-  height: 1.15em;
-}
-
-.scrap-react-count {
-  font-family: var(--font-mono);
-  font-size: 0.8125rem;
-  font-variant-numeric: tabular-nums;
-  line-height: 1;
-}
-</style>

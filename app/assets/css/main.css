@@ -1,19 +1,17 @@
 html {
-  scroll-behavior: smooth;
-  font-feature-settings: 'calt', 'ss01', 'ss03', 'ss04', 'ss06', 'ss07', 'ss08', 'ss10', 'liga';
+  --uno: 'scroll-smooth';
+  font-feature-settings: 'calt', 'ss01', 'ss03', 'ss04', 'ss06', 'ss07',
+    'ss08', 'ss10', 'liga';
 }
 
 body {
   --uno: 'm-0';
-  background-color: var(--paper);
-  color: var(--ink);
-  caret-color: var(--colored-ink);
+  --uno: 'bg-paper text-ink caret-colored-ink';
   --uno: 'font-serif';
 }
 
 *::selection {
-  background-color: transparent;
-  color: var(--paper);
+  --uno: 'bg-transparent text-paper';
 }
 
 input::selection,
@@ -28,74 +26,88 @@ textarea::selection,
 }
 
 * {
-  scrollbar-color: var(--colored-ink) var(--paper);
-  scrollbar-width: thin;
+  --uno: '[scrollbar-color:var(--colored-ink)_var(--paper)]';
+  --uno: '[scrollbar-width:thin]';
 }
 
 a {
-  color: inherit;
+  --uno: 'text-inherit';
   --uno: 'decoration-none';
 }
 
 [un-prose] {
-  overflow-wrap: break-word;
+  --uno: 'break-words';
 }
 
 [un-prose] table {
-  display: block;
-  overflow-x: auto;
+  --uno: 'block';
+  --uno: 'overflow-x-auto';
 }
 
 [un-prose] pre {
-  overflow-x: auto;
-  overflow-y: hidden;
+  --uno: 'overflow-x-auto overflow-y-hidden';
 }
 
-[un-prose] :is(h2, h3, h4) {
-  font-family: var(--font-serif);
-  letter-spacing: -0.03em;
+[un-prose] :is(h2, h3, h4, h5, h6) {
+  --uno: 'font-serif';
+  --uno: 'scroll-mt-[calc(var(--site-chrome)+1.2rem)]';
+}
+
+[un-prose] :is(h1, h2, h3, h4, h5, h6) > a {
+  --uno: 'text-inherit';
 }
 
 [un-prose] h2 {
-  margin-top: 2.1em;
-  font-size: 1.42em;
-  font-weight: 600;
+  --uno: 'mt-[2.1em]';
+  --uno: 'text-4xl font-black text-colored-ink';
 }
 
 [un-prose] h3 {
-  margin-top: 1.7em;
-  font-size: 1.18em;
-  font-style: italic;
-  font-weight: 500;
+  --uno: 'mt-[1.7em]';
+  --uno: 'text-3xl text-colored-ink';
+}
+
+[un-prose] h4 {
+  --uno: 'mt-[1.4em]';
+  --uno: 'text-2xl text-colored-ink';
+}
+
+[un-prose] h5 {
+  --uno: 'mt-[1.1em]';
+  --uno: 'text-xl text-colored-ink';
+}
+
+[un-prose] h6 {
+  --uno: 'mt-[0.8em]';
+  --uno: 'text-lg text-colored-ink';
 }
 
 ruby {
-  ruby-position: over;
+  --uno: 'relative';
+  --uno: '[ruby-position:over]';
 }
 
 rt {
-  font-size: 0.62em;
-  line-height: 1;
+  --uno: 'text-[0.62em] leading-none whitespace-nowrap';
+  --uno: 'absolute left-1/2 bottom-1/2';
+  --uno: '-translate-x-1/2 -translate-y-full';
 }
 
 .prose-figure {
-  margin: 1.4em 0;
+  --uno: 'my-[1.4em]';
 }
 
 .prose-caption {
-  margin-top: 0.45em;
-  font-family: var(--font-serif);
-  font-size: 0.88em;
-  font-style: italic;
-  color: var(--muted);
+  --uno: 'mt-[0.45em]';
+  --uno: 'font-serif italic text-[0.88em] text-muted';
 }
 
 .prose-table-wrap {
-  overflow-x: auto;
+  --uno: 'overflow-x-auto';
 }
 
 [un-prose] mjx-container,
 [un-prose] .katex,
 [un-prose] .math-inline {
-  font-size: 1.05em;
+  --uno: 'text-[1.05em]';
 }

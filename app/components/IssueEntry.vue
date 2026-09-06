@@ -25,23 +25,23 @@ defineProps<{
       un-w-16
       un-shrink-0
       un-font-mono
-      un-text="10px muted"
-      un-tracking="[0.03em]"
+      un-text="xs muted"
+      un-tracking-wide
     >{{ kind }}</span>
     <time
       un-w-14
       un-shrink-0
       un-font-mono
-      un-text="10px muted"
-      un-tracking="[0.03em]"
+      un-text="xs muted"
+      un-tracking-wide
       un-max-md:hidden
     >{{ issueDate(date) }}</time>
     <span
       un-min-w-0
       un-text-lg
       un-font-medium
-      un-tracking="[-0.04em]"
-      un-leading="[1.25]"
+      un-tracking-tighter
+      un-leading-tight
     >{{ title }}</span>
   </NuxtLink>
 </template>

@@ -17,9 +17,9 @@ const d = computed(() => inkRulePath(props.seed, props.width, props.pad))
   <svg
     :viewBox="`0 0 ${width} 8`"
     aria-hidden="true"
+    un-w-fit
     un-block
-    un-h="[8px]"
-    un-w-full
+    un-h-2
     un-overflow-visible
     un-text-colored-ink
   >

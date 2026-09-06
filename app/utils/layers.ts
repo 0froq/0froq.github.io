@@ -90,8 +90,5 @@ export function isLayerEntry(
     return false
   if (path === `/${root}/${layer}`)
     return false
-  // Skip locale index shells for now.
-  if (path === `/${root}/${layer}/en` || path.endsWith('/en'))
-    return false
   return true
 }

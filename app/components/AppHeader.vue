@@ -1,6 +1,8 @@
 <script setup lang="ts">
-const { section } = useIssueFrame()
+const { section, isArticle, articleTitle } = useIssueFrame()
 const route = useRoute()
+const { titleRevealed, progressWidth, headerRef, progressTrackRef }
+  = useIssueArticleChromeScroll()
 
 const sectionLabel = computed(() => {
   switch (section.value) {
@@ -40,58 +42,131 @@ const sectionTo = computed(() => {
 
 <template>
   <header
+    ref="headerRef"
+    un-sticky
+    un-relative
+    un-top-0
+    un-z-30
     un-box-border
     un-w-full
-    un-flex="~"
+    un-min-h="[var(--site-chrome)]"
+    un-flex
     un-items-center
     un-gap-4
     un-py="3.5 max-md:3"
-    data-fixed
+    un-px="[var(--gutter)] max-md:4"
+    :un-border-b="isArticle ? '0' : 'line'"
+    un-bg-paper
+    :style="isArticle ? { '--progress-bar-width': progressWidth } : undefined"
   >
-    <p
-      v-if="sectionLabel"
-      class="hub-label"
-      un-m-0
-      un-flex
-      un-flex-1
-      un-flex-wrap
-      un-items-baseline
-      un-gap-2
-      un-font-mono
-      un-text="11px muted"
-      un-tracking="[0.04em]"
-      un-uppercase
-    >
-      <NuxtLink
-        :to="sectionTo"
-        un-text="muted hover:colored-ink focus-visible:colored-ink"
+    <template v-if="isArticle">
+      <div
+        un-relative
+        un-z-1
+        un-flex
+        un-min-w-0
+        un-flex-1
+        un-items-center
       >
-        {{ sectionLabel }}
-      </NuxtLink>
-      <template v-if="layerLabel">
-        <span aria-hidden="true">/</span>
-        <span>{{ layerLabel }}</span>
-      </template>
-    </p>
+        <SiteBackLink />
+      </div>
+      <span
+        class="article-chrome-title"
+        :data-in="titleRevealed ? '' : undefined"
+        un-absolute
+        un-left="1/2"
+        un-z-1
+        un-m-0
+        un-max-w="[min(50%,36rem)]"
+        un-truncate
+        un-font-serif
+        un-text="2xl ink"
+        un-text-center
+        un-pointer-events-none
+        :aria-hidden="!titleRevealed"
+      >
+        {{ articleTitle }}
+      </span>
+      <div
+        ref="progressTrackRef"
+        class="progress-bar"
+        un-absolute
+        un-left-0
+        un-right-0
+        un-bottom-0
+        un-z-0
+        un-h="[2px]"
+        un-w-full
+        un-shrink-0
+        un-leading-none
+      >
+        <div
+          class="progress-bar-bg"
+          un-absolute
+          un-bottom-0
+          un-left-0
+          un-right-0
+          un-z-0
+          un-h-px
+          un-w-full
+          un-bg-line
+        />
+        <div
+          class="progress-bar-inner"
+          un-absolute
+          un-bottom-0
+          un-left-0
+          un-z-1
+          un-h-px
+          un-bg-ink
+          :style="{ width: 'var(--progress-bar-width, 0px)' }"
+        />
+      </div>
+    </template>
+    <template v-else>
+      <SiteChromeNav
+        to="/"
+        aria-label="Home"
+      >
+        ← home
+      </SiteChromeNav>
+      <p
+        v-if="sectionLabel"
+        class="hub-label"
+        un-m-0
+        un-flex
+        un-min-w-0
+        un-flex-1
+        un-flex-wrap
+        un-items-baseline
+        un-gap-2
+        un-font-mono
+        un-text="xs muted"
+        un-tracking-wide
+        un-uppercase
+      >
+        <NuxtLink
+          :to="sectionTo"
+          un-text="muted hover:colored-ink focus-visible:colored-ink"
+        >
+          {{ sectionLabel }}
+        </NuxtLink>
+        <template v-if="layerLabel">
+          <span aria-hidden="true">/</span>
+          <span>{{ layerLabel }}</span>
+        </template>
+      </p>
+    </template>
   </header>
 </template>
 
 <style scoped>
-header[data-fixed] {
-  position: sticky;
-  top: 0;
-  z-index: 30;
-  box-sizing: border-box;
-  min-height: var(--site-chrome);
-  padding-inline: calc(var(--gutter) + var(--site-home-inset)) var(--gutter);
-  border-bottom: 1px solid var(--line);
-  background: color-mix(in srgb, var(--paper) 92%, transparent);
-  backdrop-filter: blur(10px);
+.article-chrome-title {
+  transform: translateX(-50%);
+  opacity: 0;
+  transition: opacity 0.2s var(--ease-out, ease);
 }
-
-@media (max-width: 759px) {
-  header[data-fixed] {
-    padding-inline: calc(1rem + var(--site-home-inset)) 1rem;
-  }
+.article-chrome-title[data-in] {
+  opacity: 1;
 }
 </style>

@@ -1,16 +1,17 @@
 <script setup lang="ts">
-import type { LayerEntry } from '~/utils/issueList'
-
 const props = defineProps<{
-  tone: 'posts' | 'corpus'
   items: LayerEntry[]
   showExcerpt?: boolean
 }>()
 
 const peek = useHubPeek()
 const restPath = computed(() => peek?.value?.path)
+const route = useRoute()
+const { remember } = useIssueArticleReturn()
+const { setRowRef, getOpacity, refresh } = useSeparatorOpacity()
 
 const groups = computed(() => {
+  const parts = buildCreatedParts(props.items.map(item => item.created))
   const buckets = new Map<string, LayerEntry[]>()
   for (const item of props.items) {
     const year = issueYear(item.created) || '—'
@@ -18,29 +19,33 @@ const groups = computed(() => {
     list.push(item)
     buckets.set(year, list)
   }
+  let index = 0
   return Array.from(buckets.entries(), ([year, items]) => ({
     year,
     mark: issueYearMark(items[0]?.created, 'en'),
-    items,
+    items: items.map((item) => {
+      const row = { item, index, parts: parts[index]! }
+      index += 1
+      return row
+    }),
   }))
 })
 
-function metaFlags(item: LayerEntry) {
-  const flags: string[] = []
-  if (item.locale)
-    flags.push(item.locale)
-  if (item.aigc)
-    flags.push('aigc')
-  if (item.status === 'draft')
-    flags.push('draft')
-  if (item.status === 'void')
-    flags.push('void')
-  return flags
+function bindRow(index: number, el: unknown) {
+  setRowRef(index, el instanceof HTMLElement ? el : null)
 }
+
+watch(() => props.items.length, () => refresh())
 
 function restOn(item: LayerEntry) {
   if (peek)
     peek.value = item
+}
+
+function disclose(item: LayerEntry) {
+  if (!peek)
+    return
+  peek.value = peek.value?.path === item.path ? null : item
 }
 
 onUnmounted(() => {
@@ -62,202 +67,180 @@ onUnmounted(() => {
 
   <div
     v-else
-    class="issue-list"
-    :data-tone="tone"
+    class="group"
+    un-flex
+    un-flex-col
+    un-gap-10
   >
     <section
       v-for="group in groups"
       :key="group.year"
-      class="issue-year"
     >
-      <h3
-        v-if="groups.length > 1 || tone === 'posts'"
-        class="issue-year-mark"
+      <div
+        un-m-0
+        un-mb-4
+        un-font-serif
+        un-text="4xl ink"
+        un-tracking-tight
+        un-text-end
       >
         {{ group.mark }}
-      </h3>
+      </div>
 
-      <ol class="issue-ol">
+      <ol
+        un-m-0
+        un-p-0
+        un-list-none
+      >
         <li
-          v-for="item in group.items"
-          :key="item.path"
-          @pointerenter="restOn(item)"
-          @focusin="restOn(item)"
+          v-for="row in group.items"
+          :key="row.item.path"
+          un-mb-4
         >
-          <NuxtLink
-            :to="item.path"
-            class="issue-row"
-            :data-void="item.status === 'void' ? '' : undefined"
-            :data-rest="restPath === item.path ? '' : undefined"
+          <button
+            type="button"
+            class="group/row ink-host reach-hit"
+            un-lg:hidden
+            un-flex
+            un-w-full
+            un-min-w-0
+            un-flex-col
+            un-cursor-pointer
+            un-border-0
+            un-bg-transparent
+            un-p-0
+            un-text-left
+            un-decoration-none
+            un-outline-none
+            :data-void="row.item.status === 'void' ? '' : undefined"
+            :data-rest="restPath === row.item.path ? '' : undefined"
+            :aria-expanded="restPath === row.item.path"
+            aria-haspopup="dialog"
+            aria-controls="issue-peek-float"
+            @click="disclose(row.item)"
           >
-            <span class="issue-line">
-              <span class="issue-title">{{ item.title }}</span>
+            <span
+              class="group-data-[void]/row:text-muted/50"
+              un-font-medium
+              un-not-italic
+              un-min-w-0
+              un-w-full
+              un-font-serif
+              un-text="xl ink/80 group-hover/row:ink group-focus-visible/row:ink group-data-[rest]/row:ink"
+              un-transition-colors
+              un-leading-snug
+              un-tracking-tight
+              :data-ink="restPath === row.item.path ? 'mark' : undefined"
+              :data-hover-ink="restPath === row.item.path ? undefined : 'mark'"
+            >{{ row.item.title }}</span>
+          </button>
+          <NuxtLink
+            :to="row.item.path"
+            class="group/row ink-host reach-hit"
+            un-hidden
+            un-lg="flex flex-col"
+            un-text-inherit
+            un-decoration-none
+            un-outline-none
+            :data-void="row.item.status === 'void' ? '' : undefined"
+            :data-rest="restPath === row.item.path ? '' : undefined"
+            @pointerenter="restOn(row.item)"
+            @focusin="restOn(row.item)"
+            @click="remember(route.fullPath)"
+          >
+            <span
+              :ref="(el) => bindRow(row.index, el)"
+              un-flex
+              un-min-w-0
+              un-items-center
+              un-gap-2
+            >
               <span
-                class="issue-leader"
+                class="group-data-[void]/row:text-muted/50"
+                un-font-medium
+                un-not-italic
+                un-min-w-0
+                un-max-w="[50%]"
+                un-shrink-0
+                un-font-serif
+                un-text="xl ink/80 group-hover/row:ink group-focus-visible/row:ink group-data-[rest]/row:ink"
+                un-transition-colors
+                un-leading-snug
+                un-tracking-tight
+                un-truncate
+                :data-ink="restPath === row.item.path ? 'mark' : undefined"
+                :data-hover-ink="restPath === row.item.path ? undefined : 'mark'"
+              >{{ row.item.title }}</span>
+              <span
                 aria-hidden="true"
+                class="issue-sep"
+                un-flex-1
+                un-min-w-5
+                un-h-px
+                un-self-center
+                :style="{ opacity: getOpacity(row.index) }"
               />
               <span
-                v-for="flag in metaFlags(item)"
+                v-for="flag in issueMetaFlags(row.item)"
                 :key="flag"
-                class="issue-flag"
+                un-shrink-0
+                un-font-mono
+                un-text="sm colored-ink"
+                un-tracking-wide
+                un-lowercase
               >{{ flag }}</span>
-              <time class="issue-date">{{ issueDate(item.created) }}</time>
+              <time
+                un-shrink-0
+                un-font-mono
+                un-text="sm muted group-hover/row:ink group-focus-visible/row:ink group-data-[rest]/row:ink"
+                un-tracking-wide
+                un-tabular-nums
+                un-whitespace-nowrap
+                un-transition-colors
+                un-duration-200
+                :datetime="row.item.created"
+              >
+                <span v-if="row.parts.month">{{ row.parts.month }}</span>
+                <span
+                  v-else
+                  class="issue-date-gap"
+                  aria-hidden="true"
+                >……</span>/<span v-if="row.parts.day">{{ row.parts.day }}</span>
+                <span
+                  v-else
+                  class="issue-date-gap"
+                  aria-hidden="true"
+                >……</span>
+              </time>
             </span>
             <span
-              v-if="showExcerpt && item.description"
-              class="issue-excerpt"
-            >{{ item.description }}</span>
+              v-if="showExcerpt && row.item.description"
+              un-max-w="[46em]"
+              un-font-serif
+              un-text="xs muted"
+              un-leading-relaxed
+            >{{ row.item.description }}</span>
           </NuxtLink>
         </li>
       </ol>
     </section>
   </div>
+
+  <IssuePeekFloat />
 </template>
 
 <style scoped>
-.issue-list {
-  display: flex;
-  flex-direction: column;
-  gap: 2.25rem;
-}
-
-.issue-list[data-tone='posts'] {
-  gap: 2.75rem;
-}
-
-.issue-year-mark {
-  margin: 0 0 0.35rem;
-  font-family: var(--font-serif);
-  font-weight: 400;
-  letter-spacing: 0.08em;
-  color: var(--muted);
-}
-
-.issue-list[data-tone='posts'] .issue-year-mark {
-  font-size: 1.45em;
-  font-style: italic;
-  letter-spacing: -0.03em;
-  color: var(--ink);
-}
-
-.issue-list[data-tone='corpus'] .issue-year-mark {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-}
-
-.issue-ol {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.issue-row {
-  display: flex;
-  flex-direction: column;
-  gap: 0.28rem;
-  padding-block: 0.7rem;
-  color: inherit;
-  text-decoration: none;
-  outline: none;
-}
-
-.issue-list[data-tone='corpus'] .issue-row {
-  padding-block: 0.55rem;
-}
-
-.issue-line {
-  display: flex;
-  min-width: 0;
-  align-items: baseline;
-  gap: 0.7rem;
-}
-
-.issue-title {
-  min-width: 0;
-  font-family: var(--font-serif);
-  font-size: 1.2em;
-  line-height: 1.28;
-  letter-spacing: -0.03em;
-}
-
-.issue-list[data-tone='posts'] .issue-title {
-  font-size: 1.32em;
-  font-weight: 500;
-}
-
-.issue-list[data-tone='corpus'] .issue-title {
-  font-size: 1.12em;
-  font-style: italic;
-  font-weight: 400;
-}
-
-.issue-row[data-void] .issue-title {
-  color: var(--muted);
-  text-decoration: line-through;
-  text-decoration-thickness: 1px;
-}
-
-.issue-leader {
-  flex: 1 1 1.25rem;
-  min-width: 1.25rem;
-  height: 1px;
-  align-self: center;
+.issue-sep {
+  color: var(--line);
   background-image: repeating-linear-gradient(
     90deg,
-    var(--line) 0 1.5px,
-    transparent 1.5px 5px
+    currentColor 0 8px,
+    transparent 8px 16px
   );
-  transform: translateY(-0.08em);
-  opacity: 0.85;
+  transition: opacity 140ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.issue-flag {
-  flex-shrink: 0;
-  font-family: var(--font-mono);
-  font-size: 11px;
-  letter-spacing: 0.06em;
-  color: var(--colored-ink);
-  text-transform: lowercase;
-}
-
-.issue-date {
-  flex-shrink: 0;
-  font-family: var(--font-mono);
-  font-size: 0.95em;
-  letter-spacing: 0.02em;
-  color: color-mix(in srgb, var(--ink) 82%, var(--muted));
-  font-variant-numeric: tabular-nums;
-}
-
-.issue-excerpt {
-  max-width: 46em;
-  font-family: var(--font-serif);
-  font-size: 0.95em;
-  line-height: 1.55;
-  color: color-mix(in srgb, var(--ink) 70%, var(--muted));
-}
-
-.issue-row:hover .issue-title,
-.issue-row:focus-visible .issue-title,
-.issue-row[data-rest] .issue-title {
-  color: var(--colored-ink);
-}
-
-.issue-row:focus-visible {
-  outline: 1px solid var(--colored-ink);
-  outline-offset: 4px;
-}
-
-@media (max-width: 768px) {
-  .issue-leader {
-    display: none;
-  }
-
-  .issue-line {
-    flex-wrap: wrap;
-    justify-content: space-between;
-  }
+.issue-date-gap {
+  color: var(--line);
 }
 </style>

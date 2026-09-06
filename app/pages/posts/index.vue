@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { pickHubEntries, toLayerEntry } from '~/utils/issueList'
 
+const { visible, showExcerpt } = useIssueVisibility('posts')
+
 const { data: entries } = await useAsyncData('posts-hub-picks', async () => {
   const all = await queryCollection('posts')
     .select('path', 'title', 'created', 'index', 'stem', 'status', 'aigc', 'locale', 'description', 'body')
@@ -10,29 +12,34 @@ const { data: entries } = await useAsyncData('posts-hub-picks', async () => {
     .filter((entry) => {
       if (entry.index)
         return false
-      if (entry.path === '/posts' || entry.path.endsWith('/en'))
+      if (entry.path === '/posts')
         return false
       return entry.path.split('/').filter(Boolean).length >= 3
     })
     .map(entry => toLayerEntry(entry))
 })
 
-const picks = computed(() => pickHubEntries(entries.value ?? [], 6))
+const picks = computed(() =>
+  pickHubEntries((entries.value ?? []).filter(entry => visible(entry)), 6),
+)
 </script>
 
 <template>
-  <div un-flex un-flex-col un-gap-5>
+  <div
+    un-flex
+    un-flex-col
+    un-gap-5
+  >
     <p
       un-m-0
       un-font-serif
-      un-text="[1.05em] muted"
-      un-italic
+      un-text="lg"
     >
-      Open a door — recent writing across layers.
+      Recent writings:
     </p>
     <IssueList
-      tone="posts"
       :items="picks"
+      :show-excerpt="showExcerpt"
     />
   </div>
 </template>

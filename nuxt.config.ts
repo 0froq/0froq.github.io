@@ -1,12 +1,14 @@
 import { readdirSync } from 'node:fs'
 import { join, relative } from 'node:path'
+import process from 'node:process'
 import { fileURLToPath } from 'node:url'
 
 const docsPublic = fileURLToPath(new URL('./docs/public', import.meta.url))
 const docsPosts = fileURLToPath(new URL('./docs/posts', import.meta.url))
 const docsCorpus = fileURLToPath(new URL('./docs/corpus', import.meta.url))
 
-const IMAGE_RE = /\.(png|jpe?g|gif|webp|svg|ico|avif)$/i
+const IMAGE_RE = /\.(?:png|jpe?g|gif|webp|svg|ico|avif)$/i
+const PATH_SEP_RE = /[/\\]/
 
 function contentImageAssets(root: string, urlBase: string) {
   const mounts: { dir: string, baseURL: string }[] = []
@@ -20,7 +22,7 @@ function contentImageAssets(root: string, urlBase: string) {
       return
     }
 
-    const name = dir.split(/[/\\]/).pop() || ''
+    const name = dir.split(PATH_SEP_RE).pop() || ''
     const hasImage = entries.some(entry => entry.isFile() && IMAGE_RE.test(entry.name))
     const hasMarkdown = entries.some(entry => entry.isFile() && entry.name.endsWith('.md'))
     if (name.endsWith('-assets') || (hasImage && !hasMarkdown)) {
@@ -62,6 +64,7 @@ export default defineNuxtConfig({
     '~/assets/css/tokens.css',
     '~/assets/css/main.css',
     '~/assets/css/rough-ink.css',
+    'katex/dist/katex.min.css',
   ],
 
   runtimeConfig: {
@@ -151,6 +154,20 @@ export default defineNuxtConfig({
   },
 
   content: {
+    build: {
+      markdown: {
+        remarkPlugins: {
+          'remark-math': {},
+        },
+        rehypePlugins: {
+          'rehype-katex': {
+            options: {
+              output: 'html',
+            },
+          },
+        },
+      },
+    },
     renderer: {
       alias: {
         warning: 'ProseWarning',

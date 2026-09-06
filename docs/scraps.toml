@@ -6,10 +6,19 @@
 # Optional pinned = true to keep a row at the top.
 
 [[scraps]]
+id = "contact"
+text = "Feel free to [contact](/contact) me out of nowhere."
+pinned = true
+
+[[scraps]]
+id = "stack"
+text = "languages, frameworks, workflows, soft- and hardwares, etc. See the [stack](/stack)."
+pinned = true
+
+[[scraps]]
 id = "hyalina"
 text = "[透明溞不是老鼠](/posts/610-log/d-hyalina-is-not-rat)"
-# detail = "代序里那篇短的。[去读](/posts/610-log/d-hyalina-is-not-rat)。"
-detail = "A recent prose."
+detail = "A recent prose. Take a look if you can read Chinese."
 date = "2024-08-04"
 pinned = true
 
@@ -17,3 +26,4 @@ pinned = true
 id = "building-this-site"
 text = "no clue why i'm so into refactoring everything"
 date = "2026-08-25"
+detail = "BT how do you know you can unfold and see this?"

@@ -47,6 +47,10 @@ useHead(() => {
       />
     </template>
 
+    <template #filters>
+      <IssueFilterBar kind="posts" />
+    </template>
+
     <template v-if="!activeLayer">
       <ContentRenderer
         v-if="intro"
@@ -59,6 +63,9 @@ useHead(() => {
 
     <div
       class="hub-feed-wrap"
+      un-mt="10 data-[bare]:0"
+      un-pt="8 data-[bare]:0"
+      un-border-t="~ line data-[bare]:0"
       :data-bare="activeLayer ? '' : undefined"
     >
       <div class="hub-feed">
@@ -67,17 +74,3 @@ useHead(() => {
     </div>
   </SiteHub>
 </template>
-
-<style scoped>
-.hub-feed-wrap {
-  margin-top: 2.5rem;
-  padding-top: 2rem;
-  border-top: 1px solid var(--line);
-}
-
-.hub-feed-wrap[data-bare] {
-  margin-top: 0;
-  padding-top: 0;
-  border-top: 0;
-}
-</style>

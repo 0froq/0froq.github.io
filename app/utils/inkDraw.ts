@@ -106,8 +106,13 @@ export function inkArrowPath(seed: string, dir: InkArrowDir = 'up'): string {
   return inkStrokePath(pts)
 }
 
-/** Long curved pointer. ViewBox 0 0 96 96. Stroke only. */
-export function inkPointerPath(seed: string, dir: InkArrowDir = 'down'): string {
+export type InkPointerParts = {
+  stem: string
+  head: string
+}
+
+/** Long curved pointer parts. ViewBox 0 0 96 96. Stroke only. */
+export function inkPointerParts(seed: string, dir: InkArrowDir = 'down'): InkPointerParts {
   const rng = inkRng(`ink-pointer:v1:${dir}:${seed}`)
   const j = (span = 2) => (rng() - 0.5) * span
   const start: InkPt = [48 + j(1.6), 8 + j(1.2)]
@@ -127,8 +132,15 @@ export function inkPointerPath(seed: string, dir: InkArrowDir = 'down'): string 
     return [96 - y, x]
   }
 
-  const stem = inkStrokePath([start, mid, tip].map(remap))
-  const head = inkStrokePath([left, tip, right].map(remap))
+  return {
+    stem: inkStrokePath([start, mid, tip].map(remap)),
+    head: inkStrokePath([left, tip, right].map(remap)),
+  }
+}
+
+/** Long curved pointer. ViewBox 0 0 96 96. Stroke only. */
+export function inkPointerPath(seed: string, dir: InkArrowDir = 'down'): string {
+  const { stem, head } = inkPointerParts(seed, dir)
   return `${stem} ${head}`
 }
 
@@ -144,6 +156,7 @@ export type InkGlyphKind
     | 'bluesky'
     | 'clock'
     | 'ring'
+    | 'hash'
 
 /** Platform / contact glyphs. ViewBox 0 0 24 24.
  *  Content frame ~[4,4]–[20,20], visual center ~12,12. Stroke only. */
@@ -326,6 +339,15 @@ export function inkGlyphPath(seed: string, kind: InkGlyphKind): string {
         pt(14.2 + cj(0.35), 13.2 + cj(0.35)),
         pt(16.8 + cj(0.3), 14.6 + cj(0.3)),
       ]),
+    ].join(' ')
+  }
+
+  if (resolved === 'hash') {
+    return [
+      stroke([pt(9.4, 5.6), pt(8.8, 12), pt(9.6, 18.4)]),
+      stroke([pt(15.2, 5.2), pt(15.6, 12.2), pt(14.6, 18.8)]),
+      stroke([pt(5.6, 9.4), pt(12, 9.8), pt(18.4, 9.2)]),
+      stroke([pt(5.2, 14.6), pt(12.4, 15), pt(18.8, 14.2)]),
     ].join(' ')
   }
 

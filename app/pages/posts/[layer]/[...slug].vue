@@ -30,6 +30,8 @@ if (!page.value) {
   })
 }
 
+const entry = computed(() => page.value ? toLayerEntry(page.value) : null)
+
 useSeoMeta({
   title: page.value.title,
 })
@@ -39,14 +41,9 @@ useIssueArticleMast(() => page.value?.title)
 
 <template>
   <IssueReading
-    v-if="page && layer"
-    kind="POST"
-    :title="page.title"
-    :created="page.created"
-    :status="page.status"
-    :back-to="`/posts/${layer.slug}`"
-    :back-label="layer.label"
+    v-if="entry"
+    :entry="entry"
   >
-    <ContentRenderer :value="page" />
+    <ContentRenderer :value="page!" />
   </IssueReading>
 </template>

@@ -1,11 +1,9 @@
 <script setup lang="ts">
-const props = withDefaults(defineProps<{
+defineProps<{
   id: string
   prefix?: string
-  suffix: string
-}>(), {
-  prefix: 'now',
-})
+  suffix?: string
+}>()
 
 const checked = defineModel<boolean>({ required: true })
 </script>
@@ -13,7 +11,7 @@ const checked = defineModel<boolean>({ required: true })
 <template>
   <label
     :for="id"
-    class="issue-filter"
+    class="filter-hit"
     un-m-0
     un-inline-flex
     un-cursor-pointer
@@ -21,9 +19,10 @@ const checked = defineModel<boolean>({ required: true })
     un-items-center
     un-gap-1.5
     un-font-mono
-    un-text="11px muted"
-    un-tracking="[0.02em]"
+    un-text="xs focus-within:ink"
+    un-tracking-wide
     un-leading-none
+    un-outline-none
   >
     <input
       :id="id"
@@ -35,7 +34,11 @@ const checked = defineModel<boolean>({ required: true })
       v-model="checked"
       :seed="id"
     />
-    <span un-flex un-items-center un-gap-1>
+    <span
+      un-flex
+      un-items-center
+      un-gap-1
+    >
       <span v-if="prefix">{{ prefix }}</span>
       <span
         un-relative
@@ -43,7 +46,7 @@ const checked = defineModel<boolean>({ required: true })
         un-min-w="[2em]"
         un-overflow-hidden
         un-text-center
-        un-leading="[1.6]"
+        un-leading-relaxed
       >
         <span
           un-col-start-1
@@ -59,6 +62,7 @@ const checked = defineModel<boolean>({ required: true })
           un-col-start-1
           un-row-start-1
           un-transition="[transform,opacity] duration-300"
+          un-text-muted
           :style="{
             opacity: checked ? 0 : 1,
             transform: checked ? 'translateY(70%)' : 'translateY(0)',
@@ -69,11 +73,3 @@ const checked = defineModel<boolean>({ required: true })
     </span>
   </label>
 </template>
-
-<style scoped>
-.issue-filter:focus-within {
-  color: var(--ink);
-  outline: 1px solid var(--colored-ink);
-  outline-offset: 4px;
-}
-</style>

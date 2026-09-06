@@ -21,6 +21,7 @@ const tick = computed(() => inkTickPath(props.seed))
     un-w="[1.05em]"
     un-shrink-0
     un-place-items-center
+    un-text="data-[on]:colored-ink"
     aria-hidden="true"
   >
     <svg
@@ -61,14 +62,6 @@ const tick = computed(() => inkTickPath(props.seed))
 
 .ink-check[data-on] .ink-check-tick {
   stroke-dashoffset: 0;
-}
-
-.ink-check-box {
-  transition: color 200ms var(--ease-out);
-}
-
-.ink-check[data-on] {
-  color: var(--colored-ink);
 }
 
 @media (prefers-reduced-motion: reduce) {

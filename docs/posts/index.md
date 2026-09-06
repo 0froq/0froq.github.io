@@ -1,12 +1,11 @@
 ---
 index: true
-locale: en
 ---
 
-Not a blog, and not something you have to catch up on.
-Just the attempts I was willing to leave in public —
-enough to tell what I am thinking, even if you skip most of it.
+This is not a blog you have to catch up on.
+These are the pieces I was willing to leave in public.
+Skip most of it. You will still see what I am thinking.
 
-Log keeps the days.
-Roadmap keeps the work.
-Collection keeps what I would still put on a desk.
+Log is days.
+Roadmap is the work.
+Collection is what I would still put on a desk.

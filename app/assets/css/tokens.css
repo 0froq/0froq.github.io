@@ -13,8 +13,9 @@
 /*
   Semantic color tokens. Hex lives here only.
   Each color is light-dark(light, dark). Switching is html { color-scheme }.
-  Do not add scheme-specific utilities in Vue — use paper / ink / colored-ink / muted / line / mark / cream / logo / float / float-shadow.
-  colored-ink is the single accent: red in light, blue in dark.
+  Do not add scheme-specific utilities in Vue — use paper / ink / colored-ink / wry / muted / line / mark / cream / logo / float / float-shadow.
+  colored-ink is the site accent: red in light, blue in dark.
+  wry is humor ink: olive in light, ochre in dark.
   float is the translucent slip under Reply, copy, and other lifted chrome.
 */
 :root {
@@ -26,6 +27,7 @@
   --ink: light-dark(#1D1D1A, #ece7dc);
   --muted: light-dark(#5c5a54, #9c968c);
   --colored-ink: light-dark(#a83429, #7ea3d9);
+  --wry: light-dark(#4d6a3c, #d4a574);
   --line: light-dark(#c9c4b8, #3f3a33);
   --mark: light-dark(#ebd8d8, #4e302c);
   --float: light-dark(color-mix(in srgb, var(--paper) 78%, transparent),
@@ -41,7 +43,7 @@
   --font-mono: 'LXGW Bright Code TC', ui-monospace, monospace;
   --font-sans: 'Instrument Sans Variable', system-ui, sans-serif;
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
-  --gutter: clamp(24px, 8vw, 120px);
+  --gutter: clamp(1.5rem, 8vw, 7.5rem);
   --site-chrome: 3.05rem;
   --site-home-inset: 3.5rem;
 }
