@@ -111,3 +111,25 @@ rt {
 [un-prose] .math-inline {
   --uno: 'text-[1.05em]';
 }
+
+html[data-sticky-cursor],
+html[data-sticky-cursor] * {
+  cursor: none !important;
+}
+
+html[data-sticky-cursor] :is(
+  input,
+  textarea,
+  select,
+  [contenteditable]:not([contenteditable='false'])
+) {
+  cursor: text !important;
+}
+
+html[data-sticky-cursor] [un-cursor*='grab'] {
+  cursor: grab !important;
+}
+
+html[data-sticky-cursor] [un-cursor*='grab']:active {
+  cursor: grabbing !important;
+}
