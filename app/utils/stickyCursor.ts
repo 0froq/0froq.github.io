@@ -28,9 +28,12 @@ export function stickyCursorAim(target: EventTarget | null): StickyCursorAim {
   return 'idle'
 }
 
-export function stickyCursorCapable(): boolean {
+export function stickyCursorCapable(pointerType?: string): boolean {
   if (typeof window === 'undefined')
     return false
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches)
+    return false
+  if (pointerType === 'mouse')
+    return true
   return window.matchMedia(STICKY_CURSOR_MQ).matches
-    && !window.matchMedia('(prefers-reduced-motion: reduce)').matches
 }

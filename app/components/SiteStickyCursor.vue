@@ -61,8 +61,12 @@ function syncCapable() {
 }
 
 function onPointerMove(event: PointerEvent) {
-  if (!capable.value)
-    return
+  if (!capable.value) {
+    if (event.pointerType === 'mouse' && stickyCursorCapable('mouse'))
+      setCapable(true)
+    else
+      return
+  }
   if (leaveTimer) {
     window.clearTimeout(leaveTimer)
     leaveTimer = 0
