@@ -106,7 +106,7 @@ export function inkArrowPath(seed: string, dir: InkArrowDir = 'up'): string {
   return inkStrokePath(pts)
 }
 
-export type InkPointerParts = {
+export interface InkPointerParts {
   stem: string
   head: string
 }
@@ -142,6 +142,21 @@ export function inkPointerParts(seed: string, dir: InkArrowDir = 'down'): InkPoi
 export function inkPointerPath(seed: string, dir: InkArrowDir = 'down'): string {
   const { stem, head } = inkPointerParts(seed, dir)
   return `${stem} ${head}`
+}
+
+/** Compact mouse pointer. ViewBox 0 0 32 32. Hotspot at ~(2, 2). */
+export function inkCursorArrowParts(seed: string): InkPointerParts {
+  const rng = inkRng(`ink-cursor:v1:${seed}`)
+  const j = (span = 0.7) => (rng() - 0.5) * span
+  const tip: InkPt = [2.1 + j(0.2), 2.1 + j(0.2)]
+  const shaft: InkPt = [8.4 + j(), 10.6 + j()]
+  const tail: InkPt = [13.8 + j(), 18.4 + j()]
+  const left: InkPt = [tip[0] + 7.2 + j(0.8), tip[1] + 1.8 + j(0.6)]
+  const right: InkPt = [tip[0] + 1.8 + j(0.6), tip[1] + 7.2 + j(0.8)]
+  return {
+    stem: inkStrokePath([tip, shaft, tail]),
+    head: inkStrokePath([left, tip, right]),
+  }
 }
 
 export type InkGlyphKind

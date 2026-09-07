@@ -66,7 +66,7 @@ function toggleLayers() {
       un-py-3
       un-mx="[calc(-1*var(--hub-pad))]"
       un-px="[var(--hub-pad)]"
-      un-lg="fixed top-[8vh] right-[var(--hub-chrome-inset)] left-auto z-10 items-start gap-6 w-[var(--hub-side)] min-h-0 max-h-[calc(100dvh-8vh-6rem)] m-0 p-0 overflow-x-hidden overflow-y-auto border-0 bg-transparent backdrop-blur-none"
+      un-lg="fixed top-[8vh] right-[var(--hub-chrome-inset)] left-auto z-10 items-start gap-6 w-[var(--hub-side)] min-h-0 max-h-[calc(100dvh-8vh-6rem)] m-0 p-0 overflow-x-visible overflow-y-auto border-0 bg-transparent backdrop-blur-none"
     >
       <header
         un-flex
@@ -178,7 +178,6 @@ function toggleLayers() {
         <div
           class="hub-layers__clip"
           un-min-h-0
-          un-overflow-hidden
         >
           <div
             un-flex
@@ -224,6 +223,14 @@ function toggleLayers() {
 </template>
 
 <style scoped>
+.hub-layers__clip {
+  overflow: hidden;
+}
+
+.hub-layers[data-open] .hub-layers__clip {
+  overflow: visible;
+}
+
 @media (max-width: 1199px) {
   .hub-layers__clip {
     opacity: 0;
@@ -276,6 +283,7 @@ function toggleLayers() {
 
 @media (min-width: 1200px) {
   .hub-layers__clip {
+    overflow: visible;
     opacity: 1;
     transform: none;
     -webkit-mask-image: none;

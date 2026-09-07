@@ -105,9 +105,24 @@ html.dark a[data-external] > .rough-ink[data-kind='mark'] {
   transition: visibility 0s;
 }
 
-:is([data-hover-ink], [data-ink]):is(:hover, :focus-visible) > .rough-ink[data-reveal='hover'] .ink-reveal,
-.ink-host:is(:hover, :focus-visible) [data-hover-ink] > .rough-ink[data-reveal='hover'] .ink-reveal {
+html:not([data-sticky-cursor]) :is([data-hover-ink], [data-ink]):is(:hover, :focus-visible) > .rough-ink[data-reveal='hover'] .ink-reveal,
+html[data-sticky-cursor] *:not([data-rail-ink]) > :is([data-hover-ink], [data-ink]):is(:hover, :focus-visible) > .rough-ink[data-reveal='hover'] .ink-reveal,
+html:not([data-sticky-cursor]) .ink-host:is(:hover, :focus-visible) [data-hover-ink] > .rough-ink[data-reveal='hover'] .ink-reveal,
+html[data-sticky-cursor] .ink-host:not([data-rail-ink]):is(:hover, :focus-visible) [data-hover-ink] > .rough-ink[data-reveal='hover'] .ink-reveal,
+html[data-sticky-cursor] [data-rail-ink]:focus-visible [data-hover-ink] > .rough-ink[data-reveal='hover'] .ink-reveal {
   stroke-dashoffset: 0;
+}
+
+html[data-sticky-cursor] [data-rail-ink]:hover [data-hover-ink] > .rough-ink[data-reveal='hover'],
+html[data-sticky-cursor] [data-rail-ink][data-ink-draw] [data-hover-ink] > .rough-ink[data-reveal='hover'],
+html[data-sticky-cursor] [data-rail-ink][data-ink-draw] [data-ink] > .rough-ink[data-reveal='hover'] {
+  visibility: visible;
+  transition: none;
+}
+
+html[data-sticky-cursor] [data-rail-ink]:hover [data-hover-ink] > .rough-ink[data-reveal='hover'] .ink-reveal {
+  /* Pointer drawing is owned by JS; do not snap the stroke closed. */
+  transition: none;
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -33,6 +33,7 @@ watch(() => props.active, async (_active, prev) => {
   <NuxtLink
     :to="to"
     class="ink-host"
+    data-rail-ink=""
     active-class=""
     exact-active-class=""
     un-flex
@@ -51,6 +52,7 @@ watch(() => props.active, async (_active, prev) => {
       :data-hover-ink="active ? undefined : hoverKind"
       :data-current="active ? '' : undefined"
       un-relative
+      un-pb="[0.38em]"
       un-font-serif
       un-leading-none
       un-text="[clamp(1.15rem,1.7vw,1.45rem)] ink/80 data-[current]:ink max-md:lg"

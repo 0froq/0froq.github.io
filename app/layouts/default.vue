@@ -24,5 +24,6 @@ const hideChromeMast = computed(() => isHome.value || isHub.value)
     <AppFooter v-if="!isHome" />
     <StatsSession />
     <SelectionToolbar />
+    <SiteStickyCursor />
   </div>
 </template>

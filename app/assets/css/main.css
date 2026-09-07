@@ -111,3 +111,17 @@ rt {
 [un-prose] .math-inline {
   --uno: 'text-[1.05em]';
 }
+
+.home-fold-sheet {
+  pointer-events: none;
+}
+
+.home-fold-sheet .home-fold-hit {
+  pointer-events: auto;
+}
+
+@media (max-width: 759px) {
+  .home-fold-sheet {
+    pointer-events: auto;
+  }
+}

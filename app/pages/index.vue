@@ -166,6 +166,7 @@ const routes = [
     </section>
 
     <div
+      class="home-fold-sheet"
       un-relative
       un-z-3
       un-pointer-events-none
@@ -180,6 +181,7 @@ const routes = [
       />
       <div
         ref="mastEl"
+        class="home-fold-hit"
         un-sticky
         un-top-0
         un-z-4
@@ -202,7 +204,10 @@ const routes = [
       >
         <AppFooter flush />
       </div>
-      <div un-pointer-events-auto>
+      <div
+        class="home-fold-hit"
+        un-pointer-events-auto
+      >
         <HomeScraps :chrome-height="mastH" />
       </div>
     </div>
