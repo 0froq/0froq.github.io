@@ -8,7 +8,7 @@ docs/.vitepress/
 .DS_Store
 .env.local
 docs/archive/corpus/_scripts/__pycache__/
-dist/
+dist
 .obsidian/
 .cursor/tmp/
 
