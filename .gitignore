@@ -8,6 +8,9 @@ docs/.vitepress/
 .DS_Store
 .env.local
 docs/archive/corpus/_scripts/__pycache__/
+dist/
+.obsidian/
+.cursor/tmp/
 
 # Rune private State Ledger / outbox runtime. Never publish with GitHub Pages.
 .rune/
