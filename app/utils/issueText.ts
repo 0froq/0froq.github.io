@@ -1,6 +1,6 @@
 export function issueHeadline(title: string): string {
   const chars = [...title]
-  if (/[\s\n]/.test(title) || chars.length < 6 || chars.length > 14)
+  if (/\s/.test(title) || chars.length < 6 || chars.length > 14)
     return title
   const mid = Math.ceil(chars.length / 2)
   return `${chars.slice(0, mid).join('')}\n${chars.slice(mid).join('')}`

@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import type { LayerEntry } from '~/utils/issueList'
-
 defineProps<{
   entry: LayerEntry
 }>()
@@ -10,27 +8,20 @@ const route = useRoute()
 
 <template>
   <article
-    class="issue-read"
+    class="issue-read group/read"
+    :data-kind="isIssueEvergreen(entry) ? 'evergreen' : undefined"
     un-box-border
-    un-w-full
-    un-py-8
+    un-pt-8
     un-pb-16
   >
     <TableOfContents />
-    <div
-      class="issue-read__stage"
-      un-w="[min(62.5rem,calc(100%-2*var(--gutter)))] max-md:[min(62.5rem,calc(100%-2rem))]"
-      un-ml="[max(var(--gutter),calc(50vw-31.25rem-2.5rem))] max-md:auto"
-      un-mr-auto
-      un-max-md:mx-auto
-    >
+    <div class="issue-read__stage mx-auto w-[min(var(--read-prose),calc(100%-2*var(--gutter)))] lg:w-[min(var(--read-stage),calc(100%-2*var(--gutter)))] max-md:w-[min(var(--read-prose),calc(100%-2rem))]">
       <IssueEntryHead
         class="issue-read__mast"
         :entry="entry"
         variant="article"
         un-flex
         un-flex-col
-        un-md:flex-row
         un-items-start
         un-gap="[clamp(1.5rem,3vw,2.25rem)] max-md:[1.1rem]"
       >
@@ -43,34 +34,29 @@ const route = useRoute()
         </template>
       </IssueEntryHead>
 
-      <div
-        class="issue-read__grid"
-        un-grid
-        un-items-stretch
-        un-gap="[clamp(1.25rem,3vw,2rem)]"
-        un-grid-cols="1 lg:[minmax(0,43.75rem)_minmax(0,1fr)]"
-      >
+      <div class="issue-read__grid flex flex-col gap-[var(--read-gap)] lg:flex-row lg:items-start">
         <div
           un-prose="~"
-          class="issue-read__prose"
+          class="issue-read__prose lg:[&_section.footnotes]:sr-only"
           un-relative
           un-min-w-0
-          un-max-w-none
+          un-flex-1
+          un-max-w="[var(--read-prose)]"
           un-text="lg ink"
           un-leading-loose
-          un-lg="[&_section.footnotes]:sr-only"
         >
           <slot />
         </div>
         <aside
-          class="issue-read__rail"
+          class="issue-read__rail hidden lg:block"
           aria-label="Margin"
           un-relative
-          un-min-w-0
+          un-shrink-0
+          un-min-w="[var(--read-rail)]"
+          un-w="[var(--read-rail)]"
           un-pt="[0.15rem]"
           un-font-serif
           un-text="sm muted"
-          un-max-lg:hidden
         >
           <slot name="rail" />
           <IssueSidenotes />
@@ -81,17 +67,21 @@ const route = useRoute()
 </template>
 
 <style scoped>
-/* Row mast only. Below md the template is flex-col; a 36rem
-   flex-basis would stretch the title block to ~576px tall. */
-@media (min-width: 760px) {
-  .issue-read__mast > :first-child {
-    flex: 0 1 36rem;
-    min-width: 0;
-  }
+.issue-read[data-kind='evergreen'] :deep(.issue-read__prose [role='separator']) {
+  justify-content: flex-start;
+  margin-block: 2.5rem;
+}
 
-  .issue-read__mast > :last-child:not(:only-child) {
-    flex: 0 0 auto;
-    max-width: 13rem;
-  }
+.issue-read[data-kind='evergreen'] :deep(.issue-read__prose [role='separator'] svg) {
+  width: 4rem;
+}
+
+.issue-read[data-kind='evergreen'] :deep(.issue-read__prose h1) {
+  margin-top: 0;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 400;
+  letter-spacing: 0.12em;
+  color: var(--muted);
 }
 </style>

@@ -1,8 +1,8 @@
-import { parse } from 'smol-toml'
 import type { Scrap } from '~/utils/scraps'
+import { parse } from 'smol-toml'
 import raw from '../../docs/scraps.toml?raw'
 
-type ScrapFile = {
+interface ScrapFile {
   scraps?: Array<{
     id?: string
     text?: string

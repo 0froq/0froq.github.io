@@ -397,13 +397,17 @@ function strokeOptions(seed: number, em: number): Options {
 }
 
 function ensureSvg(el: HTMLElement, kind: InkKind): SVGSVGElement {
-  let svg = el.querySelector<SVGSVGElement>(`:scope > .${SVG_CLASS}[data-kind="${kind}"]`)
+  const found = [...el.querySelectorAll<SVGSVGElement>(`:scope > .${SVG_CLASS}[data-kind="${kind}"]`)]
+  const svg = found[0]
+  for (const extra of found.slice(1))
+    extra.remove()
   if (!svg) {
-    svg = document.createElementNS(NS, 'svg')
-    svg.setAttribute('class', SVG_CLASS)
-    svg.setAttribute('aria-hidden', 'true')
-    svg.dataset.kind = kind
-    el.appendChild(svg)
+    const next = document.createElementNS(NS, 'svg')
+    next.setAttribute('class', SVG_CLASS)
+    next.setAttribute('aria-hidden', 'true')
+    next.dataset.kind = kind
+    el.appendChild(next)
+    return next
   }
   return svg
 }
@@ -639,6 +643,98 @@ export function paintSelectionInk(range: Range): boolean {
   return true
 }
 
+function playLiveEnter(
+  el: HTMLElement,
+  kind: InkKind,
+  host: DOMRect,
+  em: number,
+  lines: LineBox[],
+): void {
+  paintKind(el, kind, host, em, lines, 'exit')
+  const svg = el.querySelector<SVGSVGElement>(`:scope > .${SVG_CLASS}[data-kind="${kind}"]`)
+  if (!svg)
+    return
+  svg.classList.add('ink-boot')
+  requestAnimationFrame(() => {
+    void svg.getBoundingClientRect()
+    requestAnimationFrame(() => {
+      svg.classList.remove('ink-boot')
+      svg.dataset.reveal = 'enter'
+      const settle = () => {
+        svg.dataset.reveal = 'live'
+      }
+      svg.querySelector('.ink-reveal')?.addEventListener('transitionend', settle, { once: true })
+      trackTimer(el, window.setTimeout(settle, 800))
+    })
+  })
+}
+
+/** Draw live strokes in from hidden, same path as SiteRailLink becoming current. */
+export function drawRoughInk(el: HTMLElement): void {
+  if (!canPaint(el) || prefersReducedInk()) {
+    const draw = el.dataset.inkDraw
+    delete el.dataset.inkDraw
+    paintRoughInk(el)
+    if (draw)
+      el.dataset.inkDraw = draw
+    return
+  }
+
+  const { live, hover, kinds } = inksOf(el)
+  if (!kinds.length)
+    return
+
+  const host = el.getBoundingClientRect()
+  if (host.width < 2 || host.height < 2)
+    return
+
+  clearMorphTimers(el)
+  const em = Number.parseFloat(getComputedStyle(el).fontSize) || 16
+  const lines = textLineBoxes(el)
+  const boxW = Math.round(el.offsetWidth || host.width)
+  const boxH = Math.round(el.offsetHeight || host.height)
+  const revealOf = (kind: InkKind) => (hover === kind && live !== kind ? 'hover' : 'live')
+
+  for (const kind of kinds) {
+    if (revealOf(kind) === 'live')
+      playLiveEnter(el, kind, host, em, lines)
+    else
+      paintKind(el, kind, host, em, lines, revealOf(kind))
+  }
+  el.dataset.inkSig = `v25:${boxW}x${boxH}:${lines.length}:${kinds.map(kind => `${kind}@${revealOf(kind)}`).join('+')}`
+}
+
+/** Wipe live strokes out, same dash path as SiteRailLink leaving current. */
+export function eraseRoughInk(el: HTMLElement): Promise<void> {
+  return new Promise((resolve) => {
+    const svgs = [...el.querySelectorAll<SVGSVGElement>(`:scope > .${SVG_CLASS}`)]
+    if (!svgs.length || prefersReducedInk()) {
+      pruneSvgs(el, [])
+      delete el.dataset.inkSig
+      resolve()
+      return
+    }
+
+    let settled = false
+    const finish = () => {
+      if (settled)
+        return
+      settled = true
+      for (const svg of svgs)
+        svg.remove()
+      delete el.dataset.inkSig
+      resolve()
+    }
+
+    clearMorphTimers(el)
+    for (const svg of svgs) {
+      svg.dataset.reveal = 'exit'
+      svg.querySelector('.ink-reveal')?.addEventListener('transitionend', finish, { once: true })
+    }
+    trackTimer(el, window.setTimeout(finish, 800))
+  })
+}
+
 export function paintRoughInk(el: HTMLElement): void {
   if (!canPaint(el))
     return
@@ -746,23 +842,7 @@ export function morphRoughInk(el: HTMLElement): void {
     }
 
     if (next === 'live' && prev !== 'live' && prev !== 'enter') {
-      paintKind(el, kind, host, em, lines, 'exit')
-      const svg = el.querySelector<SVGSVGElement>(`:scope > .${SVG_CLASS}[data-kind="${kind}"]`)
-      if (!svg)
-        continue
-      svg.classList.add('ink-boot')
-      requestAnimationFrame(() => {
-        void svg.getBoundingClientRect()
-        requestAnimationFrame(() => {
-          svg.classList.remove('ink-boot')
-          svg.dataset.reveal = 'enter'
-          const settle = () => {
-            svg.dataset.reveal = 'live'
-          }
-          svg.querySelector('.ink-reveal')?.addEventListener('transitionend', settle, { once: true })
-          trackTimer(el, window.setTimeout(settle, 800))
-        })
-      })
+      playLiveEnter(el, kind, host, em, lines)
       continue
     }
 
@@ -840,19 +920,23 @@ function paintKind(
 
   const boxes = kind === 'mark' || kind === 'circle' ? fontBoxes(el) : null
   const italic = ITALIC_RE.test(getComputedStyle(el).fontStyle)
-  const seed0 = hashSeed(`${kind}:${(el.textContent || '').trim()}`)
+  const seed0 = hashSeed(`${kind}:${el.dataset.inkSeed || (el.textContent || '').trim()}`)
   const rc = kind === 'strike' ? rough.svg(svg) : null
+  const aroundHost = kind === 'circle' && !lines.length
+  const strokeLines = aroundHost
+    ? [{ x: host.left, y: host.top, w: host.width, h: host.height }]
+    : lines
 
-  lines.forEach((line, i) => {
+  strokeLines.forEach((line, i) => {
     const x = line.x - host.left + padX
     const y = line.y - host.top + padY
     const seed = seed0 + i * 97
     if (kind === 'circle' && boxes) {
       const pts = circlePoints(
         x + line.w / 2,
-        inkMidY(y, line.h, boxes, 0.36),
+        aroundHost ? y + line.h / 2 : inkMidY(y, line.h, boxes, 0.36),
         (line.w + em * 0.72) / 2,
-        em * 0.62,
+        aroundHost ? (line.h + em * 0.72) / 2 : em * 0.62,
         seed,
       )
       const maxW = Math.max(1.25, em * 0.06)

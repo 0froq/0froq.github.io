@@ -1,6 +1,6 @@
 import {
-  STREAM_INTERVAL_MS,
   prefersReducedStream,
+  STREAM_INTERVAL_MS,
 } from '~/utils/textStream'
 
 export function useTextStream(options: {

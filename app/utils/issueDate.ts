@@ -10,6 +10,19 @@ export function issueDate(value?: string): string {
   return value
 }
 
+export function issueDateStamp(value?: string): string {
+  return value?.match(DATE_REGEX)?.slice(1, 4).join('') ?? ''
+}
+
+export function issueTouchedDate(entry: { created?: string, last_modified?: string }): string {
+  const touched = issueDate(entry.last_modified)
+  if (!touched)
+    return ''
+  if (issueDateStamp(entry.last_modified) === issueDateStamp(entry.created))
+    return ''
+  return touched
+}
+
 export function issueYear(value?: string): string {
   return value?.match(YEAR_REGEX)?.[1] || ''
 }

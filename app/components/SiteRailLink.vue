@@ -9,8 +9,10 @@ const props = withDefaults(defineProps<{
   ink?: 'underline' | 'mark' | 'circle'
   hoverInk?: 'underline' | 'mark' | 'circle'
   voice?: 'italic' | 'roman'
+  size?: 'display' | 'chrome'
 }>(), {
   voice: 'italic',
+  size: 'display',
 })
 
 const labelRef = ref<HTMLElement | null>(null)
@@ -46,15 +48,16 @@ watch(() => props.active, async (_active, prev) => {
   >
     <span
       ref="labelRef"
-      class="label data-[voice=italic]:tracking-tight data-[voice=roman]:tracking-wide data-[voice=italic]:italic data-[voice=roman]:not-italic"
+      class="label data-[size=chrome]:text-[0.9375rem] data-[size=display]:text-[clamp(1.15rem,1.7vw,1.45rem)] data-[voice=italic]:tracking-tight data-[voice=roman]:tracking-wide data-[voice=italic]:italic data-[voice=roman]:not-italic max-md:data-[size=display]:text-[clamp(1.45rem,5.2vw,1.85rem)]"
       :data-ink="active ? liveKind : undefined"
       :data-hover-ink="active ? undefined : hoverKind"
       :data-current="active ? '' : undefined"
       un-relative
       un-font-serif
       un-leading-none
-      un-text="[clamp(1.15rem,1.7vw,1.45rem)] ink/80 data-[current]:ink max-md:lg"
+      un-text="ink/80 data-[current]:ink"
       un-transition-colors
+      :data-size="size"
       :data-voice="voice"
     >
       {{ label }}
@@ -66,7 +69,6 @@ watch(() => props.active, async (_active, prev) => {
       un-text="xs muted"
       un-tracking-wide
       un-leading-snug
-      un-max-md:hidden
     >
       {{ note }}
     </span>

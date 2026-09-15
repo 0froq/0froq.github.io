@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { inkHeartPath } from '~/utils/inkDraw'
 import { formatCompact } from '~/utils/formatStats'
+import { inkHeartPath } from '~/utils/inkDraw'
 
 const props = withDefaults(defineProps<{
   pagePath?: string

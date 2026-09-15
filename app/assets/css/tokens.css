@@ -41,11 +41,16 @@
   --callout-note: var(--muted);
   --font-serif: 'EB Garamond', 'YshiPen-ShutiTC', 'Songti SC', 'STSong', serif;
   --font-mono: 'LXGW Bright Code TC', ui-monospace, monospace;
-  --font-sans: 'Instrument Sans Variable', system-ui, sans-serif;
+  --font-sans: 'Instrument Sans', system-ui, sans-serif;
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
   --gutter: clamp(1.5rem, 8vw, 7.5rem);
   --site-chrome: 3.05rem;
+  --site-footer: 5.5rem;
   --site-home-inset: 3.5rem;
+  --read-prose: 50rem;
+  --read-rail: 11.25rem;
+  --read-gap: 1.25rem;
+  --read-stage: 62.5rem;
 }
 
 html.dark {

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { mqMin } from '~/utils/breakpoints'
+import { useMin } from '~/composables/useViewport'
 
 interface Sidenote {
   id: string
@@ -12,6 +12,7 @@ const GAP = 12
 const notes = ref<Sidenote[]>([])
 const rootRef = ref<HTMLElement | null>(null)
 const route = useRoute()
+const wide = useMin('lg')
 const flashId = ref<string | null>(null)
 
 let flashTimer: ReturnType<typeof setTimeout> | undefined
@@ -58,7 +59,7 @@ function flash(id: string) {
 }
 
 function onRefClick(ev: Event) {
-  if (!window.matchMedia(mqMin('lg')).matches)
+  if (!wide.value)
     return
   const target = ev.target
   if (!(target instanceof Element))
@@ -76,7 +77,7 @@ function onRefClick(ev: Event) {
 
 function collect() {
   const host = rootRef.value
-  if (!host || !window.matchMedia(mqMin('lg')).matches) {
+  if (!host || !wide.value) {
     notes.value = []
     return
   }
@@ -91,6 +92,10 @@ function collect() {
 
   const railTop = rail.getBoundingClientRect().top
   const width = rail.clientWidth
+  if (width < 96) {
+    notes.value = []
+    return
+  }
   const seen = new Set<string>()
   const pending: { id: string, n: string, html: string, desired: number }[] = []
 
@@ -172,6 +177,8 @@ onMounted(() => {
   requestAnimationFrame(() => scheduleCollect())
 })
 
+watch(wide, () => scheduleCollect())
+
 watch(() => route.fullPath, () => {
   const article = rootRef.value?.closest('.issue-read')
   const prose = article?.querySelector<HTMLElement>('.issue-read__prose')
@@ -240,6 +247,11 @@ onUnmounted(() => {
 .issue-sidenote.is-flash,
 .issue-sidenote.is-flash :deep(.katex) {
   color: var(--ink);
+}
+
+.issue-sidenote__body {
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
 .issue-sidenote__body :deep(p) {

@@ -242,7 +242,7 @@ onBeforeUnmount(() => {
           un-tracking-tight
           un-text-pretty
         >
-          Public posts live on
+          Public writing lives on
           <template
             v-for="(item, i) in liveFindme"
             :key="item.id"

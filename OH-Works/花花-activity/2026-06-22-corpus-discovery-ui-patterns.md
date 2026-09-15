@@ -34,7 +34,7 @@ Corpus 当前的结构：tag 页面列出所有带该标签的笔记 → 用户�
 ```typescript
 // 核心数据模型：documents → tag facets
 interface FacetState {
-  kind?: string[]    // 多选
+  kind?: string[] // 多选
   origin?: string[]
   source?: string[]
   scope?: string[]
@@ -45,7 +45,7 @@ interface FacetState {
 interface CorpusDoc {
   url: string
   title: string
-  tags: string[]       // 完整标签列表
+  tags: string[] // 完整标签列表
   // 缓存解析后的维度
   kind?: string
   origin?: string
@@ -104,7 +104,7 @@ J(A, B) = |tags(A) ∩ tags(B)| / |tags(A) ∪ tags(B)|
 ```typescript
 // scripts/compute-related.mjs
 // 在 docs:build 之前运行
-const JaccardSimilarity = (a: Set<string>, b: Set<string>) => {
+function JaccardSimilarity(a: Set<string>, b: Set<string>) {
   const intersection = new Set([...a].filter(x => b.has(x)))
   const union = new Set([...a, ...b])
   return intersection.size / union.size
@@ -167,8 +167,8 @@ export default defineConfig({
         miniSearch: {
           searchOptions: {
             boost: { title: 2, tags: 1.5, text: 1 },
-            prefix: true,          // 支持部分匹配
-            fuzzy: 0.2,            // 容忍拼写差异
+            prefix: true, // 支持部分匹配
+            fuzzy: 0.2, // 容忍拼写差异
           },
         },
         /* 自定义 fields 提取 */
@@ -176,7 +176,7 @@ export default defineConfig({
           if (fieldName === 'tags') {
             // 从 tags.json 或 frontmatter 提取标签
             return page.frontmatter.tags?.join(' ')
-                            ?? extractTagsFromContent(page.text)
+              ?? extractTagsFromContent(page.text)
           }
           return page[fieldName]
         },
@@ -204,17 +204,17 @@ MiniSearch 的 `prefix: true` 会让搜索 `<` 时匹配 `<#kind/note>` 等标�
 
 ```typescript
 interface TagWithMeta {
-  name: string               // "kind/note"
-  dimension: string          // "kind"
-  count: number              // 笔记数
-  lastUsed: Date             // 最近使用
-  children?: TagWithMeta[]   // 子标签（如果支持层级）
+  name: string // "kind/note"
+  dimension: string // "kind"
+  count: number // 笔记数
+  lastUsed: Date // 最近使用
+  children?: TagWithMeta[] // 子标签（如果支持层级）
 }
 
 interface DimensionGroup {
-  id: string                 // "kind" | "origin" | "source" | "scope"
-  label: string              // "类型" | "来源" | "数据源" | "范围"
-  color: string              // 维度标识色
+  id: string // "kind" | "origin" | "source" | "scope"
+  label: string // "类型" | "来源" | "数据源" | "范围"
+  color: string // 维度标识色
   tags: TagWithMeta[]
 }
 ```

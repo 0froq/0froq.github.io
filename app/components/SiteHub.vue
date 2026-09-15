@@ -1,10 +1,10 @@
 <script setup lang="ts">
 const props = withDefaults(defineProps<{
   title: string
-  tone?: 'posts' | 'corpus'
+  homeTo?: string
   layer?: SiteLayer | null
 }>(), {
-  tone: undefined,
+  homeTo: '/',
   layer: null,
 })
 
@@ -13,15 +13,9 @@ const route = useRoute()
 const titleHover = shallowRef(false)
 const layersOpen = shallowRef(false)
 
-const homeTo = computed(() => {
-  if (props.tone === 'corpus')
-    return '/corpus'
-  return '/posts'
-})
+const titleSeed = computed(() => `hub-title:${props.title}`)
 
-const titleSeed = computed(() => `hub-title:${props.tone ?? 'posts'}`)
-
-const currentLayerLabel = computed(() => props.layer?.label ?? 'Layers')
+const currentLayerLabel = computed(() => props.layer?.label ?? 'Sections')
 
 watch(() => String(route.params.layer || ''), () => {
   peek.value = null
@@ -36,8 +30,7 @@ function toggleLayers() {
 
 <template>
   <div
-    class="group [--hub-pad:min(var(--gutter),2.5rem)] [--hub-side:clamp(12.5rem,15vw,18rem)] [--hub-side-gap:clamp(1.5rem,2.5vw,2.5rem)] [--hub-sheet:min(48rem,calc(100vw-2*var(--hub-side)-2*var(--hub-side-gap)-2*var(--hub-pad)))] [--hub-chrome-inset:max(var(--hub-pad),calc(50%-0.5*var(--hub-sheet)-var(--hub-side)-var(--hub-side-gap)))] max-md:[--hub-pad:1rem]"
-    :data-tone="tone"
+    class="group [--hub-chrome-inset:max(var(--hub-pad),calc(50%-0.5*var(--hub-sheet)-var(--hub-side)-var(--hub-side-gap)))] [--hub-pad:min(var(--gutter),2.5rem)] [--hub-sheet:min(48rem,calc(100vw-2*var(--hub-side)-2*var(--hub-side-gap)-2*var(--hub-pad)))] [--hub-side-gap:clamp(1.5rem,2.5vw,2.5rem)] [--hub-side:clamp(12.5rem,15vw,18rem)] max-md:[--hub-pad:1rem]"
     :data-mast="layer ? 'layer' : 'hub'"
     un-box-border
     un-mb="[12vh]"
@@ -80,7 +73,7 @@ function toggleLayers() {
           {{ layer ? layer.label : title }}
         </h1>
         <p
-          class="[-webkit-text-stroke:1px_var(--ink)] ease-paper group-data-[mast=layer]:text-paper [&_a]:text-inherit group-data-[tone=corpus]:tracking-[0.02em] motion-reduce:duration-120 [&_a]:[-webkit-text-stroke:inherit] group-data-[tone=corpus]:font-serif"
+          class="[-webkit-text-stroke:1px_var(--ink)] ease-paper group-data-[mast=layer]:text-paper [&_a]:text-inherit motion-reduce:duration-120 [&_a]:[-webkit-text-stroke:inherit]"
           un-text="[clamp(2rem,4vw,2.5rem)] ink"
           un-leading-none
           un-font-black
@@ -166,7 +159,7 @@ function toggleLayers() {
       <div
         id="hub-layers"
         class="hub-layers"
-        aria-label="Layers"
+        aria-label="Sections"
         :data-open="layersOpen ? '' : undefined"
         un-grid
         un-w-full
@@ -224,62 +217,48 @@ function toggleLayers() {
 </template>
 
 <style scoped>
-@media (max-width: 1199px) {
-  .hub-layers__clip {
-    opacity: 0;
-    transform: translateY(-0.4rem);
-    -webkit-mask-image: linear-gradient(
-      to bottom,
-      #000 0%,
-      #000 48%,
-      transparent 100%
-    );
-    mask-image: linear-gradient(
-      to bottom,
-      #000 0%,
-      #000 48%,
-      transparent 100%
-    );
-    -webkit-mask-repeat: no-repeat;
-    mask-repeat: no-repeat;
-    -webkit-mask-size: 100% 0%;
-    mask-size: 100% 0%;
-    transition:
-      -webkit-mask-size 0.42s var(--ease-out),
-      mask-size 0.42s var(--ease-out),
-      opacity 0.28s var(--ease-out) 0.08s,
-      transform 0.28s var(--ease-out) 0.08s;
-  }
-
-  .hub-layers[data-open] .hub-layers__clip {
-    opacity: 1;
-    transform: none;
-    -webkit-mask-image: linear-gradient(to bottom, #000, #000);
-    mask-image: linear-gradient(to bottom, #000, #000);
-    -webkit-mask-size: 100% 100%;
-    mask-size: 100% 100%;
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .hub-layers__clip,
-    .hub-layers[data-open] .hub-layers__clip {
-      opacity: 1;
-      transform: none;
-      transition: none;
-      -webkit-mask-image: none;
-      mask-image: none;
-      -webkit-mask-size: auto;
-      mask-size: auto;
-    }
-  }
+.hub-layers__clip {
+  --uno: 'opacity-0 -translate-y-[0.4rem] lg:opacity-100 lg:translate-y-0 lg:[mask-image:none] lg:[-webkit-mask-image:none]';
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    #000 0%,
+    #000 48%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    #000 0%,
+    #000 48%,
+    transparent 100%
+  );
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-size: 100% 0%;
+  mask-size: 100% 0%;
+  transition:
+    -webkit-mask-size 0.42s var(--ease-out),
+    mask-size 0.42s var(--ease-out),
+    opacity 0.28s var(--ease-out) 0.08s,
+    transform 0.28s var(--ease-out) 0.08s;
 }
 
-@media (min-width: 1200px) {
-  .hub-layers__clip {
-    opacity: 1;
-    transform: none;
+.hub-layers[data-open] .hub-layers__clip {
+  --uno: 'opacity-100 translate-y-0';
+  -webkit-mask-image: linear-gradient(to bottom, #000, #000);
+  mask-image: linear-gradient(to bottom, #000, #000);
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hub-layers__clip,
+  .hub-layers[data-open] .hub-layers__clip {
+    --uno: 'opacity-100 translate-y-0';
+    transition: none;
     -webkit-mask-image: none;
     mask-image: none;
+    -webkit-mask-size: auto;
+    mask-size: auto;
   }
 }
 </style>

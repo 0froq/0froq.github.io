@@ -35,6 +35,89 @@ a {
   --uno: 'decoration-none';
 }
 
+html.ink-cursor-on,
+html.ink-cursor-on * {
+  cursor: none !important;
+}
+
+html.ink-cursor-on input,
+html.ink-cursor-on textarea,
+html.ink-cursor-on [contenteditable='true'] {
+  caret-color: var(--colored-ink);
+}
+
+.ink-cursor {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 100;
+  pointer-events: none;
+  color: var(--ink);
+  opacity: 0;
+  transition: opacity 140ms var(--ease-out);
+  will-change: transform;
+}
+
+.ink-cursor[data-state='on'],
+.ink-cursor[data-state='down'] {
+  opacity: 1;
+}
+
+.ink-cursor__wobble {
+  position: relative;
+  width: 32px;
+  height: 32px;
+  will-change: transform;
+}
+
+.ink-cursor__svg {
+  display: block;
+  width: 32px;
+  height: 32px;
+  overflow: visible;
+}
+
+.ink-cursor__ticks {
+  color: var(--colored-ink);
+}
+
+.ink-cursor__tick {
+  opacity: 0;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  transition:
+    opacity 120ms var(--ease-out),
+    stroke-dashoffset 200ms var(--ease-out);
+}
+
+.ink-cursor__tick:nth-of-type(2) {
+  transition-delay: 45ms;
+}
+
+.ink-cursor__tick:nth-of-type(3) {
+  transition-delay: 90ms;
+}
+
+.ink-cursor[data-kind='point'] .ink-cursor__tick {
+  opacity: 1;
+  stroke-dashoffset: 0;
+}
+
+html.ink-cursor-still .ink-cursor,
+html.ink-cursor-still .ink-cursor__tick {
+  transition: none;
+}
+
+[data-ink-frame] {
+  position: relative;
+  transform: translate3d(var(--ink-frame-x, 0px), var(--ink-frame-y, 0px), 0);
+  transition: transform 180ms var(--ease-out);
+}
+
+html.ink-cursor-still [data-ink-frame] {
+  transition: none;
+}
+
 [un-prose] {
   --uno: 'break-words';
 }

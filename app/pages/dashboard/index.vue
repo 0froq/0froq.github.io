@@ -62,7 +62,7 @@ useHead({
           un-italic
           un-leading-relaxed
         >
-          The board is resting. Notes are being folded into the corpus.
+          The board is resting. Notes are being sorted outside the public site.
         </p>
       </div>
     </div>

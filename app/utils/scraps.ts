@@ -1,4 +1,4 @@
-export type Scrap = {
+export interface Scrap {
   id: string
   text: string
   detail?: string
@@ -6,7 +6,7 @@ export type Scrap = {
   pinned?: boolean
 }
 
-export type ScrapReactionState = {
+export interface ScrapReactionState {
   counts: Record<string, number>
   mine: string | null
 }

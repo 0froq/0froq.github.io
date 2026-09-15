@@ -4,8 +4,9 @@ import process from 'node:process'
 import { fileURLToPath } from 'node:url'
 
 const docsPublic = fileURLToPath(new URL('./docs/public', import.meta.url))
-const docsPosts = fileURLToPath(new URL('./docs/posts', import.meta.url))
-const docsCorpus = fileURLToPath(new URL('./docs/corpus', import.meta.url))
+const docsEssays = fileURLToPath(new URL('./docs/essays', import.meta.url))
+const docsJournal = fileURLToPath(new URL('./docs/journal', import.meta.url))
+const docsCabinet = fileURLToPath(new URL('./docs/cabinet', import.meta.url))
 
 const IMAGE_RE = /\.(?:png|jpe?g|gif|webp|svg|ico|avif)$/i
 const PATH_SEP_RE = /[/\\]/
@@ -102,7 +103,7 @@ export default defineNuxtConfig({
         },
         {
           rel: 'stylesheet',
-          href: 'https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap',
+          href: 'https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Instrument+Sans:wght@400..700&display=swap',
         },
       ],
     },
@@ -111,8 +112,6 @@ export default defineNuxtConfig({
   nitro: {
     prerender: {
       autoSubfolderIndex: false,
-      // Corpus markdown links include broken/escaped apostrophe URLs and
-      // private activity paths; do not block the public site deploy on those.
       failOnError: false,
     },
     serverAssets: [
@@ -126,8 +125,9 @@ export default defineNuxtConfig({
         dir: docsPublic,
         baseURL: '/',
       },
-      ...contentImageAssets(docsPosts, '/_files/posts'),
-      ...contentImageAssets(docsCorpus, '/_files/corpus'),
+      ...contentImageAssets(docsEssays, '/_files/essays'),
+      ...contentImageAssets(docsJournal, '/_files/journal'),
+      ...contentImageAssets(docsCabinet, '/_files/cabinet'),
     ],
   },
 

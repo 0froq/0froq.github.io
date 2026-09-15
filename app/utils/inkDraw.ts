@@ -106,7 +106,7 @@ export function inkArrowPath(seed: string, dir: InkArrowDir = 'up'): string {
   return inkStrokePath(pts)
 }
 
-export type InkPointerParts = {
+export interface InkPointerParts {
   stem: string
   head: string
 }
@@ -158,8 +158,10 @@ export type InkGlyphKind
     | 'ring'
     | 'hash'
 
-/** Platform / contact glyphs. ViewBox 0 0 24 24.
- *  Content frame ~[4,4]–[20,20], visual center ~12,12. Stroke only. */
+/**
+ * Platform / contact glyphs. ViewBox 0 0 24 24.
+ *  Content frame ~[4,4]–[20,20], visual center ~12,12. Stroke only.
+ */
 export function inkGlyphPath(seed: string, kind: InkGlyphKind): string {
   const resolved = kind === 'wave' ? 'podcast' : kind === 'ring' ? 'github' : kind
   const rng = inkRng(`ink-glyph:v7:${resolved}:${seed}`)
@@ -410,8 +412,10 @@ function inkLerp(a: number, b: number, t: number) {
 
 const COIL_SAMPLES = 22
 
-/** Thin looping coil. ViewBox 0 0 16 16. Stroke only.
- *  `fill` 0 = a loose, incomplete or slightly overlapping rim; 1 = rough filled coil. */
+/**
+ * Thin looping coil. ViewBox 0 0 16 16. Stroke only.
+ *  `fill` 0 = a loose, incomplete or slightly overlapping rim; 1 = rough filled coil.
+ */
 export function inkCoilPath(seed: string, fill = 1): string {
   const t = Math.min(1, Math.max(0, fill))
   const rng = inkRng(`ink-coil:v10:${seed}`)

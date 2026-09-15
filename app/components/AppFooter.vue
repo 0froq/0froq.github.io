@@ -1,9 +1,14 @@
 <script setup lang="ts">
 withDefaults(defineProps<{
   flush?: boolean
+  overlay?: boolean
 }>(), {
   flush: false,
+  overlay: false,
 })
+
+const { publication } = useIssueFrame()
+const { away } = useSiteChromeAway()
 </script>
 
 <template>
@@ -12,22 +17,35 @@ withDefaults(defineProps<{
     un-flex
     un-w-full
     un-flex-col
-    un-gap="4 data-[flush]:3"
-    un-px="[var(--gutter)] max-md:4 data-[flush]:0"
-    un-pb="14 data-[flush]:0"
-    un-pt="10 data-[flush]:0"
+    un-bg-paper
+    un-gap-3
+    un-px="[var(--gutter)] max-md:8 data-[flush]:0"
+    un-py="2.5 data-[flush]:0"
     un-font-mono
     un-text="sm muted"
     :data-flush="flush ? '' : undefined"
+    :data-overlay="overlay ? '' : undefined"
+    :data-away="away ? '' : undefined"
   >
     <div
       un-flex
       un-min-h="[1.25rem]"
       un-w-full
       un-items-center
-      un-justify-start
+      un-justify-between
+      un-gap-x-6
+      un-gap-y-2
     >
-      <SiteDoing />
+      <SiteDoing
+        un-min-w-0
+        un-flex-1
+      />
+      <PublicationRoomSwitch
+        v-if="publication"
+        :current="publication.slug"
+        size="chrome"
+        un-shrink-0
+      />
     </div>
 
     <div
@@ -45,6 +63,7 @@ withDefaults(defineProps<{
       </div>
       <NuxtLink
         to="/"
+        class="footer-copy"
         un-justify-self-center
         un-whitespace-nowrap
         un-text="muted hover:colored-ink focus-visible:colored-ink"
@@ -74,3 +93,23 @@ withDefaults(defineProps<{
     </div>
   </footer>
 </template>
+
+<style scoped>
+footer {
+  transition: transform 340ms var(--ease-out);
+}
+
+footer[data-overlay] {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 30;
+  background: var(--paper);
+}
+
+footer[data-away] {
+  transform: translateY(110%);
+  pointer-events: none;
+}
+</style>

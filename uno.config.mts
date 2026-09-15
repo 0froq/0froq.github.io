@@ -13,6 +13,8 @@ import { breakpoints } from './app/utils/breakpoints'
 
 export default defineConfig({
   theme: {
+    // Width RWD is only sm / md / lg (see app/utils/breakpoints.ts).
+    // Do not add xl, 2xl, or extra pixel cuts. CSS: sm: md: lg: max-sm: max-md: max-lg:
     breakpoint: {
       sm: `${breakpoints.sm}px`,
       md: `${breakpoints.md}px`,
@@ -339,6 +341,9 @@ export default defineConfig({
     'w-3.5',
     'h-3.5',
     'w-7',
+    'h-10',
+    'w-6',
+    'w-12',
     'i-openmj-thumbs-up?bg',
     'i-openmj-red-heart?bg',
     'i-openmj-face-with-open-mouth?bg',

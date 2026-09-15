@@ -1,7 +1,8 @@
+import type { Activity } from '~/utils/activity'
 import {
+
   activityIsSleeping,
   parseActivity,
-  type Activity,
 } from '~/utils/activity'
 
 const R2_PUBLIC_URL = 'https://pub-d05ff6ec0ecf448ca7cc6c2f0c0a5bcc.r2.dev/activity.json'

@@ -14,6 +14,7 @@ const pageMeta = z.object({
   index: z.boolean().optional(),
   aigc: z.boolean().optional(),
   description: z.string().optional(),
+  kind: z.string().optional(),
 })
 
 export default defineContentConfig({
@@ -26,31 +27,20 @@ export default defineContentConfig({
       },
       schema: pageMeta,
     }),
-    posts: defineCollection({
+    publication: defineCollection({
       type: 'page',
       source: {
-        cwd: resolve(docs, 'posts'),
+        cwd: docs,
         include: '**/*.md',
         exclude: [
-          '_template/**',
-          '_config/**',
-          '.obsidian/**',
+          'archive/**',
+          'dashboard/**',
+          'design/**',
+          'cairn-activity/**',
+          'public/**',
+          'index.md',
         ],
-        prefix: '/posts',
-      },
-      schema: pageMeta,
-    }),
-    corpus: defineCollection({
-      type: 'page',
-      source: {
-        cwd: resolve(docs, 'corpus'),
-        include: '**/*.md',
-        exclude: [
-          '_template/**',
-          '_lib/**',
-          '_scripts/**',
-        ],
-        prefix: '/corpus',
+        prefix: '/',
       },
       schema: pageMeta,
     }),

@@ -7,15 +7,21 @@ export default defineNuxtPlugin((nuxtApp) => {
   let painting = false
   const watched = new WeakSet<Element>()
 
+  function owned(el: HTMLElement): boolean {
+    return !el.classList.contains('journal-wheel__ring')
+  }
+
   function scan(): void {
     painting = true
     for (const svg of document.querySelectorAll<SVGSVGElement>('svg.rough-ink')) {
       const host = svg.parentElement
-      if (host instanceof HTMLElement)
+      if (host instanceof HTMLElement && owned(host))
         paintRoughInk(host)
     }
     const targets = document.querySelectorAll<HTMLElement>(INK_SELECTOR)
     for (const el of targets) {
+      if (!owned(el))
+        continue
       paintRoughInk(el)
       if (!watched.has(el)) {
         watched.add(el)
@@ -39,8 +45,11 @@ export default defineNuxtPlugin((nuxtApp) => {
       if (painting)
         return
       painting = true
-      for (const entry of entries)
-        paintRoughInk(entry.target as HTMLElement)
+      for (const entry of entries) {
+        const host = entry.target
+        if (host instanceof HTMLElement && owned(host))
+          paintRoughInk(host)
+      }
       painting = false
     })
     scan()
@@ -61,8 +70,10 @@ export default defineNuxtPlugin((nuxtApp) => {
         }
       }
 
-      for (const el of morphHosts)
-        morphRoughInk(el)
+      for (const el of morphHosts) {
+        if (owned(el))
+          morphRoughInk(el)
+      }
       if (structural)
         schedule()
     })

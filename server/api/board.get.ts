@@ -1,6 +1,6 @@
+import type { BoardData, BoardTask } from '~/utils/board'
 import { readFile } from 'node:fs/promises'
 import { resolve } from 'node:path'
-import type { BoardData, BoardTask } from '~/utils/board'
 
 function emptyBoard(): BoardData {
   return {

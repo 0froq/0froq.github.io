@@ -4,7 +4,7 @@ export function useIssueArticleTitle() {
 
 function isIssueArticlePath(path: string) {
   const parts = path.split('/').filter(Boolean)
-  return parts.length >= 3 && (parts[0] === 'posts' || parts[0] === 'corpus')
+  return parts.length >= 2 && Boolean(findPublicationSection(parts[0]!))
 }
 
 /** Bind the current page title into the shared masthead. Clears on leave. */
@@ -38,31 +38,13 @@ export function useIssueArticleMast(title: MaybeRefOrGetter<string | undefined>)
 export function useIssueFrame() {
   const route = useRoute()
   const articleTitle = useIssueArticleTitle()
+  const sectionSlug = computed(() => route.path.split('/').filter(Boolean)[0] ?? '')
+  const publication = computed(() => findPublicationSection(sectionSlug.value) ?? null)
 
   const isHome = computed(() => route.path === '/')
-
-  const section = computed(() => {
-    if (route.path.startsWith('/posts'))
-      return 'posts'
-    if (route.path.startsWith('/corpus'))
-      return 'corpus'
-    if (route.path.startsWith('/dashboard'))
-      return 'dashboard'
-    return 'home'
-  })
-
+  const section = computed(() => publication.value?.slug ?? (route.path.startsWith('/dashboard') ? 'dashboard' : 'home'))
   const isArticle = computed(() => isIssueArticlePath(route.path))
+  const isHub = computed(() => Boolean(publication.value) && !isArticle.value)
 
-  const isHub = computed(() => {
-    const parts = route.path.split('/').filter(Boolean)
-    return (parts[0] === 'posts' || parts[0] === 'corpus') && parts.length <= 2
-  })
-
-  return {
-    section,
-    isHome,
-    isHub,
-    isArticle,
-    articleTitle,
-  }
+  return { section, publication, isHome, isHub, isArticle, articleTitle }
 }

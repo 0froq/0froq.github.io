@@ -15,8 +15,8 @@
 
 // 方式 A：扩展默认主题——推荐，保留文档站点导航等基础设施
 import DefaultTheme from 'vitepress/theme'
-import CorpusTagFilter from './components/CorpusTagFilter.vue'
 import CorpusGraph from './components/CorpusGraph.vue'
+import CorpusTagFilter from './components/CorpusTagFilter.vue'
 
 export default {
   extends: DefaultTheme,
@@ -45,6 +45,7 @@ export default {
 <!-- .vitepress/theme/Layout.vue -->
 <script setup lang="ts">
 import DefaultTheme from 'vitepress/theme'
+
 const { Layout } = DefaultTheme
 </script>
 
@@ -118,13 +119,13 @@ corpus 使用 flat-tag（平标签，无层级）。客户端需要构建两种�
 
 ```ts
 // composables/useCorpusIndex.ts
-import { ref, computed } from 'vue'
+import { computed, ref } from 'vue'
 import data from '../corpus.data'
 
 export interface TagIndex {
   tag: string
   count: number
-  entries: string[]  // URLs
+  entries: string[] // URLs
 }
 
 export function useCorpusIndex() {
@@ -148,7 +149,8 @@ export function useCorpusIndex() {
 
   // 当前选中标签过滤后的条目
   const filteredEntries = computed(() => {
-    if (selectedTags.value.length === 0) return entries.value
+    if (selectedTags.value.length === 0)
+      return entries.value
     return entries.value.filter(e =>
       selectedTags.value.every(t => e.tags.includes(t))
     )
@@ -156,7 +158,8 @@ export function useCorpusIndex() {
 
   function toggleTag(tag: string) {
     const idx = selectedTags.value.indexOf(tag)
-    if (idx >= 0) selectedTags.value.splice(idx, 1)
+    if (idx >= 0)
+      selectedTags.value.splice(idx, 1)
     else selectedTags.value.push(tag)
   }
 
@@ -180,6 +183,7 @@ export function useCorpusIndex() {
 <!-- 核心组件示例：TagCloud.vue -->
 <script setup lang="ts">
 import { useCorpusIndex } from '../composables/useCorpusIndex'
+
 const { tagIndex, selectedTags, toggleTag } = useCorpusIndex()
 </script>
 
@@ -188,14 +192,14 @@ const { tagIndex, selectedTags, toggleTag } = useCorpusIndex()
     <button
       v-for="t in tagIndex"
       :key="t.tag"
-      class="px-3 py-1 rounded-full text-sm transition"
+      class="text-sm px-3 py-1 rounded-full transition"
       :class="selectedTags.includes(t.tag)
         ? 'bg-primary text-white'
         : 'bg-gray-100 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700'"
       @click="toggleTag(t.tag)"
     >
       {{ t.tag }}
-      <span class="opacity-60 ml-1">({{ t.count }})</span>
+      <span class="ml-1 opacity-60">({{ t.count }})</span>
     </button>
   </div>
 </template>
@@ -212,14 +216,15 @@ const { tagIndex, selectedTags, toggleTag } = useCorpusIndex()
 ```ts
 // composables/useCooccurrence.ts
 export function useCooccurrence(tagIndex: TagIndex[], entries: CorpusEntry[]) {
-  function getRelatedTags(tag: string, topN = 10): { tag: string; score: number }[] {
+  function getRelatedTags(tag: string, topN = 10): { tag: string, score: number }[] {
     const tagEntries = tagIndex.find(t => t.tag === tag)?.entries || []
     const coCount = new Map<string, number>()
 
     for (const entry of entries) {
       if (entry.tags.includes(tag)) {
         for (const t of entry.tags) {
-          if (t !== tag) coCount.set(t, (coCount.get(t) || 0) + 1)
+          if (t !== tag)
+            coCount.set(t, (coCount.get(t) || 0) + 1)
         }
       }
     }
@@ -249,9 +254,9 @@ export function useCooccurrence(tagIndex: TagIndex[], entries: CorpusEntry[]) {
 ```vue
 <!-- 集成 Sigma.js 的示意图 -->
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
-import Sigma from 'sigma'
 import Graph from 'graphology'
+import Sigma from 'sigma'
+import { onMounted, ref } from 'vue'
 
 const container = ref<HTMLDivElement>()
 

@@ -1,12 +1,12 @@
-import { findCorpusLayer, findPostLayer, hubListingRoot } from '~/utils/layers'
+import { findPublicationSection, publicationRoot } from '~/utils/layers'
 
-export type ArticleBack = { to: string, label: string }
+export interface ArticleBack { to: string, label: string }
 
 export function useIssueArticleReturn() {
   const returnTo = useState<string | null>('issue-article-return', () => null)
 
   function remember(path: string) {
-    if (!hubListingRoot(path))
+    if (!publicationRoot(path))
       return
     returnTo.value = path
   }
@@ -23,40 +23,21 @@ export function useIssueArticleReturn() {
 }
 
 function issueArticleBackTo(currentPath: string, saved: string | null): string {
-  if (saved && hubListingRoot(saved))
+  if (saved && publicationRoot(saved))
     return saved
   return issueArticleFallback(currentPath)
 }
 
 export function issueArticleFallback(path: string): string {
-  const parts = path.split('/').filter(Boolean)
-  if (parts.length >= 2 && (parts[0] === 'posts' || parts[0] === 'corpus'))
-    return `/${parts[0]}/${parts[1]}`
-  if (parts[0] === 'posts')
-    return '/posts'
-  if (parts[0] === 'corpus')
-    return '/corpus'
-  return '/'
+  const section = path.split('/').filter(Boolean)[0]
+  return section && findPublicationSection(section) ? `/${section}` : '/'
 }
 
 export function labelForArticleBack(to: string): string {
-  const pathname = to.split(/[?#]/, 1)[0] ?? to
-  const parts = pathname.split('/').filter(Boolean)
-  if (parts.length === 0)
+  const section = to.split(/[?#]/, 1)[0]?.split('/').filter(Boolean)[0]
+  if (!section)
     return 'Home'
-  const root = parts[0]
-  const slug = parts[1]
-  if (root === 'posts') {
-    if (!slug)
-      return 'Posts'
-    return findPostLayer(slug)?.label ?? slug
-  }
-  if (root === 'corpus') {
-    if (!slug)
-      return 'Corpus'
-    return findCorpusLayer(slug)?.label ?? slug
-  }
-  return 'Home'
+  return findPublicationSection(section)?.label ?? 'Home'
 }
 
 export function resolveArticleBackTarget(currentPath: string): ArticleBack {

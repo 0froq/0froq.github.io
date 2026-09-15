@@ -8,11 +8,11 @@ web
 
 ## Users
 
-[inferred from brief] Readers who land on a personal site looking for writing, a knowledge corpus, and a glimpse of ongoing work — not a product pitch. They may skim, linger, or leave. Chinese is the primary language; English exists as a secondary index.
+[inferred from brief] Readers who land on a personal site looking for writing, a personal journal, a cabinet of materials, and a glimpse of ongoing work — not a product pitch. They may skim, linger, or leave. Chinese is the primary language; English exists as a secondary index.
 
 ## Product Purpose
 
-froQ is a personal site: an index of writing (Posts), a living knowledge garden (Corpus), and a public work surface (Dashboard). Success is that a visitor can tell, without finishing the page, what the author is currently thinking and making.
+froQ is a personal site: three public writing spaces (Essays, Journal, Cabinet), and a public work surface (Dashboard). Success is that a visitor can tell, without finishing the page, what the author is currently thinking and making.
 
 ## Positioning
 
@@ -20,11 +20,11 @@ Not a blog feed. An issue-style index of attempts — “一份不必全部读�
 
 ## Operating Context
 
-Nuxt 4 + Nuxt Content, markdown under `docs/posts` and `docs/corpus`. Shared chrome (header/footer) wraps section shells. Local dev: `nr dev`.
+Nuxt 4 + Nuxt Content, public markdown under `docs/essays`, `docs/journal`, and `docs/cabinet`; historical material under `docs/archive` is not deployed. Shared chrome (header/footer) wraps section shells. Local dev: `nr dev`.
 
 ## Capabilities and Constraints
 
-- Content is real markdown; do not invent posts, dates, or quotes.
+- Content is real markdown; do not invent entries, dates, or quotes.
 - Dashboard is not ported yet; show an honest empty desk, not fake board data.
 - Chinese typography and mixed CN/EN meta labels are expected.
 
@@ -33,13 +33,13 @@ Nuxt 4 + Nuxt Content, markdown under `docs/posts` and `docs/corpus`. Shared chr
 - Name: froQ.
 - First screen: quiet signature page, left-biased on wide screens — froQ SVG + short prose on the left, section routes only in the right whitespace. Fits one viewport when height allows (no Y scroll on the intro pane). Typography: EB Garamond (+ CJK fallbacks).
 - Below the intro: sticky-scroll scrapboard (碎碎念) sourced from `docs/scraps.toml`. Cards may link to recommended reading; emoji reactions go through Cloudflare (`api.froq.me`), not GitHub.
-- Layers stay separate: Writing / Corpus / Notes are entered from the home rail only. Writing and Corpus top indexes reuse the home layout (left copy, right layer routes). Each content layer is its own route. Inner headers show logo + current layer path + optional article title.
+- Essays, Journal, and Cabinet are entered directly from the home rail. Each has its own index and article route; inner headers show the current section and optional article title.
 - Voice: precise, slightly wry, unwilling to over-explain.
 
 ## Evidence on Hand
 
 - Homepage copy and structure from the pinned HTML mock.
-- Real posts and corpus entries in `docs/`.
+- Real public entries in `docs/essays`, `docs/journal`, and `docs/cabinet`.
 - Site identity: `public/logo.svg`, github.com/Fro-Q.
 
 ## Product Principles

@@ -1,13 +1,18 @@
 <script setup lang="ts">
 const links = [
-  { to: '/posts', label: 'Posts' },
-  { to: '/corpus', label: 'Corpus' },
+  { to: '/essays', label: 'Essays' },
+  { to: '/journal', label: 'Journal' },
+  { to: '/cabinet', label: 'Cabinet' },
   { to: '/dashboard', label: 'Dashboard' },
 ] as const
 </script>
 
 <template>
-  <nav un-flex un-items-baseline un-gap-4>
+  <nav
+    un-flex
+    un-items-baseline
+    un-gap-4
+  >
     <NuxtLink
       to="/"
       un-text-sm

@@ -1,8 +1,8 @@
 import { charsOf } from '~/utils/textStream'
 
-export type ScrapMdPart =
-  | { type: 'text', value: string }
-  | { type: 'link', href: string, label: string }
+export type ScrapMdPart
+  = | { type: 'text', value: string }
+    | { type: 'link', href: string, label: string }
 
 const LINK_RE = /\[([^\]]+)\]\(([^)\s]+)\)/g
 

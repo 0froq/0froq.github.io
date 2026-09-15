@@ -1,43 +1,17 @@
 <script setup lang="ts">
-const { section, isArticle, articleTitle } = useIssueFrame()
-const route = useRoute()
+const { section, publication, isArticle, articleTitle } = useIssueFrame()
 const { titleRevealed, progressWidth, headerRef, progressTrackRef }
   = useIssueArticleChromeScroll()
 
 const sectionLabel = computed(() => {
-  switch (section.value) {
-    case 'posts':
-      return 'Posts'
-    case 'corpus':
-      return 'Corpus'
-    case 'dashboard':
-      return 'Dashboard'
-    default:
-      return ''
-  }
-})
-
-const layerLabel = computed(() => {
-  const parts = route.path.split('/').filter(Boolean)
-  if (parts[0] === 'posts' && parts[1])
-    return findPostLayer(parts[1])?.label ?? ''
-  if (parts[0] === 'corpus' && parts[1])
-    return findCorpusLayer(parts[1])?.label ?? ''
+  if (publication.value)
+    return publication.value.label
+  if (section.value === 'dashboard')
+    return 'Dashboard'
   return ''
 })
 
-const sectionTo = computed(() => {
-  switch (section.value) {
-    case 'posts':
-      return '/posts'
-    case 'corpus':
-      return '/corpus'
-    case 'dashboard':
-      return '/dashboard'
-    default:
-      return '/'
-  }
-})
+const sectionTo = computed(() => publication.value ? `/${publication.value.slug}` : section.value === 'dashboard' ? '/dashboard' : '/')
 </script>
 
 <template>
@@ -53,8 +27,8 @@ const sectionTo = computed(() => {
     un-flex
     un-items-center
     un-gap-4
-    un-py="3.5 max-md:3"
-    un-px="[var(--gutter)] max-md:4"
+    un-py="3"
+    un-px="[var(--gutter)]"
     :un-border-b="isArticle ? '0' : 'line'"
     un-bg-paper
     :style="isArticle ? { '--progress-bar-width': progressWidth } : undefined"
@@ -81,12 +55,8 @@ const sectionTo = computed(() => {
         un-truncate
         un-font-serif
         un-text="2xl ink"
-        un-text-center
-        un-pointer-events-none
-        :aria-hidden="!titleRevealed"
-      >
-        {{ articleTitle }}
-      </span>
+un-text-center un-pointer-events-none :aria-hidden="!titleRevealed"
+      >{{ articleTitle }}</span>
       <div
         ref="progressTrackRef"
         class="progress-bar"
@@ -98,7 +68,7 @@ const sectionTo = computed(() => {
         un-h="[2px]"
         un-w-full
         un-shrink-0
-        un-leading-none
+un-leading-none
       >
         <div
           class="progress-bar-bg"
@@ -141,9 +111,7 @@ const sectionTo = computed(() => {
         un-items-baseline
         un-gap-2
         un-font-mono
-        un-text="xs muted"
-        un-tracking-wide
-        un-uppercase
+un-text="xs muted" un-tracking-wide un-uppercase
       >
         <NuxtLink
           :to="sectionTo"
@@ -151,22 +119,12 @@ const sectionTo = computed(() => {
         >
           {{ sectionLabel }}
         </NuxtLink>
-        <template v-if="layerLabel">
-          <span aria-hidden="true">/</span>
-          <span>{{ layerLabel }}</span>
-        </template>
       </p>
     </template>
   </header>
 </template>
 
 <style scoped>
-.article-chrome-title {
-  transform: translateX(-50%);
-  opacity: 0;
-  transition: opacity 0.2s var(--ease-out, ease);
-}
-.article-chrome-title[data-in] {
-  opacity: 1;
-}
+.article-chrome-title { transform: translateX(-50%); opacity: 0; transition: opacity 0.2s var(--ease-out, ease); }
+.article-chrome-title[data-in] { opacity: 1; }
 </style>

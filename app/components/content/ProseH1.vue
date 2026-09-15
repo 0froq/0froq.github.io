@@ -29,7 +29,10 @@ const isTagLine = computed(() => {
 </script>
 
 <template>
-  <h1 v-if="!isTagLine" :id="props.id">
+  <h1
+    v-if="!isTagLine"
+    :id="props.id"
+  >
     <slot />
   </h1>
   <template v-else>

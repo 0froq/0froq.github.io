@@ -66,169 +66,169 @@ watch(
       un-text="xs muted"
       un-leading-none
     >
-    <span
-      v-if="sleeping"
-      un-box-border
-      un-h-2
-      un-w-2
-      un-shrink-0
-      un-rounded-full
-      un-border
-      un-border-muted
-      un-bg-transparent
-    />
-    <span
-      v-else
-      un-h-2
-      un-w-2
-      un-shrink-0
-      un-rounded-full
-      un-bg-ink
-    />
-    <span
-      :class="sleeping ? 'doing-pulse' : undefined"
-      un-flex
-      un-min-w-0
-      un-items-center
-      un-gap-1
-      un-truncate
-    >
       <span
-        un-cursor-pointer
-        role="button"
-        tabindex="0"
-        title="reshuffle"
-        @click="onPhraseClick"
-        @keydown.enter.prevent="onPhraseClick"
-      >{{ phraseParts.before }}</span>
-      <template v-if="phraseParts.hasApp && appName">
-        <a
-          v-if="phrase.url"
-          :href="phrase.url"
-          target="_blank"
-          rel="noopener noreferrer"
-          un-inline-flex
-          un-min-w-0
-          un-items-center
-          un-gap-1
-          un-text="muted hover:colored-ink"
-          un-underline
-          un-underline-offset-2
-          un-decoration-line
-        >
-          <span un-truncate>{{ appName }}</span>
-          <img
-            v-if="iconUrl"
-            :src="iconUrl"
-            alt=""
-            width="16"
-            height="16"
-            un-h-4
-            un-w-4
-            un-shrink-0
-          >
-          <SiteDoingAppIcon
-            v-else
-            :app="appName"
-          />
-        </a>
+        v-if="sleeping"
+        un-box-border
+        un-h-2
+        un-w-2
+        un-shrink-0
+        un-rounded-full
+        un-border
+        un-border-muted
+        un-bg-transparent
+      />
+      <span
+        v-else
+        un-h-2
+        un-w-2
+        un-shrink-0
+        un-rounded-full
+        un-bg-ink
+      />
+      <span
+        :class="sleeping ? 'doing-pulse' : undefined"
+        un-flex
+        un-min-w-0
+        un-items-center
+        un-gap-1
+        un-truncate
+      >
         <span
-          v-else
-          un-inline-flex
-          un-min-w-0
-          un-items-center
-          un-gap-1
-        >
-          <span un-truncate>{{ appName }}</span>
-          <img
-            v-if="iconUrl"
-            :src="iconUrl"
-            alt=""
-            width="16"
-            height="16"
-            un-h-4
-            un-w-4
-            un-shrink-0
-          >
-          <SiteDoingAppIcon
-            v-else
-            :app="appName"
-          />
-        </span>
-        <span
-          v-if="phraseParts.after"
           un-cursor-pointer
           role="button"
           tabindex="0"
           title="reshuffle"
           @click="onPhraseClick"
           @keydown.enter.prevent="onPhraseClick"
-        >{{ phraseParts.after }}</span>
-      </template>
-      <template v-else-if="appName">
-        <span aria-hidden="true">·</span>
-        <a
-          v-if="phrase.url"
-          :href="phrase.url"
-          target="_blank"
-          rel="noopener noreferrer"
-          un-inline-flex
-          un-min-w-0
-          un-items-center
-          un-gap-1
-          un-text="muted hover:colored-ink"
-          un-underline
-          un-underline-offset-2
-          un-decoration-line
-        >
-          <span un-truncate>{{ appName }}</span>
-          <img
-            v-if="iconUrl"
-            :src="iconUrl"
-            alt=""
-            width="16"
-            height="16"
-            un-h-4
-            un-w-4
-            un-shrink-0
+        >{{ phraseParts.before }}</span>
+        <template v-if="phraseParts.hasApp && appName">
+          <a
+            v-if="phrase.url"
+            :href="phrase.url"
+            target="_blank"
+            rel="noopener noreferrer"
+            un-inline-flex
+            un-min-w-0
+            un-items-center
+            un-gap-1
+            un-text="muted hover:colored-ink"
+            un-underline
+            un-underline-offset-2
+            un-decoration-line
           >
-          <SiteDoingAppIcon
+            <span un-truncate>{{ appName }}</span>
+            <img
+              v-if="iconUrl"
+              :src="iconUrl"
+              alt=""
+              width="16"
+              height="16"
+              un-h-4
+              un-w-4
+              un-shrink-0
+            >
+            <SiteDoingAppIcon
+              v-else
+              :app="appName"
+            />
+          </a>
+          <span
             v-else
-            :app="appName"
-          />
-        </a>
+            un-inline-flex
+            un-min-w-0
+            un-items-center
+            un-gap-1
+          >
+            <span un-truncate>{{ appName }}</span>
+            <img
+              v-if="iconUrl"
+              :src="iconUrl"
+              alt=""
+              width="16"
+              height="16"
+              un-h-4
+              un-w-4
+              un-shrink-0
+            >
+            <SiteDoingAppIcon
+              v-else
+              :app="appName"
+            />
+          </span>
+          <span
+            v-if="phraseParts.after"
+            un-cursor-pointer
+            role="button"
+            tabindex="0"
+            title="reshuffle"
+            @click="onPhraseClick"
+            @keydown.enter.prevent="onPhraseClick"
+          >{{ phraseParts.after }}</span>
+        </template>
+        <template v-else-if="appName">
+          <span aria-hidden="true">·</span>
+          <a
+            v-if="phrase.url"
+            :href="phrase.url"
+            target="_blank"
+            rel="noopener noreferrer"
+            un-inline-flex
+            un-min-w-0
+            un-items-center
+            un-gap-1
+            un-text="muted hover:colored-ink"
+            un-underline
+            un-underline-offset-2
+            un-decoration-line
+          >
+            <span un-truncate>{{ appName }}</span>
+            <img
+              v-if="iconUrl"
+              :src="iconUrl"
+              alt=""
+              width="16"
+              height="16"
+              un-h-4
+              un-w-4
+              un-shrink-0
+            >
+            <SiteDoingAppIcon
+              v-else
+              :app="appName"
+            />
+          </a>
+          <span
+            v-else
+            un-inline-flex
+            un-min-w-0
+            un-items-center
+            un-gap-1
+          >
+            <span un-truncate>{{ appName }}</span>
+            <img
+              v-if="iconUrl"
+              :src="iconUrl"
+              alt=""
+              width="16"
+              height="16"
+              un-h-4
+              un-w-4
+              un-shrink-0
+            >
+            <SiteDoingAppIcon
+              v-else
+              :app="appName"
+            />
+          </span>
+        </template>
         <span
-          v-else
-          un-inline-flex
-          un-min-w-0
-          un-items-center
-          un-gap-1
-        >
-          <span un-truncate>{{ appName }}</span>
-          <img
-            v-if="iconUrl"
-            :src="iconUrl"
-            alt=""
-            width="16"
-            height="16"
-            un-h-4
-            un-w-4
-            un-shrink-0
-          >
-          <SiteDoingAppIcon
-            v-else
-            :app="appName"
-          />
-        </span>
-      </template>
-      <span
-        v-if="sleeping"
-        un-i-solar-sleeping-circle-bold-duotone
-        un-inline-block
-        un-size="1em"
-        un-shrink-0
-      />
-    </span>
+          v-if="sleeping"
+          un-i-solar-sleeping-circle-bold-duotone
+          un-inline-block
+          un-size="1em"
+          un-shrink-0
+        />
+      </span>
     </div>
   </div>
 </template>

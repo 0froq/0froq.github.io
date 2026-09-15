@@ -32,7 +32,7 @@
 蛙蛙的风格是「先跑通再完善」。vis-network 是上手最快的：50 行代码出一个可交互的网络图，带物理模拟（节点自动排开、拖拽弹性、缩放平滑），DataSets 支持动态增删。
 
 ```js
-import { Network, DataSet } from 'vis-network/standalone'
+import { DataSet, Network } from 'vis-network/standalone'
 
 const nodes = new DataSet(tags.map(t => ({ id: t.name, label: t.name, group: t.domain })))
 const edges = new DataSet(relations.map(r => ({ from: r.a, to: r.b })))
@@ -75,7 +75,8 @@ import G6 from '@antv/g6'
 
 const graph = new G6.Graph({
   container: 'mountNode',
-  width: 1200, height: 800,
+  width: 1200,
+  height: 800,
   layout: { type: 'dagre', rankdir: 'LR', nodesep: 30, ranksep: 100 },
   defaultNode: { type: 'rect', size: [120, 40] },
   modes: { default: ['drag-canvas', 'zoom-canvas', 'click-select'] },

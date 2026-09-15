@@ -121,14 +121,14 @@ user: { name: Ada }
 ```
 
 ::card
-#header
+# header
 
 ## 卡片标题
 
-#content
+# content
 主要内容
 
-#footer
+# footer
 页脚文本
 ::
 

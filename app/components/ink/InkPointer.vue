@@ -1,17 +1,23 @@
 <script setup lang="ts">
 import { inkPointerParts } from '~/utils/inkDraw'
 
-type InkPointerSize = 'md' | 'sm'
+type InkPointerSize = 'md' | 'sm' | 'lg'
+type InkPointerPace = 'normal' | 'fast'
 
 const props = withDefaults(defineProps<{
   seed: string
   dir?: InkArrowDir
   size?: InkPointerSize
   draw?: boolean
+  /** When set, draw in / erase out as this toggles. Home gloss still uses `draw`. */
+  drawn?: boolean | null
+  pace?: InkPointerPace
 }>(), {
   dir: 'down',
   size: 'md',
   draw: false,
+  drawn: null,
+  pace: 'normal',
 })
 
 const stemEl = ref<SVGPathElement | null>(null)
@@ -21,6 +27,8 @@ const anims: Animation[] = []
 
 const parts = computed(() => inkPointerParts(props.seed, props.dir))
 const tall = computed(() => props.dir === 'up' || props.dir === 'down')
+const live = computed(() => props.drawn !== null)
+const inked = computed(() => !live.value)
 
 /** Uno spacing: 1 = 0.25rem. Safelisted class tokens (see uno.config). */
 const boxClass = computed(() => {
@@ -31,6 +39,8 @@ const boxClass = computed(() => {
       return isTall ? 'h-17 w-9' : 'h-9 w-17'
     case 'sm':
       return isTall ? 'h-6 w-3.5' : 'h-3.5 w-7'
+    case 'lg':
+      return isTall ? 'h-10 w-6' : 'h-6 w-12'
     default: {
       const _exhaustive: never = size
       return _exhaustive
@@ -45,6 +55,8 @@ const stroke = computed(() => {
       return 1.7
     case 'sm':
       return 3.4
+    case 'lg':
+      return 2.4
     default: {
       const _exhaustive: never = size
       return _exhaustive
@@ -67,6 +79,20 @@ function clearTimers() {
   for (const anim of anims)
     anim.cancel()
   anims.length = 0
+}
+
+function timings() {
+  const pace = props.pace
+  switch (pace) {
+    case 'fast':
+      return { stem: 220, head: 140, gap: 12 }
+    case 'normal':
+      return { stem: 520, head: 360, gap: 32 }
+    default: {
+      const _exhaustive: never = pace
+      return _exhaustive
+    }
+  }
 }
 
 function pathLen(el: SVGPathElement) {
@@ -106,6 +132,33 @@ function reveal(el: SVGPathElement, ms: number) {
   }).catch(() => {})
 }
 
+function conceal(el: SVGPathElement, ms: number) {
+  const len = pathLen(el)
+  el.style.strokeDasharray = `${len}`
+  const from = Number.parseFloat(getComputedStyle(el).strokeDashoffset) || 0
+
+  if (reduceMotion() || ms <= 0) {
+    el.style.strokeDashoffset = `${len}`
+    return
+  }
+
+  const anim = el.animate(
+    [
+      { strokeDashoffset: from },
+      { strokeDashoffset: len },
+    ],
+    {
+      duration: ms,
+      easing: 'cubic-bezier(0.4, 0, 1, 1)',
+      fill: 'forwards',
+    },
+  )
+  anims.push(anim)
+  anim.finished.then(() => {
+    el.style.strokeDashoffset = `${len}`
+  }).catch(() => {})
+}
+
 function armDraw() {
   const stem = stemEl.value
   const head = headEl.value
@@ -122,17 +175,49 @@ function armDraw() {
     return
   }
 
-  const stemMs = 520
-  const headMs = 360
-  later(32, () => {
+  const { stem: stemMs, head: headMs, gap } = timings()
+  later(gap, () => {
     reveal(stem, stemMs)
   })
-  later(32 + stemMs, () => {
+  later(gap + stemMs, () => {
     reveal(head, headMs)
   })
 }
 
+function armErase() {
+  const stem = stemEl.value
+  const head = headEl.value
+  if (!stem || !head)
+    return
+
+  clearTimers()
+
+  if (reduceMotion()) {
+    hide(stem)
+    hide(head)
+    return
+  }
+
+  const { stem: stemMs, head: headMs, gap } = timings()
+  conceal(head, headMs)
+  later(headMs + gap, () => {
+    conceal(stem, stemMs)
+  })
+}
+
 onMounted(() => {
+  if (props.drawn !== null) {
+    const stem = stemEl.value
+    const head = headEl.value
+    if (stem)
+      hide(stem)
+    if (head)
+      hide(head)
+    if (props.drawn)
+      armDraw()
+    return
+  }
+
   if (!props.draw) {
     const stem = stemEl.value
     const head = headEl.value
@@ -163,6 +248,15 @@ onMounted(() => {
   })
 })
 
+watch(() => props.drawn, (on) => {
+  if (on == null)
+    return
+  if (on)
+    armDraw()
+  else
+    armErase()
+})
+
 onUnmounted(() => {
   clearTimers()
 })
@@ -187,7 +281,9 @@ onUnmounted(() => {
       :stroke-width="stroke"
       stroke-linecap="round"
       stroke-linejoin="round"
-      data-ink="stem"
+      :stroke-dasharray="live ? 400 : undefined"
+      :stroke-dashoffset="live ? 400 : undefined"
+      :data-ink="inked ? 'stem' : undefined"
     />
     <path
       ref="headEl"
@@ -198,7 +294,9 @@ onUnmounted(() => {
       :stroke-width="stroke"
       stroke-linecap="round"
       stroke-linejoin="round"
-      data-ink="head"
+      :stroke-dasharray="live ? 400 : undefined"
+      :stroke-dashoffset="live ? 400 : undefined"
+      :data-ink="inked ? 'head' : undefined"
     />
   </svg>
 </template>

@@ -1,0 +1,353 @@
+#!/usr/bin/env bash
+# Launch, doctor, fetch, and tear down a froQ verification instance.
+# Never kill by process name. Never delete /tmp/verify-froq/artifacts.
+set -euo pipefail
+
+usage() {
+  cat <<'EOF'
+control-froq — froQ verification instance helper
+
+Usage:
+  control-froq launch
+  control-froq doctor
+  control-froq url
+  control-froq fetch <path> [--out FILE]
+  control-froq cleanup
+
+Env:
+  FROQ_VERIFY_PORT       listen port (default 4317)
+  FROQ_VERIFY_DIR        runtime dir (default /tmp/verify-froq)
+  FROQ_VERIFY_ARTIFACTS  proof dir (default $FROQ_VERIFY_DIR/artifacts)
+  FROQ_VERIFY_ROOT       repo root (default: walk up from this script)
+  FROQ_VERIFY_ISOLATE    froQ API base used only by this instance
+                         (default http://127.0.0.1:9 — closed port, no
+                         production likes/stats/presence writes)
+EOF
+}
+
+find_root() {
+  if [[ -n "${FROQ_VERIFY_ROOT:-}" ]]; then
+    printf '%s\n' "$FROQ_VERIFY_ROOT"
+    return
+  fi
+  local here
+  here="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+  while [[ "$here" != "/" ]]; do
+    if [[ -f "$here/nuxt.config.ts" && -f "$here/package.json" ]]; then
+      printf '%s\n' "$here"
+      return
+    fi
+    here="$(dirname "$here")"
+  done
+  echo "control-froq: cannot find repo root (nuxt.config.ts)" >&2
+  exit 1
+}
+
+ROOT="$(find_root)"
+DIR="${FROQ_VERIFY_DIR:-/tmp/verify-froq}"
+ARTIFACTS="${FROQ_VERIFY_ARTIFACTS:-$DIR/artifacts}"
+STATE="$DIR/instance.env"
+PIDFILE="$DIR/nuxt.pid"
+LOG="$DIR/nuxt.log"
+PORT="${FROQ_VERIFY_PORT:-4317}"
+HOST="127.0.0.1"
+URL="http://${HOST}:${PORT}"
+ISOLATE="${FROQ_VERIFY_ISOLATE:-http://127.0.0.1:9}"
+
+load_state() {
+  if [[ ! -f "$STATE" ]]; then
+    echo "control-froq: no instance state at $STATE" >&2
+    exit 1
+  fi
+  # shellcheck disable=SC1090
+  source "$STATE"
+}
+
+write_state() {
+  mkdir -p "$DIR" "$ARTIFACTS"
+  cat >"$STATE" <<EOF
+FROQ_VERIFY_URL=$URL
+FROQ_VERIFY_PORT=$PORT
+FROQ_VERIFY_PID=$1
+FROQ_VERIFY_ROOT=$ROOT
+FROQ_VERIFY_ISOLATE=$ISOLATE
+EOF
+}
+
+listening_pid() {
+  lsof -nP -iTCP:"$PORT" -sTCP:LISTEN -t 2>/dev/null | head -1 || true
+}
+
+pid_alive() {
+  local pid="$1"
+  [[ -n "$pid" ]] && kill -0 "$pid" 2>/dev/null
+}
+
+# True when $1 is $2 or a descendant of $2 (pnpm vs node).
+pid_in_tree() {
+  local owner="$1"
+  local root_pid="$2"
+  local p i
+  [[ -z "$owner" || -z "$root_pid" ]] && return 1
+  p="$owner"
+  for i in 1 2 3 4 5 6 7 8; do
+    [[ "$p" == "$root_pid" ]] && return 0
+    [[ -z "$p" || "$p" == "0" || "$p" == "1" ]] && return 1
+    p="$(ps -o ppid= -p "$p" 2>/dev/null | tr -d ' ')"
+  done
+  return 1
+}
+
+http_code() {
+  local code
+  code="$(curl -s -o /dev/null -w '%{http_code}' --max-time 20 "$1" 2>/dev/null || true)"
+  if [[ -z "$code" ]]; then
+    printf '000\n'
+  else
+    printf '%s\n' "$code"
+  fi
+}
+
+ready() {
+  local code body
+  code="$(http_code "$URL/")"
+  [[ "$code" == "200" ]] || return 1
+  body="$(curl -s --max-time 20 "$URL/" 2>/dev/null || true)"
+  [[ "$body" == *froQ* ]]
+}
+
+cmd_launch() {
+  mkdir -p "$DIR" "$ARTIFACTS"
+
+  if [[ -f "$STATE" ]]; then
+    # shellcheck disable=SC1090
+    source "$STATE"
+    if pid_alive "${FROQ_VERIFY_PID:-}" && ready; then
+      echo "already running pid=$FROQ_VERIFY_PID url=$FROQ_VERIFY_URL"
+      return 0
+    fi
+  fi
+
+  local occupant
+  occupant="$(listening_pid)"
+  if [[ -n "$occupant" ]]; then
+    if [[ -f "$STATE" ]] && pid_in_tree "$occupant" "${FROQ_VERIFY_PID:-}"; then
+      echo "already running pid=$FROQ_VERIFY_PID listen=$occupant url=$URL"
+      return 0
+    fi
+    echo "control-froq: port $PORT is already owned by pid $occupant" >&2
+    echo "control-froq: refuse to drive a shared instance. Set FROQ_VERIFY_PORT or stop that process." >&2
+    exit 2
+  fi
+
+  if [[ ! -d "$ROOT/node_modules" ]]; then
+    echo "control-froq: node_modules missing; run pnpm install in $ROOT" >&2
+    exit 1
+  fi
+
+  : >"$LOG"
+  rm -f "$PIDFILE"
+  # Double-fork into a new session so this instance is not killed when
+  # the launching shell (or the agent's command) exits.
+  python3 - "$ROOT" "$ISOLATE" "$PORT" "$HOST" "$LOG" "$PIDFILE" <<'PY'
+import os
+import sys
+import time
+
+root, isolate, port, host, log, pidfile = sys.argv[1:]
+pid = os.fork()
+if pid > 0:
+    for _ in range(80):
+        if os.path.exists(pidfile):
+            sys.exit(0)
+        time.sleep(0.05)
+    sys.stderr.write("control-froq: daemon did not write pidfile\n")
+    sys.exit(1)
+os.setsid()
+pid = os.fork()
+if pid > 0:
+    os._exit(0)
+os.chdir(root)
+os.environ["NUXT_PUBLIC_FROQ_API"] = isolate
+devnull = os.open("/dev/null", os.O_RDONLY)
+logfd = os.open(log, os.O_WRONLY | os.O_CREAT | os.O_APPEND, 0o644)
+os.dup2(devnull, 0)
+os.dup2(logfd, 1)
+os.dup2(logfd, 2)
+os.close(devnull)
+os.close(logfd)
+with open(pidfile, "w") as handle:
+    handle.write(str(os.getpid()))
+os.execvp("pnpm", ["pnpm", "exec", "nuxi", "dev", "--port", port, "--host", host])
+PY
+  local pid
+  pid="$(cat "$PIDFILE")"
+  write_state "$pid"
+
+  local i
+  for i in $(seq 1 90); do
+    if ! pid_alive "$pid"; then
+      echo "control-froq: nuxt exited during startup; see $LOG" >&2
+      tail -n 40 "$LOG" >&2 || true
+      exit 1
+    fi
+    if ready; then
+      echo "launched pid=$pid url=$URL isolate=$ISOLATE"
+      return 0
+    fi
+    sleep 1
+  done
+
+  echo "control-froq: timed out waiting for $URL/ ; see $LOG" >&2
+  tail -n 40 "$LOG" >&2 || true
+  exit 1
+}
+
+cmd_doctor() {
+  load_state
+  local ok=1
+  echo "url=$FROQ_VERIFY_URL"
+  echo "port=$FROQ_VERIFY_PORT"
+  echo "pid=$FROQ_VERIFY_PID"
+  echo "root=$FROQ_VERIFY_ROOT"
+  echo "isolate=$FROQ_VERIFY_ISOLATE"
+  echo "artifacts=$ARTIFACTS"
+
+  if pid_alive "$FROQ_VERIFY_PID"; then
+    echo "process=alive"
+  else
+    echo "process=dead"
+    ok=0
+  fi
+
+  local owner
+  owner="$(listening_pid)"
+  if [[ "$owner" == "$FROQ_VERIFY_PID" ]] || pid_in_tree "$owner" "$FROQ_VERIFY_PID"; then
+    echo "port_owner=ours"
+  else
+    echo "port_owner=${owner:-none}"
+    ok=0
+  fi
+
+  local home_code essays_code journal_code cabinet_code board_code
+  home_code="$(http_code "$FROQ_VERIFY_URL/")"
+  essays_code="$(http_code "$FROQ_VERIFY_URL/essays")"
+  journal_code="$(http_code "$FROQ_VERIFY_URL/journal")"
+  cabinet_code="$(http_code "$FROQ_VERIFY_URL/cabinet")"
+  board_code="$(http_code "$FROQ_VERIFY_URL/api/board")"
+  echo "GET / = $home_code"
+  echo "GET /essays = $essays_code"
+  echo "GET /journal = $journal_code"
+  echo "GET /cabinet = $cabinet_code"
+  echo "GET /api/board = $board_code"
+
+  if [[ "$home_code" != "200" || "$essays_code" != "200" || "$journal_code" != "200" || "$cabinet_code" != "200" || "$board_code" != "200" ]]; then
+    ok=0
+  fi
+
+  local body
+  body="$(curl -s --max-time 20 "$FROQ_VERIFY_URL/" 2>/dev/null || true)"
+  if [[ "$body" == *froQ* ]]; then
+    echo "identity=froQ"
+  else
+    echo "identity=missing"
+    ok=0
+  fi
+
+  if [[ "$ok" -eq 1 ]]; then
+    echo "doctor=ok"
+    return 0
+  fi
+  echo "doctor=fail"
+  return 1
+}
+
+cmd_url() {
+  load_state
+  printf '%s\n' "$FROQ_VERIFY_URL"
+}
+
+cmd_fetch() {
+  load_state
+  local path="${1:-}"
+  local out=""
+  shift || true
+  while [[ $# -gt 0 ]]; do
+    case "$1" in
+      --out)
+        out="${2:-}"
+        shift 2
+        ;;
+      *)
+        echo "control-froq fetch: unknown arg $1" >&2
+        exit 1
+        ;;
+    esac
+  done
+  if [[ -z "$path" || "$path" != /* ]]; then
+    echo "control-froq fetch: path must start with /" >&2
+    exit 1
+  fi
+  local tmp
+  tmp="$(mktemp)"
+  local code
+  code="$(curl -s -o "$tmp" -w '%{http_code}' --max-time 15 "${FROQ_VERIFY_URL}${path}" 2>/dev/null || true)"
+  [[ -n "$code" ]] || code="000"
+  echo "status=$code url=${FROQ_VERIFY_URL}${path}"
+  if [[ -n "$out" ]]; then
+    mkdir -p "$(dirname "$out")"
+    mv "$tmp" "$out"
+    echo "saved=$out"
+  else
+    rm -f "$tmp"
+  fi
+  [[ "$code" == "200" ]]
+}
+
+cmd_cleanup() {
+  if [[ ! -f "$STATE" ]]; then
+    echo "nothing to clean"
+    return 0
+  fi
+  # shellcheck disable=SC1090
+  source "$STATE"
+  if pid_alive "${FROQ_VERIFY_PID:-}"; then
+    local child
+    while read -r child; do
+      [[ -n "$child" ]] && kill "$child" 2>/dev/null || true
+    done < <(pgrep -P "$FROQ_VERIFY_PID" || true)
+    kill "$FROQ_VERIFY_PID" 2>/dev/null || true
+    local i
+    for i in $(seq 1 20); do
+      pid_alive "$FROQ_VERIFY_PID" || break
+      sleep 0.25
+    done
+    if pid_alive "$FROQ_VERIFY_PID"; then
+      kill -9 "$FROQ_VERIFY_PID" 2>/dev/null || true
+    fi
+    echo "stopped pid=$FROQ_VERIFY_PID"
+  else
+    echo "pid ${FROQ_VERIFY_PID:-?} already gone"
+  fi
+  rm -f "$STATE" "$PIDFILE"
+  echo "kept artifacts at $ARTIFACTS"
+  echo "kept log at $LOG"
+}
+
+cmd="${1:-}"
+shift || true
+case "$cmd" in
+  launch) cmd_launch "$@" ;;
+  doctor) cmd_doctor "$@" ;;
+  url) cmd_url "$@" ;;
+  fetch)
+    cmd_fetch "$@"
+    ;;
+  cleanup) cmd_cleanup "$@" ;;
+  -h|--help|help|"") usage ;;
+  *)
+    echo "control-froq: unknown command $cmd" >&2
+    usage >&2
+    exit 1
+    ;;
+esac

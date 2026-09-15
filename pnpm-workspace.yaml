@@ -12,25 +12,39 @@ packages:
   - .
   - workers/froq-api
 
+allowBuilds:
+  better-sqlite3: true
+  esbuild: true
+  sharp: true
+  workerd: true
+
+catalog:
+  '@oreo-design/doodle-icons': ^0.1.0
+  smol-toml: ^1.8.0
+  yaml: ^2.9.0
 catalogs:
   build:
     '@nuxt/content': ^3.15.2
     better-sqlite3: ^12.4.1
-    nuxt: ^4.5.2
-    rehype-callouts: ^2.2.0
-    remark-math: ^6.0.0
-    rehype-katex: ^7.0.1
     katex: ^0.16.47
 
+    nuxt: ^4.5.2
+    rehype-callouts: ^2.2.0
+    rehype-katex: ^7.0.1
+    remark-math: ^6.0.0
+  fonts:
+    '@fontsource-variable/eb-garamond': ^5.3.0
+    '@fontsource-variable/instrument-sans': ^5.3.0
   lint:
     '@antfu/eslint-config': ^7.2.0
     '@unocss/eslint-plugin': ^66.6.7
     eslint: ^9.39.2
 
   runtime:
-    vue: ^3.5.39
-    roughjs: ^4.6.6
+    '@vueuse/core': ^14.4.0
 
+    roughjs: ^4.6.6
+    vue: ^3.5.39
   styling:
     '@iconify-json/carbon': ^1.2.18
     '@iconify-json/duo-icons': ^1.2.2
@@ -49,16 +63,3 @@ catalogs:
     '@cloudflare/workers-types': ^4.20250810.0
     typescript: ^5.9.2
     wrangler: ^4.28.0
-  fonts:
-    '@fontsource-variable/eb-garamond': ^5.3.0
-    '@fontsource-variable/instrument-sans': ^5.3.0
-
-allowBuilds:
-  better-sqlite3: true
-  esbuild: true
-  sharp: true
-  workerd: true
-
-catalog:
-  smol-toml: ^1.8.0
-  yaml: ^2.9.0

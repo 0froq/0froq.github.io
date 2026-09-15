@@ -33,7 +33,7 @@ relationships:
     type: implemented-by
     strength: 0.9
 temporal:
-  last-verified: "2024-06-15"
+  last-verified: 2024-06-15
   decay-rate: 0.05
 ---
 ```
@@ -111,7 +111,9 @@ const nodes = files.map(f => ({
 }))
 const edges = [
   ...files.flatMap(f => (f.frontmatter.relations ?? []).map(r => ({
-    source: f.path, target: r.target, type: r.type,
+    source: f.path,
+    target: r.target,
+    type: r.type,
   }))),
   ...cooccurrenceEdges(files), // 基于共享 tag 计算共现边
 ]

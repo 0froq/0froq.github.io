@@ -67,7 +67,7 @@ import { defineConfig } from 'vitepress'
 import { pagefindPlugin } from 'vitepress-plugin-pagefind'
 
 export default defineConfig({
-  lang: 'zh-cn',  // 自动用于 Pagefind 索引语言
+  lang: 'zh-cn', // 自动用于 Pagefind 索引语言
   vite: {
     plugins: [pagefindPlugin()],
   },

@@ -53,19 +53,11 @@ function shouldInclude(filepath) {
   const rel = path.relative(docsRoot, filepath)
   if (!rel)
     return false
-  if (rel.startsWith('corpus/')) {
-    if (rel.includes('/_template/'))
-      return false
-    if (path.basename(rel) === 'index.md')
-      return false
-    return true
-  }
-  if (rel.startsWith('posts/')) {
-    if (path.basename(rel) === 'index.md')
-      return false
-    return true
-  }
-  return false
+  if (rel.startsWith('archive/'))
+    return false
+  if (!/^(essays|journal|cabinet)\//.test(rel))
+    return false
+  return path.basename(rel) !== 'index.md'
 }
 
 function walkMarkdownFiles(dir) {

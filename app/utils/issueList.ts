@@ -4,10 +4,13 @@ export interface LayerEntry {
   path: string
   title: string
   created?: string
+  last_modified?: string
   status?: string
   aigc?: boolean
   locale?: string
+  kind?: string
   description?: string
+  slip?: string
   words?: number
   tags?: string[]
 }
@@ -42,7 +45,7 @@ function parseTagLine(text: string): string[] | null {
   for (const part of parts) {
     const hashed = part.startsWith('#')
     const raw = hashed ? part.slice(1) : part
-    if (!raw || !/^[A-Za-z][\w/]*$/.test(raw))
+    if (!raw || !/^[A-Z][\w/]*$/i.test(raw))
       return null
     if (hashed)
       sawHash = true
@@ -83,6 +86,59 @@ export function issueExcerpt(body: unknown, fallback?: string): string {
   return ''
 }
 
+/** Opening note of a gathering, stopping at the first break or heading. */
+export function issueGatheringNote(body: unknown, fallback?: string): string {
+  const nodes = bodyNodes(body)
+  if (nodes) {
+    const paras: string[] = []
+    for (const node of nodes) {
+      if (!Array.isArray(node))
+        continue
+      const tag = node[0]
+      if (tag === 'hr' || (typeof tag === 'string' && /^h[1-6]$/.test(tag)))
+        break
+      if (tag !== 'p')
+        continue
+      const text = nodePlain(node)
+      if (!text || text === '[[toc]]' || parseTagLine(text) || text.startsWith('#'))
+        continue
+      paras.push(text)
+    }
+    const joined = paras.join(' ').trim()
+    if (joined)
+      return joined
+  }
+  return fallback?.trim() || ''
+}
+
+/** First readable fragment, including text after a break. Used as a cabinet slip. */
+export function issueSlip(body: unknown, fallback?: string): string {
+  const nodes = bodyNodes(body)
+  if (nodes) {
+    const paras: string[] = []
+    for (const node of nodes) {
+      if (!Array.isArray(node))
+        continue
+      const tag = node[0]
+      if (tag !== 'p' && tag !== 'blockquote')
+        continue
+      const text = nodePlain(node)
+      if (!text || text === '[[toc]]' || parseTagLine(text) || text.startsWith('#'))
+        continue
+      paras.push(text)
+      if (paras.join(' ').length > 200)
+        break
+    }
+    const joined = paras.join(' ').trim()
+    if (joined) {
+      if (joined.length <= 240)
+        return joined
+      return `${joined.slice(0, 240).replace(/\s+\S*$/, '')}…`
+    }
+  }
+  return fallback?.trim() || ''
+}
+
 export function issueTags(body: unknown): string[] {
   const nodes = bodyNodes(body)
   if (!nodes)
@@ -120,6 +176,8 @@ export function toLayerEntry(entry: {
   status?: string
   aigc?: boolean
   locale?: string
+  kind?: string
+  last_modified?: string
   description?: string
   body?: unknown
 }): LayerEntry {
@@ -128,13 +186,22 @@ export function toLayerEntry(entry: {
     path: entry.path,
     title,
     created: entry.created,
+    last_modified: entry.last_modified,
     status: entry.status,
     aigc: entry.aigc,
     locale: resolveLocale(entry.path, entry.locale, title),
+    kind: entry.kind,
     description: issueExcerpt(entry.body, entry.description),
+    slip: entry.kind === 'evergreen'
+      ? issueGatheringNote(entry.body, entry.description)
+      : issueSlip(entry.body, entry.description),
     words: issueWords(entry.body),
     tags: issueTags(entry.body),
   }
+}
+
+export function isIssueEvergreen(entry: Pick<LayerEntry, 'kind'>): boolean {
+  return entry.kind === 'evergreen'
 }
 
 /** List/peek flags shared across hub surfaces. */
@@ -160,7 +227,7 @@ export function resolveLocale(
     return undefined
   if (raw && raw !== 'en')
     return raw
-  if (/[\u3400-\u9fff]/.test(title))
+  if (/[\u3400-\u9FFF]/.test(title))
     return 'zh'
   return undefined
 }

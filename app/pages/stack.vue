@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { parseMarkdown } from '@nuxtjs/mdc/runtime'
+
 useHead({ title: 'Stack' })
 
 type Level = 'fluent' | 'daily' | 'used' | 'learning' | 'curious'
@@ -298,12 +300,13 @@ const groups: {
   },
 ]
 
+const STACK_STORY_WS_RE = /\s+/g
+
 function stackStory(text: string): string {
-  return text.replace(/\s+/g, ' ').trim()
+  return text.replace(STACK_STORY_WS_RE, ' ').trim()
 }
 
 const { data: storyAst } = await useAsyncData('stack-stories', async () => {
-  const { parseMarkdown } = await import('@nuxtjs/mdc/runtime')
   const entries = await Promise.all(
     groups.flatMap(group =>
       group.tools.map(async (tool) => {
@@ -357,7 +360,6 @@ const { data: storyAst } = await useAsyncData('stack-stories', async () => {
         what I reach for, what I have held, what I am still learning to hold.
       </p> -->
     </header>
-
 
     <div
       un-mt-10
@@ -442,7 +444,9 @@ const { data: storyAst } = await useAsyncData('stack-stories', async () => {
                     un-tracking-tight
                     un-text="[1.05rem] ink"
                     :class="tool.joke ? 'stack-wry' : undefined"
-                  >{{ tool.name }}</dt>
+                  >
+                    {{ tool.name }}
+                  </dt>
                   <dd
                     un-m-0
                     un-max-w="[36rem]"

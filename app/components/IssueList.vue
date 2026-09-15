@@ -100,6 +100,7 @@ onUnmounted(() => {
           <button
             type="button"
             class="group/row ink-host reach-hit"
+            data-ink-frame
             un-lg:hidden
             un-flex
             un-w-full
@@ -137,6 +138,7 @@ onUnmounted(() => {
           <NuxtLink
             :to="row.item.path"
             class="group/row ink-host reach-hit"
+            data-ink-frame
             un-hidden
             un-lg="flex flex-col"
             un-text-inherit

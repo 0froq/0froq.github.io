@@ -1,20 +1,15 @@
 <script setup lang="ts">
 const peek = useHubPeek()
 const entry = computed(() => peek?.value ?? null)
-const route = useRoute()
-const { remember } = useIssueArticleReturn()
 const overlayRef = ref<HTMLElement | null>(null)
-const sheetRef = ref<HTMLElement | null>(null)
 const opener = shallowRef<HTMLElement | null>(null)
 const scrollOrigin = shallowRef(0)
+
+const wide = useMin('lg')
 
 function dismiss() {
   if (peek)
     peek.value = null
-}
-
-function onOpenArticle() {
-  remember(route.fullPath)
 }
 
 function focusCta() {
@@ -28,11 +23,12 @@ function restoreFocus() {
 }
 
 function isWide() {
-  return window.matchMedia(mqMin('lg')).matches
+  return wide.value
 }
 
 function eventInSheet(target: EventTarget | null) {
-  return !!(sheetRef.value && target instanceof Node && sheetRef.value.contains(target))
+  const sheet = overlayRef.value?.querySelector('.issue-peek-sheet')
+  return !!(sheet && target instanceof Node && sheet.contains(target))
 }
 
 function onKeydown(event: KeyboardEvent) {
@@ -133,6 +129,7 @@ onUnmounted(() => {
         un-flex-col
         un-justify-end
         un-pointer-events-none
+        un-px="[var(--gutter)]"
         un-lg:hidden
       >
         <div
@@ -142,112 +139,16 @@ onUnmounted(() => {
           un-pointer-events-none
           aria-hidden="true"
         />
-        <div
-          id="issue-peek-float"
-          ref="sheetRef"
-          class="issue-peek-sheet"
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby="issue-peek-float-title"
+        <IssuePeekCard
+          dialog
+          :entry="entry"
           un-relative
           un-z-1
           un-pointer-events-auto
-          un-mx="[var(--gutter)]"
           un-mb="[max(1rem,env(safe-area-inset-bottom))]"
           un-max-h="[min(78dvh,36rem)]"
-          un-overflow-auto
-          un-bg-paper
-          un-border
-          un-border-line
-          un-shadow="[0_-8px_28px_var(--float-shadow)]"
-        >
-          <p
-            id="issue-peek-float-title"
-            un-m-0
-            un-sr-only
-          >
-            {{ entry.title }}
-          </p>
-
-          <div
-            un-flex
-            un-items-start
-            un-justify-between
-            un-gap-4
-            un-px="[1.25rem]"
-            un-pt="[1rem]"
-          >
-            <span
-              aria-hidden="true"
-              un-block
-              un-w-8
-              un-h-px
-              un-mt="[0.65rem]"
-              un-bg-line
-            />
-            <button
-              type="button"
-              class="reach-hit"
-              un-shrink-0
-              un-m-0
-              un-border-0
-              un-bg-transparent
-              un-p="[0.35rem]"
-              un-font-mono
-              un-text="sm muted hover:ink focus-visible:ink"
-              un-leading-none
-              un-tracking-wide
-              un-cursor-pointer
-              aria-label="Dismiss"
-              @click="dismiss"
-            >
-              ×
-            </button>
-          </div>
-
-          <div
-            un-px="[1.25rem]"
-            un-pt="[0.35rem]"
-            un-pb="[0.25rem]"
-          >
-            <IssueEntryHead
-              :entry="entry"
-              variant="peek"
-            />
-          </div>
-
-          <div un-p="[1.25rem]">
-            <NuxtLink
-              data-issue-peek-cta
-              class="reach-hit issue-peek-cta"
-              un-flex
-              un-items-center
-              un-justify-center
-              un-gap-2
-              un-w-full
-              un-px-4
-              un-py-3
-              un-bg-ink
-              un-text-paper
-              un-font-serif
-              un-text-lg
-              un-leading-none
-              un-decoration-none
-              un-transition-colors
-              un-duration-200
-              :to="entry.path"
-              @click="onOpenArticle"
-            >
-              <span>Read</span>
-              <span
-                aria-hidden="true"
-                un-font-mono
-                un-text-sm
-                un-tracking-wide
-              >→</span>
-            </NuxtLink>
-          </div>
-        </div>
+          @dismiss="dismiss"
+        />
       </div>
     </Transition>
   </Teleport>
@@ -258,12 +159,6 @@ onUnmounted(() => {
   background: color-mix(in srgb, var(--ink) 42%, transparent);
   -webkit-backdrop-filter: blur(10px) saturate(0.72) brightness(0.88);
   backdrop-filter: blur(10px) saturate(0.72) brightness(0.88);
-}
-
-.issue-peek-cta:hover,
-.issue-peek-cta:focus-visible {
-  background: var(--colored-ink);
-  color: var(--paper);
 }
 
 .issue-peek-enter-active,

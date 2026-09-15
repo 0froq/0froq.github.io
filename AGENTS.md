@@ -72,104 +72,13 @@ Day/week planning skills (`start-my-day`, `end-my-day`, `start-my-week`, `end-my
 
 ---
 
-## 2. Corpus Conventions
+## 2. Public writing and archive boundaries
 
-### 2.1 Filename prefix must match layer
-
-- **Problem**: Creating a file in the wrong directory or with the wrong prefix for its content type. The corpus tooling and the six-layer architecture rely on consistent prefix→layer mapping.
-- **Case**: Dropping a metacognitive entry into `100-ingesta/` with prefix `aut-`, or putting an aesthetic entry in `000-autopsia/` with prefix `del-`.
-- **Correct**: Prefix strictly follows layer directory:
-
-  | Directory        | Prefix | Content                  |
-  | ---------------- | ------ | ------------------------ |
-  | `000-autopsia/`  | `aut-` | Metacognition            |
-  | `100-ingesta/`   | `ing-` | External intake & papers |
-  | `200-neoplasma/` | `neo-` | Internalized knowledge   |
-  | `300-putredo/`   | `put-` | Journaling & review      |
-  | `400-delirium/`  | `del-` | Aesthetic materials      |
-  | `500-vigil/`     | `vig-` | Non-rational creation    |
-
-  The [layer reference tooling](docs/corpus/_lib/corpus_layers.zsh) provides `corpus_normalize_layer` to resolve aliases.
-
-### 2.2 Putredo: date-based vs topic-based naming
-
-- **Problem**: Not knowing when to use a date vs a topic as the filename, leading to either a cluttered directory or untrackable entries.
-- **Case A**: Creating `put-my-thoughts.md` for a single-day journal entry — should have been `put-YYYYMMDD.md`.
-- **Case B**: Creating `put-20260528.md` for a long-term recurring topic like "research-ltmp" — should have been `put-research-ltmp.md`.
-- **Correct**:
-  - **Journal entry** (single day, one-off reflection): `put-YYYYMMDD.md`
-  - **Topic entry** (recurring or long-form reflection on a specific theme): `put-topic.md`
-  - **Dated topic entry** (a session on a topic that may recur): `put-topic-YYYYMMDDHHMM.md`
-  - Examples from the corpus: `put-20260527.md` (journal), `put-tooling.md` (topic), `put-cantopop-202606261356.md` (dated topic).
-
-### 2.3 Paper entries require the @ prefix
-
-- **Problem**: Creating paper entries without the `@` prefix, which breaks the paper-vs-other-ingesta distinction.
-- **Case**: Creating `ing-dai2018.md` instead of `ing-@dai2018.md`.
-- **Correct**: Paper entries in `100-ingesta/` use `ing-@citation_key.md`. The `@` signals a paper citation rather than a general intake note. Use the paper template (`_template/tp-paper.md`) which includes bib metadata fields after the tag line:
-
-  ```markdown
-  - citation_key: dai2018
-  - title: ...
-  - author: ...
-  - journal: ...
-  - year: ...
-  - doi: ...
-  ```
-
-### 2.4 Frontmatter completeness
-
-- **Problem**: Omitting one or more required frontmatter fields, which breaks corpus rendering and tag-based queries.
-- **Case**: Creating a corpus entry with only `title` and `created`, missing `status` and `last_modified`.
-- **Correct**: Every corpus entry must have all four required fields:
-
-  ```yaml
-  ---
-  title: Entry Title
-  created: YYYY-MM-DD
-  status: draft # or "form" if the user says finalized
-  last_modified: YYYY-MM-DD HH:mm:ss
-  ---
-  ```
-
-  Always start from the corresponding template in `docs/corpus/_template/`.
-
-### 2.5 Hashtag invention
-
-- **Problem**: Inventing new hashtags on the tag line without user approval, creating tag fragmentation.
-- **Case**: Adding `#my-custom-tag` to a corpus entry when existing tags like `#scope/work`, `#source/paper`, or `#log/reading` would fit.
-- **Correct**:
-  - Reuse existing tags (`#scope/...`, `#source/...`, `#log/...`) whenever they fit.
-  - If no existing tag covers the concept, propose the new tag to the user in conversation and wait for approval.
-  - Do not add unapproved tags to the file.
-
-### 2.6 Rune hashtag syntax
-
-- **Problem**: A hyphen or underscore inside a multi-word hashtag fragments
-  the tag namespace and conflicts with the Rune output convention.
-- **Correct**: Write newly generated multi-word standalone hashtags in
-  PascalCase: `#activityNote`, `#carveLog`, `#highPriority`. Never write
-  `#activity-note` or `#activity_note`.
-- Existing slash taxonomy such as `#author/rune` and `#scope/meta/cognition`
-  is outside this rule; do not rename it without an explicit taxonomy
-  migration task.
-- Outside the tag line, every literal `#` in prose, headings, or lists must be
-  escaped as `\#` to prevent accidental tag parsing. Tags are the only
-  permitted bare `#`.
-
-### 2.7 Markdown source line width
-
-- **Problem**: Writing long Markdown source lines makes corpus/posts hard to edit in terminal editors and produces noisy diffs.
-- **Case**: A prose paragraph is written as one 200+ character line; it renders fine, but exceeds the editor's comfortable width and is hard to review.
-- **Correct**:
-  - For Markdown prose, wrap lines by semantic units. Aim for about 80 English-character visual width, or about 40 Chinese characters.
-  - Prefer line breaks after Chinese punctuation, English punctuation, spaces, or Chinese/English boundaries.
-  - Do not hard-break between two adjacent Chinese characters if a nearby punctuation or phrase boundary exists.
-  - Do not break Markdown syntax units such as links, inline code, footnote markers, emphasis markers, or image syntax.
-  - Lists should wrap with indentation preserved.
-  - Frontmatter, tables, code blocks, raw URLs, and generated machine-readable blocks are exempt when wrapping would reduce correctness or readability.
-
----
+- Public content lives only in `docs/essays/`, `docs/journal/`, and `docs/cabinet/`.
+- `docs/archive/` is historical material. Do not edit, publish, summarize into new public content, or use it as a template unless the user explicitly points to a file.
+- Do not create a public entry from Capture, Yard, Work, a briefing, a task log, or an agent run. Public writing requires an explicit user request or a finished draft the user has chosen to publish.
+- `Essays` holds independent arguments, technical writing, and finished pieces. `Journal` holds time-bound personal writing. `Cabinet` holds selected found or made materials. Living gatherings that will keep receiving fragments use `kind: evergreen` (existing `kind` field). Do not invent extra taxonomies.
+- New public Markdown needs `title`, `created`, `status`, and `last_modified` frontmatter. Use `status: draft` until the user says it is public-ready; do not invent tags or metadata taxonomies.
 
 ## 3. Agent Behavior & Tool Use
 
@@ -201,28 +110,28 @@ Day/week planning skills (`start-my-day`, `end-my-day`, `start-my-week`, `end-my
   | ---------- | ------------------------------------------------------------ |
   | `feat`     | New user-facing features or functionality                    |
   | `fix`      | Bug fixes                                                    |
-  | `docs`     | Documentation changes including corpus entries and posts     |
+  | `docs`     | Documentation and public-writing changes     |
   | `refactor` | Code restructuring without behavioral change                 |
   | `style`    | Formatting, whitespace, lint fixes (no logic change)         |
   | `test`     | Adding or modifying tests                                    |
   | `build`    | Build system, dependencies, package manager changes          |
   | `ci`       | CI/CD pipeline, automation, deployment config                |
   | `perf`     | Performance optimization                                     |
-  | `content`  | Content-only changes (corpus entries, posts, dashboard data) |
+  | `content`  | Content-only changes (public writing, dashboard data) |
   | `data`     | Data file updates (board.yml state, advisor context)         |
   | `config`   | Configuration file changes (eslint, tsconfig, etc.)          |
 
-  Prefer `content` for corpus/posts additions, `data` for dashboard/board state changes, and `config` for tooling setup. When in doubt, `docs` covers most text file changes under `/docs`.
+  Prefer `content` for public-writing additions, `data` for dashboard/board state changes, and `config` for tooling setup. When in doubt, `docs` covers most text file changes under `/docs`.
 
 ### 4.2 Commit scope
 
 - **Problem**: Omitting scope makes commit history harder to navigate.
-- **Correct**: Include a scope when the change is contained to a specific module or directory. Common scopes: `dashboard`, `board`, `advisor`, `corpus`, `posts`, `docs`, `vitepress`, `scripts`, `config`.
+- **Correct**: Include a scope when the change is contained to a specific module or directory. Common scopes: `dashboard`, `board`, `advisor`, `essays`, `journal`, `cabinet`, `docs`, `scripts`, `config`.
 - **Examples**:
 
   ```
-  docs(corpus): add carve entries 2026-06-19
-  content(posts): update lake warming draft notes
+  content(essays): publish lake warming draft
+  content(journal): add dated entry
   data(board): mark exam review task as done
   config(scripts): remove unused BibTeX parser
   ```
@@ -231,32 +140,25 @@ Day/week planning skills (`start-my-day`, `end-my-day`, `start-my-week`, `end-my
 
 ## 5. Vue styling
 
-### 5.1 Prefer UnoCSS over `<style>` blocks
+### 5.1 UnoCSS first — template, then `--uno`, never `@screen`
 
-- **Problem**: Layout, type, color, and simple motion written in `<style scoped>`
-  split the visual contract from the template and duplicate what attributify
-  already covers.
-- **Case**: A hub title's `font-size`, `margin`, and `color` live in CSS while
-  siblings already use `un-font-serif` / `un-text-ink`. The next edit has two
-  places to miss.
-- **Correct**:
-  - Style Vue templates with UnoCSS attributify (`un-*`). `prefixedOnly` is on
-    in `uno.config.mts`. Bare `class="flex"` is not extracted unless it is a
-    shortcut defined there.
-  - Reuse theme tokens (`ink`, `paper`, `muted`, `line`, `colored-ink`) and
-    existing shortcuts (`chrome-blur`, `reach-hit`, `filter-hit`). Those are
-    interaction chrome reused across components. Do not put page layout
-    (`sheet`, `site-hub-rail`) in `uno.config.mts`. Write structure on the
-    template with `un-*`.
-  - Keep a `<style>` block only for selectors the template cannot carry:
-    `::view-transition-*`, `@keyframes`, `paint-order`, Vue `<Transition>`
-    generated classes (`*-enter-from` / `*-leave-to`), and properties that
-    must interpolate on a persistent node (for example `color` from ink to
-    paper for hollow type).
-  - Do not add an empty `<style>` to silence PostCSS. That is not a fix.
-  - Do not `import type` in an SFC that has (or recently had) `<style>`.
-    Vite asks for `*.vue?vue&type=style&scoped=…`. When that module is stale
-    or mis-bound, PostCSS parses the script and template and reports
-    `Unknown word` on TypeScript and `{{ … }}`. Types exported from `utils/`
-    are auto-imported. After deleting a `<style>` block, restart `nuxt dev`
-    if the overlay still cites `type=style`.
+- **Problem**: Agents dump layout into `<style scoped>`, invent `@media (min-width: 760px)` or `@screen md`, and write `padding: 1rem` instead of `un-p-4`. The same rules have been restated in chat and forgotten.
+- **Case**: Hub peek used `@media (min-width: 1200px)` / `@screen lg` while the template already had `un-lg:flex-row`. Two breakpoint systems, and the list got squeezed at `md` because CSS did not match attributify.
+- **Correct** — read `uno.config.mts` before writing styles. This repo uses `presetWind4` + `presetAttributify` (`prefix: 'un-'`, `prefixedOnly: true`) + `presetTagify` (`prefix: 'un-'`) + `transformerDirectives` / `transformerVariantGroup`. Theme breakpoints: `sm` 600, `md` 760, `lg` 1200 (`app/utils/breakpoints.ts`). Semantic surfaces use CSS tokens (`ink`, `paper`, `muted`, `line`, `colored-ink`, `wry`, …). Wind palette colors (`rose`, `emerald`, …) are fine for one-off accents — do not invent a new CSS token just to avoid a Wind hue. Shortcuts to reuse: `chrome-blur`, `reach-hit`, `filter-hit`. Do not add page layout shortcuts (`sheet`, rails). JS `matchMedia` uses `mqMin('lg')` / `mqMax('md')`, not magic pixels.
+
+  **Order of work:**
+  1. **Template first.** Put layout, type, color, gap, and simple motion on the element with attributify (`un-flex`, `un-text-ink`, `un-md:flex-row`). Prefer semantic HTML + `un-*`. Tagify (`<un-flex>`) is for layout-only wrappers with no extra semantics; do not wrap prose in tagify just to avoid attributify.
+  2. **Simple pseudos and states are still template Uno.** Hover, focus, active, `before:` / `after:` (when the content is a utility, not a novel drawing), `group-data-*`, `aria-*` variants. Example: `un-hover:text-colored-ink`, `un-after:content-empty`.
+  3. **`<style scoped>` is the exception.** Keep it only when the template cannot carry the rule: `::view-transition-*`, `@keyframes`, `paint-order`, Vue `<Transition>` generated classes (`*-enter-from` / `*-leave-to`), deep descendant/combinator logic, or a thicket of interpolating CSS variables and `calc()`.
+  4. **Inside that exception, still Uno.** Write `--uno: '…'` (see `app/assets/css/main.css`). Utilities inside `--uno` are **unprefixed** Wind tokens (`p-4`, `md:flex-row`, `max-md:mx-auto`), not `un-p-4`. Do **not** use `@screen`, `@media (min-width: 760px)`, or `@media (max-width: 1199px)`.
+  5. **Breakpoints — the only width RWD on this site.** Layout that changes with viewport width uses Uno `sm:` `md:` `lg:` and `max-sm:` `max-md:` `max-lg:` (attributify `un-md:flex-row`, quoted `class="lg:block"`, or `--uno: 'max-md:hidden'`). Names and pixels live in `uno.config.mts` `theme.breakpoint` and `app/utils/breakpoints.ts`: `sm` 600, `md` 760, `lg` 1200. Do not add `xl` / `2xl` / a fourth cutoff. Do not write `@screen`, `@media (min-width: …)`, `@media (max-width: …)`, or `min-[760px]:`. Native `@media` is only for capability queries (`prefers-reduced-motion`, `prefers-reduced-transparency`, `scripting: none`, `pointer: fine`). If script must know the cut (peek overlay listeners, sidenote collect), use `useMin('lg')` / `useMax('md')` / `mqMin` / `mqMax` — same names, no magic pixels. Fluid `clamp` / `vw` on type and gutter is not a breakpoint; do not use it to switch columns or hide chrome.
+
+  **Spacing scale (Wind / Windi):** `1` = `0.25rem`. `un-p-4` = `1rem`. Prefer `un-p-4`, `un-gap-5`, `un-w-96` (`24rem`) over `un-p="[1rem]"`. Use explicit units only when the value is not a rem multiple of the scale: `ch`, `vh`, `dvh`, `cqi`, `px` hairlines, `pt`, or a `calc()`/`clamp()` that mixes tokens (`var(--gutter)`, `--hub-pad-top`).
+
+  **Vue parser vs attributify:** An attribute *name* must not contain `=`. `un-lg:group-data-[axis=list]/hub:max-w-176` is invalid HTML and Vue throws `Unquoted attribute value cannot contain U+003D`. Put those utilities in a quoted `class="…"` (Wind tokens, no `un-` prefix). `un-text="group-data-[rest]/row:ink"` is fine — the `=` is inside a quoted value.
+
+  **`--uno` crash:** `transformerDirectives` can throw `Cannot read properties of undefined (reading 'get')` on unknown or awkward tokens. If that happens, move the utilities to a quoted `class="…"` instead of debugging the transformer. Keep `--uno` for tokens that already work in `app/assets/css/main.css`.
+
+  **When touching an existing SFC:** move what the template (or `--uno`) can carry before adding more raw CSS. Do not empty-`<style>` to silence PostCSS.
+
+  **PostCSS / `import type`:** Do not `import type` in an SFC that has (or recently had) `<style>`. Vite asks for `*.vue?vue&type=style&scoped=…`. When that module is stale, PostCSS parses the script and reports `Unknown word` on TypeScript and `{{ … }}`. Types from `utils/` are auto-imported. After deleting a `<style>` block, restart `nuxt dev` if the overlay still cites `type=style`.

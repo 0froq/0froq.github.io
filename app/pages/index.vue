@@ -36,26 +36,12 @@ onBeforeUnmount(() => {
   window.removeEventListener('resize', syncMast)
 })
 
-const routes = [
-  {
-    to: '/posts',
-    label: 'Posts',
-    note: 'Articles that I want to share',
-    ink: 'underline',
-  },
-  {
-    to: '/corpus',
-    label: 'Corpus',
-    note: 'Internal notes but feel free to read',
-    ink: 'mark',
-  },
-  {
-    to: '/dashboard',
-    label: 'Dashboard',
-    note: 'Spy on me if you want',
-    ink: 'circle',
-  },
-] as const
+const routes = publicationSections.map(section => ({
+  to: `/${section.slug}`,
+  label: section.label,
+  note: section.note,
+  ink: section.ink,
+}))
 </script>
 
 <template>
@@ -72,11 +58,7 @@ const routes = [
       un-justify-start
       un-overflow-hidden
       un-bg-paper
-      un-pt="[clamp(1.25rem,4vh,3rem)] max-md:8"
-      un-max-md:relative
-      un-max-md:h-auto
-      un-max-md:max-h-none
-      un-max-md:overflow-visible
+      un-pt="[clamp(1.25rem,4vh,3rem)] max-md:10"
       :style="{ paddingBottom: `calc(${mastH}px + 0.75rem)` }"
     >
       <div
@@ -91,8 +73,8 @@ const routes = [
         un-items-stretch
         un-justify-start
         un-gap="[clamp(1.25rem,3.5vh,2.75rem)] max-md:6"
-        un-pl="[clamp(1.5rem,8vw,7.5rem)] max-md:4"
-        un-pr="[clamp(1.5rem,6vw,6rem)] max-md:4"
+        un-pl="[clamp(1.5rem,8vw,7.5rem)] max-md:8"
+        un-pr="[clamp(1.5rem,6vw,6rem)] max-md:8"
       >
         <h1
           un-m-0
@@ -115,12 +97,11 @@ const routes = [
         <div
           un-my-auto
           un-flex
-          un-min-h-50vh
+          un-min-h="[50vh] max-md:0"
           un-w-full
           un-items-start
           un-justify-start
-          un-gap="[clamp(2.5rem,5vw,5rem)] max-md:6"
-          un-max-md:my-0
+          un-gap="[clamp(2.5rem,5vw,5rem)] max-md:[clamp(2.75rem,9vh,5rem)]"
           un-max-md:flex-col
         >
           <article
@@ -145,11 +126,10 @@ const routes = [
             un-w-60
             un-shrink-0
             un-flex-col
-            un-gap="[clamp(1rem,2.5vh,1.5rem)] max-md:5"
+            un-gap="[clamp(1rem,2.5vh,1.5rem)]"
             un-pt="[0.2em] max-md:0"
-            un-max-md:w-auto
-            un-max-md:flex-row
-            un-max-md:overflow-x-auto
+            un-max-md:w-full
+            un-max-md:max-w="[20rem]"
             aria-label="Sections"
           >
             <SiteRailLink
@@ -169,13 +149,11 @@ const routes = [
       un-relative
       un-z-3
       un-pointer-events-none
-      un-mt="[-100svh] max-md:0"
-      un-max-md:pointer-events-auto
+      un-mt="[-100svh]"
     >
       <div
         aria-hidden="true"
         un-pointer-events-none
-        un-max-md:hidden
         :style="{ height: `calc(100svh - ${mastH}px)` }"
       />
       <div
@@ -192,7 +170,7 @@ const routes = [
         un-border-t="~ transparent data-[scrolled]:muted/35 data-[stuck]:transparent"
         un-border-b="~ transparent data-[scrolled]:muted/35 data-[stuck]:transparent"
         un-bg-paper
-        un-px="[clamp(1.5rem,8vw,7.5rem)] max-md:4"
+        un-px="[var(--gutter)] max-md:8"
         un-py="2.5 data-[stuck]:3"
         un-transition="colors,border-color,padding"
         un-duration-200

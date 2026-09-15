@@ -29,8 +29,9 @@ async function walkMarkdown(dir: string, acc: string[]): Promise<void> {
 
 export default defineEventHandler(async () => {
   const roots = [
-    join(process.cwd(), 'docs/posts'),
-    join(process.cwd(), 'docs/corpus'),
+    join(process.cwd(), 'docs/essays'),
+    join(process.cwd(), 'docs/journal'),
+    join(process.cwd(), 'docs/cabinet'),
   ]
   const files: string[] = []
   for (const root of roots)
