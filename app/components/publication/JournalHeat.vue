@@ -9,6 +9,7 @@ const peek = usePublicationPeek()
 const { pulse, reset } = useSiteChromeAway()
 const scroller = ref<HTMLElement | null>(null)
 const rowMap = new Map<string, HTMLElement>()
+const ringMap = new Map<string, HTMLElement>()
 
 function bindRow(id: string, el: unknown) {
   if (el instanceof HTMLElement)
@@ -27,6 +28,7 @@ function bindRing(day: string, el: unknown) {
 const active = ref<LayerEntry | null>(null)
 const centerId = ref<string | null>(null)
 const away = reactive<Record<string, number>>({})
+const weekOpacity = reactive<Record<string, number>>({})
 
 const clock = ref(new Date())
 const rows = computed(() => journalWheel(props.items, clock.value))
@@ -48,7 +50,6 @@ watch(currentYear, (now, prev) => {
 
 const pinned = ref<JournalWheelCell | null>(null)
 const leaving = ref<JournalWheelCell[]>([])
-const ringMap = new Map<string, HTMLElement>()
 
 function pinId(cell: JournalWheelCell | null) {
   return cell?.entry?.path ?? null
@@ -84,6 +85,14 @@ function cellMark(cell: JournalWheelCell) {
     'is-in-focus': cell.monthId === centerId.value,
     'is-today': cell.today,
     'is-future': cell.future,
+  }
+}
+
+function cellStyle(cell: JournalWheelCell, row: JournalWheelMonth) {
+  return {
+    'gridColumn': String(cell.col + 1),
+    'gridRow': String(row.gridRows - cell.weekIndex),
+    '--scroll-opacity': String(weekOpacity[`${cell.rowId}:${cell.weekIndex}`] ?? 0.12),
   }
 }
 
@@ -203,6 +212,12 @@ function measure() {
     const cy = rect.top + rect.height / 2
     const dist = Math.abs(cy - mid)
     away[row.id] = Math.min(dist / Math.max(rect.height, 1), 4)
+    const weekHeight = rect.height / row.gridRows
+    for (let weekIndex = 0; weekIndex < row.gridRows; weekIndex++) {
+      const weekCenter = rect.top + (row.gridRows - weekIndex - 0.5) * weekHeight
+      const weekDist = Math.abs(weekCenter - mid)
+      weekOpacity[`${row.id}:${weekIndex}`] = Math.max(0.12, 1 - weekDist / (root.clientHeight * 0.55))
+    }
     if (dist < bestDist) {
       bestDist = dist
       bestId = row.id
@@ -211,17 +226,81 @@ function measure() {
   centerId.value = bestId
 }
 
-let frame = 0
+let glowCells = new Set<HTMLElement>()
+let pointer: { x: number, y: number } | null = null
+let glowFrame = 0
+
+function clearPointerGlow() {
+  if (glowFrame)
+    cancelAnimationFrame(glowFrame)
+  for (const cell of glowCells)
+    cell.style.removeProperty('--pointer-opacity')
+  glowCells = new Set()
+  pointer = null
+  glowFrame = 0
+}
+
+function updatePointerGlow() {
+  const root = scroller.value
+  if (!root || !pointer)
+    return
+  const nextCells = new Set<HTMLElement>()
+  for (const grid of root.querySelectorAll<HTMLElement>('.journal-wheel__grid')) {
+    const cells = grid.querySelectorAll<HTMLElement>(':scope > .journal-wheel__cell')
+    const first = cells[0]
+    if (!first)
+      continue
+    const gridRect = grid.getBoundingClientRect()
+    const cellRect = first.getBoundingClientRect()
+    const radius = Math.max(cellRect.width, cellRect.height) * 4
+    if (
+      pointer.x < gridRect.left - radius
+      || pointer.x > gridRect.right + radius
+      || pointer.y < gridRect.top - radius
+      || pointer.y > gridRect.bottom + radius
+    ) {
+      continue
+    }
+    for (const cell of cells) {
+      if (cell.classList.contains('is-future'))
+        continue
+      const rect = cell.getBoundingClientRect()
+      const distance = Math.hypot(
+        pointer.x - (rect.left + rect.width / 2),
+        pointer.y - (rect.top + rect.height / 2),
+      )
+      nextCells.add(cell)
+      cell.style.setProperty('--pointer-opacity', String(Math.max(0, 1 - distance / radius) ** 1.2))
+    }
+  }
+  for (const cell of glowCells) {
+    if (!nextCells.has(cell)) {
+      cell.style.removeProperty('--pointer-opacity')
+    }
+  }
+  glowCells = nextCells
+}
+
+function schedulePointerGlow() {
+  if (glowFrame)
+    return
+  glowFrame = requestAnimationFrame(() => {
+    glowFrame = 0
+    updatePointerGlow()
+  })
+}
+
+function onPointerMove(event: PointerEvent) {
+  pointer = { x: event.clientX, y: event.clientY }
+  schedulePointerGlow()
+}
+
 let primed = false
 function onScroll() {
   if (primed)
     pulse()
-  if (frame)
-    return
-  frame = requestAnimationFrame(() => {
-    frame = 0
-    measure()
-  })
+  measure()
+  schedulePointerGlow()
 }
 
 function scrollIdIntoCenter(id: string) {
@@ -287,9 +366,10 @@ onUnmounted(() => {
   reset()
   window.clearInterval(dayTimer)
   scroller.value?.removeEventListener('scroll', onScroll)
+  clearPointerGlow()
   window.removeEventListener('resize', measure)
-  if (frame)
-    cancelAnimationFrame(frame)
+  if (glowFrame)
+    cancelAnimationFrame(glowFrame)
 })
 
 watch(rows, () => {
@@ -385,6 +465,8 @@ watch(() => peek.pinned.value, (entry) => {
       :aria-activedescendant="centerId ? `journal-month-${centerId}` : undefined"
       @keydown="onKey"
       @click="dismissPeek"
+      @pointermove="onPointerMove"
+      @pointerleave="clearPointerGlow"
     >
       <div class="journal-wheel__space" />
       <div
@@ -404,7 +486,6 @@ watch(() => peek.pinned.value, (entry) => {
           un-max-md:gap-x-2
           un-overflow-visible
           un-text-line
-          :class="{ 'is-year-seam': row.head && row.id !== rows[0]?.id }"
           role="option"
           :aria-selected="row.id === centerId"
           :aria-label="`${row.label} ${row.year}`"
@@ -445,7 +526,7 @@ watch(() => peek.pinned.value, (entry) => {
                   ...cellMark(cell),
                   'is-pinned': pinned?.key === cell.key,
                 }"
-                :style="{ gridColumn: String(cell.col + 1), gridRow: String(row.gridRows - cell.weekIndex) }"
+                :style="cellStyle(cell, row)"
                 @click.stop="onSplitCell(cell, $event)"
                 @pointermove="onSplitMove(cell, $event)"
                 @pointerleave="onLeave"
@@ -476,6 +557,13 @@ watch(() => peek.pinned.value, (entry) => {
                   @focus="onEnter(cell.journal)"
                   @blur="onLeave"
                 />
+                <InkWobbleBox
+                  class="journal-wheel__sketch"
+                  :seed="cell.key"
+                  fill
+                  split
+                  :hatch="cell.today"
+                />
                 <span
                   v-if="showsRing(cell.key)"
                   :ref="(el) => bindRing(cell.key, el)"
@@ -496,7 +584,7 @@ watch(() => peek.pinned.value, (entry) => {
                   ...cellFillClass(cell.kind, cell.entry),
                   cellMark(cell),
                 ]"
-                :style="{ gridColumn: String(cell.col + 1), gridRow: String(row.gridRows - cell.weekIndex) }"
+                :style="cellStyle(cell, row)"
                 :href="cell.entry.path"
                 :aria-label="cell.entry.title"
                 @click.stop="onCell(cell, cell.entry, $event)"
@@ -507,6 +595,12 @@ watch(() => peek.pinned.value, (entry) => {
                 @focus="onEnter(cell.entry)"
                 @blur="onLeave"
               >
+                <InkWobbleBox
+                  class="journal-wheel__sketch"
+                  :seed="cell.key"
+                  fill
+                  :hatch="cell.today"
+                />
                 <span
                   v-if="showsRing(cell.key)"
                   :ref="(el) => bindRing(cell.key, el)"
@@ -524,9 +618,15 @@ watch(() => peek.pinned.value, (entry) => {
                 v-else
                 class="journal-wheel__cell is-empty"
                 :class="cellMark(cell)"
-                :style="{ gridColumn: String(cell.col + 1), gridRow: String(row.gridRows - cell.weekIndex) }"
+                :style="cellStyle(cell, row)"
                 aria-hidden="true"
-              />
+              >
+                <InkWobbleBox
+                  class="journal-wheel__sketch"
+                  :seed="cell.key"
+                  :hatch="cell.today"
+                />
+              </span>
             </template>
           </div>
         </div>
@@ -633,18 +733,6 @@ watch(() => peek.pinned.value, (entry) => {
   scroll-snap-align: center;
 }
 
-.journal-wheel__row.is-year-seam::before {
-  content: '';
-  position: absolute;
-  left: calc(4.15ch + 1rem);
-  width: 3ch;
-  top: 0;
-  height: 2px;
-  background: var(--line);
-  pointer-events: none;
-  z-index: 4;
-}
-
 .journal-wheel__row[aria-selected='true'] {
   z-index: 12;
 }
@@ -664,11 +752,6 @@ watch(() => peek.pinned.value, (entry) => {
 }
 
 .journal-wheel__grid {
-  opacity: calc(0.1 + (1 - min(var(--away, 1), 2.5) / 2.5) * 0.9);
-  transition: opacity 180ms var(--ease-out);
-}
-
-.journal-wheel__row[aria-selected='true'] .journal-wheel__grid {
   opacity: 1;
 }
 
@@ -681,17 +764,19 @@ watch(() => peek.pinned.value, (entry) => {
   outline: none;
   font-size: var(--wheel-cell);
   color: var(--ink);
-  transition: background-color 160ms var(--ease-out);
+  opacity: max(calc(var(--scroll-opacity) * var(--cell-tone, 1)), calc(var(--pointer-opacity, 0) * 0.62));
+  transition: background-color 160ms var(--ease-out),
+    opacity 160ms var(--ease-out);
 }
 
 .journal-wheel__cell.is-empty {
-  background: var(--line);
-  opacity: 0.22;
+  --cell-tone: 0.08;
+  background: transparent;
   pointer-events: none;
 }
 
 .journal-wheel__cell.is-empty.is-in-focus {
-  opacity: 0.34;
+  --cell-tone: 0.28;
 }
 
 .journal-wheel__cell.is-future {
@@ -702,29 +787,30 @@ watch(() => peek.pinned.value, (entry) => {
 .journal-wheel__cell.is-empty.is-in-focus.is-future {
   background: transparent;
   border: 0;
-  opacity: 0;
+  --cell-tone: 0;
 }
 
 .journal-wheel__cell.is-entry.is-future {
-  opacity: 0.2;
+  --cell-tone: 0.2;
 }
 
 .journal-wheel__cell.is-today {
   z-index: 3;
-  box-sizing: border-box;
-  border: 1px dashed color-mix(in srgb, var(--muted) 45%, transparent);
 }
 
 .journal-wheel__cell.is-empty.is-today {
-  opacity: 1;
-  background: transparent;
+  --cell-tone: 0.80;
+  background-color: transparent;
 }
 
 .journal-wheel__cell.is-entry {
-  background: color-mix(in srgb, var(--ink) 50%, transparent);
+  --cell-fill: var(--colored-ink);
+  background: transparent;
 }
 
 .journal-wheel__cell.is-split {
+  --cell-fill-log: var(--ink);
+  --cell-fill-journal: var(--colored-ink);
   background: transparent;
   cursor: pointer;
 }
@@ -735,7 +821,7 @@ watch(() => peek.pinned.value, (entry) => {
   display: block;
   outline: none;
   pointer-events: none;
-  transition: background-color 160ms var(--ease-out);
+  background: transparent;
 }
 
 .wheel-tri--log {
@@ -746,63 +832,33 @@ watch(() => peek.pinned.value, (entry) => {
   clip-path: polygon(100% 0, 100% 100%, 0 100%);
 }
 
-.journal-wheel__cell.wheel-cell--log,
-.wheel-tri.wheel-cell--log {
-  color: var(--wry);
-  background: color-mix(in srgb, var(--wry) 50%, transparent);
-}
-
-.wheel-tri.wheel-cell--journal {
+.journal-wheel__cell.wheel-cell--log {
+  --cell-fill: var(--ink);
   color: var(--ink);
-  background: color-mix(in srgb, var(--ink) 50%, transparent);
+  background: transparent;
 }
 
-.journal-wheel__cell.is-void,
-.wheel-tri.is-void {
+.journal-wheel__cell.is-void {
+  --cell-fill: var(--muted);
   color: var(--muted);
-  background: color-mix(in srgb, var(--muted) 50%, transparent);
+  background: transparent;
 }
 
-.journal-wheel__cell.is-entry:not(.is-split):not(.wheel-cell--log):not(.is-void):hover,
-.journal-wheel__cell.is-entry:not(.is-split):not(.wheel-cell--log):not(.is-void):focus-visible,
-.journal-wheel__cell.is-entry:not(.is-split):not(.wheel-cell--log):not(.is-void):active,
-.journal-wheel__cell.is-entry:not(.is-split):not(.wheel-cell--log):not(.is-void).is-pinned,
-.journal-wheel__cell.is-entry:not(.is-split):not(.wheel-cell--log):not(.is-void).is-hover,
-.wheel-tri.wheel-cell--journal.is-pinned,
-.wheel-tri.wheel-cell--journal.is-hover {
-  background: var(--ink);
+.journal-wheel__cell.is-entry:not(.is-split):hover :deep(.ink-wobble-fill),
+.journal-wheel__cell.is-entry:not(.is-split):focus-visible :deep(.ink-wobble-fill),
+.journal-wheel__cell.is-entry:not(.is-split).is-pinned :deep(.ink-wobble-fill),
+.journal-wheel__cell.is-entry:not(.is-split).is-hover :deep(.ink-wobble-fill) {
+  fill-opacity: 0.72;
 }
 
-.journal-wheel__cell.wheel-cell--log:hover,
-.journal-wheel__cell.wheel-cell--log:focus-visible,
-.journal-wheel__cell.wheel-cell--log:active,
-.journal-wheel__cell.wheel-cell--log.is-pinned,
-.journal-wheel__cell.wheel-cell--log.is-pinned:hover,
-.journal-wheel__cell.wheel-cell--log.is-pinned:focus-visible,
-.journal-wheel__cell.wheel-cell--log.is-pinned:active,
-.journal-wheel__cell.wheel-cell--log.is-hover,
-.wheel-tri.wheel-cell--log:hover,
-.wheel-tri.wheel-cell--log:focus-visible,
-.wheel-tri.wheel-cell--log:active,
-.wheel-tri.wheel-cell--log.is-pinned,
-.wheel-tri.wheel-cell--log.is-hover {
-  background: var(--wry);
+.journal-wheel__cell.is-split:has(.wheel-tri--journal.is-pinned) :deep(.ink-wobble-fill--journal),
+.journal-wheel__cell.is-split:has(.wheel-tri--journal.is-hover) :deep(.ink-wobble-fill--journal) {
+  fill-opacity: 0.72;
 }
 
-.journal-wheel__cell.is-void:hover,
-.journal-wheel__cell.is-void:focus-visible,
-.journal-wheel__cell.is-void:active,
-.journal-wheel__cell.is-void.is-pinned,
-.journal-wheel__cell.is-void.is-pinned:hover,
-.journal-wheel__cell.is-void.is-pinned:focus-visible,
-.journal-wheel__cell.is-void.is-pinned:active,
-.journal-wheel__cell.is-void.is-hover,
-.wheel-tri.is-void:hover,
-.wheel-tri.is-void:focus-visible,
-.wheel-tri.is-void:active,
-.wheel-tri.is-void.is-pinned,
-.wheel-tri.is-void.is-hover {
-  background: var(--muted);
+.journal-wheel__cell.is-split:has(.wheel-tri--log.is-pinned) :deep(.ink-wobble-fill--log),
+.journal-wheel__cell.is-split:has(.wheel-tri--log.is-hover) :deep(.ink-wobble-fill--log) {
+  fill-opacity: 0.72;
 }
 
 .journal-wheel__cell.is-pinned {
@@ -810,12 +866,12 @@ watch(() => peek.pinned.value, (entry) => {
 }
 
 .journal-wheel__ring {
-  color: var(--ink);
+  color: var(--colored-ink);
   transition: color 160ms var(--ease-out);
 }
 
 .journal-wheel__ring.is-log {
-  color: var(--wry);
+  color: var(--ink);
 }
 
 .journal-wheel__cell :deep(.rough-ink[data-kind='circle'] > path) {
