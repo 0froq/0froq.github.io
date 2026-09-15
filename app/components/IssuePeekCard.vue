@@ -119,6 +119,7 @@ function onCardClick() {
     un-min-w-0
     un-shadow-none
     un-cursor-pointer
+    un-bg-paper
     @click="onCardClick"
   >
     <p
