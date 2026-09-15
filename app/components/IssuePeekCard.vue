@@ -175,6 +175,7 @@ function onCardClick() {
           un-overflow-hidden
           un-border
           un-border-line
+          un-translate-z-px
           un-px-5
           un-py-4
         >
