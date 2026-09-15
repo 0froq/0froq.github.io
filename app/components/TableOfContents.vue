@@ -284,7 +284,7 @@ watch(() => route.path, () => {
               un-shrink-0
             />
             <span
-              class="issue-toc-label opacity-0 max-w-0 group-data-[open]/toc:opacity-100 group-data-[open]/toc:max-w-[min(20rem,calc(100vw-3rem))] -translate-x-1 group-data-[open]/toc:translate-x-0 lg:group-focus-within/toc:bg-paper lg:group-hover/toc:bg-paper lg:group-focus-within/toc:opacity-100 lg:group-hover/toc:opacity-100 lg:group-focus-within/toc:max-w-[min(12.5rem,var(--toc-label))] lg:group-hover/toc:max-w-[min(12.5rem,var(--toc-label))] lg:group-focus-within/toc:translate-x-0 lg:group-hover/toc:translate-x-0"
+              class="issue-toc-label opacity-0 max-w-0 group-data-[active]/item:opacity-100 group-data-[open]/toc:opacity-100 group-data-[active]/item:max-w-[min(20rem,calc(100vw-3rem))] group-data-[open]/toc:max-w-[min(20rem,calc(100vw-3rem))] -translate-x-1 group-data-[active]/item:translate-x-0 group-data-[open]/toc:translate-x-0 lg:group-focus-within/toc:bg-paper lg:group-hover/toc:bg-paper lg:group-focus-within/toc:opacity-100 lg:group-hover/toc:opacity-100 lg:group-focus-within/toc:max-w-[min(12.5rem,var(--toc-label))] lg:group-hover/toc:max-w-[min(12.5rem,var(--toc-label))] lg:group-focus-within/toc:translate-x-0 lg:group-hover/toc:translate-x-0"
               un-whitespace-nowrap
               un-overflow-hidden
               un-text="base muted group-hover/btn:ink group-hover/toc:group-data-[active]/item:ink group-focus-within/toc:group-data-[active]/item:ink group-data-[open]/toc:group-data-[active]/item:ink"
