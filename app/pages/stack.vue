@@ -460,6 +460,7 @@ const { data: storyAst } = await useAsyncData('stack-stories', async () => {
                       :body="storyAst[`${group.level}:${tool.name}`]!.body"
                       tag="div"
                       unwrap="p"
+                      data-md-content
                       un-prose="~"
                     />
                   </dd>

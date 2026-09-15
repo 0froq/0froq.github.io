@@ -1,5 +1,6 @@
 <script setup lang="ts">
 const SKIP = 'input, textarea, select, [contenteditable]:not([contenteditable="false"])'
+const MD_CONTENT = '[data-md-content]'
 
 const shown = ref(false)
 const copied = ref(false)
@@ -22,7 +23,8 @@ function sync(reveal: boolean) {
   const host = node?.nodeType === Node.ELEMENT_NODE
     ? node as Element
     : node?.parentElement
-  if (host?.closest(SKIP) || host?.closest('.selection-copy')) {
+  const mdContent = host?.closest(MD_CONTENT)
+  if (host?.closest(SKIP) || host?.closest('.selection-copy') || !mdContent || !mdContent.contains(sel.focusNode)) {
     hide()
     return
   }

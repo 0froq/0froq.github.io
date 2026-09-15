@@ -36,6 +36,7 @@ const route = useRoute()
 
       <div class="issue-read__grid flex flex-col gap-[var(--read-gap)] lg:flex-row lg:items-start">
         <div
+          data-md-content
           un-prose="~"
           class="issue-read__prose lg:[&_section.footnotes]:sr-only"
           un-relative

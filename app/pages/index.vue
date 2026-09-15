@@ -106,6 +106,7 @@ const routes = publicationSections.map(section => ({
         >
           <article
             v-if="page"
+            data-md-content
             un-prose="~"
             un-min-h-0
             un-min-w-0
