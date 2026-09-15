@@ -20,7 +20,7 @@ const { away } = useSiteChromeAway()
       to="/"
       aria-label="Home"
     >
-      ← home
+      home
     </SiteChromeNav>
   </div>
 </template>

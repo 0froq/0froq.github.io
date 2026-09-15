@@ -98,7 +98,7 @@ un-leading-none
         to="/"
         aria-label="Home"
       >
-        ← home
+        home
       </SiteChromeNav>
       <p
         v-if="sectionLabel"

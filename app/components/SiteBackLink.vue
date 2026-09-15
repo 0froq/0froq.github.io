@@ -17,6 +17,6 @@ function goBack() {
     :aria-label="`Back to ${back.label}`"
     @click="goBack"
   >
-    ← {{ back.label }}
+    {{ back.label }}
   </SiteChromeNav>
 </template>
