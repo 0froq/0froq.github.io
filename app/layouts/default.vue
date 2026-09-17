@@ -35,7 +35,6 @@ const hideChromeMast = computed(() => isHome.value || isHub.value)
       />
     </Teleport>
     <StatsSession />
-    <SelectionToolbar />
   </div>
 </template>
 
