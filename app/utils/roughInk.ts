@@ -166,17 +166,6 @@ function inkMidY(yLine: number, lineH: number, boxes: FontBoxes, capFrac: number
   return baseline - boxes.capAscent * capFrac
 }
 
-function inkBoxMidY(yLine: number, lineH: number, boxes: FontBoxes): number {
-  const content = boxes.fontAscent + boxes.fontDescent
-  const top = yLine + (lineH - content) / 2
-  return top + content / 2
-}
-
-function inkBoxHeight(_lineH: number, boxes: FontBoxes, em: number): number {
-  const glyph = boxes.fontAscent + boxes.fontDescent
-  return Math.max(glyph, em) * 1.16
-}
-
 function markerSwipe(
   x: number,
   yMid: number,
@@ -486,42 +475,6 @@ function isRubyAnnotation(node: Node): boolean {
   return Boolean(el?.closest('rt, rp, rtc'))
 }
 
-function selectionLineBoxes(range: Range): LineBox[] {
-  const root = range.commonAncestorContainer
-  if (root.nodeType === Node.TEXT_NODE) {
-    if (isRubyAnnotation(root))
-      return []
-    return mergeClientRects([...range.getClientRects()])
-  }
-
-  const raw: LineBox[] = []
-  const piece = document.createRange()
-  const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT)
-  let node = walker.nextNode()
-  while (node) {
-    const text = node as Text
-    if (!text.data || !range.intersectsNode(text) || isRubyAnnotation(text)) {
-      node = walker.nextNode()
-      continue
-    }
-    const start = range.startContainer === text ? range.startOffset : 0
-    const end = range.endContainer === text ? range.endOffset : text.data.length
-    if (start >= end) {
-      node = walker.nextNode()
-      continue
-    }
-    piece.setStart(text, start)
-    piece.setEnd(text, end)
-    for (const rect of piece.getClientRects()) {
-      if (rect.width >= 2 && rect.height >= 2)
-        raw.push({ x: rect.left, y: rect.top, w: rect.width, h: rect.height })
-    }
-    node = walker.nextNode()
-  }
-  piece.detach()
-  return mergeClientRects(raw)
-}
-
 function textLineBoxes(el: HTMLElement): LineBox[] {
   const raw: LineBox[] = []
   const piece = document.createRange()
@@ -534,7 +487,7 @@ function textLineBoxes(el: HTMLElement): LineBox[] {
       continue
     }
     const parent = text.parentElement
-    if (parent?.closest('svg, .selection-ink')) {
+    if (parent?.closest('svg')) {
       node = walker.nextNode()
       continue
     }
@@ -547,100 +500,6 @@ function textLineBoxes(el: HTMLElement): LineBox[] {
   }
   piece.detach()
   return mergeClientRects(raw)
-}
-
-export function clearSelectionInk(): void {
-  for (const svg of document.querySelectorAll<SVGSVGElement>('svg.selection-ink')) {
-    const host = svg.parentElement
-    svg.remove()
-    if (!host)
-      continue
-    if (host.dataset.selectionInkPos === '1') {
-      host.style.removeProperty('position')
-      delete host.dataset.selectionInkPos
-    }
-    if (host.dataset.selectionInkIso === '1') {
-      host.style.removeProperty('isolation')
-      delete host.dataset.selectionInkIso
-    }
-  }
-}
-
-function ensureSelectionHost(el: HTMLElement): HTMLElement | null {
-  const host = (el.closest('p, li, h1, h2, h3, h4, h5, h6, blockquote, pre, td, th, article, [un-prose], section') as HTMLElement | null) ?? el
-  if (host.matches('body, html'))
-    return null
-
-  const cs = getComputedStyle(host)
-  if (cs.position === 'static') {
-    host.style.position = 'relative'
-    host.dataset.selectionInkPos = '1'
-  }
-  if (cs.isolation === 'auto') {
-    host.style.isolation = 'isolate'
-    host.dataset.selectionInkIso = '1'
-  }
-  return host
-}
-
-export function paintSelectionInk(range: Range): boolean {
-  clearSelectionInk()
-
-  const ancestor = range.commonAncestorContainer
-  const el = (ancestor.nodeType === Node.ELEMENT_NODE
-    ? ancestor
-    : ancestor.parentElement) as HTMLElement | null
-  if (!el)
-    return false
-
-  const lines = selectionLineBoxes(range)
-  if (!lines.length)
-    return false
-
-  const host = ensureSelectionHost(el)
-  if (!host)
-    return false
-
-  const cs = getComputedStyle(host)
-  const em = Number.parseFloat(cs.fontSize) || 16
-  const italic = ITALIC_RE.test(cs.fontStyle)
-  const boxes = fontBoxes(host)
-  const seed0 = hashSeed(`sel:${range.startOffset}:${(range.toString() || '').slice(0, 32)}`)
-  const box = host.getBoundingClientRect()
-  const svgW = Math.max(1, box.width)
-  const svgH = Math.max(1, box.height)
-
-  const svg = document.createElementNS(NS, 'svg')
-  svg.setAttribute('class', 'selection-ink')
-  svg.setAttribute('aria-hidden', 'true')
-  svg.setAttribute('width', String(svgW))
-  svg.setAttribute('height', String(svgH))
-  svg.setAttribute('viewBox', `0 0 ${svgW} ${svgH}`)
-  svg.style.left = '0'
-  svg.style.top = '0'
-  svg.style.width = `${svgW}px`
-  svg.style.height = `${svgH}px`
-
-  lines.forEach((line, i) => {
-    const seed = seed0 + i * 97
-    const width = inkBoxHeight(line.h, boxes, em)
-    appendMarkStroke(
-      svg,
-      markerSwipe(
-        line.x - box.left,
-        inkBoxMidY(line.y - box.top, line.h, boxes),
-        line.w,
-        em,
-        seed,
-        italic,
-      ),
-      width,
-      false,
-    )
-  })
-
-  host.insertBefore(svg, host.firstChild)
-  return true
 }
 
 function playLiveEnter(

@@ -1,5 +1,6 @@
 html {
   --uno: 'scroll-smooth';
+  user-select: none;
   font-feature-settings: 'calt', 'ss01', 'ss03', 'ss04', 'ss06', 'ss07',
     'ss08', 'ss10', 'liga';
 }
@@ -11,7 +12,8 @@ body {
 }
 
 *::selection {
-  --uno: 'bg-transparent text-paper';
+  background: transparent;
+  color: inherit;
 }
 
 input::selection,
@@ -35,6 +37,14 @@ a {
   --uno: 'decoration-none';
 }
 
+[data-md-content],
+input,
+textarea,
+[contenteditable='true'] {
+  /* keep hosts in sync with app/utils/selectable.ts */
+  user-select: text;
+}
+
 html.ink-cursor-on,
 html.ink-cursor-on * {
   cursor: none !important;
@@ -48,33 +58,70 @@ html.ink-cursor-on [contenteditable='true'] {
 
 .ink-cursor {
   position: fixed;
-  left: 0;
-  top: 0;
+  inset: 0;
   z-index: 100;
   pointer-events: none;
   color: var(--ink);
   opacity: 0;
   transition: opacity 140ms var(--ease-out);
-  will-change: transform;
+}
+
+.ink-cursor--sel {
+  z-index: 2;
 }
 
 .ink-cursor[data-state='on'],
-.ink-cursor[data-state='down'] {
+.ink-cursor[data-state='down'],
+.ink-cursor[data-sel] {
   opacity: 1;
+}
+
+.ink-cursor[data-state='off'] .ink-cursor__shape,
+.ink-cursor[data-state='off'] .ink-cursor__ticks {
+  opacity: 0;
 }
 
 .ink-cursor__wobble {
   position: relative;
-  width: 32px;
-  height: 32px;
-  will-change: transform;
+  width: 100%;
+  height: 100%;
 }
 
 .ink-cursor__svg {
   display: block;
-  width: 32px;
-  height: 32px;
+  width: 100%;
+  height: 100%;
   overflow: visible;
+}
+
+.ink-cursor__shape {
+  fill: var(--paper);
+  fill-opacity: 0.55;
+  opacity: var(--ink-dot, 1);
+}
+
+.ink-cursor[data-selecting] .ink-cursor__shape {
+  fill: var(--colored-ink);
+  fill-opacity: 0.2;
+  stroke-opacity: 0.38;
+}
+
+.ink-cursor__frame {
+  fill: var(--colored-ink);
+  fill-opacity: 0.2;
+  stroke-opacity: 0.38;
+  opacity: var(--ink-frame, 0);
+}
+
+.ink-cursor__glow {
+  color: var(--ink);
+  opacity: 0;
+  stroke-opacity: 1;
+}
+
+.ink-cursor[data-selecting] .ink-cursor__glow,
+.ink-cursor[data-sel][data-state='down'] .ink-cursor__glow {
+  opacity: 1;
 }
 
 .ink-cursor__ticks {
@@ -103,8 +150,13 @@ html.ink-cursor-on [contenteditable='true'] {
   stroke-dashoffset: 0;
 }
 
+.ink-cursor[data-selecting] .ink-cursor__tick {
+  opacity: 0;
+}
+
 html.ink-cursor-still .ink-cursor,
-html.ink-cursor-still .ink-cursor__tick {
+html.ink-cursor-still .ink-cursor__tick,
+html.ink-cursor-still .ink-cursor__frame {
   transition: none;
 }
 

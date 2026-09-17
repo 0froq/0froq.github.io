@@ -73,7 +73,8 @@ const transition = useIssuePageTransition()
   }
 }
 
-html[data-vt='layer'] [data-sheet] {
+html[data-vt='layer'] [data-sheet],
+[data-sheet][data-home] {
   view-transition-name: none;
 }
 

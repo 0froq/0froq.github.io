@@ -48,18 +48,9 @@ html.dark a[data-external] > .rough-ink[data-kind='mark'] {
   opacity: 0.54;
 }
 
-.selection-ink {
-  position: absolute;
-  z-index: -1;
-  overflow: visible;
-  pointer-events: none;
-  opacity: 1;
-}
-
 .rough-ink[data-kind='circle'] path,
 .rough-ink[data-kind='mark'] path,
-.rough-ink[data-kind='underline'] path,
-.selection-ink path {
+.rough-ink[data-kind='underline'] path {
   stroke-linecap: butt;
   stroke-linejoin: miter;
 }
