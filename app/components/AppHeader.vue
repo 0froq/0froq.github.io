@@ -55,7 +55,9 @@ const sectionTo = computed(() => publication.value ? `/${publication.value.slug}
         un-truncate
         un-font-serif
         un-text="2xl ink"
-un-text-center un-pointer-events-none :aria-hidden="!titleRevealed"
+        un-text-center
+        un-pointer-events-none
+        :aria-hidden="!titleRevealed"
       >{{ articleTitle }}</span>
       <div
         ref="progressTrackRef"
@@ -68,7 +70,7 @@ un-text-center un-pointer-events-none :aria-hidden="!titleRevealed"
         un-h="[2px]"
         un-w-full
         un-shrink-0
-un-leading-none
+        un-leading-none
       >
         <div
           class="progress-bar-bg"
@@ -111,7 +113,9 @@ un-leading-none
         un-items-baseline
         un-gap-2
         un-font-mono
-un-text="xs muted" un-tracking-wide un-uppercase
+        un-text="xs muted"
+        un-tracking-wide
+        un-uppercase
       >
         <NuxtLink
           :to="sectionTo"

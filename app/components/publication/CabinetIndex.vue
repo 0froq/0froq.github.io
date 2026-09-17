@@ -53,7 +53,7 @@ function cabinetTouched(item: LayerEntry) {
         >
           <template v-if="isIssueEvergreen(item)">
             <span
-              class="block max-w-[18em] font-serif italic text-3xl leading-snug tracking-tight text-ink md:text-4xl group-hover/row:text-ink group-focus-visible/row:text-ink group-data-[rest]/row:text-ink group-data-[void]/row:text-muted/50"
+              class="text-3xl text-ink leading-snug tracking-tight max-w-[18em] block italic font-serif md:text-4xl group-data-[rest]/row:text-ink group-data-[void]/row:text-muted/50 group-focus-visible/row:text-ink group-hover/row:text-ink"
               :data-ink="shown ? 'mark' : undefined"
               :data-hover-ink="shown ? undefined : 'mark'"
             >{{ item.title }}</span>
@@ -70,7 +70,7 @@ function cabinetTouched(item: LayerEntry) {
               un-text="xs muted"
               un-tracking-wide
               un-tabular-nums
-              class="group-hover/row:text-ink group-focus-visible/row:text-ink group-data-[rest]/row:text-ink"
+              class="group-data-[rest]/row:text-ink group-focus-visible/row:text-ink group-hover/row:text-ink"
             >
               <time
                 v-if="item.created"
@@ -83,7 +83,7 @@ function cabinetTouched(item: LayerEntry) {
             </span>
             <p
               v-if="item.slip"
-              class="m-0 max-w-[28em] font-serif text-[0.95rem] leading-relaxed text-muted md:text-base group-hover/row:text-ink/80 group-data-[rest]/row:text-ink/80 group-data-[void]/row:text-muted/40"
+              class="text-[0.95rem] text-muted leading-relaxed m-0 max-w-[28em] font-serif md:text-base group-data-[rest]/row:text-ink/80 group-data-[void]/row:text-muted/40 group-hover/row:text-ink/80"
             >
               {{ item.slip }}
             </p>
@@ -99,24 +99,24 @@ function cabinetTouched(item: LayerEntry) {
               un-gap-y-1
             >
               <span
-                class="min-w-0 text-xl text-ink/90 leading-snug tracking-tight md:text-2xl group-hover/row:text-ink group-focus-visible/row:text-ink group-data-[rest]/row:text-ink group-data-[void]/row:text-muted/50"
+                class="text-xl text-ink/90 leading-snug tracking-tight min-w-0 md:text-2xl group-data-[rest]/row:text-ink group-data-[void]/row:text-muted/50 group-focus-visible/row:text-ink group-hover/row:text-ink"
                 un-font-serif
                 :data-ink="shown ? 'mark' : undefined"
                 :data-hover-ink="shown ? undefined : 'mark'"
               >{{ item.title }}</span>
               <time
                 v-if="item.created"
-                class="shrink-0 font-mono text-xs tracking-wide text-muted tabular-nums group-hover/row:text-ink group-focus-visible/row:text-ink group-data-[rest]/row:text-ink"
+                class="text-xs text-muted tracking-wide shrink-0 tabular-nums font-mono group-data-[rest]/row:text-ink group-focus-visible/row:text-ink group-hover/row:text-ink"
                 :datetime="item.created"
               >{{ issueDate(item.created) }}</time>
             </span>
             <span
               aria-hidden="true"
-              class="block h-px w-10 bg-ink/25 group-data-[pin]/row:bg-colored-ink group-data-[rest]/row:bg-ink/55"
+              class="bg-ink/25 h-px w-10 block group-data-[pin]/row:bg-colored-ink group-data-[rest]/row:bg-ink/55"
             />
             <p
               v-if="item.slip"
-              class="m-0 max-w-[36em] font-serif text-[0.95rem] leading-relaxed text-muted md:text-base group-hover/row:text-ink/80 group-data-[rest]/row:text-ink/80 group-data-[void]/row:text-muted/40"
+              class="text-[0.95rem] text-muted leading-relaxed m-0 max-w-[36em] font-serif md:text-base group-data-[rest]/row:text-ink/80 group-data-[void]/row:text-muted/40 group-hover/row:text-ink/80"
             >
               {{ item.slip }}
             </p>

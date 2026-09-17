@@ -1,5 +1,5 @@
-import { useMediaQuery } from '@vueuse/core'
 import type { Breakpoint } from '~/utils/breakpoints'
+import { useMediaQuery } from '@vueuse/core'
 import { mqMax, mqMin } from '~/utils/breakpoints'
 
 export function useMin(bp: Breakpoint) {
