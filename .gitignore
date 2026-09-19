@@ -3,17 +3,13 @@ node_modules/
 .nuxt/
 .output/
 .data/
+dist
 dist/
-docs/.vitepress/
+
 .DS_Store
 .env.local
-docs/archive/corpus/_scripts/__pycache__/
-dist
 .obsidian/
 .cursor/tmp/
+.commandcode/
 
-# Rune private State Ledger / outbox runtime. Never publish with GitHub Pages.
-.rune/
-
-# Cairn private runtime (cron, gateway, vue-tui board). Never publish.
-.cairn/
+docs/archive/corpus/_scripts/__pycache__/
