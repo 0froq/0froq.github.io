@@ -131,6 +131,7 @@ const routes = publicationSections.map(section => ({
             un-pt="[0.2em] max-md:0"
             un-max-md:w-full
             un-max-md:max-w="[20rem]"
+            un-min-h-0
             aria-label="Sections"
           >
             <SiteRailLink

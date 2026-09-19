@@ -23,6 +23,7 @@ const { away } = useSiteChromeAway()
     un-py="2.5 data-[flush]:0"
     un-font-mono
     un-text="sm muted"
+    un-print:hidden
     :data-flush="flush ? '' : undefined"
     :data-overlay="overlay ? '' : undefined"
     :data-away="away ? '' : undefined"

@@ -15,7 +15,10 @@ const STREAM_SKIP_SELECTOR = [
   'rp',
   'canvas',
   'noscript',
+  '.ink-gloss__annote',
 ].join(',')
+
+const STREAM_SPACE = /\s/
 
 const STREAM_BLOCK_TAGS = new Set([
   'P',
@@ -99,7 +102,7 @@ export function wrapStreamChars(root: HTMLElement): HTMLElement[] {
         continue
       if (isStreamBreakChar(ch)) {
         const prev = chars.at(-1)?.textContent ?? ''
-        if (prev && !/\s/.test(prev))
+        if (prev && !STREAM_SPACE.test(prev))
           appendGlyph(frag, ' ')
         pendingBreak = true
         continue
@@ -120,6 +123,15 @@ export function wrapStreamChars(root: HTMLElement): HTMLElement[] {
     const el = node as HTMLElement
     if (el.closest('.stream-ch, .stream-caret'))
       return
+    if (el.matches('[data-stream-atom]')) {
+      el.classList.add('stream-ch')
+      if (pendingBreak) {
+        el.dataset.break = ''
+        pendingBreak = false
+      }
+      chars.push(el)
+      return
+    }
     if (el.matches(STREAM_SKIP_SELECTOR))
       return
     if (el.tagName === 'BR') {

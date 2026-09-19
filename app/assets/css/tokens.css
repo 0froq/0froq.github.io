@@ -12,8 +12,10 @@
 
 /*
   Semantic color tokens. Hex lives here only.
+  Uno theme.colors is generated from color-like :root variables — add `--sticky-note`
+  here, then `bg-sticky-note` works. Do not relist colors in uno.config.
   Each color is light-dark(light, dark). Switching is html { color-scheme }.
-  Do not add scheme-specific utilities in Vue — use paper / ink / colored-ink / wry / muted / line / mark / cream / logo / float / float-shadow.
+  Do not add scheme-specific utilities in Vue.
   colored-ink is the site accent: red in light, blue in dark.
   wry is humor ink: olive in light, ochre in dark.
   float is the translucent slip under Reply, copy, and other lifted chrome.
@@ -23,7 +25,8 @@
   --paper: light-dark(#FFF8E8, #1e1d19);
   /* --paper2: light-dark(#fffcee, #111111); */
   --paper2: light-dark(color-mix(in srgb, var(--paper) 70%, transparent),
-      color-mix(in srgb,var(--paper) 80%,transparent));
+      color-mix(in srgb, var(--paper) 80%, transparent));
+  --sticky-note: light-dark(#fff7e3, #24221d);
   --ink: light-dark(#1D1D1A, #ece7dc);
   --muted: light-dark(#5c5a54, #9c968c);
   --colored-ink: light-dark(#a83429, #7ea3d9);

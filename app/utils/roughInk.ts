@@ -606,8 +606,11 @@ export function paintRoughInk(el: HTMLElement): void {
   }
 
   const host = el.getBoundingClientRect()
-  if (host.width < 2 || host.height < 2)
+  if (host.width < 2 || host.height < 2) {
+    pruneSvgs(el, [])
+    delete el.dataset.inkSig
     return
+  }
 
   const em = Number.parseFloat(getComputedStyle(el).fontSize) || 16
   const lines = textLineBoxes(el)
@@ -662,8 +665,11 @@ export function morphRoughInk(el: HTMLElement): void {
 
   const { live, hover, kinds } = inksOf(el)
   const host = el.getBoundingClientRect()
-  if (host.width < 2 || host.height < 2)
+  if (host.width < 2 || host.height < 2) {
+    pruneSvgs(el, [])
+    delete el.dataset.inkSig
     return
+  }
 
   clearMorphTimers(el)
   const em = Number.parseFloat(getComputedStyle(el).fontSize) || 16

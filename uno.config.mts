@@ -10,6 +10,7 @@ import {
   transformerVariantGroup,
 } from 'unocss'
 import { breakpoints } from './app/utils/breakpoints'
+import { tokenColors, tokenFonts } from './uno.tokens'
 
 export default defineConfig({
   theme: {
@@ -20,22 +21,10 @@ export default defineConfig({
       md: `${breakpoints.md}px`,
       lg: `${breakpoints.lg}px`,
     },
-    colors: {
-      paper: 'var(--paper)',
-      paper2: 'var(--paper2)',
-      muted: 'var(--muted)',
-      line: 'var(--line)',
-      mark: 'var(--mark)',
-      float: 'var(--float)',
-      shadow: 'var(--shadow)',
-      cream: 'var(--cream)',
-      logo: 'var(--logo)',
-      ink: 'var(--ink)',
-      wry: 'var(--wry)',
-      colored: {
-        ink: 'var(--colored-ink)',
-      },
-    },
+    // Color utilities and font stacks come from tokens.css — see uno.tokens.ts.
+    // Wind4 reset always emits --font-mono from theme.font.mono, after tokens.css.
+    colors: tokenColors(),
+    font: tokenFonts(),
     ease: {
       paper: 'var(--ease-out)',
     },

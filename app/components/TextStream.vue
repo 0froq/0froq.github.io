@@ -69,6 +69,12 @@ function unwrap() {
   caret?.remove()
   caret = null
   for (const el of chars) {
+    if (el.hasAttribute('data-stream-atom')) {
+      el.classList.remove('stream-ch')
+      delete el.dataset.on
+      delete el.dataset.break
+      continue
+    }
     el.replaceWith(document.createTextNode(el.textContent ?? ''))
   }
   copy.value?.normalize()

@@ -12,6 +12,7 @@ const hideChromeMast = computed(() => isHome.value || isHub.value)
     un-flex
     un-min-h-dvh
     un-flex-col
+    un-print:min-h-0
     :data-hub-frame="pinHubChrome ? '' : undefined"
     :data-chrome-away="away ? '' : undefined"
   >
@@ -21,7 +22,7 @@ const hideChromeMast = computed(() => isHome.value || isHub.value)
       data-sheet
       class="[view-transition-name:issue-sheet] motion-reduce:[view-transition-name:none]"
       un-flex-1
-      un-px="[--gutter] data-[home]:0"
+      un-px="[--gutter] data-[home]:0 print:0"
       :data-home="isHome ? '' : undefined"
       :un-min-h="pinHubChrome ? '0' : undefined"
     >

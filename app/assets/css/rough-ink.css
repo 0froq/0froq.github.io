@@ -21,6 +21,10 @@
   pointer-events: none;
 }
 
+:is([data-ink], [data-hover-ink]):has(.stream-ch):not(:has(.stream-ch[data-on])) > .rough-ink {
+  visibility: hidden;
+}
+
 .rough-ink[data-kind='underline'] {
   z-index: -1;
   --ink-draw: 960ms;

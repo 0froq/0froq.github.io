@@ -19,7 +19,7 @@ const pointerSeed = computed(() => props.seed ?? props.note)
   >
     <span data-ink="mark"><slot /></span>
     <span
-      class="ink-gloss__annote"
+      class="ink-gloss__annote group-data-[phase=hold]:invisible group-data-[phase=stream]:invisible"
       un-absolute
       un-left="full"
       un-top="[50%]"

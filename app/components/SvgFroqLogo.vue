@@ -65,7 +65,7 @@ withDefaults(defineProps<{
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
+@media (prefers-reduced-motion: reduce), print {
   .froq-logo path.is-animated {
     animation: none;
     opacity: 1;

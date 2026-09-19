@@ -1,7 +1,25 @@
 <script setup lang="ts">
+const route = useRoute()
+const router = useRouter()
 const { section, publication, isArticle, articleTitle } = useIssueFrame()
 const { titleRevealed, progressWidth, headerRef, progressTrackRef }
   = useIssueArticleChromeScroll()
+
+const isCv = computed(() => route.path === '/cv')
+const cvLang = computed(() => cvLangOf(route.query.lang))
+
+function setCvLang(next: CvLang) {
+  const query = { ...route.query }
+  if (next === 'en')
+    delete query.lang
+  else
+    query.lang = 'zh'
+  router.replace({ query })
+}
+
+function printCv() {
+  window.print()
+}
 
 const sectionLabel = computed(() => {
   if (publication.value)
@@ -31,6 +49,7 @@ const sectionTo = computed(() => publication.value ? `/${publication.value.slug}
     un-px="[var(--gutter)]"
     :un-border-b="isArticle ? '0' : 'line'"
     un-bg-paper
+    un-print:hidden
     :style="isArticle ? { '--progress-bar-width': progressWidth } : undefined"
   >
     <template v-if="isArticle">
@@ -123,6 +142,73 @@ const sectionTo = computed(() => publication.value ? `/${publication.value.slug}
         >
           {{ sectionLabel }}
         </NuxtLink>
+      </p>
+      <p
+        v-if="isCv"
+        un-m-0
+        un-ml-auto
+        un-flex
+        un-items-center
+        un-gap-2
+        un-font-mono
+        un-text="xs muted"
+        un-tracking-wide
+      >
+        <span
+          un-inline-flex
+          un-gap-2
+          aria-label="Language"
+          role="group"
+        >
+          <button
+            type="button"
+            :data-on="cvLang === 'en' ? '' : undefined"
+            un-m-0
+            un-inline
+            un-cursor-pointer
+            un-border-0
+            un-bg-transparent
+            un-p-0
+            un-leading-inherit
+            un-text="muted data-[on]:colored-ink hover:colored-ink"
+            :aria-pressed="cvLang === 'en'"
+            @click="setCvLang('en')"
+          >
+            EN
+          </button>
+          <span aria-hidden="true">·</span>
+          <button
+            type="button"
+            :data-on="cvLang === 'zh' ? '' : undefined"
+            un-m-0
+            un-inline
+            un-cursor-pointer
+            un-border-0
+            un-bg-transparent
+            un-p-0
+            un-leading-inherit
+            un-text="muted data-[on]:colored-ink hover:colored-ink"
+            :aria-pressed="cvLang === 'zh'"
+            @click="setCvLang('zh')"
+          >
+            中文
+          </button>
+        </span>
+        <span aria-hidden="true">·</span>
+        <button
+          type="button"
+          un-m-0
+          un-inline
+          un-cursor-pointer
+          un-border-0
+          un-bg-transparent
+          un-p-0
+          un-leading-inherit
+          un-text="muted hover:colored-ink"
+          @click="printCv"
+        >
+          {{ cv[cvLang].print }}
+        </button>
       </p>
     </template>
   </header>

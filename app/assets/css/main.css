@@ -66,6 +66,44 @@ html.ink-cursor-on [contenteditable='true'] {
   transition: opacity 140ms var(--ease-out);
 }
 
+@media print {
+  html,
+  body {
+    background: var(--paper);
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+
+  .ink-cursor {
+    display: none !important;
+  }
+
+  @page {
+    size: A4;
+    margin: 0;
+  }
+
+  [data-cv] {
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
+  }
+
+  [data-cv] h2,
+  [data-cv] h3 {
+    break-after: avoid;
+    break-inside: avoid;
+  }
+
+  [data-cv] p {
+    orphans: 2;
+    widows: 2;
+  }
+
+  [data-cv] dt {
+    break-after: avoid;
+  }
+}
+
 .ink-cursor--sel {
   z-index: 2;
 }

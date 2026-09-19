@@ -230,13 +230,17 @@ onMounted(() => {
   const el = stemEl.value
   if (!el)
     return
-  const group = el.closest('[data-phase="hold"]')
-  if (!group) {
+  const group = el.closest('[data-phase]')
+  const phase = group?.getAttribute('data-phase')
+  if (!group || phase === 'done') {
     armDraw()
     return
   }
+  hide(el)
+  if (headEl.value)
+    hide(headEl.value)
   const obs = new MutationObserver(() => {
-    if (group.getAttribute('data-phase') === 'hold')
+    if (group.getAttribute('data-phase') !== 'done')
       return
     obs.disconnect()
     armDraw()

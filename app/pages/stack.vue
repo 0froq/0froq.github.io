@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { parseMarkdown } from '@nuxtjs/mdc/runtime'
-
 useHead({ title: 'Stack' })
 
 type Level = 'fluent' | 'daily' | 'used' | 'learning' | 'curious'
@@ -111,7 +109,7 @@ const groups: {
           My config eventually grew into its own ecosystem,
           including a small plugin called \`headup.nvim\`;
           I currently write most code in Cursor
-          for the AI layer, 
+          for the AI layer,
           but Neovim is still the editing model I actually prefer.
         `,
       },
@@ -195,7 +193,7 @@ const groups: {
         story: `
           I've been playing Minecraft since the 1.7 era,
           almost entirely in survival.
-          I'm much more interested in building believable spaces, farming and 
+          I'm much more interested in building believable spaces, farming and
           slow modded play than in redstone,automation and competitive PvP.
         `,
         joke: true,
@@ -306,20 +304,20 @@ function stackStory(text: string): string {
   return text.replace(STACK_STORY_WS_RE, ' ').trim()
 }
 
-const { data: storyAst } = await useAsyncData('stack-stories', async () => {
-  const entries = await Promise.all(
-    groups.flatMap(group =>
-      group.tools.map(async (tool) => {
-        const ast = await parseMarkdown(stackStory(tool.story), {
-          toc: false,
-          contentHeading: false,
-        })
-        return [`${group.level}:${tool.name}`, ast] as const
-      }),
-    ),
-  )
-  return Object.fromEntries(entries)
-})
+function stackStoryParts(text: string) {
+  return stackStory(text).split('`').map((chunk, i) => ({
+    code: i % 2 === 1,
+    chunk,
+  }))
+}
+
+const view = groups.map(group => ({
+  ...group,
+  tools: group.tools.map(tool => ({
+    ...tool,
+    parts: stackStoryParts(tool.story),
+  })),
+}))
 </script>
 
 <template>
@@ -378,7 +376,7 @@ const { data: storyAst } = await useAsyncData('stack-stories', async () => {
         aria-label="Stack by habit"
       >
         <li
-          v-for="group in groups"
+          v-for="group in view"
           :key="group.level"
           class="stack-li"
           un-py-2.5
@@ -454,15 +452,15 @@ const { data: storyAst } = await useAsyncData('stack-stories', async () => {
                     un-text="[0.98rem] muted"
                     un-leading-relaxed
                     un-text-pretty
+                    data-md-content
                   >
-                    <MDCRenderer
-                      v-if="storyAst?.[`${group.level}:${tool.name}`]?.body"
-                      :body="storyAst[`${group.level}:${tool.name}`]!.body"
-                      tag="div"
-                      unwrap="p"
-                      data-md-content
-                      un-prose="~"
-                    />
+                    <template
+                      v-for="(part, i) in tool.parts"
+                      :key="i"
+                    >
+                      <code v-if="part.code">{{ part.chunk }}</code>
+                      <template v-else>{{ part.chunk }}</template>
+                    </template>
                   </dd>
                 </div>
               </dl>
