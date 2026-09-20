@@ -127,10 +127,6 @@ watch(
               un-w-4
               un-shrink-0
             >
-            <SiteDoingAppIcon
-              v-else
-              :app="appName"
-            />
           </a>
           <span
             v-else
@@ -150,10 +146,6 @@ watch(
               un-w-4
               un-shrink-0
             >
-            <SiteDoingAppIcon
-              v-else
-              :app="appName"
-            />
           </span>
           <span
             v-if="phraseParts.after"
@@ -192,10 +184,6 @@ watch(
               un-w-4
               un-shrink-0
             >
-            <SiteDoingAppIcon
-              v-else
-              :app="appName"
-            />
           </a>
           <span
             v-else
@@ -215,10 +203,6 @@ watch(
               un-w-4
               un-shrink-0
             >
-            <SiteDoingAppIcon
-              v-else
-              :app="appName"
-            />
           </span>
         </template>
         <span

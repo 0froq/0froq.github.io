@@ -1,4 +1,6 @@
 export type DoingMode = 'working' | 'sleeping'
+export type DoingLocale = 'zh' | 'en'
+export type DoingKind = 'coding' | 'ai' | 'terminal' | 'browser' | 'notes'
 
 export interface DoingLocalePhrases {
   working?: string[]
@@ -7,8 +9,8 @@ export interface DoingLocalePhrases {
 
 export interface DoingAppConfig {
   url?: string
-  zh?: DoingLocalePhrases
-  en?: DoingLocalePhrases
+  kinds?: DoingKind[]
+  extra?: Partial<Record<DoingLocale, DoingLocalePhrases>>
 }
 
 export interface DoingPhrasePick {
@@ -16,7 +18,7 @@ export interface DoingPhrasePick {
   url?: string
 }
 
-const DOING_FALLBACK: Record<'zh' | 'en', Required<DoingLocalePhrases>> = {
+const DOING_FALLBACK: Record<DoingLocale, Required<DoingLocalePhrases>> = {
   zh: {
     working: ['在 {app} 中干活', '在 {app} 里游荡', '在 {app} 里工作'],
     sleeping: ['在 {app} 中眠了'],
@@ -27,91 +29,156 @@ const DOING_FALLBACK: Record<'zh' | 'en', Required<DoingLocalePhrases>> = {
   },
 }
 
-export const DOING_APP_CONFIG: Record<string, DoingAppConfig> = {
-  Cursor: {
-    url: 'https://cursor.com/',
+const DOING_KINDS: Record<DoingKind, Partial<Record<DoingLocale, DoingLocalePhrases>>> = {
+  coding: {
     zh: {
-      working: ['在 {app} 打码', '尝试用完 token'],
-      sleeping: ['码不动了', '在 {app} 面前打盹', '坐着等 AI 完成'],
-    },
-    en: {
-      working: ['coding in {app}', 'trying to use up the token'],
-      sleeping: ['tired of coding', 'dozing beside {app}', 'waiting for AI to finish'],
-    },
-  },
-  ChatGPT: {
-    url: 'https://chatgpt.com/',
-    zh: {
-      working: ['在 {app} 里聊天', '尝试用完 token'],
-      sleeping: ['在 {app} 面前打盹', '坐着等 AI 完成'],
-    },
-    en: {
-      working: ['chatting in {app}', 'trying to use up the token'],
-      sleeping: ['dozing beside {app}', 'waiting for AI to finish'],
-    },
-  },
-  Code: {
-    url: 'https://code.visualstudio.com/',
-    zh: {
-      working: ['在 {app} 打码', '在古法编程'],
+      working: ['在 {app} 打码'],
       sleeping: ['码不动了', '在 {app} 面前打盹'],
     },
     en: {
-      working: ['coding in {app}', 'manually coding (seriously?)'],
+      working: ['coding in {app}'],
       sleeping: ['tired of coding', 'dozing beside {app}'],
     },
   },
-  Ghostty: {
-    url: 'https://ghostty.org/',
+  ai: {
     zh: {
-      working: ['在 {app} 里游荡', '盯着光标闪烁', '大概率在 NeoVim', '无疑在古法编程'],
-      sleeping: ['码不动了', '在 {app} 面前打盹'],
+      working: ['尝试在 {app} 里用完 token'],
+      sleeping: ['坐着等 AI 完成'],
     },
     en: {
-      working: ['wandering in {app}', 'watching the cursor blink', 'probably in NeoVim', 'definitely manually coding'],
-      sleeping: ['tired of coding', 'dozing beside {app}'],
+      working: ['trying to use up the token in {app}'],
+      sleeping: ['waiting for AI to finish'],
     },
   },
-  Vivaldi: {
-    url: 'https://vivaldi.com/',
+  terminal: {
+    zh: {
+      working: ['在 {app} 里游荡', '盯着光标闪烁'],
+    },
+    en: {
+      working: ['wandering in {app}', 'watching the cursor blink'],
+    },
+  },
+  browser: {
     zh: {
       working: ['在 {app} 里开一堆标签', '用 {app} 四处点'],
-      sleeping: ['在刷 YouTube', '冲浪睡着了'],
+      sleeping: ['冲浪睡着了'],
     },
     en: {
       working: ['tab hoarding in {app}', 'clicking around in {app}'],
-      sleeping: ['browsing YouTube', 'surfing asleep'],
+      sleeping: ['surfing asleep'],
     },
   },
-  Notion: {
-    url: 'https://www.notion.so/',
+  notes: {
     zh: {
       working: ['在 {app} 里写笔记', '在 {app} 里整理'],
-      sleeping: ['在 {app} 面前打盹', '笔记开着人却睡了'],
+      sleeping: ['在 {app} 面前打盹'],
     },
     en: {
       working: ['writing in {app}', 'tidying notes in {app}'],
-      sleeping: ['dozing beside {app}', 'notes open, asleep'],
+      sleeping: ['dozing beside {app}'],
     },
   },
 }
 
-function localeBucket(locale: string): 'zh' | 'en' {
+const DOING_APPS: Record<string, DoingAppConfig> = {
+  'Cursor': {
+    url: 'https://cursor.com/',
+    kinds: ['coding', 'ai'],
+  },
+  'ChatGPT': {
+    url: 'https://chatgpt.com/',
+    kinds: ['ai'],
+  },
+  'Zed': {
+    url: 'https://zed.dev/',
+    kinds: ['coding'],
+    extra: {
+      zh: { working: ['在古法编程'] },
+      en: { working: ['manually coding (seriously?)'] },
+    },
+  },
+  'Ghostty': {
+    url: 'https://ghostty.org/',
+    kinds: ['terminal', 'coding'],
+    extra: {
+      zh: { working: ['大概率在 NeoVim', '无疑在古法编程'] },
+      en: { working: ['probably in NeoVim', 'definitely manually coding'] },
+    },
+  },
+  'Vivaldi': {
+    url: 'https://vivaldi.com/',
+    kinds: ['browser'],
+  },
+  'Zen': {
+    url: 'https://zen-browser.app/',
+    kinds: ['browser'],
+  },
+  'ego lite': {
+    url: 'https://lite.ego.app/',
+    kinds: ['ai', 'browser'],
+  },
+  'Grok Bot': {
+    kinds: ['ai'],
+  },
+  'DimAgent': {
+    url: 'https://dimagent.cn/',
+    kinds: ['ai'],
+  },
+  'Lody': {
+    url: 'https://lody.ai/',
+    kinds: ['ai'],
+  },
+  'Notion': {
+    url: 'https://www.notion.so/',
+    kinds: ['notes'],
+  },
+}
+
+function localeBucket(locale: string): DoingLocale {
   return locale.startsWith('zh') ? 'zh' : 'en'
+}
+
+function otherLocale(locale: DoingLocale): DoingLocale {
+  return locale === 'zh' ? 'en' : 'zh'
+}
+
+function phrasesFrom(
+  source: Partial<Record<DoingLocale, DoingLocalePhrases>> | undefined,
+  mode: DoingMode,
+  locale: DoingLocale,
+): string[] {
+  const primary = source?.[locale]?.[mode]
+  if (primary?.length)
+    return primary
+  const secondary = source?.[otherLocale(locale)]?.[mode]
+  if (secondary?.length)
+    return secondary
+  return []
 }
 
 function phrasesFor(
   config: DoingAppConfig | undefined,
   mode: DoingMode,
-  locale: 'zh' | 'en',
+  locale: DoingLocale,
 ): string[] {
-  const fromApp = config?.[locale]?.[mode]
-  if (fromApp && fromApp.length > 0)
-    return fromApp
-  const other = locale === 'zh' ? 'en' : 'zh'
-  const fromOther = config?.[other]?.[mode]
-  if (fromOther && fromOther.length > 0)
-    return fromOther
+  const seen = new Set<string>()
+  const out: string[] = []
+
+  function push(list: string[]) {
+    for (const phrase of list) {
+      if (!phrase || seen.has(phrase))
+        continue
+      seen.add(phrase)
+      out.push(phrase)
+    }
+  }
+
+  for (const kind of config?.kinds ?? [])
+    push(phrasesFrom(DOING_KINDS[kind], mode, locale))
+  push(phrasesFrom(config?.extra, mode, locale))
+
+  if (out.length)
+    return out
   return DOING_FALLBACK[locale][mode]
 }
 
@@ -136,7 +203,7 @@ export function pickDoingPhrase(
   locale: string,
 ): DoingPhrasePick {
   const bucket = localeBucket(locale)
-  const config = DOING_APP_CONFIG[appName]
+  const config = DOING_APPS[appName]
   const list = phrasesFor(config, mode, bucket)
   const text = list[Math.floor(Math.random() * list.length)] ?? DOING_FALLBACK[bucket][mode][0]!
   return {
