@@ -1,13 +1,30 @@
 <script setup lang="ts">
+import { useEventListener } from '@vueuse/core'
 import Doodle from '~/components/content/Doodle.vue'
 
 const route = useRoute()
 const lang = computed(() => cvLangOf(route.query.lang))
 const doc = computed(() => cv[lang.value])
+const pageTitle = computed(() => `${doc.value.legal} · CV`)
 
 useHead(() => ({
-  title: `${doc.value.legal} · CV`,
+  title: pageTitle.value,
 }))
+
+function printTitle() {
+  const dark = document.documentElement.classList.contains('dark')
+  const scheme = lang.value === 'zh'
+    ? (dark ? '深色' : '浅色')
+    : (dark ? 'dark' : 'light')
+  return `${pageTitle.value} · ${scheme}`
+}
+
+useEventListener(window, 'beforeprint', () => {
+  document.title = printTitle()
+})
+useEventListener(window, 'afterprint', () => {
+  document.title = pageTitle.value
+})
 </script>
 
 <template>
