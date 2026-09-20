@@ -67,6 +67,7 @@ const reach = [
     handle: 'froq.me',
     href: '/',
     doodle: 'globe',
+    wry: true,
   },
 ]
 

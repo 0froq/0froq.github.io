@@ -130,8 +130,10 @@ useHead(() => ({
             un-items-center
             un-gap-2
             un-whitespace-nowrap
-            un-text="ink hover:colored-ink"
             class="reach-hit"
+            :class="'wry' in item && item.wry
+              ? 'text-wry hover:text-colored-ink'
+              : 'text-ink hover:text-colored-ink'"
           >
             <svg
               v-if="'brand' in item && item.brand === 'github'"
