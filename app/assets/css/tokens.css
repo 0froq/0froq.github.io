@@ -5,9 +5,22 @@
 }
 
 @font-face {
+  font-family: 'LXGW Bright Code';
+  src: url('../fonts/LXGWBrightCode-ExtraLight.ttf') format('truetype');
+  font-display: swap;
+}
+
+@font-face {
   font-family: 'YshiPen-ShutiTC';
   src: url('../fonts/YshiPenShutiTC-Regular.ttf') format('truetype');
   font-display: swap;
+}
+
+@font-face {
+  font-family: 'LXGW WenKai';
+  src: url('../fonts/LXGWWenKai-Regular.ttf') format('truetype');
+  font-display: swap;
+  unicode-range: U+2E80-2FFF, U+3000-303F, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FF00-FFEF;
 }
 
 /*

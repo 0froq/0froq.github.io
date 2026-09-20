@@ -11,6 +11,11 @@ body {
   --uno: 'font-serif';
 }
 
+[data-cv] {
+  --font-serif: 'EB Garamond', 'LXGW WenKai', 'Songti SC', 'STSong', serif;
+  --font-mono: 'LXGW Bright Code', ui-monospace, monospace;
+}
+
 *::selection {
   background: transparent;
   color: inherit;
