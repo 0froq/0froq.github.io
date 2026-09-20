@@ -29,8 +29,8 @@ const fadeLineOut = computed(() => `linear-gradient(to right, var(--line), color
     un-gap-3
     un-font-normal
     :class="compact
-      ? (left ? 'mb-5 text-sm' : 'mb-5 text-sm justify-end')
-      : 'mb-8 text-base'"
+      ? (left ? 'mb-2 text-sm' : 'mb-2 text-sm justify-end')
+      : 'mb-4 text-base'"
     :style="{ color: markVar }"
   >
     <template v-if="left">

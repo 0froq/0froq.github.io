@@ -29,7 +29,7 @@ const groups = computed(() => groupCvEntries(props.items))
         un-p-0
         un-flex
         un-flex-col
-        un-gap-7
+        un-gap-6
         un-list-none
       >
         <li
@@ -69,14 +69,21 @@ const groups = computed(() => groupCvEntries(props.items))
               un-items-baseline
               un-gap-2
             >
-              <Doodle
-                v-if="item.warn"
-                un-text-callout-warning
-                un-self-center
-                name="warning"
-                size="1em"
-              />
               <span un-text="base muted">{{ item.what }}</span>
+              <span
+                v-if="item.warn"
+                un-inline-flex
+                un-items-baseline
+                un-gap-1.5
+                un-text="sm callout-warning"
+              >
+                <Doodle
+                  name="warning"
+                  size="1em"
+                  un-self-center
+                />
+                {{ item.warn }}
+              </span>
             </span>
           </div>
           <p
@@ -87,10 +94,6 @@ const groups = computed(() => groupCvEntries(props.items))
             un-text="base ink"
           >
             {{ item.blurb }}
-            <span
-              v-if="item.warn"
-              un-text-callout-warning
-            > {{ item.warn }}</span>
           </p>
         </li>
       </ul>

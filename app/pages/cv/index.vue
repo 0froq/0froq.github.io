@@ -24,16 +24,10 @@ useHead(() => ({
     un-border
     un-border-line
     un-shadow="[0_10px_28px_var(--shadow)]"
-    un-px="20"
-    un-py="20"
+    un-px="16"
+    un-py="16"
     un-font-serif
     un-leading-relaxed
-    un-print:my-0
-    un-print:p="[16mm]"
-    un-print:max-w-none
-    un-print:border-0
-    un-print:shadow-none
-    un-print:bg-paper
     class="[print-color-adjust:exact]"
   >
     <header
@@ -42,8 +36,7 @@ useHead(() => ({
       un-gap-y-10
       un-items-end
       un-pb-10
-      un-print:pb-6
-      class="grid-cols-[1.35fr_0.72fr] print:break-inside-avoid"
+      class="grid-cols-[1.85fr_0.65fr] print:break-inside-avoid"
     >
       <div>
         <h1
@@ -82,25 +75,16 @@ useHead(() => ({
           un-text-pretty
           un-tracking-tight
           un-leading-snug
-          un-text="3xl ink"
+          un-text="2xl ink"
         >
-          {{ doc.hello.lines[0] }}
-        </p>
-        <p
-          un-mt-3
-          un-mb-0
-          un-max-w-xl
-          un-text="muted base"
-          un-leading-relaxed
-        >
-          {{ doc.hello.lines[1] }}
+          {{ doc.hello }}
         </p>
       </div>
 
       <aside
         un-flex
         un-flex-col
-        un-gap-8
+        un-gap-6
       >
         <div>
           <CvSectionHead
@@ -123,17 +107,9 @@ useHead(() => ({
           >
             <Doodle
               :name="doc.place.doodle"
-              size="1.1em"
+              size="1em"
             />
             {{ doc.place.text }}
-          </p>
-          <p
-            un-m-0
-            un-mt-3
-            un-text="base muted"
-            un-leading-snug
-          >
-            {{ doc.nowBlurb }}
           </p>
         </div>
         <div
@@ -176,81 +152,67 @@ useHead(() => ({
       </aside>
     </header>
 
-    <section
-      un-mt-14
-      un-print:mt-8
-      class="print:break-inside-avoid"
-    >
-      <CvSectionHead :title="doc.facts.heading" />
-      <div
-        un-grid
-        un-grid-cols-3
-        un-gap-x-8
-        un-gap-y-6
-      >
-        <div
-          v-for="item in doc.facts.items"
-          :key="item.label"
-        >
-          <p
-            un-m-0
-            un-mb-2
-            un-font-mono
-            un-text="xs muted"
-            un-tracking-wide
-          >
-            {{ item.label }}
-          </p>
-          <p
-            un-m-0
-            un-font-normal
-            un-tracking-tight
-            un-leading-none
-            un-text="4xl ink"
-          >
-            {{ item.value }}
-          </p>
-          <p
-            un-m-0
-            un-mt-2
-            un-leading-snug
-            un-text="sm muted"
-          >
-            {{ item.note }}
-          </p>
-        </div>
-      </div>
-    </section>
-
-    <section
-      un-mt-10
-      un-print:mt-8
-    >
+    <section>
       <CvSectionHead :title="doc.episodes.heading" />
       <CvGroupedEntries :items="doc.episodes.items" />
     </section>
 
     <section
-      un-mt-10
-      un-print:mt-8
+      un-mt-6
       class="print:break-inside-avoid"
     >
       <CvSectionHead :title="doc.background.heading" />
-      <p
+      <dl
         un-m-0
-        un-mb-6
-        un-max-w-xl
-        un-text="base muted"
-        un-leading-relaxed
+        un-flex
+        un-flex-col
+        un-gap-4
       >
-        {{ doc.background.lead }}
-      </p>
-      <CvGroupedEntries :items="doc.background.items" />
+        <div
+          v-for="item in doc.background.items"
+          :key="item.title"
+          un-flex
+          un-items-baseline
+          un-gap-6
+        >
+          <dt
+            un-m-0
+            un-w-24
+            un-shrink-0
+            un-font-mono
+            un-tracking-wide
+            un-text="xs muted end"
+          >
+            {{ item.when }}
+          </dt>
+          <dd
+            un-m-0
+            un-min-w-0
+          >
+            <p
+              un-m-0
+              un-font-semibold
+              un-tracking-tight
+              un-leading-snug
+              un-text="lg ink"
+            >
+              {{ item.title }}
+            </p>
+            <p
+              un-m-0
+              un-mt-1.5
+              un-leading-relaxed
+              un-text="base muted"
+            >
+              {{ item.blurb }}
+            </p>
+          </dd>
+        </div>
+      </dl>
     </section>
 
     <section
-      un-mt-10
-      un-print:mt-8
+      un-mt-6
       class="print:break-inside-avoid"
     >
       <CvSectionHead :title="doc.principles.heading" />
@@ -259,15 +221,13 @@ useHead(() => ({
         un-grid
         un-grid-cols-2
         un-gap-x-12
-        un-gap-y-8
-        un-print:gap-y-6
       >
         <div
           v-for="(item, i) in doc.principles.items"
           :key="item.title"
           class="print:break-inside-avoid"
           :class="[
-            i % 2 ? 'mt-10 print:mt-0' : undefined,
+            i % 2 ? 'mt-10' : undefined,
           ]"
         >
           <dt
@@ -309,8 +269,7 @@ useHead(() => ({
     </section>
 
     <section
-      un-mt-10
-      un-print:mt-8
+      un-mt-6
       class="print:break-inside-avoid"
     >
       <CvSectionHead :title="doc.tools.heading" />
@@ -318,7 +277,7 @@ useHead(() => ({
         un-m-0
         un-flex
         un-flex-col
-        un-gap-3
+        un-gap-2
       >
         <div
           v-for="(group, i) in doc.tools.groups"
@@ -340,23 +299,17 @@ useHead(() => ({
           </dt>
           <dd
             un-m-0
-            un-leading-relaxed
+            un-flex
+            un-flex-wrap
+            un-items-baseline
+            un-gap-x-5
+            un-gap-y-1
             un-text="base ink"
           >
-            <template
-              v-for="(name, i) in group.names"
+            <span
+              v-for="name in group.names"
               :key="name"
-            >
-              <span
-                v-if="i"
-                aria-hidden="true"
-                un-inline-block
-                un-px-2.5
-                un-opacity-35
-                un-select-none
-              >·</span>
-              <span>{{ name }}</span>
-            </template>
+            >{{ name }}</span>
           </dd>
         </div>
       </dl>
@@ -368,8 +321,8 @@ useHead(() => ({
         {{ doc.tools.after }}
         <NuxtLink
           to="/stack"
-          data-ink="underline"
-          data-hover-ink="mark"
+          un-text-colored-ink
+          un-border="b dashed colored-ink hover:solid"
         >
           {{ doc.tools.stack }}
         </NuxtLink>.
@@ -377,8 +330,7 @@ useHead(() => ({
     </section>
 
     <section
-      un-mt-10
-      un-print:mt-8
+      un-mt-6
       class="print:break-inside-avoid"
     >
       <CvSectionHead :title="doc.also.heading" />
@@ -386,8 +338,7 @@ useHead(() => ({
         un-m-0
         un-mb-6
         un-max-w-xl
-        un-text="lg ink"
-        un-leading-relaxed
+        un-text="base ink"
       >
         {{ doc.also.lead }}
       </p>
@@ -401,7 +352,6 @@ useHead(() => ({
           v-for="(para, i) in doc.also.paras"
           :key="i"
           un-m-0
-          un-leading-relaxed
           un-text="base muted"
         >
           {{ para }}

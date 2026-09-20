@@ -113,62 +113,26 @@ export const cv = {
     now: 'NOW',
     print: 'Print PDF',
     line: 'student / design & code',
-    nowBlurb: fold(`
-      Building a cross-tool visual system, shipping small experiments,
-      refining an agent-heavy workflow, keeping this site,
-      and strugling on my master's degree.
-    `),
     place: {
       text: 'Nanjing, China',
       doodle: 'map-pin',
     },
     reach,
-    hello: {
-      lines: [
-        fold(`
-          I code, build, read, write, and disappear into rabbit holes.
-        `),
-        fold(`
-          Most of the time I care a little too much about aesthetics,
-          visual coherence, and how things feel to use. I like it when
-          design and development are the same job. Open source, if I
-          can get away with it.
-        `),
-      ],
-    },
-    facts: {
-      heading: 'IN SHORT',
-      items: [
-        {
-          label: 'SHIPPED',
-          value: 'n',
-          note: 'public things built and kept alive',
-        },
-        {
-          label: 'STATUS',
-          value: 'still',
-          note: 'master’s student',
-        },
-        {
-          label: 'PROOF',
-          value: '7k+',
-          note: 'Qlean downloads',
-        },
-      ],
-    },
+    hello: fold(`
+      I code, build, read, write, and disappear into rabbit holes.
+    `),
     episodes: {
       heading: 'SO FAR',
       items: [
         {
           when: 'now',
           title: 'LiG',
-          what: 'A visual system for the editor.',
+          what: 'A palette that assigns each colour.',
           blurb: fold(`
-            A cross-tool visual system for the coding environment:
-            custom palette, deliberately restrained semantic
-            highlighting. Most code stays neutral; colour is for
-            structure, actions, and references — not because it can
-            be coloured. Neovim, VS Code, terminal.
+            Green for structure, blue for reference, orange for
+            action. Other tokens stay almost all grayscale.
+            Highlighting uses it. So does the rest of the editor.
+            Neovim, VS Code, terminal.
           `),
         },
         {
@@ -176,72 +140,55 @@ export const cv = {
           title: 'poim',
           what: 'It turns a post into a share card.',
           blurb: fold(`
-            Screenshots made the same kind of content look different
-            every time. Paste an X post URL and poim normalises it
-            into a consistent card — PNG or a Web Component. Live,
-            and part of my own daily workflow. Nuxt, TypeScript,
-            Cloudflare.
+            I'm tired of getting inconsistent screenshots of posts.
+            Built this to turn posts URL into an image, easily shareable.
           `),
         },
         {
           when: 'now',
           title: 'nothing',
-          what: 'A joke product, taken seriously.',
+          what: 'A joke I built like a product.',
           warn: 'It is still WIP.',
           blurb: fold(`
-            I kept promising to ship something and shipping nothing.
-            So I made nothing — a deliberately pointless product,
-            overcrafted with complete sincerity. Art direction, copy,
-            creative frontend, and actually shipping the joke.
+            I kept promising to ship something and then shipping
+            nothing. So I shipped nothing.
           `),
         },
         {
           when: 'now',
           title: 'bibr',
-          what: 'It finds the citation you already know.',
+          what: 'Easy simple TUI for BibTeX.',
           blurb: fold(`
-            I know roughly which paper I need, but not its citation
-            key. A keyboard-first BibTeX TUI for that. I directed the
-            product, architecture, and acceptance; most of the
-            implementation went to a coding agent. Prototype, usable.
+            A keyboard-first BibTeX TUI. I set the product and the
+            architecture. A coding agent wrote most of the code.
+            It's a prototype but anyway it works.
           `),
         },
         {
           when: '2023–2026',
           title: 'Qlean',
-          what: 'An Obsidian theme that grew into UI.',
+          what: 'An Obsidian theme, my first work.',
           href: 'https://github.com/Fro-Q/Qlean',
           blurb: fold(`
-            First serious CSS rabbit hole: an Obsidian theme that
-            grew from restyling into interface work — navigation
-            cues, focus modes, custom controls, and a lot of
-            user-facing configuration. Open source. I barely use
-            Obsidian now, so I am not pretending it is actively
-            maintained.
+            First serious CSS rabbit hole. Open source, 7k+ downloads.
           `),
         },
       ],
     },
     background: {
       heading: 'BACKGROUND',
-      lead: fold(`
-        Formal training in GIS and environmental science. Programming
-        showed up as a tool for that work; the tools became the point.
-      `),
       items: [
         {
-          when: '2025—2028',
+          when: '2025—now',
           title: 'University of Chinese Academy of Sciences',
-          what: 'A professional master’s in environment.',
           blurb: fold(`
-            Resources & Environment (Environmental Engineering).
+            Resources & Environment.
             Nanjing Institute of Geography and Limnology, CAS.
           `),
         },
         {
           when: '2021—2025',
           title: 'Wuhan University of Technology',
-          what: 'A bachelor’s in GIS.',
           blurb: 'Geographic Information Science.',
         },
       ],
@@ -250,35 +197,30 @@ export const cv = {
       heading: 'PRINCIPLES',
       items: [
         {
-          title: 'Coherence over decoration.',
+          title: 'Have a point.',
           blurb: fold(`
-            A product should have something to say visually, and say
-            it consistently.
+            Minimal, strange, soft, brutal. Any of those is fine.
+            The language has to be on purpose.
           `),
         },
         {
-          title: 'Capability without coercion.',
+          title: 'Consistency is a feature.',
           blurb: fold(`
-            Software can be deep without forcing every feature into
-            the way. Unused capability is fine. Forced capability is
-            not.
+            Type, spacing, and feedback should match. If they
+            don't, that's a decision.
           `),
         },
         {
-          title: fold(`
-            Opinionated on the surface, hackable underneath.
-          `),
+          title: 'Make the default work.',
           blurb: fold(`
-            Strong defaults, a restrained settings UI, and a system
-            open enough for people to make it theirs.
+            Few settings, open underneath. Nobody has to configure
+            everything.
           `),
         },
         {
-          title: 'AI can execute; I decide.',
+          title: 'Ship small.',
           blurb: fold(`
-            Agents for implementation and exploration. Not for the
-            problem, the product direction, the constraints, or the
-            judgment.
+            Done is better than perfect.
           `),
         },
       ],
@@ -287,8 +229,8 @@ export const cv = {
       heading: 'TOOLS',
       groups: practice,
       after: fold(`
-        I care more about a tool's boundaries than memorising its
-        API. Longer notes on
+        I care more about where a tool runs out than about
+        memorising its API. Longer notes on
       `),
       stack: 'stack',
     },
@@ -297,11 +239,10 @@ export const cv = {
       lead: 'Besides coding and building.',
       paras: [
         fold(`
-          I listen to a lot of Cantonese pop, make coffee, and care
-          a little too much about spaces and the things in them. I
-          like keyboards, and I have a habit of falling into oddly
-          specific rabbit holes whenever something catches my
-          attention.
+          I listen to a lot of Cantonese pop, make coffee, and fuss
+          over rooms and the things in them. I like keyboards.
+          Something catches me and I fall into a hole that is way
+          too specific.
         `),
         fold(`
           Most of them have nothing to do with what I am supposed to be doing.
@@ -316,125 +257,81 @@ export const cv = {
     now: 'NOW',
     print: '打印 PDF',
     line: '学生 / 设计 & 代码',
-    nowBlurb: fold(`
-      在做一套跨工具的视觉系统，把小实验送出去，打磨一套偏 agent
-      的开发流程，并维护这个网站。
-    `),
     place: {
       text: '南京',
       doodle: 'map-pin',
     },
     reach: reachZh,
-    hello: {
-      lines: [
-        fold(`
-          我写代码、做东西、读书、写作，然后钻进兔子洞。
-        `),
-        fold(`
-          多半时候我对审美、视觉自洽、以及东西用起来的感觉，在意得
-          有点过头。我喜欢设计和开发是同一份工作。开源也行，如果我
-          能混进去的话。
-        `),
-      ],
-    },
-    facts: {
-      heading: 'IN SHORT',
-      items: [
-        {
-          label: '做出的',
-          value: 'n',
-          note: '做出来、还在用的公开项目',
-        },
-        {
-          label: '状态',
-          value: '仍是',
-          note: '在读硕士',
-        },
-        {
-          label: '证据',
-          value: '7k+',
-          note: 'Qlean 下载',
-        },
-      ],
-    },
+    hello: fold(`
+      我写代码、做产品、阅读、写作，以及一头扎进兔子洞里。
+    `),
     episodes: {
       heading: 'SO FAR',
       items: [
         {
           when: 'now',
           title: 'LiG',
-          what: '给编码环境做的视觉系统。',
+          what: '给颜色分配角色的代码高亮调色盘',
           blurb: fold(`
-            给编码环境用的跨工具视觉系统：自定义色板，语义高亮故意
-            克制。代码大多保持中性；颜色留给结构、动作和引用，而不
-            是因为能上色就上色。Neovim、VS Code、终端。
+            绿色代表结构，蓝色代表引用、橙色代表动作。
+            其余 token 几乎全为灰度。不止于代码高亮，
+            也用于编辑器的其他元素。Neovim、VS Code、
+            终端的一致性设计。
           `),
         },
         {
           when: 'now',
           title: 'poim',
-          what: '把帖子收成同一张分享卡片。',
+          what: '把帖子变成分享卡片。',
           blurb: fold(`
-            截图会让同一类内容每次长得都不一样。贴一个 X 帖子链接，
-            poim 收成同一张卡片——PNG，或嵌成 Web Component。已经
-            上线，我也在自己的日常里用。Nuxt、TypeScript、
-            Cloudflare。
+            我厌倦了帖子截图总是不统一。于是做了这个，把帖子 URL
+            变成图片，方便分享。
           `),
         },
         {
           when: 'now',
           title: 'nothing',
-          what: '一件故意没用、却认真做的产品。',
-          warn: '还在做，WIP。',
+          what: '一个我像做产品一样做的玩笑。',
+          warn: '当前状态：WIP。',
           blurb: fold(`
-            我老是答应要交出东西，然后什么也没交。于是做了
-            nothing——一件故意没用的产品，用十足的认真把它做过头。
-            练习美术指导、文案、creative frontend，以及真的把笑话
-            送出去。
+            我一直承诺要发布点什么，结果总是什么也没发。
+            我发布了 nothing。
           `),
         },
         {
           when: 'now',
           title: 'bibr',
-          what: '用来找你已经知道的那篇文献。',
+          what: '轻量简单的 BibTeX TUI。',
           blurb: fold(`
-            我大概知道要哪篇论文，但不知道它的 citation key。为此
-            做的键盘优先 BibTeX TUI。产品、架构和验收是我定的；实现
-            大多交给 coding agent。原型，能用。
+            一个键盘优先的 BibTeX TUI。我负责产品与架构，
+            大部分代码由 coding agent 完成。
+            它还是原型，但能用，且我在用。
           `),
         },
         {
           when: '2023–2026',
           title: 'Qlean',
-          what: '从主题长成界面的 Obsidian 工作。',
+          what: '一个 Obsidian 主题，我的第一件作品。',
           href: 'https://github.com/Fro-Q/Qlean',
           blurb: fold(`
-            认真掉进 CSS 的第一个兔子洞：从改外观长成界面工作——导
-            航线索、专注模式、自定义控件，还有给用户看的配置。开源。
-            我已经不怎么用 Obsidian，所以也不假装它还在积极维护。
+            第一个认真掉进 CSS 兔子洞。开源，7k+ 下载。
           `),
         },
       ],
     },
     background: {
       heading: 'BACKGROUND',
-      lead: fold(`
-        科班是 GIS 和环境科学。编程先是做这个用的工具；后来工具本
-        身成了重点。
-      `),
       items: [
         {
-          when: '2025—2028',
+          when: '2025 至今',
           title: '中国科学院大学',
-          what: '在读环境方向的专业硕士。',
           blurb: fold(`
-            资源与环境（环境工程）。中国科学院南京地理与湖泊研究所。
+            资源与环境。中国科学院南京地理与湖泊研究所。
           `),
         },
         {
           when: '2021—2025',
           title: '武汉理工大学',
-          what: '本科读的是地理信息科学。',
           blurb: '地理信息科学。',
         },
       ],
@@ -443,30 +340,27 @@ export const cv = {
       heading: 'PRINCIPLES',
       items: [
         {
-          title: '自洽，而不是装饰。',
+          title: '要有观点。',
           blurb: fold(`
-            一个产品在视觉上得有话要说，并且说得前后一致。
+            极简、怪、柔软、狂野，都可以。设计语言必须是有意为之。
           `),
         },
         {
-          title: '有能力，但不强迫。',
+          title: '一致性是重要功能',
           blurb: fold(`
-            软件可以很深，不必把每个功能塞进使用方式里。闲置的能力
-            没关系。被强迫的能力不行。
+            字体、间距和反馈都应该一致。若不一致，那也得是有意决定。
           `),
         },
         {
-          title: '表面上有主张，底下可改。',
+          title: '让默认值好用',
           blurb: fold(`
-            强默认、克制的设置界面，底层仍开放到别人能把它变成自己
-            的。
+            设置要少，但底层开放。没人该配置一切。
           `),
         },
         {
-          title: 'AI 可以执行；决定是我的。',
+          title: '小步交付',
           blurb: fold(`
-            实现和探索可以交给 agent。问题、产品方向、约束和判断不
-            行。
+            完成好过完美。
           `),
         },
       ],
@@ -475,27 +369,22 @@ export const cv = {
       heading: 'TOOLS',
       groups: practiceZh,
       after: fold(`
-        我更在意摸清工具的边界，而不是背它的 API。更长的笔记在
+        比起记住一个工具的 API，我更在意它的边界。
+        技术栈的详细笔记另见
       `),
       stack: 'stack',
     },
     also: {
-      heading: 'ALSO',
-      lead: '写代码、做东西之外。',
+      heading: 'ELSE',
+      lead: '除了写代码和做东西。',
       paras: [
         fold(`
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-          Integer vitae nisl sit amet nisi tincidunt tincidunt.
+          我听很多粤语流行，做咖啡，也爱折腾房间和里面的物件。
+          我喜欢键盘。一旦我被什么东西「抓住」，
+          我就会陷入一个极其具体的兔子洞里。
         `),
         fold(`
-          Sed do eiusmod tempor incididunt ut labore et dolore magna
-          aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-          ullamco laboris.
-        `),
-        fold(`
-          Duis aute irure dolor in reprehenderit in voluptate velit
-          esse cillum dolore eu fugiat nulla pariatur. Excepteur
-          sint occaecat cupidatat non proident.
+          它们大多和我本该做的事毫无关系。我喜欢这一点。
         `),
       ],
     },
