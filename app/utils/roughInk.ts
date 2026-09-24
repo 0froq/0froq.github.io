@@ -387,18 +387,21 @@ function strokeOptions(seed: number, em: number): Options {
 
 function ensureSvg(el: HTMLElement, kind: InkKind): SVGSVGElement {
   const found = [...el.querySelectorAll<SVGSVGElement>(`:scope > .${SVG_CLASS}[data-kind="${kind}"]`)]
-  const svg = found[0]
-  for (const extra of found.slice(1))
-    extra.remove()
-  if (!svg) {
-    const next = document.createElementNS(NS, 'svg')
-    next.setAttribute('class', SVG_CLASS)
-    next.setAttribute('aria-hidden', 'true')
-    next.dataset.kind = kind
-    el.appendChild(next)
-    return next
+  // An exiting stroke is about to be removed by its own wipe. Reusing it
+  // lets that wipe delete the circle just drawn for the current entry.
+  const svg = found.find(node => node.dataset.reveal !== 'exit')
+  for (const extra of found) {
+    if (extra !== svg && extra.dataset.reveal !== 'exit')
+      extra.remove()
   }
-  return svg
+  if (svg)
+    return svg
+  const next = document.createElementNS(NS, 'svg')
+  next.setAttribute('class', SVG_CLASS)
+  next.setAttribute('aria-hidden', 'true')
+  next.dataset.kind = kind
+  el.appendChild(next)
+  return next
 }
 
 function pruneSvgs(el: HTMLElement, keep: readonly InkKind[]) {
@@ -509,10 +512,7 @@ function playLiveEnter(
   em: number,
   lines: LineBox[],
 ): void {
-  paintKind(el, kind, host, em, lines, 'exit')
-  const svg = el.querySelector<SVGSVGElement>(`:scope > .${SVG_CLASS}[data-kind="${kind}"]`)
-  if (!svg)
-    return
+  const svg = paintKind(el, kind, host, em, lines, 'exit')
   svg.classList.add('ink-boot')
   requestAnimationFrame(() => {
     void svg.getBoundingClientRect()
@@ -745,7 +745,7 @@ function paintKind(
   em: number,
   lines: LineBox[],
   reveal: 'live' | 'hover' | 'exit' | 'enter',
-): void {
+): SVGSVGElement {
   const svg = ensureSvg(el, kind)
   svg.replaceChildren()
   svg.dataset.kind = kind
@@ -850,4 +850,5 @@ function paintKind(
       strokeOptions(seed, em),
     ))
   })
+  return svg
 }
