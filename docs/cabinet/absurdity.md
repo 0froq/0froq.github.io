@@ -11,7 +11,7 @@ kind: evergreen
 
 ---
 
-# absurdity
+#absurdity
 
 > ……我们的午饭吃得太早了，
 > 不过，这也很自然，肚子饿的时候，也就是该吃饭的时候。
