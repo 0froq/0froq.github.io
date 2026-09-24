@@ -40,7 +40,7 @@ Nuxt 4 + Nuxt Content, public markdown under `docs/essays`, `docs/journal`, and 
 
 - Homepage copy and structure from the pinned HTML mock.
 - Real public entries in `docs/essays`, `docs/journal`, and `docs/cabinet`.
-- Site identity: `public/logo.svg`, github.com/Fro-Q.
+- Site identity: `public/logo.svg`, github.com/froQ.
 
 ## Product Principles
 
