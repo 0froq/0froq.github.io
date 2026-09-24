@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { useMouseInElement } from '@vueuse/core'
+
 interface TocItem {
   id: string
   text: string
@@ -14,6 +16,7 @@ const marqueeDuration = ref(0)
 const open = ref(false)
 const openerRef = ref<HTMLButtonElement | null>(null)
 const navRef = ref<HTMLElement | null>(null)
+const { isOutside } = useMouseInElement(navRef)
 const route = useRoute()
 const wide = useMin('lg')
 const listed = useMin('sm')
@@ -150,6 +153,36 @@ function onKeydown(event: KeyboardEvent) {
   }
 }
 
+function wheelScale(event: WheelEvent) {
+  if (event.deltaMode === 1)
+    return 16
+  if (event.deltaMode === 2)
+    return window.innerHeight
+  return 1
+}
+
+function onWheel(event: WheelEvent) {
+  if (!open.value || wide.value || event.ctrlKey)
+    return
+  const scale = wheelScale(event)
+  const nav = navRef.value
+  if (!isOutside.value && nav) {
+    event.preventDefault()
+    const max = Math.max(0, nav.scrollHeight - nav.clientHeight)
+    nav.scrollTop = Math.min(max, Math.max(0, nav.scrollTop + event.deltaY * scale))
+    return
+  }
+  if (!isOutside.value)
+    return
+  event.preventDefault()
+  hideFloat()
+  const root = document.scrollingElement
+  if (!root)
+    return
+  root.scrollTop += event.deltaY * scale
+  root.scrollLeft += event.deltaX * scale
+}
+
 function onPointerDown(event: PointerEvent) {
   if (!open.value || wide.value)
     return
@@ -157,6 +190,14 @@ function onPointerDown(event: PointerEvent) {
     return
   hideFloat()
 }
+
+function bindWheel(on: boolean) {
+  window.removeEventListener('wheel', onWheel, { capture: true })
+  if (on)
+    window.addEventListener('wheel', onWheel, { passive: false, capture: true })
+}
+
+watch(open, isOpen => bindWheel(isOpen && !wide.value))
 
 watch([wide, listed], () => {
   compact.value = !wide.value
@@ -177,6 +218,7 @@ onUnmounted(() => {
   window.removeEventListener('scroll', onScrollFallback)
   window.removeEventListener('keydown', onKeydown)
   document.removeEventListener('pointerdown', onPointerDown, true)
+  bindWheel(false)
 })
 
 watch(() => route.path, () => {
@@ -201,7 +243,7 @@ watch(() => route.path, () => {
       v-if="items.length > 1"
       id="issue-toc"
       ref="navRef"
-      class="group/toc data-[open]:p-5 data-[open]:border-b data-[open]:border-muted data-[open]:bg-float data-[open]:shadow-[0_0_12px_2px_var(--float-shadow),0_8px_20px_var(--float-shadow)] data-[open]:z-50 data-[open]:backdrop-blur-sm"
+      class="group/toc data-[open]:p-5 data-[open]:overscroll-contain data-[open]:border-b data-[open]:border-muted data-[open]:bg-float data-[open]:shadow-[0_0_12px_2px_var(--float-shadow),0_8px_20px_var(--float-shadow)] data-[open]:z-50 data-[open]:backdrop-blur-sm"
       :data-open="open ? '' : undefined"
       un-hidden
       un-fixed
@@ -284,7 +326,7 @@ watch(() => route.path, () => {
               un-shrink-0
             />
             <span
-              class="issue-toc-label opacity-0 max-w-0 group-data-[active]/item:opacity-100 group-data-[open]/toc:opacity-100 group-data-[active]/item:max-w-[min(20rem,calc(100vw-3rem))] group-data-[open]/toc:max-w-[min(20rem,calc(100vw-3rem))] -translate-x-1 group-data-[active]/item:translate-x-0 group-data-[open]/toc:translate-x-0 lg:group-focus-within/toc:bg-paper lg:group-hover/toc:bg-paper lg:group-focus-within/toc:opacity-100 lg:group-hover/toc:opacity-100 lg:group-focus-within/toc:max-w-[min(12.5rem,var(--toc-label))] lg:group-hover/toc:max-w-[min(12.5rem,var(--toc-label))] lg:group-focus-within/toc:translate-x-0 lg:group-hover/toc:translate-x-0"
+              class="issue-toc-label opacity-0 max-w-0 group-data-[open]/toc:opacity-100 group-data-[open]/toc:max-w-[min(20rem,calc(100vw-3rem))] -translate-x-1 group-data-[open]/toc:translate-x-0 lg:group-focus-within/toc:bg-paper lg:group-hover/toc:bg-paper lg:group-data-[active]/item:opacity-100 lg:group-focus-within/toc:opacity-100 lg:group-hover/toc:opacity-100 lg:group-data-[active]/item:max-w-[max(0px,calc(var(--toc-label)-var(--toc-indent)))] lg:group-focus-within/toc:max-w-[max(0px,calc(var(--toc-label)-var(--toc-indent)))] lg:group-hover/toc:max-w-[max(0px,calc(var(--toc-label)-var(--toc-indent)))] lg:group-data-[active]/item:translate-x-0 lg:group-focus-within/toc:translate-x-0 lg:group-hover/toc:translate-x-0"
               un-whitespace-nowrap
               un-overflow-hidden
               un-text="base muted group-hover/btn:ink group-hover/toc:group-data-[active]/item:ink group-focus-within/toc:group-data-[active]/item:ink group-data-[open]/toc:group-data-[active]/item:ink"
@@ -306,7 +348,16 @@ watch(() => route.path, () => {
 
 <style scoped>
 nav {
-  --toc-label: max(0px, calc((100vw - min(var(--read-stage), 100vw - 2 * var(--gutter))) / 2 - 2.25rem));
+  /* prose left edge, then nav's left-4. Tick width flips on hover so the text's right edge stays put. */
+  --toc-edge: calc(var(--gutter) + (100vw - 2 * var(--gutter) - min(var(--read-stage), 100vw - 4 * var(--gutter))) / 2);
+  --toc-room: calc(var(--toc-edge) - 1rem);
+  --toc-tick: 1.5rem;
+  --toc-label: max(0px, calc(var(--toc-room) - var(--toc-tick) - 1rem));
+}
+
+nav:hover,
+nav:focus-within {
+  --toc-tick: 0.625rem;
 }
 
 nav::-webkit-scrollbar {
