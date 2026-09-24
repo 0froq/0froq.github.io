@@ -3,6 +3,8 @@ const { data: page } = await useAsyncData('home', () => {
   return queryCollection('home').first()
 })
 
+const heroEl = ref<HTMLElement | null>(null)
+const heroH = shallowRef(0)
 const mastEl = ref<HTMLElement | null>(null)
 const mastH = shallowRef(44)
 const stuck = shallowRef(false)
@@ -13,6 +15,7 @@ function syncMast() {
   const el = mastEl.value
   if (!el)
     return
+  heroH.value = heroEl.value?.offsetHeight ?? 0
   mastH.value = el.offsetHeight
   const top = el.getBoundingClientRect().top
   stuck.value = top <= 0.5
@@ -24,6 +27,8 @@ onMounted(() => {
   if (el) {
     mastRo = new ResizeObserver(syncMast)
     mastRo.observe(el)
+    if (heroEl.value)
+      mastRo.observe(heroEl.value)
   }
   syncMast()
   window.addEventListener('scroll', syncMast, { passive: true })
@@ -47,19 +52,21 @@ const routes = publicationSections.map(section => ({
 <template>
   <div un-relative>
     <section
+      ref="heroEl"
       un-sticky
-      un-top-0
       un-z-1
       un-box-border
       un-flex
-      un-h-svh
-      un-max-h-svh
+      un-min-h-svh
       un-flex-col
       un-justify-start
       un-overflow-hidden
       un-bg-paper
       un-pt="[clamp(1.25rem,4vh,3rem)] max-md:10"
-      :style="{ paddingBottom: `calc(${mastH}px + 0.75rem)` }"
+      :style="{
+        top: `min(0px, calc(100svh - ${heroH}px))`,
+        paddingBottom: `calc(${mastH}px + 0.75rem)`,
+      }"
     >
       <div
         un-box-border

@@ -127,7 +127,7 @@ onUnmounted(() => {
     >{{ plain }}</span>
     <div
       ref="copy"
-      class="text-stream-copy group-data-[phase=hold]:h-0 group-data-[phase=hold]:invisible group-data-[phase=hold]:overflow-hidden motion-reduce:!h-auto motion-reduce:!visible motion-reduce:!overflow-visible"
+      class="text-stream-copy group-data-[phase=hold]:invisible motion-reduce:!visible"
       :aria-hidden="streaming ? 'true' : undefined"
     >
       <slot />
@@ -141,13 +141,16 @@ onUnmounted(() => {
   animation: stream-ch-in 160ms var(--ease-out) both;
 }
 
+/* Hidden glyphs keep their box so the copy holds its final height. */
 :deep(.stream-ch:not([data-on])) {
-  display: none;
+  visibility: hidden;
 }
 
+/* Zero net advance: the caret must not reflow the reserved lines. */
 :deep(.stream-caret) {
   display: inline-block;
   width: 0.4em;
+  margin-right: -0.4em;
   height: 0.1em;
   transform: translateY(0.1em);
   background: var(--colored-ink);
@@ -168,8 +171,6 @@ onUnmounted(() => {
 @media (scripting: none) {
   .text-stream-copy {
     visibility: visible;
-    height: auto;
-    overflow: visible;
   }
 }
 

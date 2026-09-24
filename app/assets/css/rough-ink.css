@@ -21,7 +21,7 @@
   pointer-events: none;
 }
 
-:is([data-ink], [data-hover-ink]):has(.stream-ch):not(:has(.stream-ch[data-on])) > .rough-ink {
+:is([data-ink], [data-hover-ink]):has(.stream-ch:not([data-on])) > .rough-ink {
   visibility: hidden;
 }
 
