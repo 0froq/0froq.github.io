@@ -9,7 +9,7 @@ last_modified: 2026-03-15 14:40:56
 
 ---
 
-# scope/work/site
+#site
 
 ## 最近
 
@@ -18,13 +18,17 @@ last_modified: 2026-03-15 14:40:56
 
 莫名其妙就过了一个月，一个月没写东西。
 不过是狭义上的没写东西，广义上来说其实最近一次平台文字更新在 5 月 4 日，
-是 [博客园](https://www.cnblogs.com/ypsr/articles/17372913.html)
+是 [博客园](https://www.cnblogs.com/ypsr/articles/17372913.html)[^1]
 的一系列学习资料。不算是**写作**。
 
+[^1]: 注意，已经失效。
+
 最近鼓捣博客网站很久。
-博客园那个也搞了一两天（点 [这里](https://www.cnblogs.com/ypsr/) 可以去看看）。
+博客园那个也搞了一两天（点 [这里](https://www.cnblogs.com/ypsr/) [^2]可以去看看）。
 不过由于三件套不太熟练，所以还是找的模版，只进行了一些小改动，
 有人有兴趣的话可以给我留言，后续出个简明教程。网上那些教程或多或少有点问题。
+
+[^2]: 注意，已经失效。
 
 现在正在鼓捣的这个叫
 Gridea（[see in GitHub](https://github.com/getgridea/gridea)），

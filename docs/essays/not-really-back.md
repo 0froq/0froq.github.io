@@ -9,7 +9,7 @@ last_modified: 2026-06-20 14:36:45
 
 ---
 
-# scope/life #scope/work/theme #scope/work/nvim
+#life #theme #nvim
 
 ## ！
 
@@ -27,7 +27,7 @@ last_modified: 2026-06-20 14:36:45
 
 严格来说，
 上一次写东西，
-应该是 [241023 志 · 音乐与文字](vig-20241023.md) 那篇文章。
+应该是 [241023 夜记 · 音乐与文字](../journal/journal-20241023.md) 那篇文章。
 之后虽然也写过一些东西，
 但一方面没有发布，另一方面基本是一些技术笔记，
 并不算是我定义中的「写」。
@@ -49,16 +49,18 @@ last_modified: 2026-06-20 14:36:45
 我在[「写一个 Obsidian 主题」](an-obsidian-theme.md)
 的想法中接触到了 Web 开发，
 并且在不久之后发布了为 Obsidian 设计的
-[Qlean](https://github.com/Fro-Q/Qlean) 这个主题。
+[Qlean](https://github.com/0froq/Qlean) 这个主题。
 所以某种意义上来说，
 做一些这种外观上的设计也能算是我的某种「初心」吧。
 
 所以，在闲下来之后，
-我又写了 [NeoVim](https://github.com/Fro-Q/oQ.nvim)
-和 [VSCode](https://github.com/Fro-Q/vscode-theme-oq) 的主题 oQ。
+我又写了 [NeoVim](https://github.com/0froq/lig.nvim)
+和 [VSCode](https://github.com/0froq/vscode-theme-lig) 的主题 oQ[^1]。
 如果你用这些编辑器，
 可堪一试，
 应该不会是一坨。
+
+[^1]: 注意，已经更名为 LiG。
 
 ### 造轮子
 
@@ -69,7 +71,7 @@ last_modified: 2026-06-20 14:36:45
 比如说，
 在使用 NeoVim 的过程中，
 我发现手动维护文件的一些元信息比较麻烦，
-所以我写了 [headup.nvim](https://github.com/Fro-Q/headup.nvim)，
+所以我写了 [headup.nvim](https://github.com/0froq/headup.nvim)，
 它提供一个命令来基于特定的 pattern 去更新如 `last_modified`、`file_size`
 等元信息，并且支持自定义扩展。
 

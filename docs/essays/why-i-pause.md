@@ -9,7 +9,7 @@ last_modified: 2026-03-15 14:42:45
 
 ---
 
-# scope/life #scope/mental
+#life #mental
 
 这几天 ipad 在酥肉那儿，
 所以我得在 Windows 上找 Markdown 编辑器来写文，

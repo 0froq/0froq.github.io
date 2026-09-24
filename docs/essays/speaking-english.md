@@ -11,7 +11,7 @@ And I'm okay with that.
 
 ---
 
-# scope/life #consciousness
+#life #consciousness
 
 ---
 

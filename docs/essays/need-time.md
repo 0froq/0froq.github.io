@@ -9,7 +9,7 @@ last_modified: 2026-03-15 14:42:19
 
 ---
 
-# scope/work/course
+#course
 
 ## 考试
 

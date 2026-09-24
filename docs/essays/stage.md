@@ -9,7 +9,7 @@ Forget-me-not.
 
 ---
 
-# scope/life #scope/work/course
+#life #course
 
 太久没动笔（手），有点不知道该怎么写些内容出来。
 

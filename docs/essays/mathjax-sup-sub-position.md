@@ -9,7 +9,7 @@ last_modified: 2026-06-20 14:32:43
 
 ---
 
-# scope/work/mathjax #greek
+#mathjax #greek
 
 ## style 影响 MathJax 中的上下标
 

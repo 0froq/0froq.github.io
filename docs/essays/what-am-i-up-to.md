@@ -9,7 +9,7 @@ last_modified: 2026-04-24 16:56:08
 
 ---
 
-# scope/work/theme #scope/work/site
+#theme #site
 
 您好。
 
@@ -28,8 +28,10 @@ last_modified: 2026-04-24 16:56:08
 
 ## 坑
 
-从去年开始鼓捣 [博客园](https://www.cnblogs.com/ypsr) 起，
+从去年开始鼓捣 [博客园](https://www.cnblogs.com/ypsr) [^1]起，
 我陆陆续续为自己挖了很多坑。这里可以整理一下：
+
+[^1]: 注意，已经失效。
 
 - 3 月 23 日我在自己的日记里提到了
   「想学 CSS，初步感觉用处很大，
@@ -38,14 +40,14 @@ last_modified: 2026-04-24 16:56:08
 - 在 6 月 1 日的
   [好久不见:P](https://mp.weixin.qq.com/s/OnDiN2K2UIo1H4oQK3J7xA) 里，
   我提到我在鼓捣博客网站，
-  在 [博客园](https://www.cnblogs.com/ypsr) 上有了一个成品，
+  在 [博客园](https://www.cnblogs.com/ypsr) [^2]上有了一个成品，
   但由于前端不熟练所以仅限于基于模版的小改动。
   此外，我目前在用的是 [Gridea](https://open.gridea.dev)，
   它提供了一个客户端可以直接上传（甚至直接在内置编辑器中撰写）
   Mardown 文档并生成静态站点，非常友好。
 - 7 月 8 日，我写了一篇名为「正在做一个 Obsidian 主题」的文章，
   但没发在公众号上，
-  感兴趣的话可以去 [看看](https://fro-blo.com/blog/making-obsidian-theme.html)。
+  感兴趣的话可以去 [看看](an-obsidian-theme.md)。
   在这篇文章里，我大概讲了一下我为什么要自己做一个主题，
   顺便讲了自己写文章鼓捣「工具」的历史。
   我从 metion 接触 Markdown，在转向使用 MarkText 后开始研究文章的输出样式，
@@ -61,11 +63,13 @@ last_modified: 2026-04-24 16:56:08
   由于 Gridea 改样式不方便所以想自己做个 App 实现 md-to-HTML
   的转换以及整个站点文件树的生成（这个想法确实有点年轻了），报考了三级网络技术。
 
+[^2]: 注意，已经失效。 
+
 总结下来就两件大事：Obsidian 主题和博客网站。
 
 ## Obsidian 主题
 
-我现在在用的就是自己写的 [Qlean](https://github.com/Fro-Q/Qlean)。
+我现在在用的就是自己写的 [Qlean](https://github.com/0froq/Qlean)。
 有一说一我觉得用户体验还算可以。
 
 ![I wrote Qlean](what-am-i-up-to-assets/ATTCH-20240924171015362.png)
@@ -79,7 +83,9 @@ last_modified: 2026-04-24 16:56:08
 导致重写的时候可能多了很多小 bug，现在也没完全解决，
 所以再说一遍如果发现了 bug 一定要联系我（求）。
 
-## Fro-blo
+## Fro-blo[^3]
+
+[^3]: 注意，已经失效。我的个人站在 froq.me。
 
 哈哈，这就是我给我的博客网站取的名字，域名已经注册了，
 可以直接去 https://fro-blo.com/ 访问。

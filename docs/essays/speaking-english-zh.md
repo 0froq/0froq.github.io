@@ -12,7 +12,7 @@ lang: zh
 
 ---
 
-# scope/life #consciousness
+#life #consciousness
 
 ---
 
