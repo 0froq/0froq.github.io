@@ -169,7 +169,7 @@ export const cv = {
           when: '2023–2026',
           title: 'Qlean',
           what: 'An Obsidian theme, my first work.',
-          href: 'https://github.com/Fro-Q/Qlean',
+          href: 'https://github.com/froQ/Qlean',
           blurb: fold(`
             First serious CSS rabbit hole. Open source, 7k+ downloads.
           `),
@@ -272,7 +272,7 @@ export const cv = {
         {
           when: 'now',
           title: 'LiG',
-          what: '给颜色分配角色的代码高亮调色盘',
+          what: '给颜色分配角色的代码高亮调色盘。',
           blurb: fold(`
             绿色代表结构，蓝色代表引用、橙色代表动作。
             其余 token 几乎全为灰度。不止于代码高亮，
@@ -313,7 +313,7 @@ export const cv = {
           when: '2023–2026',
           title: 'Qlean',
           what: '一个 Obsidian 主题，我的第一件作品。',
-          href: 'https://github.com/Fro-Q/Qlean',
+          href: 'https://github.com/froQ/Qlean',
           blurb: fold(`
             第一个认真掉进 CSS 兔子洞。开源，7k+ 下载。
           `),
@@ -347,19 +347,19 @@ export const cv = {
           `),
         },
         {
-          title: '一致性是重要功能',
+          title: '一致性是重要功能。',
           blurb: fold(`
             字体、间距和反馈都应该一致。若不一致，那也得是有意决定。
           `),
         },
         {
-          title: '让默认值好用',
+          title: '让默认值好用。',
           blurb: fold(`
             设置要少，但底层开放。没人该配置一切。
           `),
         },
         {
-          title: '小步交付',
+          title: '小步交付。',
           blurb: fold(`
             完成好过完美。
           `),
