@@ -120,12 +120,12 @@ function lastMonthForYear(year: number, now: Date): number {
 
 export type JournalKind = 'journal' | 'log'
 
-/** Soft classification until frontmatter `kind` lands everywhere. */
+/** Frontmatter `kind` wins. Without it, a `log-` filename is a log and anything else is a journal entry. */
 export function journalEntryKind(entry: LayerEntry): JournalKind {
   if (entry.kind === 'log' || entry.kind === 'journal')
     return entry.kind
   const stem = entry.path.split('/').pop() ?? ''
-  return stem.startsWith('put') ? 'log' : 'journal'
+  return stem.startsWith('log') ? 'log' : 'journal'
 }
 
 export type JournalCellKind = JournalKind | 'split'

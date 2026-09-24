@@ -1,7 +1,9 @@
 <script setup lang="ts">
-defineProps<{
+const props = defineProps<{
   items: LayerEntry[]
 }>()
+
+provideJournalDeck(() => props.items)
 </script>
 
 <template>
@@ -9,6 +11,7 @@ defineProps<{
     class="journal-index"
     title="Journal"
     axis="wheel"
+    fan
   >
     <PublicationJournalHeat :items="items" />
   </PublicationHubShell>

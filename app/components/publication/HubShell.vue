@@ -1,41 +1,14 @@
 <script setup lang="ts">
-import { usePreferredReducedMotion } from '@vueuse/core'
-
 withDefaults(defineProps<{
   title?: string
   axis?: 'list' | 'wheel'
+  fan?: boolean
 }>(), {
   axis: 'list',
+  fan: false,
 })
 
-const peek = providePublicationPeek()
-const shown = peek.shown
-const peekEnterMs = 240
-const motion = usePreferredReducedMotion()
-
-function onPeekLeave(el: Element, done: () => void) {
-  const wait = motion.value !== 'reduce' && shown.value ? peekEnterMs : 0
-  if (!wait) {
-    crackApart(el as HTMLElement, done)
-    return
-  }
-  window.setTimeout(() => crackApart(el as HTMLElement, done), wait)
-}
-
-function onPeekEnter(el: Element, done: () => void) {
-  if (motion.value === 'reduce') {
-    done()
-    return
-  }
-  const anim = (el as HTMLElement).animate(
-    [
-      { opacity: 0, transform: 'translateY(8px)' },
-      { opacity: 1, transform: 'translateY(0)' },
-    ],
-    { duration: peekEnterMs, easing: 'cubic-bezier(0.16, 1, 0.3, 1)' },
-  )
-  anim.finished.then(() => done()).catch(() => done())
-}
+providePublicationPeek()
 </script>
 
 <template>
@@ -70,13 +43,13 @@ function onPeekEnter(el: Element, done: () => void) {
       un-w-full
       un-flex-col
       un-lg:flex-row
-      un-lg:gap-5
+      un-lg:gap-4
     >
       <div
         class="hub-shell__axis"
         :class="axis === 'list'
           ? 'lg:max-w-176'
-          : 'lg:flex-none lg:w-max lg:max-w-[calc(100%-24rem-1.25rem)] lg:shrink'"
+          : 'lg:flex-none lg:w-max lg:max-w-[calc(100%-24rem-1rem)] lg:shrink-0'"
         un-relative
         un-min-h-0
         un-min-w-0
@@ -102,50 +75,11 @@ function onPeekEnter(el: Element, done: () => void) {
         <SiteTrackFade edge="top" />
         <SiteTrackFade edge="bottom" />
       </div>
-      <aside
-        class="hub-shell__rail"
-        :class="axis === 'list'
-          ? 'lg:shrink lg:grow-0'
-          : 'lg:flex-none lg:min-w-96 lg:pt-[var(--hub-pad-top)] lg:pb-[var(--hub-pad-bottom)] lg:justify-center'"
-        un-relative
-        un-flex
-        un-flex-col
-        un-pointer-events-none
-        un-min-w-0
-        un-w-full
-        un-pt="[var(--hub-body-pad-top)]"
-        un-pb="[var(--site-footer)]"
-        un-lg:w-96
-        un-lg:min-w-96
-        un-lg:pt="[calc(var(--hub-pad-top)+var(--hub-body-pad-top))]"
-      >
-        <div
-          un-relative
-          un-isolate
-          un-grid
-          un-w-full
-          un-min-h="[min(42vh,22rem)] lg:0"
-          un-place-items-center
-          aria-live="polite"
-        >
-          <Transition
-            :css="false"
-            @enter="onPeekEnter"
-            @leave="onPeekLeave"
-          >
-            <IssuePeekCard
-              v-if="shown"
-              :key="shown.path"
-              :entry="shown"
-              un-col-start-1
-              un-row-start-1
-              un-z-2
-              un-pointer-events-auto
-              @dismiss="peek.dismiss"
-            />
-          </Transition>
-        </div>
-      </aside>
+      <PublicationJournalFan v-if="fan" />
+      <PublicationHubPeekRail
+        v-else
+        :axis="axis"
+      />
     </div>
   </div>
 </template>
@@ -157,6 +91,10 @@ function onPeekEnter(el: Element, done: () => void) {
   --hub-body-pad-top: 2.75rem;
   --track-fade-bottom: calc(var(--hub-pad-bottom) + 3.5rem);
   --track-fade-solid-bottom: var(--hub-pad-bottom);
+}
+
+.hub-shell__cluster {
+  container-type: inline-size;
 }
 
 .hub-shell__track {

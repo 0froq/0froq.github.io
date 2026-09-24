@@ -25,20 +25,50 @@ export function createPublicationPeek(): PublicationPeek {
   const shown = computed(() => pinned.value ?? active.value)
   const route = useRoute()
   const { remember } = useIssueArticleReturn()
+  const hoverShowMs = 180
+  let hoverTimer = 0
+  let pending: LayerEntry | null = null
+
+  function clearHoverTimer() {
+    if (hoverTimer) {
+      window.clearTimeout(hoverTimer)
+      hoverTimer = 0
+    }
+    pending = null
+  }
 
   function hover(entry: LayerEntry) {
-    active.value = entry
+    if (active.value?.path === entry.path) {
+      if (pending)
+        clearHoverTimer()
+      return
+    }
+    if (pending?.path === entry.path)
+      return
+    pending = entry
+    if (hoverTimer)
+      window.clearTimeout(hoverTimer)
+    hoverTimer = window.setTimeout(() => {
+      hoverTimer = 0
+      const next = pending
+      pending = null
+      if (next)
+        active.value = next
+    }, hoverShowMs)
   }
 
   function leave() {
+    clearHoverTimer()
     active.value = null
   }
 
   function pin(entry: LayerEntry) {
+    clearHoverTimer()
     pinned.value = entry
   }
 
   function dismiss() {
+    clearHoverTimer()
     pinned.value = null
     active.value = null
   }

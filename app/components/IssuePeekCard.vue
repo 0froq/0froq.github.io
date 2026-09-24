@@ -1,14 +1,15 @@
 <script setup lang="ts">
 import { useElementBounding, useMouseInElement, usePreferredReducedMotion } from '@vueuse/core'
 
-const props = defineProps<{
+const props = withDefaults(defineProps<{
   entry: LayerEntry
   dialog?: boolean
-}>()
-
-const emit = defineEmits<{
-  dismiss: []
-}>()
+  flip?: boolean
+  tilt?: boolean
+}>(), {
+  flip: true,
+  tilt: true,
+})
 
 const route = useRoute()
 const { remember } = useIssueArticleReturn()
@@ -17,7 +18,7 @@ const cardRef = useTemplateRef<HTMLElement>('card')
 const titleRef = useTemplateRef<HTMLElement>('title')
 const motion = usePreferredReducedMotion()
 const { elementX, elementY, elementWidth, elementHeight, isOutside } = useMouseInElement(cardRef, {
-  handleOutside: true,
+  handleOutside: false,
 })
 const cardBox = useElementBounding(cardRef)
 const titleBox = useElementBounding(titleRef)
@@ -72,7 +73,8 @@ const titleHaloStyle = computed(() => {
 const tiltStyle = computed(() => {
   const rest = { transform: 'rotateX(0deg) rotateY(0deg)' }
   if (
-    motion.value === 'reduce'
+    !props.tilt
+    || motion.value === 'reduce'
     || isOutside.value
     || !(elementWidth.value >= 32)
     || !(elementHeight.value >= 32)
@@ -90,9 +92,15 @@ watch(() => props.entry.path, () => {
   flipped.value = false
 })
 
-function onCardClick() {
-  const selection = window.getSelection()
-  if (selection && !selection.isCollapsed)
+watch(() => props.flip, (canFlip) => {
+  if (!canFlip)
+    flipped.value = false
+})
+
+function onCardClick(event: MouseEvent) {
+  if (!props.flip)
+    return
+  if (event.target instanceof Element && event.target.closest('a, button'))
     return
   flipped.value = !flipped.value
 }
@@ -104,8 +112,7 @@ function onCardClick() {
     ref="card"
     class="group/sheet"
     un-perspective="[72rem]"
-    un-w-full
-    un-max-w-96
+    :class="dialog ? 'w-full max-w-96' : 'w-64 max-w-full'"
     :data-dialog="dialog ? '' : undefined"
     un-overflow="visible data-[dialog]:auto"
     :role="dialog ? 'dialog' : 'region'"
@@ -119,7 +126,6 @@ function onCardClick() {
     un-min-w-0
     un-shadow-none
     un-cursor-pointer
-    un-bg-paper
     @click="onCardClick"
   >
     <p
@@ -181,46 +187,6 @@ function onCardClick() {
           un-py-4
         >
           <span
-            aria-hidden="true"
-            un-absolute
-            un-right-0
-            un-bottom-0
-            un-z-0
-            un-max-w-full
-            un-overflow-hidden
-            un-font-serif
-            un-italic
-            un-font-medium
-            class="text-[5.5rem] text-ink/11"
-            un-leading-none
-            un-tracking-tight
-            un-pointer-events-none
-            un-select-none
-          >froQ</span>
-          <span
-            class="issue-peek-mark-stroke text-[5.5rem]"
-            aria-hidden="true"
-            un-absolute
-            un-inset-0
-            un-z-0
-            un-flex
-            un-items-end
-            un-justify-end
-            un-overflow-hidden
-            un-font-serif
-            un-italic
-            un-font-medium
-            un-text-transparent
-            un-leading-none
-            un-tracking-tight
-            un-pointer-events-none
-            un-select-none
-            un-opacity="0 group-hover/sheet:60 group-focus-within/sheet:60"
-            un-transition-opacity
-            un-duration-200
-            un-ease-paper
-          >froQ</span>
-          <span
             class="issue-peek-halo"
             aria-hidden="true"
             un-absolute
@@ -234,56 +200,6 @@ function onCardClick() {
             un-duration-200
             un-ease-paper
           />
-
-          <div
-            un-relative
-            un-z-3
-            un-flex
-            un-min-w-0
-            un-items-start
-            un-justify-between
-            un-gap-4
-          >
-            <button
-              type="button"
-              un-reach-hit
-              un-shrink-0
-              un-m-0
-              un-border-0
-              un-p-1.5
-              un-font-mono
-              class="text-base text-rose/50 focus-visible:text-rose hover:text-rose"
-              un-transition-colors
-              un-leading-none
-              un-cursor-pointer
-              aria-label="Dismiss"
-              @click.stop="emit('dismiss')"
-            >
-              -
-            </button>
-            <NuxtLink
-              data-issue-peek-cta
-              un-reach-hit
-              un-shrink-0
-              un-m-0
-              un-inline-flex
-              un-items-center
-              un-justify-center
-              un-border-0
-              un-p-1.5
-              un-font-mono
-              class="text-base text-green/55 focus-visible:text-green hover:text-green"
-              un-decoration-none
-              un-transition-colors
-              un-leading-none
-              un-cursor-pointer
-              aria-label="Read"
-              :to="entry.path"
-              @click.stop="remember(route.fullPath)"
-            >
-              +
-            </NuxtLink>
-          </div>
 
           <div
             un-relative
@@ -332,7 +248,6 @@ function onCardClick() {
           </div>
 
           <div
-            v-if="metaBits.length || evergreen"
             un-relative
             un-z-1
             un-flex
@@ -348,27 +263,56 @@ function onCardClick() {
             >
               evergreen
             </p>
-            <p
-              v-if="metaBits.length"
-              un-m-0
-              un-font-mono
-              un-text="xs muted"
-              un-tracking-wide
-              un-tabular-nums
+            <div
+              un-flex
+              un-min-w-0
+              un-items-center
+              un-justify-between
+              un-gap-3
             >
-              <template
-                v-for="(bit, i) in metaBits"
-                :key="bit"
+              <p
+                v-if="metaBits.length"
+                un-m-0
+                un-min-w-0
+                un-font-mono
+                un-text="xs muted"
+                un-tracking-wide
+                un-tabular-nums
+              >
+                <template
+                  v-for="(bit, i) in metaBits"
+                  :key="bit"
+                >
+                  <span
+                    v-if="i"
+                    aria-hidden="true"
+                    un-mx-2
+                    un-opacity-70
+                  >·</span>
+                  <span>{{ bit }}</span>
+                </template>
+              </p>
+              <NuxtLink
+                data-issue-peek-cta
+                class="issue-peek-read"
+                un-reach-hit
+                un-ml-auto
+                un-shrink-0
+                un-m-0
+                un-font-mono
+                un-text-xs
+                un-tracking-wide
+                aria-label="Open original"
+                :to="entry.path"
+                @click.stop="remember(route.fullPath)"
               >
                 <span
-                  v-if="i"
+                  class="issue-peek-read__bar"
                   aria-hidden="true"
-                  un-mx-2
-                  un-opacity-70
-                >·</span>
-                <span>{{ bit }}</span>
-              </template>
-            </p>
+                />
+                原文
+              </NuxtLink>
+            </div>
           </div>
         </div>
 
@@ -447,61 +391,12 @@ function onCardClick() {
             un-ease-paper
           />
 
-          <div
-            un-relative
-            un-z-3
-            un-flex
-            un-min-w-0
-            un-items-start
-            un-justify-between
-            un-gap-4
-          >
-            <button
-              type="button"
-              un-reach-hit
-              un-shrink-0
-              un-m-0
-              un-border-0
-              un-p-1.5
-              un-font-mono
-              class="text-base text-rose/50 focus-visible:text-rose hover:text-rose"
-              un-transition-colors
-              un-leading-none
-              un-cursor-pointer
-              aria-label="Dismiss"
-              @click.stop="emit('dismiss')"
-            >
-              -
-            </button>
-            <NuxtLink
-              data-issue-peek-cta
-              un-reach-hit
-              un-shrink-0
-              un-m-0
-              un-inline-flex
-              un-items-center
-              un-justify-center
-              un-border-0
-              un-p-1.5
-              un-font-mono
-              class="text-base text-green/55 focus-visible:text-green hover:text-green"
-              un-decoration-none
-              un-transition-colors
-              un-leading-none
-              un-cursor-pointer
-              aria-label="Read"
-              :to="entry.path"
-              @click.stop="remember(route.fullPath)"
-            >
-              +
-            </NuxtLink>
-          </div>
           <p
             un-relative
             un-z-1
             un-m-0
             un-min-h-0
-            un-flex-1
+            un-self-start
             un-overflow-auto
             un-font-serif
             un-text="sm ink"
@@ -518,6 +413,39 @@ function onCardClick() {
 <style scoped>
 .issue-peek-sizer {
   padding-top: 56.25%;
+}
+
+.issue-peek-read {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--ink);
+  line-height: 1;
+  text-decoration: none;
+  transition:
+    color 200ms var(--ease-out),
+    transform 160ms var(--ease-out);
+}
+
+.issue-peek-read__bar {
+  width: 1px;
+  height: 0.65em;
+  background: var(--colored-ink);
+  transition: height 200ms var(--ease-out);
+}
+
+.issue-peek-read:hover,
+.issue-peek-read:focus-visible {
+  color: var(--colored-ink);
+}
+
+.issue-peek-read:hover .issue-peek-read__bar,
+.issue-peek-read:focus-visible .issue-peek-read__bar {
+  height: 1em;
+}
+
+.issue-peek-read:active {
+  transform: translateY(1px);
 }
 
 .issue-peek-face {
