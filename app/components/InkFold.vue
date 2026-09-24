@@ -6,12 +6,16 @@ const props = withDefaults(defineProps<{
   label: string
   panelId?: string
   tone?: string
-}>(), {})
+  /** Initial state. Later toggles stay local. */
+  open?: boolean
+}>(), {
+  open: false,
+})
 
 const triggerId = useId()
 const resolvedPanelId = computed(() => props.panelId || `ink-fold-panel-${triggerId}`)
-const open = shallowRef(false)
-const shown = shallowRef(false)
+const open = shallowRef(props.open)
+const shown = shallowRef(props.open)
 let closeTimer: number | undefined
 
 function prefersReducedMotion() {

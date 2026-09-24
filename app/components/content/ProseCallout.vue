@@ -2,8 +2,11 @@
 const props = withDefaults(defineProps<{
   kind?: 'warning' | 'note' | 'tip'
   title?: string
+  /** Unfolded on first paint. Defaults to collapsed. */
+  open?: boolean
 }>(), {
   kind: 'note',
+  open: false,
 })
 
 const slots = defineSlots<{
@@ -35,6 +38,7 @@ const kindColor = computed(() => `var(--callout-${props.kind})`)
       :seed="`callout-${foldLabel}`"
       :label="foldLabel"
       :tone="kindColor"
+      :open="open"
       un-text="left [1.05em]"
       un-font-stylish
       un-leading-snug
