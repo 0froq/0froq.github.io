@@ -83,7 +83,7 @@ const { away } = useSiteChromeAway()
         un-whitespace-nowrap
       >
         <a
-          href="https://github.com/froQ"
+          href="https://github.com/0froQ"
           rel="noreferrer"
           target="_blank"
           un-text="muted hover:colored-ink focus-visible:colored-ink"
