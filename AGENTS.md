@@ -162,3 +162,24 @@ Day/week planning skills (`start-my-day`, `end-my-day`, `start-my-week`, `end-my
   **When touching an existing SFC:** move what the template (or `--uno`) can carry before adding more raw CSS. Do not empty-`<style>` to silence PostCSS.
 
   **PostCSS / `import type`:** Do not `import type` in an SFC that has (or recently had) `<style>`. Vite asks for `*.vue?vue&type=style&scoped=…`. When that module is stale, PostCSS parses the script and reports `Unknown word` on TypeScript and `{{ … }}`. Types from `utils/` are auto-imported. After deleting a `<style>` block, restart `nuxt dev` if the overlay still cites `type=style`.
+
+---
+
+## 6. Cloud Agent environment
+
+### 6.1 Nuxt dev blocks on the telemetry prompt
+
+- **Problem**: `pnpm dev` asks an interactive telemetry question and never finishes serving pages.
+- **Case**: The process printed `Local: http://127.0.0.1:3000/` and then waited at "Are you interested in participating?". Requests to that port hung.
+- **Correct**: `NUXT_TELEMETRY_DISABLED=1 pnpm dev --host 127.0.0.1 --port 3000`
+
+### 6.2 Site and local worker
+
+- **Problem**: Treating the Cloudflare worker as a required login-gated dependency, or assuming the Nuxt app talks to it by default.
+- **Correct**:
+  - Dependencies: `pnpm install --frozen-lockfile` (pnpm 11.6.0 from `packageManager`). `postinstall` runs `nuxt prepare`.
+  - Native builds for `better-sqlite3` and `workerd` are allowed in `pnpm-workspace.yaml`.
+  - Site: the command in 6.1. Production build: `pnpm build`.
+  - The site defaults `NUXT_PUBLIC_FROQ_API` to `https://api.froq.me`. It does not need the local worker.
+  - Optional local API: `pnpm worker:dev --ip 127.0.0.1 --port 8787`. `GET /` returns `{"ok":true,"service":"froq-api"}`. Wrangler emulates Durable Objects and KV locally; no Cloudflare login.
+  - There is no test script. `pnpm exec nuxi typecheck` exits until `vue-tsc` is a dependency. `pnpm lint` is `eslint . --fix` and currently reports existing violations; that is not an environment failure.
