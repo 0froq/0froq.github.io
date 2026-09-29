@@ -159,41 +159,11 @@ export const cv = {
         {
           when: 'now',
           title: 'feeds',
-          what: 'Briefings, turned into cards.',
+          what: 'A briefing system that is actually running.',
           href: 'https://feeds.froq.me',
           blurb: fold(`
-            AI and build news, split into cards for WeChat
-            and Xiaohongshu.
-          `),
-        },
-        {
-          when: 'now',
-          title: 'gallery',
-          what: 'A paper gallery.',
-          href: 'https://gallery.froq.me',
-          blurb: fold(`
-            An ASCII field, an ASCII title, and a drawing.
-          `),
-        },
-        {
-          when: 'now',
-          title: 'coverish',
-          what: 'A bench for article covers.',
-          href: 'https://coverish.froq.me',
-          blurb: fold(`
-            Set a title, pick a ratio, drag the pieces,
-            download the image.
-          `),
-        },
-        {
-          when: 'now',
-          title: 'bibr',
-          what: 'Easy simple TUI for BibTeX.',
-          href: 'https://github.com/0froq/bibr',
-          blurb: fold(`
-            A keyboard-first BibTeX TUI. I set the product and the
-            architecture. A coding agent wrote most of the code.
-            It's a prototype but anyway it works.
+            AI and build news, one issue each morning.
+            Subscribe over RSS — the whole thing, or a single channel.
           `),
         },
         {
@@ -334,39 +304,11 @@ export const cv = {
         {
           when: 'now',
           title: 'feeds',
-          what: '把简报做成卡片。',
+          what: '一套已经在跑的简报系统。',
           href: 'https://feeds.froq.me',
           blurb: fold(`
-            AI 与构建动态，拆成卡片，发到公众号和小红书。
-          `),
-        },
-        {
-          when: 'now',
-          title: 'gallery',
-          what: '一张纸上的画廊。',
-          href: 'https://gallery.froq.me',
-          blurb: fold(`
-            ASCII 场地、ASCII 标题，以及一幅画。
-          `),
-        },
-        {
-          when: 'now',
-          title: 'coverish',
-          what: '文章封面的工作台。',
-          href: 'https://coverish.froq.me',
-          blurb: fold(`
-            定标题、选比例、拖动部件，然后导出图片。
-          `),
-        },
-        {
-          when: 'now',
-          title: 'bibr',
-          what: '轻量简单的 BibTeX TUI。',
-          href: 'https://github.com/0froq/bibr',
-          blurb: fold(`
-            一个键盘优先的 BibTeX TUI。我负责产品与架构，
-            大部分代码由 coding agent 完成。
-            它还是原型，但能用，且我在用。
+            AI 和构建动态，每天早上一份。
+            可以用 RSS 订阅，整站或者单个频道。
           `),
         },
         {

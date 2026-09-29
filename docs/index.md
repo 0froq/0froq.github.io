@@ -11,6 +11,7 @@ I'm doing a master's degree, which is not the point at all.
 I code, build, read, write, and plenty of other stuff.
 
 Most of the time I have a thing for aesthetics—and how things feel to use.
+[gallery](https://gallery.froq.me) is one of those: a paper gallery, an ASCII field, an ASCII title, and a drawing.
 
 My dream job is to work on the intersection of design and development.
 If possible, I want to be a full-time open source contributor.
