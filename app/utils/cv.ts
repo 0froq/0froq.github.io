@@ -167,6 +167,15 @@ export const cv = {
           `),
         },
         {
+          when: 'now',
+          title: 'gallery',
+          what: 'A paper gallery.',
+          href: 'https://gallery.froq.me',
+          blurb: fold(`
+            An ASCII field, an ASCII title, and a drawing.
+          `),
+        },
+        {
           when: '2023–2026',
           title: 'Qlean',
           what: 'An Obsidian theme, my first work.',
@@ -309,6 +318,15 @@ export const cv = {
           blurb: fold(`
             AI 和构建动态，每天早上一份。
             可以用 RSS 订阅，整站或者单个频道。
+          `),
+        },
+        {
+          when: 'now',
+          title: 'gallery',
+          what: '一张纸上的画廊。',
+          href: 'https://gallery.froq.me',
+          blurb: fold(`
+            ASCII 场地、ASCII 标题，以及一幅画。
           `),
         },
         {
