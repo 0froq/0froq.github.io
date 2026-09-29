@@ -177,6 +177,20 @@ useEventListener(window, 'afterprint', () => {
     <section>
       <CvSectionHead :title="doc.episodes.heading" />
       <CvGroupedEntries :items="doc.episodes.items" />
+      <p
+        un-m-0
+        un-mt-8
+        un-text="sm muted"
+      >
+        {{ doc.episodes.more }}
+        <NuxtLink
+          :to="doc.episodes.galleryHref"
+          un-text-colored-ink
+          un-border="b dashed colored-ink hover:solid"
+        >
+          {{ doc.episodes.gallery }}
+        </NuxtLink>{{ doc.episodes.moreEnd }}
+      </p>
     </section>
 
     <section

@@ -2,7 +2,7 @@
 title: 'MathJax 中希腊字母的 `\var-` 变体'
 created: 2024-09-25 14:33
 status: form
-last_modified: 2026-06-20 14:32:48
+last_modified: 2026-09-29 09:00:00
 ---
 
 关于 MathJax 中希腊字母的 `\var-` 变体。
@@ -25,13 +25,13 @@ last_modified: 2026-06-20 14:32:48
 | $\phi$, $\varphi$         | `\phi`, `\varphi`         |
 | $\kappa$, $\varkappa$     | `\kappa`, `\varkappa`     |
 
-其中 `\varkappa` 在 $\LaTeX$ 中由 [AMS-LaTeX](https://www.ams.org/arc/resources/amslatex-about.html) 包提供。
+其中 `\varkappa` 在 $\LaTeX$ 中由 [amssymb](https://ctan.org/pkg/amsfonts)（AMS-LaTeX，随 `amsfonts` 发行）提供。
 
 ### 总观：Letter 或 Symbol
 
-[_Unicode Standard, Version 16.0_](https://www.unicode.org/standard/standard.html) [Character Code Charts](https://www.unicode.org/charts/)
+[_Unicode Standard, Version 16.0_](https://www.unicode.org/standard/standard.html) [Character Code Charts](https://www.unicode.org/Public/18.0.0/charts/)
 （下简称 _Code Charts_）中的
-[Greek](https://www.unicode.org/charts/PDF/U0370.pdf) 部分提及了部分字母与其变体。
+[Greek](https://www.unicode.org/Public/18.0.0/charts/PDF/U0370.pdf) 部分提及了部分字母与其变体。
 $\varepsilon$ (`\varepsilon`)、$\theta$ (`\theta`)、$\kappa$ (`\kappa`)、
 $\pi$ (`\pi`)、$\rho$ (`\rho`)、$\sigma$ (`\sigma`) 和
 $\varsigma$ (`\varsigma`) 在「Letter」中被形容为 Greek small letter；

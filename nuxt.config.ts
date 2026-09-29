@@ -2,6 +2,9 @@ import { readdirSync } from 'node:fs'
 import { join, relative } from 'node:path'
 import process from 'node:process'
 import { fileURLToPath } from 'node:url'
+import { publicationPaths } from './server/utils/siteRoutes'
+
+const docsRoot = fileURLToPath(new URL('./docs', import.meta.url))
 
 const docsPublic = fileURLToPath(new URL('./docs/public', import.meta.url))
 const docsEssays = fileURLToPath(new URL('./docs/essays', import.meta.url))
@@ -80,6 +83,20 @@ export default defineNuxtConfig({
       htmlAttrs: {
         lang: 'en',
       },
+      meta: [
+        {
+          name: 'description',
+          content: 'Personal site of froQ. Code, design, and writing.',
+        },
+        { property: 'og:title', content: 'froQ' },
+        {
+          property: 'og:description',
+          content: 'Personal site of froQ. Code, design, and writing.',
+        },
+        { property: 'og:url', content: 'https://froq.me/' },
+        { property: 'og:type', content: 'website' },
+        { name: 'twitter:card', content: 'summary' },
+      ],
       script: [
         {
           src: '/color-scheme.js',
@@ -113,6 +130,7 @@ export default defineNuxtConfig({
     prerender: {
       autoSubfolderIndex: false,
       failOnError: false,
+      routes: [...publicationPaths(docsRoot), '/sitemap.xml'],
     },
     serverAssets: [
       {

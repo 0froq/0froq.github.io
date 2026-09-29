@@ -2,7 +2,7 @@
 title: '正在做一个 Obsidian 主题'
 created: 2023-07-08 23:00
 status: form
-last_modified: 2026-06-20 14:26:58
+last_modified: 2026-09-29 09:00:00
 ---
 
 虽然在我认识的人里面用 Obsidian 的寥寥无几，但是还是想记录一下最近在干的事情。
@@ -17,8 +17,8 @@ last_modified: 2026-06-20 14:26:58
 
 我用 [Obsidian](https://obsidian.md/) 快一年了，
 但是第一次接触它是在高考完的暑假。
-当时通过 [metion](https://www.markeditor.com/page/doc/metion.md)
-（非安全链接，斟酌）第一次接触到 Markdown，心想文本编辑还能这么玩？
+当时通过 [metion](https://web.archive.org/web/20250113022626/http://markeditor.com/page/doc/metion.md)
+（原站证书已过期，这里是存档）第一次接触到 Markdown，心想文本编辑还能这么玩？
 
 ![metion for Mac 的 UI](an-obsidian-theme-assets/ATTCH-20240924170959938.png)
 
@@ -34,9 +34,9 @@ metion 宣传为「颜值高也好用，懂中文也懂 Markdown」。
 我在 iPad 上下载了一大批支持 Markdown 的笔记软件，其中就包括 Obsidian。
 但是当时由于不太会用，加上 iPadOS 端的 Obsidian 还存在一些 bug，
 导致当时没有能够成功使用。
-其他的诸如 [Bear](https://bear.app/cn/)、
+其他的诸如 [Bear](https://bear.app/)、
 [Notion](https://www.notion.so/product?fredir=1)、
-[Aganda](https://agenda.com)（严格意义上来说不算笔记软件）、
+[Agenda](https://agenda.com)（严格意义上来说不算笔记软件）、
 [MWeb](https://www.mweb.im/cn/index.html) 等等，我都进行了一定程度的体验。
 它们都是合格的 Markdown 编辑器，只是我口味比较刁。
 所以在一番尝试之后，我暂时还是用着 iPad 上的 metion 作为码字工具。
@@ -60,7 +60,7 @@ CMD Markdown 不支持即时渲染等原因，
 但是由于失去了 metion 的「导出为公众号格式」，
 我需要折腾文章的格式的再复制上去。
 这个时期我用到了两个 Markdown 转公众号格式的网页来帮我进行格式化：
-[Md2All](http://md.aclickall.com) 和 [openwrite](https://md.openwrite.cn)。
+[Md2All](https://web.archive.org/web/20250118235312/https://md.aclickall.com/) 和 [openwrite](https://md.openwrite.cn)。
 总的来说，后者的默认格式更符合我的审美，
 但是其缺少了对部分 Markdown 语法的支持，
 如使用 `[TOC]` 来生成一个 TOC 的功能 ^[2024 年 9 月 9 日补充，使用 `[toc]` 生成大纲目录并不是标准的 CommonMark 规范。]。
@@ -97,7 +97,7 @@ Obsidian 的理念与 Zettelkasten 非常兼容，
 
 在刚萌生开发主题这个想法的时候，
 我的策略是对已有的、相对较完善的主题 CSS 进行修改，
-基于 [Style Settings](https://github.com/mgmeyers/obsidian-style-settings)
+基于 [Style Settings](https://github.com/community-archive/obsidian-style-settings)
 插件对其提供的设置接口进行调整，并增加我认为重要的、常用的设置选项。
 
 ![基于 Serenity 主题进行修改的过程](an-obsidian-theme-assets/ATTCH-20240924171000088.png)
