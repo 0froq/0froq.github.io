@@ -21,7 +21,16 @@ if (!page.value) {
 }
 
 const entry = computed(() => page.value ? toLayerEntry(page.value) : null)
-useSeoMeta({ title: page.value.title })
+const articleTitle = page.value.title
+const articleDescription = page.value.description
+useSeoMeta({
+  title: articleTitle,
+  ogTitle: articleTitle,
+  ogType: 'article',
+  ...(articleDescription
+    ? { description: articleDescription, ogDescription: articleDescription }
+    : {}),
+})
 useIssueArticleMast(() => page.value?.title)
 </script>
 

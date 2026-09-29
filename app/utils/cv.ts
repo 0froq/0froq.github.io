@@ -129,6 +129,7 @@ export const cv = {
           when: 'now',
           title: 'LiG',
           what: 'A palette that assigns each colour.',
+          href: 'https://github.com/0froq/lig.nvim',
           blurb: fold(`
             Green for structure, blue for reference, orange for
             action. Other tokens stay almost all grayscale.
@@ -142,23 +143,53 @@ export const cv = {
           what: 'It turns a post into a share card.',
           blurb: fold(`
             I'm tired of getting inconsistent screenshots of posts.
-            Built this to turn posts URL into an image, easily shareable.
+            Built this to turn a post URL into an image, easily shareable.
           `),
         },
         {
           when: 'now',
-          title: 'nothing',
-          what: 'A joke I built like a product.',
-          warn: 'It is still WIP.',
+          title: 'void',
+          what: 'A product for none of your goals.',
+          href: 'https://void.froq.me',
           blurb: fold(`
             I kept promising to ship something and then shipping
-            nothing. So I shipped nothing.
+            nothing. So I shipped void.
+          `),
+        },
+        {
+          when: 'now',
+          title: 'feeds',
+          what: 'Briefings, turned into cards.',
+          href: 'https://feeds.froq.me',
+          blurb: fold(`
+            AI and build news, split into cards for WeChat
+            and Xiaohongshu.
+          `),
+        },
+        {
+          when: 'now',
+          title: 'gallery',
+          what: 'A paper gallery.',
+          href: 'https://gallery.froq.me',
+          blurb: fold(`
+            An ASCII field, an ASCII title, and a drawing.
+          `),
+        },
+        {
+          when: 'now',
+          title: 'coverish',
+          what: 'A bench for article covers.',
+          href: 'https://coverish.froq.me',
+          blurb: fold(`
+            Set a title, pick a ratio, drag the pieces,
+            download the image.
           `),
         },
         {
           when: 'now',
           title: 'bibr',
           what: 'Easy simple TUI for BibTeX.',
+          href: 'https://github.com/0froq/bibr',
           blurb: fold(`
             A keyboard-first BibTeX TUI. I set the product and the
             architecture. A coding agent wrote most of the code.
@@ -169,7 +200,7 @@ export const cv = {
           when: '2023–2026',
           title: 'Qlean',
           what: 'An Obsidian theme, my first work.',
-          href: 'https://github.com/froQ/Qlean',
+          href: 'https://github.com/0froq/Qlean',
           blurb: fold(`
             First serious CSS rabbit hole. Open source, 7k+ downloads.
           `),
@@ -273,6 +304,7 @@ export const cv = {
           when: 'now',
           title: 'LiG',
           what: '给颜色分配角色的代码高亮调色盘。',
+          href: 'https://github.com/0froq/lig.nvim',
           blurb: fold(`
             绿色代表结构，蓝色代表引用、橙色代表动作。
             其余 token 几乎全为灰度。不止于代码高亮，
@@ -291,18 +323,46 @@ export const cv = {
         },
         {
           when: 'now',
-          title: 'nothing',
-          what: '一个我像做产品一样做的玩笑。',
-          warn: '当前状态：WIP。',
+          title: 'void',
+          what: '一个做成产品的玩笑。',
+          href: 'https://void.froq.me',
           blurb: fold(`
             我一直承诺要发布点什么，结果总是什么也没发。
-            我发布了 nothing。
+            于是我发布了 void。
+          `),
+        },
+        {
+          when: 'now',
+          title: 'feeds',
+          what: '把简报做成卡片。',
+          href: 'https://feeds.froq.me',
+          blurb: fold(`
+            AI 与构建动态，拆成卡片，发到公众号和小红书。
+          `),
+        },
+        {
+          when: 'now',
+          title: 'gallery',
+          what: '一张纸上的画廊。',
+          href: 'https://gallery.froq.me',
+          blurb: fold(`
+            ASCII 场地、ASCII 标题，以及一幅画。
+          `),
+        },
+        {
+          when: 'now',
+          title: 'coverish',
+          what: '文章封面的工作台。',
+          href: 'https://coverish.froq.me',
+          blurb: fold(`
+            定标题、选比例、拖动部件，然后导出图片。
           `),
         },
         {
           when: 'now',
           title: 'bibr',
           what: '轻量简单的 BibTeX TUI。',
+          href: 'https://github.com/0froq/bibr',
           blurb: fold(`
             一个键盘优先的 BibTeX TUI。我负责产品与架构，
             大部分代码由 coding agent 完成。
@@ -313,7 +373,7 @@ export const cv = {
           when: '2023–2026',
           title: 'Qlean',
           what: '一个 Obsidian 主题，我的第一件作品。',
-          href: 'https://github.com/froQ/Qlean',
+          href: 'https://github.com/0froq/Qlean',
           blurb: fold(`
             第一个认真掉进 CSS 兔子洞。开源，7k+ 下载。
           `),

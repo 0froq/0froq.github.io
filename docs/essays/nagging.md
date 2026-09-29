@@ -2,7 +2,7 @@
 title: '碎碎念'
 created: 2023-08-08 09:00
 status: form
-last_modified: 2026-06-20 14:35:16
+last_modified: 2026-09-29 09:00:00
 ---
 
 睡不着，忽地想起来好久没动笔了。
@@ -34,7 +34,7 @@ last_modified: 2026-06-20 14:35:16
 
 [^1]: 2024 年 9 月 9 日补充：
 由于用 [Vitepress](https://vitepress.dev/) + Obsidian 实现了高度集成的流水线，
-这个 MacOS 软件基本已弃坑。
+这个 MacOS 软件基本已弃坑。2026 年站点已迁到 Nuxt。
 
 设计上的事就很靠灵感了。
 中途放弃过一个版面，放弃过一个通宵写的 CSS

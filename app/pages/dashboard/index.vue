@@ -1,6 +1,7 @@
 <script setup lang="ts">
 useHead({
   title: 'Dashboard',
+  meta: [{ name: 'robots', content: 'noindex' }],
 })
 </script>
 

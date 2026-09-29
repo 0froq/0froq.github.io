@@ -2,7 +2,7 @@
 title: 并未真正回归
 created: 2025-11-30 10:20:00
 status: form
-last_modified: 2026-06-20 14:36:45
+last_modified: 2026-09-29 09:00:00
 ---
 
 如题。
@@ -55,7 +55,7 @@ last_modified: 2026-06-20 14:36:45
 
 所以，在闲下来之后，
 我又写了 [NeoVim](https://github.com/0froq/lig.nvim)
-和 [VSCode](https://github.com/0froq/vscode-theme-lig) 的主题 oQ[^1]。
+和 [VSCode](https://github.com/0froq/vscode-theme-LiG) 的主题 oQ[^1]。
 如果你用这些编辑器，
 可堪一试，
 应该不会是一坨。

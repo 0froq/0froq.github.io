@@ -12,13 +12,13 @@ pinned = true
 
 [[scraps]]
 id = "stack"
-text = "languages, frameworks, workflows, soft- and hardwares, etc. See the [stack](/stack)."
+text = "languages, frameworks, workflows, software and hardware, etc. See the [stack](/stack)."
 pinned = true
 
 [[scraps]]
 id = "hyalina"
 text = "[透明溞不是老鼠](/essays/d-hyalina-is-not-rat)"
-detail = "A recent prose. Take a look if you can read Chinese."
+detail = "A Chinese prose from 2024. Take a look if you can read Chinese."
 date = "2024-08-04"
 pinned = true
 

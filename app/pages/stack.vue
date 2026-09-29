@@ -221,8 +221,8 @@ const groups: {
           I found Nuxt through the wider Vue ecosystem and was drawn to things
           like auto-imports, server APIs and Nitro
           long before I actually needed most of them.
-          I'm now migrating my site from VitePress to Nuxt Content,
-          so this is no longer something I merely admire from a distance.
+          The personal site runs on Nuxt Content now.
+          I'm still learning the corners I don't touch every day.
         `,
       },
       {
