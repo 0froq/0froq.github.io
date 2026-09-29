@@ -124,6 +124,10 @@ export const cv = {
     `),
     episodes: {
       heading: 'SO FAR',
+      more: 'More of the work is in',
+      gallery: 'gallery',
+      galleryHref: 'https://gallery.froq.me',
+      moreEnd: '.',
       items: [
         {
           when: 'now',
@@ -164,15 +168,6 @@ export const cv = {
           blurb: fold(`
             AI and build news, one issue each morning.
             Subscribe over RSS — the whole thing, or a single channel.
-          `),
-        },
-        {
-          when: 'now',
-          title: 'gallery',
-          what: 'A paper gallery.',
-          href: 'https://gallery.froq.me',
-          blurb: fold(`
-            An ASCII field, an ASCII title, and a drawing.
           `),
         },
         {
@@ -278,6 +273,10 @@ export const cv = {
     `),
     episodes: {
       heading: 'SO FAR',
+      more: '更多的作品可以在',
+      gallery: 'gallery',
+      galleryHref: 'https://gallery.froq.me',
+      moreEnd: ' 里找到。',
       items: [
         {
           when: 'now',
@@ -318,15 +317,6 @@ export const cv = {
           blurb: fold(`
             AI 和构建动态，每天早上一份。
             可以用 RSS 订阅，整站或者单个频道。
-          `),
-        },
-        {
-          when: 'now',
-          title: 'gallery',
-          what: '一张纸上的画廊。',
-          href: 'https://gallery.froq.me',
-          blurb: fold(`
-            ASCII 场地、ASCII 标题，以及一幅画。
           `),
         },
         {
