@@ -106,8 +106,14 @@ export default defineNuxtConfig({
       link: [
         {
           rel: 'icon',
-          href: '/logo.svg',
-          type: 'image/svg+xml',
+          href: '/favicon.png',
+          type: 'image/png',
+          sizes: '64x64',
+        },
+        {
+          rel: 'icon',
+          href: '/favicon.ico',
+          sizes: '48x48',
         },
         {
           rel: 'preconnect',
