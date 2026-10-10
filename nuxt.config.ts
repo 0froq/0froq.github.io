@@ -106,13 +106,13 @@ export default defineNuxtConfig({
       link: [
         {
           rel: 'icon',
-          href: '/favicon.png',
+          href: '/favicon.png?v=2',
           type: 'image/png',
           sizes: '64x64',
         },
         {
           rel: 'icon',
-          href: '/favicon.ico',
+          href: '/favicon.ico?v=2',
           sizes: '48x48',
         },
         {
