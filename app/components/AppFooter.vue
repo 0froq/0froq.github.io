@@ -83,6 +83,11 @@ const { away } = useSiteChromeAway()
         un-whitespace-nowrap
       >
         <a
+          href="/rss.xml"
+          un-text="muted hover:colored-ink focus-visible:colored-ink"
+        >rss</a>
+        <span aria-hidden="true">·</span>
+        <a
           href="https://github.com/0froq"
           rel="noreferrer"
           target="_blank"

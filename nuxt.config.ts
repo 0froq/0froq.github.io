@@ -2,7 +2,7 @@ import { readdirSync } from 'node:fs'
 import { join, relative } from 'node:path'
 import process from 'node:process'
 import { fileURLToPath } from 'node:url'
-import { OG_IMAGE_URL, SITE_DESCRIPTION, SITE_NAME, TWITTER_HANDLE } from './app/utils/siteConstants'
+import { OG_IMAGE_URL, SITE_DESCRIPTION, SITE_NAME, SITE_ORIGIN, TWITTER_HANDLE } from './app/utils/siteConstants'
 import { publicationPaths } from './server/utils/siteRoutes'
 
 const docsRoot = fileURLToPath(new URL('./docs', import.meta.url))
@@ -111,6 +111,12 @@ export default defineNuxtConfig({
       ],
       link: [
         {
+          rel: 'alternate',
+          type: 'application/rss+xml',
+          title: SITE_NAME,
+          href: `${SITE_ORIGIN}/rss.xml`,
+        },
+        {
           rel: 'icon',
           href: '/favicon.png?v=2',
           type: 'image/png',
@@ -148,7 +154,7 @@ export default defineNuxtConfig({
     prerender: {
       autoSubfolderIndex: false,
       failOnError: false,
-      routes: [...publicationPaths(docsRoot), '/sitemap.xml'],
+      routes: [...publicationPaths(docsRoot), '/sitemap.xml', '/rss.xml'],
     },
     serverAssets: [
       {
