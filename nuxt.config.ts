@@ -133,6 +133,9 @@ export default defineNuxtConfig({
   },
 
   nitro: {
+    // Workers Builds sets CI env vars that make Nitro pick cloudflare-pages-static,
+    // which omits key flat HTML paths and adds Pages-style _redirects/_headers fallbacks.
+    preset: 'static',
     output: {
       publicDir: 'dist',
     },
