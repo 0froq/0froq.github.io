@@ -2,7 +2,7 @@ import antfu from '@antfu/eslint-config'
 
 export default antfu(
   {
-    ignores: ['.nuxt/**', '.output/**', '.data/**'],
+    ignores: ['.nuxt/**', '.output/**', '.data/**', '.agents/**'],
     nuxt: true,
     unocss: true,
     vue: true,
