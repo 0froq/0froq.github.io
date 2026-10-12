@@ -1,4 +1,17 @@
 {
   "version": 1,
-  "skills": {}
+  "skills": {
+    "cloudflare-sites": {
+      "source": "0froq/skills-pack",
+      "sourceType": "github",
+      "skillPath": "skills/cloudflare-sites/SKILL.md",
+      "computedHash": "98da734f3db1524f96e8555aa2ffd61a96086eb2ea9f67df2b8c5d932ffb7057"
+    },
+    "oq": {
+      "source": "0froq/skills-pack",
+      "sourceType": "github",
+      "skillPath": "skills/oq/SKILL.md",
+      "computedHash": "b13dc0deb85356d89b6cf2a9cc0ea055d89070d8c1b1dc522839d551b68e5992"
+    }
+  }
 }

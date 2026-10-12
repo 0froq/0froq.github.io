@@ -5,6 +5,7 @@
     "dev": "nuxt dev",
     "build": "nuxt build",
     "generate": "nuxt generate",
+    "deploy": "pnpm generate && cf deploy",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
     "worker:dev": "pnpm --dir workers/froq-api dev",
@@ -42,8 +43,10 @@
     "@unocss/eslint-plugin": "catalog:lint",
     "@unocss/extractor-mdc": "catalog:styling",
     "@unocss/nuxt": "catalog:styling",
+    "cf": "catalog:workers",
     "eslint": "catalog:lint",
     "typescript": "catalog:workers",
-    "unocss": "catalog:styling"
+    "unocss": "catalog:styling",
+    "wrangler": "catalog:workers"
   }
 }

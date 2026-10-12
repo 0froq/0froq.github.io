@@ -133,6 +133,9 @@ export default defineNuxtConfig({
   },
 
   nitro: {
+    output: {
+      publicDir: 'dist',
+    },
     prerender: {
       autoSubfolderIndex: false,
       failOnError: false,
