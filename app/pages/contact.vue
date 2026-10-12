@@ -1,5 +1,12 @@
 <script setup lang="ts">
-useHead({ title: 'Contact' })
+useSeoMeta({
+  title: 'Contact',
+  ogTitle: 'Contact',
+  twitterTitle: 'Contact',
+  description: 'Email, WeChat, X, and other ways to reach froQ.',
+  ogDescription: 'Email, WeChat, X, and other ways to reach froQ.',
+  twitterDescription: 'Email, WeChat, X, and other ways to reach froQ.',
+})
 
 interface ReachItem {
   id: string
