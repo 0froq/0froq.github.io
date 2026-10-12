@@ -907,7 +907,9 @@ watch(() => peek.pinned.value, (entry) => {
   scroll-padding-bottom: var(--wheel-pad-bottom);
   scrollbar-width: none;
   box-sizing: border-box;
-  padding-right: 0.5rem;
+  /* Day rings draw past the cell. Size the inset from the cell so the
+     rightmost column keeps its full circle. */
+  padding-right: calc(var(--wheel-cell) * 0.7);
   overflow-x: hidden;
 }
 
