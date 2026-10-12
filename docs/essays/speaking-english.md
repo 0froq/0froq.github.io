@@ -13,8 +13,6 @@ And I'm okay with that.
 
 #life #consciousness
 
----
-
 I'm dictating this into my phone right now.
 Not typing—speaking.
 My voice becomes text through an app,
