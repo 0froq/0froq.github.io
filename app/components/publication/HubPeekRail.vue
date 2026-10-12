@@ -57,7 +57,6 @@ function onPeekEnter(el: Element, done: () => void) {
       un-isolate
       un-grid
       un-w-full
-      un-min-h="[min(42vh,22rem)] lg:0"
       un-place-items-center
       aria-live="polite"
     >

@@ -13,7 +13,7 @@ providePublicationPeek()
 
 <template>
   <div
-    class="hub-shell group/hub"
+    class="hub-shell group/hub md:max-lg:data-[axis=list]:[--hub-pad-bottom:1.25rem] md:max-lg:data-[axis=list]:[--track-fade-bottom:4.75rem] md:max-lg:data-[axis=list]:[--track-fade-solid-bottom:1.25rem]"
     :data-axis="axis"
     un-relative
     un-box-border
