@@ -8,9 +8,16 @@ export default defineNuxtRouteMiddleware((to, from) => {
 
   const toDepth = routeDepth(to.path)
   const fromDepth = routeDepth(from.path)
-  document.documentElement.dataset.issueNav = toDepth > fromDepth
+  const nav = toDepth > fromDepth
     ? 'open'
     : toDepth < fromDepth
       ? 'close'
       : 'turn'
+  document.documentElement.dataset.issueNav = nav
+
+  const chrome = useIssueSheetChrome()
+  if (!samePublicationSection(to.path, from.path) || nav === 'turn')
+    chrome.value = null
+  else
+    chrome.value = nav === 'close' ? 'article' : 'hub'
 })

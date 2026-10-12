@@ -52,10 +52,16 @@ useSeoMeta({
   twitterDescription: () => isArticle.value ? undefined : definition.value?.note,
   ogType: () => isArticle.value ? undefined : 'website',
 })
+
+onBeforeUnmount(releaseIssueSheetChrome)
 </script>
 
 <template>
-  <Transition name="issue-sheet" mode="out-in">
+  <Transition
+    name="issue-sheet"
+    mode="out-in"
+    @after-leave="releaseIssueSheetChrome"
+  >
     <div
       v-if="isArticle"
       :key="route.path"
