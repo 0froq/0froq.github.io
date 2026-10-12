@@ -43,7 +43,15 @@ const { data: entries } = await useAsyncData(
 
 const visibleEntries = computed(() => entries.value ?? [])
 
-useHead(() => isArticle.value ? {} : { title: definition.value?.label ?? 'froQ' })
+useSeoMeta({
+  title: () => isArticle.value ? undefined : (definition.value?.label ?? SITE_NAME),
+  ogTitle: () => isArticle.value ? undefined : (definition.value?.label ?? SITE_NAME),
+  twitterTitle: () => isArticle.value ? undefined : (definition.value?.label ?? SITE_NAME),
+  description: () => isArticle.value ? undefined : definition.value?.note,
+  ogDescription: () => isArticle.value ? undefined : definition.value?.note,
+  twitterDescription: () => isArticle.value ? undefined : definition.value?.note,
+  ogType: () => isArticle.value ? undefined : 'website',
+})
 </script>
 
 <template>

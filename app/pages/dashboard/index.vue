@@ -1,6 +1,13 @@
 <script setup lang="ts">
-useHead({
+useSeoMeta({
   title: 'Dashboard',
+  ogTitle: 'Dashboard',
+  twitterTitle: 'Dashboard',
+  description: 'The board is resting. Notes are being sorted outside the public site.',
+  ogDescription: 'The board is resting. Notes are being sorted outside the public site.',
+  twitterDescription: 'The board is resting. Notes are being sorted outside the public site.',
+})
+useHead({
   meta: [{ name: 'robots', content: 'noindex' }],
 })
 </script>

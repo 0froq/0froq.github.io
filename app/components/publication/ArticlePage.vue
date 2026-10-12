@@ -21,15 +21,16 @@ if (!page.value) {
 }
 
 const entry = computed(() => page.value ? toLayerEntry(page.value) : null)
-const articleTitle = page.value.title
-const articleDescription = page.value.description
+const articleTitle = computed(() => entry.value?.title ?? page.value.title)
+const articleDescription = computed(() => entry.value?.description?.trim() || undefined)
 useSeoMeta({
   title: articleTitle,
   ogTitle: articleTitle,
+  twitterTitle: articleTitle,
   ogType: 'article',
-  ...(articleDescription
-    ? { description: articleDescription, ogDescription: articleDescription }
-    : {}),
+  description: articleDescription,
+  ogDescription: articleDescription,
+  twitterDescription: articleDescription,
 })
 useIssueArticleMast(() => page.value?.title)
 </script>

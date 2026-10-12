@@ -1,5 +1,12 @@
 <script setup lang="ts">
-useHead({ title: 'Stack' })
+useSeoMeta({
+  title: 'Stack',
+  ogTitle: 'Stack',
+  twitterTitle: 'Stack',
+  description: 'Tools and practices I use.',
+  ogDescription: 'Tools and practices I use.',
+  twitterDescription: 'Tools and practices I use.',
+})
 
 type Level = 'fluent' | 'daily' | 'used' | 'learning' | 'curious'
 

@@ -7,9 +7,14 @@ const lang = computed(() => cvLangOf(route.query.lang))
 const doc = computed(() => cv[lang.value])
 const pageTitle = computed(() => `${doc.value.legal} · CV`)
 
-useHead(() => ({
-  title: pageTitle.value,
-}))
+useSeoMeta({
+  title: pageTitle,
+  ogTitle: pageTitle,
+  twitterTitle: pageTitle,
+  description: computed(() => doc.value.hello),
+  ogDescription: computed(() => doc.value.hello),
+  twitterDescription: computed(() => doc.value.hello),
+})
 
 function printTitle() {
   const dark = document.documentElement.classList.contains('dark')

@@ -2,6 +2,7 @@ import { readdirSync } from 'node:fs'
 import { join, relative } from 'node:path'
 import process from 'node:process'
 import { fileURLToPath } from 'node:url'
+import { OG_IMAGE_URL, SITE_DESCRIPTION, SITE_NAME, TWITTER_HANDLE } from './app/utils/siteConstants'
 import { publicationPaths } from './server/utils/siteRoutes'
 
 const docsRoot = fileURLToPath(new URL('./docs', import.meta.url))
@@ -79,23 +80,28 @@ export default defineNuxtConfig({
 
   app: {
     head: {
-      title: 'froQ',
+      title: SITE_NAME,
       htmlAttrs: {
         lang: 'en',
       },
       meta: [
-        {
-          name: 'description',
-          content: 'Personal site of froQ. Code, design, and writing.',
-        },
-        { property: 'og:title', content: 'froQ' },
-        {
-          property: 'og:description',
-          content: 'Personal site of froQ. Code, design, and writing.',
-        },
-        { property: 'og:url', content: 'https://froq.me/' },
+        { name: 'description', content: SITE_DESCRIPTION },
+        { property: 'og:title', content: SITE_NAME },
+        { property: 'og:description', content: SITE_DESCRIPTION },
         { property: 'og:type', content: 'website' },
-        { name: 'twitter:card', content: 'summary' },
+        { property: 'og:site_name', content: SITE_NAME },
+        { property: 'og:image', content: OG_IMAGE_URL },
+        { property: 'og:image:secure_url', content: OG_IMAGE_URL },
+        { property: 'og:image:type', content: 'image/png' },
+        { property: 'og:image:width', content: '1200' },
+        { property: 'og:image:height', content: '630' },
+        { property: 'og:image:alt', content: SITE_NAME },
+        { name: 'twitter:card', content: 'summary_large_image' },
+        { name: 'twitter:title', content: SITE_NAME },
+        { name: 'twitter:description', content: SITE_DESCRIPTION },
+        { name: 'twitter:image', content: OG_IMAGE_URL },
+        { name: 'twitter:image:alt', content: SITE_NAME },
+        { name: 'twitter:site', content: TWITTER_HANDLE },
       ],
       script: [
         {
