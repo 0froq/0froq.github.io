@@ -16,7 +16,7 @@ const LOOP_CENTER: InkPt = [
   (TRIANGLE[0]![1] + TRIANGLE[1]![1] + TRIANGLE[2]![1]) / 3,
 ]
 const CIRCLE_R = 8.4
-const BAR_W = 5
+const BAR_W = 10
 const BAR_H = 17.2
 
 /** Bar center; used as the pointer hotspot in text mode. */
