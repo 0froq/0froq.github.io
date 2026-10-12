@@ -71,13 +71,15 @@ function label(emoji: string) {
       un-gap-1
       un-m-0
       un-cursor-pointer
-      un-border-0
-      un-border-b="transparent data-[on]:colored-ink"
+      un-border-x-0
+      un-border-t-0
+      un-border-b="~ transparent data-[on]:colored-ink"
       un-bg-transparent
       un-px-1
       un-py-0.5
       un-leading-none
       un-text="muted hover:ink focus-visible:ink data-[on]:ink"
+      :data-on="mine === emoji ? '' : undefined"
       :aria-label="label(emoji)"
       :aria-pressed="mine === emoji"
       @click.stop="emit('react', emoji)"
