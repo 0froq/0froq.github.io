@@ -3,8 +3,11 @@ export default defineNuxtPlugin(() => {
 
   router.beforeEach((to, from) => {
     const layerNav = isHubListingNav(to.path, from.path)
+    const sameSection = samePublicationSection(to.path, from.path)
     document.documentElement.dataset.vt = layerNav ? 'layer' : 'page'
-    // Skip the document View Transition so reused hub chrome does not snapshot.
-    to.meta.viewTransition = !layerNav
+    // SectionHub plays the sheet fade. A document view transition snapshots
+    // the whole page first, which stalls on the journal wheel, and leaving
+    // an article never emits page:finish so the browser holds that snapshot.
+    to.meta.viewTransition = !sameSection
   })
 })

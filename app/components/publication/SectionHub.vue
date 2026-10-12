@@ -47,20 +47,28 @@ useHead(() => isArticle.value ? {} : { title: definition.value?.label ?? 'froQ' 
 </script>
 
 <template>
-  <NuxtPage v-if="isArticle" />
-
-  <template v-else>
+  <Transition name="issue-sheet" mode="out-in">
+    <div
+      v-if="isArticle"
+      :key="route.path"
+      un-min-w-0
+    >
+      <NuxtPage />
+    </div>
     <PublicationEssaysIndex
-      v-if="room === 'essays'"
+      v-else-if="room === 'essays'"
+      key="essays"
       :items="visibleEntries"
     />
     <PublicationJournalIndex
       v-else-if="room === 'journal'"
+      key="journal"
       :items="visibleEntries"
     />
     <PublicationCabinetIndex
       v-else-if="room === 'cabinet'"
+      key="cabinet"
       :items="visibleEntries"
     />
-  </template>
+  </Transition>
 </template>

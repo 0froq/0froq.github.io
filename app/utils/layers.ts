@@ -50,6 +50,13 @@ export function isHubListingNav(toPath: string, fromPath: string) {
   return Boolean(to && to === from)
 }
 
+/** Index and article routes share one parent page, so it stays mounted. */
+export function samePublicationSection(toPath: string, fromPath: string) {
+  const to = toPath.split('/').filter(Boolean)[0]
+  const from = fromPath.split('/').filter(Boolean)[0]
+  return Boolean(to && to === from && isPublicationRoom(to))
+}
+
 export function isPublicationEntry(path: string, section: string) {
   return path.startsWith(`/${section}/`)
 }
