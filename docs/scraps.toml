@@ -27,3 +27,9 @@ id = "building-this-site"
 text = "no clue why i'm so into refactoring everything"
 date = "2026-08-25"
 detail = "BT how do you know you can unfold and see this?"
+
+[[scraps]]
+id = "right-click"
+text = "do you know that you can right-click to give a reaction?"
+date = "2026-10-12"
+detail = ""
