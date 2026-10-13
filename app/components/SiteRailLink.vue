@@ -29,6 +29,8 @@ watch(() => props.active, async (_active, prev) => {
   else
     morphRoughInk(el)
 })
+
+const isExternal = computed(() => props.to.startsWith('http'))
 </script>
 
 <template>
@@ -61,6 +63,11 @@ watch(() => props.active, async (_active, prev) => {
       :data-voice="voice"
     >
       {{ label }}
+      <un-i-solar-arrow-to-top-left-line-duotone
+        v-if="isExternal"
+        un-text-base
+        :href="to"
+      />
     </span>
     <span
       v-if="note"

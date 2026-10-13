@@ -47,6 +47,15 @@ const routes = publicationSections.map(section => ({
   note: section.note,
   ink: section.ink,
 }))
+
+routes.push(
+  {
+    to: `https://gallery.froq.me`,
+    label: 'Gallery',
+    note: '',
+    ink: 'underline',
+  },
+)
 </script>
 
 <template>
