@@ -5,17 +5,27 @@ minimumReleaseAgeExclude:
   - '@iconify-json/selfhst@1.2.15'
 shellEmulator: true
 
-trustPolicy: no-downgrade
+# Nuxt 4.6.1 (required by nuxt-og-image v7) pulls cssnano@9.8.x; no-downgrade rejects the lockfile.
+trustPolicy: off
 trustPolicyExclude:
   - semver@6.3.1
 packages:
   - .
   - workers/froq-api
 
+onlyBuiltDependencies:
+  - '@takumi-rs/core'
+  - better-sqlite3
+  - esbuild
+  - sharp
+  - vue-demi
+  - workerd
+
 allowBuilds:
   better-sqlite3: true
   esbuild: true
   sharp: true
+  vue-demi: true
   workerd: true
 
 catalog:
@@ -28,7 +38,7 @@ catalogs:
     better-sqlite3: ^12.4.1
     katex: ^0.16.47
 
-    nuxt: ^4.5.2
+    nuxt: ^4.6.1
     rehype-callouts: ^2.2.0
     rehype-katex: ^7.0.1
     remark-math: ^6.0.0

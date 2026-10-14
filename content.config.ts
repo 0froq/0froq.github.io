@@ -1,6 +1,7 @@
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { defineCollection, defineContentConfig, z } from '@nuxt/content'
+import { defineOgImageSchema } from 'nuxt-og-image/content'
 
 const root = dirname(fileURLToPath(import.meta.url))
 const docs = resolve(root, 'docs')
@@ -15,6 +16,11 @@ const pageMeta = z.object({
   aigc: z.boolean().optional(),
   description: z.string().optional(),
   kind: z.string().optional(),
+  cover: z.string().optional(),
+  ogImage: defineOgImageSchema({ z }),
+  words: z.number().optional(),
+  evergreen: z.boolean().optional(),
+  updated: z.string().optional(),
 })
 
 export default defineContentConfig({

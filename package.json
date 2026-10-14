@@ -14,6 +14,7 @@
     "lint": "eslint . --fix"
   },
   "dependencies": {
+    "@froq/og-covers-layer": "github:0froq/og-layer#v0.1.0",
     "@fontsource-variable/eb-garamond": "catalog:fonts",
     "@fontsource-variable/instrument-sans": "catalog:fonts",
     "@nuxt/content": "catalog:build",
@@ -47,6 +48,7 @@
     "cf": "catalog:workers",
     "eslint": "catalog:lint",
     "typescript": "catalog:workers",
+    "nuxtseo-devtools-host": "^1",
     "unocss": "catalog:styling",
     "wrangler": "catalog:workers"
   }
