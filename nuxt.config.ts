@@ -2,8 +2,19 @@ import { readdirSync } from 'node:fs'
 import { join, relative } from 'node:path'
 import process from 'node:process'
 import { fileURLToPath } from 'node:url'
-import { OG_IMAGE_URL, SITE_DESCRIPTION, SITE_NAME, SITE_ORIGIN, TWITTER_HANDLE } from './app/utils/siteConstants'
+import { countCardWords } from '@froq/og-covers-layer/card-words'
+import {
+  IMAGE_ORIGIN,
+  OG_IMAGE_HEIGHT,
+  OG_IMAGE_URL,
+  OG_IMAGE_WIDTH,
+  SITE_DESCRIPTION,
+  SITE_NAME,
+  SITE_ORIGIN,
+  TWITTER_HANDLE,
+} from './app/utils/siteConstants'
 import { publicationPaths } from './server/utils/siteRoutes'
+import { listPublicShareImages } from './shared/public-files'
 
 const docsRoot = fileURLToPath(new URL('./docs', import.meta.url))
 
@@ -50,16 +61,50 @@ function contentImageAssets(root: string, urlBase: string) {
 }
 
 export default defineNuxtConfig({
+  extends: [
+    // `install: false` — giget’s nested pnpm install hits ERR_PNPM_IGNORED_BUILDS under pnpm 12;
+    // `@froq/og-covers-layer` in package.json supplies the same layer.
+    ['github:0froq/og-layer#v0.1.0', { install: false }],
+  ],
+
   compatibilityDate: '2026-08-21',
 
   future: {
     compatibilityVersion: 4,
   },
 
+  hooks: {
+    'content:file:afterParse': ({ file, content }) => {
+      if (typeof file.body === 'string')
+        (content as { words?: number }).words = countCardWords(file.body)
+    },
+  },
+
+  runtimeConfig: {
+    public: {
+      froqApi: process.env.NUXT_PUBLIC_FROQ_API || 'https://api.froq.me',
+      publicFiles: listPublicShareImages(),
+    },
+  },
+
   modules: [
     '@nuxt/content',
     '@unocss/nuxt',
   ],
+
+  // DevTools hosts the OG Image tab (template hot reload).
+  devtools: {
+    enabled: true,
+    timeline: {
+      enabled: true,
+    },
+  },
+
+  // `og:image` is absolute on the Worker origin. `og:url` stays on froq.me via useShareCard.
+  site: {
+    url: IMAGE_ORIGIN,
+    name: SITE_NAME,
+  },
 
   experimental: {
     viewTransition: true,
@@ -71,12 +116,6 @@ export default defineNuxtConfig({
     '~/assets/css/rough-ink.css',
     'katex/dist/katex.min.css',
   ],
-
-  runtimeConfig: {
-    public: {
-      froqApi: process.env.NUXT_PUBLIC_FROQ_API || 'https://api.froq.me',
-    },
-  },
 
   app: {
     head: {

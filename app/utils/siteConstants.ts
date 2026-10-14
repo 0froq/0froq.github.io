@@ -1,9 +1,27 @@
-/** Production origin for canonical URLs, sitemap, and share cards. */
+/** Production origin for canonical URLs, sitemap, and RSS. */
 export const SITE_ORIGIN = 'https://froq.me'
+
+/**
+ * Share-image origin. X refuses to fetch froq.me, so `og:image` and
+ * `twitter:image` use the Worker URL.
+ */
+export const IMAGE_ORIGIN = 'https://froq.sayhola.workers.dev'
+
 export const SITE_NAME = 'froQ'
 export const SITE_DESCRIPTION = 'Personal site of froQ. Code, design, and writing.'
 export const OG_IMAGE_PATH = '/og.png'
-export const OG_IMAGE_URL = `${SITE_ORIGIN}${OG_IMAGE_PATH}`
+export const OG_IMAGE_WIDTH = 1200
+export const OG_IMAGE_HEIGHT = 630
+
+/** Absolute https URL for a share image. Already-absolute https URLs pass through. */
+export function absoluteImageUrl(src: string): string {
+  if (/^https:\/\//i.test(src))
+    return src
+  const path = src.startsWith('/') ? src : `/${src}`
+  return `${IMAGE_ORIGIN}${path}`
+}
+
+export const OG_IMAGE_URL = absoluteImageUrl(OG_IMAGE_PATH)
 export const TWITTER_HANDLE = '@0froQ'
 
 const TRAILING_SLASHES = /\/+$/

@@ -23,15 +23,30 @@ if (!page.value) {
 const entry = computed(() => page.value ? toLayerEntry(page.value) : null)
 const articleTitle = computed(() => entry.value?.title ?? page.value.title)
 const articleDescription = computed(() => entry.value?.description?.trim() || undefined)
-useSeoMeta({
+
+useHead({ title: articleTitle })
+
+const files = useRuntimeConfig().public.publicFiles
+const override = computed(() => contentOgOverride(page.value, 'publication', files))
+if (override.value === undefined) {
+  defineOgImage(ogComponentName(page.value), {
+    title: () => paperFields(page.value).title,
+    evergreen: () => paperFields(page.value).evergreen,
+    created: () => paperFields(page.value).created,
+    updated: () => paperFields(page.value).updated,
+    words: () => paperFields(page.value).words,
+    ...ogExtraProps(page.value),
+  }, {
+    alt: () => paperFields(page.value).title,
+  })
+}
+useShareCard({
   title: articleTitle,
-  ogTitle: articleTitle,
-  twitterTitle: articleTitle,
-  ogType: 'article',
   description: articleDescription,
-  ogDescription: articleDescription,
-  twitterDescription: articleDescription,
+  type: 'article',
+  image: () => override.value === undefined ? false : override.value,
 })
+
 useIssueArticleMast(() => page.value?.title)
 </script>
 
