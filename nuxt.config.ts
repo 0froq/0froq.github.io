@@ -62,7 +62,7 @@ export default defineNuxtConfig({
   extends: [
     // `install: false` — giget’s nested pnpm install hits ERR_PNPM_IGNORED_BUILDS under pnpm 12;
     // `@froq/og-covers-layer` in package.json supplies the same layer.
-    ['github:0froq/og-layer#v0.2.0', { install: false }],
+    ['github:0froq/og-layer#v0.2.1', { install: false }],
   ],
 
   compatibilityDate: '2026-08-21',
