@@ -1,1 +1,55 @@
-$file:/tmp/sites/0froq.github.io/package.json
+{
+  "type": "module",
+  "packageManager": "pnpm@12.11.2+sha512.25a51652a196785af5f28bda6dfe8dc582ebefa4ac1d180221ce1390231c5fb76637822ea4b6e4633ce74acdcb0a77f725af11bad38177fdeddaee818a955cb9",
+  "scripts": {
+    "dev": "nuxt dev",
+    "build": "nuxt build",
+    "generate": "nuxt generate",
+    "deploy": "pnpm generate && cf deploy",
+    "preview": "nuxt preview",
+    "preview:deploy": "pnpm generate && cf previews deploy",
+    "postinstall": "nuxt prepare",
+    "worker:dev": "pnpm --dir workers/froq-api dev",
+    "worker:deploy": "pnpm --dir workers/froq-api deploy",
+    "lint": "eslint . --fix"
+  },
+  "dependencies": {
+    "@froq/og-covers-layer": "github:0froq/og-layer#v0.2.0",
+    "@fontsource-variable/eb-garamond": "catalog:fonts",
+    "@fontsource-variable/instrument-sans": "catalog:fonts",
+    "@nuxt/content": "catalog:build",
+    "@oreo-design/doodle-icons": "catalog:",
+    "@vueuse/core": "catalog:runtime",
+    "better-sqlite3": "catalog:build",
+    "katex": "catalog:build",
+    "nuxt": "catalog:build",
+    "rehype-callouts": "catalog:build",
+    "rehype-katex": "catalog:build",
+    "remark-math": "catalog:build",
+    "roughjs": "catalog:runtime",
+    "smol-toml": "catalog:",
+    "vue": "catalog:runtime",
+    "yaml": "catalog:"
+  },
+  "devDependencies": {
+    "@antfu/eslint-config": "catalog:lint",
+    "@iconify-json/carbon": "catalog:styling",
+    "@iconify-json/duo-icons": "catalog:styling",
+    "@iconify-json/openmoji": "catalog:styling",
+    "@iconify-json/ph": "catalog:styling",
+    "@iconify-json/selfhst": "catalog:styling",
+    "@iconify-json/simple-icons": "catalog:styling",
+    "@iconify-json/skill-icons": "catalog:styling",
+    "@iconify-json/solar": "catalog:styling",
+    "@iconify-json/twemoji": "catalog:styling",
+    "@unocss/eslint-plugin": "catalog:lint",
+    "@unocss/extractor-mdc": "catalog:styling",
+    "@unocss/nuxt": "catalog:styling",
+    "cf": "catalog:workers",
+    "eslint": "catalog:lint",
+    "typescript": "catalog:workers",
+    "nuxtseo-devtools-host": "^1",
+    "unocss": "catalog:styling",
+    "wrangler": "catalog:workers"
+  }
+}
