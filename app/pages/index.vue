@@ -1,6 +1,29 @@
 <script setup lang="ts">
+import { SITE_DESCRIPTION, SITE_NAME } from '~/utils/siteConstants'
+
 const { data: page } = await useAsyncData('home', () => {
   return queryCollection('home').first()
+})
+
+const files = useRuntimeConfig().public.publicFiles
+const override = computed(() => contentOgOverride(page.value, 'home', files))
+if (override.value === undefined) {
+  defineOgImage(ogComponentName(page.value), {
+    title: () => paperFields(page.value).title || SITE_NAME,
+    description: () => paperFields(page.value, SITE_DESCRIPTION).description,
+    evergreen: () => paperFields(page.value).evergreen,
+    created: () => paperFields(page.value).created,
+    updated: () => paperFields(page.value).updated,
+    words: () => paperFields(page.value).words,
+    ...ogExtraProps(page.value),
+  }, {
+    alt: () => paperFields(page.value).title || SITE_NAME,
+  })
+}
+useShareCard({
+  title: () => paperFields(page.value).title || SITE_NAME,
+  description: () => paperFields(page.value, SITE_DESCRIPTION).description,
+  image: () => override.value === undefined ? false : override.value,
 })
 
 const heroEl = ref<HTMLElement | null>(null)
