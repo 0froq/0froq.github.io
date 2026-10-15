@@ -14,7 +14,7 @@
     "lint": "eslint . --fix"
   },
   "dependencies": {
-    "@froq/og-covers-layer": "github:0froq/og-layer#v0.1.0",
+    "@froq/og-covers-layer": "github:0froq/og-layer#v0.2.0",
     "@fontsource-variable/eb-garamond": "catalog:fonts",
     "@fontsource-variable/instrument-sans": "catalog:fonts",
     "@nuxt/content": "catalog:build",

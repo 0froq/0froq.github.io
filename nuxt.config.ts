@@ -5,9 +5,7 @@ import { fileURLToPath } from 'node:url'
 import { countCardWords } from '@froq/og-covers-layer/card-words'
 import {
   IMAGE_ORIGIN,
-  OG_IMAGE_HEIGHT,
   OG_IMAGE_URL,
-  OG_IMAGE_WIDTH,
   SITE_DESCRIPTION,
   SITE_NAME,
   SITE_ORIGIN,
@@ -64,7 +62,7 @@ export default defineNuxtConfig({
   extends: [
     // `install: false` — giget’s nested pnpm install hits ERR_PNPM_IGNORED_BUILDS under pnpm 12;
     // `@froq/og-covers-layer` in package.json supplies the same layer.
-    ['github:0froq/og-layer#v0.1.0', { install: false }],
+    ['github:0froq/og-layer#v0.2.0', { install: false }],
   ],
 
   compatibilityDate: '2026-08-21',

@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { SITE_DESCRIPTION } from '~/utils/siteConstants'
+
 const props = defineProps<{
   section: string
 }>()
@@ -31,6 +33,7 @@ const override = computed(() => contentOgOverride(page.value, 'publication', fil
 if (override.value === undefined) {
   defineOgImage(ogComponentName(page.value), {
     title: () => paperFields(page.value).title,
+    description: () => paperFields(page.value, SITE_DESCRIPTION).description,
     evergreen: () => paperFields(page.value).evergreen,
     created: () => paperFields(page.value).created,
     updated: () => paperFields(page.value).updated,

@@ -284,8 +284,8 @@ importers:
         specifier: catalog:fonts
         version: 5.3.0
       '@froq/og-covers-layer':
-        specifier: github:0froq/og-layer#v0.1.0
-        version: https://codeload.github.com/0froq/og-layer/tar.gz/661bbc2ed11eaf965993113bd115ab95e2f11971(026b4e30f3d19d3ac914dc64c037345c)
+        specifier: github:0froq/og-layer#v0.2.0
+        version: https://codeload.github.com/0froq/og-layer/tar.gz/ba9efc5c4d4c659c0fb7f7f355356f3f2cf3bf0b(026b4e30f3d19d3ac914dc64c037345c)
       '@nuxt/content':
         specifier: catalog:build
         version: 3.16.2(@nuxt/schema@4.6.1)(@oxc-project/types@0.153.0)(better-sqlite3@12.11.1)(confbox@0.3.1)(dotenv@17.4.2)(esbuild@0.28.2)(giget@3.3.1)(magic-string@1.4.3)(magicast@0.5.5)(mlly@1.8.2)(oxc-parser@0.139.0)(rolldown@1.2.13)(rollup@4.64.6)(supports-color@10.2.2)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(webpack@5.111.1(cssnano@9.8.0(postcss@8.5.30))(esbuild@0.28.2)(lightningcss@1.33.0)(postcss@8.5.30)(sharp@0.35.5(@types/node@26.6.5)))
@@ -1213,8 +1213,8 @@ packages:
   '@fontsource/noto-serif-sc@5.3.1':
     resolution: {integrity: sha512-nIK2HyNGcUi2TGwIfrk2MItkh0O3Y5+TI8iPfPSzoNY6uyXYfQ9qqch8czk3aa1VhV4EU52uwCYCe1UDKJELpg==}
 
-  '@froq/og-covers-layer@https://codeload.github.com/0froq/og-layer/tar.gz/661bbc2ed11eaf965993113bd115ab95e2f11971':
-    resolution: {gitHosted: true, integrity: sha512-U6j3aHpw1ttmPVpA/gb1i21BtEJ7czh5dOH60mmp9Vd5tKy4BLIwMNRPdbGNsQX3DRC+oEKUsDpN0WhatXyymg==, tarball: https://codeload.github.com/0froq/og-layer/tar.gz/661bbc2ed11eaf965993113bd115ab95e2f11971}
+  '@froq/og-covers-layer@https://codeload.github.com/0froq/og-layer/tar.gz/ba9efc5c4d4c659c0fb7f7f355356f3f2cf3bf0b':
+    resolution: {gitHosted: true, integrity: sha512-3mo/WjmWMxR2gDQVpE3V96UUt25MqXUw/LG+3XaNUu9Mui7QA8m5e85D1qiMTfyQoFfnwkvjjLYSA679XpEPfA==, tarball: https://codeload.github.com/0froq/og-layer/tar.gz/ba9efc5c4d4c659c0fb7f7f355356f3f2cf3bf0b}
     version: 0.1.0
     peerDependencies:
       nuxt: ^4.6.0
@@ -8505,7 +8505,7 @@ snapshots:
 
   '@fontsource/noto-serif-sc@5.3.1': {}
 
-  '@froq/og-covers-layer@https://codeload.github.com/0froq/og-layer/tar.gz/661bbc2ed11eaf965993113bd115ab95e2f11971(026b4e30f3d19d3ac914dc64c037345c)':
+  '@froq/og-covers-layer@https://codeload.github.com/0froq/og-layer/tar.gz/ba9efc5c4d4c659c0fb7f7f355356f3f2cf3bf0b(026b4e30f3d19d3ac914dc64c037345c)':
     dependencies:
       '@fontsource/eb-garamond': 5.3.0
       '@fontsource/geist-mono': 5.2.7
