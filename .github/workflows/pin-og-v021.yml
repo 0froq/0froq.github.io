@@ -1,0 +1,60 @@
+name: pin og-layer v0.2.1
+
+# One-shot. Applies the pin on this branch, then deletes itself in that commit.
+on:
+  push:
+    branches: [cursor/og-v0.2.1-froq-me-695f]
+    paths: [.github/workflows/pin-og-v021.yml]
+
+permissions:
+  contents: write
+
+jobs:
+  pin:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: cursor/og-v0.2.1-froq-me-695f
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Pin og-layer and drop this workflow
+        run: |
+          python3 << 'PY'
+          from pathlib import Path
+          root = Path('.')
+          reps = [
+              ("['github:0froq/og-layer#v0.2.0', { install: false }],",
+               "['github:0froq/og-layer#v0.2.1', { install: false }],"),
+              ('"@froq/og-covers-layer": "github:0froq/og-layer#v0.2.0",',
+               '"@froq/og-covers-layer": "github:0froq/og-layer#v0.2.1",'),
+              ('specifier: github:0froq/og-layer#v0.2.0',
+               'specifier: github:0froq/og-layer#v0.2.1'),
+              ('https://codeload.github.com/0froq/og-layer/tar.gz/ba9efc5c4d4c659c0fb7f7f355356f3f2cf3bf0b',
+               'https://codeload.github.com/0froq/og-layer/tar.gz/af1587b2d1876d2b8d289a3a2a49ac0414a776d7'),
+              ('sha512-3mo/WjmWMxR2gDQVpE3V96UUt25MqXUw/LG+3XaNUu9Mui7QA8m5e85D1qiMTfyQoFfnwkvjjLYSA679XpEPfA==',
+               'sha512-GE3U9o4EI27M8Sf2RKcpzJ4yx/Nyi17BrBAU2XoR2wME5DZjeQnGSWiJTgUuryasmF0GMdYwnhL+4na31bmCrw=='),
+          ]
+          expected = {
+              'nuxt.config.ts': [1, 0, 0, 0, 0],
+              'package.json': [0, 1, 0, 0, 0],
+              'pnpm-lock.yaml': [0, 0, 1, 4, 1],
+          }
+          for name, counts in expected.items():
+              text = (root / name).read_text()
+              for (old, new), count in zip(reps, counts):
+                  found = text.count(old)
+                  if found != count:
+                      raise SystemExit(f'{name}: expected {count} of {old[:40]!r}, found {found}')
+                  if count:
+                      text = text.replace(old, new)
+              if 'og-layer#v0.2.0' in text or 'ba9efc5c4d4c659c0fb7f7f355356f3f2cf3bf0b' in text:
+                  raise SystemExit(f'{name}: old pin remains')
+              (root / name).write_text(text)
+          print('pin applied')
+          PY
+          git config user.name "froQ"
+          git config user.email "sayhola@froq.me"
+          git add nuxt.config.ts package.json pnpm-lock.yaml
+          git rm -f .github/workflows/pin-og-v021.yml
+          git commit -m "chore: pin og-layer v0.2.1"
+          git push origin HEAD:cursor/og-v0.2.1-froq-me-695f
