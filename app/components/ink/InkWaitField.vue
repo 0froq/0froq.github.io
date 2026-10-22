@@ -1,12 +1,15 @@
 <script setup lang="ts">
 import { inkWaitLayout } from '~/utils/inkDraw'
 
-const props = withDefaults(defineProps<{
-  seed: string
-  count?: number
-}>(), {
-  count: 4,
-})
+const props = withDefaults(
+  defineProps<{
+    seed: string
+    count?: number
+  }>(),
+  {
+    count: 4,
+  },
+)
 
 const spots = computed(() => inkWaitLayout(props.seed, props.count))
 </script>

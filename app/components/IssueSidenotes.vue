@@ -23,7 +23,7 @@ let raf = 0
 
 function stripBackrefs(li: HTMLElement) {
   const clone = li.cloneNode(true) as HTMLElement
-  clone.querySelectorAll('a.data-footnote-backref, [data-footnote-backref]').forEach((el) => {
+  clone.querySelectorAll('a.data-footnote-backref, [data-footnote-backref]').forEach(el => {
     el.remove()
   })
   return clone.innerHTML
@@ -50,8 +50,7 @@ function measureHeight(html: string, rail: HTMLElement, width: number) {
 
 function flash(id: string) {
   flashId.value = id
-  if (flashTimer)
-    clearTimeout(flashTimer)
+  if (flashTimer) clearTimeout(flashTimer)
   flashTimer = setTimeout(() => {
     flashId.value = null
     flashTimer = undefined
@@ -59,19 +58,15 @@ function flash(id: string) {
 }
 
 function onRefClick(ev: Event) {
-  if (!wide.value)
-    return
+  if (!wide.value) return
   const target = ev.target
-  if (!(target instanceof Element))
-    return
+  if (!(target instanceof Element)) return
   const anchor = target.closest('a[href^="#user-content-fn-"]')
-  if (!anchor?.closest('sup'))
-    return
+  if (!anchor?.closest('sup')) return
   ev.preventDefault()
   ev.stopImmediatePropagation()
   const href = anchor.getAttribute('href')
-  if (!href || href.length < 2)
-    return
+  if (!href || href.length < 2) return
   flash(decodeURIComponent(href.slice(1)))
 }
 
@@ -97,20 +92,17 @@ function collect() {
     return
   }
   const seen = new Set<string>()
-  const pending: { id: string, n: string, html: string, desired: number }[] = []
+  const pending: { id: string; n: string; html: string; desired: number }[] = []
 
   const refs = prose.querySelectorAll<HTMLAnchorElement>('sup a[href^="#user-content-fn-"]')
   for (const anchor of refs) {
     const href = anchor.getAttribute('href')
-    if (!href || href.length < 2)
-      continue
+    if (!href || href.length < 2) continue
     const id = decodeURIComponent(href.slice(1))
-    if (seen.has(id))
-      continue
+    if (seen.has(id)) continue
     seen.add(id)
     const li = prose.querySelector<HTMLElement>(`section.footnotes li#${CSS.escape(id)}`)
-    if (!li)
-      continue
+    if (!li) continue
     pending.push({
       id,
       n: anchor.textContent?.trim() ?? '',
@@ -122,7 +114,7 @@ function collect() {
   pending.sort((a, b) => a.desired - b.desired)
 
   let prevBottom = -GAP
-  notes.value = pending.map((item) => {
+  notes.value = pending.map(item => {
     const height = measureHeight(item.html, rail, width)
     const top = Math.max(item.desired, prevBottom + GAP)
     prevBottom = top + height
@@ -136,8 +128,7 @@ function collect() {
 }
 
 function scheduleCollect() {
-  if (raf)
-    cancelAnimationFrame(raf)
+  if (raf) cancelAnimationFrame(raf)
   nextTick(() => {
     raf = requestAnimationFrame(() => {
       raf = 0
@@ -153,8 +144,7 @@ function bindObservers() {
   const article = rootRef.value?.closest('.issue-read')
   const prose = article?.querySelector<HTMLElement>('.issue-read__prose')
   const rail = article?.querySelector<HTMLElement>('.issue-read__rail')
-  if (!prose || !rail)
-    return
+  if (!prose || !rail) return
 
   resizeObserver = new ResizeObserver(() => scheduleCollect())
   resizeObserver.observe(prose)
@@ -179,19 +169,20 @@ onMounted(() => {
 
 watch(wide, () => scheduleCollect())
 
-watch(() => route.fullPath, () => {
-  const article = rootRef.value?.closest('.issue-read')
-  const prose = article?.querySelector<HTMLElement>('.issue-read__prose')
-  prose?.removeEventListener('click', onRefClick, true)
-  scheduleCollect()
-  nextTick(() => bindObservers())
-})
+watch(
+  () => route.fullPath,
+  () => {
+    const article = rootRef.value?.closest('.issue-read')
+    const prose = article?.querySelector<HTMLElement>('.issue-read__prose')
+    prose?.removeEventListener('click', onRefClick, true)
+    scheduleCollect()
+    nextTick(() => bindObservers())
+  },
+)
 
 onUnmounted(() => {
-  if (flashTimer)
-    clearTimeout(flashTimer)
-  if (raf)
-    cancelAnimationFrame(raf)
+  if (flashTimer) clearTimeout(flashTimer)
+  if (raf) cancelAnimationFrame(raf)
   resizeObserver?.disconnect()
   mutationObserver?.disconnect()
   const article = rootRef.value?.closest('.issue-read')
@@ -224,7 +215,8 @@ onUnmounted(() => {
         un-text="[0.75em]"
         un-leading-none
         un-shrink-0
-      >{{ note.n }}</sup>
+        >{{ note.n }}</sup
+      >
       <div
         class="issue-sidenote__body"
         un-min-w-0

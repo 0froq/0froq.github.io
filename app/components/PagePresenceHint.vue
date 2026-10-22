@@ -9,8 +9,7 @@ const route = useRoute()
 const stats = useSiteStats()
 
 function normalize(path: string) {
-  if (!path || path === '/')
-    return '/'
+  if (!path || path === '/') return '/'
   return path.replace(/\/$/, '') || '/'
 }
 
@@ -30,7 +29,9 @@ const reads = computed(() => {
 const label = computed(() => {
   const bits: string[] = []
   if (viewing.value > 0)
-    bits.push(viewing.value === 1 ? '1 other reading' : `${formatCompact(viewing.value)} others reading`)
+    bits.push(
+      viewing.value === 1 ? '1 other reading' : `${formatCompact(viewing.value)} others reading`,
+    )
   if (reads.value != null)
     bits.push(reads.value === 1 ? '1 read' : `${formatCompact(reads.value)} reads`)
   return bits
@@ -55,7 +56,8 @@ const label = computed(() => {
         v-if="i > 0"
         un-opacity-40
         aria-hidden="true"
-      >·</span>
+        >·</span
+      >
       <span>{{ part }}</span>
     </template>
   </p>

@@ -6,14 +6,14 @@ export function hashSeed(input: string): number {
     h ^= input.charCodeAt(i)
     h = Math.imul(h, 16777619)
   }
-  return (h >>> 0) % 2147483646 + 1
+  return ((h >>> 0) % 2147483646) + 1
 }
 
 export function inkRng(seed: string | number): () => number {
   let a = (typeof seed === 'number' ? seed : hashSeed(seed)) >>> 0
   return () => {
     a |= 0
-    a = (a + 0x6D2B79F5) | 0
+    a = (a + 0x6d2b79f5) | 0
     let t = Math.imul(a ^ (a >>> 15), 1 | a)
     t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t
     return ((t ^ (t >>> 14)) >>> 0) / 4294967296
@@ -37,10 +37,7 @@ export function inkBlobPath(
     const j = 0.72 + rng() * 0.46
     const x = Math.cos(a) * rx * j
     const y = Math.sin(a) * ry * j
-    pts.push([
-      cx + x * cos - y * sin,
-      cy + x * sin + y * cos,
-    ])
+    pts.push([cx + x * cos - y * sin, cy + x * sin + y * cos])
   }
   const count = pts.length
   let d = `M${pts[0]![0].toFixed(2)} ${pts[0]![1].toFixed(2)}`
@@ -59,8 +56,7 @@ export function inkBlobPath(
 }
 
 export function inkStrokePath(pts: InkPt[]): string {
-  if (pts.length < 2)
-    return ''
+  if (pts.length < 2) return ''
   if (pts.length === 2)
     return `M${pts[0]![0].toFixed(2)} ${pts[0]![1].toFixed(2)} L${pts[1]![0].toFixed(2)} ${pts[1]![1].toFixed(2)}`
 
@@ -92,17 +88,11 @@ export function inkArrowPath(seed: string, dir: InkArrowDir = 'up'): string {
   const left: InkPt = [mid - wing + jitter(), 8 + lift + jitter()]
   const tip: InkPt = [mid + jitter() * 0.3, 8 - lift + jitter()]
   const right: InkPt = [mid + wing + jitter(), 8 + lift + jitter()]
-  const thru: InkPt = [
-    tip[0] + (right[0] - left[0]) * 0.02,
-    tip[1] + bow,
-  ]
+  const thru: InkPt = [tip[0] + (right[0] - left[0]) * 0.02, tip[1] + bow]
   const pts: InkPt[] = [left, tip, thru, right]
-  if (dir === 'down')
-    return inkStrokePath(pts.map(([x, y]) => [x, 16 - y]))
-  if (dir === 'left')
-    return inkStrokePath(pts.map(([x, y]) => [y, x]))
-  if (dir === 'right')
-    return inkStrokePath(pts.map(([x, y]) => [16 - y, x]))
+  if (dir === 'down') return inkStrokePath(pts.map(([x, y]) => [x, 16 - y]))
+  if (dir === 'left') return inkStrokePath(pts.map(([x, y]) => [y, x]))
+  if (dir === 'right') return inkStrokePath(pts.map(([x, y]) => [16 - y, x]))
   return inkStrokePath(pts)
 }
 
@@ -123,12 +113,9 @@ export function inkPointerParts(seed: string, dir: InkArrowDir = 'down'): InkPoi
 
   const remap = (pt: InkPt): InkPt => {
     const [x, y] = pt
-    if (dir === 'down')
-      return pt
-    if (dir === 'up')
-      return [x, 96 - y]
-    if (dir === 'left')
-      return [y, x]
+    if (dir === 'down') return pt
+    if (dir === 'up') return [x, 96 - y]
+    if (dir === 'left') return [y, x]
     return [96 - y, x]
   }
 
@@ -144,19 +131,19 @@ export function inkPointerPath(seed: string, dir: InkArrowDir = 'down'): string 
   return `${stem} ${head}`
 }
 
-export type InkGlyphKind
-  = 'mail'
-    | 'wechat'
-    | 'github'
-    | 'podcast'
-    | 'wave'
-    | 'x'
-    | 'instagram'
-    | 'xiaohongshu'
-    | 'bluesky'
-    | 'clock'
-    | 'ring'
-    | 'hash'
+export type InkGlyphKind =
+  | 'mail'
+  | 'wechat'
+  | 'github'
+  | 'podcast'
+  | 'wave'
+  | 'x'
+  | 'instagram'
+  | 'xiaohongshu'
+  | 'bluesky'
+  | 'clock'
+  | 'ring'
+  | 'hash'
 
 /**
  * Platform / contact glyphs. ViewBox 0 0 24 24.
@@ -304,12 +291,7 @@ export function inkGlyphPath(seed: string, kind: InkGlyphKind): string {
       stroke([pt(9.4, 8.2), pt(14.4, 8.2)]),
       stroke([pt(9.4, 11.4), pt(14.4, 11.4)]),
       stroke([pt(9.4, 14.6), pt(12.6, 14.6)]),
-      stroke([
-        pt(17, 5.6),
-        pt(20.2, 4.4),
-        pt(20, 11.2),
-        pt(17, 10),
-      ]),
+      stroke([pt(17, 5.6), pt(20.2, 4.4), pt(20, 11.2), pt(17, 10)]),
     ].join(' ')
   }
 
@@ -363,14 +345,7 @@ export function inkGlyphPath(seed: string, kind: InkGlyphKind): string {
       pt(9.4, 13.8),
       pt(12, 11.4),
     ]),
-    stroke([
-      pt(12, 11.4),
-      pt(8.8, 14.6),
-      pt(5.8, 17.4),
-      pt(7.8, 19),
-      pt(11.2, 16.2),
-      pt(12, 13.4),
-    ]),
+    stroke([pt(12, 11.4), pt(8.8, 14.6), pt(5.8, 17.4), pt(7.8, 19), pt(11.2, 16.2), pt(12, 13.4)]),
     stroke([
       pt(12, 11.4),
       pt(15.4, 6.4),
@@ -443,26 +418,23 @@ export function inkCoilPath(seed: string, fill = 1): string {
   const pts: InkPt[] = []
   for (let i = 0; i <= COIL_SAMPLES; i++) {
     const u = i / COIL_SAMPLES
-    const a = a0 + u * turns * Math.PI * 2
-      + Math.sin(u * turns * Math.PI * 2 * 3 + staggerPhase) * stagger
+    const a =
+      a0 + u * turns * Math.PI * 2 + Math.sin(u * turns * Math.PI * 2 * 3 + staggerPhase) * stagger
     const r = Math.min(
       6.7,
       Math.max(
         rMin,
-        rMean
-        + Math.sin(a * 0.9 + breathPhase) * breath
-        + Math.sin(a * 1.45 + wobblePhase) * wobble
-        + Math.sin(a * 2.7 + grainPhase) * grain,
+        rMean +
+          Math.sin(a * 0.9 + breathPhase) * breath +
+          Math.sin(a * 1.45 + wobblePhase) * wobble +
+          Math.sin(a * 2.7 + grainPhase) * grain,
       ),
     )
     const ox = Math.cos(a0 + u * driftTurns * Math.PI * 2 + driftPhase) * drift
     const oy = Math.sin(a0 + u * driftTurns * Math.PI * 2 * 1.15 + driftPhase) * drift * 0.9
     const x = Math.cos(a) * r + ox
     const y = Math.sin(a) * r * ecc + oy
-    pts.push([
-      cx + x * cosR - y * sinR,
-      cy + x * sinR + y * cosR,
-    ])
+    pts.push([cx + x * cosR - y * sinR, cy + x * sinR + y * cosR])
   }
   return inkStrokePath(pts)
 }
@@ -564,10 +536,7 @@ export function inkRingPath(seed: string): string {
   for (let i = 0; i < n; i++) {
     const a = (i / n) * Math.PI * 2 + (rng() - 0.5) * 0.22
     const j = 0.86 + rng() * 0.24
-    pts.push([
-      cx + Math.cos(a) * rx * j,
-      cy + Math.sin(a) * ry * j,
-    ])
+    pts.push([cx + Math.cos(a) * rx * j, cy + Math.sin(a) * ry * j])
   }
   pts.push(pts[0]!)
   return inkStrokePath(pts)
@@ -597,10 +566,7 @@ export function inkRulePath(seed: string, width = 120, pad = 4): string {
   const n = 5
   const span = Math.max(1, width - pad * 2)
   for (let i = 0; i <= n; i++) {
-    pts.push([
-      pad + (i / n) * span + (rng() - 0.5) * 1.4,
-      4 + (rng() - 0.5) * 1.6,
-    ])
+    pts.push([pad + (i / n) * span + (rng() - 0.5) * 1.4, 4 + (rng() - 0.5) * 1.6])
   }
   return inkStrokePath(pts)
 }
@@ -621,10 +587,7 @@ export function inkWobbleBox(
   const edge = (ax: number, ay: number, bx: number, by: number, skipStart: boolean) => {
     for (let i = skipStart ? 1 : 0; i <= steps; i++) {
       const t = i / steps
-      pts.push([
-        ax + (bx - ax) * t + j(),
-        ay + (by - ay) * t + j(),
-      ])
+      pts.push([ax + (bx - ax) * t + j(), ay + (by - ay) * t + j()])
     }
   }
   edge(x0, y0, x1, y0, false)

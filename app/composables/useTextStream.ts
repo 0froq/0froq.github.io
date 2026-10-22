@@ -1,7 +1,4 @@
-import {
-  prefersReducedStream,
-  STREAM_INTERVAL_MS,
-} from '~/utils/textStream'
+import { prefersReducedStream, STREAM_INTERVAL_MS } from '~/utils/textStream'
 
 export function useTextStream(options: {
   enabled?: MaybeRefOrGetter<boolean>
@@ -23,8 +20,7 @@ export function useTextStream(options: {
   }
 
   function stop() {
-    if (!timer)
-      return
+    if (!timer) return
     window.clearTimeout(timer)
     timer = 0
   }
@@ -39,10 +35,8 @@ export function useTextStream(options: {
     shown.value = 0
     const step = () => {
       shown.value += 1
-      if (shown.value < toValue(options.total))
-        timer = window.setTimeout(step, wait(shown.value))
-      else
-        timer = 0
+      if (shown.value < toValue(options.total)) timer = window.setTimeout(step, wait(shown.value))
+      else timer = 0
     }
     timer = window.setTimeout(step, wait(0))
   }

@@ -8,22 +8,26 @@ const { data: page } = await useAsyncData('home', () => {
 const files = useRuntimeConfig().public.publicFiles
 const override = computed(() => contentOgOverride(page.value, 'home', files))
 if (override.value === undefined) {
-  defineOgImage(ogComponentName(page.value), {
-    title: () => paperFields(page.value).title || SITE_NAME,
-    description: () => paperFields(page.value, SITE_DESCRIPTION).description,
-    evergreen: () => paperFields(page.value).evergreen,
-    created: () => paperFields(page.value).created,
-    updated: () => paperFields(page.value).updated,
-    words: () => paperFields(page.value).words,
-    ...ogExtraProps(page.value),
-  }, {
-    alt: () => paperFields(page.value).title || SITE_NAME,
-  })
+  defineOgImage(
+    ogComponentName(page.value),
+    {
+      title: () => paperFields(page.value).title || SITE_NAME,
+      description: () => paperFields(page.value, SITE_DESCRIPTION).description,
+      evergreen: () => paperFields(page.value).evergreen,
+      created: () => paperFields(page.value).created,
+      updated: () => paperFields(page.value).updated,
+      words: () => paperFields(page.value).words,
+      ...ogExtraProps(page.value),
+    },
+    {
+      alt: () => paperFields(page.value).title || SITE_NAME,
+    },
+  )
 }
 useShareCard({
   title: () => paperFields(page.value).title || SITE_NAME,
   description: () => paperFields(page.value, SITE_DESCRIPTION).description,
-  image: () => override.value === undefined ? false : override.value,
+  image: () => (override.value === undefined ? false : override.value),
 })
 
 const heroEl = ref<HTMLElement | null>(null)
@@ -36,8 +40,7 @@ let mastRo: ResizeObserver | undefined
 
 function syncMast() {
   const el = mastEl.value
-  if (!el)
-    return
+  if (!el) return
   heroH.value = heroEl.value?.offsetHeight ?? 0
   mastH.value = el.offsetHeight
   const top = el.getBoundingClientRect().top
@@ -50,8 +53,7 @@ onMounted(() => {
   if (el) {
     mastRo = new ResizeObserver(syncMast)
     mastRo.observe(el)
-    if (heroEl.value)
-      mastRo.observe(heroEl.value)
+    if (heroEl.value) mastRo.observe(heroEl.value)
   }
   syncMast()
   window.addEventListener('scroll', syncMast, { passive: true })
@@ -71,14 +73,12 @@ const routes = publicationSections.map(section => ({
   ink: section.ink,
 }))
 
-routes.push(
-  {
-    to: `https://gallery.froq.me`,
-    label: 'Gallery',
-    note: '',
-    ink: 'underline',
-  },
-)
+routes.push({
+  to: `https://gallery.froq.me`,
+  label: 'Gallery',
+  note: '',
+  ink: 'underline',
+})
 </script>
 
 <template>

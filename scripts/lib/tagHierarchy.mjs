@@ -2,8 +2,7 @@
  * Shared tag hierarchy helpers for build script + VitePress theme.
  */
 
-export const TAG_REG
-  = /<a href="[./tags][^"]*">\s*<span class="tag">(.*?)<\/span>\s*<\/a>/g
+export const TAG_REG = /<a href="[./tags][^"]*">\s*<span class="tag">(.*?)<\/span>\s*<\/a>/g
 
 /** Expand `a/b/c` into `a`, `a/b`, `a/b/c`. */
 export function dealTagHierarchy(tag) {
@@ -37,7 +36,7 @@ export function getTags(html, frontmatter = {}) {
   }
 
   if (frontmatter.tags) {
-    frontmatter.tags.forEach((tag) => {
+    frontmatter.tags.forEach(tag => {
       tags.add(tag)
       tagsExtended = new Set([...tagsExtended, ...dealTagHierarchy(tag)])
     })

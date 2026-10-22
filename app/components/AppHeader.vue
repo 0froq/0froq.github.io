@@ -2,18 +2,15 @@
 const route = useRoute()
 const router = useRouter()
 const { section, publication, isArticle, articleTitle } = useIssueFrame()
-const { titleRevealed, progressWidth, headerRef, progressTrackRef }
-  = useIssueArticleChromeScroll()
+const { titleRevealed, progressWidth, headerRef, progressTrackRef } = useIssueArticleChromeScroll()
 
 const isCv = computed(() => route.path === '/cv')
 const cvLang = computed(() => cvLangOf(route.query.lang))
 
 function setCvLang(next: CvLang) {
   const query = { ...route.query }
-  if (next === 'en')
-    delete query.lang
-  else
-    query.lang = 'zh'
+  if (next === 'en') delete query.lang
+  else query.lang = 'zh'
   router.replace({ query })
 }
 
@@ -22,14 +19,18 @@ function printCv() {
 }
 
 const sectionLabel = computed(() => {
-  if (publication.value)
-    return publication.value.label
-  if (section.value === 'dashboard')
-    return 'Dashboard'
+  if (publication.value) return publication.value.label
+  if (section.value === 'dashboard') return 'Dashboard'
   return ''
 })
 
-const sectionTo = computed(() => publication.value ? `/${publication.value.slug}` : section.value === 'dashboard' ? '/dashboard' : '/')
+const sectionTo = computed(() =>
+  publication.value
+    ? `/${publication.value.slug}`
+    : section.value === 'dashboard'
+      ? '/dashboard'
+      : '/',
+)
 </script>
 
 <template>
@@ -77,7 +78,8 @@ const sectionTo = computed(() => publication.value ? `/${publication.value.slug}
         un-text-center
         un-pointer-events-none
         :aria-hidden="!titleRevealed"
-      >{{ articleTitle }}</span>
+        >{{ articleTitle }}</span
+      >
       <div
         ref="progressTrackRef"
         class="progress-bar"
@@ -215,6 +217,12 @@ const sectionTo = computed(() => publication.value ? `/${publication.value.slug}
 </template>
 
 <style scoped>
-.article-chrome-title { transform: translateX(-50%); opacity: 0; transition: opacity 0.2s var(--ease-out, ease); }
-.article-chrome-title[data-in] { opacity: 1; }
+.article-chrome-title {
+  transform: translateX(-50%);
+  opacity: 0;
+  transition: opacity 0.2s var(--ease-out, ease);
+}
+.article-chrome-title[data-in] {
+  opacity: 1;
+}
 </style>

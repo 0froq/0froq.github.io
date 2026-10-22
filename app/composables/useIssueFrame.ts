@@ -16,22 +16,20 @@ export function useIssueArticleMast(title: MaybeRefOrGetter<string | undefined>)
   watch(
     () => route.path,
     (next, prev) => {
-      if (prev && isIssueArticlePath(prev) && isIssueArticlePath(next))
-        clear()
+      if (prev && isIssueArticlePath(prev) && isIssueArticlePath(next)) clear()
     },
   )
 
   watch(
     () => toValue(title),
-    (next) => {
+    next => {
       articleTitle.value = next?.trim() || null
     },
     { immediate: true },
   )
 
   onBeforeUnmount(() => {
-    if (!isIssueArticlePath(route.path))
-      articleTitle.value = null
+    if (!isIssueArticlePath(route.path)) articleTitle.value = null
   })
 }
 
@@ -44,8 +42,7 @@ export function useIssueSheetChrome() {
 
 export function releaseIssueSheetChrome() {
   const chrome = useIssueSheetChrome()
-  if (chrome.value !== null)
-    chrome.value = null
+  if (chrome.value !== null) chrome.value = null
 }
 
 export function useIssueFrame() {
@@ -56,14 +53,16 @@ export function useIssueFrame() {
   const publication = computed(() => findPublicationSection(sectionSlug.value) ?? null)
 
   const isHome = computed(() => route.path === '/')
-  const section = computed(() => publication.value?.slug ?? (route.path.startsWith('/dashboard') ? 'dashboard' : 'home'))
+  const section = computed(
+    () => publication.value?.slug ?? (route.path.startsWith('/dashboard') ? 'dashboard' : 'home'),
+  )
   const routeIsArticle = computed(() => isIssueArticlePath(route.path))
   const routeIsHub = computed(() => Boolean(publication.value) && !routeIsArticle.value)
-  const isArticle = computed(() =>
-    sheetChrome.value === 'article' || (sheetChrome.value == null && routeIsArticle.value),
+  const isArticle = computed(
+    () => sheetChrome.value === 'article' || (sheetChrome.value == null && routeIsArticle.value),
   )
-  const isHub = computed(() =>
-    sheetChrome.value === 'hub' || (sheetChrome.value == null && routeIsHub.value),
+  const isHub = computed(
+    () => sheetChrome.value === 'hub' || (sheetChrome.value == null && routeIsHub.value),
   )
 
   return { section, publication, isHome, isHub, isArticle, articleTitle }

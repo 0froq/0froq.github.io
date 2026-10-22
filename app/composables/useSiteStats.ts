@@ -1,4 +1,9 @@
-import type { PageLikeRow, PageOnlineRow, PageVisitRow, SiteCounters } from '~/composables/useFroqApi'
+import type {
+  PageLikeRow,
+  PageOnlineRow,
+  PageVisitRow,
+  SiteCounters,
+} from '~/composables/useFroqApi'
 
 function num() {
   return useState<number | null>
@@ -17,31 +22,21 @@ export function useSiteStats() {
   const { getStats, configured } = useFroqApi()
 
   function apply(data: Partial<SiteCounters>) {
-    if (typeof data.uniqueVisitors === 'number')
-      uniqueVisitors.value = data.uniqueVisitors
-    if (typeof data.totalVisits === 'number')
-      totalVisits.value = data.totalVisits
-    if (typeof data.online === 'number')
-      online.value = data.online
-    if (typeof data.viewing === 'number')
-      viewing.value = data.viewing
-    if (typeof data.siteLikes === 'number')
-      siteLikes.value = data.siteLikes
-    if (Array.isArray(data.pages))
-      pages.value = data.pages
-    if (Array.isArray(data.pageVisits))
-      pageVisits.value = data.pageVisits
-    if (Array.isArray(data.pageLikes))
-      pageLikes.value = data.pageLikes
+    if (typeof data.uniqueVisitors === 'number') uniqueVisitors.value = data.uniqueVisitors
+    if (typeof data.totalVisits === 'number') totalVisits.value = data.totalVisits
+    if (typeof data.online === 'number') online.value = data.online
+    if (typeof data.viewing === 'number') viewing.value = data.viewing
+    if (typeof data.siteLikes === 'number') siteLikes.value = data.siteLikes
+    if (Array.isArray(data.pages)) pages.value = data.pages
+    if (Array.isArray(data.pageVisits)) pageVisits.value = data.pageVisits
+    if (Array.isArray(data.pageLikes)) pageLikes.value = data.pageLikes
     loaded.value = true
   }
 
   async function refresh(pagePath?: string) {
-    if (!configured.value)
-      return
+    if (!configured.value) return
     const data = await getStats(pagePath)
-    if (data)
-      apply(data)
+    if (data) apply(data)
   }
 
   return {

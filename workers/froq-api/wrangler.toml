@@ -14,7 +14,7 @@
 name = "froq-api"
 main = "src/index.ts"
 compatibility_date = "2025-08-01"
-compatibility_flags = [ "nodejs_compat" ]
+compatibility_flags = ["nodejs_compat"]
 workers_dev = true
 
 # Prefer custom domain over *.workers.dev (better reachability / same-zone as froq.me).
@@ -32,10 +32,7 @@ class_name = "SiteStats"
 
 [[migrations]]
 tag = "v1"
-new_sqlite_classes = [
-  "PagePresence",
-  "SiteStats"
-]
+new_sqlite_classes = ["PagePresence", "SiteStats"]
 
 [[kv_namespaces]]
 binding = "PROGRESS"

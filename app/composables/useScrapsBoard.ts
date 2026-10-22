@@ -10,20 +10,17 @@ export function useScrapsBoard() {
 
   async function hydrate(ids: string[]) {
     const missing = ids.filter(id => id && !reactions.value[id])
-    if (!missing.length)
-      return
+    if (!missing.length) return
     const next = await getScrapReactions(missing, anonId.value || undefined)
     reactions.value = { ...reactions.value, ...next }
   }
 
   async function onReact(scrapId: string, emoji: string) {
-    if (!anonId.value || pending.value)
-      return
+    if (!anonId.value || pending.value) return
     pending.value = true
     const state = await reactToScrap(scrapId, emoji, anonId.value)
     pending.value = false
-    if (state)
-      reactions.value = { ...reactions.value, [scrapId]: state }
+    if (state) reactions.value = { ...reactions.value, [scrapId]: state }
   }
 
   watch(anonId, () => hydrate(scraps.map(s => s.id)), { immediate: true })

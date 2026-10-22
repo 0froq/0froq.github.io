@@ -1,16 +1,19 @@
 <script setup lang="ts">
 defineOptions({ inheritAttrs: false })
 
-const props = withDefaults(defineProps<{
-  seed: string
-  label: string
-  panelId?: string
-  tone?: string
-  /** Initial state. Later toggles stay local. */
-  open?: boolean
-}>(), {
-  open: false,
-})
+const props = withDefaults(
+  defineProps<{
+    seed: string
+    label: string
+    panelId?: string
+    tone?: string
+    /** Initial state. Later toggles stay local. */
+    open?: boolean
+  }>(),
+  {
+    open: false,
+  },
+)
 
 const triggerId = useId()
 const resolvedPanelId = computed(() => props.panelId || `ink-fold-panel-${triggerId}`)
@@ -19,8 +22,7 @@ const shown = shallowRef(props.open)
 let closeTimer: number | undefined
 
 function prefersReducedMotion() {
-  return import.meta.client
-    && window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  return import.meta.client && window.matchMedia('(prefers-reduced-motion: reduce)').matches
 }
 
 function release() {
@@ -28,14 +30,12 @@ function release() {
     window.clearTimeout(closeTimer)
     closeTimer = undefined
   }
-  if (open.value)
-    return
+  if (open.value) return
   shown.value = false
 }
 
 function onSlotTransitionEnd(event: TransitionEvent) {
-  if (event.target !== event.currentTarget)
-    return
+  if (event.target !== event.currentTarget) return
   release()
 }
 
@@ -60,8 +60,7 @@ async function toggle() {
 }
 
 onUnmounted(() => {
-  if (closeTimer !== undefined)
-    window.clearTimeout(closeTimer)
+  if (closeTimer !== undefined) window.clearTimeout(closeTimer)
 })
 </script>
 

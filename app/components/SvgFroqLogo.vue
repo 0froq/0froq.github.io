@@ -1,12 +1,15 @@
 <script setup lang="ts">
-withDefaults(defineProps<{
-  animated?: boolean
-  /** CSS width; height stays proportional via viewBox */
-  width?: string
-}>(), {
-  animated: false,
-  width: '80px',
-})
+withDefaults(
+  defineProps<{
+    animated?: boolean
+    /** CSS width; height stays proportional via viewBox */
+    width?: string
+  }>(),
+  {
+    animated: false,
+    width: '80px',
+  },
+)
 </script>
 
 <template>

@@ -1,14 +1,17 @@
 <script setup lang="ts">
 import { inkCoilPath, inkDotCluster } from '~/utils/inkDraw'
 
-const props = withDefaults(defineProps<{
-  seed: string
-  hollow?: boolean
-  count?: number
-}>(), {
-  hollow: false,
-  count: 3,
-})
+const props = withDefaults(
+  defineProps<{
+    seed: string
+    hollow?: boolean
+    count?: number
+  }>(),
+  {
+    hollow: false,
+    count: 3,
+  },
+)
 
 const COIL_MS = 380
 const single = computed(() => props.count === 1)
@@ -16,31 +19,32 @@ const fill = shallowRef(props.hollow ? 0 : 1)
 let coilRaf = 0
 
 function prefersReducedMotion() {
-  return import.meta.client
-    && window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  return import.meta.client && window.matchMedia('(prefers-reduced-motion: reduce)').matches
 }
 
 function easeOut(u: number) {
   return 1 - (1 - u) ** 3
 }
 
-watch(() => props.hollow, (hollow) => {
-  const next = hollow ? 0 : 1
-  if (!import.meta.client || prefersReducedMotion()) {
-    fill.value = next
-    return
-  }
-  const from = fill.value
-  const started = performance.now()
-  cancelAnimationFrame(coilRaf)
-  const tick = (now: number) => {
-    const u = Math.min(1, (now - started) / COIL_MS)
-    fill.value = from + (next - from) * easeOut(u)
-    if (u < 1)
-      coilRaf = requestAnimationFrame(tick)
-  }
-  coilRaf = requestAnimationFrame(tick)
-})
+watch(
+  () => props.hollow,
+  hollow => {
+    const next = hollow ? 0 : 1
+    if (!import.meta.client || prefersReducedMotion()) {
+      fill.value = next
+      return
+    }
+    const from = fill.value
+    const started = performance.now()
+    cancelAnimationFrame(coilRaf)
+    const tick = (now: number) => {
+      const u = Math.min(1, (now - started) / COIL_MS)
+      fill.value = from + (next - from) * easeOut(u)
+      if (u < 1) coilRaf = requestAnimationFrame(tick)
+    }
+    coilRaf = requestAnimationFrame(tick)
+  },
+)
 
 onUnmounted(() => {
   cancelAnimationFrame(coilRaf)

@@ -11,12 +11,9 @@ const PAGES_PREVIEW_RE = /^https:\/\/[a-z0-9-]+\.froq\.pages\.dev$/i
 const LOCAL_ORIGIN_RE = /^https?:\/\/(localhost|127\.0\.0\.1|\[::1\])(:\d+)?$/i
 
 export function isAllowedOrigin(origin: string | null): boolean {
-  if (!origin)
-    return false
-  if (ALLOWED_ORIGINS.has(origin))
-    return true
-  if (LOCAL_ORIGIN_RE.test(origin))
-    return true
+  if (!origin) return false
+  if (ALLOWED_ORIGINS.has(origin)) return true
+  if (LOCAL_ORIGIN_RE.test(origin)) return true
   return PAGES_PREVIEW_RE.test(origin)
 }
 
@@ -38,8 +35,7 @@ export function jsonResponse(
 ): Response {
   const headers = new Headers(init.headers)
   headers.set('Content-Type', 'application/json')
-  for (const [k, v] of Object.entries(corsHeaders(origin)))
-    headers.set(k, v)
+  for (const [k, v] of Object.entries(corsHeaders(origin))) headers.set(k, v)
   return new Response(JSON.stringify(data), { ...init, headers })
 }
 

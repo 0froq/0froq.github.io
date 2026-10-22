@@ -148,11 +148,9 @@ function phrasesFrom(
   locale: DoingLocale,
 ): string[] {
   const primary = source?.[locale]?.[mode]
-  if (primary?.length)
-    return primary
+  if (primary?.length) return primary
   const secondary = source?.[otherLocale(locale)]?.[mode]
-  if (secondary?.length)
-    return secondary
+  if (secondary?.length) return secondary
   return []
 }
 
@@ -166,19 +164,16 @@ function phrasesFor(
 
   function push(list: string[]) {
     for (const phrase of list) {
-      if (!phrase || seen.has(phrase))
-        continue
+      if (!phrase || seen.has(phrase)) continue
       seen.add(phrase)
       out.push(phrase)
     }
   }
 
-  for (const kind of config?.kinds ?? [])
-    push(phrasesFrom(DOING_KINDS[kind], mode, locale))
+  for (const kind of config?.kinds ?? []) push(phrasesFrom(DOING_KINDS[kind], mode, locale))
   push(phrasesFrom(config?.extra, mode, locale))
 
-  if (out.length)
-    return out
+  if (out.length) return out
   return DOING_FALLBACK[locale][mode]
 }
 
@@ -187,8 +182,7 @@ export function splitDoingPhrase(text: string): {
   after: string
   hasApp: boolean
 } {
-  if (!text.includes('{app}'))
-    return { before: text, after: '', hasApp: false }
+  if (!text.includes('{app}')) return { before: text, after: '', hasApp: false }
   const parts = text.split('{app}')
   return {
     before: parts[0] ?? '',
@@ -197,11 +191,7 @@ export function splitDoingPhrase(text: string): {
   }
 }
 
-export function pickDoingPhrase(
-  appName: string,
-  mode: DoingMode,
-  locale: string,
-): DoingPhrasePick {
+export function pickDoingPhrase(appName: string, mode: DoingMode, locale: string): DoingPhrasePick {
   const bucket = localeBucket(locale)
   const config = DOING_APPS[appName]
   const list = phrasesFor(config, mode, bucket)

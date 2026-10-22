@@ -53,7 +53,8 @@ defineProps<{
             un-text="xl md:2xl ink/90 group-hover/row:ink group-focus-visible/row:ink group-data-[rest]/row:ink"
             :data-ink="shown ? 'mark' : undefined"
             :data-hover-ink="shown ? undefined : 'mark'"
-          >{{ item.title }}</span>
+            >{{ item.title }}</span
+          >
           <time
             un-shrink-0
             un-font-mono
@@ -61,7 +62,8 @@ defineProps<{
             un-tracking-wide
             un-tabular-nums
             :datetime="item.created"
-          >{{ issueDate(item.created) }}</time>
+            >{{ issueDate(item.created) }}</time
+          >
         </PublicationEntryLink>
       </li>
     </ol>

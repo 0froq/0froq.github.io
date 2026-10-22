@@ -1,5 +1,16 @@
 import type { InkCursorKind } from '~/utils/inkCursor'
-import { closedInkPath, closedLoopContains, closedLoopDist, INK_CURSOR_HOTSPOT, INK_CURSOR_TEXT_HOTSPOT, inkCursorSvg, inkSelSvg, morphCursorPts, rangeTextRects, selectionLoopFromRects } from '~/utils/inkCursor'
+import {
+  closedInkPath,
+  closedLoopContains,
+  closedLoopDist,
+  INK_CURSOR_HOTSPOT,
+  INK_CURSOR_TEXT_HOTSPOT,
+  inkCursorSvg,
+  inkSelSvg,
+  morphCursorPts,
+  rangeTextRects,
+  selectionLoopFromRects,
+} from '~/utils/inkCursor'
 import { hostOf, isTextCursor, SELECTABLE, SELECTABLE_SKIP } from '~/utils/selectable'
 
 const FRAME_SELECTOR = '[data-ink-frame]'
@@ -35,8 +46,7 @@ function copyLoop(src: [number, number][]) {
 }
 
 function rigidShift(from: [number, number][], to: [number, number][]) {
-  if (from.length !== to.length || !from.length)
-    return false
+  if (from.length !== to.length || !from.length) return false
   const dx = to[0]![0] - from[0]![0]
   const dy = to[0]![1] - from[0]![1]
   for (let i = 1; i < from.length; i++) {
@@ -48,11 +58,9 @@ function rigidShift(from: [number, number][], to: [number, number][]) {
 
 function selectionTargetPts() {
   const sel = window.getSelection()
-  if (!sel || sel.isCollapsed || sel.rangeCount === 0)
-    return null
+  if (!sel || sel.isCollapsed || sel.rangeCount === 0) return null
   const host = hostOf(sel.anchorNode)
-  if (!host?.closest(SELECTABLE) || host.closest(SELECTABLE_SKIP))
-    return null
+  if (!host?.closest(SELECTABLE) || host.closest(SELECTABLE_SKIP)) return null
   return selectionLoopFromRects(rangeTextRects(sel.getRangeAt(0)))
 }
 
@@ -67,15 +75,13 @@ function frameOptions(el: HTMLElement) {
   }
 }
 
-export default defineNuxtPlugin((nuxtApp) => {
-  if (!import.meta.client)
-    return
+export default defineNuxtPlugin(nuxtApp => {
+  if (!import.meta.client) return
 
   nuxtApp.hook('app:mounted', () => {
     const finePointer = window.matchMedia('(pointer: fine)')
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)')
-    if (!finePointer.matches)
-      return
+    if (!finePointer.matches) return
 
     document.documentElement.classList.add('ink-cursor-on')
 
@@ -124,8 +130,7 @@ export default defineNuxtPlugin((nuxtApp) => {
     let wasDetached = false
 
     function intendedCursor(el: Element): string {
-      if (cursorEl === el && cursorDown === down)
-        return cursorCss
+      if (cursorEl === el && cursorDown === down) return cursorCss
       const html = document.documentElement
       // Peek past `html.ink-cursor-on * { cursor: none !important }` in the same
       // frame so the OS cursor never paints.
@@ -137,32 +142,28 @@ export default defineNuxtPlugin((nuxtApp) => {
       return cursorCss
     }
 
-    function pick(target: EventTarget | null): { frameEl: HTMLElement | null, kind: InkCursorKind } {
-      if (dragSelect)
-        return { frameEl: frame?.el ?? null, kind }
-      if (!(target instanceof Element))
-        return { frameEl: null, kind: 'arrow' }
+    function pick(target: EventTarget | null): {
+      frameEl: HTMLElement | null
+      kind: InkCursorKind
+    } {
+      if (dragSelect) return { frameEl: frame?.el ?? null, kind }
+      if (!(target instanceof Element)) return { frameEl: null, kind: 'arrow' }
       const frameEl = target.closest<HTMLElement>(FRAME_SELECTOR)
-      if (frameEl)
-        return { frameEl, kind: 'circle' }
+      if (frameEl) return { frameEl, kind: 'circle' }
       const css = intendedCursor(target)
-      if (POINT_CURSORS.has(css))
-        return { frameEl: null, kind: 'point' }
-      if (isTextCursor(target))
-        return { frameEl: null, kind: 'text' }
+      if (POINT_CURSORS.has(css)) return { frameEl: null, kind: 'point' }
+      if (isTextCursor(target)) return { frameEl: null, kind: 'text' }
       return { frameEl: null, kind: 'arrow' }
     }
 
     function setKind(next: InkCursorKind) {
-      if (kind === next)
-        return
+      if (kind === next) return
       kind = next
       root.dataset.kind = kind
     }
 
     function clearFrame() {
-      if (!frame)
-        return
+      if (!frame) return
       frame.el.removeAttribute(FRAME_ACTIVE)
       frame.el.style.removeProperty(FRAME_X)
       frame.el.style.removeProperty(FRAME_Y)
@@ -193,8 +194,7 @@ export default defineNuxtPlugin((nuxtApp) => {
     }
 
     function updateFrame() {
-      if (!frame)
-        return
+      if (!frame) return
       frame.rect = frame.el.getBoundingClientRect()
       const rect = frame.rect
       const inX = x >= rect.left - frame.release && x <= rect.right + frame.release
@@ -218,8 +218,7 @@ export default defineNuxtPlugin((nuxtApp) => {
       if (dragSelect) {
         shownX = x
         shownY = y
-      }
-      else {
+      } else {
         const ease = down ? 0.62 : 0.42
         shownX += (x - shownX) * ease
         shownY += (y - shownY) * ease
@@ -235,16 +234,14 @@ export default defineNuxtPlugin((nuxtApp) => {
       if (liveSel) {
         if (!selPts || still || rigidShift(selPts, liveSel)) {
           selPts = copyLoop(liveSel)
-        }
-        else {
+        } else {
           const follow = dragSelect ? 0.38 : 0.28
           selPts = selPts.map((p, i) => {
             const q = liveSel[i]!
             return [p[0] + (q[0] - p[0]) * follow, p[1] + (q[1] - p[1]) * follow]
           })
         }
-      }
-      else if (!dragSelect) {
+      } else if (!dragSelect) {
         selPts = null
         left = false
         away = 0
@@ -252,16 +249,13 @@ export default defineNuxtPlugin((nuxtApp) => {
 
       if (dragSelect && selPts) {
         const dOut = closedLoopContains(selPts, x, y) ? 0 : closedLoopDist(selPts, x, y)
-        if (left)
-          left = dOut > LEAVE_BACK
-        else
-          left = dOut > LEAVE_START
+        if (left) left = dOut > LEAVE_BACK
+        else left = dOut > LEAVE_START
         const awayTarget = left
           ? Math.min(1, Math.max(0, (dOut - LEAVE_START) / (LEAVE - LEAVE_START)))
           : 0
         away = still ? awayTarget : away + (awayTarget - away) * 0.22
-      }
-      else {
+      } else {
         left = false
         away = 0
       }
@@ -292,20 +286,17 @@ export default defineNuxtPlugin((nuxtApp) => {
         morphBar = 0
         morphSel = 0
         press = down ? 0.9 : 1
-      }
-      else if (wasDetached && dragSelect && selPts) {
+      } else if (wasDetached && dragSelect && selPts) {
         morphSel = 1
         morphBar = kind === 'text' ? 1 : 0
         morph = kind === 'circle' ? 1 : 0
         press = down ? 0.9 : 1
-      }
-      else if (still) {
+      } else if (still) {
         morph = circleTarget
         morphBar = barTarget
         morphSel = selTarget
         press = 1
-      }
-      else {
+      } else {
         morph += dm * 0.28
         morphBar += db * 0.28
         morphSel += ds * 0.22
@@ -317,7 +308,7 @@ export default defineNuxtPlugin((nuxtApp) => {
       const local = morphCursorPts(morph, breathe, morphBar)
       const rot = still ? 0 : Math.sin(now * 0.7) * 1.8 * (1 - morphBar) * (1 - morphSel)
       const sc = still ? 1 : (1 + 0.03 * Math.sin(now * 1.1 + 0.8)) * press
-      const rad = rot * Math.PI / 180
+      const rad = (rot * Math.PI) / 180
       const cos = Math.cos(rad)
       const sin = Math.sin(rad)
       const screen = local.map(([vx, vy]) => {
@@ -329,7 +320,10 @@ export default defineNuxtPlugin((nuxtApp) => {
       if (selTarget && morphSel > 0.001 && selPts) {
         pts = screen.map((p, i) => {
           const q = selPts[i]!
-          return [p[0] + (q[0] - p[0]) * morphSel, p[1] + (q[1] - p[1]) * morphSel] as [number, number]
+          return [p[0] + (q[0] - p[0]) * morphSel, p[1] + (q[1] - p[1]) * morphSel] as [
+            number,
+            number,
+          ]
         })
       }
       arrowPath.setAttribute('d', closedInkPath(pts))
@@ -337,8 +331,11 @@ export default defineNuxtPlugin((nuxtApp) => {
         selPath.setAttribute('d', closedInkPath(selPts))
         glowPath.setAttribute('d', closedInkPath(selPts))
       }
-      ticks.setAttribute('transform', `translate(${(shownX - hx).toFixed(2)} ${(shownY - hy).toFixed(2)})`)
-      const frameOp = !selPts ? 0 : (!dragSelect || detached) ? 1 : 1 - morphSel
+      ticks.setAttribute(
+        'transform',
+        `translate(${(shownX - hx).toFixed(2)} ${(shownY - hy).toFixed(2)})`,
+      )
+      const frameOp = !selPts ? 0 : !dragSelect || detached ? 1 : 1 - morphSel
       root.style.setProperty('--ink-dot', detached ? String(away) : '1')
       selRoot.style.setProperty('--ink-frame', String(frameOp))
       root.toggleAttribute('data-selecting', morphSel > 0.08 && !detached)
@@ -347,8 +344,7 @@ export default defineNuxtPlugin((nuxtApp) => {
       wobble.style.transform = ''
 
       updateFrame()
-      if (inside || morphSel > 0.001 || selPts)
-        raf = requestAnimationFrame(render)
+      if (inside || morphSel > 0.001 || selPts) raf = requestAnimationFrame(render)
     }
 
     function applyTarget(target: EventTarget | null) {
@@ -358,13 +354,11 @@ export default defineNuxtPlugin((nuxtApp) => {
     }
 
     function schedule() {
-      if (!raf)
-        raf = requestAnimationFrame(render)
+      if (!raf) raf = requestAnimationFrame(render)
     }
 
     function onPointerMove(event: PointerEvent) {
-      if (event.pointerType !== 'mouse')
-        return
+      if (event.pointerType !== 'mouse') return
       x = event.clientX
       y = event.clientY
       inside = true
@@ -373,8 +367,7 @@ export default defineNuxtPlugin((nuxtApp) => {
     }
 
     function onPointerOver(event: PointerEvent) {
-      if (event.pointerType !== 'mouse')
-        return
+      if (event.pointerType !== 'mouse') return
       x = event.clientX
       y = event.clientY
       applyTarget(event.target)
@@ -382,20 +375,17 @@ export default defineNuxtPlugin((nuxtApp) => {
     }
 
     function onPointerDown(event: PointerEvent) {
-      if (event.pointerType !== 'mouse')
-        return
+      if (event.pointerType !== 'mouse') return
       down = true
       const sel = window.getSelection()
-      dragSelect = event.target instanceof Element
-        && isTextCursor(event.target)
-        && (!sel || sel.isCollapsed)
+      dragSelect =
+        event.target instanceof Element && isTextCursor(event.target) && (!sel || sel.isCollapsed)
       applyTarget(event.target)
       schedule()
     }
 
     function onPointerUp(event: PointerEvent) {
-      if (event.pointerType !== 'mouse')
-        return
+      if (event.pointerType !== 'mouse') return
       down = false
       dragSelect = false
       morphSel = 0
@@ -453,8 +443,7 @@ export default defineNuxtPlugin((nuxtApp) => {
       document.documentElement.removeEventListener('pointerleave', onLeave)
       window.removeEventListener('blur', onBlur)
       reducedMotion.removeEventListener('change', onMotionChange)
-      if (raf)
-        cancelAnimationFrame(raf)
+      if (raf) cancelAnimationFrame(raf)
       clearFrame()
       selRoot.remove()
       root.remove()

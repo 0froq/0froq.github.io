@@ -2,13 +2,16 @@
 import type { InkArrowDir } from '~/utils/inkDraw'
 import { inkArrowPath } from '~/utils/inkDraw'
 
-const props = withDefaults(defineProps<{
-  seed: string
-  dir?: InkArrowDir
-  label: string
-}>(), {
-  dir: 'up',
-})
+const props = withDefaults(
+  defineProps<{
+    seed: string
+    dir?: InkArrowDir
+    label: string
+  }>(),
+  {
+    dir: 'up',
+  },
+)
 
 const d = computed(() => inkArrowPath(props.seed, props.dir))
 </script>

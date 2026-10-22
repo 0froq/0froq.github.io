@@ -11,8 +11,7 @@ export interface ProgressRecord {
 }
 
 export function visitorKey(anonId: string, ghLogin?: string | null): string {
-  if (ghLogin && ghLogin.trim())
-    return `gh:${ghLogin.trim().toLowerCase()}`
+  if (ghLogin && ghLogin.trim()) return `gh:${ghLogin.trim().toLowerCase()}`
   return `anon:${anonId}`
 }
 
@@ -23,12 +22,10 @@ export function progressKey(ghLogin: string, pagePath: string): string {
 /** Resolve GitHub login from a Bearer token (short Cache API memo). */
 export async function resolveGitHubLogin(token: string): Promise<string | null> {
   const cache = caches.default
-  const cacheKey = new Request(
-    `https://froq-api.internal/github-user/${token.slice(0, 16)}`,
-  )
+  const cacheKey = new Request(`https://froq-api.internal/github-user/${token.slice(0, 16)}`)
   const cached = await cache.match(cacheKey)
   if (cached) {
-    const body = await cached.json() as { login?: string }
+    const body = (await cached.json()) as { login?: string }
     return body.login ?? null
   }
 
@@ -39,12 +36,10 @@ export async function resolveGitHubLogin(token: string): Promise<string | null> 
       'User-Agent': 'froq-api',
     },
   })
-  if (!res.ok)
-    return null
+  if (!res.ok) return null
 
-  const data = await res.json() as { login?: string }
-  if (!data.login)
-    return null
+  const data = (await res.json()) as { login?: string }
+  if (!data.login) return null
 
   await cache.put(
     cacheKey,

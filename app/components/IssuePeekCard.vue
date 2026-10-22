@@ -1,15 +1,18 @@
 <script setup lang="ts">
 import { useElementBounding, useMouseInElement, usePreferredReducedMotion } from '@vueuse/core'
 
-const props = withDefaults(defineProps<{
-  entry: LayerEntry
-  dialog?: boolean
-  flip?: boolean
-  tilt?: boolean
-}>(), {
-  flip: true,
-  tilt: true,
-})
+const props = withDefaults(
+  defineProps<{
+    entry: LayerEntry
+    dialog?: boolean
+    flip?: boolean
+    tilt?: boolean
+  }>(),
+  {
+    flip: true,
+    tilt: true,
+  },
+)
 
 const route = useRoute()
 const { remember } = useIssueArticleReturn()
@@ -25,13 +28,10 @@ const titleBox = useElementBounding(titleRef)
 
 const metaBits = computed(() => {
   const bits: string[] = []
-  if (props.entry.created)
-    bits.push(issueDate(props.entry.created))
+  if (props.entry.created) bits.push(issueDate(props.entry.created))
   const touched = isIssueEvergreen(props.entry) ? issueTouchedDate(props.entry) : ''
-  if (touched)
-    bits.push(touched)
-  if (props.entry.words)
-    bits.push(`${formatCompact(props.entry.words)} words`)
+  if (touched) bits.push(touched)
+  if (props.entry.words) bits.push(`${formatCompact(props.entry.words)} words`)
   return bits
 })
 
@@ -42,8 +42,7 @@ const summary = computed(() => props.entry.description?.trim() || props.entry.sl
 const glowStyle = computed(() => {
   const bw = elementWidth.value
   const bh = elementHeight.value
-  if (!(bw >= 1) || !(bh >= 1))
-    return { '--ink-x': '0px', '--ink-y': '0px' }
+  if (!(bw >= 1) || !(bh >= 1)) return { '--ink-x': '0px', '--ink-y': '0px' }
   const node = cardRef.value
   const w = node?.clientWidth ?? bw
   const h = node?.clientHeight ?? bh
@@ -58,8 +57,7 @@ const glowStyle = computed(() => {
 const titleHaloStyle = computed(() => {
   const bw = cardBox.width.value
   const bh = cardBox.height.value
-  if (!(bw >= 1) || !(bh >= 1))
-    return { '--halo-x': '0px', '--halo-y': '0px' }
+  if (!(bw >= 1) || !(bh >= 1)) return { '--halo-x': '0px', '--halo-y': '0px' }
   const w = cardRef.value?.clientWidth ?? bw
   const h = cardRef.value?.clientHeight ?? bh
   const x = (elementX.value / bw) * w - (titleBox.x.value - cardBox.x.value) * (w / bw)
@@ -73,11 +71,11 @@ const titleHaloStyle = computed(() => {
 const tiltStyle = computed(() => {
   const rest = { transform: 'rotateX(0deg) rotateY(0deg)' }
   if (
-    !props.tilt
-    || motion.value === 'reduce'
-    || isOutside.value
-    || !(elementWidth.value >= 32)
-    || !(elementHeight.value >= 32)
+    !props.tilt ||
+    motion.value === 'reduce' ||
+    isOutside.value ||
+    !(elementWidth.value >= 32) ||
+    !(elementHeight.value >= 32)
   ) {
     return rest
   }
@@ -88,20 +86,23 @@ const tiltStyle = computed(() => {
   }
 })
 
-watch(() => props.entry.path, () => {
-  flipped.value = false
-})
-
-watch(() => props.flip, (canFlip) => {
-  if (!canFlip)
+watch(
+  () => props.entry.path,
+  () => {
     flipped.value = false
-})
+  },
+)
+
+watch(
+  () => props.flip,
+  canFlip => {
+    if (!canFlip) flipped.value = false
+  },
+)
 
 function onCardClick(event: MouseEvent) {
-  if (!props.flip)
-    return
-  if (event.target instanceof Element && event.target.closest('a, button'))
-    return
+  if (!props.flip) return
+  if (event.target instanceof Element && event.target.closest('a, button')) return
   flipped.value = !flipped.value
 }
 </script>
@@ -243,7 +244,8 @@ function onCardClick(event: MouseEvent) {
                 un-transition-opacity
                 un-duration-200
                 un-ease-paper
-              >{{ entry.title }}</span>
+                >{{ entry.title }}</span
+              >
             </div>
           </div>
 
@@ -288,7 +290,8 @@ function onCardClick(event: MouseEvent) {
                     aria-hidden="true"
                     un-mx-2
                     un-opacity-70
-                  >·</span>
+                    >·</span
+                  >
                   <span>{{ bit }}</span>
                 </template>
               </p>
@@ -352,7 +355,8 @@ function onCardClick(event: MouseEvent) {
             un-tracking-tight
             un-pointer-events-none
             un-select-none
-          >froQ</span>
+            >froQ</span
+          >
           <span
             class="issue-peek-mark-stroke text-[5.5rem]"
             aria-hidden="true"
@@ -375,7 +379,8 @@ function onCardClick(event: MouseEvent) {
             un-transition-opacity
             un-duration-200
             un-ease-paper
-          >froQ</span>
+            >froQ</span
+          >
           <span
             class="issue-peek-halo"
             aria-hidden="true"
@@ -461,13 +466,29 @@ function onCardClick(event: MouseEvent) {
 
 .issue-peek-mark-stroke,
 .issue-peek-halo {
-  mask-image: radial-gradient(8rem at var(--ink-x, 0px) var(--ink-y, 0px), #000 18%, transparent 72%);
-  -webkit-mask-image: radial-gradient(8rem at var(--ink-x, 0px) var(--ink-y, 0px), #000 18%, transparent 72%);
+  mask-image: radial-gradient(
+    8rem at var(--ink-x, 0px) var(--ink-y, 0px),
+    #000 18%,
+    transparent 72%
+  );
+  -webkit-mask-image: radial-gradient(
+    8rem at var(--ink-x, 0px) var(--ink-y, 0px),
+    #000 18%,
+    transparent 72%
+  );
 }
 
 .issue-peek-title-halo {
-  mask-image: radial-gradient(8rem at var(--halo-x, 0px) var(--halo-y, 0px), #000 18%, transparent 72%);
-  -webkit-mask-image: radial-gradient(8rem at var(--halo-x, 0px) var(--halo-y, 0px), #000 18%, transparent 72%);
+  mask-image: radial-gradient(
+    8rem at var(--halo-x, 0px) var(--halo-y, 0px),
+    #000 18%,
+    transparent 72%
+  );
+  -webkit-mask-image: radial-gradient(
+    8rem at var(--halo-x, 0px) var(--halo-y, 0px),
+    #000 18%,
+    transparent 72%
+  );
 }
 
 .issue-peek-mark-stroke {

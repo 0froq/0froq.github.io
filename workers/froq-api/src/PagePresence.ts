@@ -64,23 +64,17 @@ export class PagePresence extends DurableObject<Env> {
   }
 
   private prune(now: number): void {
-    this.ctx.storage.sql.exec(
-      `DELETE FROM sessions WHERE last_seen < ?`,
-      now - STALE_MS,
-    )
+    this.ctx.storage.sql.exec(`DELETE FROM sessions WHERE last_seen < ?`, now - STALE_MS)
   }
 
   private count(): number {
-    const row = this.ctx.storage.sql.exec(
-      `SELECT COUNT(*) AS c FROM sessions`,
-    ).one()
+    const row = this.ctx.storage.sql.exec(`SELECT COUNT(*) AS c FROM sessions`).one()
     return Number(row.c)
   }
 
   private async ensureAlarm(now: number): Promise<void> {
     const existing = await this.ctx.storage.getAlarm()
-    if (existing == null)
-      await this.ctx.storage.setAlarm(now + ALARM_MS)
+    if (existing == null) await this.ctx.storage.setAlarm(now + ALARM_MS)
   }
 
   async heartbeat(visitorKey: string): Promise<number> {
@@ -97,10 +91,7 @@ export class PagePresence extends DurableObject<Env> {
   }
 
   async leave(visitorKey: string): Promise<number> {
-    this.ctx.storage.sql.exec(
-      `DELETE FROM sessions WHERE visitor_key = ?`,
-      visitorKey,
-    )
+    this.ctx.storage.sql.exec(`DELETE FROM sessions WHERE visitor_key = ?`, visitorKey)
     return this.count()
   }
 
@@ -141,12 +132,10 @@ export class PagePresence extends DurableObject<Env> {
     // socket first so peers never see two identities for one tabId.
     for (const existing of this.ctx.getWebSockets()) {
       const other = existing.deserializeAttachment() as WsAttachment | null
-      if (other?.tabId !== tabId)
-        continue
+      if (other?.tabId !== tabId) continue
       try {
         existing.close(1000, 'replaced')
-      }
-      catch {
+      } catch {
         // ignore
       }
     }
@@ -178,8 +167,7 @@ export class PagePresence extends DurableObject<Env> {
   }
 
   async webSocketMessage(ws: WebSocket, message: string | ArrayBuffer): Promise<void> {
-    if (typeof message !== 'string')
-      return
+    if (typeof message !== 'string') return
 
     let data: {
       type?: string
@@ -195,20 +183,17 @@ export class PagePresence extends DurableObject<Env> {
     }
     try {
       data = JSON.parse(message) as typeof data
-    }
-    catch {
+    } catch {
       return
     }
 
     const att = ws.deserializeAttachment() as WsAttachment | null
-    if (!att?.tabId || !att.anonId)
-      return
+    if (!att?.tabId || !att.anonId) return
 
     if (data.type === 'identity') {
       const raw = typeof data.ghLogin === 'string' ? data.ghLogin.trim() : ''
       const next = raw && raw.length <= 64 ? raw.toLowerCase() : null
-      if (next === att.ghLogin)
-        return
+      if (next === att.ghLogin) return
       att.ghLogin = next
       att.lastActive = Date.now()
       ws.serializeAttachment(att)
@@ -218,29 +203,24 @@ export class PagePresence extends DurableObject<Env> {
 
     if (data.type === 'peek') {
       const target = typeof data.target === 'string' ? data.target.trim() : ''
-      if (!target || target === att.tabId || target.length > 128)
-        return
+      if (!target || target === att.tabId || target.length > 128) return
       const key = `${att.tabId}→${target}`
       const now = Date.now()
       const prev = lastPokeAt.get(key) ?? 0
-      if (now - prev < POKE_COOLDOWN_MS)
-        return
+      if (now - prev < POKE_COOLDOWN_MS) return
       lastPokeAt.set(key, now)
       for (const socket of this.ctx.getWebSockets()) {
         const other = socket.deserializeAttachment() as WsAttachment | null
-        if (other?.tabId !== target)
-          continue
+        if (other?.tabId !== target) continue
         try {
           const peek: {
             type: 'peek'
             fromAnonId: string
             fromGhLogin?: string
           } = { type: 'peek', fromAnonId: att.anonId }
-          if (att.ghLogin)
-            peek.fromGhLogin = att.ghLogin
+          if (att.ghLogin) peek.fromGhLogin = att.ghLogin
           socket.send(JSON.stringify(peek))
-        }
-        catch {
+        } catch {
           // ignore
         }
         break
@@ -275,8 +255,7 @@ export class PagePresence extends DurableObject<Env> {
           changed = true
         }
       }
-      if (!changed)
-        return
+      if (!changed) return
       // Movement / viewport change resets idle clock (wakes offline ghosts).
       att.lastActive = Date.now()
       ws.serializeAttachment(att)
@@ -284,11 +263,15 @@ export class PagePresence extends DurableObject<Env> {
     }
   }
 
-  async webSocketClose(ws: WebSocket, code: number, reason: string, _wasClean: boolean): Promise<void> {
+  async webSocketClose(
+    ws: WebSocket,
+    code: number,
+    reason: string,
+    _wasClean: boolean,
+  ): Promise<void> {
     try {
       ws.close(code, reason)
-    }
-    catch {
+    } catch {
       // already closed
     }
     this.broadcastPeers()
@@ -297,32 +280,27 @@ export class PagePresence extends DurableObject<Env> {
   async webSocketError(ws: WebSocket, _error: unknown): Promise<void> {
     try {
       ws.close(1011, 'error')
-    }
-    catch {
+    } catch {
       // ignore
     }
     this.broadcastPeers()
   }
 
   private isGhostOnline(att: WsAttachment, now: number): boolean {
-    if (att.ghLogin === GHOST_OWNER_GH)
-      return true
+    if (att.ghLogin === GHOST_OWNER_GH) return true
     // Legacy attachments (pre-lastActive) stay visible until they refresh.
-    if (typeof att.lastActive !== 'number')
-      return true
+    if (typeof att.lastActive !== 'number') return true
     return now - att.lastActive <= GHOST_IDLE_MS
   }
 
   private collectPeers(): PeerRow[] {
     const now = Date.now()
     /** Prefer the freshest socket when a tab briefly double-connects. */
-    const byTab = new Map<string, { row: PeerRow, lastActive: number }>()
+    const byTab = new Map<string, { row: PeerRow; lastActive: number }>()
     for (const socket of this.ctx.getWebSockets()) {
       const att = socket.deserializeAttachment() as WsAttachment | null
-      if (!att?.tabId || !att.anonId)
-        continue
-      if (!this.isGhostOnline(att, now))
-        continue
+      if (!att?.tabId || !att.anonId) continue
+      if (!this.isGhostOnline(att, now)) continue
       const lastActive = typeof att.lastActive === 'number' ? att.lastActive : 0
       const row: PeerRow = {
         id: att.tabId,
@@ -335,8 +313,7 @@ export class PagePresence extends DurableObject<Env> {
         vh: att.vh,
       }
       const prev = byTab.get(att.tabId)
-      if (!prev || lastActive >= prev.lastActive)
-        byTab.set(att.tabId, { row, lastActive })
+      if (!prev || lastActive >= prev.lastActive) byTab.set(att.tabId, { row, lastActive })
     }
     return Array.from(byTab.values(), v => v.row)
   }
@@ -345,8 +322,7 @@ export class PagePresence extends DurableObject<Env> {
     const msg = JSON.stringify({ type: 'peers', peers: this.collectPeers() })
     try {
       ws.send(msg)
-    }
-    catch {
+    } catch {
       // ignore
     }
   }
@@ -356,8 +332,7 @@ export class PagePresence extends DurableObject<Env> {
     for (const socket of this.ctx.getWebSockets()) {
       try {
         socket.send(msg)
-      }
-      catch {
+      } catch {
         // ignore broken sockets
       }
     }
@@ -365,7 +340,6 @@ export class PagePresence extends DurableObject<Env> {
 }
 
 function quantizeUnit(v: number, steps = 100): number {
-  if (!Number.isFinite(v))
-    return 0
+  if (!Number.isFinite(v)) return 0
   return Math.min(1, Math.max(0, Math.round(v * steps) / steps))
 }

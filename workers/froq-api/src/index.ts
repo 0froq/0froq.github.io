@@ -3,13 +3,7 @@ import { handleAuthProxy, isAuthProxyPath } from './authProxy'
 import { corsHeaders, emptyCors, isAllowedOrigin, jsonResponse } from './cors'
 import { PagePresence } from './PagePresence'
 import { SiteStats } from './SiteStats'
-import {
-
-  progressKey,
-
-  resolveGitHubLogin,
-  visitorKey,
-} from './types'
+import { progressKey, resolveGitHubLogin, visitorKey } from './types'
 
 export { PagePresence, SiteStats }
 
@@ -36,8 +30,7 @@ function pageStub(env: Env, pagePath: string) {
 
 function bearerToken(request: Request): string | null {
   const h = request.headers.get('Authorization')
-  if (!h)
-    return null
+  if (!h) return null
   const m = /^Bearer\s+(.+)$/i.exec(h.trim())
   return m?.[1]?.trim() || null
 }
@@ -49,20 +42,15 @@ async function handleSessionPing(
 ): Promise<Response> {
   let body: PingBody
   try {
-    body = await request.json() as PingBody
-  }
-  catch {
+    body = (await request.json()) as PingBody
+  } catch {
     return jsonResponse({ error: 'invalid_json' }, origin, { status: 400 })
   }
 
   const pagePath = typeof body.pagePath === 'string' ? body.pagePath.trim() : ''
   const anonId = typeof body.anonId === 'string' ? body.anonId.trim() : ''
   if (!pagePath || !anonId) {
-    return jsonResponse(
-      { error: 'pagePath_and_anonId_required' },
-      origin,
-      { status: 400 },
-    )
+    return jsonResponse({ error: 'pagePath_and_anonId_required' }, origin, { status: 400 })
   }
 
   const ghLogin = typeof body.ghLogin === 'string' ? body.ghLogin.trim() : ''
@@ -76,14 +64,17 @@ async function handleSessionPing(
     siteStub(env).visit(anonId, pagePath, countVisit),
   ])
 
-  return jsonResponse({
-    viewing,
-    online: siteOnline.online,
-    pages: siteOnline.pages,
-    uniqueVisitors: stats.uniqueVisitors,
-    totalVisits: stats.totalVisits,
-    pageVisits: stats.pageVisits,
-  }, origin)
+  return jsonResponse(
+    {
+      viewing,
+      online: siteOnline.online,
+      pages: siteOnline.pages,
+      uniqueVisitors: stats.uniqueVisitors,
+      totalVisits: stats.totalVisits,
+      pageVisits: stats.pageVisits,
+    },
+    origin,
+  )
 }
 
 async function handleSessionLeave(
@@ -93,20 +84,15 @@ async function handleSessionLeave(
 ): Promise<Response> {
   let body: PingBody
   try {
-    body = await request.json() as PingBody
-  }
-  catch {
+    body = (await request.json()) as PingBody
+  } catch {
     return jsonResponse({ error: 'invalid_json' }, origin, { status: 400 })
   }
 
   const pagePath = typeof body.pagePath === 'string' ? body.pagePath.trim() : ''
   const anonId = typeof body.anonId === 'string' ? body.anonId.trim() : ''
   if (!pagePath || !anonId) {
-    return jsonResponse(
-      { error: 'pagePath_and_anonId_required' },
-      origin,
-      { status: 400 },
-    )
+    return jsonResponse({ error: 'pagePath_and_anonId_required' }, origin, { status: 400 })
   }
 
   const ghLogin = typeof body.ghLogin === 'string' ? body.ghLogin.trim() : ''
@@ -115,11 +101,14 @@ async function handleSessionLeave(
     pageStub(env, pagePath).leave(key),
     siteStub(env).leaveOnline(key),
   ])
-  return jsonResponse({
-    viewing,
-    online: siteOnline.online,
-    pages: siteOnline.pages,
-  }, origin)
+  return jsonResponse(
+    {
+      viewing,
+      online: siteOnline.online,
+      pages: siteOnline.pages,
+    },
+    origin,
+  )
 }
 
 /** Proxy WebSocket upgrade to the per-page PagePresence DO. */
@@ -142,11 +131,7 @@ async function handleSessionWs(
   const anonId = url.searchParams.get('anonId')?.trim() || ''
   const tabId = url.searchParams.get('tabId')?.trim() || ''
   if (!pagePath || !anonId || !tabId) {
-    return jsonResponse(
-      { error: 'pagePath_anonId_tabId_required' },
-      origin,
-      { status: 400 },
-    )
+    return jsonResponse({ error: 'pagePath_anonId_tabId_required' }, origin, { status: 400 })
   }
 
   // Forward normalized pagePath to the DO.
@@ -156,12 +141,9 @@ async function handleSessionWs(
 
 function normalizePresencePath(raw: string): string {
   let p = raw.trim().split('?')[0]?.split('#')[0] || ''
-  if (!p)
-    return ''
-  if (!p.startsWith('/'))
-    p = `/${p}`
-  if (p.length > 1 && p.endsWith('/'))
-    p = p.slice(0, -1)
+  if (!p) return ''
+  if (!p.startsWith('/')) p = `/${p}`
+  if (p.length > 1 && p.endsWith('/')) p = p.slice(0, -1)
   return p
 }
 
@@ -187,11 +169,10 @@ async function handleSiteLike(
   env: Env,
   origin: string | null,
 ): Promise<Response> {
-  let body: { anonId?: string, pagePath?: string }
+  let body: { anonId?: string; pagePath?: string }
   try {
-    body = await request.json() as { anonId?: string, pagePath?: string }
-  }
-  catch {
+    body = (await request.json()) as { anonId?: string; pagePath?: string }
+  } catch {
     return jsonResponse({ error: 'invalid_json' }, origin, { status: 400 })
   }
 
@@ -206,8 +187,7 @@ async function handleSiteLike(
     return jsonResponse(result, origin, {
       status: result.ok ? 200 : 429,
     })
-  }
-  catch (e) {
+  } catch (e) {
     console.error('[froq-api] like failed:', e)
     return jsonResponse({ error: 'like_failed' }, origin, { status: 500 })
   }
@@ -231,8 +211,7 @@ async function handleScrapReactionsGet(
   try {
     const scraps = await siteStub(env).scrapReactions(ids, anonId)
     return jsonResponse({ scraps }, origin)
-  }
-  catch (e) {
+  } catch (e) {
     console.error('[froq-api] scrap reactions get failed:', e)
     return jsonResponse({ error: 'scrap_reactions_failed' }, origin, { status: 500 })
   }
@@ -243,11 +222,10 @@ async function handleScrapReact(
   env: Env,
   origin: string | null,
 ): Promise<Response> {
-  let body: { scrapId?: string, emoji?: string, anonId?: string }
+  let body: { scrapId?: string; emoji?: string; anonId?: string }
   try {
-    body = await request.json() as { scrapId?: string, emoji?: string, anonId?: string }
-  }
-  catch {
+    body = (await request.json()) as { scrapId?: string; emoji?: string; anonId?: string }
+  } catch {
     return jsonResponse({ error: 'invalid_json' }, origin, { status: 400 })
   }
 
@@ -255,11 +233,7 @@ async function handleScrapReact(
   const emoji = typeof body.emoji === 'string' ? body.emoji.trim() : ''
   const anonId = typeof body.anonId === 'string' ? body.anonId.trim() : ''
   if (!scrapId || !emoji || !anonId) {
-    return jsonResponse(
-      { error: 'scrapId_emoji_anonId_required' },
-      origin,
-      { status: 400 },
-    )
+    return jsonResponse({ error: 'scrapId_emoji_anonId_required' }, origin, { status: 400 })
   }
 
   try {
@@ -267,8 +241,7 @@ async function handleScrapReact(
     return jsonResponse(result, origin, {
       status: result.ok ? 200 : 400,
     })
-  }
-  catch (e) {
+  } catch (e) {
     console.error('[froq-api] scrap react failed:', e)
     return jsonResponse({ error: 'scrap_react_failed' }, origin, { status: 500 })
   }
@@ -302,8 +275,7 @@ async function handleProgressGet(
   try {
     const parsed = JSON.parse(raw) as ProgressRecord
     return jsonResponse(parsed, origin)
-  }
-  catch {
+  } catch {
     return jsonResponse({ maxProgress: 0, read: false, updatedAt: null }, origin)
   }
 }
@@ -325,9 +297,8 @@ async function handleProgressPut(
 
   let body: ProgressBody
   try {
-    body = await request.json() as ProgressBody
-  }
-  catch {
+    body = (await request.json()) as ProgressBody
+  } catch {
     return jsonResponse({ error: 'invalid_json' }, origin, { status: 400 })
   }
 
@@ -343,8 +314,7 @@ async function handleProgressPut(
   if (existingRaw) {
     try {
       existing = JSON.parse(existingRaw) as ProgressRecord
-    }
-    catch {
+    } catch {
       existing = null
     }
   }
@@ -367,15 +337,13 @@ export default {
     const origin = request.headers.get('Origin')
     const { pathname } = url
 
-    if (request.method === 'OPTIONS')
-      return emptyCors(origin)
+    if (request.method === 'OPTIONS') return emptyCors(origin)
 
     // Auth proxy (existing Device Flow)
     if (isAuthProxyPath(pathname)) {
       const upstream = await handleAuthProxy(request)
       const headers = new Headers(upstream.headers)
-      for (const [k, v] of Object.entries(corsHeaders(origin)))
-        headers.set(k, v)
+      for (const [k, v] of Object.entries(corsHeaders(origin))) headers.set(k, v)
       return new Response(upstream.body, {
         status: upstream.status,
         statusText: upstream.statusText,
@@ -389,8 +357,7 @@ export default {
     if (pathname === '/session/leave' && request.method === 'POST')
       return handleSessionLeave(request, env, origin)
 
-    if (pathname === '/session/ws')
-      return handleSessionWs(request, env, origin)
+    if (pathname === '/session/ws') return handleSessionWs(request, env, origin)
 
     if (pathname === '/stats' && request.method === 'GET')
       return handleStatsGet(request, env, origin)

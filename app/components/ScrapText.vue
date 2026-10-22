@@ -25,15 +25,13 @@ const { shown, streaming, play } = useTextStream({
 })
 
 const visible = computed(() => {
-  if (shown.value >= total.value)
-    return parts.value
+  if (shown.value >= total.value) return parts.value
   return takeScrapChars(parts.value, shown.value)
 })
 
 function onClick(event: MouseEvent) {
   const target = event.target
-  if (!(target instanceof Element) || !target.closest('a'))
-    return
+  if (!(target instanceof Element) || !target.closest('a')) return
   event.stopPropagation()
 }
 
@@ -49,7 +47,8 @@ onMounted(play)
     <span
       v-if="stream"
       un-sr-only
-    >{{ plain }}</span>
+      >{{ plain }}</span
+    >
     <span
       v-if="stream"
       aria-hidden="true"
@@ -66,14 +65,16 @@ onMounted(play)
             v-for="(char, charIndex) in charsOf(part.label)"
             :key="`${partIndex}-l-${charIndex}`"
             class="stream-ch"
-          >{{ char }}</span>
+            >{{ char }}</span
+          >
         </ProseA>
         <span
           v-for="(char, charIndex) in charsOf(part.value)"
           v-else
           :key="`${partIndex}-t-${charIndex}`"
           class="stream-ch"
-        >{{ char }}</span>
+          >{{ char }}</span
+        >
       </template>
       <span
         v-if="streaming"
@@ -94,7 +95,8 @@ onMounted(play)
         <ProseA
           v-if="part.type === 'link'"
           :href="part.href"
-        >{{ part.label }}</ProseA>
+          >{{ part.label }}</ProseA
+        >
         <template v-else>{{ part.value }}</template>
       </template>
     </template>

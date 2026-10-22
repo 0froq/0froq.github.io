@@ -1,7 +1,7 @@
 {
-  "i18n-ally.localesPaths": [
-    "docs"
-  ],
+  "editor.defaultFormatter": "oxc.oxc-vscode",
+  "oxc.fmt.disableNestedConfig": true,
+  "i18n-ally.localesPaths": ["docs"],
   "arrayIndexInlay.enabled": false,
   "pnpmCatalogLens.enabled": false,
   "files.exclude": {

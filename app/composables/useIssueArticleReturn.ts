@@ -1,13 +1,15 @@
 import { findPublicationSection, publicationRoot } from '~/utils/layers'
 
-export interface ArticleBack { to: string, label: string }
+export interface ArticleBack {
+  to: string
+  label: string
+}
 
 export function useIssueArticleReturn() {
   const returnTo = useState<string | null>('issue-article-return', () => null)
 
   function remember(path: string) {
-    if (!publicationRoot(path))
-      return
+    if (!publicationRoot(path)) return
     returnTo.value = path
   }
 
@@ -23,8 +25,7 @@ export function useIssueArticleReturn() {
 }
 
 function issueArticleBackTo(currentPath: string, saved: string | null): string {
-  if (saved && publicationRoot(saved))
-    return saved
+  if (saved && publicationRoot(saved)) return saved
   return issueArticleFallback(currentPath)
 }
 
@@ -35,8 +36,7 @@ export function issueArticleFallback(path: string): string {
 
 export function labelForArticleBack(to: string): string {
   const section = to.split(/[?#]/, 1)[0]?.split('/').filter(Boolean)[0]
-  if (!section)
-    return 'Home'
+  if (!section) return 'Home'
   return findPublicationSection(section)?.label ?? 'Home'
 }
 

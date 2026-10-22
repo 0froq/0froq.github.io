@@ -25,14 +25,13 @@ const IMAGE_RE = /\.(?:png|jpe?g|gif|webp|svg|ico|avif)$/i
 const PATH_SEP_RE = /[/\\]/
 
 function contentImageAssets(root: string, urlBase: string) {
-  const mounts: { dir: string, baseURL: string }[] = []
+  const mounts: { dir: string; baseURL: string }[] = []
 
   function walk(dir: string) {
     let entries
     try {
       entries = readdirSync(dir, { withFileTypes: true })
-    }
-    catch {
+    } catch {
       return
     }
 
@@ -85,10 +84,7 @@ export default defineNuxtConfig({
     },
   },
 
-  modules: [
-    '@nuxt/content',
-    '@unocss/nuxt',
-  ],
+  modules: ['@nuxt/content', '@unocss/nuxt'],
 
   // DevTools hosts the OG Image tab (template hot reload).
   devtools: {
@@ -214,11 +210,6 @@ export default defineNuxtConfig({
     strict: true,
   },
 
-  devtools: {
-    timeline: {
-      enabled: true,
-    },
-  },
   components: {
     dirs: [
       {

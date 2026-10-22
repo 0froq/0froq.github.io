@@ -13,10 +13,8 @@ const inked = computed(() => Boolean(href.value) && !hashOnly.value)
 const external = computed(() => isExternalHref(href.value, origin))
 const httpExternal = computed(() => isHttpExternalHref(href.value, origin))
 const target = computed(() => {
-  if (props.target)
-    return props.target
-  if (httpExternal.value)
-    return '_blank'
+  if (props.target) return props.target
+  if (httpExternal.value) return '_blank'
   return undefined
 })
 </script>

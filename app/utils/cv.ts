@@ -14,16 +14,12 @@ export interface CvEntry {
   warn?: string
 }
 
-export function groupCvEntries<T extends { when: string }>(
-  items: readonly T[],
-) {
-  const groups: { when: string, items: T[] }[] = []
+export function groupCvEntries<T extends { when: string }>(items: readonly T[]) {
+  const groups: { when: string; items: T[] }[] = []
   for (const item of items) {
     const last = groups.at(-1)
-    if (last?.when === item.when)
-      last.items.push(item)
-    else
-      groups.push({ when: item.when, items: [item] })
+    if (last?.when === item.when) last.items.push(item)
+    else groups.push({ when: item.when, items: [item] })
   }
   return groups
 }
@@ -32,7 +28,10 @@ const CJK = /[\u4E00-\u9FFF]/
 const CJK_PUNCT = /[。，；：、！？「」『』（）—–…]/
 
 function fold(text: string) {
-  const parts = text.split('\n').map(line => line.trim()).filter(Boolean)
+  const parts = text
+    .split('\n')
+    .map(line => line.trim())
+    .filter(Boolean)
   let out = ''
   for (const part of parts) {
     if (!out) {
@@ -41,9 +40,7 @@ function fold(text: string) {
     }
     const a = out.at(-1)!
     const b = part[0]!
-    const tight = (CJK.test(a) && CJK.test(b))
-      || CJK_PUNCT.test(a)
-      || CJK_PUNCT.test(b)
+    const tight = (CJK.test(a) && CJK.test(b)) || CJK_PUNCT.test(a) || CJK_PUNCT.test(b)
     out += `${tight ? '' : ' '}${part}`
   }
   return out
@@ -85,14 +82,7 @@ const practice = [
   { label: 'Fluent', names: ['Markdown'] },
   {
     label: 'Daily',
-    names: [
-      'Vue.js',
-      'TypeScript',
-      'CSS/UnoCSS',
-      'Git',
-      'Neovim',
-      'AI Agents',
-    ],
+    names: ['Vue.js', 'TypeScript', 'CSS/UnoCSS', 'Git', 'Neovim', 'AI Agents'],
   },
   { label: 'Used', names: ['Python'] },
   { label: 'Learning', names: ['Nuxt'] },

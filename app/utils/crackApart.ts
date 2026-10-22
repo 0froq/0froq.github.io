@@ -66,18 +66,18 @@ export function crackApart(el: HTMLElement, done: () => void) {
     path.setAttribute('stroke-linejoin', 'miter')
     path.style.strokeDasharray = '1'
     path.style.strokeDashoffset = '1'
-    path.animate(
-      [{ strokeDashoffset: 1 }, { strokeDashoffset: 0 }],
-      { duration: 190, delay, easing: 'cubic-bezier(0, 0, 0.2, 1)', fill: 'forwards' },
-    )
+    path.animate([{ strokeDashoffset: 1 }, { strokeDashoffset: 0 }], {
+      duration: 190,
+      delay,
+      easing: 'cubic-bezier(0, 0, 0.2, 1)',
+      fill: 'forwards',
+    })
     svg.appendChild(path)
   }
 
   const inkPts = pts.map((p, i, all): [number, number] => {
-    if (i === 0)
-      return [p[0], 0]
-    if (i === all.length - 1)
-      return [p[0], h]
+    if (i === 0) return [p[0], 0]
+    if (i === all.length - 1) return [p[0], h]
     const y = Math.min(h, Math.max(0, p[1]))
     return [p[0], y]
   })
@@ -100,10 +100,12 @@ export function crackApart(el: HTMLElement, done: () => void) {
     path.setAttribute('stroke-linejoin', 'miter')
     path.setAttribute('vector-effect', 'non-scaling-stroke')
     path.style.opacity = '0'
-    path.animate(
-      [{ opacity: 0 }, { opacity: 1 }],
-      { duration: 80, delay: crackMs, easing: 'linear', fill: 'forwards' },
-    )
+    path.animate([{ opacity: 0 }, { opacity: 1 }], {
+      duration: 80,
+      delay: crackMs,
+      easing: 'linear',
+      fill: 'forwards',
+    })
     edge.appendChild(path)
     return edge
   }
@@ -130,10 +132,11 @@ export function crackApart(el: HTMLElement, done: () => void) {
   el.style.visibility = 'hidden'
   host.appendChild(overlay)
 
-  svg.animate(
-    [{ opacity: 1 }, { opacity: 0 }],
-    { duration: 140, delay: crackMs + 30, fill: 'forwards' },
-  )
+  svg.animate([{ opacity: 1 }, { opacity: 0 }], {
+    duration: 140,
+    delay: crackMs + 30,
+    fill: 'forwards',
+  })
 
   for (const node of Array.from(overlay.querySelectorAll<HTMLElement>(':scope > div'))) {
     const side = node.dataset.side === 'left' ? -1 : 1
@@ -146,8 +149,16 @@ export function crackApart(el: HTMLElement, done: () => void) {
     node.animate(
       [
         { transform: 'translate(0px, 0px) rotate(0deg)', opacity: 1, offset: 0 },
-        { transform: `translate(${(drift * 0.4).toFixed(1)}px, 4px) rotate(${(rot * 0.3).toFixed(2)}deg)`, opacity: 1, offset: 0.18 },
-        { transform: `translate(${drift.toFixed(1)}px, ${fall.toFixed(1)}px) rotate(${rot.toFixed(2)}deg)`, opacity: 0, offset: 1 },
+        {
+          transform: `translate(${(drift * 0.4).toFixed(1)}px, 4px) rotate(${(rot * 0.3).toFixed(2)}deg)`,
+          opacity: 1,
+          offset: 0.18,
+        },
+        {
+          transform: `translate(${drift.toFixed(1)}px, ${fall.toFixed(1)}px) rotate(${rot.toFixed(2)}deg)`,
+          opacity: 0,
+          offset: 1,
+        },
       ],
       {
         duration: 480 + rng() * 220,

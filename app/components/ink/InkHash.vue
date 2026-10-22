@@ -1,11 +1,14 @@
 <script setup lang="ts">
 import { inkGlyphPath } from '~/utils/inkDraw'
 
-const props = withDefaults(defineProps<{
-  seed?: string
-}>(), {
-  seed: 'hash',
-})
+const props = withDefaults(
+  defineProps<{
+    seed?: string
+  }>(),
+  {
+    seed: 'hash',
+  },
+)
 
 const d = computed(() => inkGlyphPath(props.seed, 'hash'))
 </script>

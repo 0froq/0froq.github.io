@@ -22,7 +22,7 @@ if (!page.value) {
   throw createError({ statusCode: 404, statusMessage: 'Publication entry not found' })
 }
 
-const entry = computed(() => page.value ? toLayerEntry(page.value) : null)
+const entry = computed(() => (page.value ? toLayerEntry(page.value) : null))
 const articleTitle = computed(() => entry.value?.title ?? page.value.title)
 const articleDescription = computed(() => entry.value?.description?.trim() || undefined)
 
@@ -31,23 +31,27 @@ useHead({ title: articleTitle })
 const files = useRuntimeConfig().public.publicFiles
 const override = computed(() => contentOgOverride(page.value, 'publication', files))
 if (override.value === undefined) {
-  defineOgImage(ogComponentName(page.value), {
-    title: () => paperFields(page.value).title,
-    description: () => paperFields(page.value, SITE_DESCRIPTION).description,
-    evergreen: () => paperFields(page.value).evergreen,
-    created: () => paperFields(page.value).created,
-    updated: () => paperFields(page.value).updated,
-    words: () => paperFields(page.value).words,
-    ...ogExtraProps(page.value),
-  }, {
-    alt: () => paperFields(page.value).title,
-  })
+  defineOgImage(
+    ogComponentName(page.value),
+    {
+      title: () => paperFields(page.value).title,
+      description: () => paperFields(page.value, SITE_DESCRIPTION).description,
+      evergreen: () => paperFields(page.value).evergreen,
+      created: () => paperFields(page.value).created,
+      updated: () => paperFields(page.value).updated,
+      words: () => paperFields(page.value).words,
+      ...ogExtraProps(page.value),
+    },
+    {
+      alt: () => paperFields(page.value).title,
+    },
+  )
 }
 useShareCard({
   title: articleTitle,
   description: articleDescription,
   type: 'article',
-  image: () => override.value === undefined ? false : override.value,
+  image: () => (override.value === undefined ? false : override.value),
 })
 
 useIssueArticleMast(() => page.value?.title)

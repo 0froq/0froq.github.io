@@ -1,34 +1,37 @@
 <script setup lang="ts">
 import { morphRoughInk, paintRoughInk } from '~/utils/roughInk'
 
-const props = withDefaults(defineProps<{
-  to: string
-  label: string
-  note?: string
-  active?: boolean
-  ink?: 'underline' | 'mark' | 'circle'
-  hoverInk?: 'underline' | 'mark' | 'circle'
-  voice?: 'italic' | 'roman'
-  size?: 'display' | 'chrome'
-}>(), {
-  voice: 'italic',
-  size: 'display',
-})
+const props = withDefaults(
+  defineProps<{
+    to: string
+    label: string
+    note?: string
+    active?: boolean
+    ink?: 'underline' | 'mark' | 'circle'
+    hoverInk?: 'underline' | 'mark' | 'circle'
+    voice?: 'italic' | 'roman'
+    size?: 'display' | 'chrome'
+  }>(),
+  {
+    voice: 'italic',
+    size: 'display',
+  },
+)
 
 const labelRef = ref<HTMLElement | null>(null)
 const hoverKind = computed(() => props.hoverInk ?? props.ink ?? 'underline')
 const liveKind = computed(() => props.ink ?? 'underline')
 
-watch(() => props.active, async (_active, prev) => {
-  await nextTick()
-  const el = labelRef.value
-  if (!el || import.meta.server)
-    return
-  if (prev === undefined || hoverKind.value === liveKind.value)
-    paintRoughInk(el)
-  else
-    morphRoughInk(el)
-})
+watch(
+  () => props.active,
+  async (_active, prev) => {
+    await nextTick()
+    const el = labelRef.value
+    if (!el || import.meta.server) return
+    if (prev === undefined || hoverKind.value === liveKind.value) paintRoughInk(el)
+    else morphRoughInk(el)
+  },
+)
 
 const isExternal = computed(() => props.to.startsWith('http'))
 </script>

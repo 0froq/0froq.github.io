@@ -12,8 +12,7 @@ export function useIssueArticleChromeScroll() {
   const progressTrackRef = ref<HTMLElement | null>(null)
 
   function update() {
-    if (typeof window === 'undefined')
-      return
+    if (typeof window === 'undefined') return
 
     titleRevealed.value = window.scrollY > TITLE_REVEAL_Y
 
@@ -36,9 +35,7 @@ export function useIssueArticleChromeScroll() {
       return
     }
 
-    const percentage = clamp01(
-      (scrollY - wrapperOffsetY) / Math.max(0, height - windowHeight),
-    )
+    const percentage = clamp01((scrollY - wrapperOffsetY) / Math.max(0, height - windowHeight))
     progressWidth.value = `${percentage * fullWidth}px`
   }
 
@@ -53,7 +50,7 @@ export function useIssueArticleChromeScroll() {
     window.removeEventListener('resize', update)
   })
 
-  watch(progressTrackRef, async (track) => {
+  watch(progressTrackRef, async track => {
     if (!track) {
       progressWidth.value = '0px'
       return
@@ -62,10 +59,13 @@ export function useIssueArticleChromeScroll() {
     update()
   })
 
-  watch(() => route.path, async () => {
-    await nextTick()
-    update()
-  })
+  watch(
+    () => route.path,
+    async () => {
+      await nextTick()
+      update()
+    },
+  )
 
   return { titleRevealed, progressWidth, headerRef, progressTrackRef }
 }

@@ -4,8 +4,7 @@ export function useSiteChromeAway() {
 
   function pulse() {
     away.value = true
-    if (timer)
-      window.clearTimeout(timer)
+    if (timer) window.clearTimeout(timer)
     timer = window.setTimeout(() => {
       away.value = false
       timer = 0
@@ -13,8 +12,7 @@ export function useSiteChromeAway() {
   }
 
   function reset() {
-    if (timer)
-      window.clearTimeout(timer)
+    if (timer) window.clearTimeout(timer)
     timer = 0
     away.value = false
   }

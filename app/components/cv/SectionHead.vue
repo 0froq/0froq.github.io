@@ -1,23 +1,30 @@
 <script setup lang="ts">
-const props = withDefaults(defineProps<{
-  title: string
-  side?: 'left' | 'right'
-  size?: 'base' | 'sm'
-  tone?: 'accent' | 'ink'
-}>(), {
-  side: 'right',
-  size: 'base',
-  tone: 'accent',
-})
+const props = withDefaults(
+  defineProps<{
+    title: string
+    side?: 'left' | 'right'
+    size?: 'base' | 'sm'
+    tone?: 'accent' | 'ink'
+  }>(),
+  {
+    side: 'right',
+    size: 'base',
+    tone: 'accent',
+  },
+)
 
 const left = computed(() => props.side === 'left')
 const compact = computed(() => props.size === 'sm')
-const mark = computed(() => props.tone === 'ink' ? 'ink' : 'colored-ink')
+const mark = computed(() => (props.tone === 'ink' ? 'ink' : 'colored-ink'))
 const markVar = computed(() => `var(--${mark.value})`)
 const fadeToLine = computed(() => `linear-gradient(to right, ${markVar.value}, var(--line))`)
 const fadeFromLine = computed(() => `linear-gradient(to right, var(--line), ${markVar.value})`)
-const fadeLineIn = computed(() => `linear-gradient(to right, color-mix(in srgb, var(--line) 0%, transparent), var(--line))`)
-const fadeLineOut = computed(() => `linear-gradient(to right, var(--line), color-mix(in srgb, var(--line) 0%, transparent))`)
+const fadeLineIn = computed(
+  () => `linear-gradient(to right, color-mix(in srgb, var(--line) 0%, transparent), var(--line))`,
+)
+const fadeLineOut = computed(
+  () => `linear-gradient(to right, var(--line), color-mix(in srgb, var(--line) 0%, transparent))`,
+)
 </script>
 
 <template>
@@ -28,9 +35,7 @@ const fadeLineOut = computed(() => `linear-gradient(to right, var(--line), color
     un-items-center
     un-gap-3
     un-font-normal
-    :class="compact
-      ? (left ? 'mb-2 text-sm' : 'mb-2 text-sm justify-end')
-      : 'mb-4 text-base'"
+    :class="compact ? (left ? 'mb-2 text-sm' : 'mb-2 text-sm justify-end') : 'mb-4 text-base'"
     :style="{ color: markVar }"
   >
     <template v-if="left">

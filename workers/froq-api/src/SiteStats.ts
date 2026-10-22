@@ -92,9 +92,7 @@ export class SiteStats extends DurableObject<Env> {
           last_seen INTEGER NOT NULL
         )
       `)
-      const cols = this.ctx.storage.sql.exec(
-        `PRAGMA table_info(online_sessions)`,
-      ).toArray()
+      const cols = this.ctx.storage.sql.exec(`PRAGMA table_info(online_sessions)`).toArray()
       if (!cols.some(c => String(c.name) === 'page_path')) {
         this.ctx.storage.sql.exec(
           `ALTER TABLE online_sessions ADD COLUMN page_path TEXT NOT NULL DEFAULT ''`,
@@ -106,9 +104,7 @@ export class SiteStats extends DurableObject<Env> {
       this.ctx.storage.sql.exec(
         `INSERT OR IGNORE INTO meta (key, value) VALUES ('total_visits', 0)`,
       )
-      this.ctx.storage.sql.exec(
-        `INSERT OR IGNORE INTO meta (key, value) VALUES ('site_likes', 0)`,
-      )
+      this.ctx.storage.sql.exec(`INSERT OR IGNORE INTO meta (key, value) VALUES ('site_likes', 0)`)
       this.ctx.storage.sql.exec(`
         CREATE TABLE IF NOT EXISTS like_rate (
           anon_id TEXT PRIMARY KEY,
@@ -147,12 +143,8 @@ export class SiteStats extends DurableObject<Env> {
   }
 
   private getMeta(key: string): number {
-    const rows = this.ctx.storage.sql.exec(
-      `SELECT value FROM meta WHERE key = ?`,
-      key,
-    ).toArray()
-    if (!rows.length)
-      return 0
+    const rows = this.ctx.storage.sql.exec(`SELECT value FROM meta WHERE key = ?`, key).toArray()
+    if (!rows.length) return 0
     return Number(rows[0].value) || 0
   }
 
@@ -166,27 +158,24 @@ export class SiteStats extends DurableObject<Env> {
   }
 
   private pruneOnline(now: number): void {
-    this.ctx.storage.sql.exec(
-      `DELETE FROM online_sessions WHERE last_seen < ?`,
-      now - STALE_MS,
-    )
+    this.ctx.storage.sql.exec(`DELETE FROM online_sessions WHERE last_seen < ?`, now - STALE_MS)
   }
 
   private countOnline(): number {
-    const row = this.ctx.storage.sql.exec(
-      `SELECT COUNT(*) AS c FROM online_sessions`,
-    ).one()
+    const row = this.ctx.storage.sql.exec(`SELECT COUNT(*) AS c FROM online_sessions`).one()
     return Number(row.c)
   }
 
   private listPages(): PageOnlineRow[] {
-    const rows = this.ctx.storage.sql.exec(
-      `SELECT page_path AS pagePath, COUNT(*) AS viewing
+    const rows = this.ctx.storage.sql
+      .exec(
+        `SELECT page_path AS pagePath, COUNT(*) AS viewing
        FROM online_sessions
        WHERE page_path != ''
        GROUP BY page_path
        ORDER BY viewing DESC, page_path ASC`,
-    ).toArray()
+      )
+      .toArray()
     return rows.map(r => ({
       pagePath: String(r.pagePath),
       viewing: Number(r.viewing),
@@ -194,11 +183,13 @@ export class SiteStats extends DurableObject<Env> {
   }
 
   private listPageVisits(): PageVisitRow[] {
-    const rows = this.ctx.storage.sql.exec(
-      `SELECT page_path AS pagePath, visits
+    const rows = this.ctx.storage.sql
+      .exec(
+        `SELECT page_path AS pagePath, visits
        FROM page_visits
        ORDER BY visits DESC, page_path ASC`,
-    ).toArray()
+      )
+      .toArray()
     return rows.map(r => ({
       pagePath: String(r.pagePath),
       visits: Number(r.visits),
@@ -206,31 +197,33 @@ export class SiteStats extends DurableObject<Env> {
   }
 
   private listPageLikes(): PageLikeRow[] {
-    const rows = this.ctx.storage.sql.exec(
-      `SELECT page_path AS pagePath, likes
+    const rows = this.ctx.storage.sql
+      .exec(
+        `SELECT page_path AS pagePath, likes
        FROM page_likes
        ORDER BY likes DESC, page_path ASC`,
-    ).toArray()
+      )
+      .toArray()
     return rows.map(r => ({
       pagePath: String(r.pagePath),
       likes: Number(r.likes),
     }))
   }
 
-  private readRateStamps(table: 'like_rate' | 'page_like_rate', key: string, keyCol: string): number[] {
-    const row = this.ctx.storage.sql.exec(
-      `SELECT timestamps FROM ${table} WHERE ${keyCol} = ?`,
-      key,
-    ).toArray()
-    if (!row.length)
-      return []
+  private readRateStamps(
+    table: 'like_rate' | 'page_like_rate',
+    key: string,
+    keyCol: string,
+  ): number[] {
+    const row = this.ctx.storage.sql
+      .exec(`SELECT timestamps FROM ${table} WHERE ${keyCol} = ?`, key)
+      .toArray()
+    if (!row.length) return []
     try {
       const parsed = JSON.parse(String(row[0].timestamps)) as unknown
-      if (!Array.isArray(parsed))
-        return []
+      if (!Array.isArray(parsed)) return []
       return parsed.map(Number).filter(n => Number.isFinite(n))
-    }
-    catch {
+    } catch {
       return []
     }
   }
@@ -251,8 +244,7 @@ export class SiteStats extends DurableObject<Env> {
 
   private async ensureAlarm(now: number): Promise<void> {
     const existing = await this.ctx.storage.getAlarm()
-    if (existing == null)
-      await this.ctx.storage.setAlarm(now + ALARM_MS)
+    if (existing == null) await this.ctx.storage.setAlarm(now + ALARM_MS)
   }
 
   async online(): Promise<number> {
@@ -263,7 +255,7 @@ export class SiteStats extends DurableObject<Env> {
   async heartbeat(
     visitorKey: string,
     pagePath: string,
-  ): Promise<{ online: number, pages: PageOnlineRow[] }> {
+  ): Promise<{ online: number; pages: PageOnlineRow[] }> {
     const now = Date.now()
     this.ctx.storage.sql.exec(
       `INSERT INTO online_sessions (visitor_key, page_path, last_seen) VALUES (?, ?, ?)
@@ -282,13 +274,8 @@ export class SiteStats extends DurableObject<Env> {
     }
   }
 
-  async leaveOnline(
-    visitorKey: string,
-  ): Promise<{ online: number, pages: PageOnlineRow[] }> {
-    this.ctx.storage.sql.exec(
-      `DELETE FROM online_sessions WHERE visitor_key = ?`,
-      visitorKey,
-    )
+  async leaveOnline(visitorKey: string): Promise<{ online: number; pages: PageOnlineRow[] }> {
+    this.ctx.storage.sql.exec(`DELETE FROM online_sessions WHERE visitor_key = ?`, visitorKey)
     return {
       online: this.countOnline(),
       pages: this.listPages(),
@@ -318,13 +305,13 @@ export class SiteStats extends DurableObject<Env> {
 
     if (pagePath) {
       const rateKey = `${anonId}\0${pagePath}`
-      const stamps = this.readRateStamps('page_like_rate', rateKey, 'rate_key')
-        .filter(t => now - t < LIKE_WINDOW_MS)
+      const stamps = this.readRateStamps('page_like_rate', rateKey, 'rate_key').filter(
+        t => now - t < LIKE_WINDOW_MS,
+      )
 
-      const pageRow = this.ctx.storage.sql.exec(
-        `SELECT likes FROM page_likes WHERE page_path = ?`,
-        pagePath,
-      ).toArray()
+      const pageRow = this.ctx.storage.sql
+        .exec(`SELECT likes FROM page_likes WHERE page_path = ?`, pagePath)
+        .toArray()
       const currentPageLikes = pageRow.length ? Number(pageRow[0].likes) || 0 : 0
 
       if (stamps.length >= LIKE_LIMIT) {
@@ -357,8 +344,9 @@ export class SiteStats extends DurableObject<Env> {
       }
     }
 
-    const stamps = this.readRateStamps('like_rate', anonId, 'anon_id')
-      .filter(t => now - t < LIKE_WINDOW_MS)
+    const stamps = this.readRateStamps('like_rate', anonId, 'anon_id').filter(
+      t => now - t < LIKE_WINDOW_MS,
+    )
 
     if (stamps.length >= LIKE_LIMIT) {
       const oldest = Math.min(...stamps)
@@ -395,10 +383,9 @@ export class SiteStats extends DurableObject<Env> {
   ): Promise<Pick<SiteCounters, 'uniqueVisitors' | 'totalVisits' | 'pageVisits'>> {
     const now = Date.now()
 
-    const existing = this.ctx.storage.sql.exec(
-      `SELECT 1 AS ok FROM visitors WHERE anon_id = ?`,
-      anonId,
-    ).toArray()
+    const existing = this.ctx.storage.sql
+      .exec(`SELECT 1 AS ok FROM visitors WHERE anon_id = ?`, anonId)
+      .toArray()
 
     if (existing.length === 0) {
       this.ctx.storage.sql.exec(
@@ -411,10 +398,9 @@ export class SiteStats extends DurableObject<Env> {
 
     if (countVisit) {
       const visitKey = `${anonId}\0${pagePath}`
-      const prev = this.ctx.storage.sql.exec(
-        `SELECT last_visit FROM visit_debounce WHERE visit_key = ?`,
-        visitKey,
-      ).toArray()
+      const prev = this.ctx.storage.sql
+        .exec(`SELECT last_visit FROM visit_debounce WHERE visit_key = ?`, visitKey)
+        .toArray()
 
       const lastVisit = prev.length ? Number(prev[0].last_visit) : 0
       if (!lastVisit || now - lastVisit >= VISIT_DEBOUNCE_MS) {
@@ -443,8 +429,7 @@ export class SiteStats extends DurableObject<Env> {
   async alarm(): Promise<void> {
     const now = Date.now()
     this.pruneOnline(now)
-    if (this.countOnline() > 0)
-      await this.ctx.storage.setAlarm(now + ALARM_MS)
+    if (this.countOnline() > 0) await this.ctx.storage.setAlarm(now + ALARM_MS)
   }
 
   async scrapReactions(
@@ -455,36 +440,37 @@ export class SiteStats extends DurableObject<Env> {
     for (const id of scrapIds) {
       out[id] = { counts: {}, mine: null }
     }
-    if (!scrapIds.length)
-      return out
+    if (!scrapIds.length) return out
 
     const placeholders = scrapIds.map(() => '?').join(', ')
-    const rows = this.ctx.storage.sql.exec(
-      `SELECT scrap_id AS scrapId, emoji, count
+    const rows = this.ctx.storage.sql
+      .exec(
+        `SELECT scrap_id AS scrapId, emoji, count
        FROM scrap_reactions
        WHERE scrap_id IN (${placeholders})`,
-      ...scrapIds,
-    ).toArray()
+        ...scrapIds,
+      )
+      .toArray()
 
     for (const row of rows) {
       const id = String(row.scrapId)
-      if (!out[id])
-        out[id] = { counts: {}, mine: null }
+      if (!out[id]) out[id] = { counts: {}, mine: null }
       out[id].counts[String(row.emoji)] = Number(row.count) || 0
     }
 
     if (anonId) {
-      const votes = this.ctx.storage.sql.exec(
-        `SELECT scrap_id AS scrapId, emoji
+      const votes = this.ctx.storage.sql
+        .exec(
+          `SELECT scrap_id AS scrapId, emoji
          FROM scrap_votes
          WHERE anon_id = ? AND scrap_id IN (${placeholders})`,
-        anonId,
-        ...scrapIds,
-      ).toArray()
+          anonId,
+          ...scrapIds,
+        )
+        .toArray()
       for (const vote of votes) {
         const id = String(vote.scrapId)
-        if (out[id])
-          out[id].mine = String(vote.emoji)
+        if (out[id]) out[id].mine = String(vote.emoji)
       }
     }
 
@@ -495,7 +481,7 @@ export class SiteStats extends DurableObject<Env> {
     scrapId: string,
     emoji: string,
     anonId: string,
-  ): Promise<{ ok: boolean, state: ScrapReactionState, error?: string }> {
+  ): Promise<{ ok: boolean; state: ScrapReactionState; error?: string }> {
     if (!SCRAP_EMOJIS.has(emoji)) {
       return {
         ok: false,
@@ -504,11 +490,9 @@ export class SiteStats extends DurableObject<Env> {
       }
     }
 
-    const existing = this.ctx.storage.sql.exec(
-      `SELECT emoji FROM scrap_votes WHERE scrap_id = ? AND anon_id = ?`,
-      scrapId,
-      anonId,
-    ).toArray()
+    const existing = this.ctx.storage.sql
+      .exec(`SELECT emoji FROM scrap_votes WHERE scrap_id = ? AND anon_id = ?`, scrapId, anonId)
+      .toArray()
     const prev = existing.length ? String(existing[0].emoji) : null
 
     if (prev === emoji) {
@@ -529,8 +513,7 @@ export class SiteStats extends DurableObject<Env> {
         scrapId,
         emoji,
       )
-    }
-    else {
+    } else {
       if (prev) {
         this.ctx.storage.sql.exec(
           `UPDATE scrap_reactions SET count = count - 1
@@ -559,8 +542,10 @@ export class SiteStats extends DurableObject<Env> {
       )
     }
 
-    const state = (await this.scrapReactions([scrapId], anonId))[scrapId]
-      ?? { counts: {}, mine: null }
+    const state = (await this.scrapReactions([scrapId], anonId))[scrapId] ?? {
+      counts: {},
+      mine: null,
+    }
     return { ok: true, state }
   }
 }

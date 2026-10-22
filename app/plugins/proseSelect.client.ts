@@ -2,15 +2,12 @@ import { hostOf, SELECTABLE, SELECTABLE_SKIP } from '~/utils/selectable'
 
 function confineSelection() {
   const sel = window.getSelection()
-  if (!sel || sel.rangeCount === 0 || sel.isCollapsed)
-    return
+  if (!sel || sel.rangeCount === 0 || sel.isCollapsed) return
   const anchor = hostOf(sel.anchorNode)
-  if (anchor?.closest(SELECTABLE_SKIP))
-    return
+  if (anchor?.closest(SELECTABLE_SKIP)) return
   const anchorProse = anchor?.closest(SELECTABLE)
   const focusProse = hostOf(sel.focusNode)?.closest(SELECTABLE)
-  if (anchorProse && anchorProse === focusProse)
-    return
+  if (anchorProse && anchorProse === focusProse) return
   if (!anchorProse && !focusProse) {
     sel.removeAllRanges()
     return
@@ -24,14 +21,12 @@ function confineSelection() {
       range.setStart(allowed.startContainer, allowed.startOffset)
     if (range.compareBoundaryPoints(Range.END_TO_END, allowed) > 0)
       range.setEnd(allowed.endContainer, allowed.endOffset)
-  }
-  catch {
+  } catch {
     sel.removeAllRanges()
   }
 }
 
 export default defineNuxtPlugin(() => {
-  if (!import.meta.client)
-    return
+  if (!import.meta.client) return
   document.addEventListener('selectionchange', confineSelection)
 })

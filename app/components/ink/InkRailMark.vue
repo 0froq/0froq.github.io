@@ -20,8 +20,7 @@ let coilRaf = 0
 let ro: ResizeObserver | undefined
 
 function prefersReducedMotion() {
-  return import.meta.client
-    && window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  return import.meta.client && window.matchMedia('(prefers-reduced-motion: reduce)').matches
 }
 
 function easeOut(u: number) {
@@ -30,8 +29,7 @@ function easeOut(u: number) {
 
 function measure() {
   const el = hostRef.value?.parentElement
-  if (!el)
-    return
+  if (!el) return
   const cs = getComputedStyle(el)
   boxW.value = el.offsetWidth
   boxH.value = el.offsetHeight
@@ -39,12 +37,7 @@ function measure() {
   italic.value = /italic|oblique/.test(cs.fontStyle)
 }
 
-function windowDash(
-  path: SVGPathElement,
-  start: number,
-  end: number,
-  total: number,
-) {
+function windowDash(path: SVGPathElement, start: number, end: number, total: number) {
   const vis = Math.max(end - start, 0)
   if (vis < 0.4 || total < 1) {
     path.style.strokeDasharray = `0 ${Math.max(total, 1)}`
@@ -58,8 +51,7 @@ function windowDash(
 function paintDash() {
   const line = lineRef.value
   const loop = loopRef.value
-  if (!line || !loop || import.meta.server)
-    return
+  if (!line || !loop || import.meta.server) return
   const lineLen = line.getTotalLength()
   const loopLen = loop.getTotalLength()
   const t = morph.value
@@ -76,12 +68,9 @@ function paintDash() {
 }
 
 function goals() {
-  if (props.circled)
-    return { morph: 1, show: 1 }
-  if (props.hovered)
-    return { morph: 0, show: 1 }
-  if (morph.value > 0.02)
-    return { morph: 0, show: 1 }
+  if (props.circled) return { morph: 1, show: 1 }
+  if (props.hovered) return { morph: 0, show: 1 }
+  if (morph.value > 0.02) return { morph: 0, show: 1 }
   return { morph: 0, show: 0 }
 }
 
@@ -103,8 +92,7 @@ function goTo(animate: boolean) {
     morph.value = next.morph
     show.value = next.show
     paintDash()
-    if (!props.circled && !props.hovered && next.show > 0.02 && next.morph < 0.02)
-      goTo(true)
+    if (!props.circled && !props.hovered && next.show > 0.02 && next.morph < 0.02) goTo(true)
     return
   }
   const dist = Math.max(Math.abs(next.morph - fromM), Math.abs(next.show - fromS))
@@ -120,31 +108,26 @@ function goTo(animate: boolean) {
       coilRaf = requestAnimationFrame(tick)
       return
     }
-    if (!props.circled && !props.hovered && morph.value < 0.02 && show.value > 0.02)
-      goTo(true)
+    if (!props.circled && !props.hovered && morph.value < 0.02 && show.value > 0.02) goTo(true)
   }
   coilRaf = requestAnimationFrame(tick)
 }
 
 const metrics = computed(() => inkRailMarkMetrics(boxW.value, boxH.value, em.value))
-const markPath = computed(() => inkRailMarkPath(
-  props.seed,
-  boxW.value,
-  boxH.value,
-  em.value,
-  italic.value,
-))
+const markPath = computed(() =>
+  inkRailMarkPath(props.seed, boxW.value, boxH.value, em.value, italic.value),
+)
 const strokeW = computed(() => Math.max(1.15, em.value * 0.055))
 
-watch(() => markPath.value.dLine + markPath.value.dLoop, async () => {
-  await nextTick()
-  paintDash()
-})
-
 watch(
-  [() => props.circled, () => props.hovered],
-  () => goTo(true),
+  () => markPath.value.dLine + markPath.value.dLoop,
+  async () => {
+    await nextTick()
+    paintDash()
+  },
 )
+
+watch([() => props.circled, () => props.hovered], () => goTo(true))
 
 onMounted(async () => {
   measure()
@@ -153,8 +136,7 @@ onMounted(async () => {
   goTo(false)
   ro = new ResizeObserver(measure)
   const parent = hostRef.value?.parentElement
-  if (parent)
-    ro.observe(parent)
+  if (parent) ro.observe(parent)
 })
 
 onUnmounted(() => {

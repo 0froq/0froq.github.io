@@ -8,15 +8,13 @@ let grab = { x: 0, y: 0 }
 onMounted(() => {
   try {
     const raw = localStorage.getItem(STORAGE)
-    if (!raw)
-      return
-    const parsed = JSON.parse(raw) as { x: number, y: number }
+    if (!raw) return
+    const parsed = JSON.parse(raw) as { x: number; y: number }
     if (typeof parsed.x === 'number' && typeof parsed.y === 'number') {
       pos.x = parsed.x
       pos.y = parsed.y
     }
-  }
-  catch {
+  } catch {
     // ignore
   }
 })
@@ -32,15 +30,13 @@ function onPointerDown(event: PointerEvent) {
 }
 
 function onPointerMove(event: PointerEvent) {
-  if (!dragging.value)
-    return
+  if (!dragging.value) return
   pos.x = event.clientX - grab.x
   pos.y = event.clientY - grab.y
 }
 
 function onPointerUp() {
-  if (!dragging.value)
-    return
+  if (!dragging.value) return
   dragging.value = false
   persist()
 }

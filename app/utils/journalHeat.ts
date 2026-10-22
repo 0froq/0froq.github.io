@@ -2,7 +2,20 @@ const DATE_KEY = /(\d{4})-(\d{2})-(\d{2})/
 
 export const WHEEL_GRID_COLS = 7
 
-export const HEAT_MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'] as const
+export const HEAT_MONTHS = [
+  'Jan',
+  'Feb',
+  'Mar',
+  'Apr',
+  'May',
+  'Jun',
+  'Jul',
+  'Aug',
+  'Sep',
+  'Oct',
+  'Nov',
+  'Dec',
+] as const
 
 export const JOURNAL_DOODLES = [
   'star',
@@ -17,12 +30,11 @@ export const JOURNAL_DOODLES = [
   'leaf',
 ] as const
 
-export type JournalDoodleName = typeof JOURNAL_DOODLES[number]
+export type JournalDoodleName = (typeof JOURNAL_DOODLES)[number]
 
 export function journalDayKey(created?: string): string | null {
   const match = created?.match(DATE_KEY)
-  if (!match)
-    return null
+  if (!match) return null
   return `${match[1]}-${match[2]}-${match[3]}`
 }
 
@@ -34,13 +46,10 @@ export function journalEntriesByDay(items: LayerEntry[]): Map<string, LayerEntry
   const map = new Map<string, LayerEntry[]>()
   for (const item of items) {
     const key = journalDayKey(item.created)
-    if (!key)
-      continue
+    if (!key) continue
     const list = map.get(key)
-    if (list)
-      list.push(item)
-    else
-      map.set(key, [item])
+    if (list) list.push(item)
+    else map.set(key, [item])
   }
   return map
 }
@@ -49,21 +58,18 @@ export function journalByDay(items: LayerEntry[]): Map<string, LayerEntry> {
   const map = new Map<string, LayerEntry>()
   for (const [key, list] of journalEntriesByDay(items)) {
     const first = list[0]
-    if (first)
-      map.set(key, first)
+    if (first) map.set(key, first)
   }
   return map
 }
 
-function dayKinds(entries: LayerEntry[]): { journal: LayerEntry | null, log: LayerEntry | null } {
+function dayKinds(entries: LayerEntry[]): { journal: LayerEntry | null; log: LayerEntry | null } {
   let journal: LayerEntry | null = null
   let log: LayerEntry | null = null
   for (const entry of entries) {
     const kind = journalEntryKind(entry)
-    if (kind === 'log' && !log)
-      log = entry
-    else if (kind === 'journal' && !journal)
-      journal = entry
+    if (kind === 'log' && !log) log = entry
+    else if (kind === 'journal' && !journal) journal = entry
   }
   return { journal, log }
 }
@@ -80,41 +86,37 @@ export function utcDayKey(now = new Date()): string {
   return `${now.getUTCFullYear()}-${String(now.getUTCMonth() + 1).padStart(2, '0')}-${String(now.getUTCDate()).padStart(2, '0')}`
 }
 
-function firstRecordMonth(byDay: Map<string, LayerEntry[]>): { year: number, month: number } | null {
+function firstRecordMonth(
+  byDay: Map<string, LayerEntry[]>,
+): { year: number; month: number } | null {
   let year = Infinity
   let month = 11
   for (const key of byDay.keys()) {
     const y = Number(key.slice(0, 4))
     const m = Number(key.slice(5, 7)) - 1
-    if (!Number.isFinite(y) || !Number.isFinite(m))
-      continue
+    if (!Number.isFinite(y) || !Number.isFinite(m)) continue
     if (y < year || (y === year && m < month)) {
       year = y
       month = m
     }
   }
-  if (!Number.isFinite(year))
-    return null
+  if (!Number.isFinite(year)) return null
   return { year, month }
 }
 
 export function journalYearSpan(items: LayerEntry[], now = new Date()): number[] {
   const byDay = journalEntriesByDay(items)
   const first = firstRecordMonth(byDay)
-  if (!first)
-    return []
+  if (!first) return []
   const years: number[] = []
-  for (let year = first.year; year <= now.getUTCFullYear(); year += 1)
-    years.push(year)
+  for (let year = first.year; year <= now.getUTCFullYear(); year += 1) years.push(year)
   return years
 }
 
 function lastMonthForYear(year: number, now: Date): number {
   const nowYear = now.getUTCFullYear()
-  if (year < nowYear)
-    return 11
-  if (year === nowYear)
-    return now.getUTCMonth()
+  if (year < nowYear) return 11
+  if (year === nowYear) return now.getUTCMonth()
   return -1
 }
 
@@ -122,8 +124,7 @@ export type JournalKind = 'journal' | 'log'
 
 /** Frontmatter `kind` wins. Without it, a `log-` filename is a log and anything else is a journal entry. */
 export function journalEntryKind(entry: LayerEntry): JournalKind {
-  if (entry.kind === 'log' || entry.kind === 'journal')
-    return entry.kind
+  if (entry.kind === 'log' || entry.kind === 'journal') return entry.kind
   const stem = entry.path.split('/').pop() ?? ''
   return stem.startsWith('log') ? 'log' : 'journal'
 }
@@ -175,21 +176,26 @@ function monthIdOf(time: number): string {
 export function journalWheel(items: LayerEntry[], now = new Date()): JournalWheelMonth[] {
   const byDay = journalEntriesByDay(items)
   const first = firstRecordMonth(byDay)
-  if (!first)
-    return []
+  if (!first) return []
   const years = journalYearSpan(items, now)
-  if (!years.length)
-    return []
+  if (!years.length) return []
   const start = civilStamp(first.year, first.month, 1)
   const today = todayStamp(now)
-  const horizon = civilStamp(now.getUTCFullYear(), now.getUTCMonth(), daysInMonth(now.getUTCFullYear(), now.getUTCMonth()))
-  interface Meta { id: string, year: number, month: number }
+  const horizon = civilStamp(
+    now.getUTCFullYear(),
+    now.getUTCMonth(),
+    daysInMonth(now.getUTCFullYear(), now.getUTCMonth()),
+  )
+  interface Meta {
+    id: string
+    year: number
+    month: number
+  }
   const metas: Meta[] = []
   for (const year of years) {
     const begin = year === first.year ? first.month : 0
     const endMonth = lastMonthForYear(year, now)
-    if (endMonth < 0 || begin > endMonth)
-      continue
+    if (endMonth < 0 || begin > endMonth) continue
     for (let month = begin; month <= endMonth; month++)
       metas.push({ id: `${year}-${String(month + 1).padStart(2, '0')}`, year, month })
   }
@@ -202,8 +208,7 @@ export function journalWheel(items: LayerEntry[], now = new Date()): JournalWhee
     const span = daysInMonth(m.year, m.month)
     for (let day = 1; day <= span; day++) {
       const stamp = civilStamp(m.year, m.month, day)
-      if (stamp < start || stamp > horizon)
-        continue
+      if (stamp < start || stamp > horizon) continue
       const mon = mondayUtc(m.year, m.month, day)
       const ownerId = monthIdOf(mon + 3 * DAY_MS)
       const target = metaIds.has(ownerId) ? ownerId : m.id
@@ -229,8 +234,7 @@ export function journalWheel(items: LayerEntry[], now = new Date()): JournalWhee
         const month = d.getUTCMonth()
         const day = d.getUTCDate()
         const stamp = civilStamp(year, month, day)
-        if (stamp < start || stamp > horizon)
-          continue
+        if (stamp < start || stamp > horizon) continue
         const key = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`
         const { journal, log } = dayKinds(byDay.get(key) ?? [])
         const split = Boolean(journal && log)

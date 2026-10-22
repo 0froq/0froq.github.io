@@ -3,8 +3,7 @@ export function useColorScheme() {
 
   function apply(next: ColorSchemePref) {
     pref.value = next
-    if (!import.meta.client)
-      return
+    if (!import.meta.client) return
     localStorage.setItem(COLOR_SCHEME_KEY, next)
     paintColorScheme(next)
   }
@@ -17,8 +16,7 @@ export function useColorScheme() {
     apply(readColorSchemePref())
     const mq = window.matchMedia('(prefers-color-scheme: dark)')
     const onChange = () => {
-      if (pref.value === 'auto')
-        paintColorScheme('auto')
+      if (pref.value === 'auto') paintColorScheme('auto')
     }
     mq.addEventListener('change', onChange)
     onUnmounted(() => mq.removeEventListener('change', onChange))
