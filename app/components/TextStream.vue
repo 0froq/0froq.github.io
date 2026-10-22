@@ -1,13 +1,21 @@
 <script setup lang="ts">
-import { prefersReducedStream, STREAM_INTERVAL_MS, streamDelayMs, wrapStreamChars } from '~/utils/textStream'
+import {
+  prefersReducedStream,
+  STREAM_INTERVAL_MS,
+  streamDelayMs,
+  wrapStreamChars,
+} from '~/utils/textStream'
 
-const props = withDefaults(defineProps<{
-  stream?: boolean
-  interval?: number
-}>(), {
-  stream: true,
-  interval: STREAM_INTERVAL_MS,
-})
+const props = withDefaults(
+  defineProps<{
+    stream?: boolean
+    interval?: number
+  }>(),
+  {
+    stream: true,
+    interval: STREAM_INTERVAL_MS,
+  },
+)
 
 type Phase = 'hold' | 'stream' | 'done'
 
@@ -36,8 +44,7 @@ const { shown, streaming, play, stop } = useTextStream({
 })
 
 function ensureCaret() {
-  if (caret)
-    return caret
+  if (caret) return caret
   const mark = document.createElement('span')
   mark.className = 'stream-caret'
   mark.setAttribute('aria-hidden', 'true')
@@ -47,18 +54,14 @@ function ensureCaret() {
 
 function reveal(n: number, from = 0) {
   if (n < from) {
-    for (const el of chars)
-      delete el.dataset.on
+    for (const el of chars) delete el.dataset.on
     from = 0
   }
-  for (let i = from; i < n; i++)
-    chars[i]?.setAttribute('data-on', '')
+  for (let i = from; i < n; i++) chars[i]?.setAttribute('data-on', '')
   const last = chars[Math.min(n, chars.length) - 1]
   const mark = ensureCaret()
-  if (streaming.value && last)
-    last.after(mark)
-  else
-    mark.remove()
+  if (streaming.value && last) last.after(mark)
+  else mark.remove()
 }
 
 function unwrap() {
@@ -87,14 +90,12 @@ watch(shown, (n, prev) => {
 })
 
 watch(streaming, (active, wasActive) => {
-  if (wasActive && !active)
-    unwrapTimer = window.setTimeout(unwrap, 180)
+  if (wasActive && !active) unwrapTimer = window.setTimeout(unwrap, 180)
 })
 
 onMounted(() => {
   const root = copy.value
-  if (!root)
-    return
+  if (!root) return
   if (!props.stream || prefersReducedStream()) {
     phase.value = 'done'
     play()
@@ -109,8 +110,7 @@ onMounted(() => {
 
 onUnmounted(() => {
   stop()
-  if (unwrapTimer)
-    window.clearTimeout(unwrapTimer)
+  if (unwrapTimer) window.clearTimeout(unwrapTimer)
   caret?.remove()
 })
 </script>
@@ -124,7 +124,8 @@ onUnmounted(() => {
     <span
       v-if="streaming"
       un-sr-only
-    >{{ plain }}</span>
+      >{{ plain }}</span
+    >
     <div
       ref="copy"
       class="text-stream-copy group-data-[phase=hold]:invisible motion-reduce:!visible"

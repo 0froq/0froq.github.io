@@ -34,8 +34,7 @@ function parseKind(value: string | undefined): InkKind | undefined {
 
 function liveInkOf(el: HTMLElement): InkKind | undefined {
   const fromData = parseKind(el.dataset.ink)
-  if (fromData)
-    return fromData
+  if (fromData) return fromData
   switch (el.tagName) {
     case 'MARK':
       return 'mark'
@@ -51,34 +50,27 @@ function hoverInkOf(el: HTMLElement): InkKind | undefined {
   return parseKind(el.dataset.hoverInk)
 }
 
-function inksOf(el: HTMLElement): { live?: InkKind, hover?: InkKind, kinds: InkKind[] } {
+function inksOf(el: HTMLElement): { live?: InkKind; hover?: InkKind; kinds: InkKind[] } {
   const live = liveInkOf(el)
   const hover = hoverInkOf(el)
-  if (hover && live && hover !== live)
-    return { live, hover, kinds: [hover, live] }
-  if (hover && !live)
-    return { hover, kinds: [hover] }
-  if (live)
-    return { live, hover, kinds: [live] }
+  if (hover && live && hover !== live) return { live, hover, kinds: [hover, live] }
+  if (hover && !live) return { hover, kinds: [hover] }
+  if (live) return { live, hover, kinds: [live] }
   return { kinds: [] }
 }
 
 function canPaint(el: HTMLElement): boolean {
-  if (!el.isConnected)
-    return false
+  if (!el.isConnected) return false
   if (el.tagName === 'A') {
     const href = el.getAttribute('href') || ''
-    if (href.startsWith('#') && el.closest('h1, h2, h3, h4, h5, h6'))
-      return false
-    if (!(el.textContent || '').trim())
-      return false
+    if (href.startsWith('#') && el.closest('h1, h2, h3, h4, h5, h6')) return false
+    if (!(el.textContent || '').trim()) return false
   }
   return true
 }
 
 function catmullCurves(pts: Array<[number, number]>): string {
-  if (pts.length < 2)
-    return ''
+  if (pts.length < 2) return ''
   if (pts.length === 2) {
     return `L${pts[1]![0].toFixed(2)} ${pts[1]![1].toFixed(2)}`
   }
@@ -99,14 +91,12 @@ function catmullCurves(pts: Array<[number, number]>): string {
 }
 
 function catmullRom(pts: Array<[number, number]>): string {
-  if (pts.length < 2)
-    return ''
+  if (pts.length < 2) return ''
   return `M${pts[0]![0].toFixed(2)} ${pts[0]![1].toFixed(2)}${catmullCurves(pts)}`
 }
 
 function catmullRomClosed(pts: Array<[number, number]>): string {
-  if (pts.length < 3)
-    return catmullRom(pts)
+  if (pts.length < 3) return catmullRom(pts)
   const n = pts.length
   let d = `M${pts[0]![0].toFixed(2)} ${pts[0]![1].toFixed(2)}`
   for (let i = 0; i < n; i++) {
@@ -217,12 +207,13 @@ function underlineScribble(
   ]
   const pts: Array<[number, number]> = []
 
-  const at = (u: number, yOff: number, phase: number): [number, number] => ([
+  const at = (u: number, yOff: number, phase: number): [number, number] => [
     x0 + (x1 - x0) * u,
-    y + yOff
-    + em * 0.018 * Math.sin(u * Math.PI * 2 + p1 + phase)
-    + em * 0.008 * Math.sin(u * Math.PI * 5 + p2),
-  ])
+    y +
+      yOff +
+      em * 0.018 * Math.sin(u * Math.PI * 2 + p1 + phase) +
+      em * 0.008 * Math.sin(u * Math.PI * 5 + p2),
+  ]
 
   for (let pass = 0; pass < 4; pass++) {
     const forward = pass % 2 === 0
@@ -256,8 +247,7 @@ function appendMaskedFill(
   width: number,
   lineCap: 'butt' | 'round' = 'butt',
 ): void {
-  if (!fillD || pts.length < 2)
-    return
+  if (!fillD || pts.length < 2) return
 
   const extra = width * 0.7
   const t0 = tangentAt(pts, 0)
@@ -313,21 +303,14 @@ function polylineLen(pts: Array<[number, number]>): number {
 }
 
 function penTaper(t: number, edge: number): number {
-  if (edge <= 0)
-    return 1
-  if (t < edge)
-    return (t / edge) ** 1.35
-  if (t > 1 - edge)
-    return ((1 - t) / edge) ** 1.35
+  if (edge <= 0) return 1
+  if (t < edge) return (t / edge) ** 1.35
+  if (t > 1 - edge) return ((1 - t) / edge) ** 1.35
   return 1
 }
 
-function variableRibbon(
-  pts: Array<[number, number]>,
-  widthAt: (t: number) => number,
-): string {
-  if (pts.length < 2)
-    return ''
+function variableRibbon(pts: Array<[number, number]>, widthAt: (t: number) => number): string {
+  if (pts.length < 2) return ''
   const last = pts.length - 1
   const top: Array<[number, number]> = []
   const bot: Array<[number, number]> = []
@@ -339,12 +322,7 @@ function variableRibbon(
     top.push([p[0] + nx * h, p[1] + ny * h])
     bot.push([p[0] - nx * h, p[1] - ny * h])
   }
-  return catmullRomClosed([
-    pts[0]!,
-    ...top.slice(1, -1),
-    pts[last]!,
-    ...bot.slice(1, -1).reverse(),
-  ])
+  return catmullRomClosed([pts[0]!, ...top.slice(1, -1), pts[last]!, ...bot.slice(1, -1).reverse()])
 }
 
 function circlePoints(
@@ -355,7 +333,7 @@ function circlePoints(
   seed: number,
 ): Array<[number, number]> {
   const rng = inkRng(seed)
-  const start = ((Math.imul(seed, 0x9E3779B1) >>> 0) / 4294967296) * Math.PI * 2
+  const start = ((Math.imul(seed, 0x9e3779b1) >>> 0) / 4294967296) * Math.PI * 2
   const sweep = Math.PI * 2 * (0.86 + rng() * 0.32)
   const p1 = rng() * Math.PI * 2
   const p2 = rng() * Math.PI * 2
@@ -365,10 +343,11 @@ function circlePoints(
   for (let i = 0; i <= n; i++) {
     const t = i / n
     const a = start + sweep * t
-    const wob = 1
-      + 0.045 * Math.sin(a * 2 + p1)
-      + 0.02 * Math.sin(a * 5 + p2)
-      + 0.028 * Math.sin(a * 1.37 + p3)
+    const wob =
+      1 +
+      0.045 * Math.sin(a * 2 + p1) +
+      0.02 * Math.sin(a * 5 + p2) +
+      0.028 * Math.sin(a * 1.37 + p3)
     pts.push([cx + Math.cos(a) * rx * wob, cy + Math.sin(a) * ry * wob])
   }
   return pts
@@ -386,16 +365,16 @@ function strokeOptions(seed: number, em: number): Options {
 }
 
 function ensureSvg(el: HTMLElement, kind: InkKind): SVGSVGElement {
-  const found = [...el.querySelectorAll<SVGSVGElement>(`:scope > .${SVG_CLASS}[data-kind="${kind}"]`)]
+  const found = [
+    ...el.querySelectorAll<SVGSVGElement>(`:scope > .${SVG_CLASS}[data-kind="${kind}"]`),
+  ]
   // An exiting stroke is about to be removed by its own wipe. Reusing it
   // lets that wipe delete the circle just drawn for the current entry.
   const svg = found.find(node => node.dataset.reveal !== 'exit')
   for (const extra of found) {
-    if (extra !== svg && extra.dataset.reveal !== 'exit')
-      extra.remove()
+    if (extra !== svg && extra.dataset.reveal !== 'exit') extra.remove()
   }
-  if (svg)
-    return svg
+  if (svg) return svg
   const next = document.createElementNS(NS, 'svg')
   next.setAttribute('class', SVG_CLASS)
   next.setAttribute('aria-hidden', 'true')
@@ -405,12 +384,10 @@ function ensureSvg(el: HTMLElement, kind: InkKind): SVGSVGElement {
 }
 
 function pruneSvgs(el: HTMLElement, keep: readonly InkKind[]) {
-  for (const svg of [...el.querySelectorAll<SVGSVGElement>(`:scope > .${SVG_CLASS}`)]) {
-    if (svg.dataset.reveal === 'exit' || svg.dataset.reveal === 'enter')
-      continue
+  for (const svg of el.querySelectorAll<SVGSVGElement>(`:scope > .${SVG_CLASS}`)) {
+    if (svg.dataset.reveal === 'exit' || svg.dataset.reveal === 'enter') continue
     const kind = parseKind(svg.dataset.kind)
-    if (!kind || !keep.includes(kind))
-      svg.remove()
+    if (!kind || !keep.includes(kind)) svg.remove()
   }
 }
 
@@ -420,11 +397,9 @@ function appendMarkStroke(
   width: number,
   animate: boolean,
 ): void {
-  if (pts.length < 2)
-    return
+  if (pts.length < 2) return
   const d = catmullRom(pts)
-  if (!d)
-    return
+  if (!d) return
   const path = document.createElementNS(NS, 'path')
   path.setAttribute('class', 'mark-ink')
   path.setAttribute('d', d)
@@ -441,30 +416,38 @@ function appendMarkStroke(
   svg.appendChild(path)
 }
 
-function mergeClientRects(rects: Iterable<{ x: number, y: number, w?: number, width?: number, h?: number, height?: number, left?: number, top?: number }>): LineBox[] {
+function mergeClientRects(
+  rects: Iterable<{
+    x: number
+    y: number
+    w?: number
+    width?: number
+    h?: number
+    height?: number
+    left?: number
+    top?: number
+  }>,
+): LineBox[] {
   const lines: LineBox[] = []
   for (const rect of rects) {
     const x = rect.w == null ? (rect.left ?? rect.x) : rect.x
     const y = rect.h == null ? (rect.top ?? rect.y) : rect.y
     const w = rect.w ?? rect.width ?? 0
     const h = rect.h ?? rect.height ?? 0
-    if (w < 2 || h < 2)
-      continue
+    if (w < 2 || h < 2) continue
     const same = lines.find(line => Math.abs(line.y - y) < 4)
     if (same) {
       const tall = Math.max(same.h, h)
       const short = Math.min(same.h, h)
       if (short > 0 && tall / short > 1.45) {
         lines.push({ x, y, w, h })
-      }
-      else {
+      } else {
         const right = Math.max(same.x + same.w, x + w)
         same.x = Math.min(same.x, x)
         same.w = right - same.x
         same.h = Math.max(same.h, h)
       }
-    }
-    else {
+    } else {
       lines.push({ x, y, w, h })
     }
   }
@@ -472,9 +455,7 @@ function mergeClientRects(rects: Iterable<{ x: number, y: number, w?: number, wi
 }
 
 function isRubyAnnotation(node: Node): boolean {
-  const el = node.nodeType === Node.ELEMENT_NODE
-    ? node as Element
-    : node.parentElement
+  const el = node.nodeType === Node.ELEMENT_NODE ? (node as Element) : node.parentElement
   return Boolean(el?.closest('rt, rp, rtc'))
 }
 
@@ -534,18 +515,15 @@ export function drawRoughInk(el: HTMLElement): void {
     const draw = el.dataset.inkDraw
     delete el.dataset.inkDraw
     paintRoughInk(el)
-    if (draw)
-      el.dataset.inkDraw = draw
+    if (draw) el.dataset.inkDraw = draw
     return
   }
 
   const { live, hover, kinds } = inksOf(el)
-  if (!kinds.length)
-    return
+  if (!kinds.length) return
 
   const host = el.getBoundingClientRect()
-  if (host.width < 2 || host.height < 2)
-    return
+  if (host.width < 2 || host.height < 2) return
 
   clearMorphTimers(el)
   const em = Number.parseFloat(getComputedStyle(el).fontSize) || 16
@@ -555,17 +533,15 @@ export function drawRoughInk(el: HTMLElement): void {
   const revealOf = (kind: InkKind) => (hover === kind && live !== kind ? 'hover' : 'live')
 
   for (const kind of kinds) {
-    if (revealOf(kind) === 'live')
-      playLiveEnter(el, kind, host, em, lines)
-    else
-      paintKind(el, kind, host, em, lines, revealOf(kind))
+    if (revealOf(kind) === 'live') playLiveEnter(el, kind, host, em, lines)
+    else paintKind(el, kind, host, em, lines, revealOf(kind))
   }
   el.dataset.inkSig = `v25:${boxW}x${boxH}:${lines.length}:${kinds.map(kind => `${kind}@${revealOf(kind)}`).join('+')}`
 }
 
 /** Wipe live strokes out, same dash path as SiteRailLink leaving current. */
 export function eraseRoughInk(el: HTMLElement): Promise<void> {
-  return new Promise((resolve) => {
+  return new Promise(resolve => {
     const svgs = [...el.querySelectorAll<SVGSVGElement>(`:scope > .${SVG_CLASS}`)]
     if (!svgs.length || prefersReducedInk()) {
       pruneSvgs(el, [])
@@ -576,11 +552,9 @@ export function eraseRoughInk(el: HTMLElement): Promise<void> {
 
     let settled = false
     const finish = () => {
-      if (settled)
-        return
+      if (settled) return
       settled = true
-      for (const svg of svgs)
-        svg.remove()
+      for (const svg of svgs) svg.remove()
       delete el.dataset.inkSig
       resolve()
     }
@@ -595,8 +569,7 @@ export function eraseRoughInk(el: HTMLElement): Promise<void> {
 }
 
 export function paintRoughInk(el: HTMLElement): void {
-  if (!canPaint(el))
-    return
+  if (!canPaint(el)) return
 
   const { live, hover, kinds } = inksOf(el)
   if (!kinds.length) {
@@ -618,11 +591,13 @@ export function paintRoughInk(el: HTMLElement): void {
   const boxH = Math.round(el.offsetHeight || host.height)
   const revealOf = (kind: InkKind) => (hover === kind && live !== kind ? 'hover' : 'live')
   const sig = `v25:${boxW}x${boxH}:${lines.length}:${kinds.map(kind => `${kind}@${revealOf(kind)}`).join('+')}`
-  if (el.dataset.inkSig === sig && kinds.every(kind => el.querySelector(`:scope > .${SVG_CLASS}[data-kind="${kind}"]`))) {
+  if (
+    el.dataset.inkSig === sig &&
+    kinds.every(kind => el.querySelector(`:scope > .${SVG_CLASS}[data-kind="${kind}"]`))
+  ) {
     for (const kind of kinds) {
       const svg = el.querySelector<SVGSVGElement>(`:scope > .${SVG_CLASS}[data-kind="${kind}"]`)
-      if (!svg || svg.dataset.reveal === 'enter' || svg.dataset.reveal === 'exit')
-        continue
+      if (!svg || svg.dataset.reveal === 'enter' || svg.dataset.reveal === 'exit') continue
       svg.dataset.reveal = revealOf(kind)
     }
     return
@@ -631,8 +606,7 @@ export function paintRoughInk(el: HTMLElement): void {
   pruneSvgs(el, kinds)
   for (const kind of kinds) {
     const svg = el.querySelector<SVGSVGElement>(`:scope > .${SVG_CLASS}[data-kind="${kind}"]`)
-    if (svg?.dataset.reveal === 'enter' || svg?.dataset.reveal === 'exit')
-      continue
+    if (svg?.dataset.reveal === 'enter' || svg?.dataset.reveal === 'exit') continue
     paintKind(el, kind, host, em, lines, revealOf(kind))
   }
   el.dataset.inkSig = sig
@@ -647,8 +621,7 @@ function trackTimer(el: HTMLElement, id: number) {
 }
 
 function clearMorphTimers(el: HTMLElement) {
-  for (const id of morphTimers.get(el) ?? [])
-    window.clearTimeout(id)
+  for (const id of morphTimers.get(el) ?? []) window.clearTimeout(id)
   morphTimers.set(el, [])
 }
 
@@ -679,10 +652,9 @@ export function morphRoughInk(el: HTMLElement): void {
   const revealOf = (kind: InkKind) => (hover === kind && live !== kind ? 'hover' : 'live')
   const keep = new Set(kinds)
 
-  for (const svg of [...el.querySelectorAll<SVGSVGElement>(`:scope > .${SVG_CLASS}`)]) {
+  for (const svg of el.querySelectorAll<SVGSVGElement>(`:scope > .${SVG_CLASS}`)) {
     const kind = parseKind(svg.dataset.kind)
-    if (kind && keep.has(kind))
-      continue
+    if (kind && keep.has(kind)) continue
     svg.dataset.reveal = 'exit'
     const drop = () => svg.remove()
     svg.querySelector('.ink-reveal')?.addEventListener('transitionend', drop, { once: true })
@@ -701,7 +673,9 @@ export function morphRoughInk(el: HTMLElement): void {
       const settle = () => {
         existed.dataset.reveal = 'live'
       }
-      existed.querySelector('.ink-reveal')?.addEventListener('transitionend', settle, { once: true })
+      existed
+        .querySelector('.ink-reveal')
+        ?.addEventListener('transitionend', settle, { once: true })
       trackTimer(el, window.setTimeout(settle, 800))
       continue
     }
@@ -715,8 +689,7 @@ export function morphRoughInk(el: HTMLElement): void {
       // Live strokes may lack .ink-reveal; rebuild visible then wipe to hover.
       paintKind(el, kind, host, em, lines, 'enter')
       const svg = el.querySelector<SVGSVGElement>(`:scope > .${SVG_CLASS}[data-kind="${kind}"]`)
-      if (!svg)
-        continue
+      if (!svg) continue
       svg.classList.add('ink-boot')
       requestAnimationFrame(() => {
         void svg.getBoundingClientRect()
@@ -758,13 +731,11 @@ function paintKind(
   let oy = 0
   const display = getComputedStyle(el).display
   if (
-    display === 'inline'
-    || (
-      display.startsWith('inline')
-      && display !== 'inline-block'
-      && display !== 'inline-flex'
-      && display !== 'inline-grid'
-    )
+    display === 'inline' ||
+    (display.startsWith('inline') &&
+      display !== 'inline-block' &&
+      display !== 'inline-flex' &&
+      display !== 'inline-grid')
   ) {
     const first = el.getClientRects()[0]
     if (first) {
@@ -816,14 +787,7 @@ function paintKind(
     }
     if (kind === 'mark' && boxes) {
       const width = Math.max(8, em * 0.52)
-      const pts = markerSwipe(
-        x,
-        inkMidY(y, line.h, boxes, 0.42),
-        line.w,
-        em,
-        seed,
-        italic,
-      )
+      const pts = markerSwipe(x, inkMidY(y, line.h, boxes, 0.42), line.w, em, seed, italic)
       appendMarkStroke(svg, pts, width, reveal !== 'live')
       return
     }
@@ -839,16 +803,11 @@ function paintKind(
       )
       return
     }
-    if (!rc)
-      return
+    if (!rc) return
     const over = em * 0.06
-    svg.appendChild(rc.line(
-      x - over,
-      y + em * 0.52,
-      x + line.w + over,
-      y + em * 0.52,
-      strokeOptions(seed, em),
-    ))
+    svg.appendChild(
+      rc.line(x - over, y + em * 0.52, x + line.w + over, y + em * 0.52, strokeOptions(seed, em)),
+    )
   })
   return svg
 }

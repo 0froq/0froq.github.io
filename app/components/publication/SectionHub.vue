@@ -32,7 +32,17 @@ const { data: entries } = await useAsyncData(
   () => `publication-section:${props.section}`,
   async () => {
     const all = await queryCollection('publication')
-      .select('path', 'title', 'created', 'last_modified', 'status', 'locale', 'description', 'kind', 'body')
+      .select(
+        'path',
+        'title',
+        'created',
+        'last_modified',
+        'status',
+        'locale',
+        'description',
+        'kind',
+        'body',
+      )
       .order('created', 'DESC')
       .all()
     return all
@@ -44,13 +54,13 @@ const { data: entries } = await useAsyncData(
 const visibleEntries = computed(() => entries.value ?? [])
 
 useSeoMeta({
-  title: () => isArticle.value ? undefined : (definition.value?.label ?? SITE_NAME),
-  ogTitle: () => isArticle.value ? undefined : (definition.value?.label ?? SITE_NAME),
-  twitterTitle: () => isArticle.value ? undefined : (definition.value?.label ?? SITE_NAME),
-  description: () => isArticle.value ? undefined : definition.value?.note,
-  ogDescription: () => isArticle.value ? undefined : definition.value?.note,
-  twitterDescription: () => isArticle.value ? undefined : definition.value?.note,
-  ogType: () => isArticle.value ? undefined : 'website',
+  title: () => (isArticle.value ? undefined : (definition.value?.label ?? SITE_NAME)),
+  ogTitle: () => (isArticle.value ? undefined : (definition.value?.label ?? SITE_NAME)),
+  twitterTitle: () => (isArticle.value ? undefined : (definition.value?.label ?? SITE_NAME)),
+  description: () => (isArticle.value ? undefined : definition.value?.note),
+  ogDescription: () => (isArticle.value ? undefined : definition.value?.note),
+  twitterDescription: () => (isArticle.value ? undefined : definition.value?.note),
+  ogType: () => (isArticle.value ? undefined : 'website'),
 })
 
 onBeforeUnmount(releaseIssueSheetChrome)

@@ -28,12 +28,10 @@ function asString(value: unknown): string | undefined {
 }
 
 function parseProcess(raw: unknown): ActivityProcess | null {
-  if (!raw || typeof raw !== 'object')
-    return null
+  if (!raw || typeof raw !== 'object') return null
   const row = raw as Record<string, unknown>
   const name = asString(row.name)
-  if (!name)
-    return null
+  if (!name) return null
   return {
     name,
     windowTitle: asString(row.windowTitle) ?? '',
@@ -42,13 +40,11 @@ function parseProcess(raw: unknown): ActivityProcess | null {
 }
 
 function parseMedia(raw: unknown): ActivityMedia | null {
-  if (!raw || typeof raw !== 'object')
-    return null
+  if (!raw || typeof raw !== 'object') return null
   const row = raw as Record<string, unknown>
   const coverImg = asString(row.coverImg)
   const title = asString(row.title)
-  if (!coverImg || !title)
-    return null
+  if (!coverImg || !title) return null
   return {
     coverImg,
     title,
@@ -60,8 +56,7 @@ function parseMedia(raw: unknown): ActivityMedia | null {
 }
 
 export function parseActivity(raw: unknown): Activity {
-  if (!raw || typeof raw !== 'object')
-    return { active: false }
+  if (!raw || typeof raw !== 'object') return { active: false }
   const row = raw as Record<string, unknown>
   return {
     active: row.active === true,
@@ -73,10 +68,8 @@ export function parseActivity(raw: unknown): Activity {
 }
 
 export function activityIsSleeping(activity: Activity, now = Date.now()): boolean {
-  if (!activity.timestamp)
-    return true
+  if (!activity.timestamp) return true
   const stamp = new Date(activity.timestamp).getTime()
-  if (Number.isNaN(stamp))
-    return true
+  if (Number.isNaN(stamp)) return true
   return now - stamp > ACTIVITY_STALE_MS
 }

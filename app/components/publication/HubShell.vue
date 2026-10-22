@@ -1,12 +1,15 @@
 <script setup lang="ts">
-withDefaults(defineProps<{
-  title?: string
-  axis?: 'list' | 'wheel'
-  fan?: boolean
-}>(), {
-  axis: 'list',
-  fan: false,
-})
+withDefaults(
+  defineProps<{
+    title?: string
+    axis?: 'list' | 'wheel'
+    fan?: boolean
+  }>(),
+  {
+    axis: 'list',
+    fan: false,
+  },
+)
 
 providePublicationPeek()
 </script>
@@ -47,9 +50,11 @@ providePublicationPeek()
     >
       <div
         class="hub-shell__axis"
-        :class="axis === 'list'
-          ? 'lg:max-w-176'
-          : 'lg:flex-none lg:w-max lg:max-w-[calc(100%-24rem-1rem)] lg:shrink-0'"
+        :class="
+          axis === 'list'
+            ? 'lg:max-w-176'
+            : 'lg:flex-none lg:w-max lg:max-w-[calc(100%-24rem-1rem)] lg:shrink-0'
+        "
         un-relative
         un-min-h-0
         un-min-w-0

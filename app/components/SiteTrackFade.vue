@@ -1,7 +1,10 @@
 <script setup lang="ts">
-withDefaults(defineProps<{
-  edge: 'top' | 'bottom'
-}>(), {})
+withDefaults(
+  defineProps<{
+    edge: 'top' | 'bottom'
+  }>(),
+  {},
+)
 </script>
 
 <template>

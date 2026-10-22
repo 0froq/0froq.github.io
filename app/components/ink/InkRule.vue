@@ -1,14 +1,17 @@
 <script setup lang="ts">
 import { inkRulePath } from '~/utils/inkDraw'
 
-const props = withDefaults(defineProps<{
-  seed: string
-  width?: number
-  pad?: number
-}>(), {
-  width: 120,
-  pad: 4,
-})
+const props = withDefaults(
+  defineProps<{
+    seed: string
+    width?: number
+    pad?: number
+  }>(),
+  {
+    width: 120,
+    pad: 4,
+  },
+)
 
 const d = computed(() => inkRulePath(props.seed, props.width, props.pad))
 </script>

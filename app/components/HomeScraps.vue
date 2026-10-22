@@ -1,9 +1,12 @@
 <script setup lang="ts">
-const props = withDefaults(defineProps<{
-  chromeHeight?: number
-}>(), {
-  chromeHeight: 0,
-})
+const props = withDefaults(
+  defineProps<{
+    chromeHeight?: number
+  }>(),
+  {
+    chromeHeight: 0,
+  },
+)
 
 const { scraps, reactions, onReact } = useScrapsBoard()
 </script>

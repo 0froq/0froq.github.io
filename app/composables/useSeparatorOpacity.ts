@@ -22,8 +22,7 @@ export function useSeparatorOpacity(options: UseSeparatorOpacityOptions = {}) {
   function setRowRef(index: number, el: HTMLElement | null) {
     if (el) {
       rowMap.set(index, el)
-    }
-    else {
+    } else {
       rowMap.delete(index)
       opacities.delete(index)
     }
@@ -34,29 +33,24 @@ export function useSeparatorOpacity(options: UseSeparatorOpacityOptions = {}) {
   }
 
   function influence(el: HTMLElement) {
-    if (!pointerActive.value)
-      return minOpacity
+    if (!pointerActive.value) return minOpacity
     const rect = el.getBoundingClientRect()
-    const withinX
-      = pointerX.value >= rect.left - horizontalPadding
-        && pointerX.value <= rect.right + horizontalPadding
-    if (!withinX)
-      return minOpacity
+    const withinX =
+      pointerX.value >= rect.left - horizontalPadding &&
+      pointerX.value <= rect.right + horizontalPadding
+    if (!withinX) return minOpacity
     const dy = pointerY.value - (rect.top + rect.height / 2)
     const g = Math.exp(-(dy * dy) / (2 * sigma * sigma))
     return minOpacity + (maxOpacity - minOpacity) * g
   }
 
   function update() {
-    for (const [index, el] of rowMap)
-      opacities.set(index, influence(el))
+    for (const [index, el] of rowMap) opacities.set(index, influence(el))
   }
 
   function refresh() {
-    if (import.meta.server)
-      return
-    if (raf)
-      cancelAnimationFrame(raf)
+    if (import.meta.server) return
+    if (raf) cancelAnimationFrame(raf)
     raf = requestAnimationFrame(() => {
       raf = 0
       update()
@@ -91,8 +85,7 @@ export function useSeparatorOpacity(options: UseSeparatorOpacityOptions = {}) {
     window.removeEventListener('pointerleave', onLeave)
     window.removeEventListener('scroll', refresh, { capture: true })
     window.removeEventListener('resize', refresh)
-    if (raf)
-      cancelAnimationFrame(raf)
+    if (raf) cancelAnimationFrame(raf)
     rowMap.clear()
     opacities.clear()
   })

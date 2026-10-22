@@ -2,14 +2,17 @@
 import type { Scrap, ScrapReactionState } from '~/utils/scraps'
 import { SCRAP_REACTION_EMOJIS, SCRAP_REACTION_ICONS, SCRAP_REACTION_LABELS } from '~/utils/scraps'
 
-const props = withDefaults(defineProps<{
-  scrap: Scrap
-  reactions?: ScrapReactionState
-  /** Full palette (context menu). Off: only emojis that already have counts. */
-  picker?: boolean
-}>(), {
-  picker: true,
-})
+const props = withDefaults(
+  defineProps<{
+    scrap: Scrap
+    reactions?: ScrapReactionState
+    /** Full palette (context menu). Off: only emojis that already have counts. */
+    picker?: boolean
+  }>(),
+  {
+    picker: true,
+  },
+)
 
 const emit = defineEmits<{
   react: [emoji: string]
@@ -28,17 +31,13 @@ const emojis = computed(() => {
   if (props.picker) {
     const set = new Set<string>(SCRAP_REACTION_EMOJIS)
     for (const key of Object.keys(counts.value)) {
-      if (isReactionEmoji(key))
-        set.add(key)
+      if (isReactionEmoji(key)) set.add(key)
     }
     return [...set]
   }
-  const order = new Map<string, number>(
-    SCRAP_REACTION_EMOJIS.map((emoji, i) => [emoji, i]),
-  )
+  const order = new Map<string, number>(SCRAP_REACTION_EMOJIS.map((emoji, i) => [emoji, i]))
   return Object.entries(counts.value)
-    .filter((entry): entry is [ReactionEmoji, number] =>
-      entry[1] > 0 && isReactionEmoji(entry[0]))
+    .filter((entry): entry is [ReactionEmoji, number] => entry[1] > 0 && isReactionEmoji(entry[0]))
     .sort((a, b) => (order.get(a[0]) ?? 99) - (order.get(b[0]) ?? 99))
     .map(([emoji]) => emoji)
 })
@@ -98,7 +97,8 @@ function label(emoji: string) {
         un-text-xs
         un-tabular-nums
         un-leading-none
-      >{{ counts[emoji] }}</span>
+        >{{ counts[emoji] }}</span
+      >
     </button>
   </div>
 </template>

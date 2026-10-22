@@ -15,10 +15,9 @@ const fanDay = computed(() => {
 const dayIsLog = new Map<string, boolean>()
 watch(
   () => deck?.activeEntry.value ?? null,
-  (entry) => {
+  entry => {
     const day = entry?.created ? journalDayKey(entry.created) : null
-    if (!day || !entry)
-      return
+    if (!day || !entry) return
     dayIsLog.set(day, journalEntryKind(entry) === 'log')
   },
   { immediate: true },
@@ -29,19 +28,15 @@ const rowMap = new Map<string, HTMLElement>()
 const ringMap = new Map<string, HTMLElement>()
 
 function bindRow(id: string, el: unknown) {
-  if (el instanceof HTMLElement)
-    rowMap.set(id, el)
-  else
-    rowMap.delete(id)
+  if (el instanceof HTMLElement) rowMap.set(id, el)
+  else rowMap.delete(id)
 }
 
 function bindRing(day: string, el: unknown) {
   if (el instanceof HTMLElement) {
     ringMap.set(day, el)
-    if (ringIsCurrent(day))
-      nextTick(() => paintRing(day))
-  }
-  else {
+    if (ringIsCurrent(day)) nextTick(() => paintRing(day))
+  } else {
     ringMap.delete(day)
   }
 }
@@ -57,14 +52,12 @@ const centerRow = computed(() => rows.value.find(row => row.id === centerId.valu
 const currentYear = computed(() => centerRow.value?.year ?? null)
 const yearDigits = computed(() => {
   const year = currentYear.value
-  if (year == null)
-    return []
+  if (year == null) return []
   return String(year).padStart(4, '0').split('')
 })
 const yearRoll = ref<'fwd' | 'back'>('fwd')
 watch(currentYear, (now, prev) => {
-  if (now == null || prev == null || now === prev)
-    return
+  if (now == null || prev == null || now === prev) return
   yearRoll.value = now > prev ? 'back' : 'fwd'
 })
 
@@ -78,29 +71,26 @@ const LIVE_SPAN = 8
 const heldPin = computed(() => {
   const pin = pinned.value
   const path = pin?.entry?.path
-  if (!path)
-    return null
-  if (deck?.focusPath.value === path || deck?.activeEntry.value?.path === path)
-    return pin
+  if (!path) return null
+  if (deck?.focusPath.value === path || deck?.activeEntry.value?.path === path) return pin
   return null
 })
 
 const liveMonths = computed(() => {
   const list = rows.value
   const ids = new Set<string>()
-  if (!list.length)
-    return ids
+  if (!list.length) return ids
   const anchor = centerId.value ?? landingId() ?? list[0]!.id
-  const index = Math.max(0, list.findIndex(row => row.id === anchor))
+  const index = Math.max(
+    0,
+    list.findIndex(row => row.id === anchor),
+  )
   const from = Math.max(0, index - LIVE_SPAN)
   const to = Math.min(list.length - 1, index + LIVE_SPAN)
-  for (let i = from; i <= to; i++)
-    ids.add(list[i]!.id)
+  for (let i = from; i <= to; i++) ids.add(list[i]!.id)
   const pinnedRow = heldPin.value?.rowId
-  if (pinnedRow)
-    ids.add(pinnedRow)
-  for (const cell of leaving.value)
-    ids.add(cell.rowId)
+  if (pinnedRow) ids.add(pinnedRow)
+  for (const cell of leaving.value) ids.add(cell.rowId)
   return ids
 })
 
@@ -109,21 +99,18 @@ function ringIsCurrent(day: string) {
 }
 
 function hasLiveRing(ring: HTMLElement) {
-  return [...ring.querySelectorAll<SVGSVGElement>(':scope > .rough-ink')].some(svg =>
-    svg.dataset.reveal !== 'exit' || svg.classList.contains('ink-boot'),
+  return [...ring.querySelectorAll<SVGSVGElement>(':scope > .rough-ink')].some(
+    svg => svg.dataset.reveal !== 'exit' || svg.classList.contains('ink-boot'),
   )
 }
 
 function paintRing(day: string, retry = true) {
-  if (!ringIsCurrent(day))
-    return
+  if (!ringIsCurrent(day)) return
   const ring = ringMap.get(day)
-  if (!ring || hasLiveRing(ring))
-    return
+  if (!ring || hasLiveRing(ring)) return
   const box = ring.getBoundingClientRect()
   if (box.width < 2 || box.height < 2) {
-    if (retry)
-      requestAnimationFrame(() => paintRing(day, false))
+    if (retry) requestAnimationFrame(() => paintRing(day, false))
     return
   }
   drawRoughInk(ring)
@@ -134,10 +121,12 @@ function pinId(cell: JournalWheelCell | null) {
 }
 
 function showsRing(day: string) {
-  return heldPin.value?.key === day
-    || fadingDay.value === day
-    || leaving.value.some(cell => cell.key === day)
-    || fanDay.value === day
+  return (
+    heldPin.value?.key === day ||
+    fadingDay.value === day ||
+    leaving.value.some(cell => cell.key === day) ||
+    fanDay.value === day
+  )
 }
 
 function ringIsLog(day: string) {
@@ -146,16 +135,14 @@ function ringIsLog(day: string) {
     return !!entry && journalEntryKind(entry) === 'log'
   }
   const pin = heldPin.value
-  if (pin?.key === day)
-    return pin.kind === 'log'
+  if (pin?.key === day) return pin.kind === 'log'
   if (fadingDay.value === day || leaving.value.some(cell => cell.key === day))
     return dayIsLog.get(day) ?? false
   return false
 }
 
 function isPinnedEntry(entry: LayerEntry) {
-  return heldPin.value?.entry?.path === entry.path
-    || deck?.activeEntry.value?.path === entry.path
+  return heldPin.value?.entry?.path === entry.path || deck?.activeEntry.value?.path === entry.path
 }
 
 function cellFillClass(kind: JournalKind, entry: LayerEntry) {
@@ -189,15 +176,13 @@ let splitHover: HTMLElement | null = null
 let hoverPath = ''
 
 function onEnter(entry: LayerEntry) {
-  if (hoverPath === entry.path)
-    return
+  if (hoverPath === entry.path) return
   hoverPath = entry.path
   peek.hover(entry)
 }
 
 function clearSplitHover() {
-  if (!splitHover)
-    return
+  if (!splitHover) return
   delete splitHover.dataset.hover
   splitHover = null
 }
@@ -218,8 +203,7 @@ function dropLeaving(day: string) {
 }
 
 function pin(cell: JournalWheelCell, entry: LayerEntry) {
-  if (pinId(pinned.value) === entry.path)
-    return
+  if (pinId(pinned.value) === entry.path) return
   const prev = pinned.value
   const next: JournalWheelCell = {
     ...cell,
@@ -230,47 +214,36 @@ function pin(cell: JournalWheelCell, entry: LayerEntry) {
     leaving.value = [...leaving.value.filter(item => item.key !== prev.key), prev]
   pinned.value = next
   deck?.focusEntry(entry)
-  if (cell.rowId !== centerId.value)
-    scrollIdIntoCenter(cell.rowId)
-  else
-    nextTick(() => paintRing(cell.key))
+  if (cell.rowId !== centerId.value) scrollIdIntoCenter(cell.rowId)
+  else nextTick(() => paintRing(cell.key))
 }
 
 function closePin() {
   const prev = pinned.value
-  if (!prev)
-    return
+  if (!prev) return
   pinned.value = null
-  if (fanDay.value === prev.key)
-    return
-  const wiping = fadingDay.value === prev.key
-    || leaving.value.some(cell => cell.key === prev.key)
-  if (!wiping)
-    return
+  if (fanDay.value === prev.key) return
+  const wiping = fadingDay.value === prev.key || leaving.value.some(cell => cell.key === prev.key)
+  if (!wiping) return
   leaving.value = [...leaving.value.filter(item => item.key !== prev.key), prev]
   const ring = ringMap.get(prev.key)
   const done = () => dropLeaving(prev.key)
-  if (ring)
-    void eraseRoughInk(ring).then(done)
-  else
-    window.setTimeout(done, 150)
+  if (ring) void eraseRoughInk(ring).then(done)
+  else window.setTimeout(done, 150)
 }
 
 function onCell(cell: JournalWheelCell, entry: LayerEntry, event: MouseEvent) {
   const result = peek.activate(entry, event)
-  if (result === 'open' || result === 'pass')
-    return
+  if (result === 'open' || result === 'pass') return
   void pin(cell, entry)
 }
 
 function splitEntry(cell: JournalWheelCell, event: MouseEvent) {
   const log = cell.log
   const journal = cell.journal
-  if (!log || !journal)
-    return cell.entry
+  if (!log || !journal) return cell.entry
   const root = event.currentTarget
-  if (!(root instanceof HTMLElement))
-    return log
+  if (!(root instanceof HTMLElement)) return log
   const rect = root.getBoundingClientRect()
   const x = (event.clientX - rect.left) / Math.max(rect.width, 1)
   const y = (event.clientY - rect.top) / Math.max(rect.height, 1)
@@ -279,23 +252,19 @@ function splitEntry(cell: JournalWheelCell, event: MouseEvent) {
 
 function onSplitCell(cell: JournalWheelCell, event: MouseEvent) {
   const entry = splitEntry(cell, event)
-  if (!entry)
-    return
+  if (!entry) return
   onCell(cell, entry, event)
 }
 
 function onSplitMove(cell: JournalWheelCell, event: MouseEvent) {
   const entry = splitEntry(cell, event)
-  if (!entry)
-    return
+  if (!entry) return
   const root = event.currentTarget
   if (root instanceof HTMLElement) {
     const kind = journalEntryKind(entry)
-    if (splitHover && splitHover !== root)
-      delete splitHover.dataset.hover
+    if (splitHover && splitHover !== root) delete splitHover.dataset.hover
     splitHover = root
-    if (root.dataset.hover !== kind)
-      root.dataset.hover = kind
+    if (root.dataset.hover !== kind) root.dataset.hover = kind
   }
   onEnter(entry)
 }
@@ -309,15 +278,13 @@ function wellMid(root: HTMLElement) {
 
 function measure() {
   const root = scroller.value
-  if (!root)
-    return
+  if (!root) return
   const mid = wellMid(root)
   let bestId: string | null = null
   let bestDist = Infinity
   for (const row of rows.value) {
     const el = rowMap.get(row.id)
-    if (!el)
-      continue
+    if (!el) continue
     const rect = el.getBoundingClientRect()
     const cy = rect.top + rect.height / 2
     const dist = Math.abs(cy - mid)
@@ -326,7 +293,10 @@ function measure() {
     for (let weekIndex = 0; weekIndex < row.gridRows; weekIndex++) {
       const weekCenter = rect.top + (row.gridRows - weekIndex - 0.5) * weekHeight
       const weekDist = Math.abs(weekCenter - mid)
-      weekOpacity[`${row.id}:${weekIndex}`] = Math.max(0.12, 1 - weekDist / (root.clientHeight * 0.55))
+      weekOpacity[`${row.id}:${weekIndex}`] = Math.max(
+        0.12,
+        1 - weekDist / (root.clientHeight * 0.55),
+      )
     }
     if (dist < bestDist) {
       bestDist = dist
@@ -337,13 +307,13 @@ function measure() {
 }
 
 let glowCells = new Set<HTMLElement>()
-let pointer: { x: number, y: number } | null = null
+let pointer: { x: number; y: number } | null = null
 let glowFrame = 0
 let glowLayoutDirty = true
 const glowGrids: {
   el: HTMLElement
   radius: number
-  cells: { el: HTMLElement, dx: number, dy: number }[]
+  cells: { el: HTMLElement; dx: number; dy: number }[]
 }[] = []
 
 function invalidateGlowLayout() {
@@ -351,24 +321,20 @@ function invalidateGlowLayout() {
 }
 
 function ensureGlowLayout() {
-  if (!glowLayoutDirty)
-    return
+  if (!glowLayoutDirty) return
   glowLayoutDirty = false
   glowGrids.length = 0
   const root = scroller.value
-  if (!root)
-    return
+  if (!root) return
   for (const grid of root.querySelectorAll<HTMLElement>('.journal-wheel__grid')) {
     const cells = grid.querySelectorAll<HTMLElement>(':scope > .journal-wheel__cell')
     const first = cells[0]
-    if (!first)
-      continue
+    if (!first) continue
     const gridRect = grid.getBoundingClientRect()
     const cellRect = first.getBoundingClientRect()
-    const packed: { el: HTMLElement, dx: number, dy: number }[] = []
+    const packed: { el: HTMLElement; dx: number; dy: number }[] = []
     for (const cell of cells) {
-      if (cell.classList.contains('is-future'))
-        continue
+      if (cell.classList.contains('is-future')) continue
       const rect = cell.getBoundingClientRect()
       packed.push({
         el: cell,
@@ -385,27 +351,24 @@ function ensureGlowLayout() {
 }
 
 function clearPointerGlow() {
-  if (glowFrame)
-    cancelAnimationFrame(glowFrame)
-  for (const cell of glowCells)
-    cell.style.removeProperty('--pointer-opacity')
+  if (glowFrame) cancelAnimationFrame(glowFrame)
+  for (const cell of glowCells) cell.style.removeProperty('--pointer-opacity')
   glowCells = new Set()
   pointer = null
   glowFrame = 0
 }
 
 function updatePointerGlow() {
-  if (!pointer)
-    return
+  if (!pointer) return
   ensureGlowLayout()
   const nextCells = new Set<HTMLElement>()
   for (const grid of glowGrids) {
     const gridRect = grid.el.getBoundingClientRect()
     if (
-      pointer.x < gridRect.left - grid.radius
-      || pointer.x > gridRect.right + grid.radius
-      || pointer.y < gridRect.top - grid.radius
-      || pointer.y > gridRect.bottom + grid.radius
+      pointer.x < gridRect.left - grid.radius ||
+      pointer.x > gridRect.right + grid.radius ||
+      pointer.y < gridRect.top - grid.radius ||
+      pointer.y > gridRect.bottom + grid.radius
     ) {
       continue
     }
@@ -415,22 +378,19 @@ function updatePointerGlow() {
         pointer.y - (gridRect.top + cell.dy),
       )
       const opacity = Math.max(0, 1 - distance / grid.radius) ** 1.2
-      if (opacity < 0.03)
-        continue
+      if (opacity < 0.03) continue
       nextCells.add(cell.el)
       cell.el.style.setProperty('--pointer-opacity', String(opacity))
     }
   }
   for (const cell of glowCells) {
-    if (!nextCells.has(cell))
-      cell.style.removeProperty('--pointer-opacity')
+    if (!nextCells.has(cell)) cell.style.removeProperty('--pointer-opacity')
   }
   glowCells = nextCells
 }
 
 function schedulePointerGlow() {
-  if (glowFrame)
-    return
+  if (glowFrame) return
   glowFrame = requestAnimationFrame(() => {
     glowFrame = 0
     updatePointerGlow()
@@ -449,14 +409,12 @@ let gestureTimer: ReturnType<typeof setTimeout> | undefined
 
 function onScroll() {
   gestureMonth ??= centerId.value
-  if (primed)
-    pulse()
+  if (primed) pulse()
   measure()
   // A click can nudge this scroller without leaving the month. Rebuilding the
   // fan is for a month change, not for every scroll event.
   const monthChanged = centerId.value !== gestureMonth
-  if (monthChanged || deck?.moving.value)
-    deck?.bump()
+  if (monthChanged || deck?.moving.value) deck?.bump()
   clearTimeout(gestureTimer)
   gestureTimer = setTimeout(() => {
     gestureMonth = null
@@ -464,49 +422,49 @@ function onScroll() {
   schedulePointerGlow()
 }
 
-watch(centerId, (id) => {
+watch(centerId, id => {
   deck?.setCenter(id)
 })
 
 watch(fanDay, (day, prev) => {
-  if (prev && prev !== day)
-    fadingDay.value = prev
+  if (prev && prev !== day) fadingDay.value = prev
 })
 
-watch(fanDay, async (day, prev) => {
-  await nextTick()
-  if (prev && prev !== day && !ringIsCurrent(prev)) {
-    const old = ringMap.get(prev)
-    const finish = () => {
-      if (fadingDay.value === prev)
-        fadingDay.value = null
-      dropLeaving(prev)
-      if (ringIsCurrent(prev))
-        paintRing(prev)
+watch(
+  fanDay,
+  async (day, prev) => {
+    await nextTick()
+    if (prev && prev !== day && !ringIsCurrent(prev)) {
+      const old = ringMap.get(prev)
+      const finish = () => {
+        if (fadingDay.value === prev) fadingDay.value = null
+        dropLeaving(prev)
+        if (ringIsCurrent(prev)) paintRing(prev)
+      }
+      if (old) void eraseRoughInk(old).then(finish)
+      else finish()
     }
-    if (old)
-      void eraseRoughInk(old).then(finish)
-    else
-      finish()
-  }
-  if (day)
-    paintRing(day)
-}, { flush: 'post' })
+    if (day) paintRing(day)
+  },
+  { flush: 'post' },
+)
 
 function scrollIdIntoCenter(id: string) {
   const root = scroller.value
   const el = rowMap.get(id)
-  if (!root || !el)
-    return
-  const delta = (el.getBoundingClientRect().top + el.getBoundingClientRect().height / 2) - wellMid(root)
+  if (!root || !el) return
+  const delta =
+    el.getBoundingClientRect().top + el.getBoundingClientRect().height / 2 - wellMid(root)
   root.scrollTo({ top: root.scrollTop + delta, behavior: 'smooth' })
 }
 
 function landingId() {
-  return rows.value.find(row => row.cells.some(cell => cell.today))?.id
-    ?? rows.value.find(row => row.cells.some(cell => cell.entry))?.id
-    ?? rows.value[0]?.id
-    ?? null
+  return (
+    rows.value.find(row => row.cells.some(cell => cell.today))?.id ??
+    rows.value.find(row => row.cells.some(cell => cell.entry))?.id ??
+    rows.value[0]?.id ??
+    null
+  )
 }
 
 function onKey(event: KeyboardEvent) {
@@ -514,17 +472,14 @@ function onKey(event: KeyboardEvent) {
     dismissPeek()
     return
   }
-  if (event.key !== 'ArrowDown' && event.key !== 'ArrowUp')
-    return
+  if (event.key !== 'ArrowDown' && event.key !== 'ArrowUp') return
   const list = rows.value
-  if (!list.length)
-    return
+  if (!list.length) return
   event.preventDefault()
   const current = centerId.value ?? list[0]!.id
   const index = list.findIndex(row => row.id === current)
-  const next = event.key === 'ArrowDown'
-    ? Math.min(list.length - 1, index + 1)
-    : Math.max(0, index - 1)
+  const next =
+    event.key === 'ArrowDown' ? Math.min(list.length - 1, index + 1) : Math.max(0, index - 1)
   scrollIdIntoCenter(list[next]!.id)
 }
 
@@ -548,8 +503,7 @@ onMounted(() => {
   nextTick(() => {
     measure()
     const id = landingId()
-    if (id)
-      scrollIdIntoCenter(id)
+    if (id) scrollIdIntoCenter(id)
     requestAnimationFrame(() => {
       primed = true
     })
@@ -565,8 +519,7 @@ onUnmounted(() => {
   scroller.value?.removeEventListener('scroll', onScroll)
   clearPointerGlow()
   window.removeEventListener('resize', onWinResize)
-  if (glowFrame)
-    cancelAnimationFrame(glowFrame)
+  if (glowFrame) cancelAnimationFrame(glowFrame)
 })
 
 watch(rows, () => {
@@ -574,19 +527,24 @@ watch(rows, () => {
   nextTick(() => {
     measure()
     const id = landingId()
-    if (id)
-      scrollIdIntoCenter(id)
+    if (id) scrollIdIntoCenter(id)
   })
 })
 
-watch(liveMonths, () => {
-  invalidateGlowLayout()
-}, { flush: 'post' })
+watch(
+  liveMonths,
+  () => {
+    invalidateGlowLayout()
+  },
+  { flush: 'post' },
+)
 
-watch(() => peek.pinned.value, (entry) => {
-  if (!entry)
-    closePin()
-})
+watch(
+  () => peek.pinned.value,
+  entry => {
+    if (!entry) closePin()
+  },
+)
 </script>
 
 <template>
@@ -649,7 +607,8 @@ watch(() => peek.pinned.value, (entry) => {
               un-text-center
               un-w="[1ch]"
               un-leading-none
-            >{{ digit }}</span>
+              >{{ digit }}</span
+            >
           </Transition>
         </span>
       </span>
@@ -678,7 +637,7 @@ watch(() => peek.pinned.value, (entry) => {
           v-for="row in rows"
           :id="`journal-month-${row.id}`"
           :key="row.id"
-          :ref="(el) => bindRow(row.id, el)"
+          :ref="el => bindRow(row.id, el)"
           class="journal-wheel__row"
           un-relative
           un-flex
@@ -710,7 +669,8 @@ watch(() => peek.pinned.value, (entry) => {
             un-tabular-nums
             un-tracking-0
             un-w="[3ch]"
-          >{{ row.label }}</span>
+            >{{ row.label }}</span
+          >
           <div
             class="journal-wheel__grid"
             un-relative
@@ -761,7 +721,7 @@ watch(() => peek.pinned.value, (entry) => {
                   />
                   <span
                     v-if="showsRing(cell.key)"
-                    :ref="(el) => bindRing(cell.key, el)"
+                    :ref="el => bindRing(cell.key, el)"
                     class="journal-wheel__ring"
                     :class="{ 'is-log': ringIsLog(cell.key) }"
                     data-ink="circle"
@@ -775,10 +735,7 @@ watch(() => peek.pinned.value, (entry) => {
                 <a
                   v-else-if="cell.entry && cell.kind && cell.kind !== 'split'"
                   class="journal-wheel__cell is-entry"
-                  :class="[
-                    ...cellFillClass(cell.kind, cell.entry),
-                    cellMark(cell),
-                  ]"
+                  :class="[...cellFillClass(cell.kind, cell.entry), cellMark(cell)]"
                   :style="cellStyle(cell, row)"
                   :href="cell.entry.path"
                   :aria-label="cell.entry.title"
@@ -796,7 +753,7 @@ watch(() => peek.pinned.value, (entry) => {
                   />
                   <span
                     v-if="showsRing(cell.key)"
-                    :ref="(el) => bindRing(cell.key, el)"
+                    :ref="el => bindRing(cell.key, el)"
                     class="journal-wheel__ring"
                     :class="{ 'is-log': ringIsLog(cell.key) }"
                     data-ink="circle"
@@ -963,7 +920,10 @@ watch(() => peek.pinned.value, (entry) => {
   outline: none;
   font-size: var(--wheel-cell);
   color: var(--ink);
-  opacity: max(calc(var(--scroll-opacity) * var(--cell-tone, 1)), calc(var(--pointer-opacity, 0) * 0.78));
+  opacity: max(
+    calc(var(--scroll-opacity) * var(--cell-tone, 1)),
+    calc(var(--pointer-opacity, 0) * 0.78)
+  );
 }
 
 .journal-wheel__cell :deep(.ink-wobble-stroke) {
@@ -1000,7 +960,7 @@ watch(() => peek.pinned.value, (entry) => {
 }
 
 .journal-wheel__cell.is-empty.is-today {
-  --cell-tone: 0.80;
+  --cell-tone: 0.8;
   background-color: transparent;
 }
 
@@ -1053,7 +1013,8 @@ watch(() => peek.pinned.value, (entry) => {
 
 .journal-wheel__cell.is-split:has(.wheel-tri--journal.is-pinned) :deep(.ink-wobble-fill--journal),
 .journal-wheel__cell.is-split[data-hover='journal'] :deep(.ink-wobble-fill--journal),
-.journal-wheel__cell.is-split:has(.wheel-tri--journal:focus-visible) :deep(.ink-wobble-fill--journal) {
+.journal-wheel__cell.is-split:has(.wheel-tri--journal:focus-visible)
+  :deep(.ink-wobble-fill--journal) {
   fill-opacity: 0.72;
 }
 

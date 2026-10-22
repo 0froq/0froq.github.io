@@ -12,8 +12,7 @@ export function useIssuePageTransition() {
   const transition = shallowRef<false | typeof pageFallback>(false)
 
   onMounted(() => {
-    if (!('startViewTransition' in document))
-      transition.value = pageFallback
+    if (!('startViewTransition' in document)) transition.value = pageFallback
   })
 
   return transition

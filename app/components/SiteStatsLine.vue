@@ -2,12 +2,15 @@
 import { formatCompact, formatUptime } from '~/utils/formatStats'
 import { SITE_LAUNCH_AT } from '~/utils/siteConstants'
 
-const props = withDefaults(defineProps<{
-  /** Full counters. Footer stays compact (now + likes). */
-  detailed?: boolean
-}>(), {
-  detailed: false,
-})
+const props = withDefaults(
+  defineProps<{
+    /** Full counters. Footer stays compact (now + likes). */
+    detailed?: boolean
+  }>(),
+  {
+    detailed: false,
+  },
+)
 
 const stats = useSiteStats()
 const now = ref(Date.now())
@@ -22,8 +25,7 @@ onMounted(() => {
 })
 
 onBeforeUnmount(() => {
-  if (tick)
-    clearInterval(tick)
+  if (tick) clearInterval(tick)
 })
 
 const launch = computed(() => {
@@ -37,17 +39,14 @@ const parts = computed(() => {
   if (online != null && online > 0)
     list.push(online === 1 ? '1 here now' : `${formatCompact(online)} here now`)
 
-  if (!props.detailed)
-    return list
+  if (!props.detailed) return list
 
   if (stats.uniqueVisitors.value != null)
     list.push(`${formatCompact(stats.uniqueVisitors.value)} visitors`)
-  if (stats.totalVisits.value != null)
-    list.push(`${formatCompact(stats.totalVisits.value)} visits`)
+  if (stats.totalVisits.value != null) list.push(`${formatCompact(stats.totalVisits.value)} visits`)
   list.push(`${formatUptime(now.value - launch.value)} up`)
   const words = meta.value?.totalWordCount
-  if (typeof words === 'number' && words > 0)
-    list.push(`${formatCompact(words)} words`)
+  if (typeof words === 'number' && words > 0) list.push(`${formatCompact(words)} words`)
   return list
 })
 </script>
@@ -70,14 +69,16 @@ const parts = computed(() => {
         v-if="i > 0"
         un-opacity-40
         aria-hidden="true"
-      >·</span>
+        >·</span
+      >
       <span>{{ part }}</span>
     </template>
     <span
       v-if="parts.length"
       un-opacity-40
       aria-hidden="true"
-    >·</span>
+      >·</span
+    >
     <SiteLikeButton />
   </div>
 </template>

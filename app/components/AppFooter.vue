@@ -1,11 +1,14 @@
 <script setup lang="ts">
-withDefaults(defineProps<{
-  flush?: boolean
-  overlay?: boolean
-}>(), {
-  flush: false,
-  overlay: false,
-})
+withDefaults(
+  defineProps<{
+    flush?: boolean
+    overlay?: boolean
+  }>(),
+  {
+    flush: false,
+    overlay: false,
+  },
+)
 
 const { publication } = useIssueFrame()
 const { away } = useSiteChromeAway()
@@ -85,14 +88,16 @@ const { away } = useSiteChromeAway()
         <a
           href="/rss.xml"
           un-text="muted hover:colored-ink focus-visible:colored-ink"
-        >rss</a>
+          >rss</a
+        >
         <span aria-hidden="true">·</span>
         <a
           href="https://github.com/0froq"
           rel="noreferrer"
           target="_blank"
           un-text="muted hover:colored-ink focus-visible:colored-ink"
-        >github</a>
+          >github</a
+        >
         <span aria-hidden="true">·</span>
         <ColorSchemeToggle />
       </span>

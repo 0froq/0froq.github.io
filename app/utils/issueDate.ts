@@ -2,11 +2,9 @@ const DATE_REGEX = /(\d{4})-(\d{2})-(\d{2})/
 const YEAR_REGEX = /^(\d{4})/
 
 export function issueDate(value?: string): string {
-  if (!value)
-    return ''
+  if (!value) return ''
   const match = value.match(DATE_REGEX)
-  if (match)
-    return `${match[1]}/${match[2]}/${match[3]}`
+  if (match) return `${match[1]}/${match[2]}/${match[3]}`
   return value
 }
 
@@ -14,12 +12,10 @@ export function issueDateStamp(value?: string): string {
   return value?.match(DATE_REGEX)?.slice(1, 4).join('') ?? ''
 }
 
-export function issueTouchedDate(entry: { created?: string, last_modified?: string }): string {
+export function issueTouchedDate(entry: { created?: string; last_modified?: string }): string {
   const touched = issueDate(entry.last_modified)
-  if (!touched)
-    return ''
-  if (issueDateStamp(entry.last_modified) === issueDateStamp(entry.created))
-    return ''
+  if (!touched) return ''
+  if (issueDateStamp(entry.last_modified) === issueDateStamp(entry.created)) return ''
   return touched
 }
 
@@ -31,10 +27,8 @@ const ZH_DIGITS = '〇一二三四五六七八九'
 
 export function issueYearMark(value?: string, script: 'zh' | 'en' = 'en'): string {
   const year = issueYear(value)
-  if (!year)
-    return ''
-  if (script === 'en')
-    return year
+  if (!year) return ''
+  if (script === 'en') return year
   return Array.from(year, digit => ZH_DIGITS[Number(digit)] ?? digit).join('')
 }
 
@@ -58,8 +52,7 @@ export function buildCreatedParts(createdList: Array<string | undefined>): Creat
     const month = match?.[2] ?? ''
     const day = match?.[3] ?? ''
     const prev = createdList[index - 1]?.match(DATE_REGEX)
-    if (!prev)
-      return { year, month, day }
+    if (!prev) return { year, month, day }
     const sameYear = year === prev[1]
     const sameMonth = sameYear && month === prev[2]
     const sameDay = sameMonth && day === prev[3]

@@ -1,13 +1,16 @@
 <script setup lang="ts">
 defineOptions({ inheritAttrs: false })
 
-const props = withDefaults(defineProps<{
-  entry: LayerEntry
-  /** `title` pins the pointer to the first line; default is the row midline. */
-  arrow?: 'mid' | 'title'
-}>(), {
-  arrow: 'mid',
-})
+const props = withDefaults(
+  defineProps<{
+    entry: LayerEntry
+    /** `title` pins the pointer to the first line; default is the row midline. */
+    arrow?: 'mid' | 'title'
+  }>(),
+  {
+    arrow: 'mid',
+  },
+)
 
 const peek = usePublicationPeek()
 </script>
@@ -33,9 +36,11 @@ const peek = usePublicationPeek()
     <span
       class="entry-link__arrow"
       aria-hidden="true"
-      :class="arrow === 'title'
-        ? 'top-2 translate-y-[0.2rem] md:translate-y-[0.35rem]'
-        : 'top-1/2 -translate-y-1/2'"
+      :class="
+        arrow === 'title'
+          ? 'top-2 translate-y-[0.2rem] md:translate-y-[0.35rem]'
+          : 'top-1/2 -translate-y-1/2'
+      "
       un-absolute
       un-left-0
       un-pointer-events-none

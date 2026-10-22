@@ -1,11 +1,14 @@
 <script setup lang="ts">
-const props = withDefaults(defineProps<{
-  note: string
-  dir?: InkArrowDir
-  seed?: string
-}>(), {
-  dir: 'left',
-})
+const props = withDefaults(
+  defineProps<{
+    note: string
+    dir?: InkArrowDir
+    seed?: string
+  }>(),
+  {
+    dir: 'left',
+  },
+)
 
 const pointerSeed = computed(() => props.seed ?? props.note)
 </script>
@@ -42,7 +45,8 @@ const pointerSeed = computed(() => props.seed ?? props.note)
         un-leading-none
         un-whitespace-nowrap
         un-text="muted [0.62em]"
-      >{{ note }}</span>
+        >{{ note }}</span
+      >
     </span>
   </span>
 </template>

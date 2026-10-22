@@ -1,43 +1,40 @@
 <script setup lang="ts">
-const props = withDefaults(defineProps<{
-  entry: LayerEntry
-  variant?: 'peek' | 'article' | 'journal' | 'cabinet'
-}>(), {
-  variant: 'peek',
-})
+const props = withDefaults(
+  defineProps<{
+    entry: LayerEntry
+    variant?: 'peek' | 'article' | 'journal' | 'cabinet'
+  }>(),
+  {
+    variant: 'peek',
+  },
+)
 
 const slots = useSlots()
 
 const words = computed(() => {
   const n = props.entry.words
-  if (!n)
-    return ''
+  if (!n) return ''
   return n === 1 ? '1 word' : `${formatCompact(n)} words`
 })
 
 const statusMark = computed(() => {
   const status = props.entry.status
-  if (status === 'draft' || status === 'void')
-    return status
+  if (status === 'draft' || status === 'void') return status
   return ''
 })
 
 const evergreen = computed(() => isIssueEvergreen(props.entry))
 
 const metaBits = computed(() => {
-  const bits: { key: string, text: string, accent?: boolean }[] = []
+  const bits: { key: string; text: string; accent?: boolean }[] = []
   const hideDate = props.variant === 'journal' || props.variant === 'cabinet'
   if (props.entry.created && !hideDate)
     bits.push({ key: 'date', text: issueDate(props.entry.created) })
   const touched = issueTouchedDate(props.entry)
-  if (evergreen.value && touched)
-    bits.push({ key: 'touched', text: touched })
-  if (words.value && props.variant !== 'cabinet')
-    bits.push({ key: 'words', text: words.value })
-  if (props.entry.aigc)
-    bits.push({ key: 'aigc', text: 'aigc', accent: true })
-  if (statusMark.value)
-    bits.push({ key: 'status', text: statusMark.value, accent: true })
+  if (evergreen.value && touched) bits.push({ key: 'touched', text: touched })
+  if (words.value && props.variant !== 'cabinet') bits.push({ key: 'words', text: words.value })
+  if (props.entry.aigc) bits.push({ key: 'aigc', text: 'aigc', accent: true })
+  if (statusMark.value) bits.push({ key: 'status', text: statusMark.value, accent: true })
   return bits
 })
 
@@ -46,15 +43,11 @@ const isJournal = computed(() => props.variant === 'journal')
 const isCabinet = computed(() => props.variant === 'cabinet')
 const isReading = computed(() => isArticle.value || isJournal.value || isCabinet.value)
 
-const hasMeta = computed(() =>
-  !!(metaBits.value.length || slots['meta-after']),
-)
+const hasMeta = computed(() => !!(metaBits.value.length || slots['meta-after']))
 
 const hasTags = computed(() => !!props.entry.tags?.length && !isCabinet.value)
 
-const hasPeekSecondary = computed(() =>
-  !!(props.entry.description || hasTags.value),
-)
+const hasPeekSecondary = computed(() => !!(props.entry.description || hasTags.value))
 
 const hasArticleRail = computed(() => hasMeta.value || hasTags.value)
 </script>
@@ -76,7 +69,8 @@ const hasArticleRail = computed(() => hasMeta.value || hasTags.value)
         un-tracking-tight
         un-tabular-nums
         :datetime="entry.created"
-      >{{ issueDate(entry.created) }}</time>
+        >{{ issueDate(entry.created) }}</time
+      >
       <h1
         class="issue-head__title"
         un-m-0
@@ -111,12 +105,14 @@ const hasArticleRail = computed(() => hasMeta.value || hasTags.value)
             aria-hidden="true"
             un-mx="[0.45em]"
             un-opacity-70
-          >·</span>
+            >·</span
+          >
           <time v-if="bit.key === 'date' || bit.key === 'touched'">{{ bit.text }}</time>
           <span
             v-else-if="bit.accent"
             un-text-colored-ink
-          >{{ bit.text }}</span>
+            >{{ bit.text }}</span
+          >
           <span v-else>{{ bit.text }}</span>
         </template>
         <slot name="meta-after" />
@@ -132,7 +128,7 @@ const hasArticleRail = computed(() => hasMeta.value || hasTags.value)
         un-border-0
         un-border-t
         un-border-line
-      >
+      />
       <div un-min-w-0>
         <p
           v-if="entry.description"
@@ -153,7 +149,7 @@ const hasArticleRail = computed(() => hasMeta.value || hasTags.value)
           un-border-0
           un-border-t
           un-border-line
-        >
+        />
         <div
           v-if="hasTags"
           un-flex="~ col"
@@ -203,7 +199,8 @@ const hasArticleRail = computed(() => hasMeta.value || hasTags.value)
           <span
             v-else-if="bit.accent"
             un-text-colored-ink
-          >{{ bit.text }}</span>
+            >{{ bit.text }}</span
+          >
           <span v-else>{{ bit.text }}</span>
         </template>
         <slot name="meta-after" />
@@ -216,7 +213,7 @@ const hasArticleRail = computed(() => hasMeta.value || hasTags.value)
         un-border-0
         un-border-t
         un-border-line
-      >
+      />
       <div
         v-if="hasTags"
         un-flex="~ col"

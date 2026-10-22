@@ -15,11 +15,10 @@ interface ScrapFile {
 export function loadScraps(): Scrap[] {
   const data = parse(raw) as ScrapFile
   return (data.scraps ?? [])
-    .map((row) => {
+    .map(row => {
       const id = row.id?.trim()
       const text = row.text?.trim()
-      if (!id || !text)
-        return null
+      if (!id || !text) return null
       return {
         id,
         text,

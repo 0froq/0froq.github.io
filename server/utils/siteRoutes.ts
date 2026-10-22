@@ -11,13 +11,11 @@ export function publicationPaths(docsRoot: string) {
     let names: string[] = []
     try {
       names = readdirSync(join(docsRoot, section))
-    }
-    catch {
+    } catch {
       continue
     }
     for (const name of names) {
-      if (!name.endsWith('.md') || name === 'index.md')
-        continue
+      if (!name.endsWith('.md') || name === 'index.md') continue
       paths.push(`/${section}/${name.slice(0, -3)}`)
     }
   }

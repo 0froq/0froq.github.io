@@ -10,12 +10,11 @@ const emit = defineEmits<{
   react: [id: string, emoji: string]
 }>()
 
-const menu = shallowRef<{ id: string, x: number, y: number } | null>(null)
+const menu = shallowRef<{ id: string; x: number; y: number } | null>(null)
 const menuEl = ref<HTMLElement | null>(null)
 const menuScrap = computed(() => {
   const id = menu.value?.id
-  if (!id)
-    return null
+  if (!id) return null
   return props.scraps.find(scrap => scrap.id === id) ?? null
 })
 
@@ -32,16 +31,13 @@ function closeMenu() {
 
 function clampMenu() {
   const el = menuEl.value
-  if (!el || !menu.value)
-    return
+  if (!el || !menu.value) return
   const rect = el.getBoundingClientRect()
   const pad = 8
   let x = menu.value.x
   let y = menu.value.y
-  if (x + rect.width > window.innerWidth - pad)
-    x = window.innerWidth - pad - rect.width
-  if (y + rect.height > window.innerHeight - pad)
-    y = window.innerHeight - pad - rect.height
+  if (x + rect.width > window.innerWidth - pad) x = window.innerWidth - pad - rect.width
+  if (y + rect.height > window.innerHeight - pad) y = window.innerHeight - pad - rect.height
   menu.value = {
     id: menu.value.id,
     x: Math.max(pad, x),
@@ -58,8 +54,7 @@ async function openMenu(event: MouseEvent, id: string) {
 
 function onMenuReact(emoji: string) {
   const id = menu.value?.id
-  if (!id)
-    return
+  if (!id) return
   emit('react', id, emoji)
   closeMenu()
 }
@@ -70,14 +65,12 @@ function onChipReact(id: string, emoji: string) {
 
 function onPointerDown(event: PointerEvent) {
   const el = menuEl.value
-  if (!el || !(event.target instanceof Node) || el.contains(event.target))
-    return
+  if (!el || !(event.target instanceof Node) || el.contains(event.target)) return
   closeMenu()
 }
 
 function onKey(event: KeyboardEvent) {
-  if (event.key === 'Escape')
-    closeMenu()
+  if (event.key === 'Escape') closeMenu()
 }
 
 onMounted(() => {
@@ -160,7 +153,8 @@ onUnmounted(() => {
           un-text="xs muted"
           un-tabular-nums
           :datetime="scrap.date"
-        >{{ scrap.date }}</time>
+          >{{ scrap.date }}</time
+        >
         <ScrapReactInline
           un-mt-1.5
           :scrap="scrap"
@@ -231,7 +225,8 @@ onUnmounted(() => {
           un-text="xs muted"
           un-tabular-nums
           :datetime="scrap.date"
-        >{{ scrap.date }}</time>
+          >{{ scrap.date }}</time
+        >
         <ScrapReactInline
           un-mt-1.5
           :scrap="scrap"

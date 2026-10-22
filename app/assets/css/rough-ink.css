@@ -100,8 +100,13 @@ html.dark a[data-external] > .rough-ink[data-kind='mark'] {
   transition: visibility 0s;
 }
 
-:is([data-hover-ink], [data-ink]):is(:hover, :focus-visible) > .rough-ink[data-reveal='hover'] .ink-reveal,
-.ink-host:is(:hover, :focus-visible) [data-hover-ink] > .rough-ink[data-reveal='hover'] .ink-reveal {
+:is([data-hover-ink], [data-ink]):is(:hover, :focus-visible)
+  > .rough-ink[data-reveal='hover']
+  .ink-reveal,
+.ink-host:is(:hover, :focus-visible)
+  [data-hover-ink]
+  > .rough-ink[data-reveal='hover']
+  .ink-reveal {
   stroke-dashoffset: 0;
 }
 

@@ -3,18 +3,25 @@
  * Isolated journal-folder motion lab.
  * Not linked from nav. Delete this file and JournalMonthFolder.vue to revert.
  */
-const { data: entries } = await useAsyncData(
-  'lab-journal-folder',
-  async () => {
-    const all = await queryCollection('publication')
-      .select('path', 'title', 'created', 'last_modified', 'status', 'locale', 'description', 'kind', 'body')
-      .order('created', 'DESC')
-      .all()
-    return all
-      .filter(entry => isPublicationEntry(entry.path, 'journal'))
-      .map(entry => toLayerEntry(entry))
-  },
-)
+const { data: entries } = await useAsyncData('lab-journal-folder', async () => {
+  const all = await queryCollection('publication')
+    .select(
+      'path',
+      'title',
+      'created',
+      'last_modified',
+      'status',
+      'locale',
+      'description',
+      'kind',
+      'body',
+    )
+    .order('created', 'DESC')
+    .all()
+  return all
+    .filter(entry => isPublicationEntry(entry.path, 'journal'))
+    .map(entry => toLayerEntry(entry))
+})
 
 useHead({
   title: 'lab · folder',

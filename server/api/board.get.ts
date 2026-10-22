@@ -17,17 +17,14 @@ async function loadBoardRaw(): Promise<string | null> {
   try {
     const storage = useStorage('assets:dashboard')
     const bundled = await storage.getItem<string>('board.yml')
-    if (typeof bundled === 'string' && bundled.trim())
-      return bundled
-  }
-  catch {
+    if (typeof bundled === 'string' && bundled.trim()) return bundled
+  } catch {
     // fall through to filesystem (local nuxt dev)
   }
 
   try {
     return await readFile(resolve(process.cwd(), 'docs/dashboard/board.yml'), 'utf-8')
-  }
-  catch {
+  } catch {
     return null
   }
 }
@@ -35,8 +32,7 @@ async function loadBoardRaw(): Promise<string | null> {
 export default defineEventHandler(async () => {
   try {
     const raw = await loadBoardRaw()
-    if (!raw)
-      return emptyBoard()
+    if (!raw) return emptyBoard()
     const { parse } = await import('yaml')
     const data = parse(raw) as Partial<BoardData>
     const withStatus = (task: BoardTask): BoardTask => ({
@@ -50,8 +46,7 @@ export default defineEventHandler(async () => {
       backlog: data.backlog ?? [],
       archive: data.archive ?? [],
     } satisfies BoardData
-  }
-  catch {
+  } catch {
     return emptyBoard()
   }
 })

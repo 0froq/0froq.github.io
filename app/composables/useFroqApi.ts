@@ -38,8 +38,7 @@ export interface LikeResult {
 export function useFroqApi() {
   const config = useRuntimeConfig()
   const base = computed(() => {
-    if (import.meta.dev && import.meta.client)
-      return '/__froq'
+    if (import.meta.dev && import.meta.client) return '/__froq'
     const raw = String(config.public.froqApi || '').replace(TRAILING_SLASH, '')
     return raw || 'https://api.froq.me'
   })
@@ -48,12 +47,11 @@ export function useFroqApi() {
 
   async function request<T>(
     path: string,
-    opts?: { method?: string, body?: unknown, keepalive?: boolean },
+    opts?: { method?: string; body?: unknown; keepalive?: boolean },
   ): Promise<T | null> {
     try {
       return await $fetch<T>(`${base.value}${path}`, opts)
-    }
-    catch {
+    } catch {
       return null
     }
   }
@@ -62,20 +60,17 @@ export function useFroqApi() {
     ids: string[],
     anonId?: string,
   ): Promise<Record<string, ScrapReactionState>> {
-    if (!ids.length)
-      return {}
+    if (!ids.length) return {}
     const params = new URLSearchParams({
       ids: ids.join(','),
     })
-    if (anonId)
-      params.set('anonId', anonId)
+    if (anonId) params.set('anonId', anonId)
     try {
       const data = await $fetch<{ scraps: Record<string, ScrapReactionState> }>(
         `${base.value}/scraps/reactions?${params}`,
       )
       return data.scraps ?? {}
-    }
-    catch {
+    } catch {
       return {}
     }
   }
@@ -86,7 +81,7 @@ export function useFroqApi() {
     anonId: string,
   ): Promise<ScrapReactionState | null> {
     try {
-      const data = await $fetch<{ ok: boolean, state: ScrapReactionState }>(
+      const data = await $fetch<{ ok: boolean; state: ScrapReactionState }>(
         `${base.value}/scraps/reactions`,
         {
           method: 'POST',
@@ -94,8 +89,7 @@ export function useFroqApi() {
         },
       )
       return data.state ?? null
-    }
-    catch {
+    } catch {
       return null
     }
   }
@@ -105,18 +99,14 @@ export function useFroqApi() {
     return request<SiteCounters>(`/stats${q}`)
   }
 
-  function pingSession(body: {
-    pagePath: string
-    anonId: string
-    countVisit?: boolean
-  }) {
+  function pingSession(body: { pagePath: string; anonId: string; countVisit?: boolean }) {
     return request<Partial<SiteCounters>>('/session/ping', {
       method: 'POST',
       body,
     })
   }
 
-  function leaveSession(body: { pagePath: string, anonId: string }) {
+  function leaveSession(body: { pagePath: string; anonId: string }) {
     return request<Partial<SiteCounters>>('/session/leave', {
       method: 'POST',
       body,

@@ -312,10 +312,12 @@ function stackStory(text: string): string {
 }
 
 function stackStoryParts(text: string) {
-  return stackStory(text).split('`').map((chunk, i) => ({
-    code: i % 2 === 1,
-    chunk,
-  }))
+  return stackStory(text)
+    .split('`')
+    .map((chunk, i) => ({
+      code: i % 2 === 1,
+      chunk,
+    }))
 }
 
 const view = groups.map(group => ({
@@ -401,7 +403,8 @@ const view = groups.map(group => ({
               <span
                 un-block
                 un-tracking-tight
-              >{{ group.label }}</span>
+                >{{ group.label }}</span
+              >
               <span
                 un-mt-1.5
                 un-block
@@ -423,7 +426,8 @@ const view = groups.map(group => ({
                     un-not-italic
                     un-opacity-35
                     un-select-none
-                  >·</span>
+                    >·</span
+                  >
                   <span :class="tool.joke ? 'stack-wry' : undefined">{{ tool.name }}</span>
                 </template>
               </span>
@@ -527,8 +531,12 @@ const view = groups.map(group => ({
         transparent 58% 100%
       ),
       linear-gradient(var(--wry), var(--wry));
-    background-size: 240% 100%, 100% 100%;
-    background-position: 140% 0, 0 0;
+    background-size:
+      240% 100%,
+      100% 100%;
+    background-position:
+      140% 0,
+      0 0;
     background-repeat: no-repeat;
     background-clip: text;
     -webkit-background-clip: text;
@@ -540,15 +548,21 @@ const view = groups.map(group => ({
 
 @keyframes stack-wry-gleam {
   0% {
-    background-position: 140% 0, 0 0;
+    background-position:
+      140% 0,
+      0 0;
   }
 
   28% {
-    background-position: -40% 0, 0 0;
+    background-position:
+      -40% 0,
+      0 0;
   }
 
   100% {
-    background-position: -40% 0, 0 0;
+    background-position:
+      -40% 0,
+      0 0;
   }
 }
 

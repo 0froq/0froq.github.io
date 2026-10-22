@@ -23,7 +23,7 @@ const groups = computed(() => {
   return Array.from(buckets.entries(), ([year, items]) => ({
     year,
     mark: issueYearMark(items[0]?.created, 'en'),
-    items: items.map((item) => {
+    items: items.map(item => {
       const row = { item, index, parts: parts[index]! }
       index += 1
       return row
@@ -35,22 +35,22 @@ function bindRow(index: number, el: unknown) {
   setRowRef(index, el instanceof HTMLElement ? el : null)
 }
 
-watch(() => props.items.length, () => refresh())
+watch(
+  () => props.items.length,
+  () => refresh(),
+)
 
 function restOn(item: LayerEntry) {
-  if (peek)
-    peek.value = item
+  if (peek) peek.value = item
 }
 
 function disclose(item: LayerEntry) {
-  if (!peek)
-    return
+  if (!peek) return
   peek.value = peek.value?.path === item.path ? null : item
 }
 
 onUnmounted(() => {
-  if (peek)
-    peek.value = null
+  if (peek) peek.value = null
 })
 </script>
 
@@ -133,7 +133,8 @@ onUnmounted(() => {
               un-tracking-tight
               :data-ink="restPath === row.item.path ? 'mark' : undefined"
               :data-hover-ink="restPath === row.item.path ? undefined : 'mark'"
-            >{{ row.item.title }}</span>
+              >{{ row.item.title }}</span
+            >
           </button>
           <NuxtLink
             :to="row.item.path"
@@ -151,7 +152,7 @@ onUnmounted(() => {
             @click="remember(route.fullPath)"
           >
             <span
-              :ref="(el) => bindRow(row.index, el)"
+              :ref="el => bindRow(row.index, el)"
               un-flex
               un-min-w-0
               un-items-center
@@ -172,7 +173,8 @@ onUnmounted(() => {
                 un-truncate
                 :data-ink="restPath === row.item.path ? 'mark' : undefined"
                 :data-hover-ink="restPath === row.item.path ? undefined : 'mark'"
-              >{{ row.item.title }}</span>
+                >{{ row.item.title }}</span
+              >
               <span
                 aria-hidden="true"
                 class="issue-sep"
@@ -190,7 +192,8 @@ onUnmounted(() => {
                 un-text="sm colored-ink"
                 un-tracking-wide
                 un-lowercase
-              >{{ flag }}</span>
+                >{{ flag }}</span
+              >
               <time
                 un-shrink-0
                 un-font-mono
@@ -207,12 +210,14 @@ onUnmounted(() => {
                   v-else
                   class="issue-date-gap"
                   aria-hidden="true"
-                >……</span>/<span v-if="row.parts.day">{{ row.parts.day }}</span>
+                  >……</span
+                >/<span v-if="row.parts.day">{{ row.parts.day }}</span>
                 <span
                   v-else
                   class="issue-date-gap"
                   aria-hidden="true"
-                >……</span>
+                  >……</span
+                >
               </time>
             </span>
             <span
@@ -221,7 +226,8 @@ onUnmounted(() => {
               un-font-serif
               un-text="xs muted"
               un-leading-relaxed
-            >{{ row.item.description }}</span>
+              >{{ row.item.description }}</span
+            >
           </NuxtLink>
         </li>
       </ol>
@@ -234,11 +240,7 @@ onUnmounted(() => {
 <style scoped>
 .issue-sep {
   color: var(--line);
-  background-image: repeating-linear-gradient(
-    90deg,
-    currentColor 0 8px,
-    transparent 8px 16px
-  );
+  background-image: repeating-linear-gradient(90deg, currentColor 0 8px, transparent 8px 16px);
   transition: opacity 140ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 

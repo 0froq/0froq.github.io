@@ -1,12 +1,15 @@
 <script setup lang="ts">
-const props = withDefaults(defineProps<{
-  title: string
-  homeTo?: string
-  layer?: SiteLayer | null
-}>(), {
-  homeTo: '/',
-  layer: null,
-})
+const props = withDefaults(
+  defineProps<{
+    title: string
+    homeTo?: string
+    layer?: SiteLayer | null
+  }>(),
+  {
+    homeTo: '/',
+    layer: null,
+  },
+)
 
 const peek = provideHubPeek()
 const route = useRoute()
@@ -17,11 +20,14 @@ const titleSeed = computed(() => `hub-title:${props.title}`)
 
 const currentLayerLabel = computed(() => props.layer?.label ?? 'Sections')
 
-watch(() => String(route.params.layer || ''), () => {
-  peek.value = null
-  titleHover.value = false
-  layersOpen.value = false
-})
+watch(
+  () => String(route.params.layer || ''),
+  () => {
+    peek.value = null
+    titleHover.value = false
+    layersOpen.value = false
+  },
+)
 
 function toggleLayers() {
   layersOpen.value = !layersOpen.value
@@ -153,7 +159,8 @@ function toggleLayers() {
           un-transition-transform
           un-duration-200
           :style="{ transform: layersOpen ? 'rotate(180deg)' : 'none' }"
-        >▾</span>
+          >▾</span
+        >
       </button>
 
       <div
@@ -219,18 +226,8 @@ function toggleLayers() {
 <style scoped>
 .hub-layers__clip {
   --uno: 'opacity-0 -translate-y-[0.4rem] lg:opacity-100 lg:translate-y-0 lg:[mask-image:none] lg:[-webkit-mask-image:none]';
-  -webkit-mask-image: linear-gradient(
-    to bottom,
-    #000 0%,
-    #000 48%,
-    transparent 100%
-  );
-  mask-image: linear-gradient(
-    to bottom,
-    #000 0%,
-    #000 48%,
-    transparent 100%
-  );
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 48%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 0%, #000 48%, transparent 100%);
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-size: 100% 0%;

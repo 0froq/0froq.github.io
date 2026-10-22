@@ -27,8 +27,7 @@ export function provideJournalDeck(items: MaybeRefOrGetter<LayerEntry[]>) {
 
   const monthItems = computed(() => {
     const id = centerId.value
-    if (!id)
-      return []
+    if (!id) return []
     return toValue(items)
       .filter(item => journalDayKey(item.created)?.slice(0, 7) === id)
       .slice()
@@ -37,14 +36,11 @@ export function provideJournalDeck(items: MaybeRefOrGetter<LayerEntry[]>) {
 
   const activeEntry = computed(() => {
     const list = monthItems.value
-    if (!list.length)
-      return null
+    if (!list.length) return null
     const hit = list.find(item => item.path === activePath.value)
-    if (hit)
-      return hit
+    if (hit) return hit
     // A heatmap pick in another month must not wear each month the wheel passes.
-    if (focusPath.value)
-      return null
+    if (focusPath.value) return null
     return list.at(-1) ?? null
   })
 
@@ -54,8 +50,7 @@ export function provideJournalDeck(items: MaybeRefOrGetter<LayerEntry[]>) {
 
   function bump() {
     moving.value = true
-    if (timer)
-      clearTimeout(timer)
+    if (timer) clearTimeout(timer)
     timer = setTimeout(() => {
       moving.value = false
     }, SETTLE_MS)
@@ -84,8 +79,7 @@ export function provideJournalDeck(items: MaybeRefOrGetter<LayerEntry[]>) {
   }
   provide(journalDeckKey, deck)
   onScopeDispose(() => {
-    if (timer)
-      clearTimeout(timer)
+    if (timer) clearTimeout(timer)
   })
   return deck
 }
