@@ -73,8 +73,7 @@ function dayKinds(entries: LayerEntry[]): {
   let rook: LayerEntry | null = null
   for (const entry of entries) {
     if (isRookEntry(entry)) {
-      if (!rook)
-        rook = entry
+      if (!rook) rook = entry
       continue
     }
     const kind = journalEntryKind(entry)
@@ -134,8 +133,7 @@ export type JournalKind = 'journal' | 'log'
 
 /** Rook writes beside the day. It never takes a journal or log fill. */
 export function isRookEntry(entry: LayerEntry): boolean {
-  if (entry.kind === 'rook')
-    return true
+  if (entry.kind === 'rook') return true
   const stem = entry.path.split('/').pop() ?? ''
   return stem.startsWith('rook')
 }
@@ -175,6 +173,20 @@ export interface JournalWheelMonth {
   cells: JournalWheelCell[]
 }
 
+export interface JournalWheelFold {
+  id: string
+  fold: true
+  hidden: number
+  fromLabel: string
+  toLabel: string
+}
+
+export type JournalWheelRow = JournalWheelMonth | JournalWheelFold
+
+export function isJournalWheelFold(row: JournalWheelRow): row is JournalWheelFold {
+  return 'fold' in row && row.fold === true
+}
+
 const DAY_MS = 86400000
 
 /** Monday-first weekday, 0–6 (UTC). */
@@ -192,7 +204,7 @@ function monthIdOf(time: number): string {
   return `${d.getUTCFullYear()}-${String(d.getUTCMonth() + 1).padStart(2, '0')}`
 }
 
-export function journalWheel(items: LayerEntry[], now = new Date()): JournalWheelMonth[] {
+export function journalWheel(items: LayerEntry[], now = new Date()): JournalWheelRow[] {
   const byDay = journalEntriesByDay(items)
   const first = firstRecordMonth(byDay)
   if (!first) return []
@@ -218,12 +230,29 @@ export function journalWheel(items: LayerEntry[], now = new Date()): JournalWhee
     for (let month = begin; month <= endMonth; month++)
       metas.push({ id: `${year}-${String(month + 1).padStart(2, '0')}`, year, month })
   }
-  const metaIds = new Set(metas.map(m => m.id))
+  const recorded = new Set<string>()
+  for (const key of byDay.keys()) recorded.add(key.slice(0, 7))
+  const omit = new Set<string>()
+  let run: Meta[] = []
+  const flushRun = () => {
+    if (run.length >= 4) {
+      for (let i = 1; i < run.length - 1; i++) omit.add(run[i]!.id)
+    }
+    run = []
+  }
+  for (const m of metas) {
+    if (recorded.has(m.id)) flushRun()
+    else run.push(m)
+  }
+  flushRun()
+
+  const shown = metas.filter(m => !omit.has(m.id))
+  const metaIds = new Set(shown.map(m => m.id))
 
   // A week belongs to the month its Thursday falls in (ISO-style).
   // Boundary weeks whose owner month is not rendered fall back to the day's month.
   const weekSets = new Map<string, Set<number>>()
-  for (const m of metas) {
+  for (const m of shown) {
     const span = daysInMonth(m.year, m.month)
     for (let day = 1; day <= span; day++) {
       const stamp = civilStamp(m.year, m.month, day)
@@ -240,8 +269,8 @@ export function journalWheel(items: LayerEntry[], now = new Date()): JournalWhee
     }
   }
 
-  const rows: JournalWheelMonth[] = []
-  for (const m of [...metas].reverse()) {
+  const monthRows = new Map<string, JournalWheelMonth>()
+  for (const m of shown) {
     const weeks = [...(weekSets.get(m.id) ?? [])].sort((a, b) => a - b)
     const n = weeks.length
     const cells: JournalWheelCell[] = []
@@ -282,7 +311,7 @@ export function journalWheel(items: LayerEntry[], now = new Date()): JournalWhee
         })
       }
     })
-    rows.push({
+    monthRows.set(m.id, {
       id: m.id,
       year: m.year,
       month: m.month,
@@ -292,5 +321,31 @@ export function journalWheel(items: LayerEntry[], now = new Date()): JournalWhee
       cells,
     })
   }
-  return rows
+
+  const chronological: JournalWheelRow[] = []
+  let index = 0
+  while (index < metas.length) {
+    const meta = metas[index]!
+    if (!omit.has(meta.id)) {
+      const month = monthRows.get(meta.id)
+      if (month) chronological.push(month)
+      index += 1
+      continue
+    }
+    const hidden: Meta[] = []
+    while (index < metas.length && omit.has(metas[index]!.id)) {
+      hidden.push(metas[index]!)
+      index += 1
+    }
+    const from = hidden[0]!
+    const to = hidden.at(-1)!
+    chronological.push({
+      id: `fold-${from.id}-${to.id}`,
+      fold: true,
+      hidden: hidden.length,
+      fromLabel: `${HEAT_MONTHS[from.month]} ${from.year}`,
+      toLabel: `${HEAT_MONTHS[to.month]} ${to.year}`,
+    })
+  }
+  return chronological.reverse()
 }

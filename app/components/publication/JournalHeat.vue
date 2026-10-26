@@ -42,13 +42,14 @@ function bindRing(day: string, el: unknown) {
 }
 
 const centerId = ref<string | null>(null)
-const away = reactive<Record<string, number>>({})
-const weekOpacity = reactive<Record<string, number>>({})
 
 const clock = ref(new Date())
 const rows = computed(() => journalWheel(props.items, clock.value))
 let dayTimer = 0
-const centerRow = computed(() => rows.value.find(row => row.id === centerId.value) ?? null)
+const centerRow = computed(() => {
+  const row = rows.value.find(item => item.id === centerId.value)
+  return row && !isJournalWheelFold(row) ? row : null
+})
 const currentYear = computed(() => centerRow.value?.year ?? null)
 const yearDigits = computed(() => {
   const year = currentYear.value
@@ -166,9 +167,8 @@ function cellMark(cell: JournalWheelCell) {
 
 function cellStyle(cell: JournalWheelCell, row: JournalWheelMonth) {
   return {
-    'gridColumn': String(cell.col + 1),
-    'gridRow': String(row.gridRows - cell.weekIndex),
-    '--scroll-opacity': String(weekOpacity[`${cell.rowId}:${cell.weekIndex}`] ?? 0.12),
+    gridColumn: String(cell.col + 1),
+    gridRow: String(row.gridRows - cell.weekIndex),
   }
 }
 
@@ -283,134 +283,54 @@ function measure() {
   let bestId: string | null = null
   let bestDist = Infinity
   for (const row of rows.value) {
+    if (isJournalWheelFold(row)) continue
     const el = rowMap.get(row.id)
     if (!el) continue
     const rect = el.getBoundingClientRect()
     const cy = rect.top + rect.height / 2
     const dist = Math.abs(cy - mid)
-    away[row.id] = Math.min(dist / Math.max(rect.height, 1), 4)
-    const weekHeight = rect.height / row.gridRows
-    for (let weekIndex = 0; weekIndex < row.gridRows; weekIndex++) {
-      const weekCenter = rect.top + (row.gridRows - weekIndex - 0.5) * weekHeight
-      const weekDist = Math.abs(weekCenter - mid)
-      weekOpacity[`${row.id}:${weekIndex}`] = Math.max(
-        0.12,
-        1 - weekDist / (root.clientHeight * 0.55),
-      )
-    }
     if (dist < bestDist) {
       bestDist = dist
       bestId = row.id
     }
   }
-  centerId.value = bestId
-}
-
-let glowCells = new Set<HTMLElement>()
-let pointer: { x: number; y: number } | null = null
-let glowFrame = 0
-let glowLayoutDirty = true
-const glowGrids: {
-  el: HTMLElement
-  radius: number
-  cells: { el: HTMLElement; dx: number; dy: number }[]
-}[] = []
-
-function invalidateGlowLayout() {
-  glowLayoutDirty = true
-}
-
-function ensureGlowLayout() {
-  if (!glowLayoutDirty) return
-  glowLayoutDirty = false
-  glowGrids.length = 0
-  const root = scroller.value
-  if (!root) return
-  for (const grid of root.querySelectorAll<HTMLElement>('.journal-wheel__grid')) {
-    const cells = grid.querySelectorAll<HTMLElement>(':scope > .journal-wheel__cell')
-    const first = cells[0]
-    if (!first) continue
-    const gridRect = grid.getBoundingClientRect()
-    const cellRect = first.getBoundingClientRect()
-    const packed: { el: HTMLElement; dx: number; dy: number }[] = []
-    for (const cell of cells) {
-      if (cell.classList.contains('is-future')) continue
-      const rect = cell.getBoundingClientRect()
-      packed.push({
-        el: cell,
-        dx: rect.left - gridRect.left + rect.width / 2,
-        dy: rect.top - gridRect.top + rect.height / 2,
-      })
-    }
-    glowGrids.push({
-      el: grid,
-      radius: Math.max(cellRect.width, cellRect.height) * 4,
-      cells: packed,
-    })
+  if (bestId !== centerId.value) centerId.value = bestId
+  const activeIndex = rows.value.findIndex(row => row.id === bestId)
+  if (activeIndex < 0) return
+  for (const [index, row] of rows.value.entries()) {
+    const node = rowMap.get(row.id)
+    if (!node) continue
+    const steps = Math.abs(index - activeIndex)
+    const opacity = steps === 0 ? '1' : Math.max(0.16, 1 - steps * 0.28).toFixed(2)
+    const away = Math.min(steps * 0.8, 2.4).toFixed(1)
+    if (node.style.getPropertyValue('--scroll-opacity') !== opacity)
+      node.style.setProperty('--scroll-opacity', opacity)
+    if (node.style.getPropertyValue('--away') !== away) node.style.setProperty('--away', away)
   }
-}
-
-function clearPointerGlow() {
-  if (glowFrame) cancelAnimationFrame(glowFrame)
-  for (const cell of glowCells) cell.style.removeProperty('--pointer-opacity')
-  glowCells = new Set()
-  pointer = null
-  glowFrame = 0
-}
-
-function updatePointerGlow() {
-  if (!pointer) return
-  ensureGlowLayout()
-  const nextCells = new Set<HTMLElement>()
-  for (const grid of glowGrids) {
-    const gridRect = grid.el.getBoundingClientRect()
-    if (
-      pointer.x < gridRect.left - grid.radius ||
-      pointer.x > gridRect.right + grid.radius ||
-      pointer.y < gridRect.top - grid.radius ||
-      pointer.y > gridRect.bottom + grid.radius
-    ) {
-      continue
-    }
-    for (const cell of grid.cells) {
-      const distance = Math.hypot(
-        pointer.x - (gridRect.left + cell.dx),
-        pointer.y - (gridRect.top + cell.dy),
-      )
-      const opacity = Math.max(0, 1 - distance / grid.radius) ** 1.2
-      if (opacity < 0.03) continue
-      nextCells.add(cell.el)
-      cell.el.style.setProperty('--pointer-opacity', String(opacity))
-    }
-  }
-  for (const cell of glowCells) {
-    if (!nextCells.has(cell)) cell.style.removeProperty('--pointer-opacity')
-  }
-  glowCells = nextCells
-}
-
-function schedulePointerGlow() {
-  if (glowFrame) return
-  glowFrame = requestAnimationFrame(() => {
-    glowFrame = 0
-    updatePointerGlow()
-  })
-}
-
-function onPointerMove(event: PointerEvent) {
-  pointer = { x: event.clientX, y: event.clientY }
-  schedulePointerGlow()
 }
 
 let primed = false
 /** Month the current scroll gesture started on. Null between gestures. */
 let gestureMonth: string | null = null
 let gestureTimer: ReturnType<typeof setTimeout> | undefined
+let lastCenterAt = 0
+
+function paceCenter() {
+  const now = performance.now()
+  const root = scroller.value
+  const fast = now - lastCenterAt < 180
+  lastCenterAt = now
+  if (!root) return
+  if (fast) root.dataset.snap = ''
+  else delete root.dataset.snap
+}
 
 function onScroll() {
   gestureMonth ??= centerId.value
   if (primed) pulse()
+  const prevCenter = centerId.value
   measure()
+  if (centerId.value !== prevCenter) paceCenter()
   // A click can nudge this scroller without leaving the month. Rebuilding the
   // fan is for a month change, not for every scroll event.
   const monthChanged = centerId.value !== gestureMonth
@@ -418,8 +338,8 @@ function onScroll() {
   clearTimeout(gestureTimer)
   gestureTimer = setTimeout(() => {
     gestureMonth = null
+    delete scroller.value?.dataset.snap
   }, 500)
-  schedulePointerGlow()
 }
 
 watch(centerId, id => {
@@ -458,11 +378,16 @@ function scrollIdIntoCenter(id: string) {
   root.scrollTo({ top: root.scrollTop + delta, behavior: 'smooth' })
 }
 
+function monthRows() {
+  return rows.value.filter(row => !isJournalWheelFold(row))
+}
+
 function landingId() {
+  const months = monthRows()
   return (
-    rows.value.find(row => row.cells.some(cell => cell.today))?.id ??
-    rows.value.find(row => row.cells.some(cell => cell.entry))?.id ??
-    rows.value[0]?.id ??
+    months.find(row => row.cells.some(cell => cell.today))?.id ??
+    months.find(row => row.cells.some(cell => cell.entry))?.id ??
+    months[0]?.id ??
     null
   )
 }
@@ -478,13 +403,17 @@ function onKey(event: KeyboardEvent) {
   event.preventDefault()
   const current = centerId.value ?? list[0]!.id
   const index = list.findIndex(row => row.id === current)
-  const next =
-    event.key === 'ArrowDown' ? Math.min(list.length - 1, index + 1) : Math.max(0, index - 1)
+  const dir = event.key === 'ArrowDown' ? 1 : -1
+  let next = index
+  while (next + dir >= 0 && next + dir < list.length) {
+    next += dir
+    if (!isJournalWheelFold(list[next]!)) break
+  }
+  if (isJournalWheelFold(list[next]!)) return
   scrollIdIntoCenter(list[next]!.id)
 }
 
 function onWinResize() {
-  invalidateGlowLayout()
   measure()
 }
 
@@ -517,27 +446,16 @@ onUnmounted(() => {
   reset()
   window.clearInterval(dayTimer)
   scroller.value?.removeEventListener('scroll', onScroll)
-  clearPointerGlow()
   window.removeEventListener('resize', onWinResize)
-  if (glowFrame) cancelAnimationFrame(glowFrame)
 })
 
 watch(rows, () => {
-  invalidateGlowLayout()
   nextTick(() => {
     measure()
     const id = landingId()
     if (id) scrollIdIntoCenter(id)
   })
 })
-
-watch(
-  liveMonths,
-  () => {
-    invalidateGlowLayout()
-  },
-  { flush: 'post' },
-)
 
 watch(
   () => peek.pinned.value,
@@ -625,201 +543,233 @@ watch(
       :aria-activedescendant="centerId ? `journal-month-${centerId}` : undefined"
       @keydown="onKey"
       @click="dismissPeek"
-      @pointermove="onPointerMove"
-      @pointerleave="clearPointerGlow"
     >
       <div class="journal-wheel__space" />
       <div
         class="journal-wheel__body"
         un-relative
       >
-        <div
+        <template
           v-for="row in rows"
-          :id="`journal-month-${row.id}`"
           :key="row.id"
-          :ref="el => bindRow(row.id, el)"
-          class="journal-wheel__row"
-          un-relative
-          un-flex
-          un-items-center
-          un-gap-x-3
-          un-max-md:gap-x-2
-          un-overflow-visible
-          un-text-line
-          role="option"
-          :aria-selected="row.id === centerId"
-          :aria-label="`${row.label} ${row.year}`"
-          :style="{ '--away': String(away[row.id] ?? 1), '--grid-rows': String(row.gridRows) }"
         >
-          <span
-            class="journal-wheel__slot"
-            un-shrink-0
-            un-w="[4.15ch]"
-            aria-hidden="true"
-          />
-          <span
-            class="journal-wheel__month"
-            un-relative
-            un-z-1
+          <div
+            v-if="isJournalWheelFold(row)"
+            :id="`journal-month-${row.id}`"
+            :ref="el => bindRow(row.id, el)"
+            class="journal-wheel__fold"
             un-flex
             un-items-center
-            un-shrink-0
-            un-overflow-visible
-            un-uppercase
-            un-tabular-nums
-            un-tracking-0
-            un-w="[3ch]"
-            >{{ row.label }}</span
+            un-gap-x-3
+            un-max-md:gap-x-2
+            role="presentation"
+            :aria-label="`${row.hidden} months hidden, ${row.fromLabel} to ${row.toLabel}`"
           >
-          <div
-            class="journal-wheel__grid"
-            un-relative
-            un-shrink-0
-          >
-            <template v-if="liveMonths.has(row.id)">
-              <template
-                v-for="cell in row.cells"
-                :key="cell.key"
-              >
-                <div
-                  v-if="cell.kind === 'split' && cell.log && cell.journal"
-                  class="journal-wheel__cell is-entry is-split"
-                  :class="{
-                    ...cellMark(cell),
-                    'has-rook': !!cell.rook,
-                    'is-pinned': heldPin?.key === cell.key || fanDay === cell.key,
-                    'is-fan-active': fanDay === cell.key,
-                  }"
-                  :style="cellStyle(cell, row)"
-                  @click.stop="onSplitCell(cell, $event)"
-                  @pointermove="onSplitMove(cell, $event)"
-                  @pointerleave="onLeave"
-                >
-                  <a
-                    class="wheel-tri wheel-tri--log"
-                    :class="cellFillClass('log', cell.log)"
-                    :href="cell.log.path"
-                    :aria-label="cell.log.title"
-                    @click.stop="onCell(cell, cell.log, $event)"
-                    @focus="onEnter(cell.log)"
-                    @blur="onLeave"
-                  />
-                  <a
-                    class="wheel-tri wheel-tri--journal"
-                    :class="cellFillClass('journal', cell.journal)"
-                    :href="cell.journal.path"
-                    :aria-label="cell.journal.title"
-                    @click.stop="onCell(cell, cell.journal, $event)"
-                    @focus="onEnter(cell.journal)"
-                    @blur="onLeave"
-                  />
-                  <InkWobbleBox
-                    class="journal-wheel__sketch"
-                    :seed="cell.key"
-                    fill
-                    split
-                    :hatch="!!cell.rook"
-                    :mark="cell.today"
-                  />
-                  <span
-                    v-if="showsRing(cell.key)"
-                    :ref="el => bindRing(cell.key, el)"
-                    class="journal-wheel__ring"
-                    :class="{ 'is-log': ringIsLog(cell.key) }"
-                    data-ink="circle"
-                    :data-ink-seed="cell.key"
-                    un-absolute
-                    un-inset-0
-                    un-pointer-events-none
-                    aria-hidden="true"
-                  />
-                </div>
-                <a
-                  v-else-if="cell.entry && cell.kind && cell.kind !== 'split'"
-                  class="journal-wheel__cell is-entry"
-                  :class="[
-                    ...cellFillClass(cell.kind, cell.entry),
-                    cellMark(cell),
-                    { 'has-rook': !!cell.rook },
-                  ]"
-                  :style="cellStyle(cell, row)"
-                  :href="cell.entry.path"
-                  :aria-label="cell.entry.title"
-                  @click.stop="onCell(cell, cell.entry, $event)"
-                  @pointerenter="onEnter(cell.entry)"
-                  @pointerleave="onLeave"
-                  @focus="onEnter(cell.entry)"
-                  @blur="onLeave"
-                >
-                  <InkWobbleBox
-                    class="journal-wheel__sketch"
-                    :seed="cell.key"
-                    fill
-                    :hatch="!!cell.rook"
-                    :mark="cell.today"
-                  />
-                  <span
-                    v-if="showsRing(cell.key)"
-                    :ref="el => bindRing(cell.key, el)"
-                    class="journal-wheel__ring"
-                    :class="{ 'is-log': ringIsLog(cell.key) }"
-                    data-ink="circle"
-                    :data-ink-seed="cell.key"
-                    un-absolute
-                    un-inset-0
-                    un-pointer-events-none
-                    aria-hidden="true"
-                  />
-                </a>
-                <a
-                  v-else-if="cell.rook"
-                  class="journal-wheel__cell is-empty is-rook has-rook"
-                  :class="cellMark(cell)"
-                  :style="cellStyle(cell, row)"
-                  :href="cell.rook.path"
-                  :aria-label="cell.rook.title"
-                  @click.stop="onCell(cell, cell.rook, $event)"
-                  @pointerenter="onEnter(cell.rook)"
-                  @pointerleave="onLeave"
-                  @focus="onEnter(cell.rook)"
-                  @blur="onLeave"
-                >
-                  <InkWobbleBox
-                    class="journal-wheel__sketch"
-                    :seed="cell.key"
-                    :hatch="!!cell.rook"
-                    :mark="cell.today"
-                  />
-                  <span
-                    v-if="showsRing(cell.key)"
-                    :ref="(el) => bindRing(cell.key, el)"
-                    class="journal-wheel__ring"
-                    data-ink="circle"
-                    :data-ink-seed="cell.key"
-                    un-absolute
-                    un-inset-0
-                    un-pointer-events-none
-                    aria-hidden="true"
-                  />
-                </a>
-                <span
-                  v-else
-                  class="journal-wheel__cell is-empty"
-                  :class="cellMark(cell)"
-                  :style="cellStyle(cell, row)"
-                  aria-hidden="true"
-                >
-                  <InkWobbleBox
-                    class="journal-wheel__sketch"
-                    :seed="cell.key"
-                    :hatch="!!cell.rook"
-                    :mark="cell.today"
-                  />
-                </span>
-              </template>
-            </template>
+            <span
+              class="journal-wheel__slot"
+              un-shrink-0
+              un-w="[4.15ch]"
+              aria-hidden="true"
+            />
+            <span
+              class="journal-wheel__fold-mark"
+              aria-hidden="true"
+              ><span>···</span></span
+            >
+            <span
+              class="journal-wheel__fold-rule"
+              aria-hidden="true"
+            >
+              <span>{{ row.hidden }} mo</span>
+            </span>
           </div>
-        </div>
+          <div
+            v-else
+            :id="`journal-month-${row.id}`"
+            :ref="el => bindRow(row.id, el)"
+            class="journal-wheel__row"
+            un-relative
+            un-flex
+            un-items-center
+            un-gap-x-3
+            un-max-md:gap-x-2
+            un-overflow-visible
+            un-text-line
+            role="option"
+            :aria-selected="row.id === centerId"
+            :aria-label="`${row.label} ${row.year}`"
+            :style="{ '--grid-rows': String(row.gridRows) }"
+          >
+            <span
+              class="journal-wheel__slot"
+              un-shrink-0
+              un-w="[4.15ch]"
+              aria-hidden="true"
+            />
+            <span
+              class="journal-wheel__month"
+              un-relative
+              un-z-1
+              un-flex
+              un-items-center
+              un-shrink-0
+              un-overflow-visible
+              un-uppercase
+              un-tabular-nums
+              un-tracking-0
+              un-w="[3ch]"
+              >{{ row.label }}</span
+            >
+            <div
+              class="journal-wheel__grid"
+              un-relative
+              un-shrink-0
+            >
+              <template v-if="liveMonths.has(row.id)">
+                <template
+                  v-for="cell in row.cells"
+                  :key="cell.key"
+                >
+                  <div
+                    v-if="cell.kind === 'split' && cell.log && cell.journal"
+                    class="journal-wheel__cell is-entry is-split"
+                    :class="{
+                      ...cellMark(cell),
+                      'has-rook': !!cell.rook,
+                      'is-pinned': heldPin?.key === cell.key || fanDay === cell.key,
+                      'is-fan-active': fanDay === cell.key,
+                    }"
+                    :style="cellStyle(cell, row)"
+                    @click.stop="onSplitCell(cell, $event)"
+                    @pointermove="onSplitMove(cell, $event)"
+                    @pointerleave="onLeave"
+                  >
+                    <a
+                      class="wheel-tri wheel-tri--log"
+                      :class="cellFillClass('log', cell.log)"
+                      :href="cell.log.path"
+                      :aria-label="cell.log.title"
+                      @click.stop="onCell(cell, cell.log, $event)"
+                      @focus="onEnter(cell.log)"
+                      @blur="onLeave"
+                    />
+                    <a
+                      class="wheel-tri wheel-tri--journal"
+                      :class="cellFillClass('journal', cell.journal)"
+                      :href="cell.journal.path"
+                      :aria-label="cell.journal.title"
+                      @click.stop="onCell(cell, cell.journal, $event)"
+                      @focus="onEnter(cell.journal)"
+                      @blur="onLeave"
+                    />
+                    <InkWobbleBox
+                      class="journal-wheel__sketch"
+                      :seed="cell.key"
+                      fill
+                      split
+                      :hatch="!!cell.rook"
+                      :mark="cell.today"
+                    />
+                    <span
+                      v-if="showsRing(cell.key)"
+                      :ref="el => bindRing(cell.key, el)"
+                      class="journal-wheel__ring"
+                      :class="{ 'is-log': ringIsLog(cell.key) }"
+                      data-ink="circle"
+                      :data-ink-seed="cell.key"
+                      un-absolute
+                      un-inset-0
+                      un-pointer-events-none
+                      aria-hidden="true"
+                    />
+                  </div>
+                  <a
+                    v-else-if="cell.entry && cell.kind && cell.kind !== 'split'"
+                    class="journal-wheel__cell is-entry"
+                    :class="[
+                      ...cellFillClass(cell.kind, cell.entry),
+                      cellMark(cell),
+                      { 'has-rook': !!cell.rook },
+                    ]"
+                    :style="cellStyle(cell, row)"
+                    :href="cell.entry.path"
+                    :aria-label="cell.entry.title"
+                    @click.stop="onCell(cell, cell.entry, $event)"
+                    @pointerenter="onEnter(cell.entry)"
+                    @pointerleave="onLeave"
+                    @focus="onEnter(cell.entry)"
+                    @blur="onLeave"
+                  >
+                    <InkWobbleBox
+                      class="journal-wheel__sketch"
+                      :seed="cell.key"
+                      fill
+                      :hatch="!!cell.rook"
+                      :mark="cell.today"
+                    />
+                    <span
+                      v-if="showsRing(cell.key)"
+                      :ref="el => bindRing(cell.key, el)"
+                      class="journal-wheel__ring"
+                      :class="{ 'is-log': ringIsLog(cell.key) }"
+                      data-ink="circle"
+                      :data-ink-seed="cell.key"
+                      un-absolute
+                      un-inset-0
+                      un-pointer-events-none
+                      aria-hidden="true"
+                    />
+                  </a>
+                  <a
+                    v-else-if="cell.rook"
+                    class="journal-wheel__cell is-empty is-rook has-rook"
+                    :class="cellMark(cell)"
+                    :style="cellStyle(cell, row)"
+                    :href="cell.rook.path"
+                    :aria-label="cell.rook.title"
+                    @click.stop="onCell(cell, cell.rook, $event)"
+                    @pointerenter="onEnter(cell.rook)"
+                    @pointerleave="onLeave"
+                    @focus="onEnter(cell.rook)"
+                    @blur="onLeave"
+                  >
+                    <InkWobbleBox
+                      class="journal-wheel__sketch"
+                      :seed="cell.key"
+                      :hatch="!!cell.rook"
+                      :mark="cell.today"
+                    />
+                    <span
+                      v-if="showsRing(cell.key)"
+                      :ref="el => bindRing(cell.key, el)"
+                      class="journal-wheel__ring"
+                      data-ink="circle"
+                      :data-ink-seed="cell.key"
+                      un-absolute
+                      un-inset-0
+                      un-pointer-events-none
+                      aria-hidden="true"
+                    />
+                  </a>
+                  <span
+                    v-else
+                    class="journal-wheel__cell is-empty"
+                    :class="cellMark(cell)"
+                    :style="cellStyle(cell, row)"
+                    aria-hidden="true"
+                  >
+                    <InkWobbleBox
+                      class="journal-wheel__sketch"
+                      :seed="cell.key"
+                      :hatch="!!cell.rook"
+                      :mark="cell.today"
+                    />
+                  </span>
+                </template>
+              </template>
+            </div>
+          </div>
+        </template>
       </div>
       <div class="journal-wheel__space" />
     </div>
@@ -924,12 +874,63 @@ watch(
 }
 
 .journal-wheel__row {
-  z-index: calc(8 - min(var(--away, 1), 7));
+  z-index: 1;
   scroll-snap-align: center;
+  transition:
+    --scroll-opacity 180ms var(--ease-out),
+    --away 180ms var(--ease-out);
 }
 
 .journal-wheel__row[aria-selected='true'] {
   z-index: 12;
+}
+
+.journal-wheel__fold {
+  min-height: calc(var(--wheel-cell) * 1.6);
+  font-family: 'LXGW Bright Code TC', ui-monospace, monospace;
+  font-size: var(--wheel-type);
+  opacity: var(--scroll-opacity, 0.12);
+  transition: --scroll-opacity 180ms var(--ease-out);
+}
+
+.journal-wheel__fold-mark {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3ch;
+  flex-shrink: 0;
+}
+
+.journal-wheel__fold-mark span {
+  color: var(--ink);
+  letter-spacing: 0.18em;
+  line-height: 1;
+  font-size: calc(var(--wheel-cell) * 1.15);
+}
+
+.journal-wheel__fold-rule {
+  display: flex;
+  align-items: center;
+  width: calc(var(--wheel-cell) * 7);
+  flex-shrink: 0;
+  color: var(--ink);
+  font-size: calc(var(--wheel-cell) * 0.85);
+  font-variant-numeric: tabular-nums;
+}
+
+.journal-wheel__fold-rule::before,
+.journal-wheel__fold-rule::after {
+  content: '';
+  flex: 1;
+  border-top: 1.5px dashed var(--ink);
+}
+
+.journal-wheel__fold-rule span {
+  padding-inline: 0.45rem;
+}
+
+.journal-wheel[data-snap] .journal-wheel__row {
+  transition: none;
 }
 
 .journal-wheel__month {
@@ -959,22 +960,31 @@ watch(
   outline: none;
   font-size: var(--wheel-cell);
   color: var(--ink);
-  opacity: max(
-    calc(var(--scroll-opacity) * var(--cell-tone, 1)),
-    calc(var(--pointer-opacity, 0) * 0.78)
-  );
+  opacity: calc(var(--scroll-opacity, 0.12) * var(--cell-tone, 1));
 }
 
 .journal-wheel__cell :deep(.ink-wobble-stroke) {
-  opacity: calc(0.42 + var(--pointer-opacity, 0) * 0.5);
+  opacity: 0.42;
 }
 
 .journal-wheel__cell :deep(.ink-wobble-fill) {
-  fill-opacity: calc(0.12 + var(--scroll-opacity, 0.12) * 0.24 + var(--pointer-opacity, 0) * 0.36);
+  fill-opacity: calc(0.12 + var(--scroll-opacity, 0.12) * 0.24);
 }
 
 .journal-wheel__cell :deep(.ink-wobble-hatch) {
-  opacity: calc(0.15 + var(--scroll-opacity, 0.12) * 0.4 + var(--pointer-opacity, 0) * 0.4);
+  opacity: calc(0.15 + var(--scroll-opacity, 0.12) * 0.4);
+}
+
+.journal-wheel__cell.has-rook:hover :deep(.ink-wobble-hatch),
+.journal-wheel__cell.has-rook:focus-visible :deep(.ink-wobble-hatch),
+.journal-wheel__cell.has-rook.is-pinned :deep(.ink-wobble-hatch) {
+  opacity: 0.92;
+}
+
+.journal-wheel__cell.has-rook:hover :deep(.ink-wobble-stroke),
+.journal-wheel__cell.has-rook:focus-visible :deep(.ink-wobble-stroke),
+.journal-wheel__cell.has-rook.is-pinned :deep(.ink-wobble-stroke) {
+  opacity: 0.85;
 }
 
 .journal-wheel__cell.is-empty {
@@ -1100,6 +1110,7 @@ watch(
 @media (prefers-reduced-motion: reduce) {
   .journal-wheel__month,
   .journal-wheel__grid,
+  .journal-wheel__row,
   .journal-wheel__cell,
   .year-fwd-enter-active,
   .year-fwd-leave-active,
@@ -1108,5 +1119,19 @@ watch(
     transition: none;
     animation: none;
   }
+}
+</style>
+
+<style>
+@property --scroll-opacity {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 0.12;
+}
+
+@property --away {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 1;
 }
 </style>

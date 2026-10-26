@@ -130,6 +130,7 @@ onUnmounted(() => {
         />
         <IssuePeekCard
           dialog
+          spot
           :entry="entry"
           un-relative
           un-z-1

@@ -69,6 +69,7 @@ function onPeekEnter(el: Element, done: () => void) {
       >
         <IssuePeekCard
           v-if="shown"
+          spot
           :entry="shown"
           un-col-start-1
           un-row-start-1
