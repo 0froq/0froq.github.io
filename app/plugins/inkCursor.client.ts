@@ -267,7 +267,6 @@ export default defineNuxtPlugin(nuxtApp => {
       const dm = circleTarget - morph
       const db = barTarget - morphBar
       const ds = selTarget - morphSel
-      const now = performance.now() / 1000
       const vw = window.innerWidth
       const vh = window.innerHeight
       const view = `0 0 ${vw} ${vh}`
@@ -304,17 +303,9 @@ export default defineNuxtPlugin(nuxtApp => {
       }
       wasDetached = detached
 
-      const breathe = still ? 0 : Math.sin(now * 1.6) * morph
-      const local = morphCursorPts(morph, breathe, morphBar)
-      const rot = still ? 0 : Math.sin(now * 0.7) * 1.8 * (1 - morphBar) * (1 - morphSel)
-      const sc = still ? 1 : (1 + 0.03 * Math.sin(now * 1.1 + 0.8)) * press
-      const rad = (rot * Math.PI) / 180
-      const cos = Math.cos(rad)
-      const sin = Math.sin(rad)
+      const local = morphCursorPts(morph, 0, morphBar)
       const screen = local.map(([vx, vy]) => {
-        const dx = (vx - hx) * sc
-        const dy = (vy - hy) * sc
-        return [shownX + dx * cos - dy * sin, shownY + dx * sin + dy * cos] as [number, number]
+        return [shownX + (vx - hx) * press, shownY + (vy - hy) * press] as [number, number]
       })
       let pts = screen
       const lockedSel = selPts
@@ -345,7 +336,9 @@ export default defineNuxtPlugin(nuxtApp => {
       wobble.style.transform = ''
 
       updateFrame()
-      if (inside || morphSel > 0.001 || selPts) raf = requestAnimationFrame(render)
+      const following = Math.hypot(x - shownX, y - shownY) > 0.6
+      const morphing = Math.abs(dm) > 0.02 || Math.abs(db) > 0.02 || Math.abs(ds) > 0.02
+      if (following || morphing || dragSelect) raf = requestAnimationFrame(render)
     }
 
     function applyTarget(target: EventTarget | null) {
