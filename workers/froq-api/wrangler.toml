@@ -1,5 +1,11 @@
 # froq-api — GitHub auth proxy + presence / stats / reading progress
 #
+# `vite` in package.json is not used by this Worker. Root `vite.config.ts`
+# (Vite+ lint/fmt) is visible from this package, and Cloudflare autoconfig
+# then mis-detects it as Shopify Hydrogen. Declaring `vite` makes Vite
+# outrank that false positive; cf treats Vite as auxiliary and keeps Nuxt
+# as the site framework for `pnpm exec cf deploy`.
+#
 # Deploy:
 #   1. cd workers/froq-api && pnpm install
 #   2. pnpm exec wrangler login   # once
