@@ -76,6 +76,7 @@ const monthIndex = computed(() => months.value.indexOf(monthId.value))
 
 const cursor = ref(0)
 const scrubbing = ref(false)
+const settling = ref(false)
 /** Card is 16rem × 9rem. Collapsed pitch is half the old 34/319 so the tucked sheets overlap more. */
 const CARD_REM = 16
 const CARD_H_REM = (CARD_REM * 9) / 16
@@ -84,7 +85,6 @@ const STEP_REM = (CARD_REM * 17) / 319
 const SHIFT_REM = (CARD_REM * 286) / 319 - STEP_REM
 /** Vertical peel leaves a short gap under the active face so the date line stays clear. */
 const SHIFT_REM_V = CARD_H_REM + 0.8 - STEP_REM
-const FAN_DEG = 2.4
 const DRAG_GATE = 8
 const SCROLL_PX = 190
 
@@ -96,7 +96,11 @@ const front = computed(() => {
 })
 
 let scrubStop: ReturnType<typeof setTimeout> | undefined
+let settleStop: ReturnType<typeof setTimeout> | undefined
 let dealTimer: ReturnType<typeof setTimeout> | undefined
+let scrubGen = 0
+let nudgeDelta = 0
+let nudgeFrame = 0
 let dealToken = 0
 let lastDrag = 0
 let pointer: { id: number; x: number; y: number; moved: number; captured: boolean } | null = null
@@ -168,8 +172,12 @@ watch(
 
 onUnmounted(() => {
   dealToken += 1
+  scrubGen += 1
   clearTimeout(scrubStop)
+  clearTimeout(settleStop)
   clearTimeout(dealTimer)
+  if (nudgeFrame)
+    cancelAnimationFrame(nudgeFrame)
 })
 
 function monthIdOf(item: LayerEntry) {
@@ -233,23 +241,45 @@ function snapCursor() {
   cursor.value = t < 0.5 ? base : base + 1
 }
 
-async function endScrub() {
+function endScrub(gen: number) {
+  if (gen !== scrubGen)
+    return
   scrubbing.value = false
-  await nextTick()
-  snapCursor()
+  settling.value = true
+  nextTick(() => {
+    requestAnimationFrame(() => {
+      if (gen !== scrubGen)
+        return
+      snapCursor()
+      settleStop = setTimeout(() => {
+        if (gen === scrubGen)
+          settling.value = false
+      }, 160)
+    })
+  })
 }
 
 function markScrub() {
+  settling.value = false
   scrubbing.value = true
+  const gen = ++scrubGen
   clearTimeout(scrubStop)
+  clearTimeout(settleStop)
   scrubStop = setTimeout(() => {
-    void endScrub()
+    endScrub(gen)
   }, 160)
 }
 
 function nudge(deltaPx: number) {
   if (sheets.value.length <= 1) return
-  setCursor(cursor.value + deltaPx / SCROLL_PX)
+  nudgeDelta += deltaPx
+  if (nudgeFrame) return
+  nudgeFrame = requestAnimationFrame(() => {
+    nudgeFrame = 0
+    const delta = nudgeDelta
+    nudgeDelta = 0
+    setCursor(cursor.value + delta / SCROLL_PX)
+  })
 }
 
 function wheelDelta(event: WheelEvent) {
@@ -319,12 +349,6 @@ function onKey(event: KeyboardEvent) {
   if (event.key === 'ArrowRight') stepMonth(1)
 }
 
-function cursorPivot() {
-  const n = sheets.value.length
-  if (!n) return 0
-  return Math.min(Math.max(cursor.value, 0), n - 1)
-}
-
 function hash32(seed: string) {
   let h = 2166136261
   for (let i = 0; i < seed.length; i++) {
@@ -343,28 +367,21 @@ function signed(h: number, slot: number) {
 }
 
 function sheetAlong(index: number) {
-  const n = sheets.value.length
-  const span = Math.max(n - 1, 0) * STEP_REM
   const peel = Math.min(1, Math.max(0, index - cursor.value))
   const shift = vertical.value ? SHIFT_REM_V : SHIFT_REM
-  return -span / 2 + index * STEP_REM + peel * shift
-}
-
-function sheetTr(index: number) {
-  return (index - cursorPivot()) * FAN_DEG
+  return (index - cursor.value) * STEP_REM + peel * shift
 }
 
 function fanPose(index: number, entry: LayerEntry) {
   const h = hash32(entry.path)
-  const amp = 0.4 + 0.6 * Math.min(1, Math.abs(index - cursorPivot()))
-  const jx = signed(h, 0) * 0.034 * CARD_REM * amp
-  const jy = signed(h, 1) * 0.048 * CARD_REM * amp
-  const jr = signed(h, 2) * 4.4 * amp
+  const jx = signed(h, 0) * 0.034 * CARD_REM
+  const jy = signed(h, 1) * 0.048 * CARD_REM
+  const jr = signed(h, 2) * 2.4
   const along = sheetAlong(index)
   return {
     tx: vertical.value ? jx : along + jx,
     ty: vertical.value ? along + jy : jy,
-    tr: sheetTr(index) + jr,
+    tr: jr,
   }
 }
 
@@ -386,6 +403,7 @@ function sheetStyle(index: number, entry: LayerEntry) {
     :data-armed="armed ? '' : undefined"
     :data-posed="posed ? '' : undefined"
     :data-scrub="scrubbing ? '' : undefined"
+    :data-settle="settling ? '' : undefined"
     :data-reduce="reduceMotion === 'reduce' ? '' : undefined"
     un-relative
     un-flex
@@ -493,7 +511,6 @@ function sheetStyle(index: number, entry: LayerEntry) {
         :style="sheetStyle(index, entry)"
         :entry="entry"
         :flip="front === entry.path"
-        :tilt="front === entry.path"
         @click.capture="onSheetPick(entry, $event)"
         @click.stop
       />
@@ -531,7 +548,7 @@ function sheetStyle(index: number, entry: LayerEntry) {
   max-width: none;
   margin: 0;
   font-size: 1rem;
-  transform-origin: 50% 100%;
+  transform-origin: 50% 50%;
   opacity: 0;
   transition: transform var(--land-ms, 920ms) var(--ease-out);
 }
@@ -542,10 +559,6 @@ function sheetStyle(index: number, entry: LayerEntry) {
 
 .month-folder[data-posed] .month-folder__sheet {
   opacity: 1;
-}
-
-.month-folder[data-vertical] .month-folder__sheet {
-  transform-origin: 50% 50%;
 }
 
 .month-folder__sheet :deep(.issue-peek-face) {
@@ -563,7 +576,11 @@ function sheetStyle(index: number, entry: LayerEntry) {
 }
 
 .month-folder[data-scrub] .month-folder__sheet {
-  transition: transform 80ms linear;
+  transition: none;
+}
+
+.month-folder[data-settle] .month-folder__sheet {
+  transition: transform 160ms var(--ease-out);
 }
 
 .month-folder[data-reduce] .month-folder__sheet {

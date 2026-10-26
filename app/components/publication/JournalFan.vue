@@ -20,7 +20,7 @@ function onActive(entry: LayerEntry | null) {
 <template>
   <aside
     v-if="deck"
-    class="journal-fan"
+    class="journal-fan lg:[--fan-pad-bottom:var(--hub-pad-bottom)] lg:[--fan-pad-top:calc(var(--hub-pad-top)+var(--hub-body-pad-top))]"
     un-relative
     un-flex
     un-flex-col
@@ -31,7 +31,8 @@ function onActive(entry: LayerEntry | null) {
     un-h="[28rem]"
     un-min-h="[28rem]"
     un-shrink-0
-    un-pb="[var(--site-footer)]"
+    un-pt="[var(--fan-pad-top)]"
+    un-pb="[var(--fan-pad-bottom)]"
     un-lg:h-full
     un-lg:min-h-full
     un-lg:w-96
@@ -40,8 +41,6 @@ function onActive(entry: LayerEntry | null) {
     un-lg:flex-none
     un-lg:self-stretch
     un-lg:justify-center
-    un-lg:pt="[calc(var(--hub-pad-top)+var(--hub-body-pad-top))]"
-    un-lg:pb="[var(--hub-pad-bottom)]"
   >
     <div
       v-if="cover && hasCards"
@@ -64,6 +63,8 @@ function onActive(entry: LayerEntry | null) {
 
 <style scoped>
 .journal-fan {
+  --fan-pad-top: 0px;
+  --fan-pad-bottom: var(--site-footer);
   pointer-events: none;
 }
 
@@ -75,9 +76,11 @@ function onActive(entry: LayerEntry | null) {
 
 .journal-fan__hold {
   position: absolute;
-  inset: 0;
   z-index: 0;
-  min-height: 28rem;
+  left: 0;
+  right: 0;
+  top: var(--fan-pad-top);
+  bottom: var(--fan-pad-bottom);
   pointer-events: none;
 }
 
