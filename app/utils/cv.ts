@@ -123,7 +123,7 @@ export const cv = {
           when: 'now',
           title: 'LiG',
           what: 'A palette that assigns each colour.',
-          href: 'https://github.com/0froq/lig.nvim',
+          href: 'https://lig.froq.me',
           blurb: fold(`
             Green for structure, blue for reference, orange for
             action. Other tokens stay almost all grayscale.
@@ -135,6 +135,7 @@ export const cv = {
           when: 'now',
           title: 'poim',
           what: 'It turns a post into a share card.',
+          href: 'https://poim.froq.me',
           blurb: fold(`
             I'm tired of getting inconsistent screenshots of posts.
             Built this to turn a post URL into an image, easily shareable.
@@ -272,7 +273,7 @@ export const cv = {
           when: 'now',
           title: 'LiG',
           what: '给颜色分配角色的代码高亮调色盘。',
-          href: 'https://github.com/0froq/lig.nvim',
+          href: 'https://lig.froq.me',
           blurb: fold(`
             绿色代表结构，蓝色代表引用、橙色代表动作。
             其余 token 几乎全为灰度。不止于代码高亮，
@@ -284,6 +285,7 @@ export const cv = {
           when: 'now',
           title: 'poim',
           what: '把帖子变成分享卡片。',
+          href: 'https://poim.froq.me',
           blurb: fold(`
             我厌倦了帖子截图总是不统一。于是做了这个，把帖子 URL
             变成图片，方便分享。
