@@ -39,15 +39,13 @@ export default {
     }
 
     let path = url.pathname
-    if (path.startsWith('/__auth'))
-      path = path.slice('/__auth'.length) || '/'
+    if (path.startsWith('/__auth')) path = path.slice('/__auth'.length) || '/'
     path = path.replace(/^\/+/, '')
 
     const target = new URL(`${path}${url.search}`, GITHUB_LOGIN)
 
-    const rawBody = request.method === 'GET' || request.method === 'HEAD'
-      ? null
-      : await request.text()
+    const rawBody =
+      request.method === 'GET' || request.method === 'HEAD' ? null : await request.text()
 
     const headers = new Headers({
       'Accept': request.headers.get('Accept') || 'application/json',
@@ -65,13 +63,11 @@ export default {
     const outHeaders = new Headers()
     upstream.headers.forEach((value, key) => {
       const k = key.toLowerCase()
-      if (k === 'set-cookie' || k === 'set-cookie2')
-        return
+      if (k === 'set-cookie' || k === 'set-cookie2') return
       outHeaders.set(key, value)
     })
     const cors = corsHeaders(origin)
-    for (const [k, v] of Object.entries(cors))
-      outHeaders.set(k, v)
+    for (const [k, v] of Object.entries(cors)) outHeaders.set(k, v)
 
     return new Response(await upstream.text(), {
       status: upstream.status,

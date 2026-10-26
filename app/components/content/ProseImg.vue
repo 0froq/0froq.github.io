@@ -30,7 +30,7 @@ const caption = computed(() => props.title || '')
       :height="height"
       loading="lazy"
       decoding="async"
-    >
+    />
     <figcaption
       v-if="caption"
       class="prose-caption"

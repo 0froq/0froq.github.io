@@ -15,7 +15,9 @@ const route = useRoute()
     un-pb-16
   >
     <TableOfContents />
-    <div class="issue-read__stage mx-auto w-[min(var(--read-prose),calc(100%-2*var(--gutter)))] lg:w-[min(var(--read-stage),calc(100%-2*var(--gutter)))] max-md:w-[min(var(--read-prose),calc(100%-2rem))]">
+    <div
+      class="issue-read__stage mx-auto w-[min(var(--read-prose),calc(100%-2*var(--gutter)))] lg:w-[min(var(--read-stage),calc(100%-2*var(--gutter)))] max-md:w-[min(var(--read-prose),calc(100%-2rem))]"
+    >
       <IssueEntryHead
         class="issue-read__mast"
         :entry="entry"

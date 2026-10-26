@@ -1,6 +1,5 @@
 {
   "type": "module",
-  "packageManager": "pnpm@12.11.2+sha512.25a51652a196785af5f28bda6dfe8dc582ebefa4ac1d180221ce1390231c5fb76637822ea4b6e4633ce74acdcb0a77f725af11bad38177fdeddaee818a955cb9",
   "scripts": {
     "dev": "nuxt dev",
     "build": "nuxt build",
@@ -9,14 +8,20 @@
     "preview": "nuxt preview",
     "preview:deploy": "pnpm generate && cf previews deploy",
     "postinstall": "nuxt prepare",
+    "prepare": "npx simple-git-hooks",
     "worker:dev": "pnpm --dir workers/froq-api dev",
     "worker:deploy": "pnpm --dir workers/froq-api deploy",
-    "lint": "eslint . --fix"
+    "lint": "vp lint --config .oxlintrc.json .",
+    "lint:fix": "vp lint --config .oxlintrc.json . --fix",
+    "fmt": "vp fmt --config .oxfmtrc.json .",
+    "fmt:check": "vp fmt --config .oxfmtrc.json . --check",
+    "check": "vp run lint && vp run fmt:check",
+    "typecheck": "nuxt typecheck"
   },
   "dependencies": {
-    "@froq/og-covers-layer": "github:0froq/og-layer#v0.2.1",
     "@fontsource-variable/eb-garamond": "catalog:fonts",
     "@fontsource-variable/instrument-sans": "catalog:fonts",
+    "@froq/og-covers-layer": "github:0froq/og-layer#v0.2.1",
     "@nuxt/content": "catalog:build",
     "@oreo-design/doodle-icons": "catalog:",
     "@vueuse/core": "catalog:runtime",
@@ -32,7 +37,6 @@
     "yaml": "catalog:"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "catalog:lint",
     "@iconify-json/carbon": "catalog:styling",
     "@iconify-json/duo-icons": "catalog:styling",
     "@iconify-json/openmoji": "catalog:styling",
@@ -42,14 +46,30 @@
     "@iconify-json/skill-icons": "catalog:styling",
     "@iconify-json/solar": "catalog:styling",
     "@iconify-json/twemoji": "catalog:styling",
-    "@unocss/eslint-plugin": "catalog:lint",
+    "@types/node": "catalog:tooling",
     "@unocss/extractor-mdc": "catalog:styling",
     "@unocss/nuxt": "catalog:styling",
     "cf": "catalog:workers",
-    "eslint": "catalog:lint",
+    "lint-staged": "catalog:tooling",
+    "nuxtseo-devtools-host": "catalog:tooling",
+    "simple-git-hooks": "catalog:tooling",
     "typescript": "catalog:workers",
-    "nuxtseo-devtools-host": "^1",
     "unocss": "catalog:styling",
+    "vite-plus": "catalog:tooling",
+    "vue-tsc": "catalog:tooling",
     "wrangler": "catalog:workers"
-  }
+  },
+  "simple-git-hooks": {
+    "pre-commit": "pnpm i --frozen-lockfile --ignore-scripts --offline && npx lint-staged"
+  },
+  "lint-staged": {
+    "*": [
+      "vp lint --config .oxlintrc.json --fix --no-error-on-unmatched-pattern",
+      "vp fmt --config .oxfmtrc.json --no-error-on-unmatched-pattern"
+    ]
+  },
+  "engines": {
+    "node": "^24.21.0 || >=26.0.0"
+  },
+  "packageManager": "pnpm@12.11.2+sha512.25a51652a196785af5f28bda6dfe8dc582ebefa4ac1d180221ce1390231c5fb76637822ea4b6e4633ce74acdcb0a77f725af11bad38177fdeddaee818a955cb9"
 }

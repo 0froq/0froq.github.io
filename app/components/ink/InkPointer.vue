@@ -4,21 +4,24 @@ import { inkPointerParts } from '~/utils/inkDraw'
 type InkPointerSize = 'md' | 'sm' | 'lg'
 type InkPointerPace = 'normal' | 'fast'
 
-const props = withDefaults(defineProps<{
-  seed: string
-  dir?: InkArrowDir
-  size?: InkPointerSize
-  draw?: boolean
-  /** When set, draw in / erase out as this toggles. Home gloss still uses `draw`. */
-  drawn?: boolean | null
-  pace?: InkPointerPace
-}>(), {
-  dir: 'down',
-  size: 'md',
-  draw: false,
-  drawn: null,
-  pace: 'normal',
-})
+const props = withDefaults(
+  defineProps<{
+    seed: string
+    dir?: InkArrowDir
+    size?: InkPointerSize
+    draw?: boolean
+    /** When set, draw in / erase out as this toggles. Home gloss still uses `draw`. */
+    drawn?: boolean | null
+    pace?: InkPointerPace
+  }>(),
+  {
+    dir: 'down',
+    size: 'md',
+    draw: false,
+    drawn: null,
+    pace: 'normal',
+  },
+)
 
 const stemEl = ref<SVGPathElement | null>(null)
 const headEl = ref<SVGPathElement | null>(null)
@@ -73,11 +76,9 @@ function later(ms: number, fn: () => void) {
 }
 
 function clearTimers() {
-  for (const id of timers)
-    window.clearTimeout(id)
+  for (const id of timers) window.clearTimeout(id)
   timers.length = 0
-  for (const anim of anims)
-    anim.cancel()
+  for (const anim of anims) anim.cancel()
   anims.length = 0
 }
 
@@ -115,21 +116,17 @@ function reveal(el: SVGPathElement, ms: number) {
   }
 
   el.style.strokeDashoffset = `${len}`
-  const anim = el.animate(
-    [
-      { strokeDashoffset: len },
-      { strokeDashoffset: 0 },
-    ],
-    {
-      duration: ms,
-      easing: 'cubic-bezier(0, 0, 0.2, 1)',
-      fill: 'forwards',
-    },
-  )
+  const anim = el.animate([{ strokeDashoffset: len }, { strokeDashoffset: 0 }], {
+    duration: ms,
+    easing: 'cubic-bezier(0, 0, 0.2, 1)',
+    fill: 'forwards',
+  })
   anims.push(anim)
-  anim.finished.then(() => {
-    el.style.strokeDashoffset = '0'
-  }).catch(() => {})
+  anim.finished
+    .then(() => {
+      el.style.strokeDashoffset = '0'
+    })
+    .catch(() => {})
 }
 
 function conceal(el: SVGPathElement, ms: number) {
@@ -142,28 +139,23 @@ function conceal(el: SVGPathElement, ms: number) {
     return
   }
 
-  const anim = el.animate(
-    [
-      { strokeDashoffset: from },
-      { strokeDashoffset: len },
-    ],
-    {
-      duration: ms,
-      easing: 'cubic-bezier(0.4, 0, 1, 1)',
-      fill: 'forwards',
-    },
-  )
+  const anim = el.animate([{ strokeDashoffset: from }, { strokeDashoffset: len }], {
+    duration: ms,
+    easing: 'cubic-bezier(0.4, 0, 1, 1)',
+    fill: 'forwards',
+  })
   anims.push(anim)
-  anim.finished.then(() => {
-    el.style.strokeDashoffset = `${len}`
-  }).catch(() => {})
+  anim.finished
+    .then(() => {
+      el.style.strokeDashoffset = `${len}`
+    })
+    .catch(() => {})
 }
 
 function armDraw() {
   const stem = stemEl.value
   const head = headEl.value
-  if (!stem || !head)
-    return
+  if (!stem || !head) return
 
   clearTimers()
   hide(stem)
@@ -187,8 +179,7 @@ function armDraw() {
 function armErase() {
   const stem = stemEl.value
   const head = headEl.value
-  if (!stem || !head)
-    return
+  if (!stem || !head) return
 
   clearTimers()
 
@@ -209,27 +200,21 @@ onMounted(() => {
   if (props.drawn !== null) {
     const stem = stemEl.value
     const head = headEl.value
-    if (stem)
-      hide(stem)
-    if (head)
-      hide(head)
-    if (props.drawn)
-      armDraw()
+    if (stem) hide(stem)
+    if (head) hide(head)
+    if (props.drawn) armDraw()
     return
   }
 
   if (!props.draw) {
     const stem = stemEl.value
     const head = headEl.value
-    if (stem)
-      stem.style.strokeDashoffset = '0'
-    if (head)
-      head.style.strokeDashoffset = '0'
+    if (stem) stem.style.strokeDashoffset = '0'
+    if (head) head.style.strokeDashoffset = '0'
     return
   }
   const el = stemEl.value
-  if (!el)
-    return
+  if (!el) return
   const group = el.closest('[data-phase]')
   const phase = group?.getAttribute('data-phase')
   if (!group || phase === 'done') {
@@ -237,11 +222,9 @@ onMounted(() => {
     return
   }
   hide(el)
-  if (headEl.value)
-    hide(headEl.value)
+  if (headEl.value) hide(headEl.value)
   const obs = new MutationObserver(() => {
-    if (group.getAttribute('data-phase') !== 'done')
-      return
+    if (group.getAttribute('data-phase') !== 'done') return
     obs.disconnect()
     armDraw()
   })
@@ -252,14 +235,14 @@ onMounted(() => {
   })
 })
 
-watch(() => props.drawn, (on) => {
-  if (on == null)
-    return
-  if (on)
-    armDraw()
-  else
-    armErase()
-})
+watch(
+  () => props.drawn,
+  on => {
+    if (on == null) return
+    if (on) armDraw()
+    else armErase()
+  },
+)
 
 onUnmounted(() => {
   clearTimers()

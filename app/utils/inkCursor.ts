@@ -10,7 +10,11 @@ const LOOP_N = 60
 export const INK_CURSOR_HOTSPOT: readonly [number, number] = [8, 7]
 
 /** One-stroke handle-less triangle arrow. Clockwise in screen coords. */
-const TRIANGLE: readonly InkPt[] = [[8, 7], [10, 26.2], [25.2, 15]]
+const TRIANGLE: readonly InkPt[] = [
+  [8, 7],
+  [10, 26.2],
+  [25.2, 15],
+]
 const LOOP_CENTER: InkPt = [
   (TRIANGLE[0]![0] + TRIANGLE[1]![0] + TRIANGLE[2]![0]) / 3,
   (TRIANGLE[0]![1] + TRIANGLE[1]![1] + TRIANGLE[2]![1]) / 3,
@@ -23,8 +27,7 @@ const BAR_H = 17.2
 export const INK_CURSOR_TEXT_HOTSPOT: readonly [number, number] = LOOP_CENTER
 
 function strokePath(pts: InkPt[]): string {
-  if (pts.length < 2)
-    return ''
+  if (pts.length < 2) return ''
   if (pts.length === 2)
     return `M${pts[0]![0].toFixed(2)} ${pts[0]![1].toFixed(2)} L${pts[1]![0].toFixed(2)} ${pts[1]![1].toFixed(2)}`
 
@@ -49,8 +52,7 @@ let barLoopCache: InkPt[] | undefined
 
 /** Triangle perimeter, LOOP_N points, seeded jitter. Starts at the tip. */
 function triangleLoop(): InkPt[] {
-  if (arrowLoopCache)
-    return arrowLoopCache
+  if (arrowLoopCache) return arrowLoopCache
   const rng = inkRng('ink-cursor:v2:arrow')
   const j = () => (rng() - 0.5) * 0.62
   const pts: InkPt[] = []
@@ -69,13 +71,9 @@ function triangleLoop(): InkPt[] {
 
 /** Wobbly circle, LOOP_N points, same winding and start direction as the triangle. */
 function circleLoop(): InkPt[] {
-  if (circleLoopCache)
-    return circleLoopCache
+  if (circleLoopCache) return circleLoopCache
   const rng = inkRng('ink-cursor:v2:circle')
-  const start = Math.atan2(
-    TRIANGLE[0]![1] - LOOP_CENTER[1],
-    TRIANGLE[0]![0] - LOOP_CENTER[0],
-  )
+  const start = Math.atan2(TRIANGLE[0]![1] - LOOP_CENTER[1], TRIANGLE[0]![0] - LOOP_CENTER[0])
   const pts: InkPt[] = []
   for (let i = 0; i < LOOP_N; i++) {
     const a = start + (i / LOOP_N) * Math.PI * 2
@@ -118,9 +116,15 @@ function rectLoop(
 }
 
 function barLoop(): InkPt[] {
-  if (barLoopCache)
-    return barLoopCache
-  barLoopCache = rectLoop(LOOP_CENTER[0], LOOP_CENTER[1], BAR_W, BAR_H, inkRng('ink-cursor:v2:bar'), 0.28)
+  if (barLoopCache) return barLoopCache
+  barLoopCache = rectLoop(
+    LOOP_CENTER[0],
+    LOOP_CENTER[1],
+    BAR_W,
+    BAR_H,
+    inkRng('ink-cursor:v2:bar'),
+    0.28,
+  )
   return barLoopCache
 }
 
@@ -161,15 +165,13 @@ export function closedLoopContains(pts: InkPt[], x: number, y: number) {
     const yi = pts[i]![1]
     const xj = pts[j]![0]
     const yj = pts[j]![1]
-    if ((yi > y) !== (yj > y) && x < (xj - xi) * (y - yi) / (yj - yi + 1e-6) + xi)
-      inside = !inside
+    if (yi > y !== yj > y && x < ((xj - xi) * (y - yi)) / (yj - yi + 1e-6) + xi) inside = !inside
   }
   return inside
 }
 
 export function closedLoopDist(pts: InkPt[], x: number, y: number) {
-  if (pts.length < 2)
-    return Infinity
+  if (pts.length < 2) return Infinity
   let best = Infinity
   for (let i = 0; i < pts.length; i++) {
     const a = pts[i]!
@@ -181,8 +183,7 @@ export function closedLoopDist(pts: InkPt[], x: number, y: number) {
     const dx = x - (a[0] + vx * t)
     const dy = y - (a[1] + vy * t)
     const d = dx * dx + dy * dy
-    if (d < best)
-      best = d
+    if (d < best) best = d
   }
   return Math.sqrt(best)
 }
@@ -194,19 +195,21 @@ interface SelBox {
   bottom: number
 }
 
-function rectArea(r: { left: number, top: number, right: number, bottom: number }) {
+function rectArea(r: { left: number; top: number; right: number; bottom: number }) {
   return Math.max(0, r.right - r.left) * Math.max(0, r.bottom - r.top)
 }
 
 function rectContains(
-  a: { left: number, top: number, right: number, bottom: number },
-  b: { left: number, top: number, right: number, bottom: number },
+  a: { left: number; top: number; right: number; bottom: number },
+  b: { left: number; top: number; right: number; bottom: number },
 ) {
-  return a.left <= b.left + 1
-    && a.right >= b.right - 1
-    && a.top <= b.top + 1
-    && a.bottom >= b.bottom - 1
-    && rectArea(a) > rectArea(b) + 4
+  return (
+    a.left <= b.left + 1 &&
+    a.right >= b.right - 1 &&
+    a.top <= b.top + 1 &&
+    a.bottom >= b.bottom - 1 &&
+    rectArea(a) > rectArea(b) + 4
+  )
 }
 
 /** Drop block/element boxes that merely wrap line fragments. */
@@ -221,8 +224,7 @@ function lineRects(rects: ArrayLike<DOMRectReadOnly>): SelBox[] {
 
 function sameLine(a: SelBox, b: SelBox) {
   const overlap = Math.min(a.bottom, b.bottom) - Math.max(a.top, b.top)
-  if (overlap <= 0)
-    return false
+  if (overlap <= 0) return false
   const minH = Math.min(a.bottom - a.top, b.bottom - b.top)
   return overlap >= minH * 0.25
 }
@@ -237,8 +239,7 @@ function mergeSelectionRows(rects: ArrayLike<DOMRectReadOnly>): SelBox[] {
       hit.right = Math.max(hit.right, r.right)
       hit.top = Math.min(hit.top, r.top)
       hit.bottom = Math.max(hit.bottom, r.bottom)
-    }
-    else {
+    } else {
       rows.push({ ...r })
     }
   }
@@ -261,8 +262,7 @@ function nearly(a: InkPt, b: InkPt) {
 /** Outer silhouette of stacked line boxes. Clockwise from first-line top-left. */
 function selectionPolygon(rows: SelBox[]): InkPt[] {
   const n = rows.length
-  if (!n)
-    return []
+  if (!n) return []
   const pts: InkPt[] = []
   const first = rows[0]!
   pts.push([first.left, first.top], [first.right, first.top])
@@ -270,8 +270,7 @@ function selectionPolygon(rows: SelBox[]): InkPt[] {
     const box = rows[i]!
     const next = rows[i + 1]
     pts.push([box.right, box.bottom])
-    if (next)
-      pts.push([next.right, box.bottom])
+    if (next) pts.push([next.right, box.bottom])
   }
   const last = rows[n - 1]!
   pts.push([last.left, last.bottom])
@@ -279,23 +278,19 @@ function selectionPolygon(rows: SelBox[]): InkPt[] {
     const box = rows[i]!
     const prev = rows[i - 1]
     pts.push([box.left, box.top])
-    if (prev)
-      pts.push([prev.left, box.top])
+    if (prev) pts.push([prev.left, box.top])
   }
   const out: InkPt[] = []
   for (const p of pts) {
     const q = out.at(-1)
-    if (!q || !nearly(p, q))
-      out.push(p)
+    if (!q || !nearly(p, q)) out.push(p)
   }
-  if (out.length > 1 && nearly(out[0]!, out.at(-1)!))
-    out.pop()
+  if (out.length > 1 && nearly(out[0]!, out.at(-1)!)) out.pop()
   return out
 }
 
 function resampleClosed(pts: InkPt[], n: number): InkPt[] {
-  if (pts.length < 2)
-    return pts
+  if (pts.length < 2) return pts
   const ring = [...pts, pts[0]!]
   const lens: number[] = []
   let total = 0
@@ -304,16 +299,14 @@ function resampleClosed(pts: InkPt[], n: number): InkPt[] {
     lens.push(len)
     total += len
   }
-  if (total < 1)
-    return Array.from({ length: n }).fill([pts[0]![0], pts[0]![1]] as InkPt)
+  if (total < 1) return Array.from({ length: n }).fill([pts[0]![0], pts[0]![1]] as InkPt)
   const out: InkPt[] = []
   const step = total / n
   let ei = 0
   let acc = 0
   for (let i = 0; i < n; i++) {
     const target = i * step
-    while (ei < lens.length - 1 && acc + lens[ei]! < target)
-      acc += lens[ei++]!
+    while (ei < lens.length - 1 && acc + lens[ei]! < target) acc += lens[ei++]!
     const seg = lens[ei]!
     const t = seg < 1e-6 ? 0 : (target - acc) / seg
     const a = ring[ei]!
@@ -327,56 +320,43 @@ function resampleClosed(pts: InkPt[], n: number): InkPt[] {
 export function rangeTextRects(range: Range): DOMRect[] {
   const root = range.commonAncestorContainer
   const host = root.nodeType === Node.ELEMENT_NODE ? root : root.parentNode
-  if (!host)
-    return [...range.getClientRects()]
+  if (!host) return [...range.getClientRects()]
   const out: DOMRect[] = []
   const walker = document.createTreeWalker(host, NodeFilter.SHOW_TEXT)
   for (let node = walker.nextNode(); node; node = walker.nextNode()) {
     const text = node as Text
     const len = text.data.length
-    if (!len)
-      continue
+    if (!len) continue
     try {
-      if (range.comparePoint(text, len) < 0 || range.comparePoint(text, 0) > 0)
-        continue
-    }
-    catch {
+      if (range.comparePoint(text, len) < 0 || range.comparePoint(text, 0) > 0) continue
+    } catch {
       continue
     }
     let start = 0
     let end = len
-    if (text === range.startContainer)
-      start = range.startOffset
-    if (text === range.endContainer)
-      end = range.endOffset
-    if (start >= end)
-      continue
+    if (text === range.startContainer) start = range.startOffset
+    if (text === range.endContainer) end = range.endOffset
+    if (start >= end) continue
     const piece = document.createRange()
     piece.setStart(text, start)
     piece.setEnd(text, end)
     for (const r of piece.getClientRects()) {
-      if (r.width > 1 && r.height > 1)
-        out.push(r)
+      if (r.width > 1 && r.height > 1) out.push(r)
     }
   }
   return out.length ? out : [...range.getClientRects()]
 }
 
 /** Outer silhouette of the selected line boxes, not their bounding box. */
-export function selectionLoopFromRects(
-  rects: ArrayLike<DOMRectReadOnly>,
-): InkPt[] | null {
+export function selectionLoopFromRects(rects: ArrayLike<DOMRectReadOnly>): InkPt[] | null {
   const rows = mergeSelectionRows(rects)
-  if (!rows.length)
-    return null
+  if (!rows.length) return null
   const poly = selectionPolygon(padRows(rows, 4))
-  if (poly.length < 3)
-    return null
+  if (poly.length < 3) return null
   const rng = inkRng('ink-cursor:v2:bar')
-  return resampleClosed(poly, LOOP_N).map(([x, y]) => [
-    x + (rng() - 0.5) * 0.5,
-    y + (rng() - 0.5) * 0.5,
-  ] as InkPt)
+  return resampleClosed(poly, LOOP_N).map(
+    ([x, y]) => [x + (rng() - 0.5) * 0.5, y + (rng() - 0.5) * 0.5] as InkPt,
+  )
 }
 
 /** Short floating strokes radiating from the arrow tip: "this is clickable". */
@@ -384,7 +364,7 @@ function tickPaths(): string[] {
   const rng = inkRng('ink-cursor:v2:ticks')
   const j = () => (rng() - 0.5) * 0.5
   const tip = TRIANGLE[0]!
-  return [198, 238, 278].map((deg) => {
+  return [198, 238, 278].map(deg => {
     const a = (deg * Math.PI) / 180
     const r = 6.6 + (rng() - 0.5) * 0.7
     const len = 4.4 + (rng() - 0.5) * 0.7
@@ -392,7 +372,10 @@ function tickPaths(): string[] {
     const cy = tip[1] + Math.sin(a) * r + j()
     const dx = (Math.cos(a) * len) / 2
     const dy = (Math.sin(a) * len) / 2
-    return strokePath([[cx - dx, cy - dy], [cx + dx, cy + dy]])
+    return strokePath([
+      [cx - dx, cy - dy],
+      [cx + dx, cy + dy],
+    ])
   })
 }
 

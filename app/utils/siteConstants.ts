@@ -15,8 +15,7 @@ export const OG_IMAGE_HEIGHT = 630
 
 /** Absolute https URL for a share image. Already-absolute https URLs pass through. */
 export function absoluteImageUrl(src: string): string {
-  if (/^https:\/\//i.test(src))
-    return src
+  if (/^https:\/\//i.test(src)) return src
   const path = src.startsWith('/') ? src : `/${src}`
   return `${IMAGE_ORIGIN}${path}`
 }

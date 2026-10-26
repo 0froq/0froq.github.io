@@ -39,8 +39,7 @@ export function isPublicationRoom(slug: string): slug is PublicationRoom {
 /** A public section index is exactly one path segment. */
 export function publicationRoot(path: string): string | null {
   const parts = path.split('/').filter(Boolean)
-  if (parts.length !== 1)
-    return null
+  if (parts.length !== 1) return null
   return findPublicationSection(parts[0]!)?.slug ?? null
 }
 

@@ -15,8 +15,7 @@ const phrase = ref(pickDoingPhrase('', 'working', DOING_LOCALE))
 const phraseParts = computed(() => splitDoingPhrase(phrase.value.text))
 
 const show = computed(() => {
-  if (loading.value || !appName.value)
-    return false
+  if (loading.value || !appName.value) return false
   return sleeping.value || activity.value.active
 })
 
@@ -30,8 +29,7 @@ function reshufflePhrase(opts?: { avoidCurrent?: boolean }) {
   if (opts?.avoidCurrent && next.text === current) {
     for (let i = 0; i < 8; i++) {
       next = pickDoingPhrase(appName.value, mode.value, DOING_LOCALE)
-      if (next.text !== current)
-        break
+      if (next.text !== current) break
     }
   }
   phrase.value = next
@@ -41,11 +39,7 @@ function onPhraseClick() {
   reshufflePhrase({ avoidCurrent: true })
 }
 
-watch(
-  [appName, mode],
-  () => reshufflePhrase(),
-  { immediate: true },
-)
+watch([appName, mode], () => reshufflePhrase(), { immediate: true })
 </script>
 
 <template>
@@ -100,7 +94,8 @@ watch(
           title="reshuffle"
           @click="onPhraseClick"
           @keydown.enter.prevent="onPhraseClick"
-        >{{ phraseParts.before }}</span>
+          >{{ phraseParts.before }}</span
+        >
         <template v-if="phraseParts.hasApp && appName">
           <a
             v-if="phrase.url"
@@ -126,7 +121,7 @@ watch(
               un-h-4
               un-w-4
               un-shrink-0
-            >
+            />
           </a>
           <span
             v-else
@@ -145,7 +140,7 @@ watch(
               un-h-4
               un-w-4
               un-shrink-0
-            >
+            />
           </span>
           <span
             v-if="phraseParts.after"
@@ -155,7 +150,8 @@ watch(
             title="reshuffle"
             @click="onPhraseClick"
             @keydown.enter.prevent="onPhraseClick"
-          >{{ phraseParts.after }}</span>
+            >{{ phraseParts.after }}</span
+          >
         </template>
         <template v-else-if="appName">
           <span aria-hidden="true">·</span>
@@ -183,7 +179,7 @@ watch(
               un-h-4
               un-w-4
               un-shrink-0
-            >
+            />
           </a>
           <span
             v-else
@@ -202,7 +198,7 @@ watch(
               un-h-4
               un-w-4
               un-shrink-0
-            >
+            />
           </span>
         </template>
         <span

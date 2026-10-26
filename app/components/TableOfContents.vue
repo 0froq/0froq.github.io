@@ -31,9 +31,9 @@ function collect() {
     items.value = []
     return
   }
-  const headings = Array.from(
-    root.querySelectorAll<HTMLElement>('h2, h3, h4'),
-  ).filter(el => el.id && el.textContent?.trim())
+  const headings = Array.from(root.querySelectorAll<HTMLElement>('h2, h3, h4')).filter(
+    el => el.id && el.textContent?.trim(),
+  )
 
   items.value = headings.map(el => ({
     id: el.id,
@@ -43,23 +43,22 @@ function collect() {
   }))
 
   const visible = new Set<string>()
-  observer = new IntersectionObserver((entries) => {
-    for (const entry of entries) {
-      if (entry.isIntersecting)
-        visible.add(entry.target.id)
-      else
-        visible.delete(entry.target.id)
-    }
-    const first = items.value.find(i => visible.has(i.id))
-    if (first)
-      activeId.value = first.id
-  }, { rootMargin: '-64px 0px -70% 0px' })
+  observer = new IntersectionObserver(
+    entries => {
+      for (const entry of entries) {
+        if (entry.isIntersecting) visible.add(entry.target.id)
+        else visible.delete(entry.target.id)
+      }
+      const first = items.value.find(i => visible.has(i.id))
+      if (first) activeId.value = first.id
+    },
+    { rootMargin: '-64px 0px -70% 0px' },
+  )
   headings.forEach(el => observer!.observe(el))
 }
 
 function onScrollFallback() {
-  if (items.value.length && !activeId.value)
-    activeId.value = items.value[0]!.id
+  if (items.value.length && !activeId.value) activeId.value = items.value[0]!.id
 }
 
 function hideFloat() {
@@ -70,13 +69,11 @@ function hideFloat() {
 function go(item: TocItem) {
   activeId.value = item.id
   item.el.scrollIntoView({ behavior: 'smooth', block: 'start' })
-  if (!wide.value)
-    hideFloat()
+  if (!wide.value) hideFloat()
 }
 
 async function showFloat() {
-  if (wide.value)
-    return
+  if (wide.value) return
   open.value = true
   await nextTick()
   navRef.value?.querySelector<HTMLElement>('ul button')?.focus()
@@ -88,17 +85,14 @@ function getLabelText(ev: MouseEvent) {
 }
 
 function onItemEnter(item: TocItem, ev: MouseEvent) {
-  if (!(wide.value || open.value))
-    return
+  if (!(wide.value || open.value)) return
   const text = getLabelText(ev)
   const label = text?.parentElement
-  if (!text || !label)
-    return
+  if (!text || !label) return
   text.style.transition = ''
   text.style.transform = ''
   const overflow = text.scrollWidth - label.clientWidth
-  if (!(overflow > 0))
-    return
+  if (!(overflow > 0)) return
   marqueeId.value = item.id
   marqueeDist.value = overflow + 8
   marqueeDuration.value = Math.max(1.6, overflow / 40)
@@ -126,44 +120,35 @@ function eventInNav(target: EventTarget | null) {
 }
 
 function onKeydown(event: KeyboardEvent) {
-  if (!open.value || wide.value)
-    return
+  if (!open.value || wide.value) return
   if (event.key === 'Escape') {
     event.preventDefault()
     hideFloat()
     return
   }
-  if (event.key !== 'Tab' || !navRef.value)
-    return
-  const nodes = [...navRef.value.querySelectorAll<HTMLElement>(
-    'ul button:not([disabled])',
-  )]
+  if (event.key !== 'Tab' || !navRef.value) return
+  const nodes = [...navRef.value.querySelectorAll<HTMLElement>('ul button:not([disabled])')]
   const first = nodes[0]
   const last = nodes.at(-1)
-  if (!first || !last)
-    return
+  if (!first || !last) return
   const active = document.activeElement
   if (event.shiftKey && active === first) {
     event.preventDefault()
     last.focus()
-  }
-  else if (!event.shiftKey && active === last) {
+  } else if (!event.shiftKey && active === last) {
     event.preventDefault()
     first.focus()
   }
 }
 
 function wheelScale(event: WheelEvent) {
-  if (event.deltaMode === 1)
-    return 16
-  if (event.deltaMode === 2)
-    return window.innerHeight
+  if (event.deltaMode === 1) return 16
+  if (event.deltaMode === 2) return window.innerHeight
   return 1
 }
 
 function onWheel(event: WheelEvent) {
-  if (!open.value || wide.value || event.ctrlKey)
-    return
+  if (!open.value || wide.value || event.ctrlKey) return
   const scale = wheelScale(event)
   const nav = navRef.value
   if (!isOutside.value && nav) {
@@ -172,37 +157,31 @@ function onWheel(event: WheelEvent) {
     nav.scrollTop = Math.min(max, Math.max(0, nav.scrollTop + event.deltaY * scale))
     return
   }
-  if (!isOutside.value)
-    return
+  if (!isOutside.value) return
   event.preventDefault()
   hideFloat()
   const root = document.scrollingElement
-  if (!root)
-    return
+  if (!root) return
   root.scrollTop += event.deltaY * scale
   root.scrollLeft += event.deltaX * scale
 }
 
 function onPointerDown(event: PointerEvent) {
-  if (!open.value || wide.value)
-    return
-  if (eventInNav(event.target))
-    return
+  if (!open.value || wide.value) return
+  if (eventInNav(event.target)) return
   hideFloat()
 }
 
 function bindWheel(on: boolean) {
   window.removeEventListener('wheel', onWheel, { capture: true })
-  if (on)
-    window.addEventListener('wheel', onWheel, { passive: false, capture: true })
+  if (on) window.addEventListener('wheel', onWheel, { passive: false, capture: true })
 }
 
 watch(open, isOpen => bindWheel(isOpen && !wide.value))
 
 watch([wide, listed], () => {
   compact.value = !wide.value
-  if (wide.value || !listed.value)
-    open.value = false
+  if (wide.value || !listed.value) open.value = false
 })
 
 onMounted(() => {
@@ -221,10 +200,13 @@ onUnmounted(() => {
   bindWheel(false)
 })
 
-watch(() => route.path, () => {
-  open.value = false
-  nextTick(collect)
-})
+watch(
+  () => route.path,
+  () => {
+    open.value = false
+    nextTick(collect)
+  },
+)
 </script>
 
 <template>
@@ -337,7 +319,8 @@ watch(() => route.path, () => {
               <span
                 class="issue-toc-label-text"
                 un-inline-block
-              >{{ item.text }}</span>
+                >{{ item.text }}</span
+              >
             </span>
           </button>
         </li>
@@ -349,7 +332,10 @@ watch(() => route.path, () => {
 <style scoped>
 nav {
   /* prose left edge, then nav's left-4. Tick width flips on hover so the text's right edge stays put. */
-  --toc-edge: calc(var(--gutter) + (100vw - 2 * var(--gutter) - min(var(--read-stage), 100vw - 4 * var(--gutter))) / 2);
+  --toc-edge: calc(
+    var(--gutter) +
+      (100vw - 2 * var(--gutter) - min(var(--read-stage), 100vw - 4 * var(--gutter))) / 2
+  );
   --toc-room: calc(var(--toc-edge) - 1rem);
   --toc-tick: 1.5rem;
   --toc-label: max(0px, calc(var(--toc-room) - var(--toc-tick) - 1rem));

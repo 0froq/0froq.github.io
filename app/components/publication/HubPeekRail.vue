@@ -38,9 +38,11 @@ function onPeekEnter(el: Element, done: () => void) {
 <template>
   <aside
     class="hub-shell__rail"
-    :class="axis === 'list'
-      ? 'lg:shrink lg:grow-0'
-      : 'lg:flex-none lg:min-w-96 lg:pt-[var(--hub-pad-top)] lg:pb-[var(--hub-pad-bottom)] lg:justify-center'"
+    :class="
+      axis === 'list'
+        ? 'lg:shrink lg:grow-0'
+        : 'lg:flex-none lg:min-w-96 lg:pt-[var(--hub-pad-top)] lg:pb-[var(--hub-pad-bottom)] lg:justify-center'
+    "
     un-relative
     un-flex
     un-flex-col

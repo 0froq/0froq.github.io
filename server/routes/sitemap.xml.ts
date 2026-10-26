@@ -4,8 +4,8 @@ import { sitemapPaths } from '../utils/siteRoutes'
 const docsRoot = fileURLToPath(new URL('../../docs', import.meta.url))
 const ORIGIN = 'https://froq.me'
 
-export default defineEventHandler((event) => {
-  const urls = sitemapPaths(docsRoot).map((path) => {
+export default defineEventHandler(event => {
+  const urls = sitemapPaths(docsRoot).map(path => {
     const loc = path === '/' ? `${ORIGIN}/` : `${ORIGIN}${path}`
     return `  <url><loc>${loc}</loc></url>`
   })

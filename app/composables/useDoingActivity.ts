@@ -1,9 +1,5 @@
 import type { Activity } from '~/utils/activity'
-import {
-
-  activityIsSleeping,
-  parseActivity,
-} from '~/utils/activity'
+import { activityIsSleeping, parseActivity } from '~/utils/activity'
 
 const R2_PUBLIC_URL = 'https://pub-d05ff6ec0ecf448ca7cc6c2f0c0a5bcc.r2.dev/activity.json'
 
@@ -18,29 +14,24 @@ export function useDoingActivity() {
   const subscribers = useState('doing-subscribers', () => 0)
 
   async function fetchActivity() {
-    if (!import.meta.client)
-      return
-    if (inflight)
-      return inflight
+    if (!import.meta.client) return
+    if (inflight) return inflight
 
     inflight = (async () => {
       try {
         const response = await fetch(`${R2_PUBLIC_URL}?t=${Date.now()}`, {
           mode: 'cors',
         })
-        if (!response.ok)
-          throw new Error(`HTTP ${response.status}`)
+        if (!response.ok) throw new Error(`HTTP ${response.status}`)
         const next = parseActivity(await response.json())
         const stale = activityIsSleeping(next)
         next.active = !stale
         activity.value = next
         sleeping.value = stale
         error.value = null
-      }
-      catch (err) {
+      } catch (err) {
         error.value = err instanceof Error ? err.message : 'Unknown error'
-      }
-      finally {
+      } finally {
         loading.value = false
       }
     })().finally(() => {
@@ -52,16 +43,14 @@ export function useDoingActivity() {
 
   onMounted(() => {
     subscribers.value += 1
-    if (subscribers.value !== 1)
-      return
+    if (subscribers.value !== 1) return
     fetchActivity()
     pollTimer = setInterval(fetchActivity, 5000)
   })
 
   onUnmounted(() => {
     subscribers.value = Math.max(0, subscribers.value - 1)
-    if (subscribers.value > 0)
-      return
+    if (subscribers.value > 0) return
     if (pollTimer) {
       clearInterval(pollTimer)
       pollTimer = null

@@ -31,8 +31,10 @@ export default defineConfig({
   },
   shortcuts: {
     'chrome-blur': 'bg-[color-mix(in_srgb,var(--paper)_92%,transparent)] backdrop-blur-[10px]',
-    'reach-hit': 'focus-visible:outline focus-visible:outline-1 focus-visible:outline-colored-ink focus-visible:outline-offset-[3px] active:translate-y-px',
-    'filter-hit': 'focus-within:outline focus-within:outline-1 focus-within:outline-colored-ink focus-within:outline-offset-4',
+    'reach-hit':
+      'focus-visible:outline focus-visible:outline-1 focus-visible:outline-colored-ink focus-visible:outline-offset-[3px] active:translate-y-px',
+    'filter-hit':
+      'focus-within:outline focus-within:outline-1 focus-within:outline-colored-ink focus-within:outline-offset-4',
   },
   rules: [
     ['font-mono', { 'font-family': 'var(--font-mono)' }],
@@ -42,13 +44,9 @@ export default defineConfig({
     ['ease-paper', { 'transition-timing-function': 'var(--ease-out)' }],
   ],
   content: {
-    filesystem: [
-      'app/assets/css/**/*.css',
-    ],
+    filesystem: ['app/assets/css/**/*.css'],
     pipeline: {
-      include: [
-        /\.(vue|svelte|[jt]sx|mdx?|astro|elm|php|phtml|html|css)($|\?)/,
-      ],
+      include: [/\.(vue|svelte|[jt]sx|mdx?|astro|elm|php|phtml|html|css)($|\?)/],
     },
   },
   presets: [
@@ -60,15 +58,42 @@ export default defineConfig({
         'vertical-align': '-0.125em',
       },
       collections: {
-        carbon: () => import('@iconify-json/carbon/icons.json', { with: { type: 'json' } }).then(i => i.default as any),
-        ph: () => import('@iconify-json/ph/icons.json', { with: { type: 'json' } }).then(i => i.default as any),
-        solar: () => import('@iconify-json/solar/icons.json', { with: { type: 'json' } }).then(i => i.default as any),
-        duo: () => import('@iconify-json/duo-icons/icons.json', { with: { type: 'json' } }).then(i => i.default as any),
-        simple: () => import('@iconify-json/simple-icons/icons.json', { with: { type: 'json' } }).then(i => i.default as any),
-        skill: () => import('@iconify-json/skill-icons/icons.json', { with: { type: 'json' } }).then(i => i.default as any),
-        twe: () => import('@iconify-json/twemoji/icons.json', { with: { type: 'json' } }).then(i => i.default as any),
-        openmj: () => import('@iconify-json/openmoji/icons.json', { with: { type: 'json' } }).then(i => i.default as any),
-        selfhst: () => import('@iconify-json/selfhst/icons.json', { with: { type: 'json' } }).then(i => i.default as any),
+        carbon: () =>
+          import('@iconify-json/carbon/icons.json', { with: { type: 'json' } }).then(
+            i => i.default as any,
+          ),
+        ph: () =>
+          import('@iconify-json/ph/icons.json', { with: { type: 'json' } }).then(
+            i => i.default as any,
+          ),
+        solar: () =>
+          import('@iconify-json/solar/icons.json', { with: { type: 'json' } }).then(
+            i => i.default as any,
+          ),
+        duo: () =>
+          import('@iconify-json/duo-icons/icons.json', { with: { type: 'json' } }).then(
+            i => i.default as any,
+          ),
+        simple: () =>
+          import('@iconify-json/simple-icons/icons.json', { with: { type: 'json' } }).then(
+            i => i.default as any,
+          ),
+        skill: () =>
+          import('@iconify-json/skill-icons/icons.json', { with: { type: 'json' } }).then(
+            i => i.default as any,
+          ),
+        twe: () =>
+          import('@iconify-json/twemoji/icons.json', { with: { type: 'json' } }).then(
+            i => i.default as any,
+          ),
+        openmj: () =>
+          import('@iconify-json/openmoji/icons.json', { with: { type: 'json' } }).then(
+            i => i.default as any,
+          ),
+        selfhst: () =>
+          import('@iconify-json/selfhst/icons.json', { with: { type: 'json' } }).then(
+            i => i.default as any,
+          ),
       },
     }),
     presetAttributify({
@@ -312,13 +337,8 @@ export default defineConfig({
       },
     }),
   ],
-  transformers: [
-    transformerDirectives(),
-    transformerVariantGroup(),
-  ],
-  extractors: [
-    extractorMdc(),
-  ],
+  transformers: [transformerDirectives(), transformerVariantGroup()],
+  extractors: [extractorMdc()],
   safelist: [
     // 'prose',
     'un-opacity-100',

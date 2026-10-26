@@ -8,9 +8,8 @@ const hasCards = computed(() => monthItems.value.length > 0)
 const holding = computed(() => moving.value && hasCards.value)
 const cover = ref(false)
 
-watch(holding, (on) => {
-  if (on)
-    cover.value = true
+watch(holding, on => {
+  if (on) cover.value = true
 })
 
 function onActive(entry: LayerEntry | null) {

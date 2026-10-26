@@ -8,8 +8,7 @@ const scrollOrigin = shallowRef(0)
 const wide = useMin('lg')
 
 function dismiss() {
-  if (peek)
-    peek.value = null
+  if (peek) peek.value = null
 }
 
 function focusCta() {
@@ -32,46 +31,38 @@ function eventInSheet(target: EventTarget | null) {
 }
 
 function onKeydown(event: KeyboardEvent) {
-  if (!entry.value || isWide())
-    return
+  if (!entry.value || isWide()) return
   if (event.key === 'Escape') {
     event.preventDefault()
     dismiss()
     return
   }
-  if (event.key !== 'Tab' || !overlayRef.value)
-    return
-  const nodes = [...overlayRef.value.querySelectorAll<HTMLElement>(
-    'a[href], button:not([disabled])',
-  )]
+  if (event.key !== 'Tab' || !overlayRef.value) return
+  const nodes = [
+    ...overlayRef.value.querySelectorAll<HTMLElement>('a[href], button:not([disabled])'),
+  ]
   const first = nodes[0]
   const last = nodes.at(-1)
-  if (!first || !last)
-    return
+  if (!first || !last) return
   const active = document.activeElement
   if (event.shiftKey && active === first) {
     event.preventDefault()
     last.focus()
-  }
-  else if (!event.shiftKey && active === last) {
+  } else if (!event.shiftKey && active === last) {
     event.preventDefault()
     first.focus()
   }
 }
 
 function onScroll() {
-  if (!entry.value || isWide())
-    return
-  if (Math.abs(window.scrollY - scrollOrigin.value) < 1)
-    return
+  if (!entry.value || isWide()) return
+  if (Math.abs(window.scrollY - scrollOrigin.value) < 1) return
   dismiss()
 }
 
 function onPointerDown(event: PointerEvent) {
-  if (!entry.value || isWide())
-    return
-  if (eventInSheet(event.target))
-    return
+  if (!entry.value || isWide()) return
+  if (eventInSheet(event.target)) return
   dismiss()
 }
 
@@ -87,8 +78,7 @@ function bindDismissors(active: boolean) {
 }
 
 watch(entry, async (next, prev) => {
-  if (!import.meta.client)
-    return
+  if (!import.meta.client) return
   if (isWide()) {
     bindDismissors(false)
     return
@@ -99,8 +89,7 @@ watch(entry, async (next, prev) => {
     bindDismissors(true)
     await nextTick()
     focusCta()
-  }
-  else if (!next && prev) {
+  } else if (!next && prev) {
     bindDismissors(false)
     restoreFocus()
   }
@@ -202,18 +191,8 @@ onUnmounted(() => {
 .issue-peek-enter-from .issue-peek-sheet {
   opacity: 0;
   transform: translateY(1.25rem);
-  -webkit-mask-image: linear-gradient(
-    to top,
-    #000 0%,
-    #000 55%,
-    transparent 100%
-  );
-  mask-image: linear-gradient(
-    to top,
-    #000 0%,
-    #000 55%,
-    transparent 100%
-  );
+  -webkit-mask-image: linear-gradient(to top, #000 0%, #000 55%, transparent 100%);
+  mask-image: linear-gradient(to top, #000 0%, #000 55%, transparent 100%);
   -webkit-mask-size: 100% 0%;
   mask-size: 100% 0%;
   -webkit-mask-position: bottom;
@@ -225,18 +204,8 @@ onUnmounted(() => {
 .issue-peek-leave-to .issue-peek-sheet {
   opacity: 0;
   transform: translateY(1.5rem);
-  -webkit-mask-image: linear-gradient(
-    to bottom,
-    transparent 0%,
-    #000 45%,
-    #000 100%
-  );
-  mask-image: linear-gradient(
-    to bottom,
-    transparent 0%,
-    #000 45%,
-    #000 100%
-  );
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 45%, #000 100%);
+  mask-image: linear-gradient(to bottom, transparent 0%, #000 45%, #000 100%);
   -webkit-mask-size: 100% 0%;
   mask-size: 100% 0%;
   -webkit-mask-position: bottom;

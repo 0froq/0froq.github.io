@@ -9,15 +9,13 @@ function flattenSlotText(nodes: unknown[]): string {
       out += String(node)
       continue
     }
-    if (!node || typeof node !== 'object')
-      continue
+    if (!node || typeof node !== 'object') continue
     const children = (node as { children?: unknown }).children
     if (typeof children === 'string' || typeof children === 'number') {
       out += String(children)
       continue
     }
-    if (Array.isArray(children))
-      out += flattenSlotText(children)
+    if (Array.isArray(children)) out += flattenSlotText(children)
   }
   return out
 }

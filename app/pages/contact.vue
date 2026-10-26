@@ -96,8 +96,7 @@ const copied = ref('')
 let copyTimer: ReturnType<typeof setTimeout> | undefined
 
 async function copyText(item: ReachItem) {
-  if (!item.copy)
-    return
+  if (!item.copy) return
   try {
     await navigator.clipboard.writeText(item.copy)
     copied.value = item.label
@@ -105,8 +104,7 @@ async function copyText(item: ReachItem) {
     copyTimer = setTimeout(() => {
       copied.value = ''
     }, 1600)
-  }
-  catch {
+  } catch {
     copied.value = ''
   }
 }
@@ -230,15 +228,11 @@ onBeforeUnmount(() => {
               </span>
               <span translate="no">{{ item.handle }}</span>
             </button>
-            <template v-if="i === 0">
-              . A few lines:
-            </template>
-            <template v-else>
-              .
-            </template>
+            <template v-if="i === 0"> . A few lines: </template>
+            <template v-else> . </template>
           </template>
-          I keep UTC+8. English or Chinese is fine.
-          Replies usually land within a day; weekends are slower.
+          I keep UTC+8. English or Chinese is fine. Replies usually land within a day; weekends are
+          slower.
         </p>
         <p
           un-mt-5
@@ -286,9 +280,8 @@ onBeforeUnmount(() => {
                 />
               </span>
               <span translate="no">{{ item.label }}</span>
-            </a>
-          </template>.
-          If not necessary, avoid DMs on these.
+            </a> </template
+          >. If not necessary, avoid DMs on these.
         </p>
         <p
           v-if="copied"

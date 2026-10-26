@@ -6,8 +6,7 @@ const CODE_BLOCK_RE = /```[\s\S]*?```/g
 
 /** Chinese characters plus English letter-runs. */
 export function countWords(text?: string): number {
-  if (!text)
-    return 0
+  if (!text) return 0
   const content = text
     .replace(FRONTMATTER_RE, '')
     .replace(CODE_BLOCK_RE, '')

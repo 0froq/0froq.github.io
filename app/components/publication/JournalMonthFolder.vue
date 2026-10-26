@@ -26,8 +26,7 @@ const months = computed(() => {
   const ids = new Set<string>()
   for (const item of props.items) {
     const id = monthIdOf(item)
-    if (id)
-      ids.add(id)
+    if (id) ids.add(id)
   }
   return [...ids].sort()
 })
@@ -42,27 +41,29 @@ const posed = ref(false)
 const inked = ref(false)
 const armed = ref(false)
 
-watch(months, (list) => {
-  if (props.month && list.includes(props.month)) {
-    monthId.value = props.month
-    return
-  }
-  if (monthId.value && list.includes(monthId.value))
-    return
-  monthId.value = list.includes(nowId.value)
-    ? nowId.value
-    : (list.at(-1) ?? '')
-}, { immediate: true })
+watch(
+  months,
+  list => {
+    if (props.month && list.includes(props.month)) {
+      monthId.value = props.month
+      return
+    }
+    if (monthId.value && list.includes(monthId.value)) return
+    monthId.value = list.includes(nowId.value) ? nowId.value : (list.at(-1) ?? '')
+  },
+  { immediate: true },
+)
 
-watch(() => props.month, (id) => {
-  if (id)
-    monthId.value = id
-})
+watch(
+  () => props.month,
+  id => {
+    if (id) monthId.value = id
+  },
+)
 
 const sheets = computed(() => {
   const id = monthId.value
-  if (!id)
-    return []
+  if (!id) return []
   return props.items
     .filter(item => monthIdOf(item) === id)
     .slice()
@@ -77,10 +78,10 @@ const cursor = ref(0)
 const scrubbing = ref(false)
 /** Card is 16rem × 9rem. Collapsed pitch is half the old 34/319 so the tucked sheets overlap more. */
 const CARD_REM = 16
-const CARD_H_REM = CARD_REM * 9 / 16
-const STEP_REM = CARD_REM * 17 / 319
+const CARD_H_REM = (CARD_REM * 9) / 16
+const STEP_REM = (CARD_REM * 17) / 319
 /** Pitch + peel stays 286/319 of the width, so the active face stays as clear as before. */
-const SHIFT_REM = CARD_REM * 286 / 319 - STEP_REM
+const SHIFT_REM = (CARD_REM * 286) / 319 - STEP_REM
 /** Vertical peel leaves a short gap under the active face so the date line stays clear. */
 const SHIFT_REM_V = CARD_H_REM + 0.8 - STEP_REM
 const FAN_DEG = 2.4
@@ -89,8 +90,7 @@ const SCROLL_PX = 190
 
 const front = computed(() => {
   const list = sheets.value
-  if (!list.length)
-    return null
+  if (!list.length) return null
   const i = Math.round(Math.min(Math.max(cursor.value, 0), list.length - 1))
   return list[i]?.path ?? null
 })
@@ -99,70 +99,72 @@ let scrubStop: ReturnType<typeof setTimeout> | undefined
 let dealTimer: ReturnType<typeof setTimeout> | undefined
 let dealToken = 0
 let lastDrag = 0
-let pointer: { id: number, x: number, y: number, moved: number, captured: boolean } | null = null
+let pointer: { id: number; x: number; y: number; moved: number; captured: boolean } | null = null
 
 watch(monthId, () => {
   restCursor()
 })
 
-watch(sheets, async (list, prev) => {
-  placeCursor(list, !prev)
-  if (prev && sameSheetPaths(prev, list))
-    return
-  const token = ++dealToken
-  clearTimeout(dealTimer)
-  posed.value = false
-  inked.value = false
-  armed.value = false
-  await nextTick()
-  if (token !== dealToken || import.meta.server)
-    return
-  // Stacked and blank, fade the top face, arm the move, then open the fan.
-  requestAnimationFrame(() => {
-    if (token !== dealToken)
-      return
+watch(
+  sheets,
+  async (list, prev) => {
+    placeCursor(list, !prev)
+    if (prev && sameSheetPaths(prev, list)) return
+    const token = ++dealToken
+    clearTimeout(dealTimer)
+    posed.value = false
+    inked.value = false
+    armed.value = false
+    await nextTick()
+    if (token !== dealToken || import.meta.server) return
+    // Stacked and blank, fade the top face, arm the move, then open the fan.
     requestAnimationFrame(() => {
-      if (token !== dealToken)
-        return
-      if (reduceMotion.value === 'reduce') {
-        inked.value = true
-        armed.value = true
-        posed.value = true
-        emit('inked')
-        return
-      }
-      inked.value = true
-      dealTimer = window.setTimeout(() => {
-        if (token !== dealToken)
+      if (token !== dealToken) return
+      requestAnimationFrame(() => {
+        if (token !== dealToken) return
+        if (reduceMotion.value === 'reduce') {
+          inked.value = true
+          armed.value = true
+          posed.value = true
+          emit('inked')
           return
-        emit('inked')
-        armed.value = true
-        requestAnimationFrame(() => {
-          if (token !== dealToken)
-            return
+        }
+        inked.value = true
+        dealTimer = window.setTimeout(() => {
+          if (token !== dealToken) return
+          emit('inked')
+          armed.value = true
           requestAnimationFrame(() => {
-            if (token !== dealToken)
-              return
-            posed.value = true
+            if (token !== dealToken) return
+            requestAnimationFrame(() => {
+              if (token !== dealToken) return
+              posed.value = true
+            })
           })
-        })
-      }, 420)
+        }, 420)
+      })
     })
-  })
-}, { immediate: true })
+  },
+  { immediate: true },
+)
 
-watch(front, (path) => {
-  const entry = sheets.value.find(item => item.path === path) ?? null
-  emit('active', entry)
-}, { immediate: true })
+watch(
+  front,
+  path => {
+    const entry = sheets.value.find(item => item.path === path) ?? null
+    emit('active', entry)
+  },
+  { immediate: true },
+)
 
-watch(() => props.focusPath, (path) => {
-  if (!path)
-    return
-  const index = sheets.value.findIndex(item => item.path === path)
-  if (index >= 0)
-    setCursor(index)
-})
+watch(
+  () => props.focusPath,
+  path => {
+    if (!path) return
+    const index = sheets.value.findIndex(item => item.path === path)
+    if (index >= 0) setCursor(index)
+  },
+)
 
 onUnmounted(() => {
   dealToken += 1
@@ -176,8 +178,7 @@ function monthIdOf(item: LayerEntry) {
 }
 
 function formatMonth(id: string) {
-  if (!id)
-    return ''
+  if (!id) return ''
   const year = Number(id.slice(0, 4))
   const month = Number(id.slice(5, 7)) - 1
   const label = HEAT_MONTHS[month] ?? id
@@ -187,8 +188,7 @@ function formatMonth(id: string) {
 function stepMonth(delta: number) {
   const list = months.value
   const next = monthIndex.value + delta
-  if (next < 0 || next >= list.length)
-    return
+  if (next < 0 || next >= list.length) return
   monthId.value = list[next]!
 }
 
@@ -202,18 +202,15 @@ function sameSheetPaths(a: LayerEntry[], b: LayerEntry[]) {
 
 function focusedIndex(list: LayerEntry[]) {
   const path = props.focusPath
-  if (!path)
-    return -1
+  if (!path) return -1
   return list.findIndex(item => item.path === path)
 }
 
 function placeCursor(list: LayerEntry[], forceEnd: boolean) {
   const max = Math.max(list.length - 1, 0)
   const focus = focusedIndex(list)
-  if (focus >= 0)
-    cursor.value = focus
-  else if (forceEnd || cursor.value > max)
-    cursor.value = max
+  if (focus >= 0) cursor.value = focus
+  else if (forceEnd || cursor.value > max) cursor.value = max
 }
 
 function restCursor() {
@@ -251,8 +248,7 @@ function markScrub() {
 }
 
 function nudge(deltaPx: number) {
-  if (sheets.value.length <= 1)
-    return
+  if (sheets.value.length <= 1) return
   setCursor(cursor.value + deltaPx / SCROLL_PX)
 }
 
@@ -269,27 +265,23 @@ function onWheel(event: WheelEvent) {
 }
 
 function onPointerDown(event: PointerEvent) {
-  if (event.button !== 0)
-    return
+  if (event.button !== 0) return
   lastDrag = 0
   pointer = { id: event.pointerId, x: event.clientX, y: event.clientY, moved: 0, captured: false }
 }
 
 function onPointerMove(event: PointerEvent) {
-  if (!pointer || event.pointerId !== pointer.id)
-    return
+  if (!pointer || event.pointerId !== pointer.id) return
   const dx = event.clientX - pointer.x
   const dy = event.clientY - pointer.y
   pointer.x = event.clientX
   pointer.y = event.clientY
   pointer.moved += Math.hypot(dx, dy)
   lastDrag = pointer.moved
-  if (pointer.moved < DRAG_GATE)
-    return
+  if (pointer.moved < DRAG_GATE) return
   if (!pointer.captured) {
     const stage = event.currentTarget
-    if (stage instanceof HTMLElement)
-      stage.setPointerCapture(event.pointerId)
+    if (stage instanceof HTMLElement) stage.setPointerCapture(event.pointerId)
     pointer.captured = true
   }
   markScrub()
@@ -297,8 +289,7 @@ function onPointerMove(event: PointerEvent) {
 }
 
 function onPointerUp(event: PointerEvent) {
-  if (!pointer || event.pointerId !== pointer.id)
-    return
+  if (!pointer || event.pointerId !== pointer.id) return
   lastDrag = pointer.moved
   pointer = null
   if (lastDrag >= DRAG_GATE) {
@@ -308,18 +299,15 @@ function onPointerUp(event: PointerEvent) {
 }
 
 function onSheetPick(entry: LayerEntry, event: MouseEvent) {
-  if (lastDrag >= DRAG_GATE)
-    return
+  if (lastDrag >= DRAG_GATE) return
   const target = event.target
   if (target instanceof Element && target.closest('[data-issue-peek-cta], [aria-label="Dismiss"]'))
     return
-  if (entry.path === front.value)
-    return
+  if (entry.path === front.value) return
   event.preventDefault()
   event.stopPropagation()
   const index = sheets.value.findIndex(item => item.path === entry.path)
-  if (index >= 0)
-    setCursor(index)
+  if (index >= 0) setCursor(index)
 }
 
 function onKey(event: KeyboardEvent) {
@@ -327,16 +315,13 @@ function onKey(event: KeyboardEvent) {
     restCursor()
     return
   }
-  if (event.key === 'ArrowLeft')
-    stepMonth(-1)
-  if (event.key === 'ArrowRight')
-    stepMonth(1)
+  if (event.key === 'ArrowLeft') stepMonth(-1)
+  if (event.key === 'ArrowRight') stepMonth(1)
 }
 
 function cursorPivot() {
   const n = sheets.value.length
-  if (!n)
-    return 0
+  if (!n) return 0
   return Math.min(Math.max(cursor.value, 0), n - 1)
 }
 
@@ -350,7 +335,7 @@ function hash32(seed: string) {
 }
 
 function unit(h: number, slot: number) {
-  return ((Math.imul(h ^ Math.imul(slot + 1, 0x9E3779B9), 0x85EBCA6B) >>> 11) & 0xFF) / 255
+  return ((Math.imul(h ^ Math.imul(slot + 1, 0x9e3779b9), 0x85ebca6b) >>> 11) & 0xff) / 255
 }
 
 function signed(h: number, slot: number) {
@@ -445,7 +430,8 @@ function sheetStyle(index: number, entry: LayerEntry) {
           v-if="sheets.length"
           un-ml-2
           un-opacity-70
-        >{{ sheets.length }}</span>
+          >{{ sheets.length }}</span
+        >
       </p>
       <button
         type="button"

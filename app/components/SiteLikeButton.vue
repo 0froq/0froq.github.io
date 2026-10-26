@@ -2,12 +2,15 @@
 import { formatCompact } from '~/utils/formatStats'
 import { inkHeartPath } from '~/utils/inkDraw'
 
-const props = withDefaults(defineProps<{
-  pagePath?: string
-  people?: boolean
-}>(), {
-  people: false,
-})
+const props = withDefaults(
+  defineProps<{
+    pagePath?: string
+    people?: boolean
+  }>(),
+  {
+    people: false,
+  },
+)
 
 const { like, configured } = useFroqApi()
 const anonId = useAnonId()
@@ -16,16 +19,13 @@ const local = ref<number | null>(null)
 const busy = ref(false)
 
 function normalize(path: string) {
-  if (!path || path === '/')
-    return '/'
+  if (!path || path === '/') return '/'
   return path.replace(/\/$/, '') || '/'
 }
 
 const count = computed(() => {
-  if (local.value != null)
-    return local.value
-  if (!props.pagePath)
-    return stats.siteLikes.value
+  if (local.value != null) return local.value
+  if (!props.pagePath) return stats.siteLikes.value
   const target = normalize(props.pagePath)
   const row = stats.pageLikes.value.find(item => normalize(item.pagePath) === target)
   return row?.likes ?? (stats.loaded.value ? 0 : null)
@@ -33,14 +33,11 @@ const count = computed(() => {
 
 const label = computed(() => {
   if (props.people) {
-    if (count.value == null)
-      return 'like this page'
-    if (count.value === 1)
-      return '1 like'
+    if (count.value == null) return 'like this page'
+    if (count.value === 1) return '1 like'
     return `${formatCompact(count.value)} likes`
   }
-  if (count.value == null)
-    return 'like'
+  if (count.value == null) return 'like'
   return formatCompact(count.value)
 })
 
@@ -48,18 +45,15 @@ const seed = computed(() => props.pagePath || 'site')
 const heart = computed(() => inkHeartPath(seed.value))
 
 async function onLike() {
-  if (busy.value || !configured.value || !anonId.value)
-    return
+  if (busy.value || !configured.value || !anonId.value) return
   busy.value = true
   try {
     const result = await like(anonId.value, props.pagePath)
     if (result && typeof result.likes === 'number') {
       local.value = result.likes
-      if (typeof result.siteLikes === 'number')
-        stats.siteLikes.value = result.siteLikes
+      if (typeof result.siteLikes === 'number') stats.siteLikes.value = result.siteLikes
     }
-  }
-  finally {
+  } finally {
     busy.value = false
   }
 }

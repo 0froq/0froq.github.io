@@ -56,7 +56,8 @@ function cabinetTouched(item: LayerEntry) {
               class="text-3xl text-ink leading-snug tracking-tight max-w-[18em] block italic font-serif md:text-4xl group-data-[rest]/row:text-ink group-data-[void]/row:text-muted/50 group-focus-visible/row:text-ink group-hover/row:text-ink"
               :data-ink="shown ? 'mark' : undefined"
               :data-hover-ink="shown ? undefined : 'mark'"
-            >{{ item.title }}</span>
+              >{{ item.title }}</span
+            >
             <span
               class="cabinet-evergreen__rule"
               aria-hidden="true"
@@ -75,11 +76,13 @@ function cabinetTouched(item: LayerEntry) {
               <time
                 v-if="item.created"
                 :datetime="item.created"
-              >from {{ issueDate(item.created) }}</time>
+                >from {{ issueDate(item.created) }}</time
+              >
               <time
                 v-if="cabinetTouched(item)"
                 :datetime="item.last_modified"
-              >{{ cabinetTouched(item) }}</time>
+                >{{ cabinetTouched(item) }}</time
+              >
             </span>
             <p
               v-if="item.slip"
@@ -103,12 +106,14 @@ function cabinetTouched(item: LayerEntry) {
                 un-font-serif
                 :data-ink="shown ? 'mark' : undefined"
                 :data-hover-ink="shown ? undefined : 'mark'"
-              >{{ item.title }}</span>
+                >{{ item.title }}</span
+              >
               <time
                 v-if="item.created"
                 class="text-xs text-muted tracking-wide shrink-0 tabular-nums font-mono group-data-[rest]/row:text-ink group-focus-visible/row:text-ink group-hover/row:text-ink"
                 :datetime="item.created"
-              >{{ issueDate(item.created) }}</time>
+                >{{ issueDate(item.created) }}</time
+              >
             </span>
             <span
               aria-hidden="true"

@@ -10,20 +10,17 @@ async function walkMarkdown(dir: string, acc: string[]): Promise<void> {
   let entries
   try {
     entries = await readdir(dir, { withFileTypes: true })
-  }
-  catch {
+  } catch {
     return
   }
   for (const entry of entries) {
-    if (entry.name.startsWith('.') || entry.name.startsWith('_'))
-      continue
+    if (entry.name.startsWith('.') || entry.name.startsWith('_')) continue
     const path = join(dir, entry.name)
     if (entry.isDirectory()) {
       await walkMarkdown(path, acc)
       continue
     }
-    if (entry.isFile() && entry.name.endsWith('.md') && !SKIP.has(entry.name))
-      acc.push(path)
+    if (entry.isFile() && entry.name.endsWith('.md') && !SKIP.has(entry.name)) acc.push(path)
   }
 }
 
@@ -34,8 +31,7 @@ export default defineEventHandler(async () => {
     join(process.cwd(), 'docs/cabinet'),
   ]
   const files: string[] = []
-  for (const root of roots)
-    await walkMarkdown(root, files)
+  for (const root of roots) await walkMarkdown(root, files)
 
   let totalWordCount = 0
   let entries = 0
@@ -44,8 +40,7 @@ export default defineEventHandler(async () => {
     let text = ''
     try {
       text = await readFile(file, 'utf-8')
-    }
-    catch {
+    } catch {
       continue
     }
     entries++

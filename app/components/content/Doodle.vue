@@ -1,23 +1,26 @@
 <script setup lang="ts">
-const props = withDefaults(defineProps<{
-  name: string
-  size?: string
-  to?: string
-  draw?: boolean | 'true' | 'false' | ''
-  boil?: boolean | 'true' | 'false' | ''
-  drawDuration?: number
-  drawDelay?: number
-}>(), {
-  size: '1em',
-  drawDuration: 0.32,
-  drawDelay: 0,
-})
+const props = withDefaults(
+  defineProps<{
+    name: string
+    size?: string
+    to?: string
+    draw?: boolean | 'true' | 'false' | ''
+    boil?: boolean | 'true' | 'false' | ''
+    drawDuration?: number
+    drawDelay?: number
+  }>(),
+  {
+    size: '1em',
+    drawDuration: 0.32,
+    drawDelay: 0,
+  },
+)
 
 const slots = useSlots()
 const drawing = computed(() => props.draw === true || props.draw === 'true' || props.draw === '')
 const boiling = computed(() => props.boil === true || props.boil === 'true' || props.boil === '')
 const inked = computed(() => Boolean(props.to && slots.default))
-const wrap = computed(() => props.to ? resolveComponent('NuxtLink') : 'span')
+const wrap = computed(() => (props.to ? resolveComponent('NuxtLink') : 'span'))
 
 const paths = computed(() => doodlePaths(props.name))
 const boilId = useId()
@@ -25,8 +28,7 @@ const seeds = Array.from({ length: DOODLE_BOIL.frames }, (_, i) => i + 1).join('
 const step = computed(() => props.drawDuration * 0.65)
 
 function drawStyle(index: number) {
-  if (!drawing.value)
-    return undefined
+  if (!drawing.value) return undefined
   return {
     animationDuration: `${props.drawDuration}s`,
     animationDelay: `${(props.drawDelay + index * step.value).toFixed(3)}s`,
@@ -113,7 +115,8 @@ function drawStyle(index: number) {
       v-if="slots.default"
       :data-ink="inked ? 'underline' : undefined"
       :data-hover-ink="inked ? 'mark' : undefined"
-    ><slot /></span>
+      ><slot
+    /></span>
   </component>
 </template>
 

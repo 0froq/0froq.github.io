@@ -1,10 +1,13 @@
 <script setup lang="ts">
-withDefaults(defineProps<{
-  current: PublicationRoom
-  size?: 'display' | 'chrome'
-}>(), {
-  size: 'display',
-})
+withDefaults(
+  defineProps<{
+    current: PublicationRoom
+    size?: 'display' | 'chrome'
+  }>(),
+  {
+    size: 'display',
+  },
+)
 </script>
 
 <template>

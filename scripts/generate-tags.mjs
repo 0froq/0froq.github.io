@@ -32,18 +32,15 @@ md.renderer.rules.hashtag_close = function () {
 const readFileSafe = filepath => fs.readFileSync(filepath, 'utf-8')
 
 function parseFrontmatter(content) {
-  if (!content.startsWith('---'))
-    return { frontmatter: {}, body: content }
+  if (!content.startsWith('---')) return { frontmatter: {}, body: content }
   const end = content.indexOf('\n---', 3)
-  if (end === -1)
-    return { frontmatter: {}, body: content }
+  if (end === -1) return { frontmatter: {}, body: content }
   const fmRaw = content.slice(3, end)
   const body = content.slice(end + 4)
   let frontmatter = {}
   try {
     frontmatter = YAML.parse(fmRaw) || {}
-  }
-  catch {
+  } catch {
     frontmatter = {}
   }
   return { frontmatter, body }
@@ -51,12 +48,9 @@ function parseFrontmatter(content) {
 
 function shouldInclude(filepath) {
   const rel = path.relative(docsRoot, filepath)
-  if (!rel)
-    return false
-  if (rel.startsWith('archive/'))
-    return false
-  if (!/^(essays|journal|cabinet)\//.test(rel))
-    return false
+  if (!rel) return false
+  if (rel.startsWith('archive/')) return false
+  if (!/^(essays|journal|cabinet)\//.test(rel)) return false
   return path.basename(rel) !== 'index.md'
 }
 
@@ -67,12 +61,7 @@ function walkMarkdownFiles(dir) {
     const full = path.join(dir, entry.name)
     if (entry.isDirectory()) {
       files.push(...walkMarkdownFiles(full))
-    }
-    else if (
-      entry.isFile()
-      && entry.name.endsWith('.md')
-      && shouldInclude(full)
-    ) {
+    } else if (entry.isFile() && entry.name.endsWith('.md') && shouldInclude(full)) {
       files.push(full)
     }
   }
@@ -82,14 +71,13 @@ function walkMarkdownFiles(dir) {
 const files = walkMarkdownFiles(docsRoot)
 const allTags = new Set()
 
-files.forEach((file) => {
+files.forEach(file => {
   const raw = readFileSafe(file)
   const { frontmatter, body } = parseFrontmatter(raw)
   let html = ''
   try {
     html = md.render(body)
-  }
-  catch (err) {
+  } catch (err) {
     console.warn(
       `[generate-tags] skip file due to markdown parse error: ${path.relative(docsRoot, file)}`,
     )
@@ -102,11 +90,5 @@ files.forEach((file) => {
 })
 
 fs.mkdirSync(outDir, { recursive: true })
-fs.writeFileSync(
-  outFile,
-  `${JSON.stringify([...allTags].sort(), null, 2)}\n`,
-  'utf-8',
-)
-console.log(
-  `[generate-tags] wrote ${allTags.size} tags to ${path.relative(docsRoot, outFile)}`,
-)
+fs.writeFileSync(outFile, `${JSON.stringify([...allTags].sort(), null, 2)}\n`, 'utf-8')
+console.log(`[generate-tags] wrote ${allTags.size} tags to ${path.relative(docsRoot, outFile)}`)

@@ -1,13 +1,16 @@
 <script setup lang="ts">
-const props = withDefaults(defineProps<{
-  kind?: 'warning' | 'note' | 'tip'
-  title?: string
-  /** Unfolded on first paint. Defaults to collapsed. */
-  open?: boolean
-}>(), {
-  kind: 'note',
-  open: false,
-})
+const props = withDefaults(
+  defineProps<{
+    kind?: 'warning' | 'note' | 'tip'
+    title?: string
+    /** Unfolded on first paint. Defaults to collapsed. */
+    open?: boolean
+  }>(),
+  {
+    kind: 'note',
+    open: false,
+  },
+)
 
 const slots = defineSlots<{
   default?: () => unknown
@@ -16,10 +19,8 @@ const slots = defineSlots<{
 
 const hasTitle = computed(() => Boolean(props.title || slots.title))
 const kindLabel = computed(() => {
-  if (props.kind === 'warning')
-    return 'Warning'
-  if (props.kind === 'tip')
-    return 'Tip'
+  if (props.kind === 'warning') return 'Warning'
+  if (props.kind === 'tip') return 'Tip'
   return 'Note'
 })
 const foldLabel = computed(() => props.title || kindLabel.value)
@@ -52,7 +53,8 @@ const kindColor = computed(() => `var(--callout-${props.kind})`)
         <span
           v-else
           un-sr-only
-        >{{ foldLabel }}</span>
+          >{{ foldLabel }}</span
+        >
       </template>
       <div
         un-text-ink

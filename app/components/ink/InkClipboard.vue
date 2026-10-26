@@ -1,12 +1,20 @@
 <script setup lang="ts">
-import { inkClipboardBoardPath, inkClipboardClipPath, inkClipboardLinesPath, inkClipboardTickPath } from '~/utils/inkDraw'
+import {
+  inkClipboardBoardPath,
+  inkClipboardClipPath,
+  inkClipboardLinesPath,
+  inkClipboardTickPath,
+} from '~/utils/inkDraw'
 
-const props = withDefaults(defineProps<{
-  seed: string
-  done?: boolean
-}>(), {
-  done: false,
-})
+const props = withDefaults(
+  defineProps<{
+    seed: string
+    done?: boolean
+  }>(),
+  {
+    done: false,
+  },
+)
 
 const board = computed(() => inkClipboardBoardPath(props.seed))
 const clip = computed(() => inkClipboardClipPath(props.seed))
@@ -70,7 +78,9 @@ const tick = computed(() => inkClipboardTickPath(props.seed))
 <style scoped>
 .ink-clipboard-lines,
 .ink-clipboard-tick {
-  transition: opacity 220ms var(--ease-out), stroke-dashoffset 340ms var(--ease-out);
+  transition:
+    opacity 220ms var(--ease-out),
+    stroke-dashoffset 340ms var(--ease-out);
 }
 
 .ink-clipboard-tick {

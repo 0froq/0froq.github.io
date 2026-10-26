@@ -39,21 +39,17 @@ export function createPublicationPeek(): PublicationPeek {
 
   function hover(entry: LayerEntry) {
     if (active.value?.path === entry.path) {
-      if (pending)
-        clearHoverTimer()
+      if (pending) clearHoverTimer()
       return
     }
-    if (pending?.path === entry.path)
-      return
+    if (pending?.path === entry.path) return
     pending = entry
-    if (hoverTimer)
-      window.clearTimeout(hoverTimer)
+    if (hoverTimer) window.clearTimeout(hoverTimer)
     hoverTimer = window.setTimeout(() => {
       hoverTimer = 0
       const next = pending
       pending = null
-      if (next)
-        active.value = next
+      if (next) active.value = next
     }, hoverShowMs)
   }
 
@@ -98,8 +94,7 @@ export function createPublicationPeek(): PublicationPeek {
   }
 
   function onKey(event: KeyboardEvent) {
-    if (event.key === 'Escape')
-      dismiss()
+    if (event.key === 'Escape') dismiss()
   }
 
   onMounted(() => {
@@ -133,7 +128,6 @@ export function providePublicationPeek() {
 
 export function usePublicationPeek() {
   const peek = inject(publicationPeekKey)
-  if (!peek)
-    throw new Error('usePublicationPeek() needs PublicationHubShell')
+  if (!peek) throw new Error('usePublicationPeek() needs PublicationHubShell')
   return peek
 }

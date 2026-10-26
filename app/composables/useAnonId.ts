@@ -1,8 +1,7 @@
 import { ANON_ID_KEYS } from '~/utils/siteConstants'
 
 function createId() {
-  if (typeof crypto !== 'undefined' && crypto.randomUUID)
-    return crypto.randomUUID()
+  if (typeof crypto !== 'undefined' && crypto.randomUUID) return crypto.randomUUID()
   return `anon-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 10)}`
 }
 
@@ -31,8 +30,7 @@ export function useAnonId() {
   }
 
   onMounted(() => {
-    if (anonId.value)
-      return
+    if (anonId.value) return
     let existing = readStoredId()
     if (!existing) {
       existing = createId()
