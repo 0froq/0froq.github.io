@@ -71,6 +71,16 @@ const hasArticleRail = computed(() => hasMeta.value || hasTags.value)
         :datetime="entry.created"
         >{{ issueDate(entry.created) }}</time
       >
+      <p
+        v-if="entry.kind === 'rook'"
+        un-m-0
+        un-mb-2
+        un-font-mono
+        un-text-xs
+        class="text-wry"
+      >
+        Rook
+      </p>
       <h1
         class="issue-head__title"
         un-m-0

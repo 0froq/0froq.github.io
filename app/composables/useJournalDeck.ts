@@ -1,5 +1,6 @@
 import type { ComputedRef, InjectionKey, MaybeRefOrGetter, Ref } from 'vue'
 import { toValue } from 'vue'
+import { isRookEntry } from '~/utils/journalHeat'
 
 const SETTLE_MS = 500
 
@@ -24,14 +25,26 @@ export function provideJournalDeck(items: MaybeRefOrGetter<LayerEntry[]>) {
   const activePath = ref<string | null>(null)
   const focusPath = ref<string | null>(null)
   let timer: ReturnType<typeof setTimeout> | undefined
+  let monthCache: LayerEntry[] = []
+  let monthKey = ''
 
   const monthItems = computed(() => {
     const id = centerId.value
     if (!id) return []
-    return toValue(items)
+    const next = toValue(items)
       .filter(item => journalDayKey(item.created)?.slice(0, 7) === id)
-      .slice()
-      .sort((a, b) => (a.created ?? '').localeCompare(b.created ?? ''))
+      .sort((a, b) => {
+        const byDate = (a.created ?? '').localeCompare(b.created ?? '')
+        if (byDate)
+          return byDate
+        return Number(isRookEntry(a)) - Number(isRookEntry(b))
+      })
+    const key = `${id}\0${next.map(item => item.path).join('\0')}`
+    if (key === monthKey)
+      return monthCache
+    monthKey = key
+    monthCache = next
+    return next
   })
 
   const activeEntry = computed(() => {

@@ -686,6 +686,7 @@ watch(
                   class="journal-wheel__cell is-entry is-split"
                   :class="{
                     ...cellMark(cell),
+                    'has-rook': !!cell.rook,
                     'is-pinned': heldPin?.key === cell.key || fanDay === cell.key,
                     'is-fan-active': fanDay === cell.key,
                   }"
@@ -717,7 +718,8 @@ watch(
                     :seed="cell.key"
                     fill
                     split
-                    :hatch="cell.today"
+                    :hatch="!!cell.rook"
+                    :mark="cell.today"
                   />
                   <span
                     v-if="showsRing(cell.key)"
@@ -735,7 +737,11 @@ watch(
                 <a
                   v-else-if="cell.entry && cell.kind && cell.kind !== 'split'"
                   class="journal-wheel__cell is-entry"
-                  :class="[...cellFillClass(cell.kind, cell.entry), cellMark(cell)]"
+                  :class="[
+                    ...cellFillClass(cell.kind, cell.entry),
+                    cellMark(cell),
+                    { 'has-rook': !!cell.rook },
+                  ]"
                   :style="cellStyle(cell, row)"
                   :href="cell.entry.path"
                   :aria-label="cell.entry.title"
@@ -749,13 +755,45 @@ watch(
                     class="journal-wheel__sketch"
                     :seed="cell.key"
                     fill
-                    :hatch="cell.today"
+                    :hatch="!!cell.rook"
+                    :mark="cell.today"
                   />
                   <span
                     v-if="showsRing(cell.key)"
                     :ref="el => bindRing(cell.key, el)"
                     class="journal-wheel__ring"
                     :class="{ 'is-log': ringIsLog(cell.key) }"
+                    data-ink="circle"
+                    :data-ink-seed="cell.key"
+                    un-absolute
+                    un-inset-0
+                    un-pointer-events-none
+                    aria-hidden="true"
+                  />
+                </a>
+                <a
+                  v-else-if="cell.rook"
+                  class="journal-wheel__cell is-empty is-rook has-rook"
+                  :class="cellMark(cell)"
+                  :style="cellStyle(cell, row)"
+                  :href="cell.rook.path"
+                  :aria-label="cell.rook.title"
+                  @click.stop="onCell(cell, cell.rook, $event)"
+                  @pointerenter="onEnter(cell.rook)"
+                  @pointerleave="onLeave"
+                  @focus="onEnter(cell.rook)"
+                  @blur="onLeave"
+                >
+                  <InkWobbleBox
+                    class="journal-wheel__sketch"
+                    :seed="cell.key"
+                    :hatch="!!cell.rook"
+                    :mark="cell.today"
+                  />
+                  <span
+                    v-if="showsRing(cell.key)"
+                    :ref="(el) => bindRing(cell.key, el)"
+                    class="journal-wheel__ring"
                     data-ink="circle"
                     :data-ink-seed="cell.key"
                     un-absolute
@@ -774,7 +812,8 @@ watch(
                   <InkWobbleBox
                     class="journal-wheel__sketch"
                     :seed="cell.key"
-                    :hatch="cell.today"
+                    :hatch="!!cell.rook"
+                    :mark="cell.today"
                   />
                 </span>
               </template>
@@ -930,10 +969,28 @@ watch(
   opacity: calc(0.42 + var(--pointer-opacity, 0) * 0.5);
 }
 
+.journal-wheel__cell :deep(.ink-wobble-fill) {
+  fill-opacity: calc(0.12 + var(--scroll-opacity, 0.12) * 0.24 + var(--pointer-opacity, 0) * 0.36);
+}
+
+.journal-wheel__cell :deep(.ink-wobble-hatch) {
+  opacity: calc(0.15 + var(--scroll-opacity, 0.12) * 0.4 + var(--pointer-opacity, 0) * 0.4);
+}
+
 .journal-wheel__cell.is-empty {
   --cell-tone: 0.08;
   background: transparent;
   pointer-events: none;
+}
+
+.journal-wheel__cell.is-rook {
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+.journal-wheel__cell.is-empty.has-rook,
+.journal-wheel__cell.is-empty.has-rook.is-in-focus {
+  --cell-tone: 0.72;
 }
 
 .journal-wheel__cell.is-empty.is-in-focus {

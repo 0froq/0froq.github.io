@@ -63,15 +63,25 @@ export function journalByDay(items: LayerEntry[]): Map<string, LayerEntry> {
   return map
 }
 
-function dayKinds(entries: LayerEntry[]): { journal: LayerEntry | null; log: LayerEntry | null } {
+function dayKinds(entries: LayerEntry[]): {
+  journal: LayerEntry | null
+  log: LayerEntry | null
+  rook: LayerEntry | null
+} {
   let journal: LayerEntry | null = null
   let log: LayerEntry | null = null
+  let rook: LayerEntry | null = null
   for (const entry of entries) {
+    if (isRookEntry(entry)) {
+      if (!rook)
+        rook = entry
+      continue
+    }
     const kind = journalEntryKind(entry)
     if (kind === 'log' && !log) log = entry
     else if (kind === 'journal' && !journal) journal = entry
   }
-  return { journal, log }
+  return { journal, log, rook }
 }
 
 function civilStamp(year: number, month: number, day: number): number {
@@ -122,6 +132,14 @@ function lastMonthForYear(year: number, now: Date): number {
 
 export type JournalKind = 'journal' | 'log'
 
+/** Rook writes beside the day. It never takes a journal or log fill. */
+export function isRookEntry(entry: LayerEntry): boolean {
+  if (entry.kind === 'rook')
+    return true
+  const stem = entry.path.split('/').pop() ?? ''
+  return stem.startsWith('rook')
+}
+
 /** Frontmatter `kind` wins. Without it, a `log-` filename is a log and anything else is a journal entry. */
 export function journalEntryKind(entry: LayerEntry): JournalKind {
   if (entry.kind === 'log' || entry.kind === 'journal') return entry.kind
@@ -142,6 +160,7 @@ export interface JournalWheelCell {
   entry: LayerEntry | null
   journal: LayerEntry | null
   log: LayerEntry | null
+  rook: LayerEntry | null
   today: boolean
   future: boolean
 }
@@ -236,7 +255,7 @@ export function journalWheel(items: LayerEntry[], now = new Date()): JournalWhee
         const stamp = civilStamp(year, month, day)
         if (stamp < start || stamp > horizon) continue
         const key = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`
-        const { journal, log } = dayKinds(byDay.get(key) ?? [])
+        const { journal, log, rook } = dayKinds(byDay.get(key) ?? [])
         const split = Boolean(journal && log)
         const entry = journal ?? log
         const kind: JournalCellKind | null = split
@@ -257,6 +276,7 @@ export function journalWheel(items: LayerEntry[], now = new Date()): JournalWhee
           entry,
           journal,
           log,
+          rook,
           today: stamp === today,
           future: stamp > today,
         })

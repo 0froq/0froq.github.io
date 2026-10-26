@@ -1,30 +1,18 @@
 <script setup lang="ts">
-import { useElementBounding, useMouseInElement, usePreferredReducedMotion } from '@vueuse/core'
-
 const props = withDefaults(
   defineProps<{
     entry: LayerEntry
     dialog?: boolean
     flip?: boolean
-    tilt?: boolean
   }>(),
   {
     flip: true,
-    tilt: true,
   },
 )
 
 const route = useRoute()
 const { remember } = useIssueArticleReturn()
 const flipped = ref(false)
-const cardRef = useTemplateRef<HTMLElement>('card')
-const titleRef = useTemplateRef<HTMLElement>('title')
-const motion = usePreferredReducedMotion()
-const { elementX, elementY, elementWidth, elementHeight, isOutside } = useMouseInElement(cardRef, {
-  handleOutside: false,
-})
-const cardBox = useElementBounding(cardRef)
-const titleBox = useElementBounding(titleRef)
 
 const metaBits = computed(() => {
   const bits: string[] = []
@@ -35,56 +23,12 @@ const metaBits = computed(() => {
   return bits
 })
 
+const backMark = computed(() => props.entry.kind === 'rook' ? 'Rook' : 'froQ')
+const rookClip = computed(() => `rook-hatch-${props.entry.path.replace(/[^A-Za-z0-9_-]/g, '')}`)
+
 const evergreen = computed(() => isIssueEvergreen(props.entry))
 
 const summary = computed(() => props.entry.description?.trim() || props.entry.slip?.trim() || '')
-
-const glowStyle = computed(() => {
-  const bw = elementWidth.value
-  const bh = elementHeight.value
-  if (!(bw >= 1) || !(bh >= 1)) return { '--ink-x': '0px', '--ink-y': '0px' }
-  const node = cardRef.value
-  const w = node?.clientWidth ?? bw
-  const h = node?.clientHeight ?? bh
-  const x = (elementX.value / bw) * w
-  const y = (elementY.value / bh) * h
-  return {
-    '--ink-x': `${x.toFixed(1)}px`,
-    '--ink-y': `${y.toFixed(1)}px`,
-  }
-})
-
-const titleHaloStyle = computed(() => {
-  const bw = cardBox.width.value
-  const bh = cardBox.height.value
-  if (!(bw >= 1) || !(bh >= 1)) return { '--halo-x': '0px', '--halo-y': '0px' }
-  const w = cardRef.value?.clientWidth ?? bw
-  const h = cardRef.value?.clientHeight ?? bh
-  const x = (elementX.value / bw) * w - (titleBox.x.value - cardBox.x.value) * (w / bw)
-  const y = (elementY.value / bh) * h - (titleBox.y.value - cardBox.y.value) * (h / bh)
-  return {
-    '--halo-x': `${x.toFixed(1)}px`,
-    '--halo-y': `${y.toFixed(1)}px`,
-  }
-})
-
-const tiltStyle = computed(() => {
-  const rest = { transform: 'rotateX(0deg) rotateY(0deg)' }
-  if (
-    !props.tilt ||
-    motion.value === 'reduce' ||
-    isOutside.value ||
-    !(elementWidth.value >= 32) ||
-    !(elementHeight.value >= 32)
-  ) {
-    return rest
-  }
-  const nx = (elementX.value / elementWidth.value) * 2 - 1
-  const ny = (elementY.value / elementHeight.value) * 2 - 1
-  return {
-    transform: `rotateX(${(-ny * 7).toFixed(2)}deg) rotateY(${(nx * 9).toFixed(2)}deg)`,
-  }
-})
 
 watch(
   () => props.entry.path,
@@ -110,11 +54,11 @@ function onCardClick(event: MouseEvent) {
 <template>
   <div
     :id="dialog ? 'issue-peek-float' : undefined"
-    ref="card"
     class="group/sheet"
     un-perspective="[72rem]"
     :class="dialog ? 'w-full max-w-96' : 'w-64 max-w-full'"
     :data-dialog="dialog ? '' : undefined"
+    :data-rook="entry.kind === 'rook' ? '' : undefined"
     un-overflow="visible data-[dialog]:auto"
     :role="dialog ? 'dialog' : 'region'"
     :aria-modal="dialog ? 'true' : undefined"
@@ -153,7 +97,6 @@ function onCardClick(event: MouseEvent) {
       un-transition-transform
       un-duration-160
       un-ease-paper
-      :style="tiltStyle"
     >
       <div
         un-pointer-events-none
@@ -170,7 +113,6 @@ function onCardClick(event: MouseEvent) {
         <div
           class="issue-peek-face pointer-events-none data-[shown]:pointer-events-auto"
           :data-shown="flipped ? undefined : ''"
-          :style="glowStyle"
           un-chrome-blur
           un-pointer-events="none data-[shown]:auto"
           un-z="0 data-[shown]:1"
@@ -187,6 +129,31 @@ function onCardClick(event: MouseEvent) {
           un-px-5
           un-py-4
         >
+          <svg
+            v-if="entry.kind === 'rook'"
+            class="issue-peek-rook"
+            viewBox="0 0 20 20"
+            aria-hidden="true"
+          >
+            <defs>
+              <clipPath :id="rookClip">
+                <polygon points="0,0 20,0 0,20" />
+              </clipPath>
+            </defs>
+            <g
+              class="issue-peek-rook-hatch"
+              :clip-path="`url(#${rookClip})`"
+            >
+              <line
+                v-for="n in 12"
+                :key="n"
+                x1="-2"
+                :y1="(n - 2) * 2.4 - 4"
+                x2="22"
+                :y2="(n - 2) * 2.4 + 4"
+              />
+            </g>
+          </svg>
           <span
             class="issue-peek-halo"
             aria-hidden="true"
@@ -212,8 +179,6 @@ function onCardClick(event: MouseEvent) {
             un-overflow-hidden
           >
             <div
-              ref="title"
-              :style="titleHaloStyle"
               un-relative
               un-w-fit
               un-max-w-full
@@ -322,7 +287,6 @@ function onCardClick(event: MouseEvent) {
         <div
           class="issue-peek-face pointer-events-none data-[shown]:pointer-events-auto"
           :data-shown="flipped ? '' : undefined"
-          :style="glowStyle"
           un-chrome-blur
           un-pointer-events="none data-[shown]:auto"
           un-z="0 data-[shown]:1"
@@ -355,7 +319,7 @@ function onCardClick(event: MouseEvent) {
             un-tracking-tight
             un-pointer-events-none
             un-select-none
-            >froQ</span
+            >{{ backMark }}</span
           >
           <span
             class="issue-peek-mark-stroke text-[5.5rem]"
@@ -379,7 +343,7 @@ function onCardClick(event: MouseEvent) {
             un-transition-opacity
             un-duration-200
             un-ease-paper
-            >froQ</span
+            >{{ backMark }}</span
           >
           <span
             class="issue-peek-halo"
@@ -458,49 +422,31 @@ function onCardClick(event: MouseEvent) {
   -webkit-backface-visibility: hidden;
 }
 
+.issue-peek-rook {
+  position: absolute;
+  z-index: 2;
+  top: 0;
+  left: 0;
+  width: 1.6rem;
+  height: 1.6rem;
+  color: var(--ink);
+  pointer-events: none;
+}
+
+.issue-peek-rook-hatch {
+  stroke: currentColor;
+  stroke-width: 0.45;
+  opacity: 0.7;
+  fill: none;
+}
+
 /* Parent `pointer-events: none` does not disable button/link descendants. */
 .issue-peek-face:not([data-shown]),
 .issue-peek-face:not([data-shown]) :deep(*) {
   pointer-events: none;
 }
 
-.issue-peek-mark-stroke,
-.issue-peek-halo {
-  mask-image: radial-gradient(
-    8rem at var(--ink-x, 0px) var(--ink-y, 0px),
-    #000 18%,
-    transparent 72%
-  );
-  -webkit-mask-image: radial-gradient(
-    8rem at var(--ink-x, 0px) var(--ink-y, 0px),
-    #000 18%,
-    transparent 72%
-  );
-}
-
-.issue-peek-title-halo {
-  mask-image: radial-gradient(
-    8rem at var(--halo-x, 0px) var(--halo-y, 0px),
-    #000 18%,
-    transparent 72%
-  );
-  -webkit-mask-image: radial-gradient(
-    8rem at var(--halo-x, 0px) var(--halo-y, 0px),
-    #000 18%,
-    transparent 72%
-  );
-}
-
 .issue-peek-mark-stroke {
   -webkit-text-stroke: 1.2px var(--ink);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .issue-peek-mark-stroke,
-  .issue-peek-halo,
-  .issue-peek-title-halo {
-    mask-image: none;
-    -webkit-mask-image: none;
-  }
 }
 </style>

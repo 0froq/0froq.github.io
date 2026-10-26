@@ -6,6 +6,7 @@ const props = defineProps<{
   fill?: boolean
   split?: boolean
   hatch?: boolean
+  mark?: boolean
 }>()
 
 const FILL_SCALE = 0.9
@@ -93,6 +94,13 @@ const fillTransform = `translate(10 10) scale(${FILL_SCALE}) translate(-10 -10)`
       stroke-linecap="round"
       stroke-linejoin="round"
     />
+    <circle
+      v-if="mark"
+      class="ink-wobble-mark"
+      cx="10"
+      cy="10"
+      r="1.35"
+    />
   </svg>
 </template>
 
@@ -138,5 +146,9 @@ const fillTransform = `translate(10 10) scale(${FILL_SCALE}) translate(-10 -10)`
   stroke: currentColor;
   stroke-width: 0.45;
   opacity: 0.7;
+}
+
+.ink-wobble-mark {
+  fill: var(--colored-ink);
 }
 </style>
