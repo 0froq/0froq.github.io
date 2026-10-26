@@ -7,6 +7,10 @@ shellEmulator: true
 trustPolicy: no-downgrade
 trustPolicyExclude:
   - semver@6.3.1
+  # First publish of the Oxlint flat-config toolkit; required by @liangmi/vp-config.
+  - '@oxlint-flat-config/composer@0.3.1'
+  - oxlint-flat-config@0.4.0
+  - '@liangmi/vp-config@1.0.0'
 
 packages:
   - .
@@ -72,6 +76,7 @@ catalogs:
     unocss: ^66.6.7
 
   tooling:
+    '@liangmi/vp-config': 1.0.0
     '@types/node': 26.6.2
     lint-staged: ^16.1.6
     nuxtseo-devtools-host: ^1
