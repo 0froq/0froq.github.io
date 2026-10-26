@@ -4,11 +4,17 @@ const props = withDefaults(
     entry: LayerEntry
     dialog?: boolean
     flip?: boolean
+    /** Mouse-following ink. Only the active card should turn this on. */
+    spot?: boolean
   }>(),
   {
     flip: true,
+    spot: false,
   },
 )
+
+const cardRef = useTemplateRef<HTMLElement>('card')
+const titleRef = useTemplateRef<HTMLElement>('title')
 
 const route = useRoute()
 const { remember } = useIssueArticleReturn()
@@ -23,7 +29,7 @@ const metaBits = computed(() => {
   return bits
 })
 
-const backMark = computed(() => props.entry.kind === 'rook' ? 'Rook' : 'froQ')
+const backMark = computed(() => (props.entry.kind === 'rook' ? 'Rook' : 'froQ'))
 const rookClip = computed(() => `rook-hatch-${props.entry.path.replace(/[^A-Za-z0-9_-]/g, '')}`)
 
 const evergreen = computed(() => isIssueEvergreen(props.entry))
@@ -71,8 +77,14 @@ function onCardClick(event: MouseEvent) {
     un-min-w-0
     un-shadow-none
     un-cursor-pointer
+    ref="card"
     @click="onCardClick"
   >
+    <IssuePeekSpot
+      v-if="spot"
+      :card="cardRef"
+      :title="titleRef"
+    />
     <p
       v-if="dialog"
       id="issue-peek-float-title"
@@ -179,6 +191,7 @@ function onCardClick(event: MouseEvent) {
             un-overflow-hidden
           >
             <div
+              ref="title"
               un-relative
               un-w-fit
               un-max-w-full
@@ -446,7 +459,49 @@ function onCardClick(event: MouseEvent) {
   pointer-events: none;
 }
 
+.issue-peek-mark-stroke,
+.issue-peek-halo,
+.issue-peek-title-halo {
+  transition: opacity 200ms var(--ease-out);
+}
+
+.issue-peek-mark-stroke,
+.issue-peek-halo {
+  mask-image: radial-gradient(
+    8rem at var(--ink-x, 0px) var(--ink-y, 0px),
+    #000 18%,
+    transparent 72%
+  );
+  -webkit-mask-image: radial-gradient(
+    8rem at var(--ink-x, 0px) var(--ink-y, 0px),
+    #000 18%,
+    transparent 72%
+  );
+}
+
+.issue-peek-title-halo {
+  mask-image: radial-gradient(
+    8rem at var(--halo-x, 0px) var(--halo-y, 0px),
+    #000 18%,
+    transparent 72%
+  );
+  -webkit-mask-image: radial-gradient(
+    8rem at var(--halo-x, 0px) var(--halo-y, 0px),
+    #000 18%,
+    transparent 72%
+  );
+}
+
 .issue-peek-mark-stroke {
   -webkit-text-stroke: 1.2px var(--ink);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .issue-peek-mark-stroke,
+  .issue-peek-halo,
+  .issue-peek-title-halo {
+    mask-image: none;
+    -webkit-mask-image: none;
+  }
 }
 </style>

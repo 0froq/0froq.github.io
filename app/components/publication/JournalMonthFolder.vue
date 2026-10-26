@@ -176,8 +176,7 @@ onUnmounted(() => {
   clearTimeout(scrubStop)
   clearTimeout(settleStop)
   clearTimeout(dealTimer)
-  if (nudgeFrame)
-    cancelAnimationFrame(nudgeFrame)
+  if (nudgeFrame) cancelAnimationFrame(nudgeFrame)
 })
 
 function monthIdOf(item: LayerEntry) {
@@ -242,18 +241,15 @@ function snapCursor() {
 }
 
 function endScrub(gen: number) {
-  if (gen !== scrubGen)
-    return
+  if (gen !== scrubGen) return
   scrubbing.value = false
   settling.value = true
   nextTick(() => {
     requestAnimationFrame(() => {
-      if (gen !== scrubGen)
-        return
+      if (gen !== scrubGen) return
       snapCursor()
       settleStop = setTimeout(() => {
-        if (gen === scrubGen)
-          settling.value = false
+        if (gen === scrubGen) settling.value = false
       }, 160)
     })
   })
@@ -511,6 +507,7 @@ function sheetStyle(index: number, entry: LayerEntry) {
         :style="sheetStyle(index, entry)"
         :entry="entry"
         :flip="front === entry.path"
+        :spot="front === entry.path"
         @click.capture="onSheetPick(entry, $event)"
         @click.stop
       />
