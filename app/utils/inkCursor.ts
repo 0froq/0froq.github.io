@@ -215,7 +215,8 @@ function rectContains(
 /** Drop block/element boxes that merely wrap line fragments. */
 function lineRects(rects: ArrayLike<DOMRectReadOnly>): SelBox[] {
   const raw: SelBox[] = []
-  for (const r of rects) {
+  for (let i = 0; i < rects.length; i++) {
+    const r = rects[i]!
     if (r.width > 1 && r.height > 1)
       raw.push({ left: r.left, top: r.top, right: r.right, bottom: r.bottom })
   }
@@ -299,7 +300,8 @@ function resampleClosed(pts: InkPt[], n: number): InkPt[] {
     lens.push(len)
     total += len
   }
-  if (total < 1) return Array.from({ length: n }).fill([pts[0]![0], pts[0]![1]] as InkPt)
+  if (total < 1)
+    return Array.from({ length: n }, () => [pts[0]![0], pts[0]![1]] as InkPt)
   const out: InkPt[] = []
   const step = total / n
   let ei = 0

@@ -317,9 +317,10 @@ export default defineNuxtPlugin(nuxtApp => {
         return [shownX + dx * cos - dy * sin, shownY + dx * sin + dy * cos] as [number, number]
       })
       let pts = screen
-      if (selTarget && morphSel > 0.001 && selPts) {
+      const lockedSel = selPts
+      if (selTarget && morphSel > 0.001 && lockedSel) {
         pts = screen.map((p, i) => {
-          const q = selPts[i]!
+          const q = lockedSel[i]!
           return [p[0] + (q[0] - p[0]) * morphSel, p[1] + (q[1] - p[1]) * morphSel] as [
             number,
             number,
@@ -433,7 +434,7 @@ export default defineNuxtPlugin(nuxtApp => {
     onMotionChange()
     schedule()
 
-    nuxtApp.hook('app:beforeUnmount', () => {
+    const release = () => {
       window.removeEventListener('pointermove', onPointerMove)
       window.removeEventListener('pointerover', onPointerOver)
       window.removeEventListener('pointerdown', onPointerDown)
@@ -448,6 +449,11 @@ export default defineNuxtPlugin(nuxtApp => {
       selRoot.remove()
       root.remove()
       document.documentElement.classList.remove('ink-cursor-on', 'ink-cursor-still')
-    })
+    }
+    const unmount = nuxtApp.vueApp.unmount.bind(nuxtApp.vueApp)
+    nuxtApp.vueApp.unmount = () => {
+      release()
+      unmount()
+    }
   })
 })
