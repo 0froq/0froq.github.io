@@ -47,10 +47,14 @@ export function useFroqApi() {
 
   async function request<T>(
     path: string,
-    opts?: { method?: string; body?: unknown; keepalive?: boolean },
+    opts?: {
+      method?: 'GET' | 'POST'
+      body?: Record<string, unknown> | null
+      keepalive?: boolean
+    },
   ): Promise<T | null> {
     try {
-      return await $fetch<T>(`${base.value}${path}`, opts)
+      return (await $fetch<T>(`${base.value}${path}`, opts)) as T
     } catch {
       return null
     }
