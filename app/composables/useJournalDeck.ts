@@ -35,13 +35,11 @@ export function provideJournalDeck(items: MaybeRefOrGetter<LayerEntry[]>) {
       .filter(item => journalDayKey(item.created)?.slice(0, 7) === id)
       .sort((a, b) => {
         const byDate = (a.created ?? '').localeCompare(b.created ?? '')
-        if (byDate)
-          return byDate
+        if (byDate) return byDate
         return Number(isRookEntry(a)) - Number(isRookEntry(b))
       })
     const key = `${id}\0${next.map(item => item.path).join('\0')}`
-    if (key === monthKey)
-      return monthCache
+    if (key === monthKey) return monthCache
     monthKey = key
     monthCache = next
     return next
