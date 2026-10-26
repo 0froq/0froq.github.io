@@ -11,10 +11,10 @@
     "prepare": "npx simple-git-hooks",
     "worker:dev": "pnpm --dir workers/froq-api dev",
     "worker:deploy": "pnpm --dir workers/froq-api deploy",
-    "lint": "vp lint --config .oxlintrc.json .",
-    "lint:fix": "vp lint --config .oxlintrc.json . --fix",
-    "fmt": "vp fmt --config .oxfmtrc.json .",
-    "fmt:check": "vp fmt --config .oxfmtrc.json . --check",
+    "lint": "vp lint",
+    "lint:fix": "vp lint --fix",
+    "fmt": "vp fmt",
+    "fmt:check": "vp fmt --check",
     "check": "vp run lint && vp run fmt:check",
     "typecheck": "nuxt typecheck"
   },
@@ -46,6 +46,7 @@
     "@iconify-json/skill-icons": "catalog:styling",
     "@iconify-json/solar": "catalog:styling",
     "@iconify-json/twemoji": "catalog:styling",
+    "@liangmi/vp-config": "catalog:tooling",
     "@types/node": "catalog:tooling",
     "@unocss/extractor-mdc": "catalog:styling",
     "@unocss/nuxt": "catalog:styling",
@@ -64,8 +65,8 @@
   },
   "lint-staged": {
     "*": [
-      "vp lint --config .oxlintrc.json --fix --no-error-on-unmatched-pattern",
-      "vp fmt --config .oxfmtrc.json --no-error-on-unmatched-pattern"
+      "vp lint --fix --no-error-on-unmatched-pattern",
+      "vp fmt --no-error-on-unmatched-pattern"
     ]
   },
   "engines": {
