@@ -300,8 +300,7 @@ function resampleClosed(pts: InkPt[], n: number): InkPt[] {
     lens.push(len)
     total += len
   }
-  if (total < 1)
-    return Array.from({ length: n }, () => [pts[0]![0], pts[0]![1]] as InkPt)
+  if (total < 1) return Array.from({ length: n }, () => [pts[0]![0], pts[0]![1]] as InkPt)
   const out: InkPt[] = []
   const step = total / n
   let ei = 0
