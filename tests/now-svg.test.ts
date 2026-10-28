@@ -269,9 +269,11 @@ describe('renderNowSvg', () => {
   it('ellipsizes long media so the row stays inside 640px', () => {
     const media = 'Helplessness Blues – Fleet Foxes '.repeat(20)
     const svg = renderNowSvg({ kind: 'active', app: 'Vivaldi', media }, NOW_THEMES.light)
-    expect(svg).toContain('…')
-    expect(svg).not.toContain(media)
-    expect(svg).toContain('Vivaldi')
+    const drawn = [...svg.matchAll(/<text\b[^>]*>([^<]*)<\/text>/g)].map(match => match[1]).join('')
+    expect(drawn).toContain('…')
+    expect(drawn).not.toContain(media)
+    expect(drawn).toContain('Vivaldi')
+    expect(svg).toContain(`aria-label="正在 Vivaldi · ${media}"`)
     expect(svg).toContain('width="640"')
   })
 
