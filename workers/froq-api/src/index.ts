@@ -1,6 +1,7 @@
 import type { Env, ProgressRecord } from './types'
 import { handleAuthProxy, isAuthProxyPath } from './authProxy'
 import { corsHeaders, emptyCors, isAllowedOrigin, jsonResponse } from './cors'
+import { handleNowSvg, nowSvgOptions, nowThemeFromPath } from './nowSvg'
 import { PagePresence } from './PagePresence'
 import { SiteStats } from './SiteStats'
 import { progressKey, resolveGitHubLogin, visitorKey } from './types'
@@ -336,6 +337,22 @@ export default {
     const url = new URL(request.url)
     const origin = request.headers.get('Origin')
     const { pathname } = url
+
+    // Public SVG for GitHub Camo — allow * before the site-locked CORS gate.
+    const nowTheme = nowThemeFromPath(pathname)
+    if (nowTheme) {
+      if (request.method === 'OPTIONS') return nowSvgOptions()
+      if (request.method === 'GET' || request.method === 'HEAD') {
+        return handleNowSvg(request, nowTheme)
+      }
+      return new Response(null, {
+        status: 405,
+        headers: {
+          'Allow': 'GET, HEAD, OPTIONS',
+          'Access-Control-Allow-Origin': '*',
+        },
+      })
+    }
 
     if (request.method === 'OPTIONS') return emptyCors(origin)
 

@@ -6,6 +6,7 @@ Cloudflare Worker for froq.me:
 - Page presence + site visit counters (`/session/ping`, `/session/leave`, `/stats`)
 - Logged-in reading progress sync (`GET|PUT /progress`)
 - Scrapboard emoji reactions (`GET|POST /scraps/reactions`) — anonId only, no GitHub
+- Live 「正在…」 SVG for the GitHub profile README (`GET /now.svg`, `/now-light.svg`, `/now-dark.svg`)
 
 **Production:** `https://api.froq.me`
 (fallback workers.dev URL still works: `https://froq-api.sayhola.workers.dev`)
@@ -21,6 +22,36 @@ POST /scraps/reactions
 Allowed emoji: 👍 ❤️ 😮 ✨ 📌. One vote per scrap per anon (toggle / switch).
 
 Site runtime config: `NUXT_PUBLIC_FROQ_API` (default `https://api.froq.me`).
+
+## Now SVG (GitHub profile)
+
+Unauthenticated `image/svg+xml` for embedding from github.com Camo. The Worker
+fetches public `activity.json` on each request (no GitHub Actions). CORS is
+`Access-Control-Allow-Origin: *` on these paths only; other API routes stay
+locked to froq.me.
+
+| Path                 | Theme |
+| -------------------- | ----- |
+| `GET /now.svg`       | light |
+| `GET /now-light.svg` | light |
+| `GET /now-dark.svg`  | dark  |
+
+Cache: `Cache-Control: public, max-age=60, s-maxage=60` plus matching `Expires`.
+Also `Cross-Origin-Resource-Policy: cross-origin` for Camo.
+
+Sleeping (same rule as froq.me `activityIsSleeping`, plus `active === false`):
+missing/invalid timestamp, stamp older than 5 minutes, or `active` not true.
+Fetch failure renders `眠了` — never a fake live app.
+
+```html
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://api.froq.me/now-dark.svg">
+  <img alt="what froQ is doing now" src="https://api.froq.me/now-light.svg" width="640">
+</picture>
+```
+
+Deploy is still manual Wrangler (`pnpm deploy` here, or root `pnpm worker:deploy`).
+The site Worker (`froq`) does not serve these paths.
 
 ## Setup
 
