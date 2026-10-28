@@ -39,9 +39,18 @@ locked to froq.me.
 Cache: `Cache-Control: public, max-age=60, s-maxage=60` plus matching `Expires`.
 Also `Cross-Origin-Resource-Policy: cross-origin` for Camo.
 
+The row matches froq.me `SiteDoing`: monospace type, 8px status dot (filled ink
+when working, hollow muted when sleeping), and the 16×16 app icon from
+`process.iconUrl`. Camo cannot load arbitrary image hosts, so the Worker fetches
+the icon and inlines it as a `data:image/png;base64,…` URI. Icon fetch failure
+is text-only — never an external `<image href>`.
+
 Sleeping (same rule as froq.me `activityIsSleeping`, plus `active === false`):
 missing/invalid timestamp, stamp older than 5 minutes, or `active` not true.
 Fetch failure renders `眠了` — never a fake live app.
+
+Copy stays the existing Chinese lines: `正在 {app} · media`, `在 {app} 中眠了`,
+or `眠了`. Long app/media labels ellipsize inside the 640px README width.
 
 ```html
 <picture>
