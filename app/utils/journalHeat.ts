@@ -63,24 +63,232 @@ export function journalByDay(items: LayerEntry[]): Map<string, LayerEntry> {
   return map
 }
 
-function dayKinds(entries: LayerEntry[]): {
-  journal: LayerEntry | null
-  log: LayerEntry | null
-  rook: LayerEntry | null
-} {
-  let journal: LayerEntry | null = null
-  let log: LayerEntry | null = null
-  let rook: LayerEntry | null = null
-  for (const entry of entries) {
-    if (isRookEntry(entry)) {
-      if (!rook) rook = entry
-      continue
+export type WheelRole = 'log' | 'journal' | 'rook'
+
+export interface WheelTarget {
+  entry: LayerEntry
+  role: WheelRole
+  /** Unit square. Null when this reading owns the whole cell. */
+  polygon: [number, number][] | null
+}
+
+export interface WheelInkSlice {
+  role: WheelRole
+  points: string | null
+  hot: boolean
+  pinned: boolean
+  voided: boolean
+}
+
+const ROLE_NAME: Record<WheelRole, string> = {
+  log: '日志',
+  journal: '夜记',
+  rook: 'Rook',
+}
+
+function roleRank(role: WheelRole): number {
+  switch (role) {
+    case 'log':
+      return 0
+    case 'journal':
+      return 1
+    case 'rook':
+      return 2
+    default: {
+      const unreachable: never = role
+      return unreachable
     }
-    const kind = journalEntryKind(entry)
-    if (kind === 'log' && !log) log = entry
-    else if (kind === 'journal' && !journal) journal = entry
   }
-  return { journal, log, rook }
+}
+
+/** Rook writes beside the day. It never takes a journal or log fill. */
+export function isRookEntry(entry: LayerEntry): boolean {
+  if (entry.kind === 'rook') return true
+  const stem = entry.path.split('/').pop() ?? ''
+  return stem.startsWith('rook')
+}
+
+export type JournalKind = 'journal' | 'log'
+
+/** Frontmatter `kind` wins. Without it, a `log-` filename is a log and anything else is a journal entry. */
+export function journalEntryKind(entry: LayerEntry): JournalKind {
+  if (entry.kind === 'log' || entry.kind === 'journal') return entry.kind
+  const stem = entry.path.split('/').pop() ?? ''
+  return stem.startsWith('log') ? 'log' : 'journal'
+}
+
+export function wheelRole(entry: LayerEntry): WheelRole {
+  if (isRookEntry(entry)) return 'rook'
+  return journalEntryKind(entry)
+}
+
+function areaToDiagonal(area: number): number {
+  if (area <= 0) return 0
+  if (area >= 1) return 2
+  if (area <= 0.5) return Math.sqrt(2 * area)
+  return 2 - Math.sqrt(2 * (1 - area))
+}
+
+/** Band between diagonal levels t0 and t1, where the level is x + y on the unit square. */
+function bandPolygon(t0: number, t1: number): [number, number][] | null {
+  const a = Math.max(0, Math.min(2, t0))
+  const b = Math.max(0, Math.min(2, t1))
+  if (b - a < 1e-6) return null
+  if (a <= 0 && b >= 2) return null
+  if (b <= 1) {
+    if (a <= 0)
+      return [
+        [0, 0],
+        [b, 0],
+        [0, b],
+      ]
+    return [
+      [a, 0],
+      [b, 0],
+      [0, b],
+      [0, a],
+    ]
+  }
+  if (a >= 1) {
+    if (b >= 2)
+      return [
+        [1, a - 1],
+        [1, 1],
+        [a - 1, 1],
+      ]
+    return [
+      [1, a - 1],
+      [1, b - 1],
+      [b - 1, 1],
+      [a - 1, 1],
+    ]
+  }
+  if (a <= 0)
+    return [
+      [0, 0],
+      [1, 0],
+      [1, b - 1],
+      [b - 1, 1],
+      [0, 1],
+    ]
+  if (b >= 2)
+    return [
+      [a, 0],
+      [1, 0],
+      [1, 1],
+      [0, 1],
+      [0, a],
+    ]
+  return [
+    [a, 0],
+    [1, 0],
+    [1, b - 1],
+    [b - 1, 1],
+    [0, 1],
+    [0, a],
+  ]
+}
+
+function assignSlots(roles: WheelRole[]): number[] {
+  const count = roles.length
+  const slots = Array.from({ length: count }, () => -1)
+  const used = new Set<number>()
+  const firstLog = roles.indexOf('log')
+  const firstJournal = roles.indexOf('journal')
+  if (count === 1) return [0]
+  if (firstLog >= 0 && firstJournal >= 0) {
+    slots[firstLog] = 0
+    slots[firstJournal] = count - 1
+    used.add(0)
+    used.add(count - 1)
+  } else if (firstLog >= 0) {
+    slots[firstLog] = 0
+    used.add(0)
+  } else if (firstJournal >= 0) {
+    slots[firstJournal] = count - 1
+    used.add(count - 1)
+  }
+  const free: number[] = []
+  for (let slot = 0; slot < count; slot += 1) {
+    if (!used.has(slot)) free.push(slot)
+  }
+  let next = 0
+  for (let index = 0; index < count; index += 1) {
+    if (slots[index]! >= 0) continue
+    slots[index] = free[next]!
+    next += 1
+  }
+  return slots
+}
+
+/**
+ * Every entry on a day stays selectable.
+ * Log keeps the upper-left corner and a journal keeps the lower-right one.
+ * Rook takes a remaining band instead of a hatch across the whole frame.
+ */
+export function dayTargets(entries: LayerEntry[]): WheelTarget[] {
+  const sorted = entries.map(entry => ({ entry, role: wheelRole(entry) }))
+  sorted.sort((a, b) => {
+    const byRole = roleRank(a.role) - roleRank(b.role)
+    if (byRole) return byRole
+    return a.entry.path.localeCompare(b.entry.path)
+  })
+  const count = sorted.length
+  if (!count) return []
+  const slots = assignSlots(sorted.map(item => item.role))
+  const polygons: ([number, number][] | null)[] = Array.from({ length: count }, () => null)
+  if (count > 1) {
+    for (let slot = 0; slot < count; slot += 1) {
+      polygons[slot] = bandPolygon(areaToDiagonal(slot / count), areaToDiagonal((slot + 1) / count))
+    }
+  }
+  return sorted
+    .map((item, index) => ({
+      entry: item.entry,
+      role: item.role,
+      polygon: polygons[slots[index]!] ?? null,
+      slot: slots[index]!,
+    }))
+    .sort((a, b) => a.slot - b.slot)
+    .map(({ entry, role, polygon }) => ({ entry, role, polygon }))
+}
+
+export function wheelClip(polygon: [number, number][] | null): string | undefined {
+  if (!polygon) return undefined
+  const pts = polygon
+    .map(([x, y]) => `${Math.round(x * 1000) / 10}% ${Math.round(y * 1000) / 10}%`)
+    .join(', ')
+  return `polygon(${pts})`
+}
+
+export function wheelPoints(polygon: [number, number][] | null): string | null {
+  if (!polygon) return null
+  return polygon
+    .map(([x, y]) => `${Math.round(x * 2000) / 100},${Math.round(y * 2000) / 100}`)
+    .join(' ')
+}
+
+export function wheelTargetName(target: WheelTarget, siblings: WheelTarget[]): string {
+  const role = ROLE_NAME[target.role]
+  const sameTitle = siblings.filter(
+    item => item.role === target.role && item.entry.title === target.entry.title,
+  )
+  if (sameTitle.length > 1) {
+    const stem = target.entry.path.split('/').pop() ?? target.entry.path
+    return `${target.entry.title}，${role}，${stem}`
+  }
+  return `${target.entry.title}，${role}`
+}
+
+export function wheelShortLabel(target: WheelTarget, siblings: WheelTarget[]): string {
+  const sameRole = siblings.filter(item => item.role === target.role)
+  if (sameRole.length > 1) return target.entry.title
+  return ROLE_NAME[target.role]
+}
+
+/** A scroll or drag should not open the reading under the pointer. */
+export function wheelPressShouldOpen(movedPx: number, scrollDelta: number): boolean {
+  return movedPx <= 8 && Math.abs(scrollDelta) <= 3
 }
 
 function civilStamp(year: number, month: number, day: number): number {
@@ -129,22 +337,6 @@ function lastMonthForYear(year: number, now: Date): number {
   return -1
 }
 
-export type JournalKind = 'journal' | 'log'
-
-/** Rook writes beside the day. It never takes a journal or log fill. */
-export function isRookEntry(entry: LayerEntry): boolean {
-  if (entry.kind === 'rook') return true
-  const stem = entry.path.split('/').pop() ?? ''
-  return stem.startsWith('rook')
-}
-
-/** Frontmatter `kind` wins. Without it, a `log-` filename is a log and anything else is a journal entry. */
-export function journalEntryKind(entry: LayerEntry): JournalKind {
-  if (entry.kind === 'log' || entry.kind === 'journal') return entry.kind
-  const stem = entry.path.split('/').pop() ?? ''
-  return stem.startsWith('log') ? 'log' : 'journal'
-}
-
 export type JournalCellKind = JournalKind | 'split'
 
 export interface JournalWheelCell {
@@ -159,6 +351,7 @@ export interface JournalWheelCell {
   journal: LayerEntry | null
   log: LayerEntry | null
   rook: LayerEntry | null
+  targets: WheelTarget[]
   today: boolean
   future: boolean
 }
@@ -284,16 +477,14 @@ export function journalWheel(items: LayerEntry[], now = new Date()): JournalWhee
         const stamp = civilStamp(year, month, day)
         if (stamp < start || stamp > horizon) continue
         const key = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`
-        const { journal, log, rook } = dayKinds(byDay.get(key) ?? [])
-        const split = Boolean(journal && log)
-        const entry = journal ?? log
-        const kind: JournalCellKind | null = split
-          ? 'split'
-          : log
-            ? 'log'
-            : journal
-              ? 'journal'
-              : null
+        const targets = dayTargets(byDay.get(key) ?? [])
+        const journal = targets.find(item => item.role === 'journal')?.entry ?? null
+        const log = targets.find(item => item.role === 'log')?.entry ?? null
+        const rook = targets.find(item => item.role === 'rook')?.entry ?? null
+        const personal = targets.find(item => item.role !== 'rook')
+        const sole = targets.length === 1 ? targets[0] : null
+        const kind: JournalCellKind | null =
+          targets.length > 1 ? 'split' : sole && sole.role !== 'rook' ? sole.role : null
         cells.push({
           key,
           day,
@@ -302,10 +493,11 @@ export function journalWheel(items: LayerEntry[], now = new Date()): JournalWhee
           monthId: monthIdOf(time),
           rowId: m.id,
           kind,
-          entry,
+          entry: personal?.entry ?? null,
           journal,
           log,
           rook,
+          targets,
           today: stamp === today,
           future: stamp > today,
         })
