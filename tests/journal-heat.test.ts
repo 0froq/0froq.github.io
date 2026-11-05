@@ -3,6 +3,7 @@ import type { LayerEntry } from '../app/utils/issueList'
 import {
   dayTargets,
   journalWheel,
+  wheelBoxesOverlap,
   wheelPressShouldOpen,
   wheelRole,
   type WheelRole,
@@ -21,85 +22,56 @@ function paths(targets: WheelTarget[]): string[] {
   return targets.map(item => item.entry.path)
 }
 
-function contains(point: [number, number], polygon: [number, number][] | null): boolean {
-  if (!polygon) return true
-  const [x, y] = point
-  let hit = false
-  for (let i = 0, j = polygon.length - 1; i < polygon.length; j = i, i += 1) {
-    const xi = polygon[i]![0]
-    const yi = polygon[i]![1]
-    const xj = polygon[j]![0]
-    const yj = polygon[j]![1]
-    const crosses = yi > y !== yj > y && x < ((xj - xi) * (y - yi)) / (yj - yi + 0) + xi
-    if (crosses) hit = !hit
-  }
-  return hit
-}
-
-function assertPartition(targets: WheelTarget[]) {
+function assertSeparate(targets: WheelTarget[]) {
   expect(targets.length).toBeGreaterThan(1)
-  const step = 0.05
-  let owned = 0
-  let shared = 0
-  const counts = Array.from({ length: targets.length }, () => 0)
-  for (let y = step / 2; y < 1; y += step) {
-    for (let x = step / 2; x < 1; x += step) {
-      const hits = targets
-        .map((item, index) => (contains([x, y], item.polygon) ? index : -1))
-        .filter(index => index >= 0)
-      if (hits.length === 1) {
-        owned += 1
-        counts[hits[0]!] += 1
-      } else if (hits.length > 1) shared += 1
-    }
+  expect(wheelBoxesOverlap(targets.map(item => item.box))).toBe(false)
+  for (const target of targets) {
+    expect(target.box.w).toBeGreaterThan(0.8)
+    expect(target.box.h).toBeGreaterThan(0.12)
+    expect(target.box.h).toBeLessThan(0.7)
   }
-  expect(owned).toBeGreaterThan(200)
-  expect(shared).toBeLessThan(owned * 0.08)
-  for (const count of counts) expect(count).toBeGreaterThan(40)
+  for (let index = 1; index < targets.length; index += 1) {
+    expect(targets[index]!.box.y).toBeGreaterThan(
+      targets[index - 1]!.box.y + targets[index - 1]!.box.h,
+    )
+  }
 }
 
 describe('dayTargets', () => {
   it('keeps a rook-only day as one full-cell reading', () => {
     const targets = dayTargets([entry('/journal/rook-20261023', 'rook', '尺子')])
     expect(roles(targets)).toEqual(['rook'])
-    expect(targets[0]?.polygon).toBeNull()
+    expect(targets[0]?.box).toEqual({ x: 0, y: 0, w: 1, h: 1 })
     expect(wheelRole(targets[0]!.entry)).toBe('rook')
   })
 
-  it('keeps the log and journal halves when there is no rook', () => {
+  it('stacks a log and a night note as two closed tiles', () => {
     const targets = dayTargets([
       entry('/journal/journal-20260531', 'journal', '夜记', '2026-05-31'),
       entry('/journal/log-20260531', 'log', '日志', '2026-05-31'),
     ])
     expect(roles(targets)).toEqual(['log', 'journal'])
     expect(paths(targets)).toEqual(['/journal/log-20260531', '/journal/journal-20260531'])
-    assertPartition(targets)
-    expect(contains([0.1, 0.1], targets[0]!.polygon)).toBe(true)
-    expect(contains([0.9, 0.9], targets[1]!.polygon)).toBe(true)
+    assertSeparate(targets)
   })
 
-  it('gives rook its own slice beside a log or a night entry', () => {
+  it('gives rook its own tile beside a log or a night entry', () => {
     const withLog = dayTargets([
       entry('/journal/rook-20261021', 'rook', '轮到你了', '2026-10-21'),
       entry('/journal/log-20261021', 'log', '日志', '2026-10-21'),
     ])
     expect(roles(withLog)).toEqual(['log', 'rook'])
-    expect(contains([0.9, 0.9], withLog.find(item => item.role === 'log')!.polygon)).toBe(false)
-    expect(contains([0.1, 0.1], withLog.find(item => item.role === 'log')!.polygon)).toBe(true)
-    assertPartition(withLog)
+    assertSeparate(withLog)
 
     const withJournal = dayTargets([
       entry('/journal/journal-20261022', 'journal', '夜记', '2026-10-22'),
       entry('/journal/rook-20261022', 'rook', '手抄本', '2026-10-22'),
     ])
-    expect(roles(withJournal)).toEqual(['rook', 'journal'])
-    expect(contains([0.9, 0.9], withJournal.find(item => item.role === 'journal')!.polygon)).toBe(
-      true,
-    )
-    assertPartition(withJournal)
+    expect(roles(withJournal)).toEqual(['journal', 'rook'])
+    assertSeparate(withJournal)
   })
 
-  it('splits one day into log, rook, and journal without dropping any', () => {
+  it('stacks log, night note, and rook as three separate tiles', () => {
     const targets = dayTargets([
       entry('/journal/rook-20261020', 'rook', '随笔'),
       entry('/journal/journal-20261020', 'journal', '夜记'),
@@ -107,14 +79,11 @@ describe('dayTargets', () => {
     ])
     expect(paths(targets)).toEqual([
       '/journal/log-20261020',
-      '/journal/rook-20261020',
       '/journal/journal-20261020',
+      '/journal/rook-20261020',
     ])
-    expect(roles(targets)).toEqual(['log', 'rook', 'journal'])
-    assertPartition(targets)
-    expect(contains([0.08, 0.08], targets[0]!.polygon)).toBe(true)
-    expect(contains([0.92, 0.92], targets[2]!.polygon)).toBe(true)
-    expect(contains([0.5, 0.5], targets[1]!.polygon)).toBe(true)
+    expect(roles(targets)).toEqual(['log', 'journal', 'rook'])
+    assertSeparate(targets)
   })
 
   it('keeps every same-day reading instead of the first of its kind', () => {
@@ -132,7 +101,9 @@ describe('dayTargets', () => {
       '/journal/rook-a',
       '/journal/rook-b',
     ])
-    assertPartition(forward)
+    assertSeparate(forward)
+    expect(forward[0]?.entry.path).not.toBe(forward[1]?.entry.path)
+    expect(forward[0]?.box.y).not.toBe(forward[1]?.box.y)
   })
 
   it('treats a rook filename as rook even when kind is missing', () => {
@@ -167,8 +138,8 @@ describe('journalWheel', () => {
     )
     expect(paths(mixed?.targets ?? [])).toEqual([
       '/journal/log-20261020',
-      '/journal/rook-20261020',
       '/journal/journal-20261020',
+      '/journal/rook-20261020',
     ])
     const rookOnly = cellOn(
       [entry('/journal/rook-20261023', 'rook', '尺子', '2026-10-23')],

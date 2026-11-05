@@ -181,6 +181,10 @@ function cellStyle(cell: JournalWheelCell, row: JournalWheelMonth) {
   return {
     gridColumn: String(cell.col + 1),
     gridRow: String(row.gridRows - cell.weekIndex),
+    height:
+      cell.targets.length > 1
+        ? `calc(var(--wheel-cell) * ${cell.targets.length})`
+        : 'var(--wheel-cell)',
   }
 }
 
@@ -507,14 +511,20 @@ function cellClass(cell: JournalWheelCell) {
   }
 }
 
-function inkSlices(cell: JournalWheelCell): WheelInkSlice[] {
-  return cell.targets.map(target => ({
-    role: target.role,
-    points: wheelPoints(target.polygon),
-    hot: hotPath.value === target.entry.path,
-    pinned: isPinnedEntry(target.entry),
-    voided: target.entry.status === 'void',
-  }))
+function tileSlice(target: WheelTarget): WheelInkSlice[] {
+  return [
+    {
+      role: target.role,
+      points: null,
+      hot: hotPath.value === target.entry.path,
+      pinned: isPinnedEntry(target.entry),
+      voided: target.entry.status === 'void',
+    },
+  ]
+}
+
+function tileSeed(cell: JournalWheelCell, target: WheelTarget) {
+  return `${cell.key}-${target.entry.path.replace(/[^A-Za-z0-9_-]/g, '')}`
 }
 
 function hitStyle(cell: JournalWheelCell, target: WheelTarget, index: number) {
@@ -528,11 +538,18 @@ function hitStyle(cell: JournalWheelCell, target: WheelTarget, index: number) {
       width: '11rem',
       height: '2.75rem',
       zIndex: 30,
-      clipPath: 'none',
     }
   }
-  const clip = wheelClip(target.polygon)
-  return clip ? { clipPath: clip } : undefined
+  const { x, y, w, h } = target.box
+  return {
+    position: 'absolute' as const,
+    left: `${x * 100}%`,
+    top: `${y * 100}%`,
+    width: `${w * 100}%`,
+    height: `${h * 100}%`,
+    right: 'auto' as const,
+    bottom: 'auto' as const,
+  }
 }
 
 let coarseQuery: MediaQueryList | null = null
@@ -786,6 +803,24 @@ watch(
                       @focus="onHitFocus(cell, target.entry, $event)"
                       @blur="onHitBlur"
                     >
+                      <InkWobbleBox
+                        class="journal-wheel__sketch"
+                        :seed="tileSeed(cell, target)"
+                        :slices="tileSlice(target)"
+                        :mark="cell.today && cell.targets.length === 1"
+                      />
+                      <span
+                        v-if="showsRing(cell.key) && isPinnedEntry(target.entry)"
+                        :ref="el => bindRing(cell.key, el)"
+                        class="journal-wheel__ring"
+                        :class="ringClass(cell.key)"
+                        data-ink="circle"
+                        :data-ink-seed="cell.key"
+                        un-absolute
+                        un-inset-0
+                        un-pointer-events-none
+                        aria-hidden="true"
+                      />
                       <span class="wheel-hit__label">
                         <span
                           class="wheel-hit__swatch"
@@ -797,24 +832,6 @@ watch(
                         }}</span>
                       </span>
                     </a>
-                    <InkWobbleBox
-                      class="journal-wheel__sketch"
-                      :seed="cell.key"
-                      :slices="inkSlices(cell)"
-                      :mark="cell.today"
-                    />
-                    <span
-                      v-if="showsRing(cell.key)"
-                      :ref="el => bindRing(cell.key, el)"
-                      class="journal-wheel__ring"
-                      :class="ringClass(cell.key)"
-                      data-ink="circle"
-                      :data-ink-seed="cell.key"
-                      un-absolute
-                      un-inset-0
-                      un-pointer-events-none
-                      aria-hidden="true"
-                    />
                   </div>
                   <span
                     v-else
@@ -873,9 +890,11 @@ watch(
 .journal-wheel__grid {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  grid-template-rows: repeat(var(--grid-rows, 5), 1fr);
+  grid-template-rows: repeat(var(--grid-rows, 5), minmax(var(--wheel-cell), auto));
+  align-items: start;
   width: calc(var(--wheel-cell) * 7);
-  height: calc(var(--grid-rows, 5) * var(--wheel-cell));
+  height: auto;
+  min-height: calc(var(--grid-rows, 5) * var(--wheel-cell));
 }
 
 .year-fwd-enter-active,
@@ -1019,6 +1038,8 @@ watch(
   display: block;
   position: relative;
   overflow: visible;
+  align-self: start;
+  height: var(--wheel-cell);
   margin: 9%;
   border-radius: 1px;
   outline: none;
@@ -1039,8 +1060,12 @@ watch(
   opacity: calc(0.15 + var(--scroll-opacity, 0.12) * 0.4);
 }
 
+.journal-wheel__cell.is-split :deep(.ink-wobble-stroke) {
+  opacity: 0.95;
+}
+
 .journal-wheel__cell.is-split :deep(.ink-wobble-hatch) {
-  opacity: 0.82;
+  opacity: 0.9;
 }
 
 .journal-wheel__cell :deep(.ink-wobble-hatch.is-hot),
@@ -1124,7 +1149,13 @@ watch(
 }
 
 .wheel-hit:focus-visible {
-  outline: none;
+  outline: 2px solid var(--colored-ink);
+  outline-offset: 1px;
+}
+
+.journal-wheel__cell.is-armed .wheel-hit :deep(.ink-wobble-box),
+.journal-wheel__cell.is-armed .journal-wheel__ring {
+  display: none;
 }
 
 .journal-wheel__cell.wheel-cell--log {

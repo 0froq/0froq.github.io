@@ -65,11 +65,18 @@ export function journalByDay(items: LayerEntry[]): Map<string, LayerEntry> {
 
 export type WheelRole = 'log' | 'journal' | 'rook'
 
+export interface WheelBox {
+  x: number
+  y: number
+  w: number
+  h: number
+}
+
 export interface WheelTarget {
   entry: LayerEntry
   role: WheelRole
-  /** Unit square. Null when this reading owns the whole cell. */
-  polygon: [number, number][] | null
+  /** Own rectangle inside the day. Separate readings do not share a frame. */
+  box: WheelBox
 }
 
 export interface WheelInkSlice {
@@ -122,109 +129,36 @@ export function wheelRole(entry: LayerEntry): WheelRole {
   return journalEntryKind(entry)
 }
 
-function areaToDiagonal(area: number): number {
-  if (area <= 0) return 0
-  if (area >= 1) return 2
-  if (area <= 0.5) return Math.sqrt(2 * area)
-  return 2 - Math.sqrt(2 * (1 - area))
+const TILE_GAP = 0.14
+
+/** One closed rectangle per reading, stacked with a paper gap. A single reading owns the day. */
+export function tileBoxes(count: number): WheelBox[] {
+  if (count <= 1) return [{ x: 0, y: 0, w: 1, h: 1 }]
+  const h = (1 - TILE_GAP * (count - 1)) / count
+  return Array.from({ length: count }, (_, index) => ({
+    x: 0,
+    y: index * (h + TILE_GAP),
+    w: 1,
+    h,
+  }))
 }
 
-/** Band between diagonal levels t0 and t1, where the level is x + y on the unit square. */
-function bandPolygon(t0: number, t1: number): [number, number][] | null {
-  const a = Math.max(0, Math.min(2, t0))
-  const b = Math.max(0, Math.min(2, t1))
-  if (b - a < 1e-6) return null
-  if (a <= 0 && b >= 2) return null
-  if (b <= 1) {
-    if (a <= 0)
-      return [
-        [0, 0],
-        [b, 0],
-        [0, b],
-      ]
-    return [
-      [a, 0],
-      [b, 0],
-      [0, b],
-      [0, a],
-    ]
-  }
-  if (a >= 1) {
-    if (b >= 2)
-      return [
-        [1, a - 1],
-        [1, 1],
-        [a - 1, 1],
-      ]
-    return [
-      [1, a - 1],
-      [1, b - 1],
-      [b - 1, 1],
-      [a - 1, 1],
-    ]
-  }
-  if (a <= 0)
-    return [
-      [0, 0],
-      [1, 0],
-      [1, b - 1],
-      [b - 1, 1],
-      [0, 1],
-    ]
-  if (b >= 2)
-    return [
-      [a, 0],
-      [1, 0],
-      [1, 1],
-      [0, 1],
-      [0, a],
-    ]
-  return [
-    [a, 0],
-    [1, 0],
-    [1, b - 1],
-    [b - 1, 1],
-    [0, 1],
-    [0, a],
-  ]
+function boxesOverlap(a: WheelBox, b: WheelBox) {
+  return a.x < b.x + b.w && a.x + a.w > b.x && a.y < b.y + b.h && a.y + a.h > b.y
 }
 
-function assignSlots(roles: WheelRole[]): number[] {
-  const count = roles.length
-  const slots = Array.from({ length: count }, () => -1)
-  const used = new Set<number>()
-  const firstLog = roles.indexOf('log')
-  const firstJournal = roles.indexOf('journal')
-  if (count === 1) return [0]
-  if (firstLog >= 0 && firstJournal >= 0) {
-    slots[firstLog] = 0
-    slots[firstJournal] = count - 1
-    used.add(0)
-    used.add(count - 1)
-  } else if (firstLog >= 0) {
-    slots[firstLog] = 0
-    used.add(0)
-  } else if (firstJournal >= 0) {
-    slots[firstJournal] = count - 1
-    used.add(count - 1)
+export function wheelBoxesOverlap(boxes: WheelBox[]) {
+  for (let i = 0; i < boxes.length; i += 1) {
+    for (let j = i + 1; j < boxes.length; j += 1) {
+      if (boxesOverlap(boxes[i]!, boxes[j]!)) return true
+    }
   }
-  const free: number[] = []
-  for (let slot = 0; slot < count; slot += 1) {
-    if (!used.has(slot)) free.push(slot)
-  }
-  let next = 0
-  for (let index = 0; index < count; index += 1) {
-    if (slots[index]! >= 0) continue
-    slots[index] = free[next]!
-    next += 1
-  }
-  return slots
+  return false
 }
 
 /**
  * Every entry on a day stays selectable.
- * Log keeps the upper-left corner and a journal keeps the lower-right one.
- * Rook takes a remaining band instead of a hatch across the whole frame.
+ * Readings stack as separate rectangles. Rook is its own tile, never a frame around the others.
  */
 export function dayTargets(entries: LayerEntry[]): WheelTarget[] {
   const sorted = entries.map(entry => ({ entry, role: wheelRole(entry) }))
@@ -233,39 +167,12 @@ export function dayTargets(entries: LayerEntry[]): WheelTarget[] {
     if (byRole) return byRole
     return a.entry.path.localeCompare(b.entry.path)
   })
-  const count = sorted.length
-  if (!count) return []
-  const slots = assignSlots(sorted.map(item => item.role))
-  const polygons: ([number, number][] | null)[] = Array.from({ length: count }, () => null)
-  if (count > 1) {
-    for (let slot = 0; slot < count; slot += 1) {
-      polygons[slot] = bandPolygon(areaToDiagonal(slot / count), areaToDiagonal((slot + 1) / count))
-    }
-  }
-  return sorted
-    .map((item, index) => ({
-      entry: item.entry,
-      role: item.role,
-      polygon: polygons[slots[index]!] ?? null,
-      slot: slots[index]!,
-    }))
-    .sort((a, b) => a.slot - b.slot)
-    .map(({ entry, role, polygon }) => ({ entry, role, polygon }))
-}
-
-export function wheelClip(polygon: [number, number][] | null): string | undefined {
-  if (!polygon) return undefined
-  const pts = polygon
-    .map(([x, y]) => `${Math.round(x * 1000) / 10}% ${Math.round(y * 1000) / 10}%`)
-    .join(', ')
-  return `polygon(${pts})`
-}
-
-export function wheelPoints(polygon: [number, number][] | null): string | null {
-  if (!polygon) return null
-  return polygon
-    .map(([x, y]) => `${Math.round(x * 2000) / 100},${Math.round(y * 2000) / 100}`)
-    .join(' ')
+  const boxes = tileBoxes(sorted.length)
+  return sorted.map((item, index) => ({
+    entry: item.entry,
+    role: item.role,
+    box: boxes[index]!,
+  }))
 }
 
 export function wheelTargetName(target: WheelTarget, siblings: WheelTarget[]): string {
