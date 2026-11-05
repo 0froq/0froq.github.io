@@ -63,139 +63,24 @@ export function journalByDay(items: LayerEntry[]): Map<string, LayerEntry> {
   return map
 }
 
-export type WheelRole = 'log' | 'journal' | 'rook'
-
-export interface WheelBox {
-  x: number
-  y: number
-  w: number
-  h: number
-}
-
-export interface WheelTarget {
-  entry: LayerEntry
-  role: WheelRole
-  /** Own rectangle inside the day. Separate readings do not share a frame. */
-  box: WheelBox
-}
-
-export interface WheelInkSlice {
-  role: WheelRole
-  points: string | null
-  hot: boolean
-  pinned: boolean
-  voided: boolean
-}
-
-const ROLE_NAME: Record<WheelRole, string> = {
-  log: '日志',
-  journal: '夜记',
-  rook: 'Rook',
-}
-
-function roleRank(role: WheelRole): number {
-  switch (role) {
-    case 'log':
-      return 0
-    case 'journal':
-      return 1
-    case 'rook':
-      return 2
-    default: {
-      const unreachable: never = role
-      return unreachable
+function dayKinds(entries: LayerEntry[]): {
+  journal: LayerEntry | null
+  log: LayerEntry | null
+  rook: LayerEntry | null
+} {
+  let journal: LayerEntry | null = null
+  let log: LayerEntry | null = null
+  let rook: LayerEntry | null = null
+  for (const entry of entries) {
+    if (isRookEntry(entry)) {
+      if (!rook) rook = entry
+      continue
     }
+    const kind = journalEntryKind(entry)
+    if (kind === 'log' && !log) log = entry
+    else if (kind === 'journal' && !journal) journal = entry
   }
-}
-
-/** Rook writes beside the day. It never takes a journal or log fill. */
-export function isRookEntry(entry: LayerEntry): boolean {
-  if (entry.kind === 'rook') return true
-  const stem = entry.path.split('/').pop() ?? ''
-  return stem.startsWith('rook')
-}
-
-export type JournalKind = 'journal' | 'log'
-
-/** Frontmatter `kind` wins. Without it, a `log-` filename is a log and anything else is a journal entry. */
-export function journalEntryKind(entry: LayerEntry): JournalKind {
-  if (entry.kind === 'log' || entry.kind === 'journal') return entry.kind
-  const stem = entry.path.split('/').pop() ?? ''
-  return stem.startsWith('log') ? 'log' : 'journal'
-}
-
-export function wheelRole(entry: LayerEntry): WheelRole {
-  if (isRookEntry(entry)) return 'rook'
-  return journalEntryKind(entry)
-}
-
-const TILE_GAP = 0.14
-
-/** One closed rectangle per reading, stacked with a paper gap. A single reading owns the day. */
-export function tileBoxes(count: number): WheelBox[] {
-  if (count <= 1) return [{ x: 0, y: 0, w: 1, h: 1 }]
-  const h = (1 - TILE_GAP * (count - 1)) / count
-  return Array.from({ length: count }, (_, index) => ({
-    x: 0,
-    y: index * (h + TILE_GAP),
-    w: 1,
-    h,
-  }))
-}
-
-function boxesOverlap(a: WheelBox, b: WheelBox) {
-  return a.x < b.x + b.w && a.x + a.w > b.x && a.y < b.y + b.h && a.y + a.h > b.y
-}
-
-export function wheelBoxesOverlap(boxes: WheelBox[]) {
-  for (let i = 0; i < boxes.length; i += 1) {
-    for (let j = i + 1; j < boxes.length; j += 1) {
-      if (boxesOverlap(boxes[i]!, boxes[j]!)) return true
-    }
-  }
-  return false
-}
-
-/**
- * Every entry on a day stays selectable.
- * Readings stack as separate rectangles. Rook is its own tile, never a frame around the others.
- */
-export function dayTargets(entries: LayerEntry[]): WheelTarget[] {
-  const sorted = entries.map(entry => ({ entry, role: wheelRole(entry) }))
-  sorted.sort((a, b) => {
-    const byRole = roleRank(a.role) - roleRank(b.role)
-    if (byRole) return byRole
-    return a.entry.path.localeCompare(b.entry.path)
-  })
-  const boxes = tileBoxes(sorted.length)
-  return sorted.map((item, index) => ({
-    entry: item.entry,
-    role: item.role,
-    box: boxes[index]!,
-  }))
-}
-
-export function wheelTargetName(target: WheelTarget, siblings: WheelTarget[]): string {
-  const role = ROLE_NAME[target.role]
-  const sameTitle = siblings.filter(
-    item => item.role === target.role && item.entry.title === target.entry.title,
-  )
-  if (sameTitle.length > 1) {
-    const stem = target.entry.path.split('/').pop() ?? target.entry.path
-    return `${target.entry.title}，${role}，${stem}`
-  }
-  return `${target.entry.title}，${role}`
-}
-
-export function wheelShortLabel(target: WheelTarget, siblings: WheelTarget[]): string {
-  const sameRole = siblings.filter(item => item.role === target.role)
-  if (sameRole.length > 1) return target.entry.title
-  return ROLE_NAME[target.role]
-}
-
-/** A scroll or drag should not open the reading under the pointer. */
-export function wheelPressShouldOpen(movedPx: number, scrollDelta: number): boolean {
-  return movedPx <= 8 && Math.abs(scrollDelta) <= 3
+  return { journal, log, rook }
 }
 
 function civilStamp(year: number, month: number, day: number): number {
@@ -244,6 +129,22 @@ function lastMonthForYear(year: number, now: Date): number {
   return -1
 }
 
+export type JournalKind = 'journal' | 'log'
+
+/** Rook writes beside the day. It never takes a journal or log fill. */
+export function isRookEntry(entry: LayerEntry): boolean {
+  if (entry.kind === 'rook') return true
+  const stem = entry.path.split('/').pop() ?? ''
+  return stem.startsWith('rook')
+}
+
+/** Frontmatter `kind` wins. Without it, a `log-` filename is a log and anything else is a journal entry. */
+export function journalEntryKind(entry: LayerEntry): JournalKind {
+  if (entry.kind === 'log' || entry.kind === 'journal') return entry.kind
+  const stem = entry.path.split('/').pop() ?? ''
+  return stem.startsWith('log') ? 'log' : 'journal'
+}
+
 export type JournalCellKind = JournalKind | 'split'
 
 export interface JournalWheelCell {
@@ -258,7 +159,6 @@ export interface JournalWheelCell {
   journal: LayerEntry | null
   log: LayerEntry | null
   rook: LayerEntry | null
-  targets: WheelTarget[]
   today: boolean
   future: boolean
 }
@@ -384,14 +284,16 @@ export function journalWheel(items: LayerEntry[], now = new Date()): JournalWhee
         const stamp = civilStamp(year, month, day)
         if (stamp < start || stamp > horizon) continue
         const key = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`
-        const targets = dayTargets(byDay.get(key) ?? [])
-        const journal = targets.find(item => item.role === 'journal')?.entry ?? null
-        const log = targets.find(item => item.role === 'log')?.entry ?? null
-        const rook = targets.find(item => item.role === 'rook')?.entry ?? null
-        const personal = targets.find(item => item.role !== 'rook')
-        const sole = targets.length === 1 ? targets[0] : null
-        const kind: JournalCellKind | null =
-          targets.length > 1 ? 'split' : sole && sole.role !== 'rook' ? sole.role : null
+        const { journal, log, rook } = dayKinds(byDay.get(key) ?? [])
+        const split = Boolean(journal && log)
+        const entry = journal ?? log
+        const kind: JournalCellKind | null = split
+          ? 'split'
+          : log
+            ? 'log'
+            : journal
+              ? 'journal'
+              : null
         cells.push({
           key,
           day,
@@ -400,11 +302,10 @@ export function journalWheel(items: LayerEntry[], now = new Date()): JournalWhee
           monthId: monthIdOf(time),
           rowId: m.id,
           kind,
-          entry: personal?.entry ?? null,
+          entry,
           journal,
           log,
           rook,
-          targets,
           today: stamp === today,
           future: stamp > today,
         })

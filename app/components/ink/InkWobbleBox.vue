@@ -1,29 +1,21 @@
 <script setup lang="ts">
 import { inkWobbleBox } from '~/utils/inkDraw'
 
-const props = withDefaults(
-  defineProps<{
-    seed: string
-    slices?: WheelInkSlice[]
-    mark?: boolean
-  }>(),
-  {
-    slices: () => [],
-    mark: false,
-  },
-)
+const props = defineProps<{
+  seed: string
+  fill?: boolean
+  split?: boolean
+  hatch?: boolean
+  mark?: boolean
+}>()
 
 const FILL_SCALE = 0.9
 
 const clipId = computed(() => `ink-wobble-clip-${props.seed}`)
+const logClipId = computed(() => `${clipId.value}-log`)
+const journalClipId = computed(() => `${clipId.value}-journal`)
 const path = computed(() => inkWobbleBox(props.seed, 1.25, 1.25, 18.75, 18.75, 0.55, 3))
 const fillTransform = `translate(10 10) scale(${FILL_SCALE}) translate(-10 -10)`
-const frameHot = computed(
-  () =>
-    props.slices.length === 1 &&
-    !props.slices[0]?.points &&
-    Boolean(props.slices[0]?.hot || props.slices[0]?.pinned),
-)
 </script>
 
 <template>
@@ -41,61 +33,60 @@ const frameHot = computed(
         <path :d="path" />
       </clipPath>
       <clipPath
-        v-for="(slice, index) in slices"
-        :id="`${clipId}-${index}`"
-        :key="`${seed}-${index}`"
+        :id="logClipId"
         clipPathUnits="userSpaceOnUse"
       >
-        <polygon
-          v-if="slice.points"
-          :points="slice.points"
-        />
-        <path
-          v-else
-          :d="path"
-        />
+        <polygon points="0,0 20,0 0,20" />
+      </clipPath>
+      <clipPath
+        :id="journalClipId"
+        clipPathUnits="userSpaceOnUse"
+      >
+        <polygon points="20,0 20,20 0,20" />
       </clipPath>
     </defs>
     <g
-      v-for="(slice, index) in slices"
-      :key="`${seed}-draw-${index}`"
+      v-if="split"
+      :clip-path="`url(#${logClipId})`"
+    >
+      <path
+        class="ink-wobble-fill ink-wobble-fill--log"
+        :d="path"
+        :transform="fillTransform"
+      />
+    </g>
+    <g
+      v-if="split"
+      :clip-path="`url(#${journalClipId})`"
+    >
+      <path
+        class="ink-wobble-fill ink-wobble-fill--journal"
+        :d="path"
+        :transform="fillTransform"
+      />
+    </g>
+    <path
+      v-else-if="fill"
+      class="ink-wobble-fill"
+      :d="path"
+      :transform="fillTransform"
+    />
+    <g
+      v-if="hatch"
+      class="ink-wobble-hatch"
       :clip-path="`url(#${clipId})`"
     >
-      <g :clip-path="`url(#${clipId}-${index})`">
-        <path
-          v-if="slice.role !== 'rook'"
-          class="ink-wobble-fill"
-          :class="[
-            `ink-wobble-fill--${slice.role}`,
-            { 'is-hot': slice.hot, 'is-pinned': slice.pinned, 'is-void': slice.voided },
-          ]"
-          :d="path"
-          :transform="fillTransform"
-        />
-        <g
-          v-else
-          class="ink-wobble-hatch"
-          :class="{ 'is-hot': slice.hot, 'is-pinned': slice.pinned }"
-        >
-          <line
-            v-for="n in 9"
-            :key="n"
-            :x1="-2"
-            :y1="n * 2.4 - 4"
-            :x2="22"
-            :y2="n * 2.4 + 4"
-          />
-        </g>
-        <polygon
-          v-if="slice.points && (slice.hot || slice.pinned)"
-          class="ink-slice-hot"
-          :points="slice.points"
-        />
-      </g>
+      <line
+        v-for="n in 9"
+        :key="n"
+        :x1="-2"
+        :y1="n * 2.4 - 4"
+        :x2="22"
+        :y2="n * 2.4 + 4"
+      />
     </g>
     <path
       class="ink-wobble-stroke"
-      :class="{ 'is-hot': frameHot }"
       :d="path"
       fill="none"
       stroke="currentColor"
@@ -130,10 +121,6 @@ const frameHot = computed(
   opacity: 0.42;
 }
 
-.ink-wobble-stroke.is-hot {
-  opacity: 0.9;
-}
-
 .ink-wobble-fill {
   fill: var(--cell-fill, var(--colored-ink));
   fill-opacity: 0.36;
@@ -149,15 +136,6 @@ const frameHot = computed(
   fill: var(--cell-fill-journal, var(--colored-ink));
 }
 
-.ink-wobble-fill.is-void {
-  fill: var(--muted);
-}
-
-.ink-wobble-fill.is-hot,
-.ink-wobble-fill.is-pinned {
-  fill-opacity: 0.72;
-}
-
 @media (prefers-reduced-motion: reduce) {
   .ink-wobble-fill {
     transition: none;
@@ -168,19 +146,6 @@ const frameHot = computed(
   stroke: currentColor;
   stroke-width: 0.45;
   opacity: 0.7;
-}
-
-.ink-wobble-hatch.is-hot,
-.ink-wobble-hatch.is-pinned {
-  opacity: 0.95;
-  stroke-width: 0.7;
-}
-
-.ink-slice-hot {
-  fill: none;
-  stroke: var(--colored-ink);
-  stroke-width: 1.15;
-  vector-effect: non-scaling-stroke;
 }
 
 .ink-wobble-mark {
