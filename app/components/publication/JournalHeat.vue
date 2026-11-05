@@ -310,14 +310,34 @@ function onHitSlide(event: PointerEvent) {
 function placeMenu(cell: JournalWheelCell, el: Element | null) {
   if (!(el instanceof HTMLElement)) return
   const rect = el.getBoundingClientRect()
+  const edge = 8
   const width = 176
   const height = cell.targets.length * 44
+  const maxHeight = window.innerHeight - edge * 2
   let left = rect.right + 10
-  if (left + width > window.innerWidth - 8) left = Math.max(8, rect.left - width - 10)
-  let top = rect.top - 4
-  if (top + height > window.innerHeight - 12) top = Math.max(8, window.innerHeight - height - 12)
+  if (left + width > window.innerWidth - edge) left = Math.max(edge, rect.left - width - 10)
+  let top = rect.top
+  if (height <= maxHeight) {
+    if (top + height > window.innerHeight - edge) top = window.innerHeight - edge - height
+    if (top < edge) top = edge
+  } else top = edge
   menu.value = { left, top }
   armedDay.value = cell.key
+}
+
+function menuPanelStyle(cell: JournalWheelCell) {
+  if (armedDay.value !== cell.key) return undefined
+  return {
+    left: `${menu.value.left}px`,
+    top: `${menu.value.top}px`,
+  }
+}
+
+function onDocPointerDown(event: PointerEvent) {
+  if (!armedDay.value) return
+  const target = event.target
+  if (target instanceof Element && target.closest('.wheel-menu')) return
+  armedDay.value = null
 }
 
 function onCoarseArm(cell: JournalWheelCell, event: MouseEvent) {
@@ -527,17 +547,17 @@ function tileSeed(cell: JournalWheelCell, target: WheelTarget) {
   return `${cell.key}-${target.entry.path.replace(/[^A-Za-z0-9_-]/g, '')}`
 }
 
-function hitStyle(cell: JournalWheelCell, target: WheelTarget, index: number) {
+function hitStyle(cell: JournalWheelCell, target: WheelTarget) {
   if (coarse.value && armedDay.value === cell.key && cell.targets.length > 1) {
     return {
-      position: 'fixed' as const,
-      left: `${menu.value.left}px`,
-      top: `${menu.value.top + index * 44}px`,
-      right: 'auto' as const,
-      bottom: 'auto' as const,
-      width: '11rem',
+      position: 'relative' as const,
+      left: 'auto',
+      top: 'auto',
+      right: 'auto',
+      bottom: 'auto',
+      width: '100%',
       height: '2.75rem',
-      zIndex: 30,
+      flex: 'none',
     }
   }
   const { x, y, w, h } = target.box
@@ -562,6 +582,7 @@ onMounted(() => {
   coarseQuery = window.matchMedia('(pointer: coarse)')
   syncCoarse()
   coarseQuery.addEventListener('change', syncCoarse)
+  document.addEventListener('pointerdown', onDocPointerDown)
   const root = scroller.value
   root?.addEventListener('scroll', onScroll, { passive: true })
   window.addEventListener('resize', onWinResize)
@@ -592,6 +613,7 @@ onUnmounted(() => {
   scroller.value?.removeEventListener('scroll', onScroll)
   window.removeEventListener('resize', onWinResize)
   coarseQuery?.removeEventListener('change', syncCoarse)
+  document.removeEventListener('pointerdown', onDocPointerDown)
   window.removeEventListener('pointermove', onWindowSlide)
 })
 
@@ -786,52 +808,66 @@ watch(
                     @click.stop="onCoarseArm(cell, $event)"
                     @pointerleave="onLeave"
                   >
-                    <a
-                      v-for="(target, index) in cell.targets"
-                      :key="target.entry.path"
-                      class="wheel-hit"
-                      :class="{ 'is-pinned': isPinnedEntry(target.entry) }"
-                      :style="hitStyle(cell, target, index)"
-                      :href="target.entry.path"
-                      :aria-label="wheelTargetName(target, cell.targets)"
-                      :aria-current="isPinnedEntry(target.entry) ? 'true' : undefined"
-                      :data-role="target.role"
-                      @pointerdown="onHitDown"
-                      @pointermove="onHitSlide"
-                      @click.stop="onCell(cell, target.entry, $event)"
-                      @pointerenter="onEnter(target.entry)"
-                      @focus="onHitFocus(cell, target.entry, $event)"
-                      @blur="onHitBlur"
+                    <Teleport
+                      to="body"
+                      :disabled="armedDay !== cell.key"
                     >
-                      <InkWobbleBox
-                        class="journal-wheel__sketch"
-                        :seed="tileSeed(cell, target)"
-                        :slices="tileSlice(target)"
-                        :mark="cell.today && cell.targets.length === 1"
-                      />
-                      <span
-                        v-if="showsRing(cell.key) && isPinnedEntry(target.entry)"
-                        :ref="el => bindRing(cell.key, el)"
-                        class="journal-wheel__ring"
-                        :class="ringClass(cell.key)"
-                        data-ink="circle"
-                        :data-ink-seed="cell.key"
-                        un-absolute
-                        un-inset-0
-                        un-pointer-events-none
-                        aria-hidden="true"
-                      />
-                      <span class="wheel-hit__label">
-                        <span
-                          class="wheel-hit__swatch"
+                      <div
+                        class="wheel-menu"
+                        :class="{ 'is-open': armedDay === cell.key }"
+                        :style="menuPanelStyle(cell)"
+                      >
+                        <a
+                          v-for="target in cell.targets"
+                          :key="target.entry.path"
+                          class="wheel-hit"
+                          :class="{
+                            'is-pinned': isPinnedEntry(target.entry),
+                            'wheel-hit--menu': armedDay === cell.key,
+                          }"
+                          :style="hitStyle(cell, target)"
+                          :href="target.entry.path"
+                          :aria-label="wheelTargetName(target, cell.targets)"
+                          :aria-current="isPinnedEntry(target.entry) ? 'true' : undefined"
                           :data-role="target.role"
-                          aria-hidden="true"
-                        />
-                        <span class="wheel-hit__name">{{
-                          wheelShortLabel(target, cell.targets)
-                        }}</span>
-                      </span>
-                    </a>
+                          @pointerdown="onHitDown"
+                          @pointermove="onHitSlide"
+                          @click.stop="onCell(cell, target.entry, $event)"
+                          @pointerenter="onEnter(target.entry)"
+                          @focus="onHitFocus(cell, target.entry, $event)"
+                          @blur="onHitBlur"
+                        >
+                          <InkWobbleBox
+                            class="journal-wheel__sketch"
+                            :seed="tileSeed(cell, target)"
+                            :slices="tileSlice(target)"
+                            :mark="cell.today && cell.targets.length === 1"
+                          />
+                          <span
+                            v-if="showsRing(cell.key) && isPinnedEntry(target.entry)"
+                            :ref="el => bindRing(cell.key, el)"
+                            class="journal-wheel__ring"
+                            :class="ringClass(cell.key)"
+                            data-ink="circle"
+                            :data-ink-seed="cell.key"
+                            un-absolute
+                            un-inset-0
+                            un-pointer-events-none
+                            aria-hidden="true"
+                          />
+                          <span class="wheel-hit__label">
+                            <span
+                              class="wheel-hit__swatch"
+                              :data-role="target.role"
+                              aria-hidden="true"
+                            />
+                            <span class="wheel-hit__name"
+                              >{{ wheelShortLabel(target, cell.targets) }}
+                            </span>
+                          </span>
+                        </a>
+                      </div>
+                    </Teleport>
                   </div>
                   <span
                     v-else
@@ -1154,7 +1190,9 @@ watch(
 }
 
 .journal-wheel__cell.is-armed .wheel-hit :deep(.ink-wobble-box),
-.journal-wheel__cell.is-armed .journal-wheel__ring {
+.journal-wheel__cell.is-armed .journal-wheel__ring,
+.wheel-hit--menu :deep(.ink-wobble-box),
+.wheel-hit--menu .journal-wheel__ring {
   display: none;
 }
 
@@ -1194,41 +1232,66 @@ watch(
   color: var(--wry);
 }
 
+.wheel-menu {
+  display: contents;
+}
+
+.wheel-menu.is-open {
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  z-index: 60;
+  width: 11rem;
+  max-height: calc(100dvh - 1rem);
+  overflow: auto;
+  box-sizing: border-box;
+  background: var(--paper);
+  color: var(--ink);
+  opacity: 1;
+}
+
+.wheel-hit.wheel-hit--menu {
+  display: flex;
+  align-items: center;
+  flex: none;
+  gap: 0.5rem;
+  box-sizing: border-box;
+  margin: 0;
+  padding-inline: 0.75rem;
+  background: var(--paper);
+  color: var(--ink);
+  opacity: 1;
+  border: 1px solid var(--line);
+  font-family: 'LXGW Bright Code TC', ui-monospace, monospace;
+  font-size: 0.85rem;
+}
+
+.wheel-hit.wheel-hit--menu.is-pinned,
+.wheel-hit.wheel-hit--menu:focus-visible {
+  border-color: var(--colored-ink);
+  outline: 2px solid var(--colored-ink);
+  outline-offset: 1px;
+}
+
+.wheel-hit.wheel-hit--menu .wheel-hit__label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 0;
+  color: var(--ink);
+  opacity: 1;
+}
+
+.wheel-hit.wheel-hit--menu .wheel-hit__name {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 @media (pointer: coarse) {
   .journal-wheel__cell.is-split:not(.is-armed) .wheel-hit {
     pointer-events: none;
-  }
-
-  .journal-wheel__cell.is-armed .wheel-hit {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding-inline: 0.75rem;
-    background: var(--paper);
-    border: 1px solid var(--line);
-    font-family: 'LXGW Bright Code TC', ui-monospace, monospace;
-    font-size: 0.85rem;
-  }
-
-  .journal-wheel__cell.is-armed .wheel-hit.is-pinned,
-  .journal-wheel__cell.is-armed .wheel-hit:focus-visible {
-    border-color: var(--colored-ink);
-    outline: 2px solid var(--colored-ink);
-    outline-offset: 2px;
-  }
-
-  .journal-wheel__cell.is-armed .wheel-hit__label {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    min-width: 0;
-  }
-
-  .journal-wheel__cell.is-armed .wheel-hit__name {
-    display: block;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
   }
 
   .wheel-hit__swatch {
