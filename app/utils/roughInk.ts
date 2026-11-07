@@ -251,10 +251,10 @@ function inkGrainFilter(svg: SVGSVGElement): string {
   const id = `ink-grain-${++inkGrainSeq}`
   const filter = document.createElementNS(NS, 'filter')
   filter.setAttribute('id', id)
-  filter.setAttribute('x', '-15%')
-  filter.setAttribute('y', '-15%')
-  filter.setAttribute('width', '130%')
-  filter.setAttribute('height', '130%')
+  filter.setAttribute('x', '-40%')
+  filter.setAttribute('y', '-160%')
+  filter.setAttribute('width', '180%')
+  filter.setAttribute('height', '420%')
   const el = (name: string, attrs: Record<string, string>) => {
     const node = document.createElementNS(NS, name)
     for (const [k, v] of Object.entries(attrs)) node.setAttribute(k, v)
@@ -269,7 +269,7 @@ function inkGrainFilter(svg: SVGSVGElement): string {
   el('feDisplacementMap', {
     in: 'SourceGraphic',
     in2: 'wob',
-    scale: '1.6',
+    scale: '1.1',
     xChannelSelector: 'R',
     yChannelSelector: 'G',
     result: 'edge',
@@ -286,8 +286,8 @@ function inkGrainFilter(svg: SVGSVGElement): string {
   filter.appendChild(transfer)
   const funcA = document.createElementNS(NS, 'feFuncA')
   funcA.setAttribute('type', 'linear')
-  funcA.setAttribute('slope', '0.9')
-  funcA.setAttribute('intercept', '0.35')
+  funcA.setAttribute('slope', '0.7')
+  funcA.setAttribute('intercept', '0.45')
   transfer.appendChild(funcA)
   el('feComposite', { in: 'edge', in2: 'grainA', operator: 'in' })
   defs.appendChild(filter)
