@@ -156,6 +156,67 @@ function inkMidY(yLine: number, lineH: number, boxes: FontBoxes, capFrac: number
   return baseline - boxes.capAscent * capFrac
 }
 
+interface HandOpts {
+  /** Lateral wobble amplitude in px. */
+  amp?: number
+  /** Low-frequency bow amplitude in px — the slow bend of a drawn stroke. */
+  bow?: number
+  /** Resample spacing along the stroke in px. */
+  segLen?: number
+  seed?: number
+}
+
+/**
+ * Resample a polyline to even spacing and offset each point laterally by a
+ * slow wander (one long bow + two mid-frequency sines + a hair of drift).
+ * Reads as a hand moving along the line, not as per-point white noise.
+ */
+function handPath(pts: Array<[number, number]>, opts: HandOpts = {}): Array<[number, number]> {
+  if (pts.length < 2) return pts
+  const { amp = 0.8, bow = 1.4, segLen = 5, seed = 1 } = opts
+  const rng = inkRng(seed)
+  let len = 0
+  for (let i = 1; i < pts.length; i++)
+    len += Math.hypot(pts[i]![0] - pts[i - 1]![0], pts[i]![1] - pts[i - 1]![1])
+  if (len < 1) return pts
+  const n = Math.max(4, Math.round(len / segLen))
+  const bowAmp = bow * (0.6 + rng() * 0.8)
+  const wobAmp = amp * (0.5 + rng())
+  const ph1 = rng() * Math.PI * 2
+  const ph2 = rng() * Math.PI * 2
+  const f1 = 1.5 + rng() * 2
+  const f2 = 4 + rng() * 3
+  const out: Array<[number, number]> = []
+  for (let i = 0; i <= n; i++) {
+    const t = i / n
+    const d = t * len
+    let acc = 0
+    let x = pts[0]![0]
+    let y = pts[0]![1]
+    let dx = 1
+    let dy = 0
+    for (let k = 1; k < pts.length; k++) {
+      const l = Math.hypot(pts[k]![0] - pts[k - 1]![0], pts[k]![1] - pts[k - 1]![1])
+      if (acc + l >= d) {
+        const tt = (d - acc) / l
+        x = pts[k - 1]![0] + (pts[k]![0] - pts[k - 1]![0]) * tt
+        y = pts[k - 1]![1] + (pts[k]![1] - pts[k - 1]![1]) * tt
+        dx = (pts[k]![0] - pts[k - 1]![0]) / l
+        dy = (pts[k]![1] - pts[k - 1]![1]) / l
+        break
+      }
+      acc += l
+    }
+    const off =
+      Math.sin(Math.PI * t) * bowAmp +
+      Math.sin(t * Math.PI * 2 * f1 + ph1) * wobAmp * 0.5 +
+      Math.sin(t * Math.PI * 2 * f2 + ph2) * wobAmp * 0.25 +
+      (rng() - 0.5) * amp * 0.3
+    out.push([x - dy * off, y + dx * off])
+  }
+  return out
+}
+
 function markerSwipe(
   x: number,
   yMid: number,
@@ -170,15 +231,17 @@ function markerSwipe(
   const x1 = x + w + skew
   const span = Math.max(2, x1 - x0)
   const bow = em * (0.012 + rng() * 0.01)
-  const n = Math.max(6, Math.round(span / 22))
-  const pts: Array<[number, number]> = []
-  for (let i = 0; i <= n; i++) {
-    const t = i / n
-    const xx = x0 + span * t
-    const yy = yMid + Math.sin(t * Math.PI) * bow
-    pts.push([xx, yy])
-  }
-  return pts
+  const base: Array<[number, number]> = [
+    [x0, yMid],
+    [x0 + span * 0.5, yMid + bow],
+    [x1, yMid],
+  ]
+  return handPath(base, {
+    amp: em * 0.03,
+    bow: bow * 0.7,
+    segLen: Math.max(4, span / 16),
+    seed,
+  })
 }
 
 function underlineScribble(
@@ -196,8 +259,6 @@ function underlineScribble(
   const pad = em * 0.02
   const x0 = x + skew + pad
   const x1 = x + skew + Math.max(pad * 2, w - pad)
-  const p1 = rng() * Math.PI * 2
-  const p2 = rng() * Math.PI * 2
   const n = Math.max(10, Math.round(w / 14))
   const passY = [
     em * (0.03 + rng() * 0.02),
@@ -205,96 +266,39 @@ function underlineScribble(
     em * (0.012 + rng() * 0.016),
     em * (-0.038 - rng() * 0.018),
   ]
-  const pts: Array<[number, number]> = []
 
-  const at = (u: number, yOff: number, phase: number): [number, number] => [
-    x0 + (x1 - x0) * u,
-    y +
-      yOff +
-      em * 0.018 * Math.sin(u * Math.PI * 2 + p1 + phase) +
-      em * 0.008 * Math.sin(u * Math.PI * 5 + p2),
-  ]
+  const at = (u: number, yOff: number): [number, number] => [x0 + (x1 - x0) * u, y + yOff]
+
+  const raw: Array<[number, number]> = []
 
   for (let pass = 0; pass < 4; pass++) {
     const forward = pass % 2 === 0
     const yOff = passY[pass]!
-    const phase = pass * 0.85
     for (let i = pass === 0 ? 0 : 1; i <= n; i++) {
       const u = forward ? i / n : 1 - i / n
-      pts.push(at(u, yOff, phase))
+      raw.push(at(u, yOff))
     }
     if (pass < 3) {
       const edgeX = forward ? x1 : x0
       const tuck = em * (0.012 + rng() * 0.01)
-      const yA = pts.at(-1)![1]
+      const yA = raw.at(-1)![1]
       const yB = y + passY[pass + 1]!
       const midX = forward ? edgeX - tuck : edgeX + tuck
-      pts.push([midX, yA + (yB - yA) * 0.22])
-      pts.push([edgeX, (yA + yB) / 2])
-      pts.push([midX, yA + (yB - yA) * 0.78])
+      raw.push([midX, yA + (yB - yA) * 0.22])
+      raw.push([edgeX, (yA + yB) / 2])
+      raw.push([midX, yA + (yB - yA) * 0.78])
     }
   }
 
-  return pts
+  return handPath(raw, {
+    amp: em * 0.016,
+    bow: em * 0.02,
+    segLen: Math.max(6, w / 26),
+    seed: seed + 11,
+  })
 }
 
 let inkMaskSeq = 0
-let inkGrainSeq = 0
-
-/** Shared paper-ink filter: ragged edge (displacement) + uneven interior (alpha grain). */
-function inkGrainFilter(svg: SVGSVGElement): string {
-  let defs = svg.querySelector('defs')
-  if (!defs) {
-    defs = document.createElementNS(NS, 'defs')
-    svg.insertBefore(defs, svg.firstChild)
-  }
-  const id = `ink-grain-${++inkGrainSeq}`
-  const [, , vbW, vbH] = (svg.getAttribute('viewBox') ?? '0 0 100 100').split(' ').map(Number)
-  const filter = document.createElementNS(NS, 'filter')
-  filter.setAttribute('id', id)
-  filter.setAttribute('filterUnits', 'userSpaceOnUse')
-  filter.setAttribute('x', '-4')
-  filter.setAttribute('y', '-4')
-  filter.setAttribute('width', String((vbW || 100) + 8))
-  filter.setAttribute('height', String((vbH || 100) + 8))
-  const el = (name: string, attrs: Record<string, string>) => {
-    const node = document.createElementNS(NS, name)
-    for (const [k, v] of Object.entries(attrs)) node.setAttribute(k, v)
-    filter.appendChild(node)
-  }
-  el('feTurbulence', {
-    type: 'fractalNoise',
-    baseFrequency: '0.028',
-    numOctaves: '3',
-    result: 'wob',
-  })
-  el('feDisplacementMap', {
-    in: 'SourceGraphic',
-    in2: 'wob',
-    scale: '1.1',
-    xChannelSelector: 'R',
-    yChannelSelector: 'G',
-    result: 'edge',
-  })
-  el('feTurbulence', {
-    type: 'fractalNoise',
-    baseFrequency: '0.32',
-    numOctaves: '2',
-    result: 'grain',
-  })
-  const transfer = document.createElementNS(NS, 'feComponentTransfer')
-  transfer.setAttribute('in', 'grain')
-  transfer.setAttribute('result', 'grainA')
-  filter.appendChild(transfer)
-  const funcA = document.createElementNS(NS, 'feFuncA')
-  funcA.setAttribute('type', 'linear')
-  funcA.setAttribute('slope', '0.7')
-  funcA.setAttribute('intercept', '0.45')
-  transfer.appendChild(funcA)
-  el('feComposite', { in: 'edge', in2: 'grainA', operator: 'in' })
-  defs.appendChild(filter)
-  return `url(#${id})`
-}
 
 function appendMaskedFill(
   svg: SVGSVGElement,
@@ -345,7 +349,6 @@ function appendMaskedFill(
   path.setAttribute('fill', 'var(--colored-ink)')
   path.setAttribute('stroke', 'none')
   path.setAttribute('mask', `url(#${maskId})`)
-  path.setAttribute('filter', inkGrainFilter(svg))
   svg.appendChild(path)
 }
 
@@ -392,22 +395,19 @@ function circlePoints(
   const rng = inkRng(seed)
   const start = ((Math.imul(seed, 0x9e3779b1) >>> 0) / 4294967296) * Math.PI * 2
   const sweep = Math.PI * 2 * (0.86 + rng() * 0.32)
-  const p1 = rng() * Math.PI * 2
-  const p2 = rng() * Math.PI * 2
-  const p3 = rng() * Math.PI * 2
-  const n = 36
-  const pts: Array<[number, number]> = []
-  for (let i = 0; i <= n; i++) {
-    const t = i / n
-    const a = start + sweep * t
-    const wob =
-      1 +
-      0.045 * Math.sin(a * 2 + p1) +
-      0.02 * Math.sin(a * 5 + p2) +
-      0.028 * Math.sin(a * 1.37 + p3)
-    pts.push([cx + Math.cos(a) * rx * wob, cy + Math.sin(a) * ry * wob])
+  const raw: Array<[number, number]> = []
+  for (let i = 0; i <= 24; i++) {
+    const a = start + sweep * (i / 24)
+    raw.push([cx + Math.cos(a) * rx, cy + Math.sin(a) * ry])
   }
-  return pts
+  // Radius breathes slowly as the hand rounds the circle.
+  const len = Math.max(1, sweep * Math.max(rx, ry))
+  return handPath(raw, {
+    amp: Math.max(0.5, rx * 0.05),
+    bow: Math.max(0.6, rx * 0.06),
+    segLen: Math.max(3, len / 40),
+    seed,
+  })
 }
 
 function strokeOptions(seed: number, em: number): Options {
@@ -465,7 +465,6 @@ function appendMarkStroke(
   path.setAttribute('stroke-width', String(width))
   path.setAttribute('stroke-linecap', 'butt')
   path.setAttribute('stroke-linejoin', 'miter')
-  path.setAttribute('filter', inkGrainFilter(svg))
   if (animate) {
     const hide = Math.ceil(polylineLen(pts)) + 16
     path.style.setProperty('--ink-len', `${hide}`)
