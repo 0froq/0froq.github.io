@@ -342,7 +342,7 @@ function appendMaskedFill(
   reveal.setAttribute('stroke-linejoin', lineCap === 'round' ? 'round' : 'miter')
   mask.appendChild(reveal)
   defs.appendChild(mask)
-  const hide = Math.ceil(reveal.getTotalLength()) + 16
+  const hide = Math.ceil(reveal.getTotalLength() + extra * 2 + 4)
   reveal.style.setProperty('--ink-len', `${hide}`)
   if (delayMs) reveal.style.transitionDelay = `${delayMs}ms`
   reveal.classList.add('ink-reveal')
@@ -860,7 +860,17 @@ function paintKind(
       )
       if (el.dataset.inkDash !== undefined) svg.dataset.rook = ''
       else delete svg.dataset.rook
-      appendMarkStroke(svg, pts, Math.max(1.25, em * 0.06), reveal !== 'live')
+      const maxW = Math.max(1.25, em * 0.06)
+      const edge = Math.min(0.18, Math.max(6, em * 0.22) / Math.max(polylineLen(pts), 1))
+      appendMaskedFill(
+        svg,
+        variableRibbon(pts, t => maxW * penTaper(t, edge)),
+        pts,
+        maxW,
+        'butt',
+        0,
+        seed + 7,
+      )
       return
     }
     if (kind === 'mark' && boxes) {
