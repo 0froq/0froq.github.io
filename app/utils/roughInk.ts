@@ -244,14 +244,14 @@ function markerSwipe(
   })
 }
 
-function underlineScribble(
+function underlineScribbles(
   x: number,
   y: number,
   w: number,
   em: number,
   seed: number,
   italic: boolean,
-): Array<[number, number]> {
+): Array<Array<[number, number]>> {
   const rng = inkRng(seed)
   const skew = italic ? em * 0.08 : 0
   // Keep the stroke inside the text box. Large end overshoot drew under
@@ -260,42 +260,30 @@ function underlineScribble(
   const x0 = x + skew + pad
   const x1 = x + skew + Math.max(pad * 2, w - pad)
   const n = Math.max(10, Math.round(w / 14))
-  const passY = [
-    em * (0.03 + rng() * 0.02),
-    em * (-0.026 - rng() * 0.02),
-    em * (0.012 + rng() * 0.016),
-    em * (-0.038 - rng() * 0.018),
-  ]
 
-  const at = (u: number, yOff: number): [number, number] => [x0 + (x1 - x0) * u, y + yOff]
-
-  const raw: Array<[number, number]> = []
-
-  for (let pass = 0; pass < 4; pass++) {
-    const forward = pass % 2 === 0
-    const yOff = passY[pass]!
-    for (let i = pass === 0 ? 0 : 1; i <= n; i++) {
+  // Two or three separate near-parallel strokes, not one closed scribble.
+  const lanes = 2 + (rng() > 0.55 ? 1 : 0)
+  const baseY = em * (0.015 + rng() * 0.01)
+  const gap = em * (0.024 + rng() * 0.012)
+  const out: Array<Array<[number, number]>> = []
+  for (let lane = 0; lane < lanes; lane++) {
+    const forward = lane % 2 === 0
+    const yOff = baseY - gap * lane * (0.5 + rng() * 0.5)
+    const raw: Array<[number, number]> = []
+    for (let i = 0; i <= n; i++) {
       const u = forward ? i / n : 1 - i / n
-      raw.push(at(u, yOff))
+      raw.push([x0 + (x1 - x0) * u, y + yOff])
     }
-    if (pass < 3) {
-      const edgeX = forward ? x1 : x0
-      const tuck = em * (0.012 + rng() * 0.01)
-      const yA = raw.at(-1)![1]
-      const yB = y + passY[pass + 1]!
-      const midX = forward ? edgeX - tuck : edgeX + tuck
-      raw.push([midX, yA + (yB - yA) * 0.22])
-      raw.push([edgeX, (yA + yB) / 2])
-      raw.push([midX, yA + (yB - yA) * 0.78])
-    }
+    out.push(
+      handPath(raw, {
+        amp: em * 0.013,
+        bow: em * 0.018,
+        segLen: Math.max(6, w / 24),
+        seed: seed * 31 + lane * 17,
+      }),
+    )
   }
-
-  return handPath(raw, {
-    amp: em * 0.016,
-    bow: em * 0.02,
-    segLen: Math.max(6, w / 26),
-    seed: seed + 11,
-  })
+  return out
 }
 
 let inkMaskSeq = 0
@@ -849,15 +837,17 @@ function paintKind(
       return
     }
     if (kind === 'underline') {
-      const pts = underlineScribble(x, y + em * 1.08, line.w, em, seed, italic)
+      const lanes = underlineScribbles(x, y + em * 1.08, line.w, em, seed, italic)
       const maxW = Math.max(1.15, em * 0.055)
-      const edge = Math.min(0.04, Math.max(5, em * 0.2) / Math.max(polylineLen(pts), 1))
-      appendMaskedFill(
-        svg,
-        variableRibbon(pts, t => maxW * penTaper(t, edge)),
-        pts,
-        maxW,
-      )
+      for (const pts of lanes) {
+        const edge = Math.min(0.04, Math.max(5, em * 0.2) / Math.max(polylineLen(pts), 1))
+        appendMaskedFill(
+          svg,
+          variableRibbon(pts, t => maxW * penTaper(t, edge)),
+          pts,
+          maxW,
+        )
+      }
       return
     }
     if (!rc) return

@@ -155,13 +155,11 @@ export function morphCursorPath(circle = 0, breathe = 0, bar = 0): string {
 }
 
 export function closedInkPath(pts: InkPt[]): string {
-  // Slow hand wander: the loop drifts a little as it is drawn, so it reads
-  // as a pencil line, not a rigid shape.
-  const t = performance.now() * 0.00045
-  const out = pts.map((p, i) => {
-    const w = Math.sin(t + i * 0.9) * 0.45 + Math.sin(t * 1.7 + i * 1.4) * 0.2
-    return [p[0] + w, p[1] + w * 0.7] as InkPt
-  })
+  // Slow hand wander: the whole loop breathes a touch as it is drawn.
+  const t = performance.now() * 0.00035
+  const dx = (Math.sin(t) * 0.55 + Math.sin(t * 1.9 + 1.3) * 0.25) * 0.5
+  const dy = (Math.sin(t * 1.4 + 0.7) * 0.5 + Math.sin(t * 2.3 + 2.1) * 0.2) * 0.5
+  const out = pts.map(p => [p[0] + dx, p[1] + dy] as InkPt)
   return `${inkStrokePath(out)} Z`
 }
 
