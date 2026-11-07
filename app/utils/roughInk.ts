@@ -249,12 +249,14 @@ function inkGrainFilter(svg: SVGSVGElement): string {
     svg.insertBefore(defs, svg.firstChild)
   }
   const id = `ink-grain-${++inkGrainSeq}`
+  const [, , vbW, vbH] = (svg.getAttribute('viewBox') ?? '0 0 100 100').split(' ').map(Number)
   const filter = document.createElementNS(NS, 'filter')
   filter.setAttribute('id', id)
-  filter.setAttribute('x', '-40%')
-  filter.setAttribute('y', '-160%')
-  filter.setAttribute('width', '180%')
-  filter.setAttribute('height', '420%')
+  filter.setAttribute('filterUnits', 'userSpaceOnUse')
+  filter.setAttribute('x', '-4')
+  filter.setAttribute('y', '-4')
+  filter.setAttribute('width', String((vbW || 100) + 8))
+  filter.setAttribute('height', String((vbH || 100) + 8))
   const el = (name: string, attrs: Record<string, string>) => {
     const node = document.createElementNS(NS, name)
     for (const [k, v] of Object.entries(attrs)) node.setAttribute(k, v)
@@ -262,7 +264,7 @@ function inkGrainFilter(svg: SVGSVGElement): string {
   }
   el('feTurbulence', {
     type: 'fractalNoise',
-    baseFrequency: '0.045',
+    baseFrequency: '0.028',
     numOctaves: '3',
     result: 'wob',
   })
@@ -276,7 +278,7 @@ function inkGrainFilter(svg: SVGSVGElement): string {
   })
   el('feTurbulence', {
     type: 'fractalNoise',
-    baseFrequency: '0.9',
+    baseFrequency: '0.32',
     numOctaves: '2',
     result: 'grain',
   })
