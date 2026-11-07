@@ -4,7 +4,6 @@ import { inkWobbleBox } from '~/utils/inkDraw'
 const props = defineProps<{
   seed: string
   fill?: boolean
-  split?: boolean
   hatch?: boolean
   mark?: boolean
 }>()
@@ -12,8 +11,6 @@ const props = defineProps<{
 const FILL_SCALE = 0.9
 
 const clipId = computed(() => `ink-wobble-clip-${props.seed}`)
-const logClipId = computed(() => `${clipId.value}-log`)
-const journalClipId = computed(() => `${clipId.value}-journal`)
 const path = computed(() => inkWobbleBox(props.seed, 1.25, 1.25, 18.75, 18.75, 0.55, 3))
 const fillTransform = `translate(10 10) scale(${FILL_SCALE}) translate(-10 -10)`
 </script>
@@ -32,41 +29,9 @@ const fillTransform = `translate(10 10) scale(${FILL_SCALE}) translate(-10 -10)`
       >
         <path :d="path" />
       </clipPath>
-      <clipPath
-        :id="logClipId"
-        clipPathUnits="userSpaceOnUse"
-      >
-        <polygon points="0,0 20,0 0,20" />
-      </clipPath>
-      <clipPath
-        :id="journalClipId"
-        clipPathUnits="userSpaceOnUse"
-      >
-        <polygon points="20,0 20,20 0,20" />
-      </clipPath>
     </defs>
-    <g
-      v-if="split"
-      :clip-path="`url(#${logClipId})`"
-    >
-      <path
-        class="ink-wobble-fill ink-wobble-fill--log"
-        :d="path"
-        :transform="fillTransform"
-      />
-    </g>
-    <g
-      v-if="split"
-      :clip-path="`url(#${journalClipId})`"
-    >
-      <path
-        class="ink-wobble-fill ink-wobble-fill--journal"
-        :d="path"
-        :transform="fillTransform"
-      />
-    </g>
     <path
-      v-else-if="fill"
+      v-if="fill"
       class="ink-wobble-fill"
       :d="path"
       :transform="fillTransform"
@@ -126,14 +91,6 @@ const fillTransform = `translate(10 10) scale(${FILL_SCALE}) translate(-10 -10)`
   fill-opacity: 0.36;
   stroke: none;
   transition: fill-opacity 160ms var(--ease-out);
-}
-
-.ink-wobble-fill--log {
-  fill: var(--cell-fill-log, var(--ink));
-}
-
-.ink-wobble-fill--journal {
-  fill: var(--cell-fill-journal, var(--colored-ink));
 }
 
 @media (prefers-reduced-motion: reduce) {

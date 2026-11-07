@@ -63,24 +63,27 @@ export function journalByDay(items: LayerEntry[]): Map<string, LayerEntry> {
   return map
 }
 
+/** Rook writes beside the day. It never takes the manuscript fill. */
+export function isRookEntry(entry: LayerEntry): boolean {
+  if (entry.kind === 'rook') return true
+  const stem = entry.path.split('/').pop() ?? ''
+  return stem.startsWith('rook')
+}
+
 function dayKinds(entries: LayerEntry[]): {
   journal: LayerEntry | null
-  log: LayerEntry | null
   rook: LayerEntry | null
 } {
   let journal: LayerEntry | null = null
-  let log: LayerEntry | null = null
   let rook: LayerEntry | null = null
   for (const entry of entries) {
     if (isRookEntry(entry)) {
       if (!rook) rook = entry
       continue
     }
-    const kind = journalEntryKind(entry)
-    if (kind === 'log' && !log) log = entry
-    else if (kind === 'journal' && !journal) journal = entry
+    if (!journal) journal = entry
   }
-  return { journal, log, rook }
+  return { journal, rook }
 }
 
 function civilStamp(year: number, month: number, day: number): number {
@@ -129,24 +132,7 @@ function lastMonthForYear(year: number, now: Date): number {
   return -1
 }
 
-export type JournalKind = 'journal' | 'log'
-
-/** Rook writes beside the day. It never takes a journal or log fill. */
-export function isRookEntry(entry: LayerEntry): boolean {
-  if (entry.kind === 'rook') return true
-  const stem = entry.path.split('/').pop() ?? ''
-  return stem.startsWith('rook')
-}
-
-/** Frontmatter `kind` wins. Without it, a `log-` filename is a log and anything else is a journal entry. */
-export function journalEntryKind(entry: LayerEntry): JournalKind {
-  if (entry.kind === 'log' || entry.kind === 'journal') return entry.kind
-  const stem = entry.path.split('/').pop() ?? ''
-  return stem.startsWith('log') ? 'log' : 'journal'
-}
-
-export type JournalCellKind = JournalKind | 'split'
-
+/** One manuscript per day: frontmatter kind `journal` (or legacy `log`) lands here. Rook never takes this fill. */
 export interface JournalWheelCell {
   key: string
   day: number
@@ -154,10 +140,7 @@ export interface JournalWheelCell {
   weekIndex: number
   monthId: string
   rowId: string
-  kind: JournalCellKind | null
   entry: LayerEntry | null
-  journal: LayerEntry | null
-  log: LayerEntry | null
   rook: LayerEntry | null
   today: boolean
   future: boolean
@@ -284,16 +267,7 @@ export function journalWheel(items: LayerEntry[], now = new Date()): JournalWhee
         const stamp = civilStamp(year, month, day)
         if (stamp < start || stamp > horizon) continue
         const key = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`
-        const { journal, log, rook } = dayKinds(byDay.get(key) ?? [])
-        const split = Boolean(journal && log)
-        const entry = journal ?? log
-        const kind: JournalCellKind | null = split
-          ? 'split'
-          : log
-            ? 'log'
-            : journal
-              ? 'journal'
-              : null
+        const { journal, rook } = dayKinds(byDay.get(key) ?? [])
         cells.push({
           key,
           day,
@@ -301,10 +275,7 @@ export function journalWheel(items: LayerEntry[], now = new Date()): JournalWhee
           weekIndex: i,
           monthId: monthIdOf(time),
           rowId: m.id,
-          kind,
-          entry,
-          journal,
-          log,
+          entry: journal,
           rook,
           today: stamp === today,
           future: stamp > today,

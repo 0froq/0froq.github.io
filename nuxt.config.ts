@@ -66,6 +66,11 @@ export default defineNuxtConfig({
 
   compatibilityDate: '2026-08-21',
 
+  routeRules: {
+    // Log entries merged into the daily manuscript at journal-YYYYMMDD.
+    '/journal/log-:date(\\d{8})': { redirect: { to: '/journal/journal-:date', statusCode: 301 } },
+  },
+
   future: {
     compatibilityVersion: 4,
   },

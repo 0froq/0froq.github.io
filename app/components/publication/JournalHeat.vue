@@ -11,17 +11,6 @@ const fanDay = computed(() => {
   const created = deck?.activeEntry.value?.created
   return created ? journalDayKey(created) : null
 })
-/** Kind last shown on a day, so a circle keeps its color while it wipes. */
-const dayIsLog = new Map<string, boolean>()
-watch(
-  () => deck?.activeEntry.value ?? null,
-  entry => {
-    const day = entry?.created ? journalDayKey(entry.created) : null
-    if (!day || !entry) return
-    dayIsLog.set(day, journalEntryKind(entry) === 'log')
-  },
-  { immediate: true },
-)
 const { pulse, reset } = useSiteChromeAway()
 const scroller = ref<HTMLElement | null>(null)
 const rowMap = new Map<string, HTMLElement>()
@@ -130,25 +119,12 @@ function showsRing(day: string) {
   )
 }
 
-function ringIsLog(day: string) {
-  if (fanDay.value === day) {
-    const entry = deck?.activeEntry.value
-    return !!entry && journalEntryKind(entry) === 'log'
-  }
-  const pin = heldPin.value
-  if (pin?.key === day) return pin.kind === 'log'
-  if (fadingDay.value === day || leaving.value.some(cell => cell.key === day))
-    return dayIsLog.get(day) ?? false
-  return false
-}
-
 function isPinnedEntry(entry: LayerEntry) {
   return heldPin.value?.entry?.path === entry.path || deck?.activeEntry.value?.path === entry.path
 }
 
-function cellFillClass(kind: JournalKind, entry: LayerEntry) {
+function cellFillClass(entry: LayerEntry) {
   return [
-    `wheel-cell--${kind}`,
     {
       'is-void': entry.status === 'void',
       'is-pinned': isPinnedEntry(entry),
@@ -172,7 +148,6 @@ function cellStyle(cell: JournalWheelCell, row: JournalWheelMonth) {
   }
 }
 
-let splitHover: HTMLElement | null = null
 let hoverPath = ''
 
 function onEnter(entry: LayerEntry) {
@@ -181,14 +156,7 @@ function onEnter(entry: LayerEntry) {
   peek.hover(entry)
 }
 
-function clearSplitHover() {
-  if (!splitHover) return
-  delete splitHover.dataset.hover
-  splitHover = null
-}
-
 function onLeave() {
-  clearSplitHover()
   hoverPath = ''
   peek.leave()
 }
@@ -208,7 +176,6 @@ function pin(cell: JournalWheelCell, entry: LayerEntry) {
   const next: JournalWheelCell = {
     ...cell,
     entry,
-    kind: journalEntryKind(entry),
   }
   if (prev && prev.key !== cell.key)
     leaving.value = [...leaving.value.filter(item => item.key !== prev.key), prev]
@@ -236,37 +203,6 @@ function onCell(cell: JournalWheelCell, entry: LayerEntry, event: MouseEvent) {
   const result = peek.activate(entry, event)
   if (result === 'open' || result === 'pass') return
   void pin(cell, entry)
-}
-
-function splitEntry(cell: JournalWheelCell, event: MouseEvent) {
-  const log = cell.log
-  const journal = cell.journal
-  if (!log || !journal) return cell.entry
-  const root = event.currentTarget
-  if (!(root instanceof HTMLElement)) return log
-  const rect = root.getBoundingClientRect()
-  const x = (event.clientX - rect.left) / Math.max(rect.width, 1)
-  const y = (event.clientY - rect.top) / Math.max(rect.height, 1)
-  return x + y < 1 ? log : journal
-}
-
-function onSplitCell(cell: JournalWheelCell, event: MouseEvent) {
-  const entry = splitEntry(cell, event)
-  if (!entry) return
-  onCell(cell, entry, event)
-}
-
-function onSplitMove(cell: JournalWheelCell, event: MouseEvent) {
-  const entry = splitEntry(cell, event)
-  if (!entry) return
-  const root = event.currentTarget
-  if (root instanceof HTMLElement) {
-    const kind = journalEntryKind(entry)
-    if (splitHover && splitHover !== root) delete splitHover.dataset.hover
-    splitHover = root
-    if (root.dataset.hover !== kind) root.dataset.hover = kind
-  }
-  onEnter(entry)
 }
 
 function wellMid(root: HTMLElement) {
@@ -378,8 +314,8 @@ function scrollIdIntoCenter(id: string) {
   root.scrollTo({ top: root.scrollTop + delta, behavior: 'smooth' })
 }
 
-function monthRows() {
-  return rows.value.filter(row => !isJournalWheelFold(row))
+function monthRows(): JournalWheelMonth[] {
+  return rows.value.filter((row): row is JournalWheelMonth => !isJournalWheelFold(row))
 }
 
 function landingId() {
@@ -630,64 +566,11 @@ watch(
                   v-for="cell in row.cells"
                   :key="cell.key"
                 >
-                  <div
-                    v-if="cell.kind === 'split' && cell.log && cell.journal"
-                    class="journal-wheel__cell is-entry is-split"
-                    :class="{
-                      ...cellMark(cell),
-                      'has-rook': !!cell.rook,
-                      'is-pinned': heldPin?.key === cell.key || fanDay === cell.key,
-                      'is-fan-active': fanDay === cell.key,
-                    }"
-                    :style="cellStyle(cell, row)"
-                    @click.stop="onSplitCell(cell, $event)"
-                    @pointermove="onSplitMove(cell, $event)"
-                    @pointerleave="onLeave"
-                  >
-                    <a
-                      class="wheel-tri wheel-tri--log"
-                      :class="cellFillClass('log', cell.log)"
-                      :href="cell.log.path"
-                      :aria-label="cell.log.title"
-                      @click.stop="onCell(cell, cell.log, $event)"
-                      @focus="onEnter(cell.log)"
-                      @blur="onLeave"
-                    />
-                    <a
-                      class="wheel-tri wheel-tri--journal"
-                      :class="cellFillClass('journal', cell.journal)"
-                      :href="cell.journal.path"
-                      :aria-label="cell.journal.title"
-                      @click.stop="onCell(cell, cell.journal, $event)"
-                      @focus="onEnter(cell.journal)"
-                      @blur="onLeave"
-                    />
-                    <InkWobbleBox
-                      class="journal-wheel__sketch"
-                      :seed="cell.key"
-                      fill
-                      split
-                      :hatch="!!cell.rook"
-                      :mark="cell.today"
-                    />
-                    <span
-                      v-if="showsRing(cell.key)"
-                      :ref="el => bindRing(cell.key, el)"
-                      class="journal-wheel__ring"
-                      :class="{ 'is-log': ringIsLog(cell.key) }"
-                      data-ink="circle"
-                      :data-ink-seed="cell.key"
-                      un-absolute
-                      un-inset-0
-                      un-pointer-events-none
-                      aria-hidden="true"
-                    />
-                  </div>
                   <a
-                    v-else-if="cell.entry && cell.kind && cell.kind !== 'split'"
+                    v-if="cell.entry"
                     class="journal-wheel__cell is-entry"
                     :class="[
-                      ...cellFillClass(cell.kind, cell.entry),
+                      ...cellFillClass(cell.entry),
                       cellMark(cell),
                       { 'has-rook': !!cell.rook },
                     ]"
@@ -711,7 +594,6 @@ watch(
                       v-if="showsRing(cell.key)"
                       :ref="el => bindRing(cell.key, el)"
                       class="journal-wheel__ring"
-                      :class="{ 'is-log': ringIsLog(cell.key) }"
                       data-ink="circle"
                       :data-ink-seed="cell.key"
                       un-absolute
@@ -1036,58 +918,15 @@ watch(
   background: transparent;
 }
 
-.journal-wheel__cell.is-split {
-  --cell-fill-log: var(--ink);
-  --cell-fill-journal: var(--colored-ink);
-  background: transparent;
-  cursor: pointer;
-}
-
-.wheel-tri {
-  position: absolute;
-  inset: 0;
-  display: block;
-  outline: none;
-  pointer-events: none;
-  background: transparent;
-}
-
-.wheel-tri--log {
-  clip-path: polygon(0 0, 100% 0, 0 100%);
-}
-
-.wheel-tri--journal {
-  clip-path: polygon(100% 0, 100% 100%, 0 100%);
-}
-
-.journal-wheel__cell.wheel-cell--log {
-  --cell-fill: var(--ink);
-  color: var(--ink);
-  background: transparent;
-}
-
 .journal-wheel__cell.is-void {
   --cell-fill: var(--muted);
   color: var(--muted);
   background: transparent;
 }
 
-.journal-wheel__cell.is-entry:not(.is-split):hover :deep(.ink-wobble-fill),
-.journal-wheel__cell.is-entry:not(.is-split):focus-visible :deep(.ink-wobble-fill),
-.journal-wheel__cell.is-entry:not(.is-split).is-pinned :deep(.ink-wobble-fill) {
-  fill-opacity: 0.72;
-}
-
-.journal-wheel__cell.is-split:has(.wheel-tri--journal.is-pinned) :deep(.ink-wobble-fill--journal),
-.journal-wheel__cell.is-split[data-hover='journal'] :deep(.ink-wobble-fill--journal),
-.journal-wheel__cell.is-split:has(.wheel-tri--journal:focus-visible)
-  :deep(.ink-wobble-fill--journal) {
-  fill-opacity: 0.72;
-}
-
-.journal-wheel__cell.is-split:has(.wheel-tri--log.is-pinned) :deep(.ink-wobble-fill--log),
-.journal-wheel__cell.is-split[data-hover='log'] :deep(.ink-wobble-fill--log),
-.journal-wheel__cell.is-split:has(.wheel-tri--log:focus-visible) :deep(.ink-wobble-fill--log) {
+.journal-wheel__cell.is-entry:hover :deep(.ink-wobble-fill),
+.journal-wheel__cell.is-entry:focus-visible :deep(.ink-wobble-fill),
+.journal-wheel__cell.is-entry.is-pinned :deep(.ink-wobble-fill) {
   fill-opacity: 0.72;
 }
 
@@ -1097,10 +936,6 @@ watch(
 
 .journal-wheel__ring {
   color: var(--colored-ink);
-}
-
-.journal-wheel__ring.is-log {
-  color: var(--ink);
 }
 
 .journal-wheel__cell :deep(.rough-ink[data-kind='circle'] > path) {
