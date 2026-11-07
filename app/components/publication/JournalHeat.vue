@@ -1056,6 +1056,10 @@ watch(
   color: var(--colored-ink);
 }
 
+.journal-wheel__ring[data-ink-dash] {
+  color: var(--ink);
+}
+
 .journal-wheel__cell :deep(.rough-ink[data-kind='circle'] > path) {
   fill: currentColor;
 }
