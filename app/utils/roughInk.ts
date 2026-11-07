@@ -417,21 +417,23 @@ function circlePoints(
 ): Array<[number, number]> {
   const rng = inkRng(seed)
   const start = ((Math.imul(seed, 0x9e3779b1) >>> 0) / 4294967296) * Math.PI * 2
-  // Keep the pen sweep below a full loop so the tail never sits on the head.
-  const sweep = Math.PI * 2 * (0.68 + rng() * 0.2)
-  const raw: Array<[number, number]> = []
-  for (let i = 0; i <= 24; i++) {
-    const a = start + sweep * (i / 24)
-    raw.push([cx + Math.cos(a) * rx, cy + Math.sin(a) * ry])
+  const sweep = Math.PI * 2 * (0.86 + rng() * 0.32)
+  const p1 = rng() * Math.PI * 2
+  const p2 = rng() * Math.PI * 2
+  const p3 = rng() * Math.PI * 2
+  const n = 36
+  const pts: Array<[number, number]> = []
+  for (let i = 0; i <= n; i++) {
+    const t = i / n
+    const a = start + sweep * t
+    const wob =
+      1 +
+      0.045 * Math.sin(a * 2 + p1) +
+      0.02 * Math.sin(a * 5 + p2) +
+      0.028 * Math.sin(a * 1.37 + p3)
+    pts.push([cx + Math.cos(a) * rx * wob, cy + Math.sin(a) * ry * wob])
   }
-  // Radius breathes slowly as the hand rounds the circle.
-  const len = Math.max(1, sweep * Math.max(rx, ry))
-  return handPath(raw, {
-    amp: Math.max(0.5, rx * 0.05),
-    bow: Math.max(0.6, rx * 0.06),
-    segLen: Math.max(3, len / 40),
-    seed,
-  })
+  return pts
 }
 
 function strokeOptions(seed: number, em: number): Options {
