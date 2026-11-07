@@ -313,14 +313,10 @@ function appendMaskedFill(
 
   const extra = width * 0.7
   const t0 = tangentAt(pts, 0)
-  const t1 = tangentAt(pts, pts.length - 1)
   const a = pts[0]!
-  const b = pts.at(-1)!
-  const revealD = catmullRom([
-    [a[0] - t0[0] * extra, a[1] - t0[1] * extra],
-    ...pts,
-    [b[0] + t1[0] * extra, b[1] + t1[1] * extra],
-  ])
+  // Extend the head only. A tail extension sweeps the end of the fill early,
+  // which is how the circle's tail showed before the pen reached it.
+  const revealD = catmullRom([[a[0] - t0[0] * extra, a[1] - t0[1] * extra], ...pts])
 
   let defs = svg.querySelector('defs')
   if (!defs) {
@@ -860,12 +856,17 @@ function paintKind(
       )
       if (el.dataset.inkDash !== undefined) svg.dataset.rook = ''
       else delete svg.dataset.rook
-      // One open stroke: a body pass plus a thinner, shorter tail pass so the
-      // ends taper without a closed ribbon band.
-      const n = pts.length
-      const tail = Math.max(4, Math.round(n * 0.14))
-      appendMarkStroke(svg, pts.slice(0, n - tail), Math.max(1.25, em * 0.06), reveal !== 'live')
-      appendMarkStroke(svg, pts.slice(n - tail - 1), Math.max(0.6, em * 0.03), reveal !== 'live')
+      const maxW = Math.max(1.25, em * 0.06)
+      const edge = Math.min(0.18, Math.max(6, em * 0.22) / Math.max(polylineLen(pts), 1))
+      appendMaskedFill(
+        svg,
+        variableRibbon(pts, t => maxW * penTaper(t, edge)),
+        pts,
+        maxW,
+        'butt',
+        0,
+        seed + 7,
+      )
       return
     }
     if (kind === 'mark' && boxes) {
