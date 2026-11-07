@@ -468,7 +468,10 @@ function appendMarkStroke(
   path.setAttribute('stroke-width', String(width))
   path.setAttribute('stroke-linecap', 'butt')
   path.setAttribute('stroke-linejoin', 'miter')
-  if (dash) path.setAttribute('stroke-dasharray', dash)
+  if (dash) {
+    // Inline style so it survives the .ink-reveal dasharray class.
+    path.style.strokeDasharray = dash
+  }
   if (animate) {
     const hide = Math.ceil(polylineLen(pts)) + 16
     path.style.setProperty('--ink-len', `${hide}`)
