@@ -860,17 +860,12 @@ function paintKind(
       )
       if (el.dataset.inkDash !== undefined) svg.dataset.rook = ''
       else delete svg.dataset.rook
-      const maxW = Math.max(1.25, em * 0.06)
-      const edge = Math.min(0.18, Math.max(6, em * 0.22) / Math.max(polylineLen(pts), 1))
-      appendMaskedFill(
-        svg,
-        variableRibbon(pts, t => maxW * penTaper(t, edge)),
-        pts,
-        maxW,
-        'butt',
-        0,
-        seed + 7,
-      )
+      // One open stroke: a body pass plus a thinner, shorter tail pass so the
+      // ends taper without a closed ribbon band.
+      const n = pts.length
+      const tail = Math.max(4, Math.round(n * 0.14))
+      appendMarkStroke(svg, pts.slice(0, n - tail), Math.max(1.25, em * 0.06), reveal !== 'live')
+      appendMarkStroke(svg, pts.slice(n - tail - 1), Math.max(0.6, em * 0.03), reveal !== 'live')
       return
     }
     if (kind === 'mark' && boxes) {
