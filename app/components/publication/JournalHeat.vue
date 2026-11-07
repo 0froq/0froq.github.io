@@ -1061,7 +1061,7 @@ watch(
 }
 
 .journal-wheel__cell :deep(.rough-ink[data-kind='circle'] > path) {
-  fill: currentColor;
+  stroke: currentColor;
 }
 
 @media (prefers-reduced-motion: reduce) {
