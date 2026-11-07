@@ -106,6 +106,16 @@ function paintRing(day: string, retry = true) {
   drawRoughInk(ring)
 }
 
+/** Same day, different entry: wipe the old stroke and redraw (solid ↔ dashed). */
+function repaintRing(day: string) {
+  const ring = ringMap.get(day)
+  if (!ring) return
+  eraseRoughInk(ring)
+  nextTick(() => {
+    if (ringIsCurrent(day)) drawRoughInk(ring)
+  })
+}
+
 function pinId(cell: JournalWheelCell | null) {
   return cell?.entry?.path ?? null
 }
@@ -190,6 +200,7 @@ function pin(cell: JournalWheelCell, entry: LayerEntry) {
   pinned.value = next
   deck?.focusEntry(entry)
   if (cell.rowId !== centerId.value) scrollIdIntoCenter(cell.rowId)
+  else if (prev?.key === cell.key) repaintRing(cell.key)
   else nextTick(() => paintRing(cell.key))
 }
 
