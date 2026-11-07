@@ -307,7 +307,6 @@ function appendMaskedFill(
   width: number,
   lineCap: 'butt' | 'round' = 'butt',
   delayMs = 0,
-  dashed = false,
 ): void {
   if (!fillD || pts.length < 2) return
 
@@ -353,17 +352,6 @@ function appendMaskedFill(
   path.setAttribute('stroke', 'none')
   path.setAttribute('mask', `url(#${maskId})`)
   svg.appendChild(path)
-
-  if (dashed) {
-    path.setAttribute('stroke', 'var(--colored-ink)')
-    path.setAttribute('stroke-width', String(Math.max(0.8, width * 0.7)))
-    path.setAttribute(
-      'stroke-dasharray',
-      `${Math.max(2, width * 1.6)} ${Math.max(2.4, width * 2.4)}`,
-    )
-    path.setAttribute('stroke-linecap', 'round')
-    path.setAttribute('fill-opacity', '0.4')
-  }
 }
 
 function polylineLen(pts: Array<[number, number]>): number {
@@ -467,6 +455,7 @@ function appendMarkStroke(
   pts: Array<[number, number]>,
   width: number,
   animate: boolean,
+  dash?: string,
 ): void {
   if (pts.length < 2) return
   const d = catmullRom(pts)
@@ -479,6 +468,7 @@ function appendMarkStroke(
   path.setAttribute('stroke-width', String(width))
   path.setAttribute('stroke-linecap', 'butt')
   path.setAttribute('stroke-linejoin', 'miter')
+  if (dash) path.setAttribute('stroke-dasharray', dash)
   if (animate) {
     const hide = Math.ceil(polylineLen(pts)) + 16
     path.style.setProperty('--ink-len', `${hide}`)
@@ -846,6 +836,19 @@ function paintKind(
         aroundHost ? (line.h + em * 0.45) / 2 : em * 0.62,
         seed,
       )
+      const dashed = el.dataset.inkDash !== undefined
+      if (dashed) {
+        // A dashed pencil line, not a closed ribbon. One thin dashed stroke.
+        const w = Math.max(1.1, em * 0.045)
+        appendMarkStroke(
+          svg,
+          pts,
+          w,
+          reveal !== 'live',
+          `${(w * 1.7).toFixed(2)} ${(w * 2.1).toFixed(2)}`,
+        )
+        return
+      }
       const maxW = Math.max(1.25, em * 0.06)
       const edge = Math.min(0.18, Math.max(6, em * 0.22) / Math.max(polylineLen(pts), 1))
       appendMaskedFill(
@@ -853,9 +856,6 @@ function paintKind(
         variableRibbon(pts, t => maxW * penTaper(t, edge)),
         pts,
         maxW,
-        'butt',
-        0,
-        el.dataset.inkDash !== undefined,
       )
       return
     }
