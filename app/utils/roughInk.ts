@@ -487,7 +487,7 @@ function appendMarkStroke(
   path.setAttribute('class', 'mark-ink')
   path.setAttribute('d', d)
   path.setAttribute('fill', 'none')
-  path.setAttribute('stroke', 'var(--colored-ink)')
+  path.setAttribute('stroke', svg.dataset.rook !== undefined ? 'var(--ink)' : 'var(--colored-ink)')
   path.setAttribute('stroke-width', String(width))
   path.setAttribute('stroke-linecap', 'butt')
   path.setAttribute('stroke-linejoin', 'miter')
@@ -860,17 +860,7 @@ function paintKind(
       )
       if (el.dataset.inkDash !== undefined) svg.dataset.rook = ''
       else delete svg.dataset.rook
-      const maxW = Math.max(1.25, em * 0.06)
-      const edge = Math.min(0.18, Math.max(6, em * 0.22) / Math.max(polylineLen(pts), 1))
-      appendMaskedFill(
-        svg,
-        variableRibbon(pts, t => maxW * penTaper(t, edge)),
-        pts,
-        maxW,
-        'butt',
-        0,
-        seed + 7,
-      )
+      appendMarkStroke(svg, pts, Math.max(1.25, em * 0.06), reveal !== 'live')
       return
     }
     if (kind === 'mark' && boxes) {
