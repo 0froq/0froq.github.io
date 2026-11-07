@@ -249,17 +249,6 @@ export default defineConfig({
           'font-family': 'var(--font-mono)',
           'font-size': '0.82em',
         },
-        ':not(pre) > code': {
-          padding: '0.12em 0.28em',
-          background: 'color-mix(in srgb, var(--ink) 6%, var(--paper))',
-        },
-        // preset-typography renders literal backtick marks around inline code.
-        'code::before': {
-          content: 'none',
-        },
-        'code::after': {
-          content: 'none',
-        },
         'table': {
           'width': '100%',
           'margin': '1.3em 0',
