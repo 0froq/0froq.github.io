@@ -239,6 +239,60 @@ function underlineScribble(
 }
 
 let inkMaskSeq = 0
+let inkGrainSeq = 0
+
+/** Shared paper-ink filter: ragged edge (displacement) + uneven interior (alpha grain). */
+function inkGrainFilter(svg: SVGSVGElement): string {
+  let defs = svg.querySelector('defs')
+  if (!defs) {
+    defs = document.createElementNS(NS, 'defs')
+    svg.insertBefore(defs, svg.firstChild)
+  }
+  const id = `ink-grain-${++inkGrainSeq}`
+  const filter = document.createElementNS(NS, 'filter')
+  filter.setAttribute('id', id)
+  filter.setAttribute('x', '-15%')
+  filter.setAttribute('y', '-15%')
+  filter.setAttribute('width', '130%')
+  filter.setAttribute('height', '130%')
+  const el = (name: string, attrs: Record<string, string>) => {
+    const node = document.createElementNS(NS, name)
+    for (const [k, v] of Object.entries(attrs)) node.setAttribute(k, v)
+    filter.appendChild(node)
+  }
+  el('feTurbulence', {
+    type: 'fractalNoise',
+    baseFrequency: '0.045',
+    numOctaves: '3',
+    result: 'wob',
+  })
+  el('feDisplacementMap', {
+    in: 'SourceGraphic',
+    in2: 'wob',
+    scale: '1.6',
+    xChannelSelector: 'R',
+    yChannelSelector: 'G',
+    result: 'edge',
+  })
+  el('feTurbulence', {
+    type: 'fractalNoise',
+    baseFrequency: '0.9',
+    numOctaves: '2',
+    result: 'grain',
+  })
+  const transfer = document.createElementNS(NS, 'feComponentTransfer')
+  transfer.setAttribute('in', 'grain')
+  transfer.setAttribute('result', 'grainA')
+  filter.appendChild(transfer)
+  const funcA = document.createElementNS(NS, 'feFuncA')
+  funcA.setAttribute('type', 'linear')
+  funcA.setAttribute('slope', '0.9')
+  funcA.setAttribute('intercept', '0.35')
+  transfer.appendChild(funcA)
+  el('feComposite', { in: 'edge', in2: 'grainA', operator: 'in' })
+  defs.appendChild(filter)
+  return `url(#${id})`
+}
 
 function appendMaskedFill(
   svg: SVGSVGElement,
@@ -289,6 +343,7 @@ function appendMaskedFill(
   path.setAttribute('fill', 'var(--colored-ink)')
   path.setAttribute('stroke', 'none')
   path.setAttribute('mask', `url(#${maskId})`)
+  path.setAttribute('filter', inkGrainFilter(svg))
   svg.appendChild(path)
 }
 
@@ -325,7 +380,7 @@ function variableRibbon(pts: Array<[number, number]>, widthAt: (t: number) => nu
   return catmullRomClosed([pts[0]!, ...top.slice(1, -1), pts[last]!, ...bot.slice(1, -1).reverse()])
 }
 
-function squarePoints(
+function circlePoints(
   cx: number,
   cy: number,
   rx: number,
@@ -333,36 +388,22 @@ function squarePoints(
   seed: number,
 ): Array<[number, number]> {
   const rng = inkRng(seed)
-  // Perimeter of a rect (half-extents rx/ry), swept most of the way like a pen loop.
-  const per = 2 * (2 * rx + 2 * ry)
-  const sweep = per * (0.86 + rng() * 0.32)
+  const start = ((Math.imul(seed, 0x9e3779b1) >>> 0) / 4294967296) * Math.PI * 2
+  const sweep = Math.PI * 2 * (0.86 + rng() * 0.32)
   const p1 = rng() * Math.PI * 2
   const p2 = rng() * Math.PI * 2
   const p3 = rng() * Math.PI * 2
-  const n = 44
+  const n = 36
   const pts: Array<[number, number]> = []
-  const at = (s: number): [number, number] => {
-    const w = ((s % per) + per) % per
-    const top = 2 * rx
-    const right = 2 * ry
-    if (w < top) return [cx - rx + w, cy - ry]
-    if (w < top + right) return [cx + rx, cy - ry + (w - top)]
-    if (w < top + right + top) return [cx + rx - (w - top - right), cy + ry]
-    return [cx - rx, cy + ry - (w - top - right - top)]
-  }
   for (let i = 0; i <= n; i++) {
     const t = i / n
-    const a = t * Math.PI * 2
+    const a = start + sweep * t
     const wob =
       1 +
       0.045 * Math.sin(a * 2 + p1) +
       0.02 * Math.sin(a * 5 + p2) +
       0.028 * Math.sin(a * 1.37 + p3)
-    const [px, py] = at(sweep * t)
-    // Radial wobble around the center keeps corners a little uneven.
-    const dx = px - cx
-    const dy = py - cy
-    pts.push([cx + dx * wob, cy + dy * wob])
+    pts.push([cx + Math.cos(a) * rx * wob, cy + Math.sin(a) * ry * wob])
   }
   return pts
 }
@@ -422,6 +463,7 @@ function appendMarkStroke(
   path.setAttribute('stroke-width', String(width))
   path.setAttribute('stroke-linecap', 'butt')
   path.setAttribute('stroke-linejoin', 'miter')
+  path.setAttribute('filter', inkGrainFilter(svg))
   if (animate) {
     const hide = Math.ceil(polylineLen(pts)) + 16
     path.style.setProperty('--ink-len', `${hide}`)
@@ -782,11 +824,11 @@ function paintKind(
     const y = line.y - host.top + padY
     const seed = seed0 + i * 97
     if (kind === 'circle' && boxes) {
-      const pts = squarePoints(
+      const pts = circlePoints(
         x + line.w / 2,
         aroundHost ? y + line.h / 2 : inkMidY(y, line.h, boxes, 0.36),
-        (line.w + em * 0.72) / 2,
-        aroundHost ? (line.h + em * 0.72) / 2 : em * 0.62,
+        (line.w + em * 0.45) / 2,
+        aroundHost ? (line.h + em * 0.45) / 2 : em * 0.62,
         seed,
       )
       const maxW = Math.max(1.25, em * 0.06)
