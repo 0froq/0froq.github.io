@@ -1,0 +1,258 @@
+/* Prose typography rules, migrated from presetTypography cssExtend. */
+
+[un-prose] a {
+  color: var(--ink);
+  text-decoration: none;
+}
+
+[un-prose] p {
+  margin: 0 0 1.15em;
+  text-wrap: pretty;
+}
+
+[un-prose] p:last-child {
+  margin-bottom: 0;
+}
+
+[un-prose] li {
+  margin: 0.28em 0;
+  text-wrap: pretty;
+  padding-inline-start: 0.15em;
+}
+
+[un-prose] li p {
+  margin: 0.4em 0;
+}
+
+[un-prose] ul,
+[un-prose] ol {
+  margin: 0 0 1.15em;
+  padding-inline-start: 1.35em;
+}
+
+[un-prose] ul ul,
+[un-prose] ol ol,
+[un-prose] ul ol,
+[un-prose] ol ul {
+  margin: 0.35em 0 0;
+}
+
+[un-prose] ul {
+  list-style-type: disc;
+}
+
+[un-prose] ul > li::marker {
+  color: var(--colored-ink);
+}
+
+[un-prose] ol {
+  list-style-type: decimal;
+}
+
+[un-prose] ol > li::marker {
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 0.85em;
+}
+
+[un-prose] blockquote {
+  margin: 1.4em 0;
+  padding: 0.15em 0 0.15em 1.1em;
+  border-left: 1.5px solid var(--line);
+  color: var(--muted);
+  font-style: italic;
+}
+
+[un-prose] blockquote p:last-child {
+  margin-bottom: 0;
+}
+
+[un-prose] h1 {
+  margin: 1.4em 0 0.55em;
+  font-size: 1.85em;
+  font-weight: 600;
+  letter-spacing: -0.04em;
+  line-height: 1.2;
+  text-wrap: balance;
+}
+
+[un-prose] h2 {
+  margin: 1.8em 0 0.6em;
+  font-size: 1.4em;
+  font-weight: 600;
+  letter-spacing: -0.04em;
+  line-height: 1.2;
+  text-wrap: balance;
+}
+
+[un-prose] h3 {
+  margin: 1.6em 0 0.5em;
+  font-size: 1.15em;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1.25;
+}
+
+[un-prose] h4,
+[un-prose] h5,
+[un-prose] h6 {
+  margin: 1.4em 0 0.45em;
+  font-size: 1em;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+[un-prose] h1:first-child,
+[un-prose] h2:first-child,
+[un-prose] h3:first-child,
+[un-prose] h4:first-child {
+  margin-top: 0;
+}
+
+[un-prose] img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 1.2em 0;
+}
+
+[un-prose] figure {
+  margin: 1.5em 0;
+}
+
+[un-prose] figcaption {
+  margin-top: 0.5em;
+  font-family: var(--font-mono);
+  font-size: 0.85em;
+  color: var(--muted);
+}
+
+[un-prose] hr {
+  margin: 1.6em 0;
+  border: 0;
+  border-top: 1px solid var(--line);
+}
+
+[un-prose] pre {
+  margin: 1.3em 0;
+  padding: 1em 1.1em;
+  overflow-x: auto;
+  font-size: 0.84em;
+  line-height: 1.55;
+  border: 1px solid var(--line);
+  background: color-mix(in srgb, var(--ink) 4%, var(--paper));
+}
+
+[un-prose] pre code {
+  font-size: inherit;
+  background: none;
+  padding: 0;
+}
+
+[un-prose] code {
+  font-family: var(--font-mono);
+  font-size: 0.82em;
+}
+
+[un-prose] table {
+  width: 100%;
+  margin: 1.3em 0;
+  border-collapse: collapse;
+  font-size: 0.92em;
+  line-height: 1.45;
+}
+
+[un-prose] th {
+  padding: 0.4em 0.7em 0.4em 0;
+  border-bottom: 1px solid var(--line);
+  font-weight: 600;
+  text-align: left;
+}
+
+[un-prose] td {
+  padding: 0.4em 0.7em 0.4em 0;
+  border-bottom: 1px solid var(--line);
+  vertical-align: top;
+}
+
+[un-prose] strong {
+  font-weight: 600;
+}
+
+[un-prose] em {
+  font-style: italic;
+}
+
+[un-prose] kbd {
+  padding: 0.1em 0.35em;
+  border: 1px solid var(--line);
+  font-family: var(--font-mono);
+  font-size: 0.78em;
+}
+
+[un-prose] sup,
+[un-prose] sub {
+  font-size: 0.75em;
+}
+
+[un-prose] dl {
+  margin: 1.15em 0;
+}
+
+[un-prose] dt {
+  font-weight: 600;
+  margin-top: 0.6em;
+}
+
+[un-prose] dd {
+  margin: 0.2em 0 0.6em 1.2em;
+  color: var(--muted);
+}
+
+[un-prose] video,
+[un-prose] iframe {
+  display: block;
+  max-width: 100%;
+  margin: 1.3em 0;
+}
+
+[un-prose] mark,
+[un-prose] u {
+  background-color: transparent;
+  color: var(--ink);
+  text-decoration: none;
+}
+
+[un-prose] ruby {
+  ruby-align: center;
+}
+
+[un-prose] rt {
+  font-family: var(--font-mono);
+  font-size: 0.55em;
+  color: var(--muted);
+}
+
+[un-prose] .footnotes {
+  margin-top: 2.5em;
+  padding-top: 1em;
+  border-top: 1px solid var(--line);
+  font-size: 0.88em;
+  color: var(--muted);
+}
+
+[un-prose] .footnote-ref,
+[un-prose] .footnote-backref {
+  font-family: var(--font-mono);
+  font-size: 0.75em;
+  color: var(--muted);
+}
+
+[un-prose] .warning,
+[un-prose] .tip {
+  margin: 1.4em 0;
+  padding: 0.9em 0 0;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 0.95em;
+}

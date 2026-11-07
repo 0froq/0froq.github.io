@@ -112,6 +112,7 @@ export default defineNuxtConfig({
   css: [
     '~/assets/css/tokens.css',
     '~/assets/css/main.css',
+    '~/assets/css/prose.css',
     '~/assets/css/rough-ink.css',
     'katex/dist/katex.min.css',
   ],
