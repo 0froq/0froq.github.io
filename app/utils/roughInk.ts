@@ -244,14 +244,14 @@ function markerSwipe(
   })
 }
 
-function underlineScribbles(
+function underlineScribble(
   x: number,
   y: number,
   w: number,
   em: number,
   seed: number,
   italic: boolean,
-): Array<Array<[number, number]>> {
+): Array<[number, number]> {
   const rng = inkRng(seed)
   const skew = italic ? em * 0.08 : 0
   // Keep the stroke inside the text box. Large end overshoot drew under
@@ -261,29 +261,41 @@ function underlineScribbles(
   const x1 = x + skew + Math.max(pad * 2, w - pad)
   const n = Math.max(10, Math.round(w / 14))
 
-  // Two or three separate near-parallel strokes, not one closed scribble.
-  const lanes = 2 + (rng() > 0.55 ? 1 : 0)
+  // One pen going back and forth: left to right, tuck, right to left, tuck,
+  // left to right again — a single continuous path like a highlighted line.
+  const lanes = 2 + (rng() > 0.5 ? 1 : 0)
   const baseY = em * (0.015 + rng() * 0.01)
   const gap = em * (0.024 + rng() * 0.012)
-  const out: Array<Array<[number, number]>> = []
+  const pts: Array<[number, number]> = []
   for (let lane = 0; lane < lanes; lane++) {
-    // Every lane runs left to right; the stagger is handled by reveal delay.
+    const forward = lane % 2 === 0
     const yOff = baseY - gap * lane * (0.5 + rng() * 0.5)
     const raw: Array<[number, number]> = []
     for (let i = 0; i <= n; i++) {
-      const u = i / n
+      const u = forward ? i / n : 1 - i / n
       raw.push([x0 + (x1 - x0) * u, y + yOff])
     }
-    out.push(
-      handPath(raw, {
+    pts.push(
+      ...handPath(raw, {
         amp: em * 0.013,
         bow: em * 0.018,
         segLen: Math.max(6, w / 24),
         seed: seed * 31 + lane * 17,
       }),
     )
+    if (lane < lanes - 1) {
+      // Turn the pen at the edge, back toward the next lane.
+      const edgeX = forward ? x1 : x0
+      const tuck = em * (0.012 + rng() * 0.01)
+      const yA = pts.at(-1)![1]
+      const yB = y + (baseY - gap * (lane + 1) * 0.5)
+      const midX = forward ? edgeX - tuck : edgeX + tuck
+      pts.push([midX, yA + (yB - yA) * 0.28])
+      pts.push([edgeX, (yA + yB) / 2])
+      pts.push([midX, yA + (yB - yA) * 0.72])
+    }
   }
-  return out
+  return pts
 }
 
 let inkMaskSeq = 0
@@ -295,6 +307,7 @@ function appendMaskedFill(
   width: number,
   lineCap: 'butt' | 'round' = 'butt',
   delayMs = 0,
+  dashed = false,
 ): void {
   if (!fillD || pts.length < 2) return
 
@@ -340,6 +353,17 @@ function appendMaskedFill(
   path.setAttribute('stroke', 'none')
   path.setAttribute('mask', `url(#${maskId})`)
   svg.appendChild(path)
+
+  if (dashed) {
+    path.setAttribute('stroke', 'var(--colored-ink)')
+    path.setAttribute('stroke-width', String(Math.max(0.8, width * 0.7)))
+    path.setAttribute(
+      'stroke-dasharray',
+      `${Math.max(2, width * 1.6)} ${Math.max(2.4, width * 2.4)}`,
+    )
+    path.setAttribute('stroke-linecap', 'round')
+    path.setAttribute('fill-opacity', '0.4')
+  }
 }
 
 function polylineLen(pts: Array<[number, number]>): number {
@@ -829,6 +853,9 @@ function paintKind(
         variableRibbon(pts, t => maxW * penTaper(t, edge)),
         pts,
         maxW,
+        'butt',
+        0,
+        el.dataset.inkDash !== undefined,
       )
       return
     }
@@ -839,19 +866,15 @@ function paintKind(
       return
     }
     if (kind === 'underline') {
-      const lanes = underlineScribbles(x, y + em * 1.08, line.w, em, seed, italic)
+      const pts = underlineScribble(x, y + em * 1.08, line.w, em, seed, italic)
       const maxW = Math.max(1.15, em * 0.055)
-      lanes.forEach((pts, lane) => {
-        const edge = Math.min(0.04, Math.max(5, em * 0.2) / Math.max(polylineLen(pts), 1))
-        appendMaskedFill(
-          svg,
-          variableRibbon(pts, t => maxW * penTaper(t, edge)),
-          pts,
-          maxW,
-          'butt',
-          lane * 140,
-        )
-      })
+      const edge = Math.min(0.04, Math.max(5, em * 0.2) / Math.max(polylineLen(pts), 1))
+      appendMaskedFill(
+        svg,
+        variableRibbon(pts, t => maxW * penTaper(t, edge)),
+        pts,
+        maxW,
+      )
       return
     }
     if (!rc) return

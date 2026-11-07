@@ -123,6 +123,14 @@ function isPinnedEntry(entry: LayerEntry) {
   return heldPin.value?.entry?.path === entry.path || deck?.activeEntry.value?.path === entry.path
 }
 
+/** Rook-active day ring gets a dashed, sketchier stroke. */
+function ringIsRook(day: string) {
+  if (fanDay.value === day) return isRookEntry(deck?.activeEntry.value ?? ({} as LayerEntry))
+  const pin = heldPin.value
+  if (pin?.key === day) return !!pin.rook && pin.entry?.path === pin.rook.path
+  return false
+}
+
 function cellFillClass(entry: LayerEntry) {
   return [
     {
@@ -612,6 +620,7 @@ watch(
                       :ref="el => bindRing(cell.key, el)"
                       class="journal-wheel__ring"
                       data-ink="circle"
+                      :data-ink-dash="ringIsRook(cell.key) ? '' : undefined"
                       :data-ink-seed="cell.key"
                       un-absolute
                       un-inset-0
@@ -642,6 +651,7 @@ watch(
                       :ref="el => bindRing(cell.key, el)"
                       class="journal-wheel__ring"
                       data-ink="circle"
+                      :data-ink-dash="ringIsRook(cell.key) ? '' : undefined"
                       :data-ink-seed="cell.key"
                       un-absolute
                       un-inset-0
