@@ -4,7 +4,7 @@ export interface SiteLayer {
   slug: PublicationRoom
   label: string
   note: string
-  ink: 'underline' | 'mark' | 'circle'
+  ink: 'underline' | 'mark'
 }
 
 export const publicationSections: SiteLayer[] = [
@@ -18,13 +18,13 @@ export const publicationSections: SiteLayer[] = [
     slug: 'journal',
     label: 'Journal',
     note: 'Time-bound personal writing',
-    ink: 'mark',
+    ink: 'underline',
   },
   {
     slug: 'cabinet',
     label: 'Cabinet',
     note: 'Found and made materials',
-    ink: 'circle',
+    ink: 'underline',
   },
 ]
 

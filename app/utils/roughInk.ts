@@ -2,7 +2,7 @@ import type { Options } from 'roughjs/bin/core'
 import rough from 'roughjs'
 import { hashSeed, inkRng } from '~/utils/inkDraw'
 
-export type InkKind = 'underline' | 'mark' | 'strike' | 'circle'
+export type InkKind = 'underline' | 'mark' | 'strike'
 
 interface LineBox {
   x: number
@@ -14,9 +14,8 @@ interface LineBox {
 const NS = 'http://www.w3.org/2000/svg'
 const SVG_CLASS = 'rough-ink'
 const ITALIC_RE = /italic|oblique/
-const KINDS: readonly InkKind[] = ['underline', 'mark', 'strike', 'circle']
+const KINDS: readonly InkKind[] = ['underline', 'mark', 'strike']
 const PAD: Record<InkKind, readonly [number, number]> = {
-  circle: [0.55, 0.55],
   mark: [0.55, 0.72],
   underline: [0.42, 0.42],
   strike: [0.16, 0.14],
@@ -345,7 +344,7 @@ function appendMaskedFill(
 
   const path = document.createElementNS(NS, 'path')
   path.setAttribute('d', fillD)
-  path.setAttribute('fill', svg.dataset.rook !== undefined ? 'var(--ink)' : 'var(--colored-ink)')
+  path.setAttribute('fill', 'var(--colored-ink)')
   path.setAttribute('stroke', 'none')
   path.setAttribute('mask', `url(#${maskId})`)
   svg.appendChild(path)
@@ -361,7 +360,7 @@ function appendMaskedFill(
     const g = document.createElementNS(NS, 'path')
     g.setAttribute('d', catmullRom(ghost))
     g.setAttribute('fill', 'none')
-    g.setAttribute('stroke', svg.dataset.rook !== undefined ? 'var(--ink)' : 'var(--colored-ink)')
+    g.setAttribute('stroke', 'var(--colored-ink)')
     g.setAttribute('stroke-width', String(Math.max(0.55, width * 0.42)))
     g.setAttribute('stroke-opacity', '0.32')
     g.setAttribute('stroke-linecap', 'round')
@@ -402,34 +401,6 @@ function variableRibbon(pts: Array<[number, number]>, widthAt: (t: number) => nu
     bot.push([p[0] - nx * h, p[1] - ny * h])
   }
   return catmullRomClosed([pts[0]!, ...top.slice(1, -1), pts[last]!, ...bot.slice(1, -1).reverse()])
-}
-
-function circlePoints(
-  cx: number,
-  cy: number,
-  rx: number,
-  ry: number,
-  seed: number,
-): Array<[number, number]> {
-  const rng = inkRng(seed)
-  const start = ((Math.imul(seed, 0x9e3779b1) >>> 0) / 4294967296) * Math.PI * 2
-  const sweep = Math.PI * 2 * (0.86 + rng() * 0.32)
-  const p1 = rng() * Math.PI * 2
-  const p2 = rng() * Math.PI * 2
-  const p3 = rng() * Math.PI * 2
-  const n = 36
-  const pts: Array<[number, number]> = []
-  for (let i = 0; i <= n; i++) {
-    const t = i / n
-    const a = start + sweep * t
-    const wob =
-      1 +
-      0.045 * Math.sin(a * 2 + p1) +
-      0.02 * Math.sin(a * 5 + p2) +
-      0.028 * Math.sin(a * 1.37 + p3)
-    pts.push([cx + Math.cos(a) * rx * wob, cy + Math.sin(a) * ry * wob])
-  }
-  return pts
 }
 
 function strokeOptions(seed: number, em: number): Options {
@@ -483,7 +454,7 @@ function appendMarkStroke(
   path.setAttribute('class', 'mark-ink')
   path.setAttribute('d', d)
   path.setAttribute('fill', 'none')
-  path.setAttribute('stroke', svg.dataset.rook !== undefined ? 'var(--ink)' : 'var(--colored-ink)')
+  path.setAttribute('stroke', 'var(--colored-ink)')
   path.setAttribute('stroke-width', String(width))
   path.setAttribute('stroke-linecap', 'butt')
   path.setAttribute('stroke-linejoin', 'miter')
@@ -833,42 +804,15 @@ function paintKind(
   svg.style.width = `${svgW}px`
   svg.style.height = `${svgH}px`
 
-  const boxes = kind === 'mark' || kind === 'circle' ? fontBoxes(el) : null
+  const boxes = kind === 'mark' ? fontBoxes(el) : null
   const italic = ITALIC_RE.test(getComputedStyle(el).fontStyle)
   const seed0 = hashSeed(`${kind}:${el.dataset.inkSeed || (el.textContent || '').trim()}`)
   const rc = kind === 'strike' ? rough.svg(svg) : null
-  const aroundHost = kind === 'circle' && !lines.length
-  const strokeLines = aroundHost
-    ? [{ x: host.left, y: host.top, w: host.width, h: host.height }]
-    : lines
 
-  strokeLines.forEach((line, i) => {
+  lines.forEach((line, i) => {
     const x = line.x - host.left + padX
     const y = line.y - host.top + padY
     const seed = seed0 + i * 97
-    if (kind === 'circle' && boxes) {
-      const pts = circlePoints(
-        x + line.w / 2,
-        aroundHost ? y + line.h / 2 : inkMidY(y, line.h, boxes, 0.36),
-        (line.w + em * 0.45) / 2,
-        aroundHost ? (line.h + em * 0.45) / 2 : em * 0.62,
-        seed,
-      )
-      if (el.dataset.inkDash !== undefined) svg.dataset.rook = ''
-      else delete svg.dataset.rook
-      const maxW = Math.max(1.25, em * 0.06)
-      const edge = Math.min(0.18, Math.max(6, em * 0.22) / Math.max(polylineLen(pts), 1))
-      appendMaskedFill(
-        svg,
-        variableRibbon(pts, t => maxW * penTaper(t, edge)),
-        pts,
-        maxW,
-        'butt',
-        0,
-        seed + 7,
-      )
-      return
-    }
     if (kind === 'mark' && boxes) {
       const width = Math.max(8, em * 0.52)
       const pts = markerSwipe(x, inkMidY(y, line.h, boxes, 0.42), line.w, em, seed, italic)

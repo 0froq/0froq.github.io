@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { drawRoughInk, eraseRoughInk } from '~/utils/roughInk'
-
 const props = defineProps<{
   items: LayerEntry[]
 }>()
@@ -14,20 +12,10 @@ const fanDay = computed(() => {
 const { pulse, reset } = useSiteChromeAway()
 const scroller = ref<HTMLElement | null>(null)
 const rowMap = new Map<string, HTMLElement>()
-const ringMap = new Map<string, HTMLElement>()
 
 function bindRow(id: string, el: unknown) {
   if (el instanceof HTMLElement) rowMap.set(id, el)
   else rowMap.delete(id)
-}
-
-function bindRing(day: string, el: unknown) {
-  if (el instanceof HTMLElement) {
-    ringMap.set(day, el)
-    if (ringIsCurrent(day)) nextTick(() => paintRing(day))
-  } else {
-    ringMap.delete(day)
-  }
 }
 
 const centerId = ref<string | null>(null)
@@ -53,8 +41,6 @@ watch(currentYear, (now, prev) => {
 
 const pinned = ref<JournalWheelCell | null>(null)
 const leaving = ref<JournalWheelCell[]>([])
-/** Previous fan day, kept mounted until its circle finishes wiping. */
-const fadingDay = ref<string | null>(null)
 const LIVE_SPAN = 8
 
 /** Clicked cell, but only while that entry is still the one in play. */
@@ -84,38 +70,6 @@ const liveMonths = computed(() => {
   return ids
 })
 
-function ringIsCurrent(day: string) {
-  return fanDay.value === day || heldPin.value?.key === day
-}
-
-function hasLiveRing(ring: HTMLElement) {
-  return [...ring.querySelectorAll<SVGSVGElement>(':scope > .rough-ink')].some(
-    svg => svg.dataset.reveal !== 'exit' || svg.classList.contains('ink-boot'),
-  )
-}
-
-function paintRing(day: string, retry = true) {
-  if (!ringIsCurrent(day)) return
-  const ring = ringMap.get(day)
-  if (!ring || hasLiveRing(ring)) return
-  const box = ring.getBoundingClientRect()
-  if (box.width < 2 || box.height < 2) {
-    if (retry) requestAnimationFrame(() => paintRing(day, false))
-    return
-  }
-  drawRoughInk(ring)
-}
-
-/** Same day, different entry: wipe the old stroke and redraw (solid ↔ dashed). */
-function repaintRing(day: string) {
-  const ring = ringMap.get(day)
-  if (!ring) return
-  eraseRoughInk(ring)
-  nextTick(() => {
-    if (ringIsCurrent(day)) drawRoughInk(ring)
-  })
-}
-
 function pinId(cell: JournalWheelCell | null) {
   return cell?.entry?.path ?? null
 }
@@ -123,7 +77,6 @@ function pinId(cell: JournalWheelCell | null) {
 function showsRing(day: string) {
   return (
     heldPin.value?.key === day ||
-    fadingDay.value === day ||
     leaving.value.some(cell => cell.key === day) ||
     fanDay.value === day
   )
@@ -133,7 +86,7 @@ function isPinnedEntry(entry: LayerEntry) {
   return heldPin.value?.entry?.path === entry.path || deck?.activeEntry.value?.path === entry.path
 }
 
-/** Rook-active day ring gets a dashed, sketchier stroke. */
+/** Rook-active day ring gets the ink-colored highlight. */
 function ringIsRook(day: string) {
   if (fanDay.value === day) return isRookEntry(deck?.activeEntry.value ?? ({} as LayerEntry))
   const pin = heldPin.value
@@ -200,8 +153,6 @@ function pin(cell: JournalWheelCell, entry: LayerEntry) {
   pinned.value = next
   deck?.focusEntry(entry)
   if (cell.rowId !== centerId.value) scrollIdIntoCenter(cell.rowId)
-  else if (prev?.key === cell.key) repaintRing(cell.key)
-  else nextTick(() => paintRing(cell.key))
 }
 
 function closePin() {
@@ -209,13 +160,9 @@ function closePin() {
   if (!prev) return
   pinned.value = null
   if (fanDay.value === prev.key) return
-  const wiping = fadingDay.value === prev.key || leaving.value.some(cell => cell.key === prev.key)
-  if (!wiping) return
+  if (leaving.value.some(cell => cell.key === prev.key)) return
   leaving.value = [...leaving.value.filter(item => item.key !== prev.key), prev]
-  const ring = ringMap.get(prev.key)
-  const done = () => dropLeaving(prev.key)
-  if (ring) void eraseRoughInk(ring).then(done)
-  else window.setTimeout(done, 150)
+  window.setTimeout(() => dropLeaving(prev.key), 160)
 }
 
 function onCell(cell: JournalWheelCell, entry: LayerEntry, event: MouseEvent) {
@@ -302,27 +249,17 @@ watch(centerId, id => {
 })
 
 watch(fanDay, (day, prev) => {
-  if (prev && prev !== day) fadingDay.value = prev
+  if (!prev || prev === day || heldPin.value?.key === prev) return
+  if (leaving.value.some(cell => cell.key === prev)) return
+  for (const row of rows.value) {
+    if (isJournalWheelFold(row)) continue
+    const cell = row.cells.find(item => item.key === prev)
+    if (!cell) continue
+    leaving.value = [...leaving.value.filter(item => item.key !== prev), cell]
+    window.setTimeout(() => dropLeaving(prev), 160)
+    return
+  }
 })
-
-watch(
-  fanDay,
-  async (day, prev) => {
-    await nextTick()
-    if (prev && prev !== day && !ringIsCurrent(prev)) {
-      const old = ringMap.get(prev)
-      const finish = () => {
-        if (fadingDay.value === prev) fadingDay.value = null
-        dropLeaving(prev)
-        if (ringIsCurrent(prev)) paintRing(prev)
-      }
-      if (old) void eraseRoughInk(old).then(finish)
-      else finish()
-    }
-    if (day) paintRing(day)
-  },
-  { flush: 'post' },
-)
 
 function scrollIdIntoCenter(id: string) {
   const root = scroller.value
@@ -628,13 +565,10 @@ watch(
                     />
                     <span
                       v-if="showsRing(cell.key)"
-                      :ref="el => bindRing(cell.key, el)"
                       class="journal-wheel__ring"
-                      data-ink="circle"
-                      :data-ink-dash="ringIsRook(cell.key) ? '' : undefined"
-                      :data-ink-seed="cell.key"
+                      :class="{ 'is-rook': ringIsRook(cell.key) }"
                       un-absolute
-                      un-inset-0
+                      un-inset="-3px"
                       un-pointer-events-none
                       aria-hidden="true"
                     />
@@ -659,13 +593,10 @@ watch(
                     />
                     <span
                       v-if="showsRing(cell.key)"
-                      :ref="el => bindRing(cell.key, el)"
                       class="journal-wheel__ring"
-                      data-ink="circle"
-                      :data-ink-dash="ringIsRook(cell.key) ? '' : undefined"
-                      :data-ink-seed="cell.key"
+                      :class="{ 'is-rook': ringIsRook(cell.key) }"
                       un-absolute
-                      un-inset-0
+                      un-inset="-3px"
                       un-pointer-events-none
                       aria-hidden="true"
                     />
@@ -1053,15 +984,23 @@ watch(
 }
 
 .journal-wheel__ring {
-  color: var(--colored-ink);
+  inset: -3px;
+  border: 1px solid var(--colored-ink);
+  border-radius: 3px;
+  background: color-mix(in srgb, var(--colored-ink) 14%, transparent);
+  opacity: 0;
+  animation: journal-ring-in 140ms ease-out forwards;
 }
 
-.journal-wheel__ring[data-ink-dash] {
-  color: var(--ink);
+.journal-wheel__ring.is-rook {
+  border-color: var(--ink);
+  background: color-mix(in srgb, var(--ink) 12%, transparent);
 }
 
-.journal-wheel__cell :deep(.rough-ink[data-kind='circle'] > path) {
-  stroke: currentColor;
+@keyframes journal-ring-in {
+  to {
+    opacity: 1;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

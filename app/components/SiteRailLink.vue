@@ -7,8 +7,8 @@ const props = withDefaults(
     label: string
     note?: string
     active?: boolean
-    ink?: 'underline' | 'mark' | 'circle'
-    hoverInk?: 'underline' | 'mark' | 'circle'
+    ink?: 'underline' | 'mark'
+    hoverInk?: 'underline' | 'mark'
     voice?: 'italic' | 'roman'
     size?: 'display' | 'chrome'
   }>(),
