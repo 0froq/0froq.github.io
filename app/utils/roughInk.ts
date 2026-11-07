@@ -348,7 +348,7 @@ function appendMaskedFill(
 
   const path = document.createElementNS(NS, 'path')
   path.setAttribute('d', fillD)
-  path.setAttribute('fill', 'var(--colored-ink)')
+  path.setAttribute('fill', svg.dataset.rook !== undefined ? 'var(--ink)' : 'var(--colored-ink)')
   path.setAttribute('stroke', 'none')
   path.setAttribute('mask', `url(#${maskId})`)
   svg.appendChild(path)
@@ -455,7 +455,6 @@ function appendMarkStroke(
   pts: Array<[number, number]>,
   width: number,
   animate: boolean,
-  dash?: string,
 ): void {
   if (pts.length < 2) return
   const d = catmullRom(pts)
@@ -468,10 +467,6 @@ function appendMarkStroke(
   path.setAttribute('stroke-width', String(width))
   path.setAttribute('stroke-linecap', 'butt')
   path.setAttribute('stroke-linejoin', 'miter')
-  if (dash) {
-    // Inline style so it survives the .ink-reveal dasharray class.
-    path.style.strokeDasharray = dash
-  }
   if (animate) {
     const hide = Math.ceil(polylineLen(pts)) + 16
     path.style.setProperty('--ink-len', `${hide}`)
@@ -839,19 +834,8 @@ function paintKind(
         aroundHost ? (line.h + em * 0.45) / 2 : em * 0.62,
         seed,
       )
-      const dashed = el.dataset.inkDash !== undefined
-      if (dashed) {
-        // A dashed pencil line, not a closed ribbon. One thin dashed stroke.
-        const w = Math.max(1.1, em * 0.045)
-        appendMarkStroke(
-          svg,
-          pts,
-          w,
-          reveal !== 'live',
-          `${(w * 1.7).toFixed(2)} ${(w * 2.1).toFixed(2)}`,
-        )
-        return
-      }
+      if (el.dataset.inkDash !== undefined) svg.dataset.rook = ''
+      else delete svg.dataset.rook
       const maxW = Math.max(1.25, em * 0.06)
       const edge = Math.min(0.18, Math.max(6, em * 0.22) / Math.max(polylineLen(pts), 1))
       appendMaskedFill(
