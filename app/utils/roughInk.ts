@@ -417,7 +417,8 @@ function circlePoints(
 ): Array<[number, number]> {
   const rng = inkRng(seed)
   const start = ((Math.imul(seed, 0x9e3779b1) >>> 0) / 4294967296) * Math.PI * 2
-  const sweep = Math.PI * 2 * (0.86 + rng() * 0.32)
+  // Keep the pen sweep below a full loop so the tail never sits on the head.
+  const sweep = Math.PI * 2 * (0.68 + rng() * 0.2)
   const raw: Array<[number, number]> = []
   for (let i = 0; i <= 24; i++) {
     const a = start + sweep * (i / 24)
