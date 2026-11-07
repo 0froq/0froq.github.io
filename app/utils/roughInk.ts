@@ -349,7 +349,7 @@ function appendMaskedFill(
 
   const path = document.createElementNS(NS, 'path')
   path.setAttribute('d', fillD)
-  path.setAttribute('fill', 'var(--colored-ink)')
+  path.setAttribute('fill', svg.dataset.rook !== undefined ? 'var(--ink)' : 'var(--colored-ink)')
   path.setAttribute('stroke', 'none')
   path.setAttribute('mask', `url(#${maskId})`)
   svg.appendChild(path)
