@@ -566,7 +566,7 @@ watch(
                   v-for="cell in row.cells"
                   :key="cell.key"
                 >
-                  <a
+                  <div
                     v-if="cell.entry"
                     class="journal-wheel__cell is-entry"
                     :class="[
@@ -575,20 +575,37 @@ watch(
                       { 'has-rook': !!cell.rook },
                     ]"
                     :style="cellStyle(cell, row)"
-                    :href="cell.entry.path"
-                    :aria-label="cell.entry.title"
-                    @click.stop="onCell(cell, cell.entry, $event)"
-                    @pointerenter="onEnter(cell.entry)"
-                    @pointerleave="onLeave"
-                    @focus="onEnter(cell.entry)"
-                    @blur="onLeave"
                   >
-                    <InkWobbleBox
-                      class="journal-wheel__sketch"
-                      :seed="cell.key"
-                      fill
-                      :hatch="!!cell.rook"
-                      :mark="cell.today"
+                    <a
+                      class="journal-wheel__hit"
+                      :href="cell.entry.path"
+                      :aria-label="cell.entry.title"
+                      @click.stop="onCell(cell, cell.entry, $event)"
+                      @pointerenter="onEnter(cell.entry)"
+                      @pointerleave="onLeave"
+                      @focus="onEnter(cell.entry)"
+                      @blur="onLeave"
+                    >
+                      <span
+                        class="journal-wheel__sketch"
+                        :class="{
+                          'is-fill': true,
+                          'is-dual': !!cell.rook,
+                          'has-mark': cell.today,
+                        }"
+                        aria-hidden="true"
+                      />
+                    </a>
+                    <a
+                      v-if="cell.rook"
+                      class="journal-wheel__rook"
+                      :href="cell.rook.path"
+                      :aria-label="cell.rook.title"
+                      @click.stop="onCell(cell, cell.rook, $event)"
+                      @pointerenter="onEnter(cell.rook)"
+                      @pointerleave="onLeave"
+                      @focus="onEnter(cell.rook)"
+                      @blur="onLeave"
                     />
                     <span
                       v-if="showsRing(cell.key)"
@@ -601,7 +618,7 @@ watch(
                       un-pointer-events-none
                       aria-hidden="true"
                     />
-                  </a>
+                  </div>
                   <a
                     v-else-if="cell.rook"
                     class="journal-wheel__cell is-empty is-rook has-rook"
@@ -615,11 +632,10 @@ watch(
                     @focus="onEnter(cell.rook)"
                     @blur="onLeave"
                   >
-                    <InkWobbleBox
+                    <span
                       class="journal-wheel__sketch"
-                      :seed="cell.key"
-                      :hatch="!!cell.rook"
-                      :mark="cell.today"
+                      :class="{ 'is-hatch': true, 'has-mark': cell.today }"
+                      aria-hidden="true"
                     />
                     <span
                       v-if="showsRing(cell.key)"
@@ -640,11 +656,10 @@ watch(
                     :style="cellStyle(cell, row)"
                     aria-hidden="true"
                   >
-                    <InkWobbleBox
+                    <span
                       class="journal-wheel__sketch"
-                      :seed="cell.key"
-                      :hatch="!!cell.rook"
-                      :mark="cell.today"
+                      :class="{ 'has-mark': cell.today }"
+                      aria-hidden="true"
                     />
                   </span>
                 </template>
@@ -845,27 +860,63 @@ watch(
   opacity: calc(var(--scroll-opacity, 0.12) * var(--cell-tone, 1));
 }
 
-.journal-wheel__cell :deep(.ink-wobble-stroke) {
+/* Square cell sketch: pseudo-elements, no SVG. */
+.journal-wheel__sketch {
+  position: absolute;
+  inset: 0;
+  display: block;
+  pointer-events: none;
+}
+
+.journal-wheel__sketch::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border: 1px solid currentColor;
+  border-radius: 1px;
   opacity: 0.42;
 }
 
-.journal-wheel__cell :deep(.ink-wobble-fill) {
-  fill-opacity: calc(0.12 + var(--scroll-opacity, 0.12) * 0.24);
+.journal-wheel__sketch.is-fill::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 1px;
+  background: var(--cell-fill, var(--colored-ink));
+  opacity: calc(0.12 + var(--scroll-opacity, 0.12) * 0.24);
+  transition: opacity 160ms var(--ease-out);
 }
 
-.journal-wheel__cell :deep(.ink-wobble-hatch) {
+/* Manuscript + rook: cut the top-right triangle out of the fill. */
+.journal-wheel__sketch.is-dual::after {
+  clip-path: polygon(0 0, 50% 0, 100% 50%, 100% 100%, 0 100%);
+}
+
+.journal-wheel__sketch.is-hatch::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 1px;
+  background-image: repeating-linear-gradient(-45deg, currentColor 0 1px, transparent 1px 3.2px);
   opacity: calc(0.15 + var(--scroll-opacity, 0.12) * 0.4);
 }
 
-.journal-wheel__cell.has-rook:hover :deep(.ink-wobble-hatch),
-.journal-wheel__cell.has-rook:focus-visible :deep(.ink-wobble-hatch),
-.journal-wheel__cell.has-rook.is-pinned :deep(.ink-wobble-hatch) {
+/* Today marker: small colored dot in the center. */
+.journal-wheel__sketch.has-mark {
+  background: radial-gradient(circle, var(--colored-ink) 0 9%, transparent 10%);
+}
+
+.journal-wheel__cell.has-rook:hover .journal-wheel__rook::before,
+.journal-wheel__cell.has-rook.is-pinned .journal-wheel__rook::before,
+.journal-wheel__cell.has-rook:hover .journal-wheel__sketch.is-hatch::after,
+.journal-wheel__cell.has-rook:focus-visible .journal-wheel__sketch.is-hatch::after,
+.journal-wheel__cell.has-rook.is-pinned .journal-wheel__sketch.is-hatch::after {
   opacity: 0.92;
 }
 
-.journal-wheel__cell.has-rook:hover :deep(.ink-wobble-stroke),
-.journal-wheel__cell.has-rook:focus-visible :deep(.ink-wobble-stroke),
-.journal-wheel__cell.has-rook.is-pinned :deep(.ink-wobble-stroke) {
+.journal-wheel__cell.has-rook:hover .journal-wheel__sketch::before,
+.journal-wheel__cell.has-rook:focus-visible .journal-wheel__sketch::before,
+.journal-wheel__cell.has-rook.is-pinned .journal-wheel__sketch::before {
   opacity: 0.85;
 }
 
@@ -918,16 +969,62 @@ watch(
   background: transparent;
 }
 
+.journal-wheel__hit {
+  position: absolute;
+  inset: 0;
+  display: block;
+  outline: none;
+}
+
+/* Rook corner: top-right right triangle, half-cell legs = 1/8 of the cell. */
+.journal-wheel__rook {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 1;
+  width: 50%;
+  height: 50%;
+  display: block;
+  outline: none;
+  clip-path: polygon(100% 0, 100% 100%, 0 0);
+}
+
+.journal-wheel__rook::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: repeating-linear-gradient(-45deg, var(--ink) 0 1.1px, transparent 1.1px 3.2px);
+  opacity: 0.55;
+}
+
+.journal-wheel__rook::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 141.5%;
+  height: 1.5px;
+  background: var(--ink);
+  transform-origin: 0 0;
+  /* Shift one line-width into the triangle so the clip never halves the stroke. */
+  transform: rotate(45deg) translateY(-1px);
+}
+
+.journal-wheel__cell.is-entry:hover .journal-wheel__rook::before,
+.journal-wheel__rook:focus-visible::before {
+  opacity: 0.9;
+}
+
 .journal-wheel__cell.is-void {
   --cell-fill: var(--muted);
   color: var(--muted);
   background: transparent;
 }
 
-.journal-wheel__cell.is-entry:hover :deep(.ink-wobble-fill),
-.journal-wheel__cell.is-entry:focus-visible :deep(.ink-wobble-fill),
-.journal-wheel__cell.is-entry.is-pinned :deep(.ink-wobble-fill) {
-  fill-opacity: 0.72;
+.journal-wheel__cell.is-entry .journal-wheel__hit:hover .journal-wheel__sketch::after,
+.journal-wheel__cell.is-entry .journal-wheel__hit:focus-visible .journal-wheel__sketch::after,
+.journal-wheel__cell.is-entry.is-pinned .journal-wheel__sketch::after {
+  opacity: 0.72;
 }
 
 .journal-wheel__cell.is-pinned {

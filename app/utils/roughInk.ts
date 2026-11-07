@@ -325,7 +325,7 @@ function variableRibbon(pts: Array<[number, number]>, widthAt: (t: number) => nu
   return catmullRomClosed([pts[0]!, ...top.slice(1, -1), pts[last]!, ...bot.slice(1, -1).reverse()])
 }
 
-function circlePoints(
+function squarePoints(
   cx: number,
   cy: number,
   rx: number,
@@ -333,22 +333,36 @@ function circlePoints(
   seed: number,
 ): Array<[number, number]> {
   const rng = inkRng(seed)
-  const start = ((Math.imul(seed, 0x9e3779b1) >>> 0) / 4294967296) * Math.PI * 2
-  const sweep = Math.PI * 2 * (0.86 + rng() * 0.32)
+  // Perimeter of a rect (half-extents rx/ry), swept most of the way like a pen loop.
+  const per = 2 * (2 * rx + 2 * ry)
+  const sweep = per * (0.86 + rng() * 0.32)
   const p1 = rng() * Math.PI * 2
   const p2 = rng() * Math.PI * 2
   const p3 = rng() * Math.PI * 2
-  const n = 36
+  const n = 44
   const pts: Array<[number, number]> = []
+  const at = (s: number): [number, number] => {
+    const w = ((s % per) + per) % per
+    const top = 2 * rx
+    const right = 2 * ry
+    if (w < top) return [cx - rx + w, cy - ry]
+    if (w < top + right) return [cx + rx, cy - ry + (w - top)]
+    if (w < top + right + top) return [cx + rx - (w - top - right), cy + ry]
+    return [cx - rx, cy + ry - (w - top - right - top)]
+  }
   for (let i = 0; i <= n; i++) {
     const t = i / n
-    const a = start + sweep * t
+    const a = t * Math.PI * 2
     const wob =
       1 +
       0.045 * Math.sin(a * 2 + p1) +
       0.02 * Math.sin(a * 5 + p2) +
       0.028 * Math.sin(a * 1.37 + p3)
-    pts.push([cx + Math.cos(a) * rx * wob, cy + Math.sin(a) * ry * wob])
+    const [px, py] = at(sweep * t)
+    // Radial wobble around the center keeps corners a little uneven.
+    const dx = px - cx
+    const dy = py - cy
+    pts.push([cx + dx * wob, cy + dy * wob])
   }
   return pts
 }
@@ -768,7 +782,7 @@ function paintKind(
     const y = line.y - host.top + padY
     const seed = seed0 + i * 97
     if (kind === 'circle' && boxes) {
-      const pts = circlePoints(
+      const pts = squarePoints(
         x + line.w / 2,
         aroundHost ? y + line.h / 2 : inkMidY(y, line.h, boxes, 0.36),
         (line.w + em * 0.72) / 2,
