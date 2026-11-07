@@ -307,6 +307,7 @@ function appendMaskedFill(
   width: number,
   lineCap: 'butt' | 'round' = 'butt',
   delayMs = 0,
+  ghostSeed?: number,
 ): void {
   if (!fillD || pts.length < 2) return
 
@@ -348,10 +349,30 @@ function appendMaskedFill(
 
   const path = document.createElementNS(NS, 'path')
   path.setAttribute('d', fillD)
-  path.setAttribute('fill', svg.dataset.rook !== undefined ? 'var(--ink)' : 'var(--colored-ink)')
+  path.setAttribute('fill', 'var(--colored-ink)')
   path.setAttribute('stroke', 'none')
   path.setAttribute('mask', `url(#${maskId})`)
   svg.appendChild(path)
+
+  // Graphite re-pass: a thinner, fainter stroke wandering the same path.
+  if (ghostSeed !== undefined) {
+    const ghost = handPath(pts, {
+      amp: width * 0.9,
+      bow: width * 1.2,
+      segLen: Math.max(4, width * 2),
+      seed: ghostSeed,
+    })
+    const g = document.createElementNS(NS, 'path')
+    g.setAttribute('d', catmullRom(ghost))
+    g.setAttribute('fill', 'none')
+    g.setAttribute('stroke', svg.dataset.rook !== undefined ? 'var(--ink)' : 'var(--colored-ink)')
+    g.setAttribute('stroke-width', String(Math.max(0.55, width * 0.42)))
+    g.setAttribute('stroke-opacity', '0.32')
+    g.setAttribute('stroke-linecap', 'round')
+    g.setAttribute('stroke-linejoin', 'round')
+    g.setAttribute('mask', `url(#${maskId})`)
+    svg.insertBefore(g, path)
+  }
 }
 
 function polylineLen(pts: Array<[number, number]>): number {
@@ -843,6 +864,9 @@ function paintKind(
         variableRibbon(pts, t => maxW * penTaper(t, edge)),
         pts,
         maxW,
+        'butt',
+        0,
+        seed + 7,
       )
       return
     }
@@ -861,6 +885,9 @@ function paintKind(
         variableRibbon(pts, t => maxW * penTaper(t, edge)),
         pts,
         maxW,
+        'butt',
+        0,
+        seed + 13,
       )
       return
     }
