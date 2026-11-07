@@ -212,64 +212,6 @@ html.ink-cursor-still [data-ink-frame] {
   transition: none;
 }
 
-[un-prose] {
-  --uno: 'break-words';
-}
-
-[un-prose] table {
-  --uno: 'block';
-  --uno: 'overflow-x-auto';
-}
-
-[un-prose] pre {
-  --uno: 'overflow-x-auto overflow-y-hidden';
-}
-
-[un-prose] :is(h2, h3, h4, h5, h6) {
-  --uno: 'font-serif';
-  --uno: 'scroll-mt-[calc(var(--site-chrome)+1.2rem)]';
-}
-
-[un-prose] :is(h1, h2, h3, h4, h5, h6) > a {
-  --uno: 'text-inherit';
-}
-
-[un-prose] h2 {
-  --uno: 'mt-[2.1em]';
-  --uno: 'text-4xl font-black text-colored-ink';
-}
-
-[un-prose] h3 {
-  --uno: 'mt-[1.7em]';
-  --uno: 'text-3xl text-colored-ink';
-}
-
-[un-prose] h4 {
-  --uno: 'mt-[1.4em]';
-  --uno: 'text-2xl text-colored-ink';
-}
-
-[un-prose] h5 {
-  --uno: 'mt-[1.1em]';
-  --uno: 'text-xl text-colored-ink';
-}
-
-[un-prose] h6 {
-  --uno: 'mt-[0.8em]';
-  --uno: 'text-lg text-colored-ink';
-}
-
-ruby {
-  --uno: 'relative';
-  --uno: '[ruby-position:over]';
-}
-
-rt {
-  --uno: 'text-[0.62em] leading-none whitespace-nowrap';
-  --uno: 'absolute left-1/2 bottom-1/2';
-  --uno: '-translate-x-1/2 -translate-y-full';
-}
-
 .prose-figure {
   --uno: 'my-[1.4em]';
 }
@@ -281,10 +223,4 @@ rt {
 
 .prose-table-wrap {
   --uno: 'overflow-x-auto';
-}
-
-[un-prose] mjx-container,
-[un-prose] .katex,
-[un-prose] .math-inline {
-  --uno: 'text-[1.05em]';
 }

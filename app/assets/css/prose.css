@@ -1,4 +1,9 @@
-/* Prose typography rules, migrated from presetTypography cssExtend. */
+/* Prose typography rules, migrated from presetTypography cssExtend
+   and merged with the [un-prose] rules that lived in main.css. */
+
+[un-prose] {
+  overflow-wrap: break-word;
+}
 
 [un-prose] a {
   color: var(--ink);
@@ -77,18 +82,20 @@
 }
 
 [un-prose] h2 {
-  margin: 1.8em 0 0.6em;
-  font-size: 1.4em;
-  font-weight: 600;
+  margin: 2.1em 0 0.6em;
+  font-size: 2.25rem;
+  font-weight: 900;
+  color: var(--colored-ink);
   letter-spacing: -0.04em;
   line-height: 1.2;
   text-wrap: balance;
 }
 
 [un-prose] h3 {
-  margin: 1.6em 0 0.5em;
-  font-size: 1.15em;
+  margin: 1.7em 0 0.5em;
+  font-size: 1.875rem;
   font-weight: 600;
+  color: var(--colored-ink);
   letter-spacing: -0.03em;
   line-height: 1.25;
 }
@@ -96,10 +103,33 @@
 [un-prose] h4,
 [un-prose] h5,
 [un-prose] h6 {
-  margin: 1.4em 0 0.45em;
-  font-size: 1em;
   font-weight: 600;
+  color: var(--colored-ink);
   letter-spacing: -0.02em;
+}
+
+[un-prose] h4 {
+  margin: 1.4em 0 0.45em;
+  font-size: 1.5rem;
+}
+
+[un-prose] h5 {
+  margin: 1.1em 0 0.45em;
+  font-size: 1.25rem;
+}
+
+[un-prose] h6 {
+  margin: 0.8em 0 0.45em;
+  font-size: 1.125rem;
+}
+
+[un-prose] :is(h2, h3, h4, h5, h6) {
+  font-family: var(--font-serif);
+  scroll-margin-top: calc(var(--site-chrome) + 1.2rem);
+}
+
+[un-prose] :is(h1, h2, h3, h4, h5, h6) > a {
+  color: inherit;
 }
 
 [un-prose] h1:first-child,
@@ -137,6 +167,7 @@
   margin: 1.3em 0;
   padding: 1em 1.1em;
   overflow-x: auto;
+  overflow-y: hidden;
   font-size: 0.84em;
   line-height: 1.55;
   border: 1px solid var(--line);
@@ -155,6 +186,8 @@
 }
 
 [un-prose] table {
+  display: block;
+  overflow-x: auto;
   width: 100%;
   margin: 1.3em 0;
   border-collapse: collapse;
@@ -223,6 +256,21 @@
   text-decoration: none;
 }
 
+ruby {
+  position: relative;
+  ruby-position: over;
+}
+
+rt {
+  font-size: 0.62em;
+  line-height: 1;
+  white-space: nowrap;
+  position: absolute;
+  left: 50%;
+  bottom: 50%;
+  transform: translate(-50%, -100%);
+}
+
 [un-prose] ruby {
   ruby-align: center;
 }
@@ -246,6 +294,12 @@
   font-family: var(--font-mono);
   font-size: 0.75em;
   color: var(--muted);
+}
+
+[un-prose] mjx-container,
+[un-prose] .katex,
+[un-prose] .math-inline {
+  font-size: 1.05em;
 }
 
 [un-prose] .warning,
