@@ -267,11 +267,11 @@ function underlineScribbles(
   const gap = em * (0.024 + rng() * 0.012)
   const out: Array<Array<[number, number]>> = []
   for (let lane = 0; lane < lanes; lane++) {
-    const forward = lane % 2 === 0
+    // Every lane runs left to right; the stagger is handled by reveal delay.
     const yOff = baseY - gap * lane * (0.5 + rng() * 0.5)
     const raw: Array<[number, number]> = []
     for (let i = 0; i <= n; i++) {
-      const u = forward ? i / n : 1 - i / n
+      const u = i / n
       raw.push([x0 + (x1 - x0) * u, y + yOff])
     }
     out.push(
@@ -294,6 +294,7 @@ function appendMaskedFill(
   pts: Array<[number, number]>,
   width: number,
   lineCap: 'butt' | 'round' = 'butt',
+  delayMs = 0,
 ): void {
   if (!fillD || pts.length < 2) return
 
@@ -330,6 +331,7 @@ function appendMaskedFill(
   defs.appendChild(mask)
   const hide = Math.ceil(reveal.getTotalLength()) + 16
   reveal.style.setProperty('--ink-len', `${hide}`)
+  if (delayMs) reveal.style.transitionDelay = `${delayMs}ms`
   reveal.classList.add('ink-reveal')
 
   const path = document.createElementNS(NS, 'path')
@@ -839,15 +841,17 @@ function paintKind(
     if (kind === 'underline') {
       const lanes = underlineScribbles(x, y + em * 1.08, line.w, em, seed, italic)
       const maxW = Math.max(1.15, em * 0.055)
-      for (const pts of lanes) {
+      lanes.forEach((pts, lane) => {
         const edge = Math.min(0.04, Math.max(5, em * 0.2) / Math.max(polylineLen(pts), 1))
         appendMaskedFill(
           svg,
           variableRibbon(pts, t => maxW * penTaper(t, edge)),
           pts,
           maxW,
+          'butt',
+          lane * 140,
         )
-      }
+      })
       return
     }
     if (!rc) return
