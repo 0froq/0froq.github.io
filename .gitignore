@@ -13,5 +13,6 @@ dist/
 .obsidian/
 .cursor/tmp/
 .commandcode/
+.ghfs/
 
 docs/archive/corpus/_scripts/__pycache__/

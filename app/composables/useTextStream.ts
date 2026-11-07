@@ -41,7 +41,21 @@ export function useTextStream(options: {
     timer = window.setTimeout(step, wait(0))
   }
 
+  /** Fast-forward: sweep the rest in ~18 quick ticks instead of jumping to the end. */
+  function fastForward() {
+    if (!streaming.value) return
+    stop()
+    const total = toValue(options.total)
+    const chunk = Math.max(3, Math.ceil(total / 18))
+    const step = () => {
+      shown.value = Math.min(shown.value + chunk, toValue(options.total))
+      if (shown.value < toValue(options.total)) timer = window.setTimeout(step, STREAM_INTERVAL_MS)
+      else timer = 0
+    }
+    timer = window.setTimeout(step, STREAM_INTERVAL_MS)
+  }
+
   onUnmounted(stop)
 
-  return { shown, streaming, play, stop }
+  return { shown, streaming, play, stop, fastForward }
 }

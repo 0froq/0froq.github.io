@@ -42,7 +42,8 @@
     color-mix(in srgb, var(--paper) 80%, transparent)
   );
   --sticky-note: light-dark(#fff7e3, #24221d);
-  --ink: light-dark(#1d1d1a, #ece7dc);
+  /*--ink: light-dark(#1d1d1a, #ece7dc);*/
+  --ink: light-dark(#1d1d1a, #ccc7bc);
   --muted: light-dark(#5c5a54, #9c968c);
   --colored-ink: light-dark(#a83429, #7ea3d9);
   --wry: light-dark(#4d6a3c, #d4a574);

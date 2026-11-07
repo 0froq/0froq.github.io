@@ -23,8 +23,6 @@ export function parseScrapMarkdown(source: string): ScrapMdPart[] {
   return parts
 }
 
-export { charsOf }
-
 export function scrapPlainText(source: string) {
   return parseScrapMarkdown(source)
     .map(part => (part.type === 'text' ? part.value : part.label))

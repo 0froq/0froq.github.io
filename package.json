@@ -11,10 +11,10 @@
     "prepare": "npx simple-git-hooks",
     "worker:dev": "pnpm --dir workers/froq-api dev",
     "worker:deploy": "pnpm --dir workers/froq-api deploy",
-    "lint": "vp lint",
-    "lint:fix": "vp lint --fix",
-    "fmt": "vp fmt",
-    "fmt:check": "vp fmt --check",
+    "lint": "vp lint -c vp.config.ts",
+    "lint:fix": "vp lint --fix -c vp.config.ts",
+    "fmt": "vp fmt -c vp.config.ts",
+    "fmt:check": "vp fmt --check -c vp.config.ts",
     "check": "vp run lint && vp run fmt:check",
     "typecheck": "nuxt typecheck"
   },
@@ -65,8 +65,8 @@
   },
   "lint-staged": {
     "*": [
-      "vp lint --fix --no-error-on-unmatched-pattern",
-      "vp fmt --no-error-on-unmatched-pattern"
+      "vp lint --fix --no-error-on-unmatched-pattern -c vp.config.ts",
+      "vp fmt --no-error-on-unmatched-pattern -c vp.config.ts"
     ]
   },
   "engines": {

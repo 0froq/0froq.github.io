@@ -66,10 +66,12 @@ const isExternal = computed(() => props.to.startsWith('http'))
       :data-voice="voice"
     >
       {{ label }}
-      <un-i-solar-arrow-to-top-left-line-duotone
+      <span
         v-if="isExternal"
+        un-i-solar-arrow-to-top-left-line-duotone
+        un-inline-block
         un-text-base
-        :href="to"
+        aria-hidden="true"
       />
     </span>
     <span

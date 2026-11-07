@@ -1,8 +1,18 @@
 import { liangmi } from '@liangmi/vp-config'
 
-// Vite+ loads lint, fmt and test from this root file. Nuxt ignores it and owns
-// application Vite via `nuxt.config.ts` (the B5004 warning is expected).
-const siteLintIgnores = ['.nuxt/**', '.output/**', '.data/**', 'docs/**', 'public/**', '.agents/**']
+// Vite+ loads lint, fmt and test from this file via `-c vp.config.ts` (see
+// package.json scripts). Nuxt owns application Vite via `nuxt.config.ts`; the
+// file is NOT named vite.config.* so Nuxt's B5004 external-config warning does
+// not fire.
+const siteLintIgnores = [
+  '.nuxt/**',
+  '.output/**',
+  '.data/**',
+  'docs/**',
+  'public/**',
+  '.agents/**',
+  '.ghfs/**',
+]
 
 const siteFmtIgnores = [
   ...siteLintIgnores,

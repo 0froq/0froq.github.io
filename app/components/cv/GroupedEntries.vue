@@ -77,7 +77,7 @@ const groups = computed(() => groupCvEntries(props.items))
                 un-gap-1.5
                 un-text="sm callout-warning"
               >
-                <Doodle
+                <DoodleIcon
                   name="warning"
                   size="1em"
                   un-self-center

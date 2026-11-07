@@ -36,7 +36,7 @@ function delayFor(index: number) {
   )
 }
 
-const { shown, streaming, play, stop } = useTextStream({
+const { shown, streaming, play, stop, fastForward } = useTextStream({
   enabled: () => props.stream,
   total,
   interval: () => props.interval,
@@ -120,6 +120,7 @@ onUnmounted(() => {
     class="group"
     :data-phase="phase"
     :aria-busy="streaming ? 'true' : undefined"
+    un-relative
   >
     <span
       v-if="streaming"
@@ -133,6 +134,31 @@ onUnmounted(() => {
     >
       <slot />
     </div>
+    <button
+      v-if="streaming"
+      type="button"
+      aria-label="Skip text animation"
+      un-absolute
+      un-bottom-1
+      un-right-0
+      un-inline-flex
+      un-items-center
+      un-justify-center
+      un-p-1
+      un-text="sm muted hover:colored-ink"
+      un-transition-colors
+      un-duration-150
+      un-cursor-pointer
+      class="stream-skip reach-hit"
+      @click="fastForward"
+    >
+      <span
+        un-i-ph-caret-double-right-bold
+        un-inline-block
+        un-size="[0.8em]"
+        aria-hidden="true"
+      />
+    </button>
   </div>
 </template>
 
@@ -145,6 +171,12 @@ onUnmounted(() => {
 /* Hidden glyphs keep their box so the copy holds its final height. */
 :deep(.stream-ch:not([data-on])) {
   visibility: hidden;
+  pointer-events: none;
+}
+
+/* Link / ink target stays inert while any glyph inside is still hidden. */
+:deep(:is(a, [data-ink], [data-hover-ink]):has(.stream-ch:not([data-on]))) {
+  pointer-events: none;
 }
 
 /* Zero net advance: the caret must not reflow the reserved lines. */

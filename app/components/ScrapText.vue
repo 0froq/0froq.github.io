@@ -1,13 +1,12 @@
 <script setup lang="ts">
 import ProseA from '~/components/content/ProseA.vue'
 import {
-  charsOf,
   parseScrapMarkdown,
   scrapCharCount,
   scrapPlainText,
   takeScrapChars,
 } from '~/utils/scrapMarkdown'
-import { streamDelayMs } from '~/utils/textStream'
+import { charsOf, streamDelayMs } from '~/utils/textStream'
 
 const props = defineProps<{
   source: string
