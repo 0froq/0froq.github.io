@@ -43,7 +43,7 @@
   );
   --sticky-note: light-dark(#fff7e3, #24221d);
   /*--ink: light-dark(#1d1d1a, #ece7dc);*/
-  --ink: light-dark(#1d1d1a, #ccc7bc);
+  --ink: light-dark(#34322c, #b8b2a6);
   /* strong: emphasized foreground, a step past --ink. */
   --strong: light-dark(#0f0f0d, #f2ede2);
   --muted: light-dark(#5c5a54, #9c968c);
