@@ -245,6 +245,7 @@ export default defineNuxtConfig({
       },
     },
     renderer: {
+      anchorLinks: false,
       alias: {
         warning: 'ProseWarning',
         note: 'ProseNote',
