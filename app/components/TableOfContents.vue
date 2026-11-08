@@ -17,6 +17,7 @@ const marqueeDuration = ref(0)
 const open = ref(false)
 const openerRef = ref<HTMLButtonElement | null>(null)
 const navRef = ref<HTMLElement | null>(null)
+const probeRef = ref<HTMLElement | null>(null)
 const { isOutside } = useMouseInElement(navRef)
 const route = useRoute()
 const wide = useMin('lg')
@@ -68,6 +69,28 @@ function hideFloat() {
   openerRef.value?.focus()
 }
 
+/** Mark labels whose text is clipped at rest so they keep an end fade. */
+function markTruncation() {
+  const nav = navRef.value
+  const available = probeRef.value?.offsetWidth ?? 0
+  if (!nav || !available) return
+  for (const li of nav.querySelectorAll<HTMLElement>('[data-toc-item]')) {
+    const label = li.querySelector<HTMLElement>('.issue-toc-label')
+    const text = li.querySelector<HTMLElement>('.issue-toc-label-text')
+    if (!label || !text) continue
+    const indent = Number(li.dataset.tocIndent ?? 0)
+    label.classList.toggle('is-truncated', text.scrollWidth > available - indent + 1)
+  }
+}
+
+let markTimer = 0
+function scheduleMark() {
+  clearTimeout(markTimer)
+  markTimer = window.setTimeout(() => {
+    if (wide.value) markTruncation()
+  }, 320)
+}
+
 function go(item: TocItem) {
   activeId.value = item.id
   item.el.scrollIntoView({ behavior: 'smooth', block: 'start' })
@@ -98,28 +121,6 @@ function onItemEnter(item: TocItem, ev: MouseEvent) {
   marqueeId.value = item.id
   marqueeDist.value = overflow + 8
   marqueeDuration.value = Math.max(1.6, overflow / 40)
-  stopMarqueeMask()
-  maskRaf = requestAnimationFrame(() => marqueeMask(text))
-}
-
-let maskRaf = 0
-function marqueeMask(text: HTMLElement) {
-  const label = text.parentElement
-  if (!label || !marqueeId.value) return
-  const m = /matrix\(([^,]+),[^,]+,[^,]+,[^,]+,([^,]+),/.exec(getComputedStyle(text).transform)
-  const shift = m ? -Number.parseFloat(m[2] ?? '0') : 0
-  const edge = 20
-  const left = shift > 1 ? `transparent 0, black ${edge}px` : 'black 0'
-  const atEnd = marqueeDist.value > 0 && marqueeDist.value - shift < 9
-  const right = atEnd ? 'black 100%' : `black calc(100% - ${edge}px), transparent 100%`
-  label.style.maskImage = `linear-gradient(to right, ${left}, ${right})`
-  label.style.webkitMaskImage = label.style.maskImage
-  maskRaf = requestAnimationFrame(() => marqueeMask(text))
-}
-
-function stopMarqueeMask() {
-  cancelAnimationFrame(maskRaf)
-  maskRaf = 0
 }
 
 function onItemLeave(item: TocItem, ev: MouseEvent) {
@@ -131,18 +132,12 @@ function onItemLeave(item: TocItem, ev: MouseEvent) {
     void text.offsetWidth
     text.style.transition = 'transform .35s ease'
     text.style.transform = 'translateX(0)'
-    const label = text.parentElement
     window.setTimeout(() => {
       text.style.transition = ''
       text.style.transform = ''
-      if (label) {
-        label.style.maskImage = ''
-        label.style.webkitMaskImage = ''
-      }
     }, 400)
   }
   marqueeId.value = ''
-  stopMarqueeMask()
 }
 
 function eventInNav(target: EventTarget | null) {
@@ -217,14 +212,21 @@ watch([wide, listed], () => {
 onMounted(() => {
   compact.value = !wide.value
   nextTick(collect)
+  scheduleMark()
+  document.fonts?.ready.then(scheduleMark)
   window.addEventListener('scroll', onScrollFallback, { passive: true })
+  window.addEventListener('resize', scheduleMark, { passive: true })
   window.addEventListener('keydown', onKeydown)
   document.addEventListener('pointerdown', onPointerDown, true)
 })
 
+watch([wide, activeId], scheduleMark)
+
 onUnmounted(() => {
   observer?.disconnect()
+  clearTimeout(markTimer)
   window.removeEventListener('scroll', onScrollFallback)
+  window.removeEventListener('resize', scheduleMark)
   window.removeEventListener('keydown', onKeydown)
   document.removeEventListener('pointerdown', onPointerDown, true)
   bindWheel(false)
@@ -289,6 +291,11 @@ watch(
         aria-label="Open table of contents"
         @click="showFloat"
       />
+      <span
+        ref="probeRef"
+        class="issue-toc-probe"
+        aria-hidden="true"
+      />
       <ul
         un-relative
         un-list-none
@@ -303,6 +310,8 @@ watch(
           v-for="item in items"
           :key="item.id"
           class="group/item"
+          data-toc-item
+          :data-toc-indent="(item.level - 2) * 10"
           :data-active="item.id === activeId ? '' : undefined"
           :data-marquee="item.id === marqueeId ? '' : undefined"
           :style="{
@@ -372,6 +381,79 @@ nav {
   --toc-label: max(0px, calc(var(--toc-room) - 1.5rem - 1.75rem));
 }
 
+.issue-toc-probe {
+  position: absolute;
+  width: var(--toc-label);
+  height: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+/* Fade widths are registered so mask-image can interpolate: gradients with the
+   same stop count transition smoothly, `none` to gradient does not. */
+@property --toc-fade-l {
+  syntax: '<length>';
+  inherits: false;
+  initial-value: 0px;
+}
+
+@property --toc-fade-r {
+  syntax: '<length>';
+  inherits: false;
+  initial-value: 0px;
+}
+
+.issue-toc-label {
+  --toc-fade-l: 0px;
+  --toc-fade-r: 0px;
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent 0,
+    black var(--toc-fade-l),
+    black calc(100% - var(--toc-fade-r)),
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to right,
+    transparent 0,
+    black var(--toc-fade-l),
+    black calc(100% - var(--toc-fade-r)),
+    transparent 100%
+  );
+  transition:
+    --toc-fade-l 0.25s ease,
+    --toc-fade-r 0.25s ease;
+}
+
+/* A clipped label keeps a soft end even when nothing is hovered. */
+.issue-toc-label.is-truncated {
+  --toc-fade-r: 18px;
+}
+
+[data-marquee] .issue-toc-label {
+  animation:
+    toc-fade-left var(--marquee-duration, 3s) ease-in-out infinite alternate,
+    toc-fade-right var(--marquee-duration, 3s) ease-in-out infinite alternate;
+}
+
+@keyframes toc-fade-left {
+  from {
+    --toc-fade-l: 0px;
+  }
+  to {
+    --toc-fade-l: 18px;
+  }
+}
+
+@keyframes toc-fade-right {
+  from {
+    --toc-fade-r: 18px;
+  }
+  to {
+    --toc-fade-r: 0px;
+  }
+}
+
 nav:hover,
 nav:focus-within {
   --toc-tick: 0.625rem;
@@ -379,12 +461,6 @@ nav:focus-within {
 
 nav::-webkit-scrollbar {
   display: none;
-}
-
-.issue-toc-label {
-  transition:
-    mask-image 0.25s ease,
-    -webkit-mask-image 0.25s ease;
 }
 
 [data-marquee] .issue-toc-label-text {
