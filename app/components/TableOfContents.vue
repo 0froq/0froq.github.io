@@ -17,7 +17,7 @@ const marqueeDuration = ref(0)
 const open = ref(false)
 const openerRef = ref<HTMLButtonElement | null>(null)
 const navRef = ref<HTMLElement | null>(null)
-const probeRef = ref<HTMLElement | null>(null)
+const truncatedIds = ref<Set<string>>(new Set())
 const { isOutside } = useMouseInElement(navRef)
 const route = useRoute()
 const wide = useMin('lg')
@@ -69,26 +69,26 @@ function hideFloat() {
   openerRef.value?.focus()
 }
 
-/** Mark labels whose text is clipped at rest so they keep an end fade. */
+/** Labels whose text is clipped keep an end fade, even with nothing hovered. */
 function markTruncation() {
   const nav = navRef.value
-  const available = probeRef.value?.offsetWidth ?? 0
-  if (!nav || !available) return
+  if (!nav) return
+  const next = new Set<string>()
   for (const li of nav.querySelectorAll<HTMLElement>('[data-toc-item]')) {
+    const id = li.dataset.tocId
     const label = li.querySelector<HTMLElement>('.issue-toc-label')
     const text = li.querySelector<HTMLElement>('.issue-toc-label-text')
-    if (!label || !text) continue
-    const indent = Number(li.dataset.tocIndent ?? 0)
-    label.classList.toggle('is-truncated', text.scrollWidth > available - indent + 1)
+    // Collapsed labels report no width, so their overflow says nothing.
+    if (!id || !label || !text || label.clientWidth <= 0) continue
+    if (text.scrollWidth > label.clientWidth + 1) next.add(id)
   }
+  truncatedIds.value = next
 }
 
 let markTimer = 0
 function scheduleMark() {
   clearTimeout(markTimer)
-  markTimer = window.setTimeout(() => {
-    if (wide.value) markTruncation()
-  }, 320)
+  markTimer = window.setTimeout(markTruncation, 360)
 }
 
 function go(item: TocItem) {
@@ -220,7 +220,7 @@ onMounted(() => {
   document.addEventListener('pointerdown', onPointerDown, true)
 })
 
-watch([wide, activeId], scheduleMark)
+watch([wide, activeId, marqueeId], scheduleMark)
 
 onUnmounted(() => {
   observer?.disconnect()
@@ -272,6 +272,8 @@ watch(
       un-py-3
       un-pr-5
       aria-label="Table of contents"
+      @mouseenter="scheduleMark()"
+      @mouseleave="scheduleMark()"
     >
       <button
         ref="openerRef"
@@ -291,11 +293,6 @@ watch(
         aria-label="Open table of contents"
         @click="showFloat"
       />
-      <span
-        ref="probeRef"
-        class="issue-toc-probe"
-        aria-hidden="true"
-      />
       <ul
         un-relative
         un-list-none
@@ -311,6 +308,7 @@ watch(
           :key="item.id"
           class="group/item"
           data-toc-item
+          :data-toc-id="item.id"
           :data-toc-indent="(item.level - 2) * 10"
           :data-active="item.id === activeId ? '' : undefined"
           :data-marquee="item.id === marqueeId ? '' : undefined"
@@ -354,6 +352,7 @@ watch(
               un-font="group-hover/toc:group-data-[active]/item:medium group-focus-within/toc:group-data-[active]/item:medium group-data-[open]/toc:group-data-[active]/item:medium"
               un-transition-all
               un-duration-300
+              :class="{ 'is-truncated': truncatedIds.has(item.id) }"
             >
               <span
                 class="issue-toc-label-text"
@@ -379,14 +378,6 @@ nav {
   --toc-room: calc(var(--toc-edge) - 1rem);
   --toc-tick: 1.5rem;
   --toc-label: max(0px, calc(var(--toc-room) - 1.5rem - 1.75rem));
-}
-
-.issue-toc-probe {
-  position: absolute;
-  width: var(--toc-label);
-  height: 0;
-  visibility: hidden;
-  pointer-events: none;
 }
 
 /* Fade widths are registered so mask-image can interpolate: gradients with the
