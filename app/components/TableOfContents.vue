@@ -3,6 +3,7 @@ import { useMouseInElement } from '@vueuse/core'
 
 interface TocItem {
   id: string
+  html: string
   text: string
   level: number
   el: HTMLElement
@@ -37,6 +38,7 @@ function collect() {
 
   items.value = headings.map(el => ({
     id: el.id,
+    html: el.innerHTML,
     text: el.textContent?.trim() ?? '',
     level: Number(el.tagName.slice(1)),
     el,
@@ -96,6 +98,27 @@ function onItemEnter(item: TocItem, ev: MouseEvent) {
   marqueeId.value = item.id
   marqueeDist.value = overflow + 8
   marqueeDuration.value = Math.max(1.6, overflow / 40)
+  stopMarqueeMask()
+  maskRaf = requestAnimationFrame(() => marqueeMask(text))
+}
+
+let maskRaf = 0
+function marqueeMask(text: HTMLElement) {
+  const label = text.parentElement
+  if (!label || !marqueeId.value) return
+  const m = /matrix\(([^,]+),[^,]+,[^,]+,[^,]+,([^,]+),/.exec(getComputedStyle(text).transform)
+  const shift = m ? -Number.parseFloat(m[2] ?? '0') : 0
+  const edge = 20
+  const left = shift > 1 ? `transparent 0, black ${edge}px` : 'black 0'
+  const atEnd = marqueeDist.value > 0 && marqueeDist.value - shift < 9
+  const right = atEnd ? 'black 100%' : `black calc(100% - ${edge}px), transparent 100%`
+  label.style.maskImage = `linear-gradient(to right, ${left}, ${right})`
+  maskRaf = requestAnimationFrame(() => marqueeMask(text))
+}
+
+function stopMarqueeMask() {
+  cancelAnimationFrame(maskRaf)
+  maskRaf = 0
 }
 
 function onItemLeave(item: TocItem, ev: MouseEvent) {
@@ -107,12 +130,15 @@ function onItemLeave(item: TocItem, ev: MouseEvent) {
     void text.offsetWidth
     text.style.transition = 'transform .35s ease'
     text.style.transform = 'translateX(0)'
+    const label = text.parentElement
     window.setTimeout(() => {
       text.style.transition = ''
       text.style.transform = ''
+      if (label) label.style.maskImage = ''
     }, 400)
   }
   marqueeId.value = ''
+  stopMarqueeMask()
 }
 
 function eventInNav(target: EventTarget | null) {
@@ -319,8 +345,8 @@ watch(
               <span
                 class="issue-toc-label-text"
                 un-inline-block
-                >{{ item.text }}</span
-              >
+                v-html="item.html"
+              />
             </span>
           </button>
         </li>
@@ -331,14 +357,15 @@ watch(
 
 <style scoped>
 nav {
-  /* prose left edge, then nav's left-4. Tick width flips on hover so the text's right edge stays put. */
+  /* prose left edge, then nav's left-4. Label width uses a fixed tick so the
+     text's right edge stays put while the tick flips on hover. */
   --toc-edge: calc(
     var(--gutter) +
       (100vw - 2 * var(--gutter) - min(var(--read-stage), 100vw - 4 * var(--gutter))) / 2
   );
   --toc-room: calc(var(--toc-edge) - 1rem);
   --toc-tick: 1.5rem;
-  --toc-label: max(0px, calc(var(--toc-room) - var(--toc-tick) - 1rem));
+  --toc-label: max(0px, calc(var(--toc-room) - 1.5rem - 1.75rem));
 }
 
 nav:hover,
