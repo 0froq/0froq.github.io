@@ -113,6 +113,7 @@ function marqueeMask(text: HTMLElement) {
   const atEnd = marqueeDist.value > 0 && marqueeDist.value - shift < 9
   const right = atEnd ? 'black 100%' : `black calc(100% - ${edge}px), transparent 100%`
   label.style.maskImage = `linear-gradient(to right, ${left}, ${right})`
+  label.style.webkitMaskImage = label.style.maskImage
   maskRaf = requestAnimationFrame(() => marqueeMask(text))
 }
 
@@ -134,7 +135,10 @@ function onItemLeave(item: TocItem, ev: MouseEvent) {
     window.setTimeout(() => {
       text.style.transition = ''
       text.style.transform = ''
-      if (label) label.style.maskImage = ''
+      if (label) {
+        label.style.maskImage = ''
+        label.style.webkitMaskImage = ''
+      }
     }, 400)
   }
   marqueeId.value = ''
@@ -375,6 +379,12 @@ nav:focus-within {
 
 nav::-webkit-scrollbar {
   display: none;
+}
+
+.issue-toc-label {
+  transition:
+    mask-image 0.25s ease,
+    -webkit-mask-image 0.25s ease;
 }
 
 [data-marquee] .issue-toc-label-text {
