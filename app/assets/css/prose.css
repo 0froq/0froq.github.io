@@ -78,7 +78,7 @@
   }
 
   :is(h2, h3, h4, h5, h6) {
-    --uno: 'font-serif text-colored-ink';
+    --uno: 'font-serif text-strong';
     scroll-margin-top: calc(var(--site-chrome) + 1.2rem);
   }
 
@@ -193,7 +193,7 @@
   }
 
   strong {
-    font-weight: 600;
+    --uno: 'font-semibold text-strong';
   }
 
   em {
