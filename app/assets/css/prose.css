@@ -182,7 +182,7 @@
 
   th,
   td {
-    padding: 0.4em 0.7em 0.4em 0;
+    padding: 0.4em 0.7em;
     border-bottom: 1px solid var(--line);
   }
 
