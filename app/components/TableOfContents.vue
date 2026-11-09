@@ -70,16 +70,18 @@ function hideFloat() {
   openerRef.value?.focus()
 }
 
-/** Full width of a label at rest, in px. Expanded labels reveal it. */
+/** Full width of a label at rest, in px. Measured with labels forced open. */
 function measureRail() {
   const nav = navRef.value
   if (!nav) return railWidth.value
+  nav.classList.add('toc-measure')
   let widest = 0
   for (const li of nav.querySelectorAll<HTMLElement>('[data-toc-item]')) {
     const label = li.querySelector<HTMLElement>('.issue-toc-label')
-    if (!label || label.clientWidth <= 0) continue
+    if (!label) continue
     widest = Math.max(widest, label.clientWidth + tocIndent(li))
   }
+  nav.classList.remove('toc-measure')
   if (widest) railWidth.value = widest
   return railWidth.value
 }
@@ -91,8 +93,9 @@ function tocIndent(li: HTMLElement) {
 /** Labels whose text is clipped keep an end fade, even with nothing hovered. */
 function markTruncation() {
   const nav = navRef.value
+  if (!nav || !wide.value) return
   const rail = measureRail()
-  if (!nav || !rail) return
+  if (!rail) return
   const next = new Set<string>()
   for (const li of nav.querySelectorAll<HTMLElement>('[data-toc-item]')) {
     const id = li.dataset.tocId
@@ -134,7 +137,7 @@ function onItemEnter(item: TocItem, ev: MouseEvent) {
   if (!text || !label) return
   text.style.transition = ''
   text.style.transform = ''
-  const overflow = text.scrollWidth - (railWidth.value || label.clientWidth)
+  const overflow = text.scrollWidth - Math.max(label.clientWidth, railWidth.value)
   if (!(overflow > 0)) return
   marqueeId.value = item.id
   marqueeDist.value = overflow + 8
@@ -472,6 +475,12 @@ nav {
 nav:hover,
 nav:focus-within {
   --toc-tick: 0.625rem;
+}
+
+/* Measurement pass: open every label, skip transitions, then read widths. */
+nav.toc-measure .issue-toc-label {
+  transition: none;
+  max-width: max(0px, calc(var(--toc-label) - var(--toc-indent, 0px)));
 }
 
 nav::-webkit-scrollbar {
