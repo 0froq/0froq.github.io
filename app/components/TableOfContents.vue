@@ -426,6 +426,7 @@ nav {
 }
 
 .issue-toc-label {
+  --toc-fade-w: 26px;
   --toc-fade-l: 0px;
   --toc-fade-r: 0px;
   -webkit-mask-image: linear-gradient(
@@ -444,9 +445,10 @@ nav {
   );
 }
 
-/* A clipped label keeps a soft end even when nothing is hovered. */
+/* A clipped label keeps a soft end even when nothing is hovered. The width is
+   wide enough to swallow the half glyph that the clip cuts in two. */
 .issue-toc-label.is-truncated {
-  --toc-fade-r: 18px;
+  --toc-fade-r: var(--toc-fade-w);
 }
 
 [data-marquee] .issue-toc-label {
@@ -462,14 +464,14 @@ nav {
   }
   76%,
   100% {
-    --toc-fade-l: 18px;
+    --toc-fade-l: var(--toc-fade-w);
   }
 }
 
 @keyframes toc-fade-right {
   0%,
   24% {
-    --toc-fade-r: 18px;
+    --toc-fade-r: var(--toc-fade-w);
   }
   76%,
   100% {
