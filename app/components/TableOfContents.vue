@@ -141,7 +141,8 @@ function onItemEnter(item: TocItem, ev: MouseEvent) {
   if (!(overflow > 0)) return
   marqueeId.value = item.id
   marqueeDist.value = overflow + 8
-  marqueeDuration.value = Math.max(1.6, overflow / 40)
+  // Travel time as before, stretched so the dwell at both ends grows with it.
+  marqueeDuration.value = Math.max(1.6, overflow / 40) * 1.9
 }
 
 async function onItemLeave(item: TocItem, ev: MouseEvent) {
@@ -455,19 +456,23 @@ nav {
 }
 
 @keyframes toc-fade-left {
-  from {
+  0%,
+  24% {
     --toc-fade-l: 0px;
   }
-  to {
+  76%,
+  100% {
     --toc-fade-l: 18px;
   }
 }
 
 @keyframes toc-fade-right {
-  from {
+  0%,
+  24% {
     --toc-fade-r: 18px;
   }
-  to {
+  76%,
+  100% {
     --toc-fade-r: 0px;
   }
 }
@@ -491,11 +496,15 @@ nav::-webkit-scrollbar {
   animation: toc-marquee var(--marquee-duration, 3s) ease-in-out infinite alternate;
 }
 
+/* Both ends hold, so the paused part of the cycle reads as a beat, not a bounce.
+   The fades use the same offsets to stay in step with the text. */
 @keyframes toc-marquee {
-  from {
+  0%,
+  24% {
     transform: translateX(0);
   }
-  to {
+  76%,
+  100% {
     transform: translateX(calc(-1 * var(--marquee-dist, 0px)));
   }
 }
