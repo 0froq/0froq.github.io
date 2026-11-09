@@ -17,7 +17,6 @@ const marqueeDuration = ref(0)
 const open = ref(false)
 const openerRef = ref<HTMLButtonElement | null>(null)
 const navRef = ref<HTMLElement | null>(null)
-const truncatedIds = ref<Set<string>>(new Set())
 const railWidth = ref(0)
 const { isOutside } = useMouseInElement(navRef)
 const route = useRoute()
@@ -70,46 +69,29 @@ function hideFloat() {
   openerRef.value?.focus()
 }
 
-/** Full width of a label at rest, in px. Measured with labels forced open. */
+/** Rail width in px: how wide an open label is at indent 0. */
 function measureRail() {
   const nav = navRef.value
   if (!nav) return railWidth.value
   nav.classList.add('toc-measure')
-  let widest = 0
+  let rail = 0
   for (const li of nav.querySelectorAll<HTMLElement>('[data-toc-item]')) {
     const label = li.querySelector<HTMLElement>('.issue-toc-label')
     if (!label) continue
-    widest = Math.max(widest, label.clientWidth + tocIndent(li))
+    rail = Math.max(rail, label.clientWidth + tocIndent(li))
   }
   nav.classList.remove('toc-measure')
-  if (widest) railWidth.value = widest
+  if (rail) railWidth.value = rail
   return railWidth.value
 }
 
-function tocIndent(li: HTMLElement) {
-  return Number(li.dataset.tocIndent ?? 0)
+function tocIndent(li: HTMLElement | null | undefined) {
+  return Number(li?.dataset.tocIndent ?? 0)
 }
 
-/** Labels whose text is clipped keep an end fade, even with nothing hovered. */
-function markTruncation() {
-  const nav = navRef.value
-  if (!nav || !wide.value) return
-  const rail = measureRail()
-  if (!rail) return
-  const next = new Set<string>()
-  for (const li of nav.querySelectorAll<HTMLElement>('[data-toc-item]')) {
-    const id = li.dataset.tocId
-    const text = li.querySelector<HTMLElement>('.issue-toc-label-text')
-    if (!id || !text) continue
-    if (text.scrollWidth > rail - tocIndent(li) + 1) next.add(id)
-  }
-  truncatedIds.value = next
-}
-
-let markTimer = 0
-function scheduleMark() {
-  clearTimeout(markTimer)
-  markTimer = window.setTimeout(markTruncation, 360)
+function refresh() {
+  collect()
+  nextTick(measureRail)
 }
 
 function go(item: TocItem) {
@@ -137,10 +119,14 @@ function onItemEnter(item: TocItem, ev: MouseEvent) {
   if (!text || !label) return
   text.style.transition = ''
   text.style.transform = ''
-  const overflow = text.scrollWidth - Math.max(label.clientWidth, railWidth.value)
+  // The rail, not the label mid-expansion, is what the text will be seen through.
+  const rail = railWidth.value || measureRail()
+  const visible = rail ? rail - tocIndent(label.closest('li')) : label.clientWidth
+  const overflow = text.scrollWidth - visible
   if (!(overflow > 0)) return
   marqueeId.value = item.id
-  marqueeDist.value = overflow + 8
+  // Slide past the end by one ramp, so the tail clears the end fade when it stops.
+  marqueeDist.value = overflow + 32
   // Travel time as before, stretched so the dwell at both ends grows with it.
   marqueeDuration.value = Math.max(1.6, overflow / 40) * 1.9
 }
@@ -242,22 +228,19 @@ watch([wide, listed], () => {
 
 onMounted(() => {
   compact.value = !wide.value
-  nextTick(collect)
-  scheduleMark()
-  document.fonts?.ready.then(scheduleMark)
+  nextTick(refresh)
   window.addEventListener('scroll', onScrollFallback, { passive: true })
-  window.addEventListener('resize', scheduleMark, { passive: true })
+  window.addEventListener('resize', measureRail, { passive: true })
   window.addEventListener('keydown', onKeydown)
   document.addEventListener('pointerdown', onPointerDown, true)
 })
 
-watch([wide, activeId, marqueeId], scheduleMark)
+watch(wide, () => nextTick(measureRail))
 
 onUnmounted(() => {
   observer?.disconnect()
-  clearTimeout(markTimer)
   window.removeEventListener('scroll', onScrollFallback)
-  window.removeEventListener('resize', scheduleMark)
+  window.removeEventListener('resize', measureRail)
   window.removeEventListener('keydown', onKeydown)
   document.removeEventListener('pointerdown', onPointerDown, true)
   bindWheel(false)
@@ -267,7 +250,7 @@ watch(
   () => route.path,
   () => {
     open.value = false
-    nextTick(collect)
+    nextTick(refresh)
   },
 )
 </script>
@@ -303,8 +286,6 @@ watch(
       un-py-3
       un-pr-5
       aria-label="Table of contents"
-      @mouseenter="scheduleMark()"
-      @mouseleave="scheduleMark()"
     >
       <button
         ref="openerRef"
@@ -376,14 +357,13 @@ watch(
               un-shrink-0
             />
             <span
-              class="issue-toc-label opacity-0 max-w-0 group-data-[open]/toc:opacity-100 group-data-[open]/toc:max-w-[min(20rem,calc(100vw-3rem))] -translate-x-1 group-data-[open]/toc:translate-x-0 lg:group-focus-within/toc:bg-paper lg:group-hover/toc:bg-paper lg:group-data-[active]/item:opacity-100 lg:group-focus-within/toc:opacity-100 lg:group-hover/toc:opacity-100 lg:group-data-[active]/item:max-w-[max(0px,calc(var(--toc-label)-var(--toc-indent)))] lg:group-focus-within/toc:max-w-[max(0px,calc(var(--toc-label)-var(--toc-indent)))] lg:group-hover/toc:max-w-[max(0px,calc(var(--toc-label)-var(--toc-indent)))] lg:group-data-[active]/item:translate-x-0 lg:group-focus-within/toc:translate-x-0 lg:group-hover/toc:translate-x-0"
+              class="issue-toc-label w-0 opacity-0 group-data-[open]/toc:w-[min(20rem,calc(100vw-3rem))] group-data-[open]/toc:opacity-100 -translate-x-1 group-data-[open]/toc:translate-x-0 lg:group-focus-within/toc:bg-paper lg:group-hover/toc:bg-paper lg:group-data-[active]/item:opacity-100 lg:group-focus-within/toc:opacity-100 lg:group-hover/toc:opacity-100 lg:group-data-[active]/item:w-[max(0px,calc(var(--toc-rail)_-_var(--toc-indent,0px)))] lg:group-focus-within/toc:w-[max(0px,calc(var(--toc-rail)_-_var(--toc-indent,0px)))] lg:group-hover/toc:w-[max(0px,calc(var(--toc-rail)_-_var(--toc-indent,0px)))] lg:group-data-[active]/item:translate-x-0 lg:group-focus-within/toc:translate-x-0 lg:group-hover/toc:translate-x-0"
               un-whitespace-nowrap
               un-overflow-hidden
               un-text="base muted group-hover/btn:ink group-hover/toc:group-data-[active]/item:ink group-focus-within/toc:group-data-[active]/item:ink group-data-[open]/toc:group-data-[active]/item:ink"
               un-font="group-hover/toc:group-data-[active]/item:medium group-focus-within/toc:group-data-[active]/item:medium group-data-[open]/toc:group-data-[active]/item:medium"
               un-transition-all
               un-duration-300
-              :class="{ 'is-truncated': truncatedIds.has(item.id) }"
             >
               <span
                 class="issue-toc-label-text"
@@ -400,105 +380,69 @@ watch(
 
 <style scoped>
 nav {
-  /* prose left edge, then nav's left-4. Label width uses a fixed tick so the
-     text's right edge stays put while the tick flips on hover. */
+  /* prose left edge, then the nav's own left-4 offset */
   --toc-edge: calc(
     var(--gutter) +
       (100vw - 2 * var(--gutter) - min(var(--read-stage), 100vw - 4 * var(--gutter))) / 2
   );
-  --toc-room: calc(var(--toc-edge) - 1rem);
-  --toc-tick: 1.5rem;
-  --toc-label: max(0px, calc(var(--toc-room) - 1.5rem - 1.75rem));
-}
-
-/* Fade widths are registered so the marquee keyframes can interpolate them
-   (an unregistered custom property would jump between the two lengths). */
-@property --toc-fade-l {
-  syntax: '<length>';
-  inherits: false;
-  initial-value: 0px;
-}
-
-@property --toc-fade-r {
-  syntax: '<length>';
-  inherits: false;
-  initial-value: 0px;
+  /* Everything between the viewport's left edge and the prose: 1rem of nav
+     offset, a 1.5rem tick column and 1.75rem of clearance. What is left is the
+     rail, a hard width every open label shares. */
+  --toc-rail: max(0px, calc(var(--toc-edge) - 4.25rem));
 }
 
 .issue-toc-label {
-  --toc-fade-w: 32px;
-  --toc-fade-l: 0px;
-  --toc-fade-r: 0px;
+  /* One ramp, wide enough to swallow a 16px glyph cut in half, but never wide
+     enough to eat a narrow rail. */
+  --toc-fade-w: min(2rem, 22%);
   position: relative;
 }
 
-/* The fade is paper painted over the glyphs, not a mask. It sits inside the
-   overflow clip, so whatever the clip cuts in two lands under the ramp. */
+/* Fades are paper painted over the glyphs, not a mask. The ramp rides the very
+   edge the overflow clip cuts at, so nothing gets cut in two without
+   dissolving first. */
 .issue-toc-label::before,
 .issue-toc-label::after {
   content: '';
   position: absolute;
   inset-block: 0;
-  width: 0;
   z-index: 1;
   pointer-events: none;
 }
 
-.issue-toc-label::before {
-  inset-inline-start: 0;
-  width: var(--toc-fade-l);
-  background: linear-gradient(to right, var(--paper), transparent);
-}
-
 .issue-toc-label::after {
   inset-inline-end: 0;
-  width: var(--toc-fade-r);
+  width: var(--toc-fade-w);
   background: linear-gradient(to left, var(--paper), transparent);
 }
 
-/* A clipped label keeps a soft end even when nothing is hovered. The width is
-   wide enough to swallow the half glyph that the clip cuts in two. */
-.issue-toc-label.is-truncated {
-  --toc-fade-r: var(--toc-fade-w);
+.issue-toc-label::before {
+  inset-inline-start: 0;
+  width: 0;
+  background: linear-gradient(to right, var(--paper), transparent);
 }
 
-[data-marquee] .issue-toc-label {
-  animation:
-    toc-fade-left var(--marquee-duration, 3s) ease-in-out infinite alternate,
-    toc-fade-right var(--marquee-duration, 3s) ease-in-out infinite alternate;
+/* The marquee slides the start of the text under the left edge, so that ramp
+   grows with the move instead of dimming the first glyph while it holds still. */
+[data-marquee] .issue-toc-label::before {
+  animation: toc-fade-in var(--marquee-duration, 3s) ease-in-out infinite alternate;
 }
 
-@keyframes toc-fade-left {
+@keyframes toc-fade-in {
   0%,
   24% {
-    --toc-fade-l: 0px;
+    width: 0;
   }
   76%,
   100% {
-    --toc-fade-l: var(--toc-fade-w);
+    width: var(--toc-fade-w);
   }
-}
-
-@keyframes toc-fade-right {
-  0%,
-  24% {
-    --toc-fade-r: var(--toc-fade-w);
-  }
-  76%,
-  100% {
-    --toc-fade-r: 0px;
-  }
-}
-
-nav:hover,
-nav:focus-within {
-  --toc-tick: 0.625rem;
 }
 
 /* Measurement pass: open every label, skip transitions, then read widths. */
 nav.toc-measure .issue-toc-label {
   transition: none;
-  max-width: max(0px, calc(var(--toc-label) - var(--toc-indent, 0px)));
+  width: max(0px, calc(var(--toc-rail) - var(--toc-indent, 0px)));
 }
 
 nav::-webkit-scrollbar {
@@ -509,8 +453,7 @@ nav::-webkit-scrollbar {
   animation: toc-marquee var(--marquee-duration, 3s) ease-in-out infinite alternate;
 }
 
-/* Both ends hold, so the paused part of the cycle reads as a beat, not a bounce.
-   The fades use the same offsets to stay in step with the text. */
+/* Both ends hold, so the paused part of the cycle reads as a beat, not a bounce. */
 @keyframes toc-marquee {
   0%,
   24% {
