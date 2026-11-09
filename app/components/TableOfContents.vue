@@ -396,6 +396,9 @@ nav {
      enough to eat a narrow rail. */
   --toc-fade-w: min(2rem, 22%);
   position: relative;
+  /* A <button> centres its text and the label inherits it. Without this the
+     text floats in the middle of the fixed rail instead of hugging the tick. */
+  text-align: start;
 }
 
 /* Fades are paper painted over the glyphs, not a mask. The ramp rides the very
