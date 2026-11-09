@@ -168,10 +168,11 @@
   }
 
   table {
-    /* A real table box, not a block: the wrapper owns the scrolling, and auto
-       inline margins centre the table at its natural width. No min-width: any
-       floor either stretches short tables into dead columns or forces a scroll
-       once the column is narrower than the floor. */
+    /* presetTypography ships `:where(table) { width: 100% }`, which has zero
+       specificity: it survives unless this rule restates the width. A table
+       sizes to its content, so `auto` is what gives `margin-inline: auto`
+       something to centre inside the column. */
+    width: auto;
     margin-inline: auto;
     margin-block: 1.3em;
     border-collapse: collapse;
