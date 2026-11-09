@@ -18,6 +18,7 @@ const open = ref(false)
 const openerRef = ref<HTMLButtonElement | null>(null)
 const navRef = ref<HTMLElement | null>(null)
 const truncatedIds = ref<Set<string>>(new Set())
+const railWidth = ref(0)
 const { isOutside } = useMouseInElement(navRef)
 const route = useRoute()
 const wide = useMin('lg')
@@ -69,18 +70,35 @@ function hideFloat() {
   openerRef.value?.focus()
 }
 
+/** Full width of a label at rest, in px. Expanded labels reveal it. */
+function measureRail() {
+  const nav = navRef.value
+  if (!nav) return railWidth.value
+  let widest = 0
+  for (const li of nav.querySelectorAll<HTMLElement>('[data-toc-item]')) {
+    const label = li.querySelector<HTMLElement>('.issue-toc-label')
+    if (!label || label.clientWidth <= 0) continue
+    widest = Math.max(widest, label.clientWidth + tocIndent(li))
+  }
+  if (widest) railWidth.value = widest
+  return railWidth.value
+}
+
+function tocIndent(li: HTMLElement) {
+  return Number(li.dataset.tocIndent ?? 0)
+}
+
 /** Labels whose text is clipped keep an end fade, even with nothing hovered. */
 function markTruncation() {
   const nav = navRef.value
-  if (!nav) return
+  const rail = measureRail()
+  if (!nav || !rail) return
   const next = new Set<string>()
   for (const li of nav.querySelectorAll<HTMLElement>('[data-toc-item]')) {
     const id = li.dataset.tocId
-    const label = li.querySelector<HTMLElement>('.issue-toc-label')
     const text = li.querySelector<HTMLElement>('.issue-toc-label-text')
-    // Collapsed labels report no width, so their overflow says nothing.
-    if (!id || !label || !text || label.clientWidth <= 0) continue
-    if (text.scrollWidth > label.clientWidth + 1) next.add(id)
+    if (!id || !text) continue
+    if (text.scrollWidth > rail - tocIndent(li) + 1) next.add(id)
   }
   truncatedIds.value = next
 }
@@ -116,28 +134,37 @@ function onItemEnter(item: TocItem, ev: MouseEvent) {
   if (!text || !label) return
   text.style.transition = ''
   text.style.transform = ''
-  const overflow = text.scrollWidth - label.clientWidth
+  const overflow = text.scrollWidth - (railWidth.value || label.clientWidth)
   if (!(overflow > 0)) return
   marqueeId.value = item.id
   marqueeDist.value = overflow + 8
   marqueeDuration.value = Math.max(1.6, overflow / 40)
 }
 
-function onItemLeave(item: TocItem, ev: MouseEvent) {
+async function onItemLeave(item: TocItem, ev: MouseEvent) {
   const text = getLabelText(ev)
-  if (text && item.id === marqueeId.value) {
-    const current = getComputedStyle(text).transform
-    text.style.transition = 'none'
-    text.style.transform = current === 'none' ? 'translateX(0)' : current
-    void text.offsetWidth
-    text.style.transition = 'transform .35s ease'
-    text.style.transform = 'translateX(0)'
-    window.setTimeout(() => {
-      text.style.transition = ''
-      text.style.transform = ''
-    }, 400)
-  }
+  const leaving = text && item.id === marqueeId.value ? text : null
+  // The marquee animation wins over inline styles, so drop it before easing back.
+  const shift = leaving ? currentShift(leaving) : 0
   marqueeId.value = ''
+  if (!leaving) return
+  await nextTick()
+  leaving.style.transition = 'none'
+  leaving.style.transform = `translateX(${shift}px)`
+  void leaving.offsetWidth
+  leaving.style.transition = 'transform .35s ease'
+  leaving.style.transform = 'translateX(0)'
+  window.setTimeout(() => {
+    leaving.style.transition = ''
+    leaving.style.transform = ''
+  }, 400)
+}
+
+/** translateX of a running marquee, read from the computed matrix. */
+function currentShift(text: HTMLElement) {
+  const match = /matrix\(([^)]+)\)/.exec(getComputedStyle(text).transform)
+  if (!match) return 0
+  return Number(match[1]!.split(',')[4] ?? 0) || 0
 }
 
 function eventInNav(target: EventTarget | null) {
@@ -411,9 +438,6 @@ nav {
     black calc(100% - var(--toc-fade-r)),
     transparent 100%
   );
-  transition:
-    --toc-fade-l 0.25s ease,
-    --toc-fade-r 0.25s ease;
 }
 
 /* A clipped label keeps a soft end even when nothing is hovered. */
