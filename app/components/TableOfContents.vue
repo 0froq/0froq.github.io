@@ -411,8 +411,8 @@ nav {
   --toc-label: max(0px, calc(var(--toc-room) - 1.5rem - 1.75rem));
 }
 
-/* Fade widths are registered so mask-image can interpolate: gradients with the
-   same stop count transition smoothly, `none` to gradient does not. */
+/* Fade widths are registered so the marquee keyframes can interpolate them
+   (an unregistered custom property would jump between the two lengths). */
 @property --toc-fade-l {
   syntax: '<length>';
   inherits: false;
@@ -426,23 +426,34 @@ nav {
 }
 
 .issue-toc-label {
-  --toc-fade-w: 26px;
+  --toc-fade-w: 32px;
   --toc-fade-l: 0px;
   --toc-fade-r: 0px;
-  -webkit-mask-image: linear-gradient(
-    to right,
-    transparent 0,
-    black var(--toc-fade-l),
-    black calc(100% - var(--toc-fade-r)),
-    transparent 100%
-  );
-  mask-image: linear-gradient(
-    to right,
-    transparent 0,
-    black var(--toc-fade-l),
-    black calc(100% - var(--toc-fade-r)),
-    transparent 100%
-  );
+  position: relative;
+}
+
+/* The fade is paper painted over the glyphs, not a mask. It sits inside the
+   overflow clip, so whatever the clip cuts in two lands under the ramp. */
+.issue-toc-label::before,
+.issue-toc-label::after {
+  content: '';
+  position: absolute;
+  inset-block: 0;
+  width: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.issue-toc-label::before {
+  inset-inline-start: 0;
+  width: var(--toc-fade-l);
+  background: linear-gradient(to right, var(--paper), transparent);
+}
+
+.issue-toc-label::after {
+  inset-inline-end: 0;
+  width: var(--toc-fade-r);
+  background: linear-gradient(to left, var(--paper), transparent);
 }
 
 /* A clipped label keeps a soft end even when nothing is hovered. The width is
