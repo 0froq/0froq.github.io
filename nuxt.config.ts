@@ -12,6 +12,7 @@ import {
   TWITTER_HANDLE,
 } from './app/utils/siteConstants'
 import { publicationPaths } from './server/utils/siteRoutes'
+import tableCaption from './server/rehype/table-caption'
 import { listPublicShareImages } from './shared/public-files'
 
 const docsRoot = fileURLToPath(new URL('./docs', import.meta.url))
@@ -241,6 +242,11 @@ export default defineNuxtConfig({
               output: 'html',
             },
           },
+          // Passed as an instance: Nuxt Content loads string keys with a bare
+          // dynamic import, so a `~~/` alias never resolves. Editing the plugin
+          // file itself does not reload the markdown pipeline; touch this config
+          // to force a restart.
+          'table-caption': { instance: tableCaption },
         },
       },
     },
