@@ -45,12 +45,17 @@ defineProps<{
           un-decoration-none
         >
           <span
-            class="group-data-[void]/row:text-muted/50"
             un-min-w-0
             un-font-serif
             un-leading="[1.12]"
             un-tracking-tight
-            un-text="xl md:2xl ink/90 group-hover/row:ink group-focus-visible/row:ink group-data-[rest]/row:ink"
+            un-text="
+              xl md:2xl ink/90 group-hover/row:ink group-focus-visible/row:ink
+              group-data-[rest]/row:ink
+              group-data-[void]/row:muted/50 group-data-[void]/row:hover:muted/50
+            "
+            un-transition
+            un-duration-200
             :data-ink="shown ? 'mark' : undefined"
             :data-hover-ink="shown ? undefined : 'mark'"
             >{{ item.title }}</span
